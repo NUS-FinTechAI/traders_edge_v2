@@ -1,0 +1,23 @@
+[project]
+name = "server"
+version = "0.1.0"
+description = "FastAPI server for Trader's Edge"
+readme = "README.md"
+authors = [
+    { name = "YongJunXi", email = "ernestyongjunxi@gmail.com" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi[standard]>=0.141.1",
+]
+
+[project.scripts]
+server = "app.main:main"
+
+[build-system]
+requires = ["uv_build>=0.12.18,<0.13.0"]
+build-backend = "uv_build"
+
+[tool.uv.build-backend]
+module-name = "app"
+module-root = ""
