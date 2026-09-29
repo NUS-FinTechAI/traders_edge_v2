@@ -1,6 +1,6 @@
-﻿import SiteHeader from './components/SiteHeader'
-import SiteFooter from './components/SiteFooter'
-import HomePage from './pages/HomePage'
+﻿import SiteHeader from './components/site-header/SiteHeader'
+import SiteFooter from './components/site-footer/SiteFooter'
+import HomePage from './pages/home-page/HomePage'
 import './App.css'
 
 function App() {
