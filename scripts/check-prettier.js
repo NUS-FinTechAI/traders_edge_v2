@@ -6,7 +6,7 @@ const prettier = require('prettier')
 const { Concurrency } = require('./concurrency')
 const { ProgressBar } = require('./progress-bar')
 
-const repoRoot = path.resolve(__dirname, '../client')
+const repoRoot = path.resolve(__dirname, '..')
 const ignorePaths = ['.prettierignore', '.gitignore'].map((ignorePath) =>
   path.join(repoRoot, ignorePath),
 )
