@@ -41,15 +41,20 @@ Root linting delegates to the existing client command. Prettier runs from the ro
 ```text
 client/
   App.tsx                  Shared page layout
-  App.css                  Home page and component styles
-  index.css                Global styles and theme
+  App.css                  App shell and skip-link styles
+  index.css                Global styles, theme, and shared layout utilities
   components/
     SiteHeader.tsx
+    SiteHeader.css
     SiteFooter.tsx
+    SiteFooter.css
   pages/
     HomePage.tsx
+    HomePage.css
   public/favicon.svg       Brand emblem
 ```
+
+Global CSS stays at the client root. Each component or page imports its own adjacent stylesheet, including its responsive rules. Home page heading styles are scoped to `.home-page`.
 
 The page uses native anchor links for its introduction and skip link. There is no router, authentication guard, mock user data, or API call.
 

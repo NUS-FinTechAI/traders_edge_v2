@@ -1,6 +1,8 @@
+import './HomePage.css'
+
 function HomePage() {
   return (
-    <main id="main" className="page-width" tabIndex={-1}>
+    <main id="main" className="home-page page-width" tabIndex={-1}>
       <section className="welcome" aria-labelledby="welcome-title">
         <p className="eyebrow">
           <span className="eyebrow-line" />

@@ -41,3 +41,18 @@ svg,
 img {
   display: block;
 }
+
+.page-width {
+  width: min(1100px, calc(100% - 80px));
+  margin-inline: auto;
+}
+@media (max-width: 760px) {
+  .page-width {
+    width: calc(100% - 48px);
+  }
+}
+@media (max-width: 380px) {
+  .page-width {
+    width: calc(100% - 32px);
+  }
+}

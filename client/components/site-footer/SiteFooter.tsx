@@ -1,3 +1,5 @@
+import './SiteFooter.css'
+
 function SiteFooter() {
   return (
     <footer className="site-footer page-width">
