@@ -1,0 +1,964 @@
+{
+  "sourceCommit": "2bf6b5930858fdbb61bc388d4554d4657d9ce377",
+  "files": [
+    {
+      "path": "frontend/.env.example",
+      "decision": "rewrite",
+      "reason": "Regenerate configuration, entry metadata or build/deployment support for the v2 baseline; legacy paths/environments are reference only."
+    },
+    {
+      "path": "frontend/.gitignore",
+      "decision": "rewrite",
+      "reason": "Regenerate configuration, entry metadata or build/deployment support for the v2 baseline; legacy paths/environments are reference only."
+    },
+    {
+      "path": "frontend/.npmrc",
+      "decision": "rewrite",
+      "reason": "Regenerate configuration, entry metadata or build/deployment support for the v2 baseline; legacy paths/environments are reference only."
+    },
+    {
+      "path": "frontend/Dockerfile",
+      "decision": "rewrite",
+      "reason": "Regenerate configuration, entry metadata or build/deployment support for the v2 baseline; legacy paths/environments are reference only."
+    },
+    {
+      "path": "frontend/README.md",
+      "decision": "drop",
+      "reason": "Keep as v1 orientation only; v2 documentation must describe its actual architecture and behavior."
+    },
+    {
+      "path": "frontend/docs/feature-development.md",
+      "decision": "drop",
+      "reason": "Keep as v1 orientation only; v2 documentation must describe its actual architecture and behavior."
+    },
+    {
+      "path": "frontend/docs/project-structure.md",
+      "decision": "drop",
+      "reason": "Keep as v1 orientation only; v2 documentation must describe its actual architecture and behavior."
+    },
+    {
+      "path": "frontend/docs/trading-and-realtime.md",
+      "decision": "drop",
+      "reason": "Keep as v1 orientation only; v2 documentation must describe its actual architecture and behavior."
+    },
+    {
+      "path": "frontend/eslint.config.js",
+      "decision": "rewrite",
+      "reason": "Regenerate configuration, entry metadata or build/deployment support for the v2 baseline; legacy paths/environments are reference only."
+    },
+    {
+      "path": "frontend/index.html",
+      "decision": "rewrite",
+      "reason": "Regenerate configuration, entry metadata or build/deployment support for the v2 baseline; legacy paths/environments are reference only."
+    },
+    {
+      "path": "frontend/package-lock.json",
+      "decision": "rewrite",
+      "reason": "Rebuild dependency/script baseline from v2 needs; do not inherit duplicate chart stacks or financial-reward animation dependency."
+    },
+    {
+      "path": "frontend/package.json",
+      "decision": "rewrite",
+      "reason": "Rebuild dependency/script baseline from v2 needs; do not inherit duplicate chart stacks or financial-reward animation dependency."
+    },
+    {
+      "path": "frontend/public/candlestick-tutorial.png",
+      "decision": "rewrite",
+      "reason": "Redraw candle teaching diagram for approved content and accessible text; source rights unverified."
+    },
+    {
+      "path": "frontend/public/endless-mode.jpeg",
+      "decision": "drop",
+      "reason": "Exclude legacy mode artwork/logo; appearance is not the v2 brief and source rights are unverified."
+    },
+    {
+      "path": "frontend/public/logo.png",
+      "decision": "drop",
+      "reason": "Exclude legacy mode artwork/logo; appearance is not the v2 brief and source rights are unverified."
+    },
+    {
+      "path": "frontend/public/multiplayer-mode.png",
+      "decision": "drop",
+      "reason": "Exclude legacy mode artwork/logo; appearance is not the v2 brief and source rights are unverified."
+    },
+    {
+      "path": "frontend/public/puzzle-mode.jpg",
+      "decision": "drop",
+      "reason": "Exclude legacy mode artwork/logo; appearance is not the v2 brief and source rights are unverified."
+    },
+    {
+      "path": "frontend/public/tutorial-mode.jpg",
+      "decision": "drop",
+      "reason": "Exclude legacy mode artwork/logo; appearance is not the v2 brief and source rights are unverified."
+    },
+    {
+      "path": "frontend/src/App.tsx",
+      "decision": "rewrite",
+      "reason": "Retain provider/router composition concept; rebuild foundations-first journeys, preserved deep links, mastery boundaries and recoverable loading/errors."
+    },
+    {
+      "path": "frontend/src/features/auth/components/AppLayout.tsx",
+      "decision": "rewrite",
+      "reason": "Retain identity/onboarding or earned/locked profile responsibility; rewrite explicit auth failures/session races, v2 criteria and accessible mobile UI."
+    },
+    {
+      "path": "frontend/src/features/auth/components/LoginForm.tsx",
+      "decision": "rewrite",
+      "reason": "Retain identity/onboarding or earned/locked profile responsibility; rewrite explicit auth failures/session races, v2 criteria and accessible mobile UI."
+    },
+    {
+      "path": "frontend/src/features/auth/components/ProtectedRoute.tsx",
+      "decision": "rewrite",
+      "reason": "Retain identity/onboarding or earned/locked profile responsibility; rewrite explicit auth failures/session races, v2 criteria and accessible mobile UI."
+    },
+    {
+      "path": "frontend/src/features/auth/components/UsernameSetup.tsx",
+      "decision": "rewrite",
+      "reason": "Retain identity/onboarding or earned/locked profile responsibility; rewrite explicit auth failures/session races, v2 criteria and accessible mobile UI."
+    },
+    {
+      "path": "frontend/src/features/auth/components/profile/AchievementGroup.tsx",
+      "decision": "rewrite",
+      "reason": "Retain identity/onboarding or earned/locked profile responsibility; rewrite explicit auth failures/session races, v2 criteria and accessible mobile UI."
+    },
+    {
+      "path": "frontend/src/features/auth/components/profile/AchievementInfoPopup.tsx",
+      "decision": "rewrite",
+      "reason": "Retain identity/onboarding or earned/locked profile responsibility; rewrite explicit auth failures/session races, v2 criteria and accessible mobile UI."
+    },
+    {
+      "path": "frontend/src/features/auth/components/profile/AchievementTile.tsx",
+      "decision": "rewrite",
+      "reason": "Retain identity/onboarding or earned/locked profile responsibility; rewrite explicit auth failures/session races, v2 criteria and accessible mobile UI."
+    },
+    {
+      "path": "frontend/src/features/auth/components/profile/AchievementsSection.tsx",
+      "decision": "rewrite",
+      "reason": "Retain identity/onboarding or earned/locked profile responsibility; rewrite explicit auth failures/session races, v2 criteria and accessible mobile UI."
+    },
+    {
+      "path": "frontend/src/features/auth/components/profile/UserProfile.tsx",
+      "decision": "rewrite",
+      "reason": "Retain identity/onboarding or earned/locked profile responsibility; rewrite explicit auth failures/session races, v2 criteria and accessible mobile UI."
+    },
+    {
+      "path": "frontend/src/features/auth/components/profile/achievementIcon.tsx",
+      "decision": "rewrite",
+      "reason": "Retain identity/onboarding or earned/locked profile responsibility; rewrite explicit auth failures/session races, v2 criteria and accessible mobile UI."
+    },
+    {
+      "path": "frontend/src/features/auth/components/profile/achievementPresentation.ts",
+      "decision": "keep",
+      "reason": "Narrow pure grouping/counting helper is independent of reward criteria; eligible for source reuse only after verifying v2 achievement shape and edge cases."
+    },
+    {
+      "path": "frontend/src/features/auth/hooks/useAuth.ts",
+      "decision": "rewrite",
+      "reason": "Retain identity/onboarding or earned/locked profile responsibility; rewrite explicit auth failures/session races, v2 criteria and accessible mobile UI."
+    },
+    {
+      "path": "frontend/src/features/auth/services/achievementIconService.ts",
+      "decision": "rewrite",
+      "reason": "Retain identity/onboarding or earned/locked profile responsibility; rewrite explicit auth failures/session races, v2 criteria and accessible mobile UI."
+    },
+    {
+      "path": "frontend/src/features/auth/services/achievementsService.ts",
+      "decision": "rewrite",
+      "reason": "Retain identity/onboarding or earned/locked profile responsibility; rewrite explicit auth failures/session races, v2 criteria and accessible mobile UI."
+    },
+    {
+      "path": "frontend/src/features/auth/services/profileApi.ts",
+      "decision": "rewrite",
+      "reason": "Retain identity/onboarding or earned/locked profile responsibility; rewrite explicit auth failures/session races, v2 criteria and accessible mobile UI."
+    },
+    {
+      "path": "frontend/src/features/auth/services/userApi.ts",
+      "decision": "rewrite",
+      "reason": "Retain identity/onboarding or earned/locked profile responsibility; rewrite explicit auth failures/session races, v2 criteria and accessible mobile UI."
+    },
+    {
+      "path": "frontend/src/features/auth/types/authTypes.ts",
+      "decision": "rewrite",
+      "reason": "Retain identity/onboarding or earned/locked profile responsibility; rewrite explicit auth failures/session races, v2 criteria and accessible mobile UI."
+    },
+    {
+      "path": "frontend/src/features/auth/types/profileTypes.ts",
+      "decision": "rewrite",
+      "reason": "Retain identity/onboarding or earned/locked profile responsibility; rewrite explicit auth failures/session races, v2 criteria and accessible mobile UI."
+    },
+    {
+      "path": "frontend/src/features/dashboard/components/ActivityCalendarSection.tsx",
+      "decision": "rewrite",
+      "reason": "Retain learning overview/activity concept; replace trade-first invitation, played/missed framing and mobile layout with verified learning activity."
+    },
+    {
+      "path": "frontend/src/features/dashboard/components/DailyStreak.tsx",
+      "decision": "rewrite",
+      "reason": "Retain learning overview/activity concept; replace trade-first invitation, played/missed framing and mobile layout with verified learning activity."
+    },
+    {
+      "path": "frontend/src/features/dashboard/components/DashboardPage.tsx",
+      "decision": "rewrite",
+      "reason": "Retain learning overview/activity concept; replace trade-first invitation, played/missed framing and mobile layout with verified learning activity."
+    },
+    {
+      "path": "frontend/src/features/dashboard/components/GameModeCard.tsx",
+      "decision": "rewrite",
+      "reason": "Retain learning overview/activity concept; replace trade-first invitation, played/missed framing and mobile layout with verified learning activity."
+    },
+    {
+      "path": "frontend/src/features/dashboard/components/GamesSection.tsx",
+      "decision": "rewrite",
+      "reason": "Retain learning overview/activity concept; replace trade-first invitation, played/missed framing and mobile layout with verified learning activity."
+    },
+    {
+      "path": "frontend/src/features/dashboard/services/dashboardApi.ts",
+      "decision": "rewrite",
+      "reason": "Retain learning overview/activity concept; replace trade-first invitation, played/missed framing and mobile layout with verified learning activity."
+    },
+    {
+      "path": "frontend/src/features/levels/components/AdventureLevelCard.tsx",
+      "decision": "rewrite",
+      "reason": "Retain prerequisite/progress/outcome concepts; replace old curriculum order, per-level profit score UI and flat layout after map direction approval."
+    },
+    {
+      "path": "frontend/src/features/levels/components/LevelDetailPopup.tsx",
+      "decision": "rewrite",
+      "reason": "Retain prerequisite/progress/outcome concepts; replace old curriculum order, per-level profit score UI and flat layout after map direction approval."
+    },
+    {
+      "path": "frontend/src/features/levels/components/LevelSelectPage.tsx",
+      "decision": "rewrite",
+      "reason": "Retain prerequisite/progress/outcome concepts; replace old curriculum order, per-level profit score UI and flat layout after map direction approval."
+    },
+    {
+      "path": "frontend/src/features/levels/services/leaderboardService.ts",
+      "decision": "drop",
+      "reason": "Legacy per-level score leaderboard uses the old reward contract; no profit-linked ranking in v2."
+    },
+    {
+      "path": "frontend/src/features/levels/services/levelsApi.ts",
+      "decision": "rewrite",
+      "reason": "Retain prerequisite/progress/outcome concepts; replace old curriculum order, per-level profit score UI and flat layout after map direction approval."
+    },
+    {
+      "path": "frontend/src/features/levels/types/levelTypes.ts",
+      "decision": "rewrite",
+      "reason": "Retain prerequisite/progress/outcome concepts; replace old curriculum order, per-level profit score UI and flat layout after map direction approval."
+    },
+    {
+      "path": "frontend/src/features/multiplayer/components/CreateRoomPanel.tsx",
+      "decision": "rewrite",
+      "reason": "Retain room/session concept only after mastery; rewrite authorization, reliable lifecycle and safe authored scenarios instead of free-form fake-news gameplay."
+    },
+    {
+      "path": "frontend/src/features/multiplayer/components/JoinRoomPanel.tsx",
+      "decision": "rewrite",
+      "reason": "Retain room/session concept only after mastery; rewrite authorization, reliable lifecycle and safe authored scenarios instead of free-form fake-news gameplay."
+    },
+    {
+      "path": "frontend/src/features/multiplayer/components/RoomLobby.tsx",
+      "decision": "rewrite",
+      "reason": "Retain room/session concept only after mastery; rewrite authorization, reliable lifecycle and safe authored scenarios instead of free-form fake-news gameplay."
+    },
+    {
+      "path": "frontend/src/features/multiplayer/context/MultiplayerSessionProvider.tsx",
+      "decision": "rewrite",
+      "reason": "Retain room/session concept only after mastery; rewrite authorization, reliable lifecycle and safe authored scenarios instead of free-form fake-news gameplay."
+    },
+    {
+      "path": "frontend/src/features/multiplayer/hooks/useMultiplayerSocket.ts",
+      "decision": "rewrite",
+      "reason": "Retain room/session concept only after mastery; rewrite authorization, reliable lifecycle and safe authored scenarios instead of free-form fake-news gameplay."
+    },
+    {
+      "path": "frontend/src/features/multiplayer/pages/MultiplayerPage.tsx",
+      "decision": "rewrite",
+      "reason": "Retain room/session concept only after mastery; rewrite authorization, reliable lifecycle and safe authored scenarios instead of free-form fake-news gameplay."
+    },
+    {
+      "path": "frontend/src/features/multiplayer/services/multiplayerApi.ts",
+      "decision": "rewrite",
+      "reason": "Retain room/session concept only after mastery; rewrite authorization, reliable lifecycle and safe authored scenarios instead of free-form fake-news gameplay."
+    },
+    {
+      "path": "frontend/src/features/multiplayer/services/multiplayerSocketService.ts",
+      "decision": "rewrite",
+      "reason": "Retain room/session concept only after mastery; rewrite authorization, reliable lifecycle and safe authored scenarios instead of free-form fake-news gameplay."
+    },
+    {
+      "path": "frontend/src/features/multiplayer/types/multiplayerTypes.ts",
+      "decision": "rewrite",
+      "reason": "Retain room/session concept only after mastery; rewrite authorization, reliable lifecycle and safe authored scenarios instead of free-form fake-news gameplay."
+    },
+    {
+      "path": "frontend/src/features/puzzle/components/PuzzleLevelCard.tsx",
+      "decision": "rewrite",
+      "reason": "Retain varied scenario selection and prerequisites; replace legacy trade challenges with risk-first controlled practice."
+    },
+    {
+      "path": "frontend/src/features/puzzle/components/PuzzleLevelSelectPage.tsx",
+      "decision": "rewrite",
+      "reason": "Retain varied scenario selection and prerequisites; replace legacy trade challenges with risk-first controlled practice."
+    },
+    {
+      "path": "frontend/src/features/puzzle/services/puzzleLevelSelectApi.ts",
+      "decision": "rewrite",
+      "reason": "Retain varied scenario selection and prerequisites; replace legacy trade challenges with risk-first controlled practice."
+    },
+    {
+      "path": "frontend/src/features/puzzle/types/puzzleLevelSelectTypes.ts",
+      "decision": "rewrite",
+      "reason": "Retain varied scenario selection and prerequisites; replace legacy trade challenges with risk-first controlled practice."
+    },
+    {
+      "path": "frontend/src/features/quiz/components/QuizAccessCard.tsx",
+      "decision": "rewrite",
+      "reason": "Retain retrieval and explanatory feedback; rewrite mastery thresholds, retry/delayed review, runtime contracts and accessible responsive interaction."
+    },
+    {
+      "path": "frontend/src/features/quiz/components/QuizPage.tsx",
+      "decision": "rewrite",
+      "reason": "Retain retrieval and explanatory feedback; rewrite mastery thresholds, retry/delayed review, runtime contracts and accessible responsive interaction."
+    },
+    {
+      "path": "frontend/src/features/quiz/context/QuizContext.tsx",
+      "decision": "rewrite",
+      "reason": "Retain retrieval and explanatory feedback; rewrite mastery thresholds, retry/delayed review, runtime contracts and accessible responsive interaction."
+    },
+    {
+      "path": "frontend/src/features/quiz/services/quizApi.ts",
+      "decision": "rewrite",
+      "reason": "Retain retrieval and explanatory feedback; rewrite mastery thresholds, retry/delayed review, runtime contracts and accessible responsive interaction."
+    },
+    {
+      "path": "frontend/src/features/quiz/types/quizTypes.ts",
+      "decision": "rewrite",
+      "reason": "Retain retrieval and explanatory feedback; rewrite mastery thresholds, retry/delayed review, runtime contracts and accessible responsive interaction."
+    },
+    {
+      "path": "frontend/src/features/trading/components/AutoTickStartPopup.tsx",
+      "decision": "rewrite",
+      "reason": "Keep relevant simulation/analytics presentation responsibility; rewrite accessible mobile flow around readiness, a written plan and reflection, removing profit-reward emphasis."
+    },
+    {
+      "path": "frontend/src/features/trading/components/BenchmarkPanel.tsx",
+      "decision": "rewrite",
+      "reason": "Keep relevant simulation/analytics presentation responsibility; rewrite accessible mobile flow around readiness, a written plan and reflection, removing profit-reward emphasis."
+    },
+    {
+      "path": "frontend/src/features/trading/components/BetaVolatilityPanel.tsx",
+      "decision": "rewrite",
+      "reason": "Keep relevant simulation/analytics presentation responsibility; rewrite accessible mobile flow around readiness, a written plan and reflection, removing profit-reward emphasis."
+    },
+    {
+      "path": "frontend/src/features/trading/components/BuySellActionGroup.tsx",
+      "decision": "rewrite",
+      "reason": "Keep relevant simulation/analytics presentation responsibility; rewrite accessible mobile flow around readiness, a written plan and reflection, removing profit-reward emphasis."
+    },
+    {
+      "path": "frontend/src/features/trading/components/CandlestickChart.tsx",
+      "decision": "rewrite",
+      "reason": "Keep relevant simulation/analytics presentation responsibility; rewrite accessible mobile flow around readiness, a written plan and reflection, removing profit-reward emphasis."
+    },
+    {
+      "path": "frontend/src/features/trading/components/ContextPopup.tsx",
+      "decision": "rewrite",
+      "reason": "Keep relevant simulation/analytics presentation responsibility; rewrite accessible mobile flow around readiness, a written plan and reflection, removing profit-reward emphasis."
+    },
+    {
+      "path": "frontend/src/features/trading/components/CorrelationPanel.tsx",
+      "decision": "rewrite",
+      "reason": "Keep relevant simulation/analytics presentation responsibility; rewrite accessible mobile flow around readiness, a written plan and reflection, removing profit-reward emphasis."
+    },
+    {
+      "path": "frontend/src/features/trading/components/CountdownTimer.tsx",
+      "decision": "drop",
+      "reason": "Countdown urgency and forced advancement conflict with reflective risk education."
+    },
+    {
+      "path": "frontend/src/features/trading/components/FundamentalsPanel.tsx",
+      "decision": "rewrite",
+      "reason": "Keep relevant simulation/analytics presentation responsibility; rewrite accessible mobile flow around readiness, a written plan and reflection, removing profit-reward emphasis."
+    },
+    {
+      "path": "frontend/src/features/trading/components/GameEndMissionResultsSection.tsx",
+      "decision": "rewrite",
+      "reason": "Keep relevant simulation/analytics presentation responsibility; rewrite accessible mobile flow around readiness, a written plan and reflection, removing profit-reward emphasis."
+    },
+    {
+      "path": "frontend/src/features/trading/components/GameEndModal.tsx",
+      "decision": "rewrite",
+      "reason": "Keep relevant simulation/analytics presentation responsibility; rewrite accessible mobile flow around readiness, a written plan and reflection, removing profit-reward emphasis."
+    },
+    {
+      "path": "frontend/src/features/trading/components/GameEndPointsSection.tsx",
+      "decision": "drop",
+      "reason": "Cash-derived points conflict with process-based learning assessment."
+    },
+    {
+      "path": "frontend/src/features/trading/components/GameEndPortfolioSummary.tsx",
+      "decision": "rewrite",
+      "reason": "Keep relevant simulation/analytics presentation responsibility; rewrite accessible mobile flow around readiness, a written plan and reflection, removing profit-reward emphasis."
+    },
+    {
+      "path": "frontend/src/features/trading/components/GameEndStatusBanner.tsx",
+      "decision": "rewrite",
+      "reason": "Keep relevant simulation/analytics presentation responsibility; rewrite accessible mobile flow around readiness, a written plan and reflection, removing profit-reward emphasis."
+    },
+    {
+      "path": "frontend/src/features/trading/components/MacroFactorsPanel.tsx",
+      "decision": "rewrite",
+      "reason": "Keep relevant simulation/analytics presentation responsibility; rewrite accessible mobile flow around readiness, a written plan and reflection, removing profit-reward emphasis."
+    },
+    {
+      "path": "frontend/src/features/trading/components/MissionsPopup.tsx",
+      "decision": "rewrite",
+      "reason": "Keep relevant simulation/analytics presentation responsibility; rewrite accessible mobile flow around readiness, a written plan and reflection, removing profit-reward emphasis."
+    },
+    {
+      "path": "frontend/src/features/trading/components/MultiplayerRoomPanel.tsx",
+      "decision": "rewrite",
+      "reason": "Keep relevant simulation/analytics presentation responsibility; rewrite accessible mobile flow around readiness, a written plan and reflection, removing profit-reward emphasis."
+    },
+    {
+      "path": "frontend/src/features/trading/components/NewsArticlePopup.tsx",
+      "decision": "rewrite",
+      "reason": "Keep relevant simulation/analytics presentation responsibility; rewrite accessible mobile flow around readiness, a written plan and reflection, removing profit-reward emphasis."
+    },
+    {
+      "path": "frontend/src/features/trading/components/NewsFeedCard.tsx",
+      "decision": "rewrite",
+      "reason": "Keep relevant simulation/analytics presentation responsibility; rewrite accessible mobile flow around readiness, a written plan and reflection, removing profit-reward emphasis."
+    },
+    {
+      "path": "frontend/src/features/trading/components/PortfolioAllocationPanel.tsx",
+      "decision": "rewrite",
+      "reason": "Keep relevant simulation/analytics presentation responsibility; rewrite accessible mobile flow around readiness, a written plan and reflection, removing profit-reward emphasis."
+    },
+    {
+      "path": "frontend/src/features/trading/components/PortfolioSummary.tsx",
+      "decision": "rewrite",
+      "reason": "Keep relevant simulation/analytics presentation responsibility; rewrite accessible mobile flow around readiness, a written plan and reflection, removing profit-reward emphasis."
+    },
+    {
+      "path": "frontend/src/features/trading/components/ResumeConfirmPopup.tsx",
+      "decision": "rewrite",
+      "reason": "Keep relevant simulation/analytics presentation responsibility; rewrite accessible mobile flow around readiness, a written plan and reflection, removing profit-reward emphasis."
+    },
+    {
+      "path": "frontend/src/features/trading/components/RightPanelActions.tsx",
+      "decision": "rewrite",
+      "reason": "Keep relevant simulation/analytics presentation responsibility; rewrite accessible mobile flow around readiness, a written plan and reflection, removing profit-reward emphasis."
+    },
+    {
+      "path": "frontend/src/features/trading/components/SectorExposurePanel.tsx",
+      "decision": "rewrite",
+      "reason": "Keep relevant simulation/analytics presentation responsibility; rewrite accessible mobile flow around readiness, a written plan and reflection, removing profit-reward emphasis."
+    },
+    {
+      "path": "frontend/src/features/trading/components/TimerEndNextGamePopup.tsx",
+      "decision": "drop",
+      "reason": "Countdown urgency and forced advancement conflict with reflective risk education."
+    },
+    {
+      "path": "frontend/src/features/trading/components/TradeModal.tsx",
+      "decision": "rewrite",
+      "reason": "Keep relevant simulation/analytics presentation responsibility; rewrite accessible mobile flow around readiness, a written plan and reflection, removing profit-reward emphasis."
+    },
+    {
+      "path": "frontend/src/features/trading/components/TradingInfoPopups.tsx",
+      "decision": "rewrite",
+      "reason": "Keep relevant simulation/analytics presentation responsibility; rewrite accessible mobile flow around readiness, a written plan and reflection, removing profit-reward emphasis."
+    },
+    {
+      "path": "frontend/src/features/trading/components/TradingLeftPanel.tsx",
+      "decision": "rewrite",
+      "reason": "Keep relevant simulation/analytics presentation responsibility; rewrite accessible mobile flow around readiness, a written plan and reflection, removing profit-reward emphasis."
+    },
+    {
+      "path": "frontend/src/features/trading/components/TradingLeftPanelSections.tsx",
+      "decision": "rewrite",
+      "reason": "Keep relevant simulation/analytics presentation responsibility; rewrite accessible mobile flow around readiness, a written plan and reflection, removing profit-reward emphasis."
+    },
+    {
+      "path": "frontend/src/features/trading/components/TradingPage.tsx",
+      "decision": "rewrite",
+      "reason": "Keep relevant simulation/analytics presentation responsibility; rewrite accessible mobile flow around readiness, a written plan and reflection, removing profit-reward emphasis."
+    },
+    {
+      "path": "frontend/src/features/trading/components/TradingRightPanel.tsx",
+      "decision": "rewrite",
+      "reason": "Keep relevant simulation/analytics presentation responsibility; rewrite accessible mobile flow around readiness, a written plan and reflection, removing profit-reward emphasis."
+    },
+    {
+      "path": "frontend/src/features/trading/components/UnlocksPopup.tsx",
+      "decision": "rewrite",
+      "reason": "Keep relevant simulation/analytics presentation responsibility; rewrite accessible mobile flow around readiness, a written plan and reflection, removing profit-reward emphasis."
+    },
+    {
+      "path": "frontend/src/features/trading/hooks/useGameEndPayload.ts",
+      "decision": "rewrite",
+      "reason": "Keep separation of session, portfolio and teaching concerns; rebuild coherent state, errors, interruption semantics and plan/process assessment."
+    },
+    {
+      "path": "frontend/src/features/trading/hooks/useInfoPopupQueue.ts",
+      "decision": "rewrite",
+      "reason": "Keep separation of session, portfolio and teaching concerns; rebuild coherent state, errors, interruption semantics and plan/process assessment."
+    },
+    {
+      "path": "frontend/src/features/trading/hooks/useLevelAccessGate.ts",
+      "decision": "rewrite",
+      "reason": "Keep separation of session, portfolio and teaching concerns; rebuild coherent state, errors, interruption semantics and plan/process assessment."
+    },
+    {
+      "path": "frontend/src/features/trading/hooks/useMultiplayerGame.ts",
+      "decision": "rewrite",
+      "reason": "Keep separation of session, portfolio and teaching concerns; rebuild coherent state, errors, interruption semantics and plan/process assessment."
+    },
+    {
+      "path": "frontend/src/features/trading/hooks/usePortfolioState.ts",
+      "decision": "rewrite",
+      "reason": "Keep separation of session, portfolio and teaching concerns; rebuild coherent state, errors, interruption semantics and plan/process assessment."
+    },
+    {
+      "path": "frontend/src/features/trading/hooks/useSinglePlayerGame.ts",
+      "decision": "rewrite",
+      "reason": "Keep separation of session, portfolio and teaching concerns; rebuild coherent state, errors, interruption semantics and plan/process assessment."
+    },
+    {
+      "path": "frontend/src/features/trading/hooks/useTradingSessionState.ts",
+      "decision": "rewrite",
+      "reason": "Keep separation of session, portfolio and teaching concerns; rebuild coherent state, errors, interruption semantics and plan/process assessment."
+    },
+    {
+      "path": "frontend/src/features/trading/hooks/useTradingTutorialFlow.ts",
+      "decision": "rewrite",
+      "reason": "Keep separation of session, portfolio and teaching concerns; rebuild coherent state, errors, interruption semantics and plan/process assessment."
+    },
+    {
+      "path": "frontend/src/features/trading/pages/MultiplayerTradingPage.tsx",
+      "decision": "rewrite",
+      "reason": "Keep relevant simulation/analytics presentation responsibility; rewrite accessible mobile flow around readiness, a written plan and reflection, removing profit-reward emphasis."
+    },
+    {
+      "path": "frontend/src/features/trading/pages/SinglePlayerTradingPage.tsx",
+      "decision": "rewrite",
+      "reason": "Keep relevant simulation/analytics presentation responsibility; rewrite accessible mobile flow around readiness, a written plan and reflection, removing profit-reward emphasis."
+    },
+    {
+      "path": "frontend/src/features/trading/services/gameSocket.ts",
+      "decision": "rewrite",
+      "reason": "Retain transport/mapping boundary; replace permissive casts, unsafe defaults and legacy score/order contracts with validated plan-aware messages."
+    },
+    {
+      "path": "frontend/src/features/trading/services/tradingPayloadMappers.ts",
+      "decision": "rewrite",
+      "reason": "Retain transport/mapping boundary; replace permissive casts, unsafe defaults and legacy score/order contracts with validated plan-aware messages."
+    },
+    {
+      "path": "frontend/src/features/trading/types/tradingTypes.ts",
+      "decision": "rewrite",
+      "reason": "Replace legacy engine payload and score contracts with versioned plan, scenario, friction and assessment contracts."
+    },
+    {
+      "path": "frontend/src/features/trading/utils/tradingCalculations.ts",
+      "decision": "rewrite",
+      "reason": "Keep indicator/date calculation concepts; validate missing data, precision and financial display rules before extracting narrowly tested helpers."
+    },
+    {
+      "path": "frontend/src/features/tutorials/components/TutorialOverlay.tsx",
+      "decision": "rewrite",
+      "reason": "Retain reusable guided-teaching concept; rewrite source against later lesson contract, source-grounded curriculum, accessible focus and small-screen interaction."
+    },
+    {
+      "path": "frontend/src/features/tutorials/hooks/useTutorialQueue.ts",
+      "decision": "rewrite",
+      "reason": "Retain reusable guided-teaching concept; rewrite source against later lesson contract, source-grounded curriculum, accessible focus and small-screen interaction."
+    },
+    {
+      "path": "frontend/src/features/tutorials/index.ts",
+      "decision": "rewrite",
+      "reason": "Retain reusable guided-teaching concept; rewrite source against later lesson contract, source-grounded curriculum, accessible focus and small-screen interaction."
+    },
+    {
+      "path": "frontend/src/features/tutorials/registry/tradingTutorialRegistry.ts",
+      "decision": "rewrite",
+      "reason": "Retain reusable guided-teaching concept; rewrite source against later lesson contract, source-grounded curriculum, accessible focus and small-screen interaction."
+    },
+    {
+      "path": "frontend/src/features/tutorials/types/tutorialTypes.ts",
+      "decision": "rewrite",
+      "reason": "Retain reusable guided-teaching concept; rewrite source against later lesson contract, source-grounded curriculum, accessible focus and small-screen interaction."
+    },
+    {
+      "path": "frontend/src/hooks/useSetTheme.ts",
+      "decision": "rewrite",
+      "reason": "Rebuild approved visual system with 44px targets, dialog/focus semantics, reduced motion, non-color state and mobile layout; do not copy legacy styling."
+    },
+    {
+      "path": "frontend/src/index.css",
+      "decision": "rewrite",
+      "reason": "Rebuild approved visual system with 44px targets, dialog/focus semantics, reduced motion, non-color state and mobile layout; do not copy legacy styling."
+    },
+    {
+      "path": "frontend/src/main.tsx",
+      "decision": "rewrite",
+      "reason": "Retain provider/router composition concept; rebuild foundations-first journeys, preserved deep links, mastery boundaries and recoverable loading/errors."
+    },
+    {
+      "path": "frontend/src/providers/AuthProvider.tsx",
+      "decision": "rewrite",
+      "reason": "Retain identity/onboarding or earned/locked profile responsibility; rewrite explicit auth failures/session races, v2 criteria and accessible mobile UI."
+    },
+    {
+      "path": "frontend/src/providers/ThemeProvider.tsx",
+      "decision": "rewrite",
+      "reason": "Rebuild approved visual system with 44px targets, dialog/focus semantics, reduced motion, non-color state and mobile layout; do not copy legacy styling."
+    },
+    {
+      "path": "frontend/src/routes/AppRoutes.tsx",
+      "decision": "rewrite",
+      "reason": "Retain provider/router composition concept; rebuild foundations-first journeys, preserved deep links, mastery boundaries and recoverable loading/errors."
+    },
+    {
+      "path": "frontend/src/services/apiClient.ts",
+      "decision": "rewrite",
+      "reason": "Retain token refresh/one-401-retry policy; rewrite origin restriction, HTTPS configuration, typed errors and runtime response validation."
+    },
+    {
+      "path": "frontend/src/services/firebase.ts",
+      "decision": "rewrite",
+      "reason": "Retain verified identity integration concept pending v2 auth decision; rewrite environment validation and explicitly emulator-only test bridge."
+    },
+    {
+      "path": "frontend/src/shared/ui/Button.tsx",
+      "decision": "rewrite",
+      "reason": "Rebuild approved visual system with 44px targets, dialog/focus semantics, reduced motion, non-color state and mobile layout; do not copy legacy styling."
+    },
+    {
+      "path": "frontend/src/shared/ui/Card.tsx",
+      "decision": "rewrite",
+      "reason": "Rebuild approved visual system with 44px targets, dialog/focus semantics, reduced motion, non-color state and mobile layout; do not copy legacy styling."
+    },
+    {
+      "path": "frontend/src/shared/ui/LoadingOverlay.tsx",
+      "decision": "rewrite",
+      "reason": "Rebuild approved visual system with 44px targets, dialog/focus semantics, reduced motion, non-color state and mobile layout; do not copy legacy styling."
+    },
+    {
+      "path": "frontend/src/shared/ui/Log.tsx",
+      "decision": "rewrite",
+      "reason": "Rebuild approved visual system with 44px targets, dialog/focus semantics, reduced motion, non-color state and mobile layout; do not copy legacy styling."
+    },
+    {
+      "path": "frontend/src/shared/ui/Navbar.tsx",
+      "decision": "rewrite",
+      "reason": "Rebuild approved visual system with 44px targets, dialog/focus semantics, reduced motion, non-color state and mobile layout; do not copy legacy styling."
+    },
+    {
+      "path": "frontend/src/shared/ui/Popup.tsx",
+      "decision": "rewrite",
+      "reason": "Rebuild approved visual system with 44px targets, dialog/focus semantics, reduced motion, non-color state and mobile layout; do not copy legacy styling."
+    },
+    {
+      "path": "frontend/src/shared/ui/TextField.tsx",
+      "decision": "rewrite",
+      "reason": "Rebuild approved visual system with 44px targets, dialog/focus semantics, reduced motion, non-color state and mobile layout; do not copy legacy styling."
+    },
+    {
+      "path": "frontend/src/shared/ui/ThemeToggle.tsx",
+      "decision": "rewrite",
+      "reason": "Rebuild approved visual system with 44px targets, dialog/focus semantics, reduced motion, non-color state and mobile layout; do not copy legacy styling."
+    },
+    {
+      "path": "frontend/src/shared/ui/config/themeConfig.ts",
+      "decision": "rewrite",
+      "reason": "Rebuild approved visual system with 44px targets, dialog/focus semantics, reduced motion, non-color state and mobile layout; do not copy legacy styling."
+    },
+    {
+      "path": "frontend/src/shared/ui/toast/Toast.tsx",
+      "decision": "rewrite",
+      "reason": "Rebuild approved visual system with 44px targets, dialog/focus semantics, reduced motion, non-color state and mobile layout; do not copy legacy styling."
+    },
+    {
+      "path": "frontend/src/shared/ui/toast/toast.css",
+      "decision": "rewrite",
+      "reason": "Rebuild approved visual system with 44px targets, dialog/focus semantics, reduced motion, non-color state and mobile layout; do not copy legacy styling."
+    },
+    {
+      "path": "frontend/src/types/global.d.ts",
+      "decision": "rewrite",
+      "reason": "Regenerate configuration, entry metadata or build/deployment support for the v2 baseline; legacy paths/environments are reference only."
+    },
+    {
+      "path": "frontend/tailwind.config.js",
+      "decision": "rewrite",
+      "reason": "Rebuild approved visual system with 44px targets, dialog/focus semantics, reduced motion, non-color state and mobile layout; do not copy legacy styling."
+    },
+    {
+      "path": "frontend/tests/cypress.config.js",
+      "decision": "rewrite",
+      "reason": "Retain behavioral intent as reference; rewrite fixtures/routes/contracts for v2 and add real contract, mobile, accessibility and safety coverage."
+    },
+    {
+      "path": "frontend/tests/cypress/e2e/auth.cy.js",
+      "decision": "rewrite",
+      "reason": "Retain behavioral intent as reference; rewrite fixtures/routes/contracts for v2 and add real contract, mobile, accessibility and safety coverage."
+    },
+    {
+      "path": "frontend/tests/cypress/e2e/dashboard.navigation.cy.js",
+      "decision": "rewrite",
+      "reason": "Retain behavioral intent as reference; rewrite fixtures/routes/contracts for v2 and add real contract, mobile, accessibility and safety coverage."
+    },
+    {
+      "path": "frontend/tests/cypress/e2e/multiplayer.no-npc-orders.cy.js",
+      "decision": "rewrite",
+      "reason": "Retain behavioral intent as reference; rewrite fixtures/routes/contracts for v2 and add real contract, mobile, accessibility and safety coverage."
+    },
+    {
+      "path": "frontend/tests/cypress/e2e/profile.achievements.cy.js",
+      "decision": "rewrite",
+      "reason": "Retain behavioral intent as reference; rewrite fixtures/routes/contracts for v2 and add real contract, mobile, accessibility and safety coverage."
+    },
+    {
+      "path": "frontend/tests/cypress/support/e2e.js",
+      "decision": "rewrite",
+      "reason": "Retain behavioral intent as reference; rewrite fixtures/routes/contracts for v2 and add real contract, mobile, accessibility and safety coverage."
+    },
+    {
+      "path": "frontend/tsconfig.app.json",
+      "decision": "rewrite",
+      "reason": "Regenerate configuration, entry metadata or build/deployment support for the v2 baseline; legacy paths/environments are reference only."
+    },
+    {
+      "path": "frontend/tsconfig.json",
+      "decision": "rewrite",
+      "reason": "Regenerate configuration, entry metadata or build/deployment support for the v2 baseline; legacy paths/environments are reference only."
+    },
+    {
+      "path": "frontend/tsconfig.node.json",
+      "decision": "rewrite",
+      "reason": "Regenerate configuration, entry metadata or build/deployment support for the v2 baseline; legacy paths/environments are reference only."
+    },
+    {
+      "path": "frontend/vercel.json",
+      "decision": "rewrite",
+      "reason": "Regenerate configuration, entry metadata or build/deployment support for the v2 baseline; legacy paths/environments are reference only."
+    },
+    {
+      "path": "frontend/vite.config.ts",
+      "decision": "rewrite",
+      "reason": "Regenerate configuration, entry metadata or build/deployment support for the v2 baseline; legacy paths/environments are reference only."
+    }
+  ],
+  "content": [
+    {
+      "id": "gen_tut",
+      "kind": "tutorial",
+      "source": "frontend/src/features/tutorials/registry/tradingTutorialRegistry.ts",
+      "line": 77,
+      "stepCount": 9,
+      "decision": "rewrite",
+      "reason": "Retain relevant explanatory topic after readiness prerequisites; rewrite as source-grounded lessons with learning objectives, plan-aware practice and accessible guidance under the Phase 2 contract."
+    },
+    {
+      "id": "news-feed-basics",
+      "kind": "tutorial",
+      "source": "frontend/src/features/tutorials/registry/tradingTutorialRegistry.ts",
+      "line": 148,
+      "stepCount": 1,
+      "decision": "rewrite",
+      "reason": "Retain relevant explanatory topic after readiness prerequisites; rewrite as source-grounded lessons with learning objectives, plan-aware practice and accessible guidance under the Phase 2 contract."
+    },
+    {
+      "id": "interest-rate-basics",
+      "kind": "tutorial",
+      "source": "frontend/src/features/tutorials/registry/tradingTutorialRegistry.ts",
+      "line": 160,
+      "stepCount": 3,
+      "decision": "rewrite",
+      "reason": "Retain relevant explanatory topic after readiness prerequisites; rewrite as source-grounded lessons with learning objectives, plan-aware practice and accessible guidance under the Phase 2 contract."
+    },
+    {
+      "id": "inflation-basics",
+      "kind": "tutorial",
+      "source": "frontend/src/features/tutorials/registry/tradingTutorialRegistry.ts",
+      "line": 186,
+      "stepCount": 3,
+      "decision": "rewrite",
+      "reason": "Retain relevant explanatory topic after readiness prerequisites; rewrite as source-grounded lessons with learning objectives, plan-aware practice and accessible guidance under the Phase 2 contract."
+    },
+    {
+      "id": "drawdown-basics",
+      "kind": "tutorial",
+      "source": "frontend/src/features/tutorials/registry/tradingTutorialRegistry.ts",
+      "line": 212,
+      "stepCount": 3,
+      "decision": "rewrite",
+      "reason": "Retain relevant explanatory topic after readiness prerequisites; rewrite as source-grounded lessons with learning objectives, plan-aware practice and accessible guidance under the Phase 2 contract."
+    },
+    {
+      "id": "portfolio-allocation-basics",
+      "kind": "tutorial",
+      "source": "frontend/src/features/tutorials/registry/tradingTutorialRegistry.ts",
+      "line": 238,
+      "stepCount": 2,
+      "decision": "rewrite",
+      "reason": "Retain relevant explanatory topic after readiness prerequisites; rewrite as source-grounded lessons with learning objectives, plan-aware practice and accessible guidance under the Phase 2 contract."
+    },
+    {
+      "id": "sector-exposure-basics",
+      "kind": "tutorial",
+      "source": "frontend/src/features/tutorials/registry/tradingTutorialRegistry.ts",
+      "line": 257,
+      "stepCount": 2,
+      "decision": "rewrite",
+      "reason": "Retain relevant explanatory topic after readiness prerequisites; rewrite as source-grounded lessons with learning objectives, plan-aware practice and accessible guidance under the Phase 2 contract."
+    },
+    {
+      "id": "fundamentals-basics",
+      "kind": "tutorial",
+      "source": "frontend/src/features/tutorials/registry/tradingTutorialRegistry.ts",
+      "line": 276,
+      "stepCount": 4,
+      "decision": "rewrite",
+      "reason": "Retain relevant explanatory topic after readiness prerequisites; rewrite as source-grounded lessons with learning objectives, plan-aware practice and accessible guidance under the Phase 2 contract."
+    },
+    {
+      "id": "correlation-basics",
+      "kind": "tutorial",
+      "source": "frontend/src/features/tutorials/registry/tradingTutorialRegistry.ts",
+      "line": 309,
+      "stepCount": 2,
+      "decision": "rewrite",
+      "reason": "Retain relevant explanatory topic after readiness prerequisites; rewrite as source-grounded lessons with learning objectives, plan-aware practice and accessible guidance under the Phase 2 contract."
+    },
+    {
+      "id": "beta-volatility-basics",
+      "kind": "tutorial",
+      "source": "frontend/src/features/tutorials/registry/tradingTutorialRegistry.ts",
+      "line": 328,
+      "stepCount": 2,
+      "decision": "rewrite",
+      "reason": "Retain relevant explanatory topic after readiness prerequisites; rewrite as source-grounded lessons with learning objectives, plan-aware practice and accessible guidance under the Phase 2 contract."
+    },
+    {
+      "id": "rebalancing-basics",
+      "kind": "tutorial",
+      "source": "frontend/src/features/tutorials/registry/tradingTutorialRegistry.ts",
+      "line": 347,
+      "stepCount": 1,
+      "decision": "rewrite",
+      "reason": "Retain relevant explanatory topic after readiness prerequisites; rewrite as source-grounded lessons with learning objectives, plan-aware practice and accessible guidance under the Phase 2 contract."
+    },
+    {
+      "id": "benchmark-basics",
+      "kind": "tutorial",
+      "source": "frontend/src/features/tutorials/registry/tradingTutorialRegistry.ts",
+      "line": 359,
+      "stepCount": 4,
+      "decision": "rewrite",
+      "reason": "Retain relevant explanatory topic after readiness prerequisites; rewrite as source-grounded lessons with learning objectives, plan-aware practice and accessible guidance under the Phase 2 contract."
+    },
+    {
+      "id": "moving-average-basics",
+      "kind": "tutorial",
+      "source": "frontend/src/features/tutorials/registry/tradingTutorialRegistry.ts",
+      "line": 392,
+      "stepCount": 3,
+      "decision": "rewrite",
+      "reason": "Retain relevant explanatory topic after readiness prerequisites; rewrite as source-grounded lessons with learning objectives, plan-aware practice and accessible guidance under the Phase 2 contract."
+    },
+    {
+      "id": "exponential-moving-average-basics",
+      "kind": "tutorial",
+      "source": "frontend/src/features/tutorials/registry/tradingTutorialRegistry.ts",
+      "line": 418,
+      "stepCount": 3,
+      "decision": "rewrite",
+      "reason": "Retain relevant explanatory topic after readiness prerequisites; rewrite as source-grounded lessons with learning objectives, plan-aware practice and accessible guidance under the Phase 2 contract."
+    },
+    {
+      "id": "short-selling-basics",
+      "kind": "tutorial",
+      "source": "frontend/src/features/tutorials/registry/tradingTutorialRegistry.ts",
+      "line": 444,
+      "stepCount": 6,
+      "decision": "rewrite",
+      "reason": "Retain relevant explanatory topic after readiness prerequisites; rewrite as source-grounded lessons with learning objectives, plan-aware practice and accessible guidance under the Phase 2 contract."
+    },
+    {
+      "id": "short-selling-confirmation-basics",
+      "kind": "tutorial",
+      "source": "frontend/src/features/tutorials/registry/tradingTutorialRegistry.ts",
+      "line": 491,
+      "stepCount": 4,
+      "decision": "rewrite",
+      "reason": "Retain relevant explanatory topic after readiness prerequisites; rewrite as source-grounded lessons with learning objectives, plan-aware practice and accessible guidance under the Phase 2 contract."
+    },
+    {
+      "id": "trader-edge-basics",
+      "kind": "tutorial",
+      "source": "frontend/src/features/tutorials/registry/tradingTutorialRegistry.ts",
+      "line": 524,
+      "stepCount": 10,
+      "decision": "rewrite",
+      "reason": "Retain relevant explanatory topic after readiness prerequisites; rewrite as source-grounded lessons with learning objectives, plan-aware practice and accessible guidance under the Phase 2 contract."
+    },
+    {
+      "id": "candlestick-chart-basics",
+      "kind": "tutorial",
+      "source": "frontend/src/features/tutorials/registry/tradingTutorialRegistry.ts",
+      "line": 605,
+      "stepCount": 4,
+      "decision": "rewrite",
+      "reason": "Retain relevant explanatory topic after readiness prerequisites; rewrite as source-grounded lessons with learning objectives, plan-aware practice and accessible guidance under the Phase 2 contract."
+    },
+    {
+      "id": "market-order-basics",
+      "kind": "tutorial",
+      "source": "frontend/src/features/tutorials/registry/tradingTutorialRegistry.ts",
+      "line": 643,
+      "stepCount": 11,
+      "decision": "rewrite",
+      "reason": "Retain relevant explanatory topic after readiness prerequisites; rewrite as source-grounded lessons with learning objectives, plan-aware practice and accessible guidance under the Phase 2 contract."
+    },
+    {
+      "id": "bid-ask-spread-basics",
+      "kind": "tutorial",
+      "source": "frontend/src/features/tutorials/registry/tradingTutorialRegistry.ts",
+      "line": 741,
+      "stepCount": 4,
+      "decision": "rewrite",
+      "reason": "Retain relevant explanatory topic after readiness prerequisites; rewrite as source-grounded lessons with learning objectives, plan-aware practice and accessible guidance under the Phase 2 contract."
+    },
+    {
+      "id": "limit-order-basics",
+      "kind": "tutorial",
+      "source": "frontend/src/features/tutorials/registry/tradingTutorialRegistry.ts",
+      "line": 776,
+      "stepCount": 13,
+      "decision": "rewrite",
+      "reason": "Retain relevant explanatory topic after readiness prerequisites; rewrite as source-grounded lessons with learning objectives, plan-aware practice and accessible guidance under the Phase 2 contract."
+    },
+    {
+      "id": "stop-loss-basics",
+      "kind": "tutorial",
+      "source": "frontend/src/features/tutorials/registry/tradingTutorialRegistry.ts",
+      "line": 890,
+      "stepCount": 13,
+      "decision": "rewrite",
+      "reason": "Retain relevant explanatory topic after readiness prerequisites; rewrite as source-grounded lessons with learning objectives, plan-aware practice and accessible guidance under the Phase 2 contract."
+    },
+    {
+      "id": "stop-limit-basics",
+      "kind": "tutorial",
+      "source": "frontend/src/features/tutorials/registry/tradingTutorialRegistry.ts",
+      "line": 1004,
+      "stepCount": 15,
+      "decision": "rewrite",
+      "reason": "Retain relevant explanatory topic after readiness prerequisites; rewrite as source-grounded lessons with learning objectives, plan-aware practice and accessible guidance under the Phase 2 contract."
+    }
+  ]
+}
