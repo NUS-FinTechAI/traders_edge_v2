@@ -1,0 +1,115 @@
+{
+  "date": "2026-10-04",
+  "browser": "154.0.8037.93",
+  "sourceFiles": {
+    "app.js": {
+      "bytes": 17201,
+      "sha256": "6de43d3299a8067f0df9de22b5f95851eeaee79163d0bf8d27b04e00d2697736"
+    },
+    "dashboard.html": {
+      "bytes": 1643,
+      "sha256": "e8a1abedf7780e07503fdd99aea14faf462b8243a13a56aa58b9e872c4e2ebd5"
+    },
+    "map.html": {
+      "bytes": 1653,
+      "sha256": "449e582e38e92480eb8923f0bf6cc2d499d2231fb86a391b2f0b44c3316b46e8"
+    },
+    "quiz.html": {
+      "bytes": 1645,
+      "sha256": "2686d160c62efee359b4463824ac8da99a9730d5c584dd64083e762cbfc1c9eb"
+    },
+    "style.css": {
+      "bytes": 18413,
+      "sha256": "58626c08a5029b25bc2fe0a0e63e859e5e538e62024581a8ab31aea5a71cde2b"
+    }
+  },
+  "matrix": {
+    "screens": ["dashboard", "map", "quiz"],
+    "states": ["default", "empty", "loading", "error", "locked", "success"],
+    "widths": [360, 390, 430, 768],
+    "heights": {
+      "phone": 844,
+      "tablet": 1024
+    },
+    "captures": 72,
+    "allHttp200": true,
+    "pageErrors": [],
+    "horizontalOverflows": 0,
+    "externalRequests": [],
+    "visibleTargetFailures": 0
+  },
+  "textSizeStress": [
+    {
+      "screen": "dashboard",
+      "width": 390,
+      "viewport": 390
+    },
+    {
+      "screen": "map",
+      "width": 390,
+      "viewport": 390
+    },
+    {
+      "screen": "quiz",
+      "width": 390,
+      "viewport": 390
+    }
+  ],
+  "interactions": [
+    {
+      "test": "missing answer blocked",
+      "pass": true,
+      "focus": "answer"
+    },
+    {
+      "test": "incorrect b",
+      "pass": true,
+      "feedback": "Reconsider the money Sam needs soon.\n\nA market can fall or stay down when rent is due. Even using half can leave Sam short. Start by separating essential spending from money that could remain unavailable or lose value.\n\nTry the decision again",
+      "focus": "feedback"
+    },
+    {
+      "test": "retry clears choice",
+      "pass": true,
+      "focus": "answer"
+    },
+    {
+      "test": "incorrect c",
+      "pass": true,
+      "feedback": "Reconsider the money Sam needs soon.\n\nA market can fall or stay down when rent is due. Even using half can leave Sam short. Start by separating essential spending from money that could remain unavailable or lose value.\n\nTry the decision again",
+      "focus": "feedback"
+    },
+    {
+      "test": "retry clears choice",
+      "pass": true,
+      "focus": "answer"
+    },
+    {
+      "test": "correct answer",
+      "pass": true,
+      "feedback": "That protects the essential payment.\n\nRent has a fixed deadline; a market outcome does not. Keeping that $600 available protects an essential payment. The other $100 is not automatically suitable for investing\u2014Sam still needs to consider savings, goals and risk capacity.\n\nSee your completed route\n\u2192\n\nExample learning result \u00b7 Standard star for the explained decision. No trading reward."
+    },
+    {
+      "test": "return success route",
+      "pass": true
+    },
+    {
+      "test": "first keyboard focus",
+      "element": {
+        "tag": "A",
+        "text": "Skip to content",
+        "outline": "rgb(32, 71, 189) solid 3px"
+      }
+    },
+    {
+      "test": "reduced motion",
+      "pass": true,
+      "animations": 0
+    }
+  ],
+  "limitations": [
+    "Static examples; no persisted learning or measured production performance.",
+    "Text stress doubles computed font size and numeric line height at390px; not native browser zoom or assistive-technology testing.",
+    "Expert walkthrough, not participant research or WCAG conformance certification.",
+    "Target scan covers visible links, buttons, labels and summaries; hidden controls require separate interaction inspection."
+  ]
+}
