@@ -24,7 +24,7 @@ Serve this directory with any local static server and open `dashboard.html`. The
 
 Each page supports `?state=empty|loading|error|locked|success` and a default state. The footer exposes diagnostic links in a disclosure. State banners preserve the page context, explain what happened and offer a real local action. Loading is deliberately deterministic for review; it does not pretend to contact a service. No data persists. Future checkpoints explain prerequisites and explicitly identify their limited prototype scope.
 
-Native form controls, links, landmarks and disclosures support keyboard access. The skip link, visible focus, text status labels and at least 44px controls are intentional. Feedback receives focus. All example progress is labelled. Parent review must capture 360, 390, 430 and 768px states, contrast, zoom and keyboard evidence before treating this direction as ready for owner selection.
+Native form controls, links, landmarks and disclosures support keyboard access. The skip link, visible focus, text status labels and at least 44px controls are intentional. Feedback receives focus. All example progress is labelled. The final `qa-summary.json` and shared review record the 360, 390, 430 and 768px captures, contrast, text-size stress and interaction checks, with their scope limits.
 
 ## Learning content basis
 
