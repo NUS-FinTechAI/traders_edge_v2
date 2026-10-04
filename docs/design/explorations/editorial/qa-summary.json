@@ -1,0 +1,115 @@
+{
+  "date": "2026-10-04",
+  "browser": "154.0.8037.93",
+  "sourceFiles": {
+    "app.js": {
+      "bytes": 6735,
+      "sha256": "bea62d7786126190223caae92f528e9d15ad34bdb81643c35f0d7f0234265b1e"
+    },
+    "dashboard.html": {
+      "bytes": 3766,
+      "sha256": "0fb119acdc226f48acfcba986cf70925cf0dcd57f75b2d816bd6d0d4ae3f7835"
+    },
+    "map.html": {
+      "bytes": 8377,
+      "sha256": "fe96e4f7f6c2bac0b246e70b56e421c3702bb9fe12736ac836c938939dc356d3"
+    },
+    "quiz.html": {
+      "bytes": 5266,
+      "sha256": "89e4548984c84a64baaba0a2787b8c63b4e1d65833ffc4f7822091f556918b50"
+    },
+    "style.css": {
+      "bytes": 16041,
+      "sha256": "ae84a93a940ab2e8a095ced02615a1f288c1f8ec8ec582bb1d8322d8bc1b2635"
+    }
+  },
+  "matrix": {
+    "screens": ["dashboard", "map", "quiz"],
+    "states": ["default", "empty", "loading", "error", "locked", "success"],
+    "widths": [360, 390, 430, 768],
+    "heights": {
+      "phone": 844,
+      "tablet": 1024
+    },
+    "captures": 72,
+    "allHttp200": true,
+    "pageErrors": [],
+    "horizontalOverflows": 0,
+    "externalRequests": [],
+    "visibleTargetFailures": 0
+  },
+  "textSizeStress": [
+    {
+      "screen": "dashboard",
+      "width": 390,
+      "viewport": 390
+    },
+    {
+      "screen": "map",
+      "width": 390,
+      "viewport": 390
+    },
+    {
+      "screen": "quiz",
+      "width": 390,
+      "viewport": 390
+    }
+  ],
+  "interactions": [
+    {
+      "test": "missing answer blocked",
+      "pass": true,
+      "focus": "answer"
+    },
+    {
+      "test": "incorrect growth",
+      "pass": true,
+      "feedback": "Reconsider this choice\n\nWhat if the value falls?\n\nA possible gain is uncertain. A fall in value could leave Sam short of money for rent next month. Which choice keeps the full essential payment available?\n\nTry another answer",
+      "focus": "feedback"
+    },
+    {
+      "test": "retry clears choice",
+      "pass": true,
+      "focus": "answer"
+    },
+    {
+      "test": "incorrect split",
+      "pass": true,
+      "feedback": "Reconsider this choice\n\nWhat if the value falls?\n\nInvesting half still puts part of the rent at risk. Splitting money does not remove the chance of a shortfall. Which choice keeps the full essential payment available?\n\nTry another answer",
+      "focus": "feedback"
+    },
+    {
+      "test": "retry clears choice",
+      "pass": true,
+      "focus": "answer"
+    },
+    {
+      "test": "correct answer",
+      "pass": true,
+      "feedback": "Correct reasoning \u00b7 Example completed\n\nThe essential payment comes first.\n\nKeeping the rent money available protects a payment Sam cannot postpone. Markets can fall over a month; hoping for a gain does not make that money available when needed.\n\nPractice feedback only. This example does not record mastery or award a real star.\n\nReturn to the routeTry the question again"
+    },
+    {
+      "test": "return success route",
+      "pass": true
+    },
+    {
+      "test": "first keyboard focus",
+      "element": {
+        "tag": "A",
+        "text": "Skip to content",
+        "outline": "rgb(120, 46, 45) solid 3px"
+      }
+    },
+    {
+      "test": "reduced motion",
+      "pass": true,
+      "animations": 0
+    }
+  ],
+  "limitations": [
+    "Static examples; no persisted learning or measured production performance.",
+    "Text stress doubles computed font size and numeric line height at390px; not native browser zoom or assistive-technology testing.",
+    "Expert walkthrough, not participant research or WCAG conformance certification.",
+    "Target scan covers visible links, buttons, labels and summaries; hidden controls require separate interaction inspection."
+  ]
+}
