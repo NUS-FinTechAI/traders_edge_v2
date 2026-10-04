@@ -1,0 +1,340 @@
+{
+  "sourceCommit": "2bf6b5930858fdbb61bc388d4554d4657d9ce377",
+  "files": [
+    {
+      "path": ".env.example",
+      "decision": "rewrite",
+      "reason": "Keep example-only database configuration, but define v2 environment names and deployment secrets separately."
+    },
+    {
+      "path": ".github/workflows/e2e.yml",
+      "decision": "rewrite",
+      "reason": "Retain emulator browser checks; include real backend/database integration and relevant backend path changes."
+    },
+    {
+      "path": ".github/workflows/python-tests.yml",
+      "decision": "rewrite",
+      "reason": "Retain Python test CI; add schema initialization/migration evidence and v2 branch/check conventions."
+    },
+    {
+      "path": ".gitignore",
+      "decision": "rewrite",
+      "reason": "Use v2 ignore rules for credentials, generated outputs and local coordination; legacy ignore entries are incomplete."
+    },
+    {
+      "path": "CLAUDE.md",
+      "decision": "drop",
+      "reason": "Legacy operating guide contains stale init-new path and hard-coded-CORS claim; preserve only as audit evidence."
+    },
+    {
+      "path": "README.md",
+      "decision": "rewrite",
+      "reason": "Replace minimal Compose orientation with verified v2 setup and checks."
+    },
+    {
+      "path": "backend/.DS_Store",
+      "decision": "drop",
+      "reason": "Tracked operating-system metadata has no product or build responsibility; do not copy existing dirty version."
+    },
+    {
+      "path": "backend/.env.example",
+      "decision": "rewrite",
+      "reason": "Keep example-only Firebase and database configuration concepts; remove unused HOST/PORT assumptions and define explicit environments."
+    },
+    {
+      "path": "backend/.gitignore",
+      "decision": "rewrite",
+      "reason": "Carry necessary secret/cache exclusions into v2 conventions and pair with Docker build-context exclusions."
+    },
+    {
+      "path": "backend/Dockerfile",
+      "decision": "rewrite",
+      "reason": "Current full-context COPY and reload entry point are development-oriented; design a bounded production build after architecture approval."
+    },
+    {
+      "path": "backend/app.py",
+      "decision": "rewrite",
+      "reason": "Retain FastAPI route composition and explicit origins; separate readiness, diagnostics and production lifecycle."
+    },
+    {
+      "path": "backend/common/__init__.py",
+      "decision": "rewrite",
+      "reason": "Rebuild package/router exports around v2 module boundaries; no independent product behavior to migrate."
+    },
+    {
+      "path": "backend/common/auth.py",
+      "decision": "keep",
+      "reason": "Preserve verified-claim identity binding, off-thread SDK verification, negative auth cases and onboarding distinction; reassess revocation policy."
+    },
+    {
+      "path": "backend/config/__init__.py",
+      "decision": "rewrite",
+      "reason": "Startup/shutdown responsibility remains, but dependency readiness and failure cleanup need explicit lifecycle handling."
+    },
+    {
+      "path": "backend/config/database/init/01-schema.sql",
+      "decision": "rewrite",
+      "reason": "Keep relational constraints as evidence; v2 needs versioned migrations, learning contracts and durable attempt/session policy."
+    },
+    {
+      "path": "backend/config/database/postgres.py",
+      "decision": "rewrite",
+      "reason": "Replace implicit default credentials and shared synchronous SimpleConnectionPool boundary; define transactions and thread/concurrency use."
+    },
+    {
+      "path": "backend/config/firebase.py",
+      "decision": "keep",
+      "reason": "Retain explicit credential/emulator initialization and failure on absent configuration; validate production emulator separation."
+    },
+    {
+      "path": "backend/docs/DEVELOPER.md",
+      "decision": "drop",
+      "reason": "Legacy 942-line guide is orientation only; do not treat old architecture/API prose as verified v2 behavior."
+    },
+    {
+      "path": "backend/main.py",
+      "decision": "rewrite",
+      "reason": "Development reload and hard-coded host/port cannot be the v2 production entry point."
+    },
+    {
+      "path": "backend/requirements.txt",
+      "decision": "rewrite",
+      "reason": "Preserve dependency evidence; split runtime/test tooling and use the v2 locked dependency set rather than copying all packages."
+    },
+    {
+      "path": "backend/services/__init__.py",
+      "decision": "rewrite",
+      "reason": "Rebuild package/router exports around v2 module boundaries; no independent product behavior to migrate."
+    },
+    {
+      "path": "backend/services/game_service/__init__.py",
+      "decision": "rewrite",
+      "reason": "Rebuild package/router exports around v2 module boundaries; no independent product behavior to migrate."
+    },
+    {
+      "path": "backend/services/game_service/data_access/data_access.py",
+      "decision": "rewrite",
+      "reason": "Preserve parameterized access and server gate concepts; separate hidden scenario config from public projections, replace points and nonpersistent resume helpers."
+    },
+    {
+      "path": "backend/services/game_service/data_access/module_quiz_repo.py",
+      "decision": "rewrite",
+      "reason": "Preserve parameterized quiz lookups/upsert behavior; aggregate best score plus latest answers is insufficient for new assessment history."
+    },
+    {
+      "path": "backend/services/game_service/router/connection_manager.py",
+      "decision": "rewrite",
+      "reason": "Retain connection routing responsibility; fix UID overwrite/disconnect race, awaited delivery and cleanup/backpressure contracts."
+    },
+    {
+      "path": "backend/services/game_service/router/multiplayer.html",
+      "decision": "drop",
+      "reason": "Public debug UI exposes obsolete gameplay/chat/fake-news contracts and is not a v2 product screen."
+    },
+    {
+      "path": "backend/services/game_service/router/router.py",
+      "decision": "rewrite",
+      "reason": "Preserve authenticated identity and single-player gate tests; split public/private payloads, require mastery/plan boundaries and define room ownership/protocol lifecycle."
+    },
+    {
+      "path": "backend/services/game_service/router/single_player.html",
+      "decision": "drop",
+      "reason": "Unconditionally public debug client is development scaffolding, not reusable product UI."
+    },
+    {
+      "path": "backend/services/market_data_service/__init__.py",
+      "decision": "rewrite",
+      "reason": "Rebuild package/router exports around v2 module boundaries; no independent product behavior to migrate."
+    },
+    {
+      "path": "backend/services/market_data_service/data_access/data_access.py",
+      "decision": "rewrite",
+      "reason": "Live yfinance requests need controlled ingestion, provenance, range limits and failure handling before scenario reuse."
+    },
+    {
+      "path": "backend/services/market_data_service/router/router.py",
+      "decision": "rewrite",
+      "reason": "Public synchronous live fetch route, import-time defaults and 418 interval response are not a stable scenario API."
+    },
+    {
+      "path": "backend/services/market_data_service/service/service.py",
+      "decision": "rewrite",
+      "reason": "Retain lookback/data preparation responsibility only after immutable source and missing-EPS behavior are defined."
+    },
+    {
+      "path": "backend/services/market_data_service/service/utils.py",
+      "decision": "rewrite",
+      "reason": "Review indicator math and explicit missing values; alpha is unfinished and -1 filling conflates missing with valid data."
+    },
+    {
+      "path": "backend/services/progression_service/__init__.py",
+      "decision": "rewrite",
+      "reason": "Rebuild package/router exports around v2 module boundaries; no independent product behavior to migrate."
+    },
+    {
+      "path": "backend/services/progression_service/router/__init__.py",
+      "decision": "drop",
+      "reason": "Empty legacy package marker; create only package files required by v2 layout."
+    },
+    {
+      "path": "backend/services/progression_service/router/achievements_router.py",
+      "decision": "rewrite",
+      "reason": "Retain achievements read responsibility with explicit learner visibility and v2 learning-process reward contracts."
+    },
+    {
+      "path": "backend/services/progression_service/router/daily_activity_router.py",
+      "decision": "rewrite",
+      "reason": "Retain learning activity summaries; decide public access/privacy and remove unused completion request model."
+    },
+    {
+      "path": "backend/services/progression_service/router/progression_service_router.py",
+      "decision": "rewrite",
+      "reason": "Retain progression route composition after authorization and response contracts are approved; remove unused imports."
+    },
+    {
+      "path": "backend/services/user_service/__init__.py",
+      "decision": "rewrite",
+      "reason": "Rebuild package/router exports around v2 module boundaries; no independent product behavior to migrate."
+    },
+    {
+      "path": "backend/services/user_service/data_access/data_access.py",
+      "decision": "rewrite",
+      "reason": "Preserve parameterized UID signup/name-conflict tests; replace hard-coded first level and profit-derived point aggregation."
+    },
+    {
+      "path": "backend/services/user_service/router/router.py",
+      "decision": "rewrite",
+      "reason": "Preserve claim-derived identity and username validation; define explicit profile projection and public-score privacy policy."
+    },
+    {
+      "path": "backend/services/user_service/service/service.py",
+      "decision": "rewrite",
+      "reason": "Retain domain-to-HTTP conflict/not-found behavior; align it with v2 profile contracts and eliminate legacy score coupling."
+    },
+    {
+      "path": "backend/services/user_service/service/utils.py",
+      "decision": "drop",
+      "reason": "Empty utility module adds no behavior."
+    },
+    {
+      "path": "backend/tests/README.md",
+      "decision": "rewrite",
+      "reason": "Replace outdated simulator-only paths with actual v2 suite scopes and commands."
+    },
+    {
+      "path": "backend/tests/__init__.py",
+      "decision": "drop",
+      "reason": "Empty legacy package marker; create only package files required by v2 layout."
+    },
+    {
+      "path": "backend/tests/common/__init__.py",
+      "decision": "drop",
+      "reason": "Empty legacy package marker; create only package files required by v2 layout."
+    },
+    {
+      "path": "backend/tests/common/test_auth.py",
+      "decision": "keep",
+      "reason": "Retain negative token/onboarding behavior cases; distinguish patched SDK exceptions from real verification/revocation integration."
+    },
+    {
+      "path": "backend/tests/conftest.py",
+      "decision": "rewrite",
+      "reason": "Use isolated v2 fixtures; a placeholder DATABASE_URL and sys.path mutation do not prove database integration."
+    },
+    {
+      "path": "backend/tests/pytest.ini",
+      "decision": "rewrite",
+      "reason": "Carry explicit async/test discovery configuration into the v2 test tool configuration."
+    },
+    {
+      "path": "backend/tests/services/__init__.py",
+      "decision": "drop",
+      "reason": "Empty legacy package marker; create only package files required by v2 layout."
+    },
+    {
+      "path": "backend/tests/services/game_service/test_data_access_level_config.py",
+      "decision": "rewrite",
+      "reason": "Retain configuration-mapping cases, but test private/public projections and new contract shape against real schema fixtures."
+    },
+    {
+      "path": "backend/tests/services/game_service/test_data_access_level_gate.py",
+      "decision": "keep",
+      "reason": "Retain negative unknown/locked-level server gate cases; replace legacy prerequisites with approved mastery requirements."
+    },
+    {
+      "path": "backend/tests/services/game_service/test_data_access_macro_factors.py",
+      "decision": "keep",
+      "reason": "Retain display-versus-impact schedule separation cases as scenario evidence; adapt to controlled scenario contracts."
+    },
+    {
+      "path": "backend/tests/services/game_service/test_data_access_news_effects.py",
+      "decision": "keep",
+      "reason": "Retain phased-news effect mapping cases; add assertions that hidden effects never reach learner projections."
+    },
+    {
+      "path": "backend/tests/services/game_service/test_data_access_tools.py",
+      "decision": "rewrite",
+      "reason": "Retain tool-mapping coverage but replace permissive future keys and legacy unlock assumptions with approved capability contracts."
+    },
+    {
+      "path": "backend/tests/services/game_service/test_debug_websocket_pages.py",
+      "decision": "drop",
+      "reason": "Assertions maintain debug HTML clients being dropped; relevant protocol cases belong in transport contract tests."
+    },
+    {
+      "path": "backend/tests/services/game_service/test_multiplayer_router.py",
+      "decision": "rewrite",
+      "reason": "Retain identity/host lifecycle evidence; require mastery, authenticated creation, ownership and concurrency cases; drop fake-news mechanics."
+    },
+    {
+      "path": "backend/tests/services/game_service/test_router_auth.py",
+      "decision": "rewrite",
+      "reason": "Retain claim binding and 401/403/404 cases; replace intentional public full-config/profit-leaderboard assumptions."
+    },
+    {
+      "path": "backend/tests/services/game_service/test_ws_auth.py",
+      "decision": "keep",
+      "reason": "Retain malformed-handshake, invalid-token and identity-spoofing negative cases; extend for lifecycle/security policy."
+    },
+    {
+      "path": "backend/tests/services/game_service/test_ws_level_gate.py",
+      "decision": "keep",
+      "reason": "Retain socket boundary rejection before engine construction; adapt prerequisites and add multiplayer mastery cases."
+    },
+    {
+      "path": "backend/tests/services/user_service/__init__.py",
+      "decision": "drop",
+      "reason": "Empty legacy package marker; create only package files required by v2 layout."
+    },
+    {
+      "path": "backend/tests/services/user_service/test_data_access.py",
+      "decision": "keep",
+      "reason": "Retain UID race and name-conflict cases; add real PostgreSQL transaction tests and replace initial-level constant."
+    },
+    {
+      "path": "backend/tests/services/user_service/test_router.py",
+      "decision": "rewrite",
+      "reason": "Retain claim-derived identity and input/conflict cases; replace legacy public point aggregation contract."
+    },
+    {
+      "path": "backend/utils/constants.py",
+      "decision": "rewrite",
+      "reason": "Order enum vocabulary is useful evidence; short-exposure and reserve assumptions require the approved risk contract."
+    },
+    {
+      "path": "backend/utils/data_structures.py",
+      "decision": "rewrite",
+      "reason": "Keep orderbook data-structure behavior only if required by selected simulator; remove unused display logic and imports."
+    },
+    {
+      "path": "docker-compose.yml",
+      "decision": "rewrite",
+      "reason": "Retain local service orchestration concept; current exposed database/source mounts/reload setup is not a production deployment."
+    },
+    {
+      "path": "firebase.json",
+      "decision": "keep",
+      "reason": "Retain loopback-only Auth emulator configuration for isolated integration tests, with explicit demo project use."
+    }
+  ]
+}
