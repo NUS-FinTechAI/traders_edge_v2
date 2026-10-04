@@ -1,18 +1,12 @@
-﻿import SiteHeader from './components/site-header/SiteHeader'
-import SiteFooter from './components/site-footer/SiteFooter'
-import HomePage from './pages/home-page/HomePage'
 import './App.css'
 
 function App() {
   return (
-    <div className="site-shell" id="top">
-      <a className="skip-link" href="#main">
-        Skip to content
-      </a>
-      <SiteHeader />
-      <HomePage />
-      <SiteFooter />
-    </div>
+    <main>
+      <h1>Trader’s Edge</h1>
+      <p>A financial decision-making academy supported by a simulator.</p>
+      <p>The rebuild is in discovery. Lessons are not available yet.</p>
+    </main>
   )
 }
 

@@ -1,49 +1,11 @@
-# Trader's Edge API
+# API scaffold
 
-FastAPI backend for the Trader's Edge app.
+Requires Python 3.12 or newer and uv 0.12.23 (CI installs it with `python -m pip install uv==0.12.23`). Run these commands from the repository root:
 
-## Setup
-
-Install Python 3.12, then install `uv`:
-
-```powershell
-pip install uv
+```sh
+uv sync --project server --extra test --locked
+uv run --project server --locked python -m uvicorn app.main:app --reload
+uv run --project server --extra test --locked python -m unittest discover -s server/tests
 ```
 
-From this folder, recreate/sync the virtual environment:
-
-```powershell
-cd "C:\FYP\Traders Edge V2\Trader's Edge\server"
-uv sync
-```
-
-## Run
-
-```powershell
-uv run fastapi dev app/main.py
-```
-
-Or use the project script:
-
-```powershell
-uv run server
-```
-
-The API runs at:
-
-```text
-http://127.0.0.1:8000
-```
-
-Useful endpoints:
-
-```text
-GET /health
-GET /
-```
-
-FastAPI docs:
-
-```text
-http://127.0.0.1:8000/docs
-```
+`GET /health` returns `{"status":"ok"}`. No authentication, persistence or simulator is implemented yet. Allowed browser origins are the two local Vite addresses in `app/main.py`.

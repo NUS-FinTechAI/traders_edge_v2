@@ -1,5 +1,5 @@
 version = 1
-revision = 3
+revision = 5
 requires-python = ">=3.12"
 resolution-markers = [
     "python_full_version >= '3.14'",
@@ -804,8 +804,17 @@ dependencies = [
     { name = "fastapi", extra = ["standard"] },
 ]
 
+[package.optional-dependencies]
+test = [
+    { name = "httpx" },
+]
+
 [package.metadata]
-requires-dist = [{ name = "fastapi", extras = ["standard"], specifier = ">=0.141.1" }]
+requires-dist = [
+    { name = "fastapi", extras = ["standard"], specifier = ">=0.141.1" },
+    { name = "httpx", marker = "extra == 'test'", specifier = ">=0.28,<1" },
+]
+provides-extras = ["test"]
 
 [[package]]
 name = "shellingham"

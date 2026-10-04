@@ -33,3 +33,9 @@ wheels/
 
 # Virtual environments
 .venv
+
+# Local coordination and credentials
+.coordination/
+.env
+.env.*
+!.env.example
