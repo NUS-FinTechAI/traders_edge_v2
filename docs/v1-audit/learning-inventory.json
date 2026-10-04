@@ -1,0 +1,5273 @@
+{
+  "sourceCommit": "2bf6b5930858fdbb61bc388d4554d4657d9ce377",
+  "scope": "Learning, simulation and rewards. Runtime-generated serial IDs use natural composite keys. Source line references belong to v1; counts distinguish VALUES rows from SELECT expansions. Frontend tutorial registry is owned by client inventory.",
+  "files": [
+    {
+      "path": "backend/common/order.py",
+      "decision": "rewrite",
+      "reason": "Rebuild with explicit scenario, plan, assessment and event contracts; retain applicable behavior as reference, not an implementation dependency."
+    },
+    {
+      "path": "backend/config/database/init/02-initial_state.sql",
+      "decision": "rewrite",
+      "reason": "Retain source as evidence; rewrite content sequence, provenance, outcome-based missions, quiz gates and scenario data before authoring approved v2 schemas."
+    },
+    {
+      "path": "backend/market_simulators/__init__.py",
+      "decision": "rewrite",
+      "reason": "Recreate package exports only for selected v2 modules; no standalone product behavior to migrate."
+    },
+    {
+      "path": "backend/market_simulators/market_simulator.py",
+      "decision": "rewrite",
+      "reason": "Rebuild with explicit scenario, plan, assessment and event contracts; retain applicable behavior as reference, not an implementation dependency."
+    },
+    {
+      "path": "backend/market_simulators/orderbook/__init__.py",
+      "decision": "rewrite",
+      "reason": "Recreate package exports only for selected v2 modules; no standalone product behavior to migrate."
+    },
+    {
+      "path": "backend/market_simulators/orderbook/orderbook.py",
+      "decision": "rewrite",
+      "reason": "Rebuild with explicit scenario, plan, assessment and event contracts; retain applicable behavior as reference, not an implementation dependency."
+    },
+    {
+      "path": "backend/market_simulators/orderbook/orderbook_simulator.py",
+      "decision": "rewrite",
+      "reason": "Rebuild with explicit scenario, plan, assessment and event contracts; retain applicable behavior as reference, not an implementation dependency."
+    },
+    {
+      "path": "backend/market_simulators/yfinance/yfinance_simulator.py",
+      "decision": "rewrite",
+      "reason": "Rebuild with explicit scenario, plan, assessment and event contracts; retain applicable behavior as reference, not an implementation dependency."
+    },
+    {
+      "path": "backend/services/game_service/models/game.py",
+      "decision": "rewrite",
+      "reason": "Rebuild with explicit scenario, plan, assessment and event contracts; retain applicable behavior as reference, not an implementation dependency."
+    },
+    {
+      "path": "backend/services/game_service/models/websockets.py",
+      "decision": "rewrite",
+      "reason": "Rebuild with explicit scenario, plan, assessment and event contracts; retain applicable behavior as reference, not an implementation dependency."
+    },
+    {
+      "path": "backend/services/game_service/service/ASYNC_ARCHITECTURE.md",
+      "decision": "drop",
+      "reason": "Historical architecture orientation; document the v2 design after its contracts are approved."
+    },
+    {
+      "path": "backend/services/game_service/service/game_engine.py",
+      "decision": "rewrite",
+      "reason": "Rebuild with explicit scenario, plan, assessment and event contracts; retain applicable behavior as reference, not an implementation dependency."
+    },
+    {
+      "path": "backend/services/game_service/service/multiplayer_engine.py",
+      "decision": "rewrite",
+      "reason": "Rebuild with explicit scenario, plan, assessment and event contracts; retain applicable behavior as reference, not an implementation dependency."
+    },
+    {
+      "path": "backend/services/game_service/service/news_helpers.py",
+      "decision": "rewrite",
+      "reason": "Rebuild with explicit scenario, plan, assessment and event contracts; retain applicable behavior as reference, not an implementation dependency."
+    },
+    {
+      "path": "backend/services/game_service/service/portfolio_analytics.py",
+      "decision": "rewrite",
+      "reason": "Rebuild with explicit scenario, plan, assessment and event contracts; retain applicable behavior as reference, not an implementation dependency."
+    },
+    {
+      "path": "backend/services/game_service/service/quiz_service.py",
+      "decision": "rewrite",
+      "reason": "Rebuild with explicit scenario, plan, assessment and event contracts; retain applicable behavior as reference, not an implementation dependency."
+    },
+    {
+      "path": "backend/services/game_service/service/single_player_engine.py",
+      "decision": "rewrite",
+      "reason": "Rebuild with explicit scenario, plan, assessment and event contracts; retain applicable behavior as reference, not an implementation dependency."
+    },
+    {
+      "path": "backend/services/progression_service/data_access/__init__.py",
+      "decision": "rewrite",
+      "reason": "Recreate package exports only for selected v2 modules; no standalone product behavior to migrate."
+    },
+    {
+      "path": "backend/services/progression_service/data_access/achievements_repo.py",
+      "decision": "rewrite",
+      "reason": "Rebuild with explicit scenario, plan, assessment and event contracts; retain applicable behavior as reference, not an implementation dependency."
+    },
+    {
+      "path": "backend/services/progression_service/data_access/daily_activity_repo.py",
+      "decision": "rewrite",
+      "reason": "Rebuild with explicit scenario, plan, assessment and event contracts; retain applicable behavior as reference, not an implementation dependency."
+    },
+    {
+      "path": "backend/services/progression_service/models/__init__.py",
+      "decision": "rewrite",
+      "reason": "Recreate package exports only for selected v2 modules; no standalone product behavior to migrate."
+    },
+    {
+      "path": "backend/services/progression_service/models/achievements.py",
+      "decision": "rewrite",
+      "reason": "Rebuild with explicit scenario, plan, assessment and event contracts; retain applicable behavior as reference, not an implementation dependency."
+    },
+    {
+      "path": "backend/services/progression_service/models/daily_activity.py",
+      "decision": "rewrite",
+      "reason": "Rebuild with explicit scenario, plan, assessment and event contracts; retain applicable behavior as reference, not an implementation dependency."
+    },
+    {
+      "path": "backend/services/progression_service/service/__init__.py",
+      "decision": "rewrite",
+      "reason": "Recreate package exports only for selected v2 modules; no standalone product behavior to migrate."
+    },
+    {
+      "path": "backend/services/progression_service/service/achievements_service.py",
+      "decision": "rewrite",
+      "reason": "Rebuild with explicit scenario, plan, assessment and event contracts; retain applicable behavior as reference, not an implementation dependency."
+    },
+    {
+      "path": "backend/services/progression_service/service/daily_activity_service.py",
+      "decision": "rewrite",
+      "reason": "Rebuild with explicit scenario, plan, assessment and event contracts; retain applicable behavior as reference, not an implementation dependency."
+    },
+    {
+      "path": "backend/tests/market_simulators/__init__.py",
+      "decision": "rewrite",
+      "reason": "Recreate package exports only for selected v2 modules; no standalone product behavior to migrate."
+    },
+    {
+      "path": "backend/tests/market_simulators/orderbook/test_orderbook.py",
+      "decision": "rewrite",
+      "reason": "Port useful behavioral cases to v2 contracts and add missing safety, deterministic-replay and accounting coverage; existing passing tests do not validate those requirements."
+    },
+    {
+      "path": "backend/tests/market_simulators/orderbook/test_orderbook_simulator.py",
+      "decision": "rewrite",
+      "reason": "Port useful behavioral cases to v2 contracts and add missing safety, deterministic-replay and accounting coverage; existing passing tests do not validate those requirements."
+    },
+    {
+      "path": "backend/tests/market_simulators/orderbook/test_orderladder.py",
+      "decision": "rewrite",
+      "reason": "Port useful behavioral cases to v2 contracts and add missing safety, deterministic-replay and accounting coverage; existing passing tests do not validate those requirements."
+    },
+    {
+      "path": "backend/tests/market_simulators/yfinance/test_yfinance_simulator.py",
+      "decision": "rewrite",
+      "reason": "Port useful behavioral cases to v2 contracts and add missing safety, deterministic-replay and accounting coverage; existing passing tests do not validate those requirements."
+    },
+    {
+      "path": "backend/tests/services/game_service/test_module5_portfolio_missions.py",
+      "decision": "rewrite",
+      "reason": "Port useful behavioral cases to v2 contracts and add missing safety, deterministic-replay and accounting coverage; existing passing tests do not validate those requirements."
+    },
+    {
+      "path": "backend/tests/services/game_service/test_multiplayer_engine.py",
+      "decision": "rewrite",
+      "reason": "Port useful behavioral cases to v2 contracts and add missing safety, deterministic-replay and accounting coverage; existing passing tests do not validate those requirements."
+    },
+    {
+      "path": "backend/tests/services/game_service/test_puzzle_unlock.py",
+      "decision": "rewrite",
+      "reason": "Port useful behavioral cases to v2 contracts and add missing safety, deterministic-replay and accounting coverage; existing passing tests do not validate those requirements."
+    },
+    {
+      "path": "backend/tests/services/game_service/test_quiz_service.py",
+      "decision": "rewrite",
+      "reason": "Port useful behavioral cases to v2 contracts and add missing safety, deterministic-replay and accounting coverage; existing passing tests do not validate those requirements."
+    },
+    {
+      "path": "backend/tests/services/game_service/test_single_player_engine.py",
+      "decision": "rewrite",
+      "reason": "Port useful behavioral cases to v2 contracts and add missing safety, deterministic-replay and accounting coverage; existing passing tests do not validate those requirements."
+    }
+  ],
+  "content": [
+    {
+      "kind": "levels",
+      "source": "backend/config/database/init/02-initial_state.sql",
+      "count": 29,
+      "countBasis": "literal VALUES rows in source; SELECT expansions and generated relations recorded separately",
+      "decision": "rewrite",
+      "reason": "Retain level-based navigation and scenarios; rewrite readiness-first sequence, objectives, prerequisites, sources and outcome scoring.",
+      "records": [
+        {
+          "line": 25,
+          "id": "module-1.1",
+          "title": "What Are Stocks? How Trader Edge Works",
+          "module": 1,
+          "tickMode": "manual",
+          "totalTicks": 6,
+          "preloadedTicks": 5,
+          "cashMultiplier": 0
+        },
+        {
+          "line": 42,
+          "id": "module-1.2",
+          "title": "How the Candlestick Chart Works",
+          "module": 1,
+          "tickMode": "manual",
+          "totalTicks": 10,
+          "preloadedTicks": 6,
+          "cashMultiplier": 0
+        },
+        {
+          "line": 59,
+          "id": "module-1.3",
+          "title": "The Market Order",
+          "module": 1,
+          "tickMode": "manual",
+          "totalTicks": 10,
+          "preloadedTicks": 0,
+          "cashMultiplier": 0
+        },
+        {
+          "line": 76,
+          "id": "module-1.4",
+          "title": "Buy Low, Sell High",
+          "module": 1,
+          "tickMode": "manual",
+          "totalTicks": 12,
+          "preloadedTicks": 0,
+          "cashMultiplier": 0
+        },
+        {
+          "line": 93,
+          "id": "module-2.1",
+          "title": "Company Headlines and Stock Reactions",
+          "module": 2,
+          "tickMode": "manual",
+          "totalTicks": 12,
+          "preloadedTicks": 2,
+          "cashMultiplier": 0.1
+        },
+        {
+          "line": 110,
+          "id": "module-2.2",
+          "title": "Earnings Beat the Hype",
+          "module": 2,
+          "tickMode": "manual",
+          "totalTicks": 14,
+          "preloadedTicks": 2,
+          "cashMultiplier": 0.1
+        },
+        {
+          "line": 127,
+          "id": "module-2.3",
+          "title": "When Earnings Disappoint",
+          "module": 2,
+          "tickMode": "manual",
+          "totalTicks": 14,
+          "preloadedTicks": 2,
+          "cashMultiplier": 0.1
+        },
+        {
+          "line": 144,
+          "id": "module-2.4",
+          "title": "Trend Clarity with Moving Average",
+          "module": 2,
+          "tickMode": "manual",
+          "totalTicks": 36,
+          "preloadedTicks": 6,
+          "cashMultiplier": 0.12
+        },
+        {
+          "line": 161,
+          "id": "module-2.5",
+          "title": "Viral Spike and EMA Reaction",
+          "module": 2,
+          "tickMode": "manual",
+          "totalTicks": 35,
+          "preloadedTicks": 6,
+          "cashMultiplier": 0.12
+        },
+        {
+          "line": 178,
+          "id": "module-3.1",
+          "title": "Ticking Markets: Bid, Ask, and Spread",
+          "module": 3,
+          "tickMode": "auto",
+          "totalTicks": 90,
+          "preloadedTicks": 8,
+          "cashMultiplier": 0.12
+        },
+        {
+          "line": 195,
+          "id": "module-3.2",
+          "title": "Limit Orders in a Moving Tape",
+          "module": 3,
+          "tickMode": "auto",
+          "totalTicks": 95,
+          "preloadedTicks": 8,
+          "cashMultiplier": 0.12
+        },
+        {
+          "line": 212,
+          "id": "module-3.3",
+          "title": "Stop Loss for Downside Control",
+          "module": 3,
+          "tickMode": "auto",
+          "totalTicks": 100,
+          "preloadedTicks": 10,
+          "cashMultiplier": 0.12
+        },
+        {
+          "line": 229,
+          "id": "module-3.4",
+          "title": "Stop Limit Precision",
+          "module": 3,
+          "tickMode": "auto",
+          "totalTicks": 110,
+          "preloadedTicks": 10,
+          "cashMultiplier": 0.13
+        },
+        {
+          "line": 246,
+          "id": "module-3.5",
+          "title": "Short Selling Foundations",
+          "module": 3,
+          "tickMode": "auto",
+          "totalTicks": 116,
+          "preloadedTicks": 10,
+          "cashMultiplier": 0.13
+        },
+        {
+          "line": 263,
+          "id": "module-3.6",
+          "title": "Shorting With MA/EMA Confirmation",
+          "module": 3,
+          "tickMode": "auto",
+          "totalTicks": 120,
+          "preloadedTicks": 10,
+          "cashMultiplier": 0.14
+        },
+        {
+          "line": 280,
+          "id": "puzzle-1.1",
+          "title": "Asian Financial Crisis",
+          "module": null,
+          "tickMode": "auto",
+          "totalTicks": 89,
+          "preloadedTicks": 0,
+          "cashMultiplier": 0
+        },
+        {
+          "line": 297,
+          "id": "puzzle-1.2",
+          "title": "Coronavirus Crash",
+          "module": null,
+          "tickMode": "auto",
+          "totalTicks": 86,
+          "preloadedTicks": 0,
+          "cashMultiplier": 0
+        },
+        {
+          "line": 333,
+          "id": "module-4.1",
+          "title": "Interest Rates and Risk Appetite",
+          "module": 4,
+          "tickMode": "auto",
+          "totalTicks": 112,
+          "preloadedTicks": 10,
+          "cashMultiplier": 0.13
+        },
+        {
+          "line": 350,
+          "id": "module-4.2",
+          "title": "Inflation Surprise vs Expectations",
+          "module": 4,
+          "tickMode": "auto",
+          "totalTicks": 116,
+          "preloadedTicks": 10,
+          "cashMultiplier": 0.13
+        },
+        {
+          "line": 367,
+          "id": "module-4.3",
+          "title": "Fed Speech and Mixed Signals",
+          "module": 4,
+          "tickMode": "auto",
+          "totalTicks": 120,
+          "preloadedTicks": 10,
+          "cashMultiplier": 0.14
+        },
+        {
+          "line": 384,
+          "id": "module-4.4",
+          "title": "Government Shutdown Uncertainty",
+          "module": 4,
+          "tickMode": "auto",
+          "totalTicks": 124,
+          "preloadedTicks": 10,
+          "cashMultiplier": 0.14
+        },
+        {
+          "line": 401,
+          "id": "module-4.5",
+          "title": "Catastrophic Shock Response",
+          "module": 4,
+          "tickMode": "auto",
+          "totalTicks": 128,
+          "preloadedTicks": 10,
+          "cashMultiplier": 0.15
+        },
+        {
+          "line": 437,
+          "id": "module-5.1",
+          "title": "Diversification Beyond Position Count",
+          "module": 5,
+          "tickMode": "auto",
+          "totalTicks": 132,
+          "preloadedTicks": 10,
+          "cashMultiplier": 0.16
+        },
+        {
+          "line": 454,
+          "id": "module-5.2",
+          "title": "Fundamentals for Portfolio Quality",
+          "module": 5,
+          "tickMode": "auto",
+          "totalTicks": 136,
+          "preloadedTicks": 10,
+          "cashMultiplier": 0.16
+        },
+        {
+          "line": 471,
+          "id": "module-5.3",
+          "title": "Correlation and Hidden Crowding",
+          "module": 5,
+          "tickMode": "auto",
+          "totalTicks": 140,
+          "preloadedTicks": 10,
+          "cashMultiplier": 0.17
+        },
+        {
+          "line": 488,
+          "id": "module-5.4",
+          "title": "Beta and Volatility Budgeting",
+          "module": 5,
+          "tickMode": "auto",
+          "totalTicks": 144,
+          "preloadedTicks": 10,
+          "cashMultiplier": 0.17
+        },
+        {
+          "line": 505,
+          "id": "module-5.5",
+          "title": "Sector Rotation and Timely Rebalancing",
+          "module": 5,
+          "tickMode": "auto",
+          "totalTicks": 148,
+          "preloadedTicks": 10,
+          "cashMultiplier": 0.18
+        },
+        {
+          "line": 522,
+          "id": "module-5.6",
+          "title": "Rebalancing Drift Discipline",
+          "module": 5,
+          "tickMode": "auto",
+          "totalTicks": 152,
+          "preloadedTicks": 10,
+          "cashMultiplier": 0.18
+        },
+        {
+          "line": 539,
+          "id": "module-5.7",
+          "title": "Alpha Versus Benchmark",
+          "module": 5,
+          "tickMode": "auto",
+          "totalTicks": 156,
+          "preloadedTicks": 10,
+          "cashMultiplier": 0.2
+        }
+      ]
+    },
+    {
+      "kind": "level_tickers",
+      "source": "backend/config/database/init/02-initial_state.sql",
+      "count": 58,
+      "countBasis": "literal VALUES rows in source; SELECT expansions and generated relations recorded separately",
+      "decision": "rewrite",
+      "reason": "Retain scenario playback concept; snapshot and license historical data or define deterministic synthetic fixtures with isolated seeds and friction.",
+      "records": [
+        {
+          "line": 570,
+          "id": "module-1.1:AAPL",
+          "simulator": "yfinance",
+          "configuration": ["2025-03-03", "2025-03-14", "1d"]
+        },
+        {
+          "line": 571,
+          "id": "module-1.2:AAPL",
+          "simulator": "yfinance",
+          "configuration": ["2025-04-01", "2025-04-18", "1d"]
+        },
+        {
+          "line": 572,
+          "id": "module-1.3:AAPL",
+          "simulator": "yfinance",
+          "configuration": ["2025-01-02", "2025-01-10", "1d"]
+        },
+        {
+          "line": 573,
+          "id": "module-1.4:AAPL",
+          "simulator": "yfinance",
+          "configuration": ["2025-09-29", "2025-10-10", "1d"]
+        },
+        {
+          "line": 574,
+          "id": "module-2.1:MSFT",
+          "simulator": "yfinance",
+          "configuration": ["2025-05-05", "2025-05-30", "1d"]
+        },
+        {
+          "line": 575,
+          "id": "module-2.2:NVDA",
+          "simulator": "yfinance",
+          "configuration": ["2025-08-04", "2025-08-29", "1d"]
+        },
+        {
+          "line": 576,
+          "id": "module-2.3:TSLA",
+          "simulator": "yfinance",
+          "configuration": ["2025-10-01", "2025-10-28", "1d"]
+        },
+        {
+          "line": 577,
+          "id": "module-2.4:AAPL",
+          "simulator": "yfinance",
+          "configuration": ["2025-01-02", "2025-03-14", "1d"]
+        },
+        {
+          "line": 578,
+          "id": "module-2.5:PLTR",
+          "simulator": "yfinance",
+          "configuration": ["2025-09-02", "2025-10-31", "1d"]
+        },
+        {
+          "line": 592,
+          "id": "module-3.1:AAPL",
+          "simulator": "orderbook",
+          "configuration": [186.0, 12, 11, true, 3101]
+        },
+        {
+          "line": 593,
+          "id": "module-3.2:AAPL",
+          "simulator": "orderbook",
+          "configuration": [191.0, 12, 12, true, 3102]
+        },
+        {
+          "line": 594,
+          "id": "module-3.3:NVDA",
+          "simulator": "orderbook",
+          "configuration": [862.0, 9, 14, true, 3103]
+        },
+        {
+          "line": 595,
+          "id": "module-3.4:TSLA",
+          "simulator": "orderbook",
+          "configuration": [247.0, 11, 13, true, 3104]
+        },
+        {
+          "line": 596,
+          "id": "module-3.5:TSLA",
+          "simulator": "orderbook",
+          "configuration": [241.0, 11, 14, true, 3105]
+        },
+        {
+          "line": 597,
+          "id": "module-3.6:NVDA",
+          "simulator": "orderbook",
+          "configuration": [834.0, 10, 17, true, 3106]
+        },
+        {
+          "line": 598,
+          "id": "puzzle-1.1:TM",
+          "simulator": "orderbook",
+          "configuration": [100.0, 10, 10, true, 2101]
+        },
+        {
+          "line": 599,
+          "id": "puzzle-1.2:CCL",
+          "simulator": "orderbook",
+          "configuration": [40.0, 10, 10, true, 2102]
+        },
+        {
+          "line": 615,
+          "id": "module-4.1:AAPL",
+          "simulator": "orderbook",
+          "configuration": [198.0, 14, 10, true, 4101, 220, 198.0]
+        },
+        {
+          "line": 616,
+          "id": "module-4.2:NVDA",
+          "simulator": "orderbook",
+          "configuration": [878.0, 12, 12, true, 4102, 70, 878.0]
+        },
+        {
+          "line": 617,
+          "id": "module-4.3:MSFT",
+          "simulator": "orderbook",
+          "configuration": [421.0, 10, 15, true, 4103, 150, 421.0]
+        },
+        {
+          "line": 618,
+          "id": "module-4.4:JPM",
+          "simulator": "orderbook",
+          "configuration": [206.0, 9, 16, true, 4104, 260, 206.0]
+        },
+        {
+          "line": 619,
+          "id": "module-4.5:XOM",
+          "simulator": "orderbook",
+          "configuration": [122.0, 7, 22, true, 4105, 420, 122.0]
+        },
+        {
+          "line": 633,
+          "id": "module-5.2:MSFT",
+          "simulator": "orderbook",
+          "configuration": [428.0, 11, 10, true, 5201]
+        },
+        {
+          "line": 634,
+          "id": "module-5.2:NVDA",
+          "simulator": "orderbook",
+          "configuration": [905.0, 12, 16, true, 5202]
+        },
+        {
+          "line": 635,
+          "id": "module-5.2:PG",
+          "simulator": "orderbook",
+          "configuration": [161.0, 9, 8, true, 5203]
+        },
+        {
+          "line": 636,
+          "id": "module-5.2:PFE",
+          "simulator": "orderbook",
+          "configuration": [31.0, 8, 9, true, 5204]
+        },
+        {
+          "line": 637,
+          "id": "module-5.2:F",
+          "simulator": "orderbook",
+          "configuration": [13.0, 11, 13, true, 5205]
+        },
+        {
+          "line": 639,
+          "id": "module-5.3:NVDA",
+          "simulator": "orderbook",
+          "configuration": [912.0, 12, 18, true, 5301]
+        },
+        {
+          "line": 640,
+          "id": "module-5.3:AMD",
+          "simulator": "orderbook",
+          "configuration": [196.0, 11, 17, true, 5302]
+        },
+        {
+          "line": 641,
+          "id": "module-5.3:QCOM",
+          "simulator": "orderbook",
+          "configuration": [169.0, 10, 14, true, 5303]
+        },
+        {
+          "line": 642,
+          "id": "module-5.3:UNH",
+          "simulator": "orderbook",
+          "configuration": [508.0, 8, 9, true, 5304]
+        },
+        {
+          "line": 643,
+          "id": "module-5.3:NEE",
+          "simulator": "orderbook",
+          "configuration": [74.0, 8, 10, true, 5305]
+        },
+        {
+          "line": 645,
+          "id": "module-5.4:TSLA",
+          "simulator": "orderbook",
+          "configuration": [252.0, 13, 19, true, 5401]
+        },
+        {
+          "line": 646,
+          "id": "module-5.4:NVDA",
+          "simulator": "orderbook",
+          "configuration": [918.0, 12, 17, true, 5402]
+        },
+        {
+          "line": 647,
+          "id": "module-5.4:AAPL",
+          "simulator": "orderbook",
+          "configuration": [209.0, 11, 11, true, 5403]
+        },
+        {
+          "line": 648,
+          "id": "module-5.4:KO",
+          "simulator": "orderbook",
+          "configuration": [63.0, 8, 7, true, 5404]
+        },
+        {
+          "line": 649,
+          "id": "module-5.4:JNJ",
+          "simulator": "orderbook",
+          "configuration": [160.0, 8, 8, true, 5405]
+        },
+        {
+          "line": 651,
+          "id": "module-5.5:XOM",
+          "simulator": "orderbook",
+          "configuration": [119.0, 11, 11, true, 5501]
+        },
+        {
+          "line": 652,
+          "id": "module-5.5:CVX",
+          "simulator": "orderbook",
+          "configuration": [165.0, 10, 10, true, 5502]
+        },
+        {
+          "line": 653,
+          "id": "module-5.5:CAT",
+          "simulator": "orderbook",
+          "configuration": [338.0, 10, 12, true, 5503]
+        },
+        {
+          "line": 654,
+          "id": "module-5.5:AAPL",
+          "simulator": "orderbook",
+          "configuration": [211.0, 11, 11, true, 5504]
+        },
+        {
+          "line": 655,
+          "id": "module-5.5:NEE",
+          "simulator": "orderbook",
+          "configuration": [75.0, 8, 10, true, 5505]
+        },
+        {
+          "line": 657,
+          "id": "module-5.7:AAPL",
+          "simulator": "orderbook",
+          "configuration": [213.0, 11, 12, true, 5701]
+        },
+        {
+          "line": 658,
+          "id": "module-5.7:MSFT",
+          "simulator": "orderbook",
+          "configuration": [434.0, 10, 10, true, 5702]
+        },
+        {
+          "line": 659,
+          "id": "module-5.7:NVDA",
+          "simulator": "orderbook",
+          "configuration": [926.0, 12, 18, true, 5703]
+        },
+        {
+          "line": 660,
+          "id": "module-5.7:JPM",
+          "simulator": "orderbook",
+          "configuration": [207.0, 9, 11, true, 5704]
+        },
+        {
+          "line": 661,
+          "id": "module-5.7:JNJ",
+          "simulator": "orderbook",
+          "configuration": [161.0, 8, 8, true, 5705]
+        },
+        {
+          "line": 662,
+          "id": "module-5.7:XOM",
+          "simulator": "orderbook",
+          "configuration": [121.0, 10, 10, true, 5706]
+        },
+        {
+          "line": 678,
+          "id": "module-5.1:AAPL",
+          "simulator": "orderbook",
+          "configuration": [205.0, 12, 11, true, 5101, 120, 205.0]
+        },
+        {
+          "line": 679,
+          "id": "module-5.1:MSFT",
+          "simulator": "orderbook",
+          "configuration": [428.0, 10, 10, true, 5102, 60, 428.0]
+        },
+        {
+          "line": 680,
+          "id": "module-5.1:NVDA",
+          "simulator": "orderbook",
+          "configuration": [905.0, 12, 16, true, 5103, 35, 905.0]
+        },
+        {
+          "line": 681,
+          "id": "module-5.1:JPM",
+          "simulator": "orderbook",
+          "configuration": [202.0, 10, 10, true, 5104, 0, null]
+        },
+        {
+          "line": 682,
+          "id": "module-5.1:XOM",
+          "simulator": "orderbook",
+          "configuration": [118.0, 10, 9, true, 5105, 0, null]
+        },
+        {
+          "line": 684,
+          "id": "module-5.6:AAPL",
+          "simulator": "orderbook",
+          "configuration": [214.0, 12, 12, true, 5601, 260, 198.0]
+        },
+        {
+          "line": 685,
+          "id": "module-5.6:MSFT",
+          "simulator": "orderbook",
+          "configuration": [432.0, 10, 10, true, 5602, 70, 421.0]
+        },
+        {
+          "line": 686,
+          "id": "module-5.6:KO",
+          "simulator": "orderbook",
+          "configuration": [63.0, 8, 7, true, 5603, 120, 61.0]
+        },
+        {
+          "line": 687,
+          "id": "module-5.6:JNJ",
+          "simulator": "orderbook",
+          "configuration": [159.0, 8, 8, true, 5604, 90, 155.0]
+        },
+        {
+          "line": 688,
+          "id": "module-5.6:XOM",
+          "simulator": "orderbook",
+          "configuration": [120.0, 10, 10, true, 5605, 140, 112.0]
+        }
+      ]
+    },
+    {
+      "kind": "level_ticker_metadata",
+      "source": "backend/config/database/init/02-initial_state.sql",
+      "count": 56,
+      "countBasis": "literal VALUES rows in source; SELECT expansions and generated relations recorded separately",
+      "decision": "rewrite",
+      "reason": "Rewrite with dated and attributed historical or explicitly synthetic inputs; financial ratios/tags have no supplied external provenance.",
+      "records": [
+        {
+          "line": 716,
+          "id": "module-5.1:AAPL"
+        },
+        {
+          "line": 717,
+          "id": "module-5.1:MSFT"
+        },
+        {
+          "line": 718,
+          "id": "module-5.1:NVDA"
+        },
+        {
+          "line": 719,
+          "id": "module-5.1:JPM"
+        },
+        {
+          "line": 720,
+          "id": "module-5.1:XOM"
+        },
+        {
+          "line": 722,
+          "id": "module-5.2:MSFT"
+        },
+        {
+          "line": 723,
+          "id": "module-5.2:NVDA"
+        },
+        {
+          "line": 724,
+          "id": "module-5.2:PG"
+        },
+        {
+          "line": 725,
+          "id": "module-5.2:PFE"
+        },
+        {
+          "line": 726,
+          "id": "module-5.2:F"
+        },
+        {
+          "line": 728,
+          "id": "module-5.3:NVDA"
+        },
+        {
+          "line": 729,
+          "id": "module-5.3:AMD"
+        },
+        {
+          "line": 730,
+          "id": "module-5.3:QCOM"
+        },
+        {
+          "line": 731,
+          "id": "module-5.3:UNH"
+        },
+        {
+          "line": 732,
+          "id": "module-5.3:NEE"
+        },
+        {
+          "line": 734,
+          "id": "module-5.4:TSLA"
+        },
+        {
+          "line": 735,
+          "id": "module-5.4:NVDA"
+        },
+        {
+          "line": 736,
+          "id": "module-5.4:AAPL"
+        },
+        {
+          "line": 737,
+          "id": "module-5.4:KO"
+        },
+        {
+          "line": 738,
+          "id": "module-5.4:JNJ"
+        },
+        {
+          "line": 740,
+          "id": "module-5.5:XOM"
+        },
+        {
+          "line": 741,
+          "id": "module-5.5:CVX"
+        },
+        {
+          "line": 742,
+          "id": "module-5.5:CAT"
+        },
+        {
+          "line": 743,
+          "id": "module-5.5:AAPL"
+        },
+        {
+          "line": 744,
+          "id": "module-5.5:NEE"
+        },
+        {
+          "line": 746,
+          "id": "module-5.6:AAPL"
+        },
+        {
+          "line": 747,
+          "id": "module-5.6:MSFT"
+        },
+        {
+          "line": 748,
+          "id": "module-5.6:KO"
+        },
+        {
+          "line": 749,
+          "id": "module-5.6:JNJ"
+        },
+        {
+          "line": 750,
+          "id": "module-5.6:XOM"
+        },
+        {
+          "line": 752,
+          "id": "module-5.7:AAPL"
+        },
+        {
+          "line": 753,
+          "id": "module-5.7:MSFT"
+        },
+        {
+          "line": 754,
+          "id": "module-5.7:NVDA"
+        },
+        {
+          "line": 755,
+          "id": "module-5.7:JPM"
+        },
+        {
+          "line": 756,
+          "id": "module-5.7:JNJ"
+        },
+        {
+          "line": 757,
+          "id": "module-5.7:XOM"
+        },
+        {
+          "line": 804,
+          "id": "fallback:AAPL"
+        },
+        {
+          "line": 805,
+          "id": "fallback:MSFT"
+        },
+        {
+          "line": 806,
+          "id": "fallback:NVDA"
+        },
+        {
+          "line": 807,
+          "id": "fallback:TSLA"
+        },
+        {
+          "line": 808,
+          "id": "fallback:PLTR"
+        },
+        {
+          "line": 809,
+          "id": "fallback:TM"
+        },
+        {
+          "line": 810,
+          "id": "fallback:CCL"
+        },
+        {
+          "line": 811,
+          "id": "fallback:JPM"
+        },
+        {
+          "line": 812,
+          "id": "fallback:XOM"
+        },
+        {
+          "line": 813,
+          "id": "fallback:JNJ"
+        },
+        {
+          "line": 814,
+          "id": "fallback:KO"
+        },
+        {
+          "line": 815,
+          "id": "fallback:PG"
+        },
+        {
+          "line": 816,
+          "id": "fallback:PFE"
+        },
+        {
+          "line": 817,
+          "id": "fallback:F"
+        },
+        {
+          "line": 818,
+          "id": "fallback:AMD"
+        },
+        {
+          "line": 819,
+          "id": "fallback:QCOM"
+        },
+        {
+          "line": 820,
+          "id": "fallback:UNH"
+        },
+        {
+          "line": 821,
+          "id": "fallback:NEE"
+        },
+        {
+          "line": 822,
+          "id": "fallback:CVX"
+        },
+        {
+          "line": 823,
+          "id": "fallback:CAT"
+        }
+      ]
+    },
+    {
+      "kind": "level_reference_portfolios",
+      "source": "backend/config/database/init/02-initial_state.sql",
+      "count": 12,
+      "countBasis": "literal VALUES rows in source; SELECT expansions and generated relations recorded separately",
+      "decision": "rewrite",
+      "reason": "Retain comparison concept; rewrite methodology, costs and disclosure. Benchmark outperformance must not decide mastery.",
+      "records": [
+        {
+          "line": 840,
+          "id": "module-5.2:core_equal_weight"
+        },
+        {
+          "line": 841,
+          "id": "module-5.2:defensive_quality"
+        },
+        {
+          "line": 842,
+          "id": "module-5.3:balanced_benchmark"
+        },
+        {
+          "line": 843,
+          "id": "module-5.3:ai_cluster"
+        },
+        {
+          "line": 844,
+          "id": "module-5.4:risk_budget_benchmark"
+        },
+        {
+          "line": 845,
+          "id": "module-5.4:high_beta_basket"
+        },
+        {
+          "line": 846,
+          "id": "module-5.5:passive_hold"
+        },
+        {
+          "line": 847,
+          "id": "module-5.5:pre_rotation_energy_tilt"
+        },
+        {
+          "line": 848,
+          "id": "module-5.6:balanced_core"
+        },
+        {
+          "line": 849,
+          "id": "module-5.6:drifted_start"
+        },
+        {
+          "line": 850,
+          "id": "module-5.7:balanced_core"
+        },
+        {
+          "line": 851,
+          "id": "module-5.7:concentrated_growth"
+        }
+      ]
+    },
+    {
+      "kind": "level_reference_portfolio_components",
+      "source": "backend/config/database/init/02-initial_state.sql",
+      "count": 62,
+      "countBasis": "literal VALUES rows in source; SELECT expansions and generated relations recorded separately",
+      "decision": "rewrite",
+      "reason": "Revalidate weights, baseline and missing-data handling against approved comparison methodology.",
+      "records": [
+        {
+          "line": 867,
+          "id": "module-5.2:core_equal_weight:MSFT"
+        },
+        {
+          "line": 868,
+          "id": "module-5.2:core_equal_weight:NVDA"
+        },
+        {
+          "line": 869,
+          "id": "module-5.2:core_equal_weight:PG"
+        },
+        {
+          "line": 870,
+          "id": "module-5.2:core_equal_weight:PFE"
+        },
+        {
+          "line": 871,
+          "id": "module-5.2:core_equal_weight:F"
+        },
+        {
+          "line": 872,
+          "id": "module-5.2:defensive_quality:PG"
+        },
+        {
+          "line": 873,
+          "id": "module-5.2:defensive_quality:PFE"
+        },
+        {
+          "line": 874,
+          "id": "module-5.2:defensive_quality:MSFT"
+        },
+        {
+          "line": 875,
+          "id": "module-5.2:defensive_quality:NVDA"
+        },
+        {
+          "line": 876,
+          "id": "module-5.2:defensive_quality:F"
+        },
+        {
+          "line": 878,
+          "id": "module-5.3:balanced_benchmark:NVDA"
+        },
+        {
+          "line": 879,
+          "id": "module-5.3:balanced_benchmark:AMD"
+        },
+        {
+          "line": 880,
+          "id": "module-5.3:balanced_benchmark:QCOM"
+        },
+        {
+          "line": 881,
+          "id": "module-5.3:balanced_benchmark:UNH"
+        },
+        {
+          "line": 882,
+          "id": "module-5.3:balanced_benchmark:NEE"
+        },
+        {
+          "line": 883,
+          "id": "module-5.3:ai_cluster:NVDA"
+        },
+        {
+          "line": 884,
+          "id": "module-5.3:ai_cluster:AMD"
+        },
+        {
+          "line": 885,
+          "id": "module-5.3:ai_cluster:QCOM"
+        },
+        {
+          "line": 886,
+          "id": "module-5.3:ai_cluster:UNH"
+        },
+        {
+          "line": 887,
+          "id": "module-5.3:ai_cluster:NEE"
+        },
+        {
+          "line": 889,
+          "id": "module-5.4:risk_budget_benchmark:TSLA"
+        },
+        {
+          "line": 890,
+          "id": "module-5.4:risk_budget_benchmark:NVDA"
+        },
+        {
+          "line": 891,
+          "id": "module-5.4:risk_budget_benchmark:AAPL"
+        },
+        {
+          "line": 892,
+          "id": "module-5.4:risk_budget_benchmark:KO"
+        },
+        {
+          "line": 893,
+          "id": "module-5.4:risk_budget_benchmark:JNJ"
+        },
+        {
+          "line": 894,
+          "id": "module-5.4:high_beta_basket:TSLA"
+        },
+        {
+          "line": 895,
+          "id": "module-5.4:high_beta_basket:NVDA"
+        },
+        {
+          "line": 896,
+          "id": "module-5.4:high_beta_basket:AAPL"
+        },
+        {
+          "line": 897,
+          "id": "module-5.4:high_beta_basket:KO"
+        },
+        {
+          "line": 898,
+          "id": "module-5.4:high_beta_basket:JNJ"
+        },
+        {
+          "line": 900,
+          "id": "module-5.5:passive_hold:XOM"
+        },
+        {
+          "line": 901,
+          "id": "module-5.5:passive_hold:CVX"
+        },
+        {
+          "line": 902,
+          "id": "module-5.5:passive_hold:CAT"
+        },
+        {
+          "line": 903,
+          "id": "module-5.5:passive_hold:AAPL"
+        },
+        {
+          "line": 904,
+          "id": "module-5.5:passive_hold:NEE"
+        },
+        {
+          "line": 905,
+          "id": "module-5.5:pre_rotation_energy_tilt:XOM"
+        },
+        {
+          "line": 906,
+          "id": "module-5.5:pre_rotation_energy_tilt:CVX"
+        },
+        {
+          "line": 907,
+          "id": "module-5.5:pre_rotation_energy_tilt:CAT"
+        },
+        {
+          "line": 908,
+          "id": "module-5.5:pre_rotation_energy_tilt:AAPL"
+        },
+        {
+          "line": 909,
+          "id": "module-5.5:pre_rotation_energy_tilt:NEE"
+        },
+        {
+          "line": 911,
+          "id": "module-5.6:balanced_core:AAPL"
+        },
+        {
+          "line": 912,
+          "id": "module-5.6:balanced_core:MSFT"
+        },
+        {
+          "line": 913,
+          "id": "module-5.6:balanced_core:KO"
+        },
+        {
+          "line": 914,
+          "id": "module-5.6:balanced_core:JNJ"
+        },
+        {
+          "line": 915,
+          "id": "module-5.6:balanced_core:XOM"
+        },
+        {
+          "line": 916,
+          "id": "module-5.6:drifted_start:AAPL"
+        },
+        {
+          "line": 917,
+          "id": "module-5.6:drifted_start:MSFT"
+        },
+        {
+          "line": 918,
+          "id": "module-5.6:drifted_start:KO"
+        },
+        {
+          "line": 919,
+          "id": "module-5.6:drifted_start:JNJ"
+        },
+        {
+          "line": 920,
+          "id": "module-5.6:drifted_start:XOM"
+        },
+        {
+          "line": 922,
+          "id": "module-5.7:balanced_core:AAPL"
+        },
+        {
+          "line": 923,
+          "id": "module-5.7:balanced_core:MSFT"
+        },
+        {
+          "line": 924,
+          "id": "module-5.7:balanced_core:NVDA"
+        },
+        {
+          "line": 925,
+          "id": "module-5.7:balanced_core:JPM"
+        },
+        {
+          "line": 926,
+          "id": "module-5.7:balanced_core:JNJ"
+        },
+        {
+          "line": 927,
+          "id": "module-5.7:balanced_core:XOM"
+        },
+        {
+          "line": 928,
+          "id": "module-5.7:concentrated_growth:NVDA"
+        },
+        {
+          "line": 929,
+          "id": "module-5.7:concentrated_growth:AAPL"
+        },
+        {
+          "line": 930,
+          "id": "module-5.7:concentrated_growth:MSFT"
+        },
+        {
+          "line": 931,
+          "id": "module-5.7:concentrated_growth:JPM"
+        },
+        {
+          "line": 932,
+          "id": "module-5.7:concentrated_growth:JNJ"
+        },
+        {
+          "line": 933,
+          "id": "module-5.7:concentrated_growth:XOM"
+        }
+      ]
+    },
+    {
+      "kind": "level_missions",
+      "source": "backend/config/database/init/02-initial_state.sql",
+      "count": 89,
+      "countBasis": "literal VALUES rows in source; SELECT expansions and generated relations recorded separately",
+      "decision": "rewrite",
+      "reason": "Preserve useful risk-recognition and concentration concepts; rewrite verifiable process assessment and drop reward dependence on profit, submitting orders or forced activity.",
+      "records": [
+        {
+          "line": 978,
+          "id": "module-1.3:market_buy_once",
+          "group": "passing",
+          "type": "use_order_type",
+          "title": "Place one market buy",
+          "points": 100
+        },
+        {
+          "line": 994,
+          "id": "module-1.3:market_sell_once",
+          "group": "passing",
+          "type": "use_order_type",
+          "title": "Place one market sell",
+          "points": 100
+        },
+        {
+          "line": 1010,
+          "id": "module-1.4:profit_500",
+          "group": "passing",
+          "type": "pnl_at_end",
+          "title": "Make at least $500",
+          "points": 100
+        },
+        {
+          "line": 1026,
+          "id": "module-1.4:profit_1000",
+          "group": "bonus",
+          "type": "pnl_at_end",
+          "title": "Make at least $1000",
+          "points": 50
+        },
+        {
+          "line": 1042,
+          "id": "module-2.1:react_to_news_once",
+          "group": "passing",
+          "type": "use_order_type",
+          "title": "Trade at least once on news",
+          "points": 100
+        },
+        {
+          "line": 1058,
+          "id": "module-2.1:pnl_non_negative",
+          "group": "passing",
+          "type": "pnl_at_end",
+          "title": "Finish with non-negative PnL",
+          "points": 100
+        },
+        {
+          "line": 1074,
+          "id": "module-2.1:profit_300",
+          "group": "bonus",
+          "type": "pnl_at_end",
+          "title": "Make at least $300",
+          "points": 50
+        },
+        {
+          "line": 1090,
+          "id": "module-2.2:market_buy_once",
+          "group": "passing",
+          "type": "use_order_type",
+          "title": "Place one market buy",
+          "points": 100
+        },
+        {
+          "line": 1106,
+          "id": "module-2.2:pnl_non_negative",
+          "group": "passing",
+          "type": "pnl_at_end",
+          "title": "Finish with non-negative PnL",
+          "points": 100
+        },
+        {
+          "line": 1122,
+          "id": "module-2.2:profit_600",
+          "group": "bonus",
+          "type": "pnl_at_end",
+          "title": "Make at least $600",
+          "points": 75
+        },
+        {
+          "line": 1138,
+          "id": "module-2.3:market_order_once",
+          "group": "passing",
+          "type": "use_order_type",
+          "title": "Place one market order",
+          "points": 80
+        },
+        {
+          "line": 1154,
+          "id": "module-2.3:limit_loss_200",
+          "group": "passing",
+          "type": "pnl_at_end",
+          "title": "Limit loss to $200",
+          "points": 120
+        },
+        {
+          "line": 1170,
+          "id": "module-2.3:finish_positive",
+          "group": "bonus",
+          "type": "pnl_at_end",
+          "title": "Finish with positive PnL",
+          "points": 75
+        },
+        {
+          "line": 1186,
+          "id": "module-2.4:ma_trade_once",
+          "group": "passing",
+          "type": "use_order_type",
+          "title": "Place one market order",
+          "points": 80
+        },
+        {
+          "line": 1202,
+          "id": "module-2.4:pnl_non_negative",
+          "group": "passing",
+          "type": "pnl_at_end",
+          "title": "Finish with non-negative PnL",
+          "points": 120
+        },
+        {
+          "line": 1218,
+          "id": "module-2.4:profit_800",
+          "group": "bonus",
+          "type": "pnl_at_end",
+          "title": "Make at least $800",
+          "points": 100
+        },
+        {
+          "line": 1234,
+          "id": "module-2.5:ema_trade_once",
+          "group": "passing",
+          "type": "use_order_type",
+          "title": "Place one market order",
+          "points": 80
+        },
+        {
+          "line": 1250,
+          "id": "module-2.5:pnl_non_negative",
+          "group": "passing",
+          "type": "pnl_at_end",
+          "title": "Finish with non-negative PnL",
+          "points": 120
+        },
+        {
+          "line": 1266,
+          "id": "module-2.5:profit_1200",
+          "group": "bonus",
+          "type": "pnl_at_end",
+          "title": "Make at least $1200",
+          "points": 120
+        },
+        {
+          "line": 1282,
+          "id": "module-3.1:market_order_once",
+          "group": "passing",
+          "type": "use_order_type",
+          "title": "Place one market order",
+          "points": 80
+        },
+        {
+          "line": 1298,
+          "id": "module-3.1:pnl_non_negative",
+          "group": "passing",
+          "type": "pnl_at_end",
+          "title": "Finish with non-negative PnL",
+          "points": 120
+        },
+        {
+          "line": 1314,
+          "id": "module-3.1:profit_400",
+          "group": "bonus",
+          "type": "pnl_at_end",
+          "title": "Make at least $400",
+          "points": 60
+        },
+        {
+          "line": 1330,
+          "id": "module-3.2:limit_buy_once",
+          "group": "passing",
+          "type": "use_order_type",
+          "title": "Place one limit buy",
+          "points": 100
+        },
+        {
+          "line": 1346,
+          "id": "module-3.2:limit_sell_once",
+          "group": "passing",
+          "type": "use_order_type",
+          "title": "Place one limit sell",
+          "points": 100
+        },
+        {
+          "line": 1362,
+          "id": "module-3.2:profit_600",
+          "group": "bonus",
+          "type": "pnl_at_end",
+          "title": "Make at least $600",
+          "points": 80
+        },
+        {
+          "line": 1378,
+          "id": "module-3.3:stop_loss_once",
+          "group": "passing",
+          "type": "use_order_type",
+          "title": "Place one stop loss",
+          "points": 100
+        },
+        {
+          "line": 1394,
+          "id": "module-3.3:limit_loss_400",
+          "group": "passing",
+          "type": "pnl_at_end",
+          "title": "Limit drawdown to $400",
+          "points": 100
+        },
+        {
+          "line": 1410,
+          "id": "module-3.3:finish_positive",
+          "group": "bonus",
+          "type": "pnl_at_end",
+          "title": "Finish with positive PnL",
+          "points": 80
+        },
+        {
+          "line": 1426,
+          "id": "module-3.4:stop_limit_once",
+          "group": "passing",
+          "type": "use_order_type",
+          "title": "Place one stop limit order",
+          "points": 100
+        },
+        {
+          "line": 1442,
+          "id": "module-3.4:stop_order_once",
+          "group": "passing",
+          "type": "use_order_type",
+          "title": "Place one stop loss",
+          "points": 80
+        },
+        {
+          "line": 1458,
+          "id": "module-3.4:profit_700",
+          "group": "bonus",
+          "type": "pnl_at_end",
+          "title": "Make at least $700",
+          "points": 100
+        },
+        {
+          "line": 1508,
+          "id": "module-3.5:open_short_once",
+          "group": "passing",
+          "type": "use_trade_action",
+          "title": "Open one short position",
+          "points": 100
+        },
+        {
+          "line": 1519,
+          "id": "module-3.5:cover_short_once",
+          "group": "passing",
+          "type": "use_trade_action",
+          "title": "Cover one short position",
+          "points": 100
+        },
+        {
+          "line": 1530,
+          "id": "module-3.5:finish_profit_1000",
+          "group": "passing",
+          "type": "pnl_at_end",
+          "title": "Finish with at least $1000 PnL",
+          "points": 140
+        },
+        {
+          "line": 1541,
+          "id": "module-3.5:finish_profit_2000",
+          "group": "bonus",
+          "type": "pnl_at_end",
+          "title": "Finish with at least $2000 PnL",
+          "points": 140
+        },
+        {
+          "line": 1552,
+          "id": "module-3.6:confirm_short_entry",
+          "group": "passing",
+          "type": "use_trade_action",
+          "title": "Open one confirmed short",
+          "points": 95
+        },
+        {
+          "line": 1563,
+          "id": "module-3.6:cover_after_bounce",
+          "group": "passing",
+          "type": "use_trade_action",
+          "title": "Cover one short position",
+          "points": 95
+        },
+        {
+          "line": 1574,
+          "id": "module-3.6:use_limit_for_timing",
+          "group": "passing",
+          "type": "use_order_type",
+          "title": "Place one limit order",
+          "points": 80
+        },
+        {
+          "line": 1585,
+          "id": "module-3.6:control_drawdown_2p8",
+          "group": "passing",
+          "type": "max_drawdown_pct",
+          "title": "Keep max drawdown <= 2.8%",
+          "points": 90
+        },
+        {
+          "line": 1596,
+          "id": "module-3.6:target_profit_900",
+          "group": "bonus",
+          "type": "pnl_at_end",
+          "title": "Make at least $900",
+          "points": 90
+        },
+        {
+          "line": 1607,
+          "id": "module-3.6:max_seven_orders",
+          "group": "bonus",
+          "type": "max_total_orders",
+          "title": "Use at most 7 total orders",
+          "points": 70
+        },
+        {
+          "line": 1654,
+          "id": "module-4.1:profit_350",
+          "group": "passing",
+          "type": "pnl_at_end",
+          "title": "Finish with $350 profit",
+          "points": 125
+        },
+        {
+          "line": 1672,
+          "id": "module-4.1:max_six_orders",
+          "group": "passing",
+          "type": "max_total_orders",
+          "title": "Use at most 6 orders",
+          "points": 75
+        },
+        {
+          "line": 1690,
+          "id": "module-4.1:drawdown_below_2p4",
+          "group": "bonus",
+          "type": "max_drawdown_pct",
+          "title": "Keep max drawdown <= 2.4%",
+          "points": 70
+        },
+        {
+          "line": 1708,
+          "id": "module-4.2:profit_450",
+          "group": "passing",
+          "type": "pnl_at_end",
+          "title": "Finish with $450 profit",
+          "points": 120
+        },
+        {
+          "line": 1726,
+          "id": "module-4.2:drawdown_below_2p6",
+          "group": "passing",
+          "type": "max_drawdown_pct",
+          "title": "Keep max drawdown <= 2.6%",
+          "points": 90
+        },
+        {
+          "line": 1744,
+          "id": "module-4.2:max_seven_orders",
+          "group": "passing",
+          "type": "max_total_orders",
+          "title": "Use at most 7 orders",
+          "points": 70
+        },
+        {
+          "line": 1762,
+          "id": "module-4.2:stop_sell_once",
+          "group": "bonus",
+          "type": "use_order_type",
+          "title": "Place one stop-loss sell",
+          "points": 60
+        },
+        {
+          "line": 1780,
+          "id": "module-4.3:profit_300",
+          "group": "passing",
+          "type": "pnl_at_end",
+          "title": "Finish with $300 profit",
+          "points": 110
+        },
+        {
+          "line": 1798,
+          "id": "module-4.3:max_six_orders",
+          "group": "passing",
+          "type": "max_total_orders",
+          "title": "Use at most 6 orders",
+          "points": 80
+        },
+        {
+          "line": 1816,
+          "id": "module-4.3:drawdown_below_2p8",
+          "group": "passing",
+          "type": "max_drawdown_pct",
+          "title": "Keep max drawdown <= 2.8%",
+          "points": 90
+        },
+        {
+          "line": 1834,
+          "id": "module-4.3:stop_limit_sell_once",
+          "group": "bonus",
+          "type": "use_order_type",
+          "title": "Place one stop-limit sell",
+          "points": 65
+        },
+        {
+          "line": 1852,
+          "id": "module-4.4:profit_280",
+          "group": "passing",
+          "type": "pnl_at_end",
+          "title": "Finish with $280 profit",
+          "points": 110
+        },
+        {
+          "line": 1870,
+          "id": "module-4.4:max_five_orders",
+          "group": "passing",
+          "type": "max_total_orders",
+          "title": "Use at most 5 orders",
+          "points": 80
+        },
+        {
+          "line": 1888,
+          "id": "module-4.4:drawdown_below_2p0",
+          "group": "passing",
+          "type": "max_drawdown_pct",
+          "title": "Keep max drawdown <= 2.0%",
+          "points": 95
+        },
+        {
+          "line": 1906,
+          "id": "module-4.4:limit_sell_once",
+          "group": "bonus",
+          "type": "use_order_type",
+          "title": "Place one limit sell",
+          "points": 60
+        },
+        {
+          "line": 1924,
+          "id": "module-4.5:profit_500",
+          "group": "passing",
+          "type": "pnl_at_end",
+          "title": "Finish with $500 profit",
+          "points": 130
+        },
+        {
+          "line": 1942,
+          "id": "module-4.5:max_four_orders",
+          "group": "passing",
+          "type": "max_total_orders",
+          "title": "Use at most 4 orders",
+          "points": 85
+        },
+        {
+          "line": 1960,
+          "id": "module-4.5:drawdown_below_1p8",
+          "group": "passing",
+          "type": "max_drawdown_pct",
+          "title": "Keep max drawdown <= 1.8%",
+          "points": 100
+        },
+        {
+          "line": 1978,
+          "id": "module-4.5:pnl_above_minus250",
+          "group": "bonus",
+          "type": "pnl_at_end",
+          "title": "Finish above -$250 PnL",
+          "points": 70
+        },
+        {
+          "line": 2028,
+          "id": "module-5.1:build_four_positions",
+          "group": "passing",
+          "type": "min_distinct_positions",
+          "title": "Hold at least 4 positions",
+          "points": 90
+        },
+        {
+          "line": 2039,
+          "id": "module-5.1:diversify_three_sectors",
+          "group": "passing",
+          "type": "min_distinct_sectors",
+          "title": "Cover at least 3 sectors",
+          "points": 90
+        },
+        {
+          "line": 2050,
+          "id": "module-5.1:cap_single_name_weight",
+          "group": "passing",
+          "type": "max_single_position_weight",
+          "title": "Keep largest position <= 45%",
+          "points": 110
+        },
+        {
+          "line": 2061,
+          "id": "module-5.1:concentration_bonus_drawdown",
+          "group": "bonus",
+          "type": "max_drawdown_pct",
+          "title": "Keep max drawdown <= 3.0%",
+          "points": 60
+        },
+        {
+          "line": 2073,
+          "id": "module-5.2:beat_equal_weight_benchmark",
+          "group": "passing",
+          "type": "min_excess_return_vs_benchmark",
+          "title": "Beat equal-weight benchmark by 1.0%",
+          "points": 110
+        },
+        {
+          "line": 2084,
+          "id": "module-5.2:exclude_weak_balance_sheet",
+          "group": "passing",
+          "type": "exclude_ticker",
+          "title": "Avoid weak-balance-sheet name",
+          "points": 80
+        },
+        {
+          "line": 2095,
+          "id": "module-5.2:include_defensive_name",
+          "group": "passing",
+          "type": "require_ticker_tag",
+          "title": "Include one defensive holding",
+          "points": 90
+        },
+        {
+          "line": 2106,
+          "id": "module-5.2:fundamental_bonus_concentration",
+          "group": "bonus",
+          "type": "max_single_position_weight",
+          "title": "Keep largest position <= 40%",
+          "points": 60
+        },
+        {
+          "line": 2118,
+          "id": "module-5.3:hold_low_correlation_asset",
+          "group": "passing",
+          "type": "require_low_correlation_holding",
+          "title": "Add one low-correlation holding",
+          "points": 100
+        },
+        {
+          "line": 2129,
+          "id": "module-5.3:maintain_three_positions",
+          "group": "passing",
+          "type": "min_distinct_positions",
+          "title": "Hold at least 3 positions",
+          "points": 80
+        },
+        {
+          "line": 2140,
+          "id": "module-5.3:limit_theme_break_drawdown",
+          "group": "passing",
+          "type": "max_drawdown_pct",
+          "title": "Keep max drawdown <= 2.8%",
+          "points": 100
+        },
+        {
+          "line": 2151,
+          "id": "module-5.3:correlation_bonus_vs_cluster",
+          "group": "bonus",
+          "type": "min_excess_return_vs_reference",
+          "title": "Beat AI cluster reference by 1.0%",
+          "points": 70
+        },
+        {
+          "line": 2163,
+          "id": "module-5.4:keep_portfolio_beta_in_budget",
+          "group": "passing",
+          "type": "max_portfolio_beta",
+          "title": "Keep portfolio beta <= 1.10",
+          "points": 100
+        },
+        {
+          "line": 2174,
+          "id": "module-5.4:keep_portfolio_volatility_in_budget",
+          "group": "passing",
+          "type": "max_portfolio_volatility",
+          "title": "Keep portfolio volatility <= 1.8%",
+          "points": 100
+        },
+        {
+          "line": 2185,
+          "id": "module-5.4:beta_vol_drawdown_control",
+          "group": "passing",
+          "type": "max_drawdown_pct",
+          "title": "Keep max drawdown <= 2.5%",
+          "points": 90
+        },
+        {
+          "line": 2196,
+          "id": "module-5.4:beta_vol_bonus_excess",
+          "group": "bonus",
+          "type": "min_excess_return_vs_benchmark",
+          "title": "Beat risk-budget benchmark by 0.5%",
+          "points": 70
+        },
+        {
+          "line": 2208,
+          "id": "module-5.5:rebalance_after_rotation_signal",
+          "group": "passing",
+          "type": "rebalance_within_ticks",
+          "title": "Rebalance within 8 ticks of catalyst",
+          "points": 110
+        },
+        {
+          "line": 2219,
+          "id": "module-5.5:cap_sector_weight_after_rotation",
+          "group": "passing",
+          "type": "max_sector_weight",
+          "title": "Keep any single sector <= 55%",
+          "points": 90
+        },
+        {
+          "line": 2230,
+          "id": "module-5.5:outperform_passive_hold",
+          "group": "passing",
+          "type": "min_excess_return_vs_benchmark",
+          "title": "Beat passive hold by 0.8%",
+          "points": 100
+        },
+        {
+          "line": 2241,
+          "id": "module-5.5:rotation_bonus_sector_balance",
+          "group": "bonus",
+          "type": "min_distinct_sectors",
+          "title": "Maintain at least 3 sectors",
+          "points": 60
+        },
+        {
+          "line": 2253,
+          "id": "module-5.6:rebalance_drift_keep_weight_cap",
+          "group": "passing",
+          "type": "max_single_position_weight",
+          "title": "Keep largest position <= 42%",
+          "points": 100
+        },
+        {
+          "line": 2264,
+          "id": "module-5.6:rebalance_before_reversal_window",
+          "group": "passing",
+          "type": "rebalance_within_ticks",
+          "title": "Rebalance within 6 ticks of reversal warning",
+          "points": 110
+        },
+        {
+          "line": 2275,
+          "id": "module-5.6:drift_control_drawdown",
+          "group": "passing",
+          "type": "max_drawdown_pct",
+          "title": "Keep max drawdown <= 2.3%",
+          "points": 90
+        },
+        {
+          "line": 2286,
+          "id": "module-5.6:drift_bonus_order_efficiency",
+          "group": "bonus",
+          "type": "max_total_orders",
+          "title": "Use at most 10 orders",
+          "points": 60
+        },
+        {
+          "line": 2298,
+          "id": "module-5.7:deliver_alpha_vs_benchmark",
+          "group": "passing",
+          "type": "min_excess_return_vs_benchmark",
+          "title": "Beat benchmark by 2.0%",
+          "points": 120
+        },
+        {
+          "line": 2309,
+          "id": "module-5.7:alpha_with_drawdown_control",
+          "group": "passing",
+          "type": "max_drawdown_pct",
+          "title": "Keep max drawdown <= 2.4%",
+          "points": 95
+        },
+        {
+          "line": 2320,
+          "id": "module-5.7:alpha_without_concentration",
+          "group": "passing",
+          "type": "max_single_position_weight",
+          "title": "Keep largest position <= 38%",
+          "points": 95
+        },
+        {
+          "line": 2331,
+          "id": "module-5.7:alpha_bonus_sector_cap",
+          "group": "bonus",
+          "type": "max_sector_weight",
+          "title": "Keep any sector <= 45%",
+          "points": 70
+        },
+        {
+          "line": 2342,
+          "id": "module-5.7:alpha_bonus_breadth",
+          "group": "bonus",
+          "type": "min_distinct_positions",
+          "title": "Hold at least 5 positions",
+          "points": 60
+        }
+      ]
+    },
+    {
+      "kind": "tool_definitions",
+      "source": "backend/config/database/init/02-initial_state.sql",
+      "count": 22,
+      "countBasis": "literal VALUES rows in source; SELECT expansions and generated relations recorded separately",
+      "decision": "rewrite",
+      "reason": "Retain useful conceptual tools, rewrite explanations and prerequisite/source contracts; defer advanced tools.",
+      "records": [
+        {
+          "line": 2359,
+          "id": "news"
+        },
+        {
+          "line": 2360,
+          "id": "market_order"
+        },
+        {
+          "line": 2361,
+          "id": "short_selling"
+        },
+        {
+          "line": 2362,
+          "id": "limit_order"
+        },
+        {
+          "line": 2363,
+          "id": "stop_order"
+        },
+        {
+          "line": 2364,
+          "id": "stop_limit_order"
+        },
+        {
+          "line": 2365,
+          "id": "bid_ask_spread"
+        },
+        {
+          "line": 2366,
+          "id": "moving_average"
+        },
+        {
+          "line": 2367,
+          "id": "exponential_moving_average"
+        },
+        {
+          "line": 2368,
+          "id": "trader_edge_basics"
+        },
+        {
+          "line": 2369,
+          "id": "candlestick_chart_basics"
+        },
+        {
+          "line": 2370,
+          "id": "market_order_basics"
+        },
+        {
+          "line": 2371,
+          "id": "interest_rate_panel"
+        },
+        {
+          "line": 2372,
+          "id": "inflation_panel"
+        },
+        {
+          "line": 2373,
+          "id": "drawdown_panel"
+        },
+        {
+          "line": 2374,
+          "id": "portfolio_allocation_panel"
+        },
+        {
+          "line": 2375,
+          "id": "sector_exposure_panel"
+        },
+        {
+          "line": 2376,
+          "id": "fundamentals_panel"
+        },
+        {
+          "line": 2377,
+          "id": "correlation_panel"
+        },
+        {
+          "line": 2378,
+          "id": "beta_volatility_panel"
+        },
+        {
+          "line": 2379,
+          "id": "benchmark_panel"
+        },
+        {
+          "line": 2380,
+          "id": "rebalancing_prompt"
+        }
+      ]
+    },
+    {
+      "kind": "level_tool_availability",
+      "source": "backend/config/database/init/02-initial_state.sql",
+      "count": 300,
+      "countBasis": "literal VALUES rows in source; SELECT expansions and generated relations recorded separately",
+      "decision": "rewrite",
+      "reason": "Rebuild server-enforced prerequisites around readiness and assessed mastery, not current module order.",
+      "records": [
+        {
+          "line": 2384,
+          "id": "module-1.1:news",
+          "enabled": false
+        },
+        {
+          "line": 2385,
+          "id": "module-1.1:market_order",
+          "enabled": true
+        },
+        {
+          "line": 2386,
+          "id": "module-1.1:limit_order",
+          "enabled": false
+        },
+        {
+          "line": 2387,
+          "id": "module-1.1:trader_edge_basics",
+          "enabled": false
+        },
+        {
+          "line": 2388,
+          "id": "module-1.1:candlestick_chart_basics",
+          "enabled": false
+        },
+        {
+          "line": 2389,
+          "id": "module-1.1:market_order_basics",
+          "enabled": false
+        },
+        {
+          "line": 2391,
+          "id": "module-1.2:news",
+          "enabled": false
+        },
+        {
+          "line": 2392,
+          "id": "module-1.2:market_order",
+          "enabled": true
+        },
+        {
+          "line": 2393,
+          "id": "module-1.2:limit_order",
+          "enabled": false
+        },
+        {
+          "line": 2394,
+          "id": "module-1.2:trader_edge_basics",
+          "enabled": true
+        },
+        {
+          "line": 2395,
+          "id": "module-1.2:candlestick_chart_basics",
+          "enabled": false
+        },
+        {
+          "line": 2396,
+          "id": "module-1.2:market_order_basics",
+          "enabled": false
+        },
+        {
+          "line": 2398,
+          "id": "module-1.3:news",
+          "enabled": false
+        },
+        {
+          "line": 2399,
+          "id": "module-1.3:market_order",
+          "enabled": true
+        },
+        {
+          "line": 2400,
+          "id": "module-1.3:limit_order",
+          "enabled": false
+        },
+        {
+          "line": 2401,
+          "id": "module-1.3:trader_edge_basics",
+          "enabled": true
+        },
+        {
+          "line": 2402,
+          "id": "module-1.3:candlestick_chart_basics",
+          "enabled": true
+        },
+        {
+          "line": 2403,
+          "id": "module-1.3:market_order_basics",
+          "enabled": false
+        },
+        {
+          "line": 2405,
+          "id": "module-1.4:news",
+          "enabled": false
+        },
+        {
+          "line": 2406,
+          "id": "module-1.4:market_order",
+          "enabled": true
+        },
+        {
+          "line": 2407,
+          "id": "module-1.4:limit_order",
+          "enabled": false
+        },
+        {
+          "line": 2408,
+          "id": "module-1.4:trader_edge_basics",
+          "enabled": true
+        },
+        {
+          "line": 2409,
+          "id": "module-1.4:candlestick_chart_basics",
+          "enabled": true
+        },
+        {
+          "line": 2410,
+          "id": "module-1.4:market_order_basics",
+          "enabled": true
+        },
+        {
+          "line": 2412,
+          "id": "module-2.1:news",
+          "enabled": true
+        },
+        {
+          "line": 2413,
+          "id": "module-2.1:market_order",
+          "enabled": true
+        },
+        {
+          "line": 2414,
+          "id": "module-2.1:limit_order",
+          "enabled": false
+        },
+        {
+          "line": 2415,
+          "id": "module-2.1:moving_average",
+          "enabled": false
+        },
+        {
+          "line": 2416,
+          "id": "module-2.1:exponential_moving_average",
+          "enabled": false
+        },
+        {
+          "line": 2417,
+          "id": "module-2.1:trader_edge_basics",
+          "enabled": true
+        },
+        {
+          "line": 2418,
+          "id": "module-2.1:candlestick_chart_basics",
+          "enabled": true
+        },
+        {
+          "line": 2419,
+          "id": "module-2.1:market_order_basics",
+          "enabled": true
+        },
+        {
+          "line": 2421,
+          "id": "module-2.2:news",
+          "enabled": true
+        },
+        {
+          "line": 2422,
+          "id": "module-2.2:market_order",
+          "enabled": true
+        },
+        {
+          "line": 2423,
+          "id": "module-2.2:limit_order",
+          "enabled": false
+        },
+        {
+          "line": 2424,
+          "id": "module-2.2:moving_average",
+          "enabled": false
+        },
+        {
+          "line": 2425,
+          "id": "module-2.2:exponential_moving_average",
+          "enabled": false
+        },
+        {
+          "line": 2426,
+          "id": "module-2.2:trader_edge_basics",
+          "enabled": true
+        },
+        {
+          "line": 2427,
+          "id": "module-2.2:candlestick_chart_basics",
+          "enabled": true
+        },
+        {
+          "line": 2428,
+          "id": "module-2.2:market_order_basics",
+          "enabled": true
+        },
+        {
+          "line": 2430,
+          "id": "module-2.3:news",
+          "enabled": true
+        },
+        {
+          "line": 2431,
+          "id": "module-2.3:market_order",
+          "enabled": true
+        },
+        {
+          "line": 2432,
+          "id": "module-2.3:limit_order",
+          "enabled": false
+        },
+        {
+          "line": 2433,
+          "id": "module-2.3:moving_average",
+          "enabled": false
+        },
+        {
+          "line": 2434,
+          "id": "module-2.3:exponential_moving_average",
+          "enabled": false
+        },
+        {
+          "line": 2435,
+          "id": "module-2.3:trader_edge_basics",
+          "enabled": true
+        },
+        {
+          "line": 2436,
+          "id": "module-2.3:candlestick_chart_basics",
+          "enabled": true
+        },
+        {
+          "line": 2437,
+          "id": "module-2.3:market_order_basics",
+          "enabled": true
+        },
+        {
+          "line": 2439,
+          "id": "module-2.4:news",
+          "enabled": true
+        },
+        {
+          "line": 2440,
+          "id": "module-2.4:market_order",
+          "enabled": true
+        },
+        {
+          "line": 2441,
+          "id": "module-2.4:limit_order",
+          "enabled": false
+        },
+        {
+          "line": 2442,
+          "id": "module-2.4:moving_average",
+          "enabled": true
+        },
+        {
+          "line": 2443,
+          "id": "module-2.4:exponential_moving_average",
+          "enabled": false
+        },
+        {
+          "line": 2444,
+          "id": "module-2.4:trader_edge_basics",
+          "enabled": true
+        },
+        {
+          "line": 2445,
+          "id": "module-2.4:candlestick_chart_basics",
+          "enabled": true
+        },
+        {
+          "line": 2446,
+          "id": "module-2.4:market_order_basics",
+          "enabled": true
+        },
+        {
+          "line": 2448,
+          "id": "module-2.5:news",
+          "enabled": true
+        },
+        {
+          "line": 2449,
+          "id": "module-2.5:market_order",
+          "enabled": true
+        },
+        {
+          "line": 2450,
+          "id": "module-2.5:limit_order",
+          "enabled": false
+        },
+        {
+          "line": 2451,
+          "id": "module-2.5:stop_order",
+          "enabled": false
+        },
+        {
+          "line": 2452,
+          "id": "module-2.5:stop_limit_order",
+          "enabled": false
+        },
+        {
+          "line": 2453,
+          "id": "module-2.5:bid_ask_spread",
+          "enabled": false
+        },
+        {
+          "line": 2454,
+          "id": "module-2.5:moving_average",
+          "enabled": true
+        },
+        {
+          "line": 2455,
+          "id": "module-2.5:exponential_moving_average",
+          "enabled": true
+        },
+        {
+          "line": 2456,
+          "id": "module-2.5:trader_edge_basics",
+          "enabled": true
+        },
+        {
+          "line": 2457,
+          "id": "module-2.5:candlestick_chart_basics",
+          "enabled": true
+        },
+        {
+          "line": 2458,
+          "id": "module-2.5:market_order_basics",
+          "enabled": true
+        },
+        {
+          "line": 2460,
+          "id": "module-3.1:news",
+          "enabled": true
+        },
+        {
+          "line": 2461,
+          "id": "module-3.1:market_order",
+          "enabled": true
+        },
+        {
+          "line": 2462,
+          "id": "module-3.1:limit_order",
+          "enabled": true
+        },
+        {
+          "line": 2463,
+          "id": "module-3.1:stop_order",
+          "enabled": false
+        },
+        {
+          "line": 2464,
+          "id": "module-3.1:stop_limit_order",
+          "enabled": false
+        },
+        {
+          "line": 2465,
+          "id": "module-3.1:bid_ask_spread",
+          "enabled": true
+        },
+        {
+          "line": 2466,
+          "id": "module-3.1:moving_average",
+          "enabled": true
+        },
+        {
+          "line": 2467,
+          "id": "module-3.1:exponential_moving_average",
+          "enabled": true
+        },
+        {
+          "line": 2468,
+          "id": "module-3.1:trader_edge_basics",
+          "enabled": true
+        },
+        {
+          "line": 2469,
+          "id": "module-3.1:candlestick_chart_basics",
+          "enabled": true
+        },
+        {
+          "line": 2470,
+          "id": "module-3.1:market_order_basics",
+          "enabled": true
+        },
+        {
+          "line": 2472,
+          "id": "module-3.2:news",
+          "enabled": true
+        },
+        {
+          "line": 2473,
+          "id": "module-3.2:market_order",
+          "enabled": true
+        },
+        {
+          "line": 2474,
+          "id": "module-3.2:limit_order",
+          "enabled": true
+        },
+        {
+          "line": 2475,
+          "id": "module-3.2:stop_order",
+          "enabled": false
+        },
+        {
+          "line": 2476,
+          "id": "module-3.2:stop_limit_order",
+          "enabled": false
+        },
+        {
+          "line": 2477,
+          "id": "module-3.2:bid_ask_spread",
+          "enabled": true
+        },
+        {
+          "line": 2478,
+          "id": "module-3.2:moving_average",
+          "enabled": true
+        },
+        {
+          "line": 2479,
+          "id": "module-3.2:exponential_moving_average",
+          "enabled": true
+        },
+        {
+          "line": 2480,
+          "id": "module-3.2:trader_edge_basics",
+          "enabled": true
+        },
+        {
+          "line": 2481,
+          "id": "module-3.2:candlestick_chart_basics",
+          "enabled": true
+        },
+        {
+          "line": 2482,
+          "id": "module-3.2:market_order_basics",
+          "enabled": true
+        },
+        {
+          "line": 2484,
+          "id": "module-3.3:news",
+          "enabled": true
+        },
+        {
+          "line": 2485,
+          "id": "module-3.3:market_order",
+          "enabled": true
+        },
+        {
+          "line": 2486,
+          "id": "module-3.3:limit_order",
+          "enabled": true
+        },
+        {
+          "line": 2487,
+          "id": "module-3.3:stop_order",
+          "enabled": true
+        },
+        {
+          "line": 2488,
+          "id": "module-3.3:stop_limit_order",
+          "enabled": false
+        },
+        {
+          "line": 2489,
+          "id": "module-3.3:bid_ask_spread",
+          "enabled": true
+        },
+        {
+          "line": 2490,
+          "id": "module-3.3:moving_average",
+          "enabled": true
+        },
+        {
+          "line": 2491,
+          "id": "module-3.3:exponential_moving_average",
+          "enabled": true
+        },
+        {
+          "line": 2492,
+          "id": "module-3.3:trader_edge_basics",
+          "enabled": true
+        },
+        {
+          "line": 2493,
+          "id": "module-3.3:candlestick_chart_basics",
+          "enabled": true
+        },
+        {
+          "line": 2494,
+          "id": "module-3.3:market_order_basics",
+          "enabled": true
+        },
+        {
+          "line": 2496,
+          "id": "module-3.4:news",
+          "enabled": true
+        },
+        {
+          "line": 2497,
+          "id": "module-3.4:market_order",
+          "enabled": true
+        },
+        {
+          "line": 2498,
+          "id": "module-3.4:limit_order",
+          "enabled": true
+        },
+        {
+          "line": 2499,
+          "id": "module-3.4:stop_order",
+          "enabled": true
+        },
+        {
+          "line": 2500,
+          "id": "module-3.4:stop_limit_order",
+          "enabled": true
+        },
+        {
+          "line": 2501,
+          "id": "module-3.4:bid_ask_spread",
+          "enabled": true
+        },
+        {
+          "line": 2502,
+          "id": "module-3.4:moving_average",
+          "enabled": true
+        },
+        {
+          "line": 2503,
+          "id": "module-3.4:exponential_moving_average",
+          "enabled": true
+        },
+        {
+          "line": 2504,
+          "id": "module-3.4:trader_edge_basics",
+          "enabled": true
+        },
+        {
+          "line": 2505,
+          "id": "module-3.4:candlestick_chart_basics",
+          "enabled": true
+        },
+        {
+          "line": 2506,
+          "id": "module-3.4:market_order_basics",
+          "enabled": true
+        },
+        {
+          "line": 2508,
+          "id": "module-3.5:news",
+          "enabled": true
+        },
+        {
+          "line": 2509,
+          "id": "module-3.5:market_order",
+          "enabled": true
+        },
+        {
+          "line": 2510,
+          "id": "module-3.5:limit_order",
+          "enabled": true
+        },
+        {
+          "line": 2511,
+          "id": "module-3.5:stop_order",
+          "enabled": true
+        },
+        {
+          "line": 2512,
+          "id": "module-3.5:stop_limit_order",
+          "enabled": true
+        },
+        {
+          "line": 2513,
+          "id": "module-3.5:bid_ask_spread",
+          "enabled": true
+        },
+        {
+          "line": 2514,
+          "id": "module-3.5:moving_average",
+          "enabled": true
+        },
+        {
+          "line": 2515,
+          "id": "module-3.5:exponential_moving_average",
+          "enabled": true
+        },
+        {
+          "line": 2516,
+          "id": "module-3.5:trader_edge_basics",
+          "enabled": true
+        },
+        {
+          "line": 2517,
+          "id": "module-3.5:candlestick_chart_basics",
+          "enabled": true
+        },
+        {
+          "line": 2518,
+          "id": "module-3.5:market_order_basics",
+          "enabled": true
+        },
+        {
+          "line": 2520,
+          "id": "module-3.6:news",
+          "enabled": true
+        },
+        {
+          "line": 2521,
+          "id": "module-3.6:market_order",
+          "enabled": true
+        },
+        {
+          "line": 2522,
+          "id": "module-3.6:limit_order",
+          "enabled": true
+        },
+        {
+          "line": 2523,
+          "id": "module-3.6:stop_order",
+          "enabled": true
+        },
+        {
+          "line": 2524,
+          "id": "module-3.6:stop_limit_order",
+          "enabled": true
+        },
+        {
+          "line": 2525,
+          "id": "module-3.6:bid_ask_spread",
+          "enabled": true
+        },
+        {
+          "line": 2526,
+          "id": "module-3.6:moving_average",
+          "enabled": true
+        },
+        {
+          "line": 2527,
+          "id": "module-3.6:exponential_moving_average",
+          "enabled": true
+        },
+        {
+          "line": 2528,
+          "id": "module-3.6:trader_edge_basics",
+          "enabled": true
+        },
+        {
+          "line": 2529,
+          "id": "module-3.6:candlestick_chart_basics",
+          "enabled": true
+        },
+        {
+          "line": 2530,
+          "id": "module-3.6:market_order_basics",
+          "enabled": true
+        },
+        {
+          "line": 2534,
+          "id": "module-4.1:news",
+          "enabled": true
+        },
+        {
+          "line": 2535,
+          "id": "module-4.1:market_order",
+          "enabled": true
+        },
+        {
+          "line": 2536,
+          "id": "module-4.1:limit_order",
+          "enabled": true
+        },
+        {
+          "line": 2537,
+          "id": "module-4.1:stop_order",
+          "enabled": true
+        },
+        {
+          "line": 2538,
+          "id": "module-4.1:stop_limit_order",
+          "enabled": true
+        },
+        {
+          "line": 2539,
+          "id": "module-4.1:bid_ask_spread",
+          "enabled": true
+        },
+        {
+          "line": 2540,
+          "id": "module-4.1:moving_average",
+          "enabled": true
+        },
+        {
+          "line": 2541,
+          "id": "module-4.1:exponential_moving_average",
+          "enabled": true
+        },
+        {
+          "line": 2542,
+          "id": "module-4.1:interest_rate_panel",
+          "enabled": true
+        },
+        {
+          "line": 2543,
+          "id": "module-4.1:inflation_panel",
+          "enabled": false
+        },
+        {
+          "line": 2544,
+          "id": "module-4.1:drawdown_panel",
+          "enabled": true
+        },
+        {
+          "line": 2546,
+          "id": "module-4.2:news",
+          "enabled": true
+        },
+        {
+          "line": 2547,
+          "id": "module-4.2:market_order",
+          "enabled": true
+        },
+        {
+          "line": 2548,
+          "id": "module-4.2:limit_order",
+          "enabled": true
+        },
+        {
+          "line": 2549,
+          "id": "module-4.2:stop_order",
+          "enabled": true
+        },
+        {
+          "line": 2550,
+          "id": "module-4.2:stop_limit_order",
+          "enabled": true
+        },
+        {
+          "line": 2551,
+          "id": "module-4.2:bid_ask_spread",
+          "enabled": true
+        },
+        {
+          "line": 2552,
+          "id": "module-4.2:moving_average",
+          "enabled": true
+        },
+        {
+          "line": 2553,
+          "id": "module-4.2:exponential_moving_average",
+          "enabled": true
+        },
+        {
+          "line": 2554,
+          "id": "module-4.2:interest_rate_panel",
+          "enabled": true
+        },
+        {
+          "line": 2555,
+          "id": "module-4.2:inflation_panel",
+          "enabled": true
+        },
+        {
+          "line": 2556,
+          "id": "module-4.2:drawdown_panel",
+          "enabled": true
+        },
+        {
+          "line": 2558,
+          "id": "module-4.3:news",
+          "enabled": true
+        },
+        {
+          "line": 2559,
+          "id": "module-4.3:market_order",
+          "enabled": true
+        },
+        {
+          "line": 2560,
+          "id": "module-4.3:limit_order",
+          "enabled": true
+        },
+        {
+          "line": 2561,
+          "id": "module-4.3:stop_order",
+          "enabled": true
+        },
+        {
+          "line": 2562,
+          "id": "module-4.3:stop_limit_order",
+          "enabled": true
+        },
+        {
+          "line": 2563,
+          "id": "module-4.3:bid_ask_spread",
+          "enabled": true
+        },
+        {
+          "line": 2564,
+          "id": "module-4.3:moving_average",
+          "enabled": true
+        },
+        {
+          "line": 2565,
+          "id": "module-4.3:exponential_moving_average",
+          "enabled": true
+        },
+        {
+          "line": 2566,
+          "id": "module-4.3:interest_rate_panel",
+          "enabled": true
+        },
+        {
+          "line": 2567,
+          "id": "module-4.3:inflation_panel",
+          "enabled": true
+        },
+        {
+          "line": 2568,
+          "id": "module-4.3:drawdown_panel",
+          "enabled": true
+        },
+        {
+          "line": 2570,
+          "id": "module-4.4:news",
+          "enabled": true
+        },
+        {
+          "line": 2571,
+          "id": "module-4.4:market_order",
+          "enabled": true
+        },
+        {
+          "line": 2572,
+          "id": "module-4.4:limit_order",
+          "enabled": true
+        },
+        {
+          "line": 2573,
+          "id": "module-4.4:stop_order",
+          "enabled": true
+        },
+        {
+          "line": 2574,
+          "id": "module-4.4:stop_limit_order",
+          "enabled": true
+        },
+        {
+          "line": 2575,
+          "id": "module-4.4:bid_ask_spread",
+          "enabled": true
+        },
+        {
+          "line": 2576,
+          "id": "module-4.4:moving_average",
+          "enabled": true
+        },
+        {
+          "line": 2577,
+          "id": "module-4.4:exponential_moving_average",
+          "enabled": true
+        },
+        {
+          "line": 2578,
+          "id": "module-4.4:interest_rate_panel",
+          "enabled": true
+        },
+        {
+          "line": 2579,
+          "id": "module-4.4:inflation_panel",
+          "enabled": true
+        },
+        {
+          "line": 2580,
+          "id": "module-4.4:drawdown_panel",
+          "enabled": true
+        },
+        {
+          "line": 2582,
+          "id": "module-4.5:news",
+          "enabled": true
+        },
+        {
+          "line": 2583,
+          "id": "module-4.5:market_order",
+          "enabled": true
+        },
+        {
+          "line": 2584,
+          "id": "module-4.5:limit_order",
+          "enabled": true
+        },
+        {
+          "line": 2585,
+          "id": "module-4.5:stop_order",
+          "enabled": true
+        },
+        {
+          "line": 2586,
+          "id": "module-4.5:stop_limit_order",
+          "enabled": true
+        },
+        {
+          "line": 2587,
+          "id": "module-4.5:bid_ask_spread",
+          "enabled": true
+        },
+        {
+          "line": 2588,
+          "id": "module-4.5:moving_average",
+          "enabled": true
+        },
+        {
+          "line": 2589,
+          "id": "module-4.5:exponential_moving_average",
+          "enabled": true
+        },
+        {
+          "line": 2590,
+          "id": "module-4.5:interest_rate_panel",
+          "enabled": true
+        },
+        {
+          "line": 2591,
+          "id": "module-4.5:inflation_panel",
+          "enabled": true
+        },
+        {
+          "line": 2592,
+          "id": "module-4.5:drawdown_panel",
+          "enabled": true
+        },
+        {
+          "line": 2596,
+          "id": "module-5.1:news",
+          "enabled": true
+        },
+        {
+          "line": 2597,
+          "id": "module-5.1:market_order",
+          "enabled": true
+        },
+        {
+          "line": 2598,
+          "id": "module-5.1:limit_order",
+          "enabled": true
+        },
+        {
+          "line": 2599,
+          "id": "module-5.1:stop_order",
+          "enabled": true
+        },
+        {
+          "line": 2600,
+          "id": "module-5.1:stop_limit_order",
+          "enabled": true
+        },
+        {
+          "line": 2601,
+          "id": "module-5.1:bid_ask_spread",
+          "enabled": true
+        },
+        {
+          "line": 2602,
+          "id": "module-5.1:moving_average",
+          "enabled": true
+        },
+        {
+          "line": 2603,
+          "id": "module-5.1:exponential_moving_average",
+          "enabled": true
+        },
+        {
+          "line": 2604,
+          "id": "module-5.1:drawdown_panel",
+          "enabled": true
+        },
+        {
+          "line": 2605,
+          "id": "module-5.1:portfolio_allocation_panel",
+          "enabled": true
+        },
+        {
+          "line": 2606,
+          "id": "module-5.1:sector_exposure_panel",
+          "enabled": true
+        },
+        {
+          "line": 2607,
+          "id": "module-5.1:fundamentals_panel",
+          "enabled": false
+        },
+        {
+          "line": 2608,
+          "id": "module-5.1:correlation_panel",
+          "enabled": false
+        },
+        {
+          "line": 2609,
+          "id": "module-5.1:beta_volatility_panel",
+          "enabled": false
+        },
+        {
+          "line": 2610,
+          "id": "module-5.1:benchmark_panel",
+          "enabled": false
+        },
+        {
+          "line": 2611,
+          "id": "module-5.1:rebalancing_prompt",
+          "enabled": false
+        },
+        {
+          "line": 2613,
+          "id": "module-5.2:news",
+          "enabled": true
+        },
+        {
+          "line": 2614,
+          "id": "module-5.2:market_order",
+          "enabled": true
+        },
+        {
+          "line": 2615,
+          "id": "module-5.2:limit_order",
+          "enabled": true
+        },
+        {
+          "line": 2616,
+          "id": "module-5.2:stop_order",
+          "enabled": true
+        },
+        {
+          "line": 2617,
+          "id": "module-5.2:stop_limit_order",
+          "enabled": true
+        },
+        {
+          "line": 2618,
+          "id": "module-5.2:bid_ask_spread",
+          "enabled": true
+        },
+        {
+          "line": 2619,
+          "id": "module-5.2:moving_average",
+          "enabled": true
+        },
+        {
+          "line": 2620,
+          "id": "module-5.2:exponential_moving_average",
+          "enabled": true
+        },
+        {
+          "line": 2621,
+          "id": "module-5.2:drawdown_panel",
+          "enabled": true
+        },
+        {
+          "line": 2622,
+          "id": "module-5.2:portfolio_allocation_panel",
+          "enabled": true
+        },
+        {
+          "line": 2623,
+          "id": "module-5.2:sector_exposure_panel",
+          "enabled": true
+        },
+        {
+          "line": 2624,
+          "id": "module-5.2:fundamentals_panel",
+          "enabled": true
+        },
+        {
+          "line": 2625,
+          "id": "module-5.2:correlation_panel",
+          "enabled": false
+        },
+        {
+          "line": 2626,
+          "id": "module-5.2:beta_volatility_panel",
+          "enabled": false
+        },
+        {
+          "line": 2627,
+          "id": "module-5.2:benchmark_panel",
+          "enabled": true
+        },
+        {
+          "line": 2628,
+          "id": "module-5.2:rebalancing_prompt",
+          "enabled": false
+        },
+        {
+          "line": 2630,
+          "id": "module-5.3:news",
+          "enabled": true
+        },
+        {
+          "line": 2631,
+          "id": "module-5.3:market_order",
+          "enabled": true
+        },
+        {
+          "line": 2632,
+          "id": "module-5.3:limit_order",
+          "enabled": true
+        },
+        {
+          "line": 2633,
+          "id": "module-5.3:stop_order",
+          "enabled": true
+        },
+        {
+          "line": 2634,
+          "id": "module-5.3:stop_limit_order",
+          "enabled": true
+        },
+        {
+          "line": 2635,
+          "id": "module-5.3:bid_ask_spread",
+          "enabled": true
+        },
+        {
+          "line": 2636,
+          "id": "module-5.3:moving_average",
+          "enabled": true
+        },
+        {
+          "line": 2637,
+          "id": "module-5.3:exponential_moving_average",
+          "enabled": true
+        },
+        {
+          "line": 2638,
+          "id": "module-5.3:drawdown_panel",
+          "enabled": true
+        },
+        {
+          "line": 2639,
+          "id": "module-5.3:portfolio_allocation_panel",
+          "enabled": true
+        },
+        {
+          "line": 2640,
+          "id": "module-5.3:sector_exposure_panel",
+          "enabled": true
+        },
+        {
+          "line": 2641,
+          "id": "module-5.3:fundamentals_panel",
+          "enabled": true
+        },
+        {
+          "line": 2642,
+          "id": "module-5.3:correlation_panel",
+          "enabled": true
+        },
+        {
+          "line": 2643,
+          "id": "module-5.3:beta_volatility_panel",
+          "enabled": false
+        },
+        {
+          "line": 2644,
+          "id": "module-5.3:benchmark_panel",
+          "enabled": true
+        },
+        {
+          "line": 2645,
+          "id": "module-5.3:rebalancing_prompt",
+          "enabled": false
+        },
+        {
+          "line": 2647,
+          "id": "module-5.4:news",
+          "enabled": true
+        },
+        {
+          "line": 2648,
+          "id": "module-5.4:market_order",
+          "enabled": true
+        },
+        {
+          "line": 2649,
+          "id": "module-5.4:limit_order",
+          "enabled": true
+        },
+        {
+          "line": 2650,
+          "id": "module-5.4:stop_order",
+          "enabled": true
+        },
+        {
+          "line": 2651,
+          "id": "module-5.4:stop_limit_order",
+          "enabled": true
+        },
+        {
+          "line": 2652,
+          "id": "module-5.4:bid_ask_spread",
+          "enabled": true
+        },
+        {
+          "line": 2653,
+          "id": "module-5.4:moving_average",
+          "enabled": true
+        },
+        {
+          "line": 2654,
+          "id": "module-5.4:exponential_moving_average",
+          "enabled": true
+        },
+        {
+          "line": 2655,
+          "id": "module-5.4:drawdown_panel",
+          "enabled": true
+        },
+        {
+          "line": 2656,
+          "id": "module-5.4:portfolio_allocation_panel",
+          "enabled": true
+        },
+        {
+          "line": 2657,
+          "id": "module-5.4:sector_exposure_panel",
+          "enabled": true
+        },
+        {
+          "line": 2658,
+          "id": "module-5.4:fundamentals_panel",
+          "enabled": true
+        },
+        {
+          "line": 2659,
+          "id": "module-5.4:correlation_panel",
+          "enabled": true
+        },
+        {
+          "line": 2660,
+          "id": "module-5.4:beta_volatility_panel",
+          "enabled": true
+        },
+        {
+          "line": 2661,
+          "id": "module-5.4:benchmark_panel",
+          "enabled": true
+        },
+        {
+          "line": 2662,
+          "id": "module-5.4:rebalancing_prompt",
+          "enabled": false
+        },
+        {
+          "line": 2664,
+          "id": "module-5.5:news",
+          "enabled": true
+        },
+        {
+          "line": 2665,
+          "id": "module-5.5:market_order",
+          "enabled": true
+        },
+        {
+          "line": 2666,
+          "id": "module-5.5:limit_order",
+          "enabled": true
+        },
+        {
+          "line": 2667,
+          "id": "module-5.5:stop_order",
+          "enabled": true
+        },
+        {
+          "line": 2668,
+          "id": "module-5.5:stop_limit_order",
+          "enabled": true
+        },
+        {
+          "line": 2669,
+          "id": "module-5.5:bid_ask_spread",
+          "enabled": true
+        },
+        {
+          "line": 2670,
+          "id": "module-5.5:moving_average",
+          "enabled": true
+        },
+        {
+          "line": 2671,
+          "id": "module-5.5:exponential_moving_average",
+          "enabled": true
+        },
+        {
+          "line": 2672,
+          "id": "module-5.5:drawdown_panel",
+          "enabled": true
+        },
+        {
+          "line": 2673,
+          "id": "module-5.5:portfolio_allocation_panel",
+          "enabled": true
+        },
+        {
+          "line": 2674,
+          "id": "module-5.5:sector_exposure_panel",
+          "enabled": true
+        },
+        {
+          "line": 2675,
+          "id": "module-5.5:fundamentals_panel",
+          "enabled": true
+        },
+        {
+          "line": 2676,
+          "id": "module-5.5:correlation_panel",
+          "enabled": true
+        },
+        {
+          "line": 2677,
+          "id": "module-5.5:beta_volatility_panel",
+          "enabled": true
+        },
+        {
+          "line": 2678,
+          "id": "module-5.5:benchmark_panel",
+          "enabled": true
+        },
+        {
+          "line": 2679,
+          "id": "module-5.5:rebalancing_prompt",
+          "enabled": true
+        },
+        {
+          "line": 2681,
+          "id": "module-5.6:news",
+          "enabled": true
+        },
+        {
+          "line": 2682,
+          "id": "module-5.6:market_order",
+          "enabled": true
+        },
+        {
+          "line": 2683,
+          "id": "module-5.6:limit_order",
+          "enabled": true
+        },
+        {
+          "line": 2684,
+          "id": "module-5.6:stop_order",
+          "enabled": true
+        },
+        {
+          "line": 2685,
+          "id": "module-5.6:stop_limit_order",
+          "enabled": true
+        },
+        {
+          "line": 2686,
+          "id": "module-5.6:bid_ask_spread",
+          "enabled": true
+        },
+        {
+          "line": 2687,
+          "id": "module-5.6:moving_average",
+          "enabled": true
+        },
+        {
+          "line": 2688,
+          "id": "module-5.6:exponential_moving_average",
+          "enabled": true
+        },
+        {
+          "line": 2689,
+          "id": "module-5.6:drawdown_panel",
+          "enabled": true
+        },
+        {
+          "line": 2690,
+          "id": "module-5.6:portfolio_allocation_panel",
+          "enabled": true
+        },
+        {
+          "line": 2691,
+          "id": "module-5.6:sector_exposure_panel",
+          "enabled": true
+        },
+        {
+          "line": 2692,
+          "id": "module-5.6:fundamentals_panel",
+          "enabled": true
+        },
+        {
+          "line": 2693,
+          "id": "module-5.6:correlation_panel",
+          "enabled": true
+        },
+        {
+          "line": 2694,
+          "id": "module-5.6:beta_volatility_panel",
+          "enabled": true
+        },
+        {
+          "line": 2695,
+          "id": "module-5.6:benchmark_panel",
+          "enabled": true
+        },
+        {
+          "line": 2696,
+          "id": "module-5.6:rebalancing_prompt",
+          "enabled": true
+        },
+        {
+          "line": 2698,
+          "id": "module-5.7:news",
+          "enabled": true
+        },
+        {
+          "line": 2699,
+          "id": "module-5.7:market_order",
+          "enabled": true
+        },
+        {
+          "line": 2700,
+          "id": "module-5.7:limit_order",
+          "enabled": true
+        },
+        {
+          "line": 2701,
+          "id": "module-5.7:stop_order",
+          "enabled": true
+        },
+        {
+          "line": 2702,
+          "id": "module-5.7:stop_limit_order",
+          "enabled": true
+        },
+        {
+          "line": 2703,
+          "id": "module-5.7:bid_ask_spread",
+          "enabled": true
+        },
+        {
+          "line": 2704,
+          "id": "module-5.7:moving_average",
+          "enabled": true
+        },
+        {
+          "line": 2705,
+          "id": "module-5.7:exponential_moving_average",
+          "enabled": true
+        },
+        {
+          "line": 2706,
+          "id": "module-5.7:drawdown_panel",
+          "enabled": true
+        },
+        {
+          "line": 2707,
+          "id": "module-5.7:portfolio_allocation_panel",
+          "enabled": true
+        },
+        {
+          "line": 2708,
+          "id": "module-5.7:sector_exposure_panel",
+          "enabled": true
+        },
+        {
+          "line": 2709,
+          "id": "module-5.7:fundamentals_panel",
+          "enabled": true
+        },
+        {
+          "line": 2710,
+          "id": "module-5.7:correlation_panel",
+          "enabled": true
+        },
+        {
+          "line": 2711,
+          "id": "module-5.7:beta_volatility_panel",
+          "enabled": true
+        },
+        {
+          "line": 2712,
+          "id": "module-5.7:benchmark_panel",
+          "enabled": true
+        },
+        {
+          "line": 2713,
+          "id": "module-5.7:rebalancing_prompt",
+          "enabled": true
+        }
+      ]
+    },
+    {
+      "kind": "level_unlocks",
+      "source": "backend/config/database/init/02-initial_state.sql",
+      "count": 21,
+      "countBasis": "literal VALUES rows in source; SELECT expansions and generated relations recorded separately",
+      "decision": "rewrite",
+      "reason": "Retain progressive disclosure; rewrite prerequisite/copy contracts and move shorting to optional advanced path.",
+      "records": [
+        {
+          "line": 2738,
+          "id": "module-1.1:trader_edge_basics"
+        },
+        {
+          "line": 2744,
+          "id": "module-1.2:candlestick_chart_basics"
+        },
+        {
+          "line": 2750,
+          "id": "module-1.3:market_order_basics"
+        },
+        {
+          "line": 2756,
+          "id": "module-2.1:news"
+        },
+        {
+          "line": 2762,
+          "id": "module-2.4:moving_average"
+        },
+        {
+          "line": 2768,
+          "id": "module-2.5:exponential_moving_average"
+        },
+        {
+          "line": 2774,
+          "id": "module-3.1:bid_ask_spread"
+        },
+        {
+          "line": 2780,
+          "id": "module-3.1:limit_order"
+        },
+        {
+          "line": 2786,
+          "id": "module-3.3:stop_order"
+        },
+        {
+          "line": 2792,
+          "id": "module-3.4:stop_limit_order"
+        },
+        {
+          "line": 2798,
+          "id": "module-3.5:short_selling"
+        },
+        {
+          "line": 2807,
+          "id": "module-4.1:interest_rate_panel"
+        },
+        {
+          "line": 2813,
+          "id": "module-4.1:drawdown_panel"
+        },
+        {
+          "line": 2819,
+          "id": "module-4.2:inflation_panel"
+        },
+        {
+          "line": 2828,
+          "id": "module-5.1:portfolio_allocation_panel"
+        },
+        {
+          "line": 2834,
+          "id": "module-5.1:sector_exposure_panel"
+        },
+        {
+          "line": 2840,
+          "id": "module-5.2:fundamentals_panel"
+        },
+        {
+          "line": 2846,
+          "id": "module-5.2:benchmark_panel"
+        },
+        {
+          "line": 2852,
+          "id": "module-5.3:correlation_panel"
+        },
+        {
+          "line": 2858,
+          "id": "module-5.4:beta_volatility_panel"
+        },
+        {
+          "line": 2864,
+          "id": "module-5.5:rebalancing_prompt"
+        }
+      ]
+    },
+    {
+      "kind": "level_macro_factors",
+      "source": "backend/config/database/init/02-initial_state.sql",
+      "count": 9,
+      "countBasis": "literal VALUES rows in source; SELECT expansions and generated relations recorded separately",
+      "decision": "rewrite",
+      "reason": "Retain macro uncertainty concepts; rewrite provenance, data timing and localization boundaries.",
+      "records": [
+        {
+          "line": 2885,
+          "id": "module-4.1:interest_rate"
+        },
+        {
+          "line": 2886,
+          "id": "module-4.2:interest_rate"
+        },
+        {
+          "line": 2887,
+          "id": "module-4.2:inflation"
+        },
+        {
+          "line": 2888,
+          "id": "module-4.3:interest_rate"
+        },
+        {
+          "line": 2889,
+          "id": "module-4.3:inflation"
+        },
+        {
+          "line": 2890,
+          "id": "module-4.4:interest_rate"
+        },
+        {
+          "line": 2891,
+          "id": "module-4.4:inflation"
+        },
+        {
+          "line": 2892,
+          "id": "module-4.5:interest_rate"
+        },
+        {
+          "line": 2893,
+          "id": "module-4.5:inflation"
+        }
+      ]
+    },
+    {
+      "kind": "level_news_events",
+      "source": "backend/config/database/init/02-initial_state.sql",
+      "count": 44,
+      "countBasis": "literal VALUES rows in source; SELECT expansions and generated relations recorded separately",
+      "decision": "rewrite",
+      "reason": "Rewrite as attributed history or explicitly synthetic fiction; separate visible facts from private future effects.",
+      "records": [
+        {
+          "line": 2983,
+          "id": "module-2.1:tick-2:Microsoft Linked to Major Government Cloud Bid"
+        },
+        {
+          "line": 3023,
+          "id": "module-2.1:tick-6:Microsoft Announces Expanded Public-Sector Cloud Agreements"
+        },
+        {
+          "line": 3063,
+          "id": "module-2.2:tick-1:NVIDIA Expectations Climb Further Ahead of Results"
+        },
+        {
+          "line": 3103,
+          "id": "module-2.2:tick-5:NVIDIA Delivers In-Line Quarter, Keeps Demand Outlook Strong"
+        },
+        {
+          "line": 3143,
+          "id": "module-2.3:tick-1:Tesla Estimates Rise Into Earnings on Delivery Optimism"
+        },
+        {
+          "line": 3183,
+          "id": "module-2.3:tick-5:Tesla Slides on Earnings Miss as Margin Pressure Persists"
+        },
+        {
+          "line": 3223,
+          "id": "module-2.4:tick-7:Apple Services Data Eases Fears of a Sharp Slowdown"
+        },
+        {
+          "line": 3263,
+          "id": "module-2.4:tick-22:Repurchase Speculation Boosts Apple Shares"
+        },
+        {
+          "line": 3303,
+          "id": "module-2.5:tick-6:Palantir Becomes Top Retail Focus as Volume Surges"
+        },
+        {
+          "line": 3343,
+          "id": "module-2.5:tick-20:Palantir Pulls Back as Early Momentum Traders Take Profit"
+        },
+        {
+          "line": 3383,
+          "id": "module-3.1:tick-8:Thin Opening Depth Leaves Apple Spread Wider Than Usual"
+        },
+        {
+          "line": 3423,
+          "id": "module-3.1:tick-30:Program Selling Weighs on Apple Bids Through Mid-Session"
+        },
+        {
+          "line": 3463,
+          "id": "module-3.2:tick-12:Supplier Timing Concern Pushes Apple Lower in Early Trade"
+        },
+        {
+          "line": 3503,
+          "id": "module-3.2:tick-40:Late Corporate Buying Helps Apple Rebound Into Close"
+        },
+        {
+          "line": 3543,
+          "id": "module-3.3:tick-18:NVIDIA Guidance Cut Forces Fast Repricing"
+        },
+        {
+          "line": 3583,
+          "id": "module-3.3:tick-52:NVIDIA Rebounds as Tactical Buyers Step Back In"
+        },
+        {
+          "line": 3623,
+          "id": "module-3.4:tick-24:Unverified Product Chatter Triggers Rapid Tesla Spike"
+        },
+        {
+          "line": 3663,
+          "id": "module-3.5:tick-14:Tesla Margin Warning Triggers Broad De-Risking"
+        },
+        {
+          "line": 3703,
+          "id": "module-3.5:tick-44:Credit Desk Downgrade Extends Tesla Downtrend"
+        },
+        {
+          "line": 3743,
+          "id": "module-3.6:tick-18:NVIDIA Demand Revision Starts Fresh Down Leg"
+        },
+        {
+          "line": 3783,
+          "id": "module-3.6:tick-40:Short Squeeze Rips NVIDIA as Positioning Gets Crowded"
+        },
+        {
+          "line": 3823,
+          "id": "module-3.6:tick-58:NVIDIA Follow-Through Selling Returns After Failed Bounce"
+        },
+        {
+          "line": 3863,
+          "id": "module-3.4:tick-48:Tesla Reverses After Source Disputes Earlier Claim"
+        },
+        {
+          "line": 3903,
+          "id": "module-4.3:tick-16:Fed Remarks Trigger Two-Way Repricing in Equities"
+        },
+        {
+          "line": 3949,
+          "id": "module-4.4:tick-14:Shutdown Headlines Swing Bank Shares as Talks Stall"
+        },
+        {
+          "line": 3995,
+          "id": "module-4.5:tick-10:Infrastructure Failure Jolts Energy Tape, Then Bounce Fades"
+        },
+        {
+          "line": 4045,
+          "id": "puzzle-1.1:tick-1:Thailand Drops Baht Peg, Regional Markets Sell Off"
+        },
+        {
+          "line": 4085,
+          "id": "puzzle-1.1:tick-32:Contagion Fears Spread to Japanese Exporters"
+        },
+        {
+          "line": 4125,
+          "id": "puzzle-1.2:tick-15:Italy Mobility Curbs Hit Global Travel Outlook"
+        },
+        {
+          "line": 4165,
+          "id": "puzzle-1.2:tick-17:WHO Pandemic Declaration Deepens Travel-Sector Pressure"
+        },
+        {
+          "line": 4205,
+          "id": "puzzle-1.2:tick-20:US No-Sail Order Extends Cruise Industry Freeze"
+        },
+        {
+          "line": 4248,
+          "id": "module-5.1:tick-66:Valuation Reset Hits High-Multiple Technology Stocks"
+        },
+        {
+          "line": 4288,
+          "id": "module-5.2:tick-20:Credit Outlook Cuts Pressure Levered Cyclical Names"
+        },
+        {
+          "line": 4328,
+          "id": "module-5.2:tick-34:Investors Favor Balance-Sheet Strength and Stable Cash Flow"
+        },
+        {
+          "line": 4368,
+          "id": "module-5.3:tick-26:Crowded AI Trade Unwinds as Leaders Sell Off Together"
+        },
+        {
+          "line": 4408,
+          "id": "module-5.3:tick-48:Healthcare and Utilities Attract Inflows as AI Leaders Cool"
+        },
+        {
+          "line": 4448,
+          "id": "module-5.4:tick-24:High-Beta Squeeze Reverses After Early Surge"
+        },
+        {
+          "line": 4493,
+          "id": "module-5.5:tick-42:Demand Outlook Downgrade Hits Energy and Cyclicals"
+        },
+        {
+          "line": 4533,
+          "id": "module-5.5:tick-42:Defensive and Quality Tech Groups Take Market Leadership"
+        },
+        {
+          "line": 4573,
+          "id": "module-5.6:tick-30:Breadth Broadens as Former Market Leader Loses Momentum"
+        },
+        {
+          "line": 4613,
+          "id": "module-5.6:tick-46:Lagging Defensive Groups Outperform in Late Rotation"
+        },
+        {
+          "line": 4653,
+          "id": "module-5.7:tick-22:Broad Index Grinds Higher in Low-Dispersion Trade"
+        },
+        {
+          "line": 4692,
+          "id": "module-5.7:tick-62:Late-Cycle Pullback Weighs on High-Growth Leaders"
+        },
+        {
+          "line": 4738,
+          "id": "module-5.7:tick-62:Quality and Defensive Shares Gain as Growth Leadership Fades"
+        }
+      ]
+    },
+    {
+      "kind": "level_news_event_effects",
+      "source": "backend/config/database/init/02-initial_state.sql",
+      "count": 13,
+      "countBasis": "literal VALUES rows in source; SELECT expansions and generated relations recorded separately",
+      "decision": "rewrite",
+      "reason": "Rebuild versioned, private scenario effects with replay semantics and diverse adverse paths.",
+      "records": [
+        {
+          "line": 3927,
+          "id": "module-4.3:Fed Remarks Trigger Two-Way Repricing in Equities:effect-16-20:multiplier--0.012",
+          "multiplier": -0.012,
+          "startTick": 16,
+          "endTick": 20
+        },
+        {
+          "line": 3928,
+          "id": "module-4.3:Fed Remarks Trigger Two-Way Repricing in Equities:effect-34-39:multiplier-0.009",
+          "multiplier": 0.009,
+          "startTick": 34,
+          "endTick": 39
+        },
+        {
+          "line": 3929,
+          "id": "module-4.3:Fed Remarks Trigger Two-Way Repricing in Equities:effect-58-64:multiplier--0.01",
+          "multiplier": -0.01,
+          "startTick": 58,
+          "endTick": 64
+        },
+        {
+          "line": 3973,
+          "id": "module-4.4:Shutdown Headlines Swing Bank Shares as Talks Stall:effect-14-18:multiplier--0.01",
+          "multiplier": -0.01,
+          "startTick": 14,
+          "endTick": 18
+        },
+        {
+          "line": 3974,
+          "id": "module-4.4:Shutdown Headlines Swing Bank Shares as Talks Stall:effect-31-35:multiplier-0.007",
+          "multiplier": 0.007,
+          "startTick": 31,
+          "endTick": 35
+        },
+        {
+          "line": 3975,
+          "id": "module-4.4:Shutdown Headlines Swing Bank Shares as Talks Stall:effect-55-61:multiplier--0.012",
+          "multiplier": -0.012,
+          "startTick": 55,
+          "endTick": 61
+        },
+        {
+          "line": 4019,
+          "id": "module-4.5:Infrastructure Failure Jolts Energy Tape, Then Bounce Fades:effect-10-15:multiplier--0.02",
+          "multiplier": -0.02,
+          "startTick": 10,
+          "endTick": 15
+        },
+        {
+          "line": 4020,
+          "id": "module-4.5:Infrastructure Failure Jolts Energy Tape, Then Bounce Fades:effect-26-31:multiplier-0.013",
+          "multiplier": 0.013,
+          "startTick": 26,
+          "endTick": 31
+        },
+        {
+          "line": 4021,
+          "id": "module-4.5:Infrastructure Failure Jolts Energy Tape, Then Bounce Fades:effect-49-56:multiplier--0.016",
+          "multiplier": -0.016,
+          "startTick": 49,
+          "endTick": 56
+        },
+        {
+          "line": 4472,
+          "id": "module-5.4:High-Beta Squeeze Reverses After Early Surge:effect-24-30:multiplier-0.016",
+          "multiplier": 0.016,
+          "startTick": 24,
+          "endTick": 30
+        },
+        {
+          "line": 4473,
+          "id": "module-5.4:High-Beta Squeeze Reverses After Early Surge:effect-44-50:multiplier--0.019",
+          "multiplier": -0.019,
+          "startTick": 44,
+          "endTick": 50
+        },
+        {
+          "line": 4716,
+          "id": "module-5.7:Late-Cycle Pullback Weighs on High-Growth Leaders:effect-62-70:multiplier--0.015",
+          "multiplier": -0.015,
+          "startTick": 62,
+          "endTick": 70
+        },
+        {
+          "line": 4717,
+          "id": "module-5.7:Late-Cycle Pullback Weighs on High-Growth Leaders:effect-62-70:multiplier-0.006",
+          "multiplier": 0.006,
+          "startTick": 62,
+          "endTick": 70
+        }
+      ]
+    },
+    {
+      "kind": "achievements",
+      "source": "backend/config/database/init/02-initial_state.sql",
+      "count": 7,
+      "countBasis": "literal VALUES rows in source; SELECT expansions and generated relations recorded separately",
+      "decision": "rewrite",
+      "reason": "Rewrite process-evidence awards and accurate copy; drop profit milestone and skill claims unsupported by mastery.",
+      "records": [
+        {
+          "line": 4782,
+          "id": "achievement-first-level"
+        },
+        {
+          "line": 4783,
+          "id": "achievement-5-levels"
+        },
+        {
+          "line": 4784,
+          "id": "achievement-10-levels"
+        },
+        {
+          "line": 4785,
+          "id": "achievement-all-module-1"
+        },
+        {
+          "line": 4786,
+          "id": "achievement-all-module-2"
+        },
+        {
+          "line": 4787,
+          "id": "achievement-unlock-puzzle"
+        },
+        {
+          "line": 4788,
+          "id": "achievement-unlock-endless"
+        }
+      ]
+    },
+    {
+      "kind": "module_quizzes",
+      "source": "backend/config/database/init/02-initial_state.sql",
+      "count": 10,
+      "countBasis": "literal VALUES rows in source; SELECT expansions and generated relations recorded separately",
+      "decision": "rewrite",
+      "reason": "Retain pre/post assessment separation; replace zero thresholds, one-attempt progression and missing retention/calibration measures.",
+      "records": [
+        {
+          "line": 4800,
+          "id": "MOD1_PRE",
+          "passingScore": 0
+        },
+        {
+          "line": 4801,
+          "id": "MOD1_POST",
+          "passingScore": 0
+        },
+        {
+          "line": 4802,
+          "id": "MOD2_PRE",
+          "passingScore": 0
+        },
+        {
+          "line": 4803,
+          "id": "MOD2_POST",
+          "passingScore": 0
+        },
+        {
+          "line": 4804,
+          "id": "MOD3_PRE",
+          "passingScore": 0
+        },
+        {
+          "line": 4805,
+          "id": "MOD3_POST",
+          "passingScore": 0
+        },
+        {
+          "line": 4806,
+          "id": "MOD4_PRE",
+          "passingScore": 0
+        },
+        {
+          "line": 4807,
+          "id": "MOD4_POST",
+          "passingScore": 0
+        },
+        {
+          "line": 4808,
+          "id": "MOD5_PRE",
+          "passingScore": 0
+        },
+        {
+          "line": 4809,
+          "id": "MOD5_POST",
+          "passingScore": 0
+        }
+      ]
+    },
+    {
+      "kind": "module_quiz_questions",
+      "source": "backend/config/database/init/02-initial_state.sql",
+      "count": 64,
+      "countBasis": "literal VALUES rows in source; SELECT expansions and generated relations recorded separately",
+      "decision": "rewrite",
+      "reason": "Rewrite with sources, objectives, novel applications and calibrated distractors; remove duplicate pre/post items and unsupported predictive certainty.",
+      "records": [
+        {
+          "line": 4821,
+          "id": "m1-pre-1",
+          "quizId": "MOD1_PRE",
+          "correctOptionIndex": 0
+        },
+        {
+          "line": 4824,
+          "id": "m1-pre-2",
+          "quizId": "MOD1_PRE",
+          "correctOptionIndex": 0
+        },
+        {
+          "line": 4827,
+          "id": "m1-pre-3",
+          "quizId": "MOD1_PRE",
+          "correctOptionIndex": 0
+        },
+        {
+          "line": 4830,
+          "id": "m1-pre-4",
+          "quizId": "MOD1_PRE",
+          "correctOptionIndex": 0
+        },
+        {
+          "line": 4833,
+          "id": "m1-post-1",
+          "quizId": "MOD1_POST",
+          "correctOptionIndex": 0
+        },
+        {
+          "line": 4836,
+          "id": "m1-post-2",
+          "quizId": "MOD1_POST",
+          "correctOptionIndex": 0
+        },
+        {
+          "line": 4839,
+          "id": "m1-post-3",
+          "quizId": "MOD1_POST",
+          "correctOptionIndex": 0
+        },
+        {
+          "line": 4842,
+          "id": "m1-post-4",
+          "quizId": "MOD1_POST",
+          "correctOptionIndex": 0
+        },
+        {
+          "line": 4845,
+          "id": "m2-pre-1",
+          "quizId": "MOD2_PRE",
+          "correctOptionIndex": 1
+        },
+        {
+          "line": 4848,
+          "id": "m2-pre-2",
+          "quizId": "MOD2_PRE",
+          "correctOptionIndex": 1
+        },
+        {
+          "line": 4851,
+          "id": "m2-pre-3",
+          "quizId": "MOD2_PRE",
+          "correctOptionIndex": 0
+        },
+        {
+          "line": 4854,
+          "id": "m2-pre-4",
+          "quizId": "MOD2_PRE",
+          "correctOptionIndex": 0
+        },
+        {
+          "line": 4857,
+          "id": "m2-pre-5",
+          "quizId": "MOD2_PRE",
+          "correctOptionIndex": 1
+        },
+        {
+          "line": 4860,
+          "id": "m2-pre-6",
+          "quizId": "MOD2_PRE",
+          "correctOptionIndex": 1
+        },
+        {
+          "line": 4863,
+          "id": "m2-post-1",
+          "quizId": "MOD2_POST",
+          "correctOptionIndex": 1
+        },
+        {
+          "line": 4866,
+          "id": "m2-post-2",
+          "quizId": "MOD2_POST",
+          "correctOptionIndex": 1
+        },
+        {
+          "line": 4869,
+          "id": "m2-post-3",
+          "quizId": "MOD2_POST",
+          "correctOptionIndex": 0
+        },
+        {
+          "line": 4872,
+          "id": "m2-post-4",
+          "quizId": "MOD2_POST",
+          "correctOptionIndex": 0
+        },
+        {
+          "line": 4875,
+          "id": "m2-post-5",
+          "quizId": "MOD2_POST",
+          "correctOptionIndex": 1
+        },
+        {
+          "line": 4878,
+          "id": "m2-post-6",
+          "quizId": "MOD2_POST",
+          "correctOptionIndex": 1
+        },
+        {
+          "line": 4881,
+          "id": "m3-pre-1",
+          "quizId": "MOD3_PRE",
+          "correctOptionIndex": 0
+        },
+        {
+          "line": 4884,
+          "id": "m3-pre-2",
+          "quizId": "MOD3_PRE",
+          "correctOptionIndex": 0
+        },
+        {
+          "line": 4887,
+          "id": "m3-pre-3",
+          "quizId": "MOD3_PRE",
+          "correctOptionIndex": 0
+        },
+        {
+          "line": 4890,
+          "id": "m3-pre-4",
+          "quizId": "MOD3_PRE",
+          "correctOptionIndex": 0
+        },
+        {
+          "line": 4893,
+          "id": "m3-pre-5",
+          "quizId": "MOD3_PRE",
+          "correctOptionIndex": 0
+        },
+        {
+          "line": 4896,
+          "id": "m3-pre-6",
+          "quizId": "MOD3_PRE",
+          "correctOptionIndex": 0
+        },
+        {
+          "line": 4899,
+          "id": "m3-pre-7",
+          "quizId": "MOD3_PRE",
+          "correctOptionIndex": 0
+        },
+        {
+          "line": 4902,
+          "id": "m3-pre-8",
+          "quizId": "MOD3_PRE",
+          "correctOptionIndex": 0
+        },
+        {
+          "line": 4905,
+          "id": "m3-post-1",
+          "quizId": "MOD3_POST",
+          "correctOptionIndex": 0
+        },
+        {
+          "line": 4908,
+          "id": "m3-post-2",
+          "quizId": "MOD3_POST",
+          "correctOptionIndex": 0
+        },
+        {
+          "line": 4911,
+          "id": "m3-post-3",
+          "quizId": "MOD3_POST",
+          "correctOptionIndex": 0
+        },
+        {
+          "line": 4914,
+          "id": "m3-post-4",
+          "quizId": "MOD3_POST",
+          "correctOptionIndex": 0
+        },
+        {
+          "line": 4917,
+          "id": "m3-post-5",
+          "quizId": "MOD3_POST",
+          "correctOptionIndex": 0
+        },
+        {
+          "line": 4920,
+          "id": "m3-post-6",
+          "quizId": "MOD3_POST",
+          "correctOptionIndex": 0
+        },
+        {
+          "line": 4923,
+          "id": "m3-post-7",
+          "quizId": "MOD3_POST",
+          "correctOptionIndex": 0
+        },
+        {
+          "line": 4926,
+          "id": "m3-post-8",
+          "quizId": "MOD3_POST",
+          "correctOptionIndex": 0
+        },
+        {
+          "line": 4929,
+          "id": "m4-pre-1",
+          "quizId": "MOD4_PRE",
+          "correctOptionIndex": 1
+        },
+        {
+          "line": 4932,
+          "id": "m4-pre-2",
+          "quizId": "MOD4_PRE",
+          "correctOptionIndex": 1
+        },
+        {
+          "line": 4935,
+          "id": "m4-pre-3",
+          "quizId": "MOD4_PRE",
+          "correctOptionIndex": 1
+        },
+        {
+          "line": 4938,
+          "id": "m4-pre-4",
+          "quizId": "MOD4_PRE",
+          "correctOptionIndex": 1
+        },
+        {
+          "line": 4941,
+          "id": "m4-pre-5",
+          "quizId": "MOD4_PRE",
+          "correctOptionIndex": 1
+        },
+        {
+          "line": 4944,
+          "id": "m4-pre-6",
+          "quizId": "MOD4_PRE",
+          "correctOptionIndex": 1
+        },
+        {
+          "line": 4947,
+          "id": "m4-post-1",
+          "quizId": "MOD4_POST",
+          "correctOptionIndex": 0
+        },
+        {
+          "line": 4950,
+          "id": "m4-post-2",
+          "quizId": "MOD4_POST",
+          "correctOptionIndex": 1
+        },
+        {
+          "line": 4953,
+          "id": "m4-post-3",
+          "quizId": "MOD4_POST",
+          "correctOptionIndex": 1
+        },
+        {
+          "line": 4956,
+          "id": "m4-post-4",
+          "quizId": "MOD4_POST",
+          "correctOptionIndex": 0
+        },
+        {
+          "line": 4959,
+          "id": "m4-post-5",
+          "quizId": "MOD4_POST",
+          "correctOptionIndex": 0
+        },
+        {
+          "line": 4962,
+          "id": "m4-post-6",
+          "quizId": "MOD4_POST",
+          "correctOptionIndex": 1
+        },
+        {
+          "line": 4965,
+          "id": "m5-pre-1",
+          "quizId": "MOD5_PRE",
+          "correctOptionIndex": 1
+        },
+        {
+          "line": 4968,
+          "id": "m5-pre-2",
+          "quizId": "MOD5_PRE",
+          "correctOptionIndex": 0
+        },
+        {
+          "line": 4971,
+          "id": "m5-pre-3",
+          "quizId": "MOD5_PRE",
+          "correctOptionIndex": 1
+        },
+        {
+          "line": 4974,
+          "id": "m5-pre-4",
+          "quizId": "MOD5_PRE",
+          "correctOptionIndex": 1
+        },
+        {
+          "line": 4977,
+          "id": "m5-pre-5",
+          "quizId": "MOD5_PRE",
+          "correctOptionIndex": 0
+        },
+        {
+          "line": 4980,
+          "id": "m5-pre-6",
+          "quizId": "MOD5_PRE",
+          "correctOptionIndex": 1
+        },
+        {
+          "line": 4983,
+          "id": "m5-pre-7",
+          "quizId": "MOD5_PRE",
+          "correctOptionIndex": 0
+        },
+        {
+          "line": 4986,
+          "id": "m5-pre-8",
+          "quizId": "MOD5_PRE",
+          "correctOptionIndex": 1
+        },
+        {
+          "line": 4989,
+          "id": "m5-post-1",
+          "quizId": "MOD5_POST",
+          "correctOptionIndex": 1
+        },
+        {
+          "line": 4992,
+          "id": "m5-post-2",
+          "quizId": "MOD5_POST",
+          "correctOptionIndex": 1
+        },
+        {
+          "line": 4995,
+          "id": "m5-post-3",
+          "quizId": "MOD5_POST",
+          "correctOptionIndex": 0
+        },
+        {
+          "line": 4998,
+          "id": "m5-post-4",
+          "quizId": "MOD5_POST",
+          "correctOptionIndex": 0
+        },
+        {
+          "line": 5001,
+          "id": "m5-post-5",
+          "quizId": "MOD5_POST",
+          "correctOptionIndex": 0
+        },
+        {
+          "line": 5004,
+          "id": "m5-post-6",
+          "quizId": "MOD5_POST",
+          "correctOptionIndex": 0
+        },
+        {
+          "line": 5007,
+          "id": "m5-post-7",
+          "quizId": "MOD5_POST",
+          "correctOptionIndex": 1
+        },
+        {
+          "line": 5010,
+          "id": "m5-post-8",
+          "quizId": "MOD5_POST",
+          "correctOptionIndex": 1
+        }
+      ]
+    },
+    {
+      "kind": "news_effects_select_rows",
+      "count": 39,
+      "decision": "rewrite",
+      "reason": "Rebuild versioned, private scenario effects with replay semantics and diverse adverse paths.",
+      "records": [
+        {
+          "id": "module-2.1:tick-2:Microsoft Linked to Major Government Cloud Bid:effect-2-2:multiplier-0.0",
+          "line": 2983,
+          "multiplier": 0.0,
+          "startTick": 2,
+          "endTick": 2
+        },
+        {
+          "id": "module-2.1:tick-6:Microsoft Announces Expanded Public-Sector Cloud Agreements:effect-6-6:multiplier-0.0",
+          "line": 3023,
+          "multiplier": 0.0,
+          "startTick": 6,
+          "endTick": 6
+        },
+        {
+          "id": "module-2.2:tick-1:NVIDIA Expectations Climb Further Ahead of Results:effect-1-1:multiplier-0.0",
+          "line": 3063,
+          "multiplier": 0.0,
+          "startTick": 1,
+          "endTick": 1
+        },
+        {
+          "id": "module-2.2:tick-5:NVIDIA Delivers In-Line Quarter, Keeps Demand Outlook Strong:effect-5-5:multiplier-0.0",
+          "line": 3103,
+          "multiplier": 0.0,
+          "startTick": 5,
+          "endTick": 5
+        },
+        {
+          "id": "module-2.3:tick-1:Tesla Estimates Rise Into Earnings on Delivery Optimism:effect-1-1:multiplier-0.0",
+          "line": 3143,
+          "multiplier": 0.0,
+          "startTick": 1,
+          "endTick": 1
+        },
+        {
+          "id": "module-2.3:tick-5:Tesla Slides on Earnings Miss as Margin Pressure Persists:effect-5-5:multiplier-0.0",
+          "line": 3183,
+          "multiplier": 0.0,
+          "startTick": 5,
+          "endTick": 5
+        },
+        {
+          "id": "module-2.4:tick-7:Apple Services Data Eases Fears of a Sharp Slowdown:effect-7-7:multiplier-0.0",
+          "line": 3223,
+          "multiplier": 0.0,
+          "startTick": 7,
+          "endTick": 7
+        },
+        {
+          "id": "module-2.4:tick-22:Repurchase Speculation Boosts Apple Shares:effect-22-22:multiplier-0.0",
+          "line": 3263,
+          "multiplier": 0.0,
+          "startTick": 22,
+          "endTick": 22
+        },
+        {
+          "id": "module-2.5:tick-6:Palantir Becomes Top Retail Focus as Volume Surges:effect-6-6:multiplier-0.0",
+          "line": 3303,
+          "multiplier": 0.0,
+          "startTick": 6,
+          "endTick": 6
+        },
+        {
+          "id": "module-2.5:tick-20:Palantir Pulls Back as Early Momentum Traders Take Profit:effect-20-20:multiplier-0.0",
+          "line": 3343,
+          "multiplier": 0.0,
+          "startTick": 20,
+          "endTick": 20
+        },
+        {
+          "id": "module-3.1:tick-8:Thin Opening Depth Leaves Apple Spread Wider Than Usual:effect-8-11:multiplier-0.006",
+          "line": 3383,
+          "multiplier": 0.006,
+          "startTick": 8,
+          "endTick": 11
+        },
+        {
+          "id": "module-3.1:tick-30:Program Selling Weighs on Apple Bids Through Mid-Session:effect-30-34:multiplier--0.007",
+          "line": 3423,
+          "multiplier": -0.007,
+          "startTick": 30,
+          "endTick": 34
+        },
+        {
+          "id": "module-3.2:tick-12:Supplier Timing Concern Pushes Apple Lower in Early Trade:effect-12-15:multiplier--0.01",
+          "line": 3463,
+          "multiplier": -0.01,
+          "startTick": 12,
+          "endTick": 15
+        },
+        {
+          "id": "module-3.2:tick-40:Late Corporate Buying Helps Apple Rebound Into Close:effect-40-44:multiplier-0.012",
+          "line": 3503,
+          "multiplier": 0.012,
+          "startTick": 40,
+          "endTick": 44
+        },
+        {
+          "id": "module-3.3:tick-18:NVIDIA Guidance Cut Forces Fast Repricing:effect-18-22:multiplier--0.02",
+          "line": 3543,
+          "multiplier": -0.02,
+          "startTick": 18,
+          "endTick": 22
+        },
+        {
+          "id": "module-3.3:tick-52:NVIDIA Rebounds as Tactical Buyers Step Back In:effect-52-56:multiplier-0.018",
+          "line": 3583,
+          "multiplier": 0.018,
+          "startTick": 52,
+          "endTick": 56
+        },
+        {
+          "id": "module-3.4:tick-24:Unverified Product Chatter Triggers Rapid Tesla Spike:effect-24-27:multiplier-0.02",
+          "line": 3623,
+          "multiplier": 0.02,
+          "startTick": 24,
+          "endTick": 27
+        },
+        {
+          "id": "module-3.5:tick-14:Tesla Margin Warning Triggers Broad De-Risking:effect-14-20:multiplier--0.016",
+          "line": 3663,
+          "multiplier": -0.016,
+          "startTick": 14,
+          "endTick": 20
+        },
+        {
+          "id": "module-3.5:tick-44:Credit Desk Downgrade Extends Tesla Downtrend:effect-44-50:multiplier--0.018",
+          "line": 3703,
+          "multiplier": -0.018,
+          "startTick": 44,
+          "endTick": 50
+        },
+        {
+          "id": "module-3.6:tick-18:NVIDIA Demand Revision Starts Fresh Down Leg:effect-18-24:multiplier--0.015",
+          "line": 3743,
+          "multiplier": -0.015,
+          "startTick": 18,
+          "endTick": 24
+        },
+        {
+          "id": "module-3.6:tick-40:Short Squeeze Rips NVIDIA as Positioning Gets Crowded:effect-40-44:multiplier-0.017",
+          "line": 3783,
+          "multiplier": 0.017,
+          "startTick": 40,
+          "endTick": 44
+        },
+        {
+          "id": "module-3.6:tick-58:NVIDIA Follow-Through Selling Returns After Failed Bounce:effect-58-64:multiplier--0.019",
+          "line": 3823,
+          "multiplier": -0.019,
+          "startTick": 58,
+          "endTick": 64
+        },
+        {
+          "id": "module-3.4:tick-48:Tesla Reverses After Source Disputes Earlier Claim:effect-48-52:multiplier--0.022",
+          "line": 3863,
+          "multiplier": -0.022,
+          "startTick": 48,
+          "endTick": 52
+        },
+        {
+          "id": "puzzle-1.1:tick-1:Thailand Drops Baht Peg, Regional Markets Sell Off:effect-1-4:multiplier--0.02",
+          "line": 4045,
+          "multiplier": -0.02,
+          "startTick": 1,
+          "endTick": 4
+        },
+        {
+          "id": "puzzle-1.1:tick-32:Contagion Fears Spread to Japanese Exporters:effect-32-35:multiplier--0.015",
+          "line": 4085,
+          "multiplier": -0.015,
+          "startTick": 32,
+          "endTick": 35
+        },
+        {
+          "id": "puzzle-1.2:tick-15:Italy Mobility Curbs Hit Global Travel Outlook:effect-15-19:multiplier--0.025",
+          "line": 4125,
+          "multiplier": -0.025,
+          "startTick": 15,
+          "endTick": 19
+        },
+        {
+          "id": "puzzle-1.2:tick-17:WHO Pandemic Declaration Deepens Travel-Sector Pressure:effect-17-21:multiplier--0.035",
+          "line": 4165,
+          "multiplier": -0.035,
+          "startTick": 17,
+          "endTick": 21
+        },
+        {
+          "id": "puzzle-1.2:tick-20:US No-Sail Order Extends Cruise Industry Freeze:effect-20-24:multiplier--0.03",
+          "line": 4205,
+          "multiplier": -0.03,
+          "startTick": 20,
+          "endTick": 24
+        },
+        {
+          "id": "module-5.1:tick-66:Valuation Reset Hits High-Multiple Technology Stocks:effect-66-76:multiplier--0.018",
+          "line": 4248,
+          "multiplier": -0.018,
+          "startTick": 66,
+          "endTick": 76
+        },
+        {
+          "id": "module-5.2:tick-20:Credit Outlook Cuts Pressure Levered Cyclical Names:effect-20-29:multiplier--0.015",
+          "line": 4288,
+          "multiplier": -0.015,
+          "startTick": 20,
+          "endTick": 29
+        },
+        {
+          "id": "module-5.2:tick-34:Investors Favor Balance-Sheet Strength and Stable Cash Flow:effect-34-42:multiplier-0.01",
+          "line": 4328,
+          "multiplier": 0.01,
+          "startTick": 34,
+          "endTick": 42
+        },
+        {
+          "id": "module-5.3:tick-26:Crowded AI Trade Unwinds as Leaders Sell Off Together:effect-26-34:multiplier--0.018",
+          "line": 4368,
+          "multiplier": -0.018,
+          "startTick": 26,
+          "endTick": 34
+        },
+        {
+          "id": "module-5.3:tick-48:Healthcare and Utilities Attract Inflows as AI Leaders Cool:effect-48-56:multiplier-0.009",
+          "line": 4408,
+          "multiplier": 0.009,
+          "startTick": 48,
+          "endTick": 56
+        },
+        {
+          "id": "module-5.5:tick-42:Demand Outlook Downgrade Hits Energy and Cyclicals:effect-42-49:multiplier--0.014",
+          "line": 4493,
+          "multiplier": -0.014,
+          "startTick": 42,
+          "endTick": 49
+        },
+        {
+          "id": "module-5.5:tick-42:Defensive and Quality Tech Groups Take Market Leadership:effect-42-49:multiplier-0.011",
+          "line": 4533,
+          "multiplier": 0.011,
+          "startTick": 42,
+          "endTick": 49
+        },
+        {
+          "id": "module-5.6:tick-30:Breadth Broadens as Former Market Leader Loses Momentum:effect-30-38:multiplier--0.017",
+          "line": 4573,
+          "multiplier": -0.017,
+          "startTick": 30,
+          "endTick": 38
+        },
+        {
+          "id": "module-5.6:tick-46:Lagging Defensive Groups Outperform in Late Rotation:effect-46-54:multiplier-0.008",
+          "line": 4613,
+          "multiplier": 0.008,
+          "startTick": 46,
+          "endTick": 54
+        },
+        {
+          "id": "module-5.7:tick-22:Broad Index Grinds Higher in Low-Dispersion Trade:effect-22-32:multiplier-0.007",
+          "line": 4653,
+          "multiplier": 0.007,
+          "startTick": 22,
+          "endTick": 32
+        },
+        {
+          "id": "module-5.7:tick-62:Quality and Defensive Shares Gain as Growth Leadership Fades:effect-62-70:multiplier-0.006",
+          "line": 4738,
+          "multiplier": 0.006,
+          "startTick": 62,
+          "endTick": 70
+        }
+      ]
+    },
+    {
+      "kind": "news_ticker_links",
+      "count": 63,
+      "decision": "rewrite",
+      "reason": "Preserve explicit scenario scope with private effects and validated ticker references.",
+      "records": [
+        {
+          "id": "module-2.1:tick-2:Microsoft Linked to Major Government Cloud Bid:MSFT",
+          "line": 2983
+        },
+        {
+          "id": "module-2.1:tick-6:Microsoft Announces Expanded Public-Sector Cloud Agreements:MSFT",
+          "line": 3023
+        },
+        {
+          "id": "module-2.2:tick-1:NVIDIA Expectations Climb Further Ahead of Results:NVDA",
+          "line": 3063
+        },
+        {
+          "id": "module-2.2:tick-5:NVIDIA Delivers In-Line Quarter, Keeps Demand Outlook Strong:NVDA",
+          "line": 3103
+        },
+        {
+          "id": "module-2.3:tick-1:Tesla Estimates Rise Into Earnings on Delivery Optimism:TSLA",
+          "line": 3143
+        },
+        {
+          "id": "module-2.3:tick-5:Tesla Slides on Earnings Miss as Margin Pressure Persists:TSLA",
+          "line": 3183
+        },
+        {
+          "id": "module-2.4:tick-7:Apple Services Data Eases Fears of a Sharp Slowdown:AAPL",
+          "line": 3223
+        },
+        {
+          "id": "module-2.4:tick-22:Repurchase Speculation Boosts Apple Shares:AAPL",
+          "line": 3263
+        },
+        {
+          "id": "module-2.5:tick-6:Palantir Becomes Top Retail Focus as Volume Surges:PLTR",
+          "line": 3303
+        },
+        {
+          "id": "module-2.5:tick-20:Palantir Pulls Back as Early Momentum Traders Take Profit:PLTR",
+          "line": 3343
+        },
+        {
+          "id": "module-3.1:tick-8:Thin Opening Depth Leaves Apple Spread Wider Than Usual:AAPL",
+          "line": 3383
+        },
+        {
+          "id": "module-3.1:tick-30:Program Selling Weighs on Apple Bids Through Mid-Session:AAPL",
+          "line": 3423
+        },
+        {
+          "id": "module-3.2:tick-12:Supplier Timing Concern Pushes Apple Lower in Early Trade:AAPL",
+          "line": 3463
+        },
+        {
+          "id": "module-3.2:tick-40:Late Corporate Buying Helps Apple Rebound Into Close:AAPL",
+          "line": 3503
+        },
+        {
+          "id": "module-3.3:tick-18:NVIDIA Guidance Cut Forces Fast Repricing:NVDA",
+          "line": 3543
+        },
+        {
+          "id": "module-3.3:tick-52:NVIDIA Rebounds as Tactical Buyers Step Back In:NVDA",
+          "line": 3583
+        },
+        {
+          "id": "module-3.4:tick-24:Unverified Product Chatter Triggers Rapid Tesla Spike:TSLA",
+          "line": 3623
+        },
+        {
+          "id": "module-3.5:tick-14:Tesla Margin Warning Triggers Broad De-Risking:TSLA",
+          "line": 3663
+        },
+        {
+          "id": "module-3.5:tick-44:Credit Desk Downgrade Extends Tesla Downtrend:TSLA",
+          "line": 3703
+        },
+        {
+          "id": "module-3.6:tick-18:NVIDIA Demand Revision Starts Fresh Down Leg:NVDA",
+          "line": 3743
+        },
+        {
+          "id": "module-3.6:tick-40:Short Squeeze Rips NVIDIA as Positioning Gets Crowded:NVDA",
+          "line": 3783
+        },
+        {
+          "id": "module-3.6:tick-58:NVIDIA Follow-Through Selling Returns After Failed Bounce:NVDA",
+          "line": 3823
+        },
+        {
+          "id": "module-3.4:tick-48:Tesla Reverses After Source Disputes Earlier Claim:TSLA",
+          "line": 3863
+        },
+        {
+          "id": "module-4.3:tick-16:Fed Remarks Trigger Two-Way Repricing in Equities:MSFT",
+          "line": 3903
+        },
+        {
+          "id": "module-4.4:tick-14:Shutdown Headlines Swing Bank Shares as Talks Stall:JPM",
+          "line": 3949
+        },
+        {
+          "id": "module-4.5:tick-10:Infrastructure Failure Jolts Energy Tape, Then Bounce Fades:XOM",
+          "line": 3995
+        },
+        {
+          "id": "puzzle-1.1:tick-1:Thailand Drops Baht Peg, Regional Markets Sell Off:TM",
+          "line": 4045
+        },
+        {
+          "id": "puzzle-1.1:tick-32:Contagion Fears Spread to Japanese Exporters:TM",
+          "line": 4085
+        },
+        {
+          "id": "puzzle-1.2:tick-15:Italy Mobility Curbs Hit Global Travel Outlook:CCL",
+          "line": 4125
+        },
+        {
+          "id": "puzzle-1.2:tick-17:WHO Pandemic Declaration Deepens Travel-Sector Pressure:CCL",
+          "line": 4165
+        },
+        {
+          "id": "puzzle-1.2:tick-20:US No-Sail Order Extends Cruise Industry Freeze:CCL",
+          "line": 4205
+        },
+        {
+          "id": "module-5.1:tick-66:Valuation Reset Hits High-Multiple Technology Stocks:AAPL",
+          "line": 4248
+        },
+        {
+          "id": "module-5.1:tick-66:Valuation Reset Hits High-Multiple Technology Stocks:MSFT",
+          "line": 4248
+        },
+        {
+          "id": "module-5.1:tick-66:Valuation Reset Hits High-Multiple Technology Stocks:NVDA",
+          "line": 4248
+        },
+        {
+          "id": "module-5.2:tick-20:Credit Outlook Cuts Pressure Levered Cyclical Names:F",
+          "line": 4288
+        },
+        {
+          "id": "module-5.2:tick-34:Investors Favor Balance-Sheet Strength and Stable Cash Flow:PG",
+          "line": 4328
+        },
+        {
+          "id": "module-5.2:tick-34:Investors Favor Balance-Sheet Strength and Stable Cash Flow:PFE",
+          "line": 4328
+        },
+        {
+          "id": "module-5.3:tick-26:Crowded AI Trade Unwinds as Leaders Sell Off Together:NVDA",
+          "line": 4368
+        },
+        {
+          "id": "module-5.3:tick-26:Crowded AI Trade Unwinds as Leaders Sell Off Together:AMD",
+          "line": 4368
+        },
+        {
+          "id": "module-5.3:tick-26:Crowded AI Trade Unwinds as Leaders Sell Off Together:QCOM",
+          "line": 4368
+        },
+        {
+          "id": "module-5.3:tick-48:Healthcare and Utilities Attract Inflows as AI Leaders Cool:UNH",
+          "line": 4408
+        },
+        {
+          "id": "module-5.3:tick-48:Healthcare and Utilities Attract Inflows as AI Leaders Cool:NEE",
+          "line": 4408
+        },
+        {
+          "id": "module-5.4:tick-24:High-Beta Squeeze Reverses After Early Surge:TSLA",
+          "line": 4448
+        },
+        {
+          "id": "module-5.4:tick-24:High-Beta Squeeze Reverses After Early Surge:NVDA",
+          "line": 4448
+        },
+        {
+          "id": "module-5.5:tick-42:Demand Outlook Downgrade Hits Energy and Cyclicals:XOM",
+          "line": 4493
+        },
+        {
+          "id": "module-5.5:tick-42:Demand Outlook Downgrade Hits Energy and Cyclicals:CVX",
+          "line": 4493
+        },
+        {
+          "id": "module-5.5:tick-42:Demand Outlook Downgrade Hits Energy and Cyclicals:CAT",
+          "line": 4493
+        },
+        {
+          "id": "module-5.5:tick-42:Defensive and Quality Tech Groups Take Market Leadership:AAPL",
+          "line": 4533
+        },
+        {
+          "id": "module-5.5:tick-42:Defensive and Quality Tech Groups Take Market Leadership:NEE",
+          "line": 4533
+        },
+        {
+          "id": "module-5.6:tick-30:Breadth Broadens as Former Market Leader Loses Momentum:AAPL",
+          "line": 4573
+        },
+        {
+          "id": "module-5.6:tick-46:Lagging Defensive Groups Outperform in Late Rotation:KO",
+          "line": 4613
+        },
+        {
+          "id": "module-5.6:tick-46:Lagging Defensive Groups Outperform in Late Rotation:JNJ",
+          "line": 4613
+        },
+        {
+          "id": "module-5.6:tick-46:Lagging Defensive Groups Outperform in Late Rotation:XOM",
+          "line": 4613
+        },
+        {
+          "id": "module-5.7:tick-22:Broad Index Grinds Higher in Low-Dispersion Trade:AAPL",
+          "line": 4653
+        },
+        {
+          "id": "module-5.7:tick-22:Broad Index Grinds Higher in Low-Dispersion Trade:MSFT",
+          "line": 4653
+        },
+        {
+          "id": "module-5.7:tick-22:Broad Index Grinds Higher in Low-Dispersion Trade:NVDA",
+          "line": 4653
+        },
+        {
+          "id": "module-5.7:tick-22:Broad Index Grinds Higher in Low-Dispersion Trade:JPM",
+          "line": 4653
+        },
+        {
+          "id": "module-5.7:tick-22:Broad Index Grinds Higher in Low-Dispersion Trade:JNJ",
+          "line": 4653
+        },
+        {
+          "id": "module-5.7:tick-22:Broad Index Grinds Higher in Low-Dispersion Trade:XOM",
+          "line": 4653
+        },
+        {
+          "id": "module-5.7:tick-62:Late-Cycle Pullback Weighs on High-Growth Leaders:NVDA",
+          "line": 4692
+        },
+        {
+          "id": "module-5.7:tick-62:Quality and Defensive Shares Gain as Growth Leadership Fades:JNJ",
+          "line": 4738
+        },
+        {
+          "id": "module-5.7:tick-62:Quality and Defensive Shares Gain as Growth Leadership Fades:XOM",
+          "line": 4738
+        },
+        {
+          "id": "module-5.7:tick-62:Quality and Defensive Shares Gain as Growth Leadership Fades:JPM",
+          "line": 4738
+        }
+      ]
+    },
+    {
+      "kind": "macro_effects_and_ticker_links",
+      "count": 2,
+      "decision": "rewrite",
+      "reason": "Separate public information from private effect schedules; validate provenance and replay.",
+      "records": [
+        {
+          "id": "module-4.1:interest_rate:AAPL",
+          "line": 2894,
+          "multiplier": -0.009,
+          "startTick": 22,
+          "endTick": 30
+        },
+        {
+          "id": "module-4.2:inflation:NVDA",
+          "line": 2933,
+          "multiplier": -0.011,
+          "startTick": 24,
+          "endTick": 33
+        }
+      ]
+    },
+    {
+      "kind": "generated_short_tool_flags",
+      "count": 14,
+      "sourceLine": 2716,
+      "decision": "rewrite",
+      "reason": "Current short unlock from module3.5 onward conflicts with optional advanced path.",
+      "ids": [
+        "module-3.5:short_selling",
+        "module-3.6:short_selling",
+        "module-4.1:short_selling",
+        "module-4.2:short_selling",
+        "module-4.3:short_selling",
+        "module-4.4:short_selling",
+        "module-4.5:short_selling",
+        "module-5.1:short_selling",
+        "module-5.2:short_selling",
+        "module-5.3:short_selling",
+        "module-5.4:short_selling",
+        "module-5.5:short_selling",
+        "module-5.6:short_selling",
+        "module-5.7:short_selling"
+      ]
+    },
+    {
+      "kind": "expanded_fallback_ticker_metadata",
+      "count": 22,
+      "sourceLine": 778,
+      "decision": "rewrite",
+      "reason": "Rewrite with dated and attributed historical or explicitly synthetic inputs; financial ratios/tags have no supplied external provenance.",
+      "ids": [
+        "module-1.1:AAPL",
+        "module-1.2:AAPL",
+        "module-1.3:AAPL",
+        "module-1.4:AAPL",
+        "module-2.1:MSFT",
+        "module-2.2:NVDA",
+        "module-2.3:TSLA",
+        "module-2.4:AAPL",
+        "module-2.5:PLTR",
+        "module-3.1:AAPL",
+        "module-3.2:AAPL",
+        "module-3.3:NVDA",
+        "module-3.4:TSLA",
+        "module-3.5:TSLA",
+        "module-3.6:NVDA",
+        "puzzle-1.1:TM",
+        "puzzle-1.2:CCL",
+        "module-4.1:AAPL",
+        "module-4.2:NVDA",
+        "module-4.3:MSFT",
+        "module-4.4:JPM",
+        "module-4.5:XOM"
+      ]
+    },
+    {
+      "kind": "deleted_legacy_mission_keys",
+      "count": 2,
+      "sourceLine": 1493,
+      "decision": "drop",
+      "reason": "Deletion targets in source, not inserted missions in clean seed. Preserve only migration history.",
+      "ids": [
+        "module-3.5:short_drawdown_guard",
+        "module-3.5:finish_non_negative"
+      ]
+    }
+  ]
+}
