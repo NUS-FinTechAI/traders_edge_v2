@@ -1,0 +1,115 @@
+{
+  "date": "2026-10-04",
+  "browser": "154.0.8037.93",
+  "sourceFiles": {
+    "app.js": {
+      "bytes": 18754,
+      "sha256": "e2d9b720aaab37b8340914313308a84c7766187fdf7340f14854d216b40d2702"
+    },
+    "dashboard.html": {
+      "bytes": 696,
+      "sha256": "452412535802594ca0493cf10c0f882c3472e428c1b2daab4e1a3eea333e7aaa"
+    },
+    "map.html": {
+      "bytes": 684,
+      "sha256": "f1a9f18be61f06af343e096f5592455f835e6f95be4a17a72d918929a1f42870"
+    },
+    "quiz.html": {
+      "bytes": 686,
+      "sha256": "aca16c9dc91d6590943aa56c1a68b51ac1fa3fdf9202a9046f2aa4f4da3459c6"
+    },
+    "styles.css": {
+      "bytes": 18245,
+      "sha256": "496a9f5b8d9cd12b42f73bd12ddd007f9f938dc8be2768e1a9c8c3026d3274a3"
+    }
+  },
+  "matrix": {
+    "screens": ["dashboard", "map", "quiz"],
+    "states": ["default", "empty", "loading", "error", "locked", "success"],
+    "widths": [360, 390, 430, 768],
+    "heights": {
+      "phone": 844,
+      "tablet": 1024
+    },
+    "captures": 72,
+    "allHttp200": true,
+    "pageErrors": [],
+    "horizontalOverflows": 0,
+    "externalRequests": [],
+    "visibleTargetFailures": 0
+  },
+  "textSizeStress": [
+    {
+      "screen": "dashboard",
+      "width": 390,
+      "viewport": 390
+    },
+    {
+      "screen": "map",
+      "width": 390,
+      "viewport": 390
+    },
+    {
+      "screen": "quiz",
+      "width": 390,
+      "viewport": 390
+    }
+  ],
+  "interactions": [
+    {
+      "test": "missing answer blocked",
+      "pass": true,
+      "focus": "answer"
+    },
+    {
+      "test": "incorrect short",
+      "pass": true,
+      "feedback": "Not yet \u00b7 reconsider the spending need\nA few days can still bring a loss.\n\nA shorter holding period does not remove uncertainty. If the investment falls, Sam may not have enough when rent is due.\n\nTry again\n\u21ba",
+      "focus": "feedback wrong"
+    },
+    {
+      "test": "retry clears choice",
+      "pass": true,
+      "focus": "answer"
+    },
+    {
+      "test": "incorrect part",
+      "pass": true,
+      "feedback": "Not yet \u00b7 reconsider the spending need\nHalf the rent is still needed.\n\nSam needs the full $600. Putting half at risk can still create a shortfall; the amount kept aside does not cover the bill.\n\nTry again\n\u21ba",
+      "focus": "feedback wrong"
+    },
+    {
+      "test": "retry clears choice",
+      "pass": true,
+      "focus": "answer"
+    },
+    {
+      "test": "correct answer",
+      "pass": true,
+      "feedback": "Correct reasoning \u00b7 example practice\nThe due date matters.\n\nSam needs all $600 next month. A fall in the investment\u2019s value could leave rent unpaid. Keeping this money separate protects the spending need; future market gains are uncertain.\n\nYou identified a risk to essential spending. One answer alone does not establish mastery.\n\nBack to my learning path\n\u2192"
+    },
+    {
+      "test": "return success route",
+      "pass": true
+    },
+    {
+      "test": "first keyboard focus",
+      "element": {
+        "tag": "A",
+        "text": "Skip to content",
+        "outline": "rgb(147, 70, 46) solid 3px"
+      }
+    },
+    {
+      "test": "reduced motion",
+      "pass": true,
+      "animations": 0
+    }
+  ],
+  "limitations": [
+    "Static examples; no persisted learning or measured production performance.",
+    "Text stress doubles computed font size and numeric line height at390px; not native browser zoom or assistive-technology testing.",
+    "Expert walkthrough, not participant research or WCAG conformance certification.",
+    "Target scan covers visible links, buttons, labels and summaries; hidden controls require separate interaction inspection."
+  ]
+}
