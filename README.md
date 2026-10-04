@@ -1,27 +1,28 @@
-﻿# Trader’s Edge
+# Trader’s Edge
 
-A trading education project with a React/TypeScript frontend and a FastAPI backend.
+A mobile-first financial decision-making academy supported by a trading simulator.
+The repository currently contains an empty React/TypeScript app and a FastAPI health endpoint. Product features follow discovery and design approval.
 
-## Setup
+## Run
 
-Use Node.js 22.12 or newer with npm. From the project root:
+Use Node.js 24 or newer and Python 3.12 or newer.
 
-```powershell
-npm install
+```sh
+npm ci
 npm --prefix client ci
+npm run dev
 ```
 
-The root package provides development commands and Prettier. The client keeps its own dependencies and lockfile; no npm workspace migration is required.
+The client runs at http://localhost:5173. For the API, see [server/README.md](server/README.md).
 
-Once the first root install has generated `package-lock.json`, keep that lockfile in version control and use `npm ci` for subsequent clean installs.
+## Check
 
-## Run and check the frontend
+```sh
+npm run lint
+npm run typecheck
+npm run build
+uv run --project server --extra test --locked python -m unittest discover -s server/tests
+```
 
-Run these commands from the project root:
-
-| Important Command | Purpose                                                         |
-| ----------------- | --------------------------------------------------------------- |
-| `npm run dev`     | Start the Vite development server                               |
-| `npm run build`   | Type-check and build the frontend into `client/dist`            |
-| `npm run lint`    | Run the client's Oxlint and project's Prettier format checks    |
-| `npm run fix`     | Fix front-end lint issues and format this project with Prettier |
+Install the server dependencies before running API tests. CI runs these checks on pull requests.
+See [AGENTS.md](AGENTS.md) for repository conventions and [docs/plan.md](docs/plan.md) for phase gates.
