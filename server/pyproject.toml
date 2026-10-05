@@ -9,6 +9,10 @@ authors = [
 requires-python = ">=3.12"
 dependencies = [
     "fastapi[standard]>=0.141.1",
+    "sqlalchemy[asyncio]>=2.0.36,<3",
+    "aiosqlite>=0.20,<1",
+    "psycopg[binary]>=3.2,<4",
+    "firebase-admin>=6.6,<8",
 ]
 
 [project.scripts]
