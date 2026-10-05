@@ -1,9 +1,16 @@
-/* Temporary setup screen. Product styling follows design approval. */
 :root {
-  font-family: sans-serif;
-  color: #242424;
+  color-scheme: light;
+  font-family: 'Avenir Next', Avenir, 'Segoe UI', sans-serif;
+  color: #172238;
   background: #fff;
+  font-synthesis: none;
   line-height: 1.5;
+  --ink: #172238;
+  --muted: #526075;
+  --blue: #3155cc;
+  --line: #d7dfeb;
+  --wash: #eef3ff;
+  --cool: #f7f9fd;
 }
 * {
   box-sizing: border-box;
@@ -11,4 +18,119 @@
 body {
   margin: 0;
   min-width: 320px;
+}
+a {
+  color: var(--blue);
+  text-underline-offset: 4px;
+}
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+button,
+a,
+summary {
+  touch-action: manipulation;
+}
+button,
+summary {
+  cursor: pointer;
+}
+button:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 4px;
+}
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+h1,
+h2,
+h3 {
+  line-height: 1.16;
+  font-weight: 750;
+  letter-spacing: -0.035em;
+  overflow-wrap: anywhere;
+}
+h1 {
+  font-size: clamp(2rem, 4.3vw, 3rem);
+  max-width: 760px;
+  margin-bottom: 16px;
+}
+h2 {
+  font-size: 1.5rem;
+  margin-bottom: 14px;
+}
+h3 {
+  font-size: 1.125rem;
+  margin-bottom: 10px;
+}
+p + p {
+  margin-top: 14px;
+}
+input:not([type='radio']):not([type='checkbox']),
+select,
+textarea {
+  display: block;
+  width: 100%;
+  min-height: 48px;
+  padding: 12px;
+  border: 1px solid #8191aa;
+  border-radius: 8px;
+  background: white;
+  color: var(--ink);
+  margin: 8px 0 12px;
+}
+textarea {
+  min-height: 130px;
+  resize: vertical;
+}
+label {
+  display: block;
+}
+button,
+a,
+summary {
+  min-width: 44px;
+  min-height: 44px;
+}
+button {
+  border: 0;
+}
+summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--blue);
+  font-weight: 650;
+  padding: 10px 0;
+  min-height: 44px;
+}
+summary:after {
+  content: '+';
+  font-size: 20px;
+}
+details[open] > summary:after {
+  content: '−';
+}
+[hidden] {
+  display: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation: none !important;
+    transition: none !important;
+  }
 }
