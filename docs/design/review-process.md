@@ -1,9 +1,7 @@
-# Exploration review process
+# Design review evidence
 
-The three designers receive the same screen/content brief but different art directions. They do not inspect each other's output until all drafts are ready. The design lead owns the shared brief and final recommendation; the owner selects the direction.
+Three initial directions used the same screen/content brief and were developed separately before cross-review. Visual, accessibility and beginner walkthrough reviews identified and corrected map meaning, target size, overflow and next-action problems. The owner selected Fieldbook’s structure and then requested the contemporary refinement. See the [selected reference and evidence](explorations/review.md).
 
-Evidence covers dashboard/map/quiz at 360, 390, 430 and 768px, including default/empty/loading/error/locked/success states. File names identify screen, state and width. Screenshots prove rendering at capture time; keyboard, contrast, target-size, request and interaction checks are separate evidence.
+The retained QA summary records dashboard, map and quiz checks at 360, 390, 430 and 768px in default, empty, loading, error, locked and success states. Keyboard focus, quiz feedback, target sizes, reduced motion and doubled text were checked separately from screenshots. Historical expert scores described those prototypes; they are not participant outcomes or current application acceptance tests.
 
-After divergence, reviewers take distinct roles: visual critic, accessibility auditor and beginner usability reviewer. Each reviews all three directions and scores the six dimensions in the anti-slop checklist. Safety failures block a recommendation regardless of score. The usability role is an expert walkthrough, not participant research. Fix observed defects and recapture affected evidence before recommending.
-
-Record disputes in `.coordination/` and publish the useful conclusions with the explorations. Do not declare the owner's choice or produce final product tokens before approval. Prototype artifacts are allowed in the repository; they do not implement the application.
+For product changes, verify real state and navigation, capture 390px before/after evidence, review focus and enlarged text, and recheck safety and beginner comprehension. Fix blockers and recapture affected evidence. Prototype results do not establish production accessibility, performance or learning effectiveness.

@@ -1,6 +1,6 @@
 # Fieldbook refinement
 
-Status: refined static candidate. This document describes these three example screens; it does not specify the complete product or establish production performance or learner outcomes. The owner selected Fieldbook's structure and asked for a contemporary learning-app treatment with a thoughtful fox. The final artwork and detailed visual rules remain reviewable.
+Status: selected structural and visual reference, preserved as a static prototype. This document describes these three example screens; it does not specify the complete product or establish production performance or learner outcomes. The owner selected Fieldbook's structure and asked for a contemporary learning-app treatment with a thoughtful fox. The final artwork and detailed visual rules remain reviewable.
 
 ## What changed
 
@@ -38,4 +38,4 @@ The full-resolution asset is larger than required for this display size. Respons
 
 ## Review evidence
 
-This revision has no inherited screenshots or QA results from the earlier Fieldbook. The accompanying `qa-summary.json` records 72 passing screen/state/viewport captures and three passing doubled-text checks. Quiz validation, both wrong choices, retry and correct-answer return passed; first keyboard focus and reduced motion were checked. Before/after390px captures are included. CSS requests Avenir Next with weight900 for major headings; its heavy rounded appearance is intentional and installed-font rendering varies by device. This is an expert review of a static example, not participant testing or an accessibility conformance claim.
+This revision has no inherited screenshots or QA results from the earlier Fieldbook. The accompanying `qa-summary.json` records 72 passing screen/state/viewport captures and three passing doubled-text checks. Quiz validation, both wrong choices, retry and correct-answer return passed; first keyboard focus and reduced motion were checked. The three default390px captures remain here; the complete capture matrix and earlier concepts are recoverable from Git history before the documentation cleanup. CSS requests Avenir Next with weight900 for major headings; its heavy rounded appearance is intentional and installed-font rendering varies by device. This is an expert review of a static example, not participant testing or an accessibility conformance claim.
