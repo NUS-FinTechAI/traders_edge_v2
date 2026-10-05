@@ -23,8 +23,10 @@ The client runs at http://localhost:5173. For the API, see [server/README.md](se
 npm run lint
 npm run typecheck
 npm run build
+npm test
 uv run --project server --extra test --locked python -m unittest discover -s server/tests
 ```
 
 Install the server dependencies before running API tests. CI runs these checks on pull requests.
+See [the HTTP service guide](client/services/README.md) for frontend API calls and configuration.
 See [AGENTS.md](AGENTS.md) for repository conventions and [docs/plan.md](docs/plan.md) for phase gates.
