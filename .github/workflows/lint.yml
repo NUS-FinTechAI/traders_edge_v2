@@ -44,6 +44,9 @@ jobs:
       - name: Check types and build
         run: npm run typecheck && npm run build
 
+      - name: Test frontend HTTP service
+        run: npm test
+
       - name: Set up Python
         uses: actions/setup-python@v6
         with:

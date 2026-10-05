@@ -4,6 +4,7 @@
   "scripts": {
     "dev": "npm --prefix client run dev",
     "build": "npm --prefix client run build",
+    "test": "npm --prefix client test",
     "preview": "npm --prefix client run preview",
     "lint:eslint": "npm --prefix client run lint",
     "lint:eslint:fix": "npm --prefix client run lint -- --fix",
