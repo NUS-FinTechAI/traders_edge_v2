@@ -23,6 +23,11 @@ class ContentValidationError(ValueError):
     """The authored content violates the service contract."""
 
 
+def valid_choice_option_id(value: Any) -> bool:
+    """Match the identifier limits and whitespace handling of answer submissions."""
+    return isinstance(value, str) and 1 <= len(value) <= 100 and value == value.strip()
+
+
 def validate_catalog(catalog: dict[str, Any]) -> None:
     """Reject incomplete content, ambiguous answer keys and inconsistent progression."""
     def require(condition: bool, message: str) -> None:
@@ -73,12 +78,57 @@ def validate_catalog(catalog: dict[str, Any]) -> None:
         option_ids = []
         for option in options:
             require(isinstance(option, dict), f"{item['id']}: option must be object")
-            text(option.get("id"), f"{item['id']}.option.id")
+            require(valid_choice_option_id(option.get('id')), f"{item['id']}.option.id: invalid choice option id (expected trim-stable text of one to 100 characters)")
             text(option.get("text"), f"{item['id']}.option.text")
             option_ids.append(option["id"])
         require(len(set(option_ids)) == len(option_ids), f"{item['id']}: duplicate option ids")
         require(len({option['text'] for option in options}) == len(options), f"{item['id']}: duplicate option text")
         require(item.get("correct_option_id") in option_ids, f"{item['id']}: answer key not in options")
+
+    def tasks(items: Any, prefix: str, teaching: bool = False) -> None:
+        require(isinstance(items, list) and bool(items), f"{prefix}: tasks required")
+        types = set()
+        for item in items:
+            require(isinstance(item, dict), f"{prefix}: task must be object")
+            kind = item.get('type')
+            require(isinstance(kind, str) and kind in {'instruction', 'choice', 'classification'}, f"{prefix}: unsupported task type")
+            types.add(kind)
+            identifier(item.get('id'), prefix)
+            require(item['id'].startswith(prefix), f"{prefix}: task id outside owner")
+            text(item.get('prompt'), f"{prefix}.prompt")
+            common = {'id', 'type', 'prompt'}
+            if kind == 'instruction':
+                require(teaching, f"{prefix}: assessment and bonus tasks must be graded")
+                require(set(item) == common | {'text'}, f"{prefix}: unexpected instruction fields")
+                text(item.get('text'), f"{prefix}.text")
+                continue
+            text(item.get('explanation'), f"{prefix}.explanation")
+            require(type(item.get('critical')) is bool, f"{prefix}: critical must be boolean")
+            common |= {'explanation', 'critical'}
+            groups = ('options',) if kind == 'choice' else ('items', 'categories')
+            ids = {}
+            for group in groups:
+                values = item.get(group)
+                require(isinstance(values, list) and 2 <= len(values) <= 20, f"{prefix}: {group} need two to twenty entries")
+                for value in values:
+                    require(isinstance(value, dict) and set(value) == {'id', 'text'}, f"{prefix}: invalid {group}")
+                    text(value['id'], f"{prefix}.{group}.id")
+                    require(group == 'options' or value['id'] == value['id'].strip(), f"{prefix}.{group}.id: expected trim-stable identifier")
+                    if group == 'options':
+                        require(valid_choice_option_id(value['id']), f"{prefix}.{group}.id: invalid choice option id (expected trim-stable text of one to 100 characters)")
+                    text(value['text'], f"{prefix}.{group}.text")
+                ids[group] = {v['id'] for v in values}
+                require(len(ids[group]) == len(values), f"{prefix}: duplicate {group} id")
+            if kind == 'choice':
+                require(set(item) == common | {'options', 'correct_option_id'}, f"{prefix}: unexpected choice fields")
+                require(item.get('correct_option_id') in ids['options'], f"{prefix}: invalid answer key")
+            else:
+                require(set(item) == common | {'items', 'categories', 'correct_assignments'}, f"{prefix}: unexpected classification fields")
+                assignments = item.get('correct_assignments')
+                require(isinstance(assignments, dict) and set(assignments) == ids['items'] and all(isinstance(v, str) and v in ids['categories'] for v in assignments.values()), f"{prefix}: invalid classification assignment")
+        require(types - {'instruction'}, f"{prefix}: graded tasks required")
+        if teaching:
+            require('instruction' in types, f"{prefix}: authored teaching tasks required")
 
     modules = catalog.get("modules")
     require(isinstance(modules, list) and len(modules) == 10, "exactly ten complete modules required")
@@ -94,6 +144,9 @@ def validate_catalog(catalog: dict[str, Any]) -> None:
         require(module.get("prerequisite_module_ids") == ([previous_module] if previous_module else []), "module prerequisites must follow source order")
         lessons = module.get("lessons")
         require(isinstance(lessons, list) and 3 <= len(lessons) <= 4, "module needs three or four lessons")
+        interactive = 'entry_tasks' in module
+        if interactive:
+            tasks(module['entry_tasks'], f"m{number:02}-entry-")
         previous_lesson = None
         for index, lesson in enumerate(lessons, 1):
             require(isinstance(lesson, dict), "lesson: expected object")
@@ -115,6 +168,11 @@ def validate_catalog(catalog: dict[str, Any]) -> None:
             require(isinstance(questions, list) and 2 <= len(questions) <= 3, "lesson needs two or three practice questions")
             for item in questions:
                 question(item, f"{lesson['id']}-q")
+            if interactive:
+                tasks(lesson.get('tasks'), f"{lesson['id']}-task-", teaching=True)
+                tasks(lesson.get('bonus_tasks'), f"{lesson['id']}-bonus-")
+            else:
+                require('tasks' not in lesson and 'bonus_tasks' not in lesson, 'interactive tasks require a module diagnostic')
             previous_lesson = lesson["id"]
         check = module.get("assessment")
         require(isinstance(check, list) and 4 <= len(check) <= 5, "module needs four or five mastery questions")
