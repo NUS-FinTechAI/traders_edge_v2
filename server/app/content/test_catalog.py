@@ -48,7 +48,7 @@ class CatalogTests(unittest.TestCase):
 
     def test_new_edition_remains_pending_independent_review(self):
         self.assertEqual(self.catalog['schema_version'], 1)
-        self.assertEqual(self.catalog['content_version'], '2026-10-04.3')
+        self.assertEqual(self.catalog['content_version'], '2026-10-04.4')
         pending = 'authored_requires_independent_review'
         self.assertEqual(self.catalog['review_status'], pending)
         for module in self.catalog['modules']:
@@ -181,11 +181,11 @@ class CatalogTests(unittest.TestCase):
                     bonus.extend(lesson['bonus_tasks'])
                 self.assertTrue(module['bonus_mission']['optional'])
                 self.assertEqual(module['bonus_mission']['implementation_status'], 'content_only')
-        self.assertEqual(Counter(t['type'] for t in required), {'instruction': 33, 'choice': 36, 'classification': 27})
+        self.assertEqual(Counter(t['type'] for t in required), {'instruction': 33, 'choice': 36, 'classification': 27, 'simulation': 1})
         self.assertEqual(Counter(t['type'] for t in bonus), {'choice': 28, 'classification': 2})
         identifiers = [t['id'] for m in modules for t in m['entry_tasks']] + [t['id'] for t in required + bonus]
-        self.assertEqual(len(identifiers), 156)
-        self.assertEqual(len(set(identifiers)), 156)
+        self.assertEqual(len(identifiers), 157)
+        self.assertEqual(len(set(identifiers)), 157)
         validate_catalog(self.catalog)
 
     def test_entry_bank_is_unhinted_distinct_and_allows_uncertainty(self):
@@ -203,6 +203,31 @@ class CatalogTests(unittest.TestCase):
                     self.assertNotEqual(task['correct_option_id'], 'unsure')
                     prompts.append(task['prompt'])
         self.assertEqual(len(set(prompts)), 30)
+
+    def test_single_bounded_simulation_contract_rejects_invalid_authoring(self):
+        from copy import deepcopy
+        bound = self.catalog['modules'][4]['lessons'][0]
+        self.assertEqual(bound['id'], 'm05-l01')
+        self.assertEqual(bound['tasks'][-1]['type'], 'simulation')
+        self.assertFalse(bound['simulation_binding']['investment_thesis_supplied'])
+        mutations = [
+            lambda lesson: lesson.pop('simulation_binding'),
+            lambda lesson: lesson['simulation_binding'].update(engine_version=True),
+            lambda lesson: lesson['simulation_binding'].update(max_quantity=6),
+            lambda lesson: lesson['simulation_binding'].update(unit_price_cap_basis='mid'),
+            lambda lesson: lesson['tasks'].reverse(),
+            lambda lesson: lesson['tasks'].pop(),
+            lambda lesson: lesson['tasks'].append({**lesson['tasks'][-1], 'id': 'm05-l01-task-other'}),
+            lambda lesson: lesson['bonus_tasks'].append(deepcopy(lesson['tasks'][-1])),
+        ]
+        for mutate in mutations:
+            content = deepcopy(self.catalog)
+            mutate(content['modules'][4]['lessons'][0])
+            with self.assertRaises(ContentValidationError):
+                validate_catalog(content)
+        self.catalog['modules'][0]['lessons'][0]['simulation_binding'] = deepcopy(bound['simulation_binding'])
+        with self.assertRaisesRegex(ContentValidationError, 'binding'):
+            validate_catalog(self.catalog)
 
 if __name__ == "__main__":
     unittest.main()

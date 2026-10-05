@@ -5,6 +5,7 @@ from typing import Any
 from urllib.parse import urlparse
 
 from .catalog import load_catalog
+from app.simulation.bindings import valid_binding
 
 MODULE_TITLES = (
     "Money Before Markets", "How Markets Work", "Investment Products",
@@ -78,20 +79,20 @@ def validate_catalog(catalog: dict[str, Any]) -> None:
         option_ids = []
         for option in options:
             require(isinstance(option, dict), f"{item['id']}: option must be object")
-            require(valid_choice_option_id(option.get('id')), f"{item['id']}.option.id: invalid choice option id (expected trim-stable text of one to 100 characters)")
+            require(valid_choice_option_id(option.get("id")), f"{item['id']}.option.id: invalid choice option id (expected trim-stable text of one to 100 characters)")
             text(option.get("text"), f"{item['id']}.option.text")
             option_ids.append(option["id"])
         require(len(set(option_ids)) == len(option_ids), f"{item['id']}: duplicate option ids")
         require(len({option['text'] for option in options}) == len(options), f"{item['id']}: duplicate option text")
         require(item.get("correct_option_id") in option_ids, f"{item['id']}: answer key not in options")
 
-    def tasks(items: Any, prefix: str, teaching: bool = False) -> None:
+    def tasks(items: Any, prefix: str, teaching: bool = False, bound: bool = False) -> None:
         require(isinstance(items, list) and bool(items), f"{prefix}: tasks required")
         types = set()
         for item in items:
             require(isinstance(item, dict), f"{prefix}: task must be object")
             kind = item.get('type')
-            require(isinstance(kind, str) and kind in {'instruction', 'choice', 'classification'}, f"{prefix}: unsupported task type")
+            require(isinstance(kind, str) and kind in {'instruction', 'choice', 'classification', 'simulation'}, f"{prefix}: unsupported task type")
             types.add(kind)
             identifier(item.get('id'), prefix)
             require(item['id'].startswith(prefix), f"{prefix}: task id outside owner")
@@ -105,6 +106,9 @@ def validate_catalog(catalog: dict[str, Any]) -> None:
             text(item.get('explanation'), f"{prefix}.explanation")
             require(type(item.get('critical')) is bool, f"{prefix}: critical must be boolean")
             common |= {'explanation', 'critical'}
+            if kind == 'simulation':
+                require(bound and teaching and item is items[-1] and set(item) == common and item['critical'], f'{prefix}: simulation must be the final bound graded task')
+                continue
             groups = ('options',) if kind == 'choice' else ('items', 'categories')
             ids = {}
             for group in groups:
@@ -126,6 +130,7 @@ def validate_catalog(catalog: dict[str, Any]) -> None:
                 require(set(item) == common | {'items', 'categories', 'correct_assignments'}, f"{prefix}: unexpected classification fields")
                 assignments = item.get('correct_assignments')
                 require(isinstance(assignments, dict) and set(assignments) == ids['items'] and all(isinstance(v, str) and v in ids['categories'] for v in assignments.values()), f"{prefix}: invalid classification assignment")
+        require(sum(item['type'] == 'simulation' for item in items) == int(bound), f'{prefix}: exactly one simulation task per binding required')
         require(types - {'instruction'}, f"{prefix}: graded tasks required")
         if teaching:
             require('instruction' in types, f"{prefix}: authored teaching tasks required")
@@ -168,8 +173,11 @@ def validate_catalog(catalog: dict[str, Any]) -> None:
             require(isinstance(questions, list) and 2 <= len(questions) <= 3, "lesson needs two or three practice questions")
             for item in questions:
                 question(item, f"{lesson['id']}-q")
+            bound = 'simulation_binding' in lesson
+            if bound:
+                require(interactive and lesson['id'] == 'm05-l01' and valid_binding(lesson['simulation_binding']), 'invalid simulation binding')
             if interactive:
-                tasks(lesson.get('tasks'), f"{lesson['id']}-task-", teaching=True)
+                tasks(lesson.get('tasks'), f"{lesson['id']}-task-", teaching=True, bound=bound)
                 tasks(lesson.get('bonus_tasks'), f"{lesson['id']}-bonus-")
             else:
                 require('tasks' not in lesson and 'bonus_tasks' not in lesson, 'interactive tasks require a module diagnostic')

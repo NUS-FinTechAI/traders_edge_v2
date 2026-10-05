@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "content_version": "2026-10-04.3",
+  "content_version": "2026-10-04.4",
   "review_status": "authored_requires_independent_review",
   "sources": [
     {
@@ -1697,10 +1697,29 @@
       "lessons": [
         {
           "id": "m05-l01",
+          "simulation_binding": {
+            "id": "m05-l01-limit-audit-v1",
+            "engine_version": 1,
+            "provenance": "Controlled synthetic educational case; not historical market data or an investment recommendation.",
+            "kind": "sideways",
+            "ticks": 30,
+            "symbol": "NORTH",
+            "side": "buy",
+            "order_type": "limit",
+            "max_orders": 2,
+            "max_quantity": 5,
+            "max_advance": 2,
+            "min_observe": 10,
+            "max_tick": 29,
+            "unit_price_cap_basis": "opening_ask",
+            "unit_price_cap_excludes_fees": true,
+            "investment_thesis_supplied": false
+          },
           "tasks": [
             {"id": "m05-l01-task-brief", "type": "instruction", "prompt": "Match a ticket to its constraint", "text": "A market order prioritizes execution at available prices, not a guaranteed quote. A limit constrains price but may not fill. Example: a maximum purchase price of 25 matches a buy limit of 25; an ask of 25.50 may leave it open. Selecting a card here sends no order. Every actual simulated order needs its own written plan first."},
             {"id": "m05-l01-task-ticket", "type": "choice", "prompt": "A fictional plan refuses purchases above 17.20 before fees and allows waiting. The ask is 17.40. Which ticket card preserves that constraint?", "options": [{"id": "market", "text": "Market buy; assume the last price of 17.10 is guaranteed"}, {"id": "limit", "text": "Buy limit 17.20; accept possible non-fill"}, {"id": "raise", "text": "Buy limit 18; treat the old constraint as satisfied"}], "correct_option_id": "limit", "critical": true, "explanation": "The limit preserves the maximum unit price. Non-fill is a possible result, not a reason to pretend the constraint changed."},
-            {"id": "m05-l01-task-states", "type": "classification", "prompt": "Label the recorded states of three ten-unit tickets; do not create new orders.", "items": [{"id": "zero", "text": "0 filled, 10 still open"}, {"id": "four", "text": "4 filled, 6 still open"}, {"id": "ten", "text": "10 filled, 0 remaining"}], "categories": [{"id": "open", "text": "Unfilled/open"}, {"id": "partial", "text": "Partially filled"}, {"id": "filled", "text": "Filled"}], "correct_assignments": {"zero": "open", "four": "partial", "ten": "filled"}, "critical": false, "explanation": "Requested quantity is not filled quantity. Read the fill and remaining fields separately."}
+            {"id": "m05-l01-task-states", "type": "classification", "prompt": "Label the recorded states of three ten-unit tickets; do not create new orders.", "items": [{"id": "zero", "text": "0 filled, 10 still open"}, {"id": "four", "text": "4 filled, 6 still open"}, {"id": "ten", "text": "10 filled, 0 remaining"}], "categories": [{"id": "open", "text": "Unfilled/open"}, {"id": "partial", "text": "Partially filled"}, {"id": "filled", "text": "Filled"}], "correct_assignments": {"zero": "open", "four": "partial", "ten": "filled"}, "critical": false, "explanation": "Requested quantity is not filled quantity. Read the fill and remaining fields separately."},
+            {"id": "m05-l01-task-simulation", "type": "simulation", "prompt": "Observe the synthetic case, then audit its current order states, filled quantities and total fees. This case supplies no investment thesis: choosing to observe without orders is valid. The unit-price cap is the opening NORTH ask, before fees. Any optional order needs a full prior written plan. After at least ten observations, report every order accurately, or select a supported no-order reason, and recognize that a limit does not guarantee a fill.", "critical": true, "explanation": "Completion requires the earlier knowledge checks and an accurate current audit, including a supported reason if no orders were placed. A limit constrains unit price, excludes fees, and does not guarantee execution. Neither profit, order count nor non-fill earns completion or the separate bonus."}
           ],
           "bonus_tasks": [
             {"id": "m05-l01-bonus-wait", "type": "choice", "prompt": "A limit remains open. New evidence invalidates the plan's thesis. Which review response fits?", "options": [{"id": "force", "text": "Raise the limit solely to earn completion."}, {"id": "pretend", "text": "Record an imaginary fill at the limit."}, {"id": "review", "text": "Reconsider the unfilled instruction against the new evidence; any replacement order needs a new prior plan."}], "correct_option_id": "review", "critical": true, "explanation": "Neither activity nor invented fills demonstrate learning. A changed decision requires a plan before any actual replacement order."}
