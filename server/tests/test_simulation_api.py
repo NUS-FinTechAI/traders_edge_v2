@@ -6,7 +6,7 @@ from app.main import create_app
 from app.config import Settings
 from app.db import Database
 from app.migrations import initial_schema
-from sqlalchemy import text
+from sqlalchemy import event, text
 
 from app.db import SimulationSession
 import test_learning as learning_fixtures
@@ -111,6 +111,28 @@ class SimulationAPITests(unittest.TestCase):
             self.assertEqual(restarted.post(path, json=body).json(), before)
             self.assertEqual(len(restarted.get('/api/simulations/' + sid).json()['orders']), 1)
 
+    def test_committed_commands_replay_before_retired_engine_checks(self):
+        self.unlock()
+        sid = self.start().json()['id']
+        path = f'/api/simulations/{sid}/advance'
+        body = {'steps': 1, 'idempotency_key': 'retired-command-key'}
+        first = self.client.post(path, json=body)
+        self.assertEqual(first.status_code, 200)
+        async def retire():
+            async with self.app.state.db.sessions.begin() as db:
+                session = await db.get(SimulationSession, sid)
+                session.version = 99
+        self.client.portal.call(retire)
+        replay = self.client.post(path, json=body)
+        self.assertEqual(replay.status_code, 200, replay.text)
+        self.assertEqual(replay.json(), first.json())
+        self.assertEqual(self.client.get('/api/simulations/' + sid).status_code, 409)
+        self.assertEqual(self.client.post(path, json={**body, 'idempotency_key': 'new-retired-command'}).status_code, 409)
+        self.assertEqual(self.client.post(path, json={**body, 'steps': 2}).status_code, 409)
+        self.client.cookies.clear()
+        self.client.post('/api/session')
+        self.assertEqual(self.client.post(path, json=body).status_code, 404)
+
     def test_version_one_database_upgrades_without_losing_profiles(self):
         async def upgrade():
             with tempfile.TemporaryDirectory() as directory:
@@ -140,6 +162,36 @@ class SimulationAPITests(unittest.TestCase):
                 session.version = 99
         self.client.portal.call(future_version)
         self.assertEqual(self.client.get('/api/simulations/' + first['id']).status_code, 409)
+
+    def test_finished_history_does_not_expand_session_reads_or_active_cap(self):
+        self.unlock()
+        first = self.start().json()
+        self.assertEqual(self.start(key='second-session-key').status_code, 201)
+        self.assertEqual(self.start(key='third-session-key').status_code, 201)
+        async def seed_history():
+            async with self.app.state.db.sessions.begin() as db:
+                source = await db.get(SimulationSession, first['id'])
+                for index in range(200):
+                    db.add(SimulationSession(id=f'finished-history-{index}', user_id=source.user_id,
+                        mode=source.mode, scenario_kind=source.scenario_kind, version=source.version,
+                        snapshot_json={**source.snapshot_json, 'finished': True}, updated_at=source.updated_at))
+        self.client.portal.call(seed_history)
+        statements = []
+        def capture(connection, cursor, statement, parameters, context, executemany):
+            if statement.lstrip().upper().startswith('SELECT'):
+                statements.append(statement)
+        event.listen(self.app.state.db.engine.sync_engine, 'before_cursor_execute', capture)
+        try:
+            listed = self.client.get('/api/simulations').json()['sessions']
+            self.assertEqual(len(listed), 50)
+            self.assertEqual(self.start(key='fourth-session-key').status_code, 409)
+        finally:
+            event.remove(self.app.state.db.engine.sync_engine, 'before_cursor_execute', capture)
+        session_reads = [statement for statement in statements if 'FROM simulation_sessions' in statement]
+        self.assertEqual(len(session_reads), 2)
+        self.assertIn('count(*)', session_reads[1])
+        self.assertNotRegex(''.join(session_reads), r'(?:SELECT|,)\s*simulation_sessions\.snapshot_json(?:\s|,)')
+        self.assertTrue(all(row['learning_run_id'] is None for row in listed))
 
 
 if __name__ == '__main__':
