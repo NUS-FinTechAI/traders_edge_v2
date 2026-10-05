@@ -120,3 +120,9 @@ Passing completes the review and awards the existing `review:<lesson_id>` reward
 - `GET /api/me/activity` accepts ISO `start_date`/`end_date`. The default is the 30-day window ending today UTC; the inclusive ordered window must be 1–366 days (422 otherwise). Response includes `basis: "days with rewarded learning events"`, `timezone: "UTC"`, dates, `{date, active}` days, `current_streak_days` and `longest_streak_days`. Both streaks use **all recorded history**, not the requested window. Current streak runs through today if active, otherwise yesterday. Logins, zero-XP bonuses, claims, equipment and trades do not create activity.
 
 Migration **4 adds only `reward_grants`, `reward_commands`, `profiles.equipped_avatar_id` and `profiles.equipped_title_id`**; both columns are nullable. Migrations 1–3 are untouched. Populated-upgrade regression coverage preserves existing learner/run/simulation evidence; rule snapshots survive policy changes. Back up before upgrading. See `test_rewards.py` and `test_learning_upgrade.py`, rather than interpreting schema changes as deployment validation.
+
+## Simulation replay and read projections
+
+Committed simulation commands replay before checking current engine compatibility. Fresh reads and commands still reject incompatible stored row or snapshot versions. Unfinished-session limits use a scalar database count; session lists read only bounded summary fields and include a nullable `learning_run_id`. No historical market snapshots are loaded to enforce the active-session cap.
+
+`server/tests/benchmark_reads.py` measures only in-process SQLite reads with 20 fresh profiles. Its timings exclude real network, PostgreSQL, Firebase and populated-history load. Workflow query regressions bound query counts independently of module count; these are regression budgets, not deployment proof.
