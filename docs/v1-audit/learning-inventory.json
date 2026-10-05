@@ -1,6 +1,92 @@
 {
   "sourceCommit": "2bf6b5930858fdbb61bc388d4554d4657d9ce377",
   "scope": "Learning, simulation and rewards. Runtime-generated serial IDs use natural composite keys. Source line references belong to v1; counts distinguish VALUES rows from SELECT expansions. Frontend tutorial registry is owned by client inventory.",
+  "mappingNotes": {
+    "status": "Proposed audit annotations only; not a runtime port, lesson schema, approval or second canonical content format. targetMappings annotate existing records by unchanged source ID; targetModule numbers refer to the brief sequence below, never to v1 module numbers.",
+    "dispositions": "retained = concept usable with review; adapted = learning intent retained with stated rewrite; deferred = optional material held until prerequisites and contracts exist; rejected = source grading or claim excluded, with replacement evidence specified. No source asset is removed.",
+    "coverage": "29 levels (27 adventure, 2 puzzle), 10 quizzes, 64 question rows, 89 inserted missions. Ten exact pre/post duplicate pairs in v1 modules 1 and 2 mean 54 distinct prompt/options/answer/explanation items, not 64 independent items. All 23 tutorials are cross-referenced in level mappings; their 122 steps remain owned by frontend-inventory.json.",
+    "gameLoop": "Question, brief explanation, worked example, prediction, guided mission, feedback, reflection, delayed review, mastery. Learners manipulate allocations, investigate evidence, predict fills and test plans in hidden-future scenarios; forms and reflections support gameplay, not points for entering text. Require a written plan before each simulated trade. A justified hold/no-trade decision is valid evidence, not automatic completion.",
+    "assessment": "All mission replacements require scenario-state evidence checked against a reviewed rubric: timestamped pre-action plan and forecast, visible information set, exposure/order/fill or explicit hold events, and post-decision comparison. Never grade profit, net worth, return rank, order count, volume, speed or mere text completion. Bonus means transfer to an unfamiliar branch, not higher profit. Authored numeric risk limits are scenario-specific, not universal advice.",
+    "provenance": "All source history, company facts, macro narratives, timestamps and redistribution rights remain unapproved pending evidence/licensing review. yfinance configurations are live-at-play dependencies, not licensed frozen datasets; orderbook paths including both crisis puzzles are synthetic, not verified real history. Version approved data or authored synthetic fixtures with seed, friction, hidden future and information timestamps before use.",
+    "evidence": [
+      "backend/config/database/init/02-initial_state.sql:8-556 levels; 946-2353 missions; 1493-1495 deletion targets are not inserted missions; 4799-5013 quizzes/questions",
+      "backend/services/game_service/service/single_player_engine.py:1231-1257 mission and final-net-worth points; 1431-1690 evaluator uses counts, PnL and portfolio metrics, not decision reasoning",
+      "backend/services/game_service/service/quiz_service.py:120-180 one-attempt limit, count-correct grading and zero-threshold completion",
+      "frontend/src/features/tutorials/registry/tradingTutorialRegistry.ts; tutorial IDs and step counts cross-referenced through frontend-inventory.json content"
+    ]
+  },
+  "targetModules": [
+    {
+      "module": 1,
+      "title": "Money Before Markets",
+      "sourceBasis": "New foundations required",
+      "objective": "Match saving, investing, trading and speculation to goals, horizon, emergency reserves, debt and risk capacity before allocating money.",
+      "gap": "No adequate v1 readiness mission or quiz; author a household-budget and suitability game including an unsuitable-trade refusal."
+    },
+    {
+      "module": 2,
+      "title": "How Markets Work",
+      "sourceBasis": "module-1.2, module-3.1",
+      "objective": "Read prices and liquidity without treating a chart as a forecast.",
+      "gap": "Add brokers, exchanges, market participants and price formation."
+    },
+    {
+      "module": 3,
+      "title": "Investment Products",
+      "sourceBasis": "module-1.1",
+      "objective": "Compare ownership, lending and pooled investment risks, costs and return sources.",
+      "gap": "Add bonds, funds, ETFs and product-cost comparisons; v1 is stock-heavy."
+    },
+    {
+      "module": 4,
+      "title": "Building a Portfolio",
+      "sourceBasis": "module-5.1, module-5.3, module-5.5, module-5.6, module-5.7",
+      "objective": "Construct a diversified allocation, detect drift and compare a suitable passive benchmark.",
+      "gap": "Bring portfolio concepts before execution using allocation sandboxes without trade requirements; add asset classes, horizon and fee-aware rebalancing."
+    },
+    {
+      "module": 5,
+      "title": "Safe Execution",
+      "sourceBasis": "module-1.3, module-3.2, module-3.3, module-3.4",
+      "objective": "Choose and explain order behavior under gaps, costs, partial fills and non-fills.",
+      "gap": "Add fees, slippage, settlement and jurisdiction-neutral execution cases; local rules belong in packs."
+    },
+    {
+      "module": 6,
+      "title": "Managing Risk",
+      "sourceBasis": "module-1.4, module-5.4 and risk missions",
+      "objective": "Budget exposure and adverse-path loss; follow precommitted review and exit rules.",
+      "gap": "Add explicit position sizing, risk capacity links, gap loss and drawdown recovery; stop prices never guarantee maximum loss."
+    },
+    {
+      "module": 7,
+      "title": "Making Decisions",
+      "sourceBasis": "module-2.1 to module-2.3, module-4.1, module-4.2, module-5.2",
+      "objective": "Evaluate news, expectations and fundamentals using calibrated forecasts and disconfirming evidence.",
+      "gap": "Add source verification, uncertainty and base-rate comparisons; technical strategy moves to optional module 10."
+    },
+    {
+      "module": 8,
+      "title": "Psychology and Protection",
+      "sourceBasis": "Partial whipsaw/news context only",
+      "objective": "Detect bias, conflicts, manipulation and fraud; refuse unsuitable offers and choose protection actions.",
+      "gap": "New fraud, impersonation, guaranteed-return, social-pressure and complaint-route missions/checks required; v1 has no sufficient foundation."
+    },
+    {
+      "module": 9,
+      "title": "Integrated Simulation",
+      "sourceBasis": "module-4.3 to module-4.5, puzzle-1.1, puzzle-1.2",
+      "objective": "Plan, act or abstain and review under conflicting information and unfamiliar adverse paths.",
+      "gap": "Require mastery of modules 1-8; add delayed transfer checks, realistic friction and passive comparisons. Multiplayer/endless remain gated future work."
+    },
+    {
+      "module": 10,
+      "title": "Optional Advanced Paths",
+      "sourceBasis": "module-2.4, module-2.5, module-3.5, module-3.6",
+      "objective": "Critique technical signals and short exposure without guarantees of predictive skill.",
+      "gap": "Defer until core mastery; author borrow, margin, squeeze and liquidation risks. Futures/options/leverage need new reviewed content, not implied v1 coverage."
+    }
+  ],
   "files": [
     {
       "path": "backend/common/order.py",
@@ -191,6 +277,218 @@
       "countBasis": "literal VALUES rows in source; SELECT expansions and generated relations recorded separately",
       "decision": "rewrite",
       "reason": "Retain level-based navigation and scenarios; rewrite readiness-first sequence, objectives, prerequisites, sources and outcome scoring.",
+      "targetMappings": {
+        "module-1.1": {
+          "targetModule": 3,
+          "objective": "Distinguish stock ownership and uncertain returns from guaranteed savings in a product-choice mission.",
+          "disposition": "adapted",
+          "reason": "Keep stock/interface introduction after readiness; expand beyond price speculation.",
+          "tutorialRefs": ["trader-edge-basics", "gen_tut"]
+        },
+        "module-1.2": {
+          "targetModule": 2,
+          "objective": "Reconstruct OHLC from a hidden-next-candle replay and distinguish observation from prediction.",
+          "disposition": "adapted",
+          "reason": "Keep chart literacy, not a strategy prerequisite before readiness.",
+          "tutorialRefs": ["candlestick-chart-basics"]
+        },
+        "module-1.3": {
+          "targetModule": 5,
+          "objective": "Predict and inspect market fills against a written price/risk plan with spread and slippage.",
+          "disposition": "adapted",
+          "reason": "Replace buy/sell counts with fill reasoning and plan adherence.",
+          "tutorialRefs": ["market-order-basics"]
+        },
+        "module-1.4": {
+          "targetModule": 6,
+          "objective": "Compare planned loss and cost-adjusted outcomes on winning and losing branches.",
+          "disposition": "adapted",
+          "reason": "Replace Buy Low, Sell High and profit thresholds with risk-budget decisions; no new source missions are implied.",
+          "tutorialRefs": ["drawdown-basics"]
+        },
+        "module-2.1": {
+          "targetModule": 7,
+          "objective": "Investigate headline evidence, record a calibrated forecast and choose act/hold before reveal.",
+          "disposition": "adapted",
+          "reason": "News is evidence, not an instruction to trade; source narrative/history remains unverified.",
+          "tutorialRefs": ["news-feed-basics"]
+        },
+        "module-2.2": {
+          "targetModule": 7,
+          "objective": "Compare earnings, expectations and guidance across divergent price branches.",
+          "disposition": "adapted",
+          "reason": "Remove bullish forced entry and profit grading; test alternative explanations.",
+          "tutorialRefs": ["news-feed-basics"]
+        },
+        "module-2.3": {
+          "targetModule": 7,
+          "objective": "Revise a thesis after disappointing earnings and test preplanned exposure limits.",
+          "disposition": "adapted",
+          "reason": "A loss does not prove a bad decision; preserve expectation-reset context without hindsight.",
+          "tutorialRefs": ["news-feed-basics", "drawdown-basics"]
+        },
+        "module-2.4": {
+          "targetModule": 10,
+          "objective": "Compute a moving average and discover lag/false signals on unseen branches.",
+          "disposition": "deferred",
+          "reason": "Early technical strategy is unsuitable before core mastery; remove guaranteed trend/profit inference.",
+          "tutorialRefs": ["moving-average-basics"]
+        },
+        "module-2.5": {
+          "targetModule": 10,
+          "objective": "Compare equal-period MA/EMA lag and false alarms without chasing a viral spike.",
+          "disposition": "deferred",
+          "reason": "Optional technical practice only; reaction speed is not predictive reliability.",
+          "tutorialRefs": ["exponential-moving-average-basics"]
+        },
+        "module-3.1": {
+          "targetModule": 2,
+          "objective": "Explore a paused order book and calculate spread/liquidity costs without submitting an order.",
+          "disposition": "adapted",
+          "reason": "Teach market mechanics before execution; remove ticking pressure and forced market trade.",
+          "tutorialRefs": ["bid-ask-spread-basics"]
+        },
+        "module-3.2": {
+          "targetModule": 5,
+          "objective": "Set a justified limit and inspect partial-fill or non-fill outcomes.",
+          "disposition": "adapted",
+          "reason": "Price control does not guarantee a fill or profit.",
+          "tutorialRefs": ["limit-order-basics"]
+        },
+        "module-3.3": {
+          "targetModule": 5,
+          "objective": "Predict stop-market trigger and gap-slippage outcomes for a planned exit.",
+          "disposition": "adapted",
+          "reason": "Source context says risk is capped; correct this and distinguish final PnL from drawdown.",
+          "tutorialRefs": ["stop-loss-basics", "drawdown-basics"]
+        },
+        "module-3.4": {
+          "targetModule": 5,
+          "objective": "Compare stop-market slippage and stop-limit non-fill on the same adverse path.",
+          "disposition": "adapted",
+          "reason": "Keep execution tradeoff, replace order-count and profit missions.",
+          "tutorialRefs": ["stop-limit-basics", "stop-loss-basics"]
+        },
+        "module-3.5": {
+          "targetModule": 10,
+          "objective": "Trace borrow, sell, liability and cover; test squeeze and borrow-cost exposure before considering entry.",
+          "disposition": "deferred",
+          "reason": "Shorts move behind mastery; v1 short lifecycle is not a complete margin/borrow risk model.",
+          "tutorialRefs": ["short-selling-basics"]
+        },
+        "module-3.6": {
+          "targetModule": 10,
+          "objective": "Challenge MA/EMA short confirmation with counterexamples and a squeeze stress test.",
+          "disposition": "deferred",
+          "reason": "Submission counters do not verify confirmation; no signal guarantees squeeze protection.",
+          "tutorialRefs": [
+            "short-selling-confirmation-basics",
+            "moving-average-basics",
+            "exponential-moving-average-basics"
+          ]
+        },
+        "puzzle-1.1": {
+          "targetModule": 9,
+          "objective": "Investigate currency/export exposure and choose a risk response in an unseen crisis branch.",
+          "disposition": "adapted",
+          "reason": "Synthetic crisis narrative, not approved 1997 history; require core mastery and newly authored process missions (no seeded mission rows).",
+          "tutorialRefs": ["news-feed-basics", "gen_tut"]
+        },
+        "puzzle-1.2": {
+          "targetModule": 9,
+          "objective": "Stress-test travel/revenue concentration and revise a plan as uncertain shock evidence arrives.",
+          "disposition": "adapted",
+          "reason": "Synthetic pandemic narrative, not approved historical replay; author evidence-based missions and remove early puzzle gate.",
+          "tutorialRefs": ["news-feed-basics", "gen_tut"]
+        },
+        "module-4.1": {
+          "targetModule": 7,
+          "objective": "Compare rate expectations and inherited exposure before choosing hold or adjustment.",
+          "disposition": "adapted",
+          "reason": "Keep macro context, not a deterministic rates-to-price rule or profit target.",
+          "tutorialRefs": ["interest-rate-basics"]
+        },
+        "module-4.2": {
+          "targetModule": 7,
+          "objective": "Separate inflation level from surprise and update a forecast with confidence.",
+          "disposition": "adapted",
+          "reason": "Replace compulsory profit/defensive order with evidence-based risk decisions.",
+          "tutorialRefs": ["inflation-basics"]
+        },
+        "module-4.3": {
+          "targetModule": 9,
+          "objective": "Revise a prewritten thesis under conflicting policy signals and compare actions with it.",
+          "disposition": "adapted",
+          "reason": "Integrated uncertainty practice requires foundations; no urgency or forced rebalance.",
+          "tutorialRefs": ["interest-rate-basics", "news-feed-basics"]
+        },
+        "module-4.4": {
+          "targetModule": 9,
+          "objective": "Distinguish headline noise from material exposure changes and justify selective action or hold.",
+          "disposition": "adapted",
+          "reason": "Use shutdown as reviewed scenario context, not universal bank-price advice.",
+          "tutorialRefs": ["news-feed-basics", "drawdown-basics"]
+        },
+        "module-4.5": {
+          "targetModule": 9,
+          "objective": "Apply a loss/exposure plan across shock, rebound and aftershock with future events hidden.",
+          "disposition": "adapted",
+          "reason": "Replace survival-by-profit and low-order counts with adverse-path decision evidence.",
+          "tutorialRefs": ["drawdown-basics"]
+        },
+        "module-5.1": {
+          "targetModule": 4,
+          "objective": "Reallocate a crowded basket and reveal common risk factors in a portfolio sandbox.",
+          "disposition": "adapted",
+          "reason": "Move diversification earlier; ticker/sector counts alone do not demonstrate risk reduction.",
+          "tutorialRefs": [
+            "portfolio-allocation-basics",
+            "sector-exposure-basics"
+          ]
+        },
+        "module-5.2": {
+          "targetModule": 7,
+          "objective": "Compare valuation, profitability and leverage evidence without treating one tag/ratio as a recommendation.",
+          "disposition": "adapted",
+          "reason": "Keep fundamentals inquiry; reject mandatory exclusion of F and benchmark-beating grade as general advice.",
+          "tutorialRefs": ["fundamentals-basics"]
+        },
+        "module-5.3": {
+          "targetModule": 4,
+          "objective": "Identify hidden crowding and stress correlation changes in two candidate allocations.",
+          "disposition": "adapted",
+          "reason": "Portfolio earlier; historical/rolling correlation is uncertain, not a protective guarantee.",
+          "tutorialRefs": ["correlation-basics"]
+        },
+        "module-5.4": {
+          "targetModule": 6,
+          "objective": "Contrast beta, realized volatility and plausible loss in a risk-budget sandbox.",
+          "disposition": "adapted",
+          "reason": "Keep distinct risk measures; short-window/static hints require limitations and review.",
+          "tutorialRefs": ["beta-volatility-basics"]
+        },
+        "module-5.5": {
+          "targetModule": 4,
+          "objective": "Evaluate sector drift against a precommitted allocation policy and transaction costs.",
+          "disposition": "adapted",
+          "reason": "Replace urgent rotation timing and outperformance with policy-based rebalance or hold.",
+          "tutorialRefs": ["rebalancing-basics", "sector-exposure-basics"]
+        },
+        "module-5.6": {
+          "targetModule": 4,
+          "objective": "Restore target exposure only when policy bands and costs justify it; test a hold alternative.",
+          "disposition": "adapted",
+          "reason": "Keep seeded drift puzzle; remove known-reversal deadline and order-count bonus.",
+          "tutorialRefs": ["rebalancing-basics", "portfolio-allocation-basics"]
+        },
+        "module-5.7": {
+          "targetModule": 4,
+          "objective": "Select a fair benchmark and explain net return, concentration and uncertainty without needing to win.",
+          "disposition": "adapted",
+          "reason": "Teach benchmark literacy early, revisit in module 9; excess return is not proof of alpha or skill.",
+          "tutorialRefs": ["benchmark-basics"]
+        }
+      },
       "records": [
         {
           "line": 25,
@@ -1399,6 +1697,547 @@
       "countBasis": "literal VALUES rows in source; SELECT expansions and generated relations recorded separately",
       "decision": "rewrite",
       "reason": "Preserve useful risk-recognition and concentration concepts; rewrite verifiable process assessment and drop reward dependence on profit, submitting orders or forced activity.",
+      "gradingDisposition": {
+        "disposition": "rejected",
+        "reason": "Do not port any evaluator unchanged. Submission counts cannot prove fills, intent or confirmation; PnL/wealth/excess returns measure outcomes; count caps and low drawdown can pass without learning. Keep telemetry for feedback, not these completion predicates. final_cash_points_multiplier is rejected for every level, including levels without missions."
+      },
+      "evidenceContractNote": "Audit objectives below require observable scenario interaction plus rubric-checked reasoning, not points for a text form. Verify forecasts before reveal, recompute risk/exposure/fill calculations, compare the event trail to the prewritten plan, and test transfer on hidden alternative paths. All targets are proposals awaiting backend/curriculum contracts. A rejected row rejects its original success condition, not its retained source record or replacement task.",
+      "targetMappings": {
+        "module-1.3:market_buy_once": {
+          "targetModule": 5,
+          "objective": "Predict a planned buy fill from the ask/depth, then reconcile actual spread and slippage.",
+          "disposition": "adapted",
+          "reason": "One submitted buy does not establish execution understanding."
+        },
+        "module-1.3:market_sell_once": {
+          "targetModule": 5,
+          "objective": "Predict a planned sell fill from the bid/depth and reconcile remaining exposure.",
+          "disposition": "adapted",
+          "reason": "One submitted sell does not prove an appropriate exit or fill."
+        },
+        "module-1.4:profit_500": {
+          "targetModule": 6,
+          "objective": "Size a position to a stated loss budget and verify exposure before replay.",
+          "disposition": "rejected",
+          "reason": "Replace $500 profit completion with pre-action risk calculation and plan adherence."
+        },
+        "module-1.4:profit_1000": {
+          "targetModule": 6,
+          "objective": "Apply the same budget to an unfamiliar losing path and reconcile cost-adjusted loss.",
+          "disposition": "rejected",
+          "reason": "Bonus must test transfer, not a larger profit target."
+        },
+        "module-2.1:react_to_news_once": {
+          "targetModule": 7,
+          "objective": "Inspect headline provenance and choose act/hold from a timestamped evidence-based forecast.",
+          "disposition": "adapted",
+          "reason": "News arrival must not force a market order."
+        },
+        "module-2.1:pnl_non_negative": {
+          "targetModule": 7,
+          "objective": "Compare the observed news branch with the pre-reveal forecast and explain calibration error.",
+          "disposition": "rejected",
+          "reason": "Non-negative PnL does not verify news interpretation."
+        },
+        "module-2.1:profit_300": {
+          "targetModule": 7,
+          "objective": "Transfer the headline decision rule to conflicting news with the future hidden.",
+          "disposition": "rejected",
+          "reason": "Replace profit stretch goal with unfamiliar evidence assessment."
+        },
+        "module-2.2:market_buy_once": {
+          "targetModule": 7,
+          "objective": "Compare reported results with expectations and choose buy/hold/reject within a plan.",
+          "disposition": "adapted",
+          "reason": "Bullish entry is not compelled by upbeat guidance."
+        },
+        "module-2.2:pnl_non_negative": {
+          "targetModule": 7,
+          "objective": "Score a pre-release probability forecast against multiple possible earnings reactions.",
+          "disposition": "rejected",
+          "reason": "Final PnL confounds reasoning with the selected market path."
+        },
+        "module-2.2:profit_600": {
+          "targetModule": 7,
+          "objective": "Revise confidence when good guidance meets a falling-price branch.",
+          "disposition": "rejected",
+          "reason": "Replace positive-sentiment profit harvesting with disconfirming evidence."
+        },
+        "module-2.3:market_order_once": {
+          "targetModule": 7,
+          "objective": "Inspect an earnings miss and select a plan-consistent reduction or hold with exposure evidence.",
+          "disposition": "adapted",
+          "reason": "Submitting any market order cannot prove a defensive decision."
+        },
+        "module-2.3:limit_loss_200": {
+          "targetModule": 7,
+          "objective": "Stress-test planned exposure against a gap and compare resulting loss to the stated budget.",
+          "disposition": "adapted",
+          "reason": "A final -$200 floor is not evidence of precommitted loss control."
+        },
+        "module-2.3:finish_positive": {
+          "targetModule": 7,
+          "objective": "Explain a sound losing decision using the information available before the miss.",
+          "disposition": "rejected",
+          "reason": "Positive outcome bonus encourages hindsight grading."
+        },
+        "module-2.4:ma_trade_once": {
+          "targetModule": 10,
+          "objective": "Calculate MA lag and choose a justified signal rejection or planned action on an unseen path.",
+          "disposition": "deferred",
+          "reason": "Advanced gate; order count neither proves MA use nor signal validity."
+        },
+        "module-2.4:pnl_non_negative": {
+          "targetModule": 10,
+          "objective": "Compare MA-based forecasts with a simple baseline across false-signal branches.",
+          "disposition": "deferred",
+          "reason": "Advanced gate; reject non-negative-PnL assessment."
+        },
+        "module-2.4:profit_800": {
+          "targetModule": 10,
+          "objective": "Identify overfitting when an MA rule fails on a held-out branch.",
+          "disposition": "deferred",
+          "reason": "Advanced gate; replace trend-profit bonus with transfer evidence."
+        },
+        "module-2.5:ema_trade_once": {
+          "targetModule": 10,
+          "objective": "Compare equal-period EMA/MA values before choosing whether a spike warrants action.",
+          "disposition": "deferred",
+          "reason": "Advanced gate; EMA observation does not require a trade."
+        },
+        "module-2.5:pnl_non_negative": {
+          "targetModule": 10,
+          "objective": "Identify a fast EMA false alarm and verify that exposure follows the prior plan.",
+          "disposition": "deferred",
+          "reason": "Advanced gate; reject the claim that faster reaction protects PnL."
+        },
+        "module-2.5:profit_1200": {
+          "targetModule": 10,
+          "objective": "Test EMA decisions on an unfamiliar reversal and compare forecast calibration.",
+          "disposition": "deferred",
+          "reason": "Advanced gate; no momentum-profit stretch reward."
+        },
+        "module-3.1:market_order_once": {
+          "targetModule": 2,
+          "objective": "Select executable bid/ask quotes and compute round-trip spread cost in a paused book.",
+          "disposition": "adapted",
+          "reason": "Market-mechanics exploration needs no submitted order."
+        },
+        "module-3.1:pnl_non_negative": {
+          "targetModule": 2,
+          "objective": "Recompute spread cost after liquidity thins and explain the changed estimate.",
+          "disposition": "rejected",
+          "reason": "Replace outcome floor with verifiable liquidity arithmetic."
+        },
+        "module-3.1:profit_400": {
+          "targetModule": 2,
+          "objective": "Identify an unsuitable wide-spread quote in an unfamiliar book.",
+          "disposition": "rejected",
+          "reason": "Bonus tests cost recognition, not movement capture."
+        },
+        "module-3.2:limit_buy_once": {
+          "targetModule": 5,
+          "objective": "Choose a plan-consistent buy limit and predict full, partial and non-fill states.",
+          "disposition": "adapted",
+          "reason": "Submission does not establish price-control reasoning."
+        },
+        "module-3.2:limit_sell_once": {
+          "targetModule": 5,
+          "objective": "Choose a planned sell limit and reconcile unfilled residual exposure.",
+          "disposition": "adapted",
+          "reason": "A resting sell cannot guarantee taking profit."
+        },
+        "module-3.2:profit_600": {
+          "targetModule": 5,
+          "objective": "Compare a non-filled limit with the market alternative and its costs on a new branch.",
+          "disposition": "rejected",
+          "reason": "Execution tradeoffs must replace profit completion."
+        },
+        "module-3.3:stop_loss_once": {
+          "targetModule": 5,
+          "objective": "Set an exit trigger from a written risk plan and trace trigger-to-market-fill events.",
+          "disposition": "adapted",
+          "reason": "Any submitted stop is not proof of protection or a fill."
+        },
+        "module-3.3:limit_loss_400": {
+          "targetModule": 5,
+          "objective": "Reconstruct peak-to-trough drawdown and final PnL separately after a gapped stop fill.",
+          "disposition": "adapted",
+          "reason": "Source title says drawdown but SQL/evaluator test final PnL >= -400; correct the mismatch."
+        },
+        "module-3.3:finish_positive": {
+          "targetModule": 5,
+          "objective": "Explain why a slipped losing stop can still follow the prewritten plan.",
+          "disposition": "rejected",
+          "reason": "Protected execution is not a positive-PnL guarantee."
+        },
+        "module-3.4:stop_limit_once": {
+          "targetModule": 5,
+          "objective": "Trace stop-limit trigger, resting limit and residual risk on a gap.",
+          "disposition": "adapted",
+          "reason": "Count-only evaluation misses trigger and non-fill understanding."
+        },
+        "module-3.4:stop_order_once": {
+          "targetModule": 5,
+          "objective": "Predict stop-market slippage on the same path and compare it to stop-limit non-fill.",
+          "disposition": "adapted",
+          "reason": "Comparison requires paired outcomes, not another submitted order."
+        },
+        "module-3.4:profit_700": {
+          "targetModule": 5,
+          "objective": "Choose an exit type for an unfamiliar liquidity case and verify the stated tradeoff.",
+          "disposition": "rejected",
+          "reason": "No profit condition can establish the safer execution choice."
+        },
+        "module-3.5:open_short_once": {
+          "targetModule": 10,
+          "objective": "Trace borrow liability and stress upward price risk before accepting or rejecting a planned short.",
+          "disposition": "deferred",
+          "reason": "Advanced gate; a sell-short count omits borrow, margin and suitability."
+        },
+        "module-3.5:cover_short_once": {
+          "targetModule": 10,
+          "objective": "Reconcile buy-to-cover fills with remaining borrowed quantity and costs.",
+          "disposition": "deferred",
+          "reason": "Advanced gate; cover submission is not proof of liability closure."
+        },
+        "module-3.5:finish_profit_1000": {
+          "targetModule": 10,
+          "objective": "Verify squeeze exposure and adherence to a precommitted cover plan on an adverse path.",
+          "disposition": "deferred",
+          "reason": "Advanced gate; reject required short profit."
+        },
+        "module-3.5:finish_profit_2000": {
+          "targetModule": 10,
+          "objective": "Identify why a profitable oversized short still violates the plan on a transfer case.",
+          "disposition": "deferred",
+          "reason": "Advanced gate; higher profit cannot buy mastery."
+        },
+        "module-3.6:confirm_short_entry": {
+          "targetModule": 10,
+          "objective": "Record indicator evidence and counterevidence before deciding short or no short.",
+          "disposition": "deferred",
+          "reason": "Evaluator checks sell_short count only, not the advertised confirmation."
+        },
+        "module-3.6:cover_after_bounce": {
+          "targetModule": 10,
+          "objective": "Compare cover decisions to a prior squeeze contingency and inspect residual liability.",
+          "disposition": "deferred",
+          "reason": "Evaluator checks action count, not bounce timing or plan adherence."
+        },
+        "module-3.6:use_limit_for_timing": {
+          "targetModule": 10,
+          "objective": "Predict a short-entry limit non-fill and compare exposure with the planned alternative.",
+          "disposition": "deferred",
+          "reason": "Advanced gate; a limit count cannot prove better timing."
+        },
+        "module-3.6:control_drawdown_2p8": {
+          "targetModule": 10,
+          "objective": "Calculate squeeze drawdown and demonstrate response to the planned review threshold.",
+          "disposition": "deferred",
+          "reason": "Advanced gate; low realized drawdown alone is luck-sensitive."
+        },
+        "module-3.6:target_profit_900": {
+          "targetModule": 10,
+          "objective": "Transfer squeeze-risk recognition to a path where the indicator-confirmed short loses.",
+          "disposition": "deferred",
+          "reason": "Advanced gate; reject profit bonus and confirmation certainty."
+        },
+        "module-3.6:max_seven_orders": {
+          "targetModule": 10,
+          "objective": "Audit each short/cover decision against evidence and the cover plan, including justified restraint.",
+          "disposition": "deferred",
+          "reason": "Advanced gate; seven orders is an arbitrary cap, not discipline evidence."
+        },
+        "module-4.1:profit_350": {
+          "targetModule": 7,
+          "objective": "Forecast rate-sensitive exposure before the policy reveal and test the decision on both directions.",
+          "disposition": "rejected",
+          "reason": "Inherited exposure profit is not macro understanding."
+        },
+        "module-4.1:max_six_orders": {
+          "targetModule": 7,
+          "objective": "Link each exposure change or hold to a policy-evidence update and expected friction.",
+          "disposition": "adapted",
+          "reason": "Six-order cap cannot distinguish reasoned adjustment from inactivity."
+        },
+        "module-4.1:drawdown_below_2p4": {
+          "targetModule": 7,
+          "objective": "Calculate adverse rate-shock loss and verify the preplanned exposure response.",
+          "disposition": "adapted",
+          "reason": "Retain drawdown feedback, not the lucky-path pass predicate."
+        },
+        "module-4.2:profit_450": {
+          "targetModule": 7,
+          "objective": "Compare CPI with consensus and score the pre-release forecast across alternative reactions.",
+          "disposition": "rejected",
+          "reason": "A profit threshold cannot verify surprise interpretation."
+        },
+        "module-4.2:drawdown_below_2p6": {
+          "targetModule": 7,
+          "objective": "Trace drawdown and demonstrate the planned response when inflation exposure breaches a review band.",
+          "disposition": "adapted",
+          "reason": "Risk response evidence replaces an outcome-only cap."
+        },
+        "module-4.2:max_seven_orders": {
+          "targetModule": 7,
+          "objective": "Separate evidence-driven revisions from panic churn in the replay event trail.",
+          "disposition": "adapted",
+          "reason": "Order count is not evidence quality; legitimate defensive actions remain allowed."
+        },
+        "module-4.2:stop_sell_once": {
+          "targetModule": 7,
+          "objective": "Compare planned stop-sell slippage with reducing or holding inherited exposure.",
+          "disposition": "adapted",
+          "reason": "Do not require a defensive order solely for a bonus."
+        },
+        "module-4.3:profit_300": {
+          "targetModule": 9,
+          "objective": "Update confidence after conflicting signals and verify resulting exposure against the prior plan.",
+          "disposition": "rejected",
+          "reason": "Correct uncertainty handling need not yield profit."
+        },
+        "module-4.3:max_six_orders": {
+          "targetModule": 9,
+          "objective": "Audit speech-driven changes for new information and transaction costs rather than churn.",
+          "disposition": "adapted",
+          "reason": "A count cap permits unreasoned inactivity and penalizes needed adjustments."
+        },
+        "module-4.3:drawdown_below_2p8": {
+          "targetModule": 9,
+          "objective": "Identify thesis invalidation in the visible evidence and follow the planned risk response.",
+          "disposition": "adapted",
+          "reason": "Drawdown observation alone cannot verify disciplined response."
+        },
+        "module-4.3:stop_limit_sell_once": {
+          "targetModule": 9,
+          "objective": "Predict non-fill during whipsaw and test a planned residual-risk contingency.",
+          "disposition": "adapted",
+          "reason": "A stop-limit sell is not automatically a defensive success."
+        },
+        "module-4.4:profit_280": {
+          "targetModule": 9,
+          "objective": "Choose exposure after inspecting contradictory shutdown evidence and compare to the frozen plan.",
+          "disposition": "rejected",
+          "reason": "Do not reward lucky bank-price direction."
+        },
+        "module-4.4:max_five_orders": {
+          "targetModule": 9,
+          "objective": "Identify unsupported headline reactions in an event trail and justify a revised action/hold policy.",
+          "disposition": "adapted",
+          "reason": "Five orders is no substitute for decision evidence."
+        },
+        "module-4.4:drawdown_below_2p0": {
+          "targetModule": 9,
+          "objective": "Recompute adverse exposure and follow the declared uncertainty contingency as news changes.",
+          "disposition": "adapted",
+          "reason": "Low drawdown is feedback, not a standalone mastery signal."
+        },
+        "module-4.4:limit_sell_once": {
+          "targetModule": 9,
+          "objective": "Compare planned limit exit non-fill with the cost and risk of alternative actions.",
+          "disposition": "adapted",
+          "reason": "Forced limit submission cannot establish selective risk reduction."
+        },
+        "module-4.5:profit_500": {
+          "targetModule": 9,
+          "objective": "Stress a prewritten exposure plan across shock/rebound/aftershock and verify decisions before each reveal.",
+          "disposition": "rejected",
+          "reason": "Replace shock-profit incentive with resilient decision process."
+        },
+        "module-4.5:max_four_orders": {
+          "targetModule": 9,
+          "objective": "Use event evidence to distinguish necessary risk reduction from reactive churn.",
+          "disposition": "adapted",
+          "reason": "Four-order cap is neither a learning objective nor proof of restraint."
+        },
+        "module-4.5:drawdown_below_1p8": {
+          "targetModule": 9,
+          "objective": "Calculate second-shock exposure and test the contingency recorded before the rebound.",
+          "disposition": "adapted",
+          "reason": "Judge the risk response rather than a path-dependent low drawdown."
+        },
+        "module-4.5:pnl_above_minus250": {
+          "targetModule": 9,
+          "objective": "Explain a plan-consistent loss and identify one evidence-backed improvement on an unseen aftershock.",
+          "disposition": "adapted",
+          "reason": "A -$250 final floor ignores gap risk and prior decisions."
+        },
+        "module-5.1:build_four_positions": {
+          "targetModule": 4,
+          "objective": "Compare two allocations with equal ticker count and identify their unequal factor concentration.",
+          "disposition": "adapted",
+          "reason": "Four positions alone do not establish diversification."
+        },
+        "module-5.1:diversify_three_sectors": {
+          "targetModule": 4,
+          "objective": "Reallocate scenario exposure and verify sector weights and common-factor risks.",
+          "disposition": "adapted",
+          "reason": "Three sector labels do not guarantee independent risks."
+        },
+        "module-5.1:cap_single_name_weight": {
+          "targetModule": 4,
+          "objective": "Compute the dominant weight and justify a policy-consistent allocation change or hold.",
+          "disposition": "adapted",
+          "reason": "Keep concentration concept, not a universal 45% recommendation or endpoint-only grade."
+        },
+        "module-5.1:concentration_bonus_drawdown": {
+          "targetModule": 4,
+          "objective": "Stress the chosen allocation and explain concentration losses versus a diversified alternative.",
+          "disposition": "adapted",
+          "reason": "A low-drawdown path alone cannot prove diversification understanding."
+        },
+        "module-5.2:beat_equal_weight_benchmark": {
+          "targetModule": 7,
+          "objective": "Compare net returns and risk with equal weight and explain whether evidence supports the thesis.",
+          "disposition": "rejected",
+          "reason": "Require benchmark interpretation, not 1% outperformance."
+        },
+        "module-5.2:exclude_weak_balance_sheet": {
+          "targetModule": 7,
+          "objective": "Inspect leverage, valuation and uncertainty in scenario facts before accepting or rejecting exposure.",
+          "disposition": "adapted",
+          "reason": "Do not copy the hard-coded F blacklist or present static company claims as current advice."
+        },
+        "module-5.2:include_defensive_name": {
+          "targetModule": 7,
+          "objective": "Test a purported defensive holding under stress and compare its effect on portfolio risk.",
+          "disposition": "adapted",
+          "reason": "A defensive tag cannot guarantee stability or justify a required purchase."
+        },
+        "module-5.2:fundamental_bonus_concentration": {
+          "targetModule": 7,
+          "objective": "Verify that a fundamentals thesis respects the precommitted concentration budget on transfer.",
+          "disposition": "adapted",
+          "reason": "Replace endpoint 40% bonus with policy adherence independent of returns."
+        },
+        "module-5.3:hold_low_correlation_asset": {
+          "targetModule": 4,
+          "objective": "Inspect sample length, compute correlation and stress a regime change before reallocating.",
+          "disposition": "adapted",
+          "reason": "A 20-tick statistic with 15 observations cannot guarantee future diversification."
+        },
+        "module-5.3:maintain_three_positions": {
+          "targetModule": 4,
+          "objective": "Identify shared theme exposure despite three positions and construct a justified alternative.",
+          "disposition": "adapted",
+          "reason": "Position count is not independent-risk evidence."
+        },
+        "module-5.3:limit_theme_break_drawdown": {
+          "targetModule": 4,
+          "objective": "Predict crowded-theme loss and compare observed drawdown with the prior stress estimate.",
+          "disposition": "adapted",
+          "reason": "Keep drawdown explanation without a lucky-path completion threshold."
+        },
+        "module-5.3:correlation_bonus_vs_cluster": {
+          "targetModule": 4,
+          "objective": "Explain risk and net-return differences from the AI-cluster reference on an unseen path.",
+          "disposition": "rejected",
+          "reason": "Outperforming the reference by 1% is not the learning objective."
+        },
+        "module-5.4:keep_portfolio_beta_in_budget": {
+          "targetModule": 6,
+          "objective": "Compute weighted beta and select exposure consistent with a stated scenario risk budget.",
+          "disposition": "adapted",
+          "reason": "Static beta is uncertain; 1.10 is not a general safety threshold."
+        },
+        "module-5.4:keep_portfolio_volatility_in_budget": {
+          "targetModule": 6,
+          "objective": "Estimate rolling volatility, inspect sample sufficiency and test an adverse-path exposure choice.",
+          "disposition": "adapted",
+          "reason": "Short-window realized volatility is not a future loss guarantee."
+        },
+        "module-5.4:beta_vol_drawdown_control": {
+          "targetModule": 6,
+          "objective": "Contrast beta, volatility and realized drawdown with the pre-action stress estimate.",
+          "disposition": "adapted",
+          "reason": "Do not collapse risk dimensions into an outcome-only 2.5% pass."
+        },
+        "module-5.4:beta_vol_bonus_excess": {
+          "targetModule": 6,
+          "objective": "Explain benchmark differences after costs and identify a profitable risk-budget violation.",
+          "disposition": "rejected",
+          "reason": "Reject 0.5% outperformance as proof of risk management."
+        },
+        "module-5.5:rebalance_after_rotation_signal": {
+          "targetModule": 4,
+          "objective": "Compare observed drift with precommitted bands and simulate rebalance versus hold after costs.",
+          "disposition": "adapted",
+          "reason": "Replace tick-42/eight-tick urgency with policy evidence; no required 20% shift."
+        },
+        "module-5.5:cap_sector_weight_after_rotation": {
+          "targetModule": 4,
+          "objective": "Recompute sector weights and test the allocation against the stated risk mandate.",
+          "disposition": "adapted",
+          "reason": "55% is a source fixture, not universal advice or sufficient reasoning."
+        },
+        "module-5.5:outperform_passive_hold": {
+          "targetModule": 4,
+          "objective": "Compare the rebalance with passive hold after costs and explain both winning and losing cases.",
+          "disposition": "rejected",
+          "reason": "Active rebalancing need not beat passive by 0.8% to be justified."
+        },
+        "module-5.5:rotation_bonus_sector_balance": {
+          "targetModule": 4,
+          "objective": "Detect common exposure across three sectors in a transfer allocation.",
+          "disposition": "adapted",
+          "reason": "Sector count cannot replace risk-factor analysis."
+        },
+        "module-5.6:rebalance_drift_keep_weight_cap": {
+          "targetModule": 4,
+          "objective": "Measure seeded drift and choose a cost-aware move consistent with prior allocation bands.",
+          "disposition": "adapted",
+          "reason": "Endpoint 42% alone does not verify policy or cost reasoning."
+        },
+        "module-5.6:rebalance_before_reversal_window": {
+          "targetModule": 4,
+          "objective": "Decide rebalance or hold from visible drift, then reveal an unknown future path.",
+          "disposition": "adapted",
+          "reason": "Remove tick-30/six-tick deadline, hindsight reversal cue and required 18% shift."
+        },
+        "module-5.6:drift_control_drawdown": {
+          "targetModule": 4,
+          "objective": "Compare stressed and realized drift exposure and explain a policy-consistent loss.",
+          "disposition": "adapted",
+          "reason": "Low drawdown does not by itself establish rebalancing discipline."
+        },
+        "module-5.6:drift_bonus_order_efficiency": {
+          "targetModule": 4,
+          "objective": "Compare equivalent rebalance plans by costs, residual exposure and policy adherence.",
+          "disposition": "adapted",
+          "reason": "Ten-order cap is replaced by decision evidence, not a smaller count target."
+        },
+        "module-5.7:deliver_alpha_vs_benchmark": {
+          "targetModule": 4,
+          "objective": "Select a suitable benchmark, compute excess return after costs and distinguish luck from evidence of skill.",
+          "disposition": "rejected",
+          "reason": "Reject required 2% outperformance and calling one-run excess return alpha."
+        },
+        "module-5.7:alpha_with_drawdown_control": {
+          "targetModule": 4,
+          "objective": "Explain whether an observed loss path matches the portfolio's precommitted risk mandate.",
+          "disposition": "adapted",
+          "reason": "Drawdown review stands independently of outperforming a benchmark."
+        },
+        "module-5.7:alpha_without_concentration": {
+          "targetModule": 4,
+          "objective": "Identify a benchmark-winning allocation that violates its concentration plan.",
+          "disposition": "adapted",
+          "reason": "Retain risk-over-return judgment, not a universal 38% cap."
+        },
+        "module-5.7:alpha_bonus_sector_cap": {
+          "targetModule": 4,
+          "objective": "Audit sector exposure through a transfer path against the stated allocation mandate.",
+          "disposition": "adapted",
+          "reason": "Replace endpoint 45% bonus with exposure evidence over the decision sequence."
+        },
+        "module-5.7:alpha_bonus_breadth": {
+          "targetModule": 4,
+          "objective": "Compare five-name and broad-fund allocations for hidden concentration and costs.",
+          "disposition": "adapted",
+          "reason": "Five holdings need not be safer; do not force purchases to earn breadth credit."
+        }
+      },
       "records": [
         {
           "line": 978,
@@ -4194,6 +5033,69 @@
       "countBasis": "literal VALUES rows in source; SELECT expansions and generated relations recorded separately",
       "decision": "rewrite",
       "reason": "Retain pre/post assessment separation; replace zero thresholds, one-attempt progression and missing retention/calibration measures.",
+      "assessmentPlan": "Pre items become ungraded diagnostic predictions embedded in missions. Post items become parallel-form application checks plus delayed retrieval and confidence calibration, not identical recall. Redistribute individual items by targetModule below; these ten source quizzes are not ten ready-made v2 module checks. Author missing checks for all foundations. Set reviewed mastery criteria with remediation/retry; reject v1 passingScore=0 and single-attempt gate.",
+      "targetMappings": {
+        "MOD1_PRE": {
+          "targetModules": [2, 3, 5, 6],
+          "objective": "Diagnose ownership, chart, execution and PnL misconceptions before relevant missions.",
+          "disposition": "adapted",
+          "reason": "Four items belong in separate foundation stages, not one trading-first gate; exact duplicates of MOD1_POST."
+        },
+        "MOD1_POST": {
+          "targetModules": [2, 3, 5, 6],
+          "objective": "Check application of ownership, OHLC, execution uncertainty and cost-adjusted arithmetic.",
+          "disposition": "adapted",
+          "reason": "Reauthor four exact duplicate items as unfamiliar parallel forms; add delayed retrieval."
+        },
+        "MOD2_PRE": {
+          "targetModules": [7, 10],
+          "objective": "Diagnose news/expectations reasoning; reserve indicator diagnostics for advanced entry.",
+          "disposition": "adapted",
+          "reason": "Split three decision items from three deferred technical items; exact duplicates of MOD2_POST."
+        },
+        "MOD2_POST": {
+          "targetModules": [7, 10],
+          "objective": "Apply evidence reasoning to new news cases; assess optional indicator limitations after mastery.",
+          "disposition": "adapted",
+          "reason": "Six repeated items require parallel-form reauthoring; indicator items remain deferred."
+        },
+        "MOD3_PRE": {
+          "targetModules": [2, 5, 10],
+          "objective": "Diagnose spread and order tradeoffs separately from optional short liabilities.",
+          "disposition": "adapted",
+          "reason": "Separate four market/execution items from four advanced items; beginner progression must not depend on shorting."
+        },
+        "MOD3_POST": {
+          "targetModules": [2, 5, 10],
+          "objective": "Apply spread and order reasoning; challenge short/indicator assumptions only after prerequisites.",
+          "disposition": "adapted",
+          "reason": "Distinct application prompts still need balanced answer positions and correction of stop-cap certainty."
+        },
+        "MOD4_PRE": {
+          "targetModules": [6, 7, 8, 9],
+          "objective": "Diagnose uncertainty, drawdown, expectations and restraint with scenario predictions.",
+          "disposition": "adapted",
+          "reason": "Keep no-trade validity, remove claims that selectivity usually outperforms; not a complete protection quiz."
+        },
+        "MOD4_POST": {
+          "targetModules": [6, 7, 9],
+          "objective": "Check expectation updates, process adherence and shock-risk decisions on unfamiliar cases.",
+          "disposition": "adapted",
+          "reason": "Low drawdown and low order count alone cannot establish defensive competence."
+        },
+        "MOD5_PRE": {
+          "targetModules": [4, 6],
+          "objective": "Diagnose concentration, correlation, rebalancing and benchmark literacy before execution.",
+          "disposition": "adapted",
+          "reason": "Move portfolio material earlier and distinguish uncertain beta/volatility estimates from guarantees."
+        },
+        "MOD5_POST": {
+          "targetModules": [4, 6, 7],
+          "objective": "Apply allocation and risk-budget reasoning without needing benchmark outperformance.",
+          "disposition": "adapted",
+          "reason": "Rewrite tick-deadline mechanics, defensive-tag assumptions and outperformance-as-skill answer."
+        }
+      },
       "records": [
         {
           "line": 4800,
@@ -4253,7 +5155,414 @@
       "count": 64,
       "countBasis": "literal VALUES rows in source; SELECT expansions and generated relations recorded separately",
       "decision": "rewrite",
-      "reason": "Rewrite with sources, objectives, novel applications and calibrated distractors; remove duplicate pre/post items and unsupported predictive certainty.",
+      "reason": "Preserve all source question rows; reauthor duplicate pre/post items as parallel forms and correct unsupported predictive certainty.",
+      "duplicatePolicy": "exactDuplicateOf identifies both members of each of 10 pairs (m1 items 1-4 and m2 items 1-6). Count each source ID once: 64 rows, 20 rows in 10 duplicate pairs, 44 other rows, 54 distinct full items. Shared learning topics among the other rows are not exact duplicates. Reauthor pre, post and delayed checks with different cases, plausible distractors and balanced answer positions; do not reuse answer-position patterns or score identical recall as transfer.",
+      "targetMappings": {
+        "m1-pre-1": {
+          "targetModule": 3,
+          "objective": "Recognize stock ownership and loss exposure in a product-choice case.",
+          "disposition": "adapted",
+          "reason": "Add ownership/dividend context, not only a long-price position; parallel-form rewrite.",
+          "exactDuplicateOf": "m1-post-1"
+        },
+        "m1-pre-2": {
+          "targetModule": 2,
+          "objective": "Reconstruct OHLC for a displayed interval.",
+          "disposition": "adapted",
+          "reason": "Apply chart literacy rather than repeat a definition; parallel-form rewrite.",
+          "exactDuplicateOf": "m1-post-2"
+        },
+        "m1-pre-3": {
+          "targetModule": 5,
+          "objective": "Predict market-order execution uncertainty from available liquidity.",
+          "disposition": "adapted",
+          "reason": "Immediate execution is not guaranteed during gaps/halts; parallel-form rewrite.",
+          "exactDuplicateOf": "m1-post-3"
+        },
+        "m1-pre-4": {
+          "targetModule": 6,
+          "objective": "Calculate realized versus unrealized PnL and subtract costs.",
+          "disposition": "adapted",
+          "reason": "Retain arithmetic, not +$500 as a performance target; parallel-form rewrite.",
+          "exactDuplicateOf": "m1-post-4"
+        },
+        "m1-post-1": {
+          "targetModule": 3,
+          "objective": "Explain ownership and uncertain returns for an unfamiliar stock case.",
+          "disposition": "adapted",
+          "reason": "Exact diagnostic repeat cannot test transfer; reauthor parallel form.",
+          "exactDuplicateOf": "m1-pre-1"
+        },
+        "m1-post-2": {
+          "targetModule": 2,
+          "objective": "Identify OHLC and interval limits on a new candle.",
+          "disposition": "adapted",
+          "reason": "Exact diagnostic repeat requires new visual/application case.",
+          "exactDuplicateOf": "m1-pre-2"
+        },
+        "m1-post-3": {
+          "targetModule": 5,
+          "objective": "Explain a partial or slipped market fill from a new order book.",
+          "disposition": "adapted",
+          "reason": "Replace immediate-fill certainty and duplicated recall with parallel application.",
+          "exactDuplicateOf": "m1-pre-3"
+        },
+        "m1-post-4": {
+          "targetModule": 6,
+          "objective": "Reconcile a new loss/profit example after fees with the risk plan.",
+          "disposition": "adapted",
+          "reason": "Vary numbers and loss direction; profit arithmetic is not a mastery reward.",
+          "exactDuplicateOf": "m1-pre-4"
+        },
+        "m2-pre-1": {
+          "targetModule": 7,
+          "objective": "Identify company-specific and spillover hypotheses from a headline.",
+          "disposition": "adapted",
+          "reason": "First-impact claim needs context and uncertain alternatives; parallel-form rewrite.",
+          "exactDuplicateOf": "m2-post-1"
+        },
+        "m2-pre-2": {
+          "targetModule": 7,
+          "objective": "Separate earnings expectations and guidance in a calibrated prediction.",
+          "disposition": "adapted",
+          "reason": "Can rise must not imply bullish certainty; parallel-form rewrite.",
+          "exactDuplicateOf": "m2-post-2"
+        },
+        "m2-pre-3": {
+          "targetModule": 7,
+          "objective": "Compare possible reactions to an earnings miss against prior expectations.",
+          "disposition": "adapted",
+          "reason": "Selling pressure is a hypothesis, not a required outcome; parallel-form rewrite.",
+          "exactDuplicateOf": "m2-post-3"
+        },
+        "m2-pre-4": {
+          "targetModule": 10,
+          "objective": "Calculate a simple moving average and identify lag.",
+          "disposition": "deferred",
+          "reason": "Advanced gate; keep arithmetic but reauthor paired diagnostic/application cases.",
+          "exactDuplicateOf": "m2-post-4"
+        },
+        "m2-pre-5": {
+          "targetModule": 10,
+          "objective": "Compare recent-price weighting of equal-period MA and EMA.",
+          "disposition": "deferred",
+          "reason": "Advanced gate; specify periods and distinguish responsiveness from predictive accuracy.",
+          "exactDuplicateOf": "m2-post-5"
+        },
+        "m2-pre-6": {
+          "targetModule": 10,
+          "objective": "Test indicator turning behavior on a specified price path.",
+          "disposition": "deferred",
+          "reason": "Advanced gate; EMA does not invariably turn first for arbitrary settings/path; parallel form.",
+          "exactDuplicateOf": "m2-post-6"
+        },
+        "m2-post-1": {
+          "targetModule": 7,
+          "objective": "Assess direct and spillover news effects in an unfamiliar company case.",
+          "disposition": "adapted",
+          "reason": "Exact pre repeat; reauthor with competing hypotheses and source evidence.",
+          "exactDuplicateOf": "m2-pre-1"
+        },
+        "m2-post-2": {
+          "targetModule": 7,
+          "objective": "Interpret upbeat guidance alongside a falling-price branch.",
+          "disposition": "adapted",
+          "reason": "Exact pre repeat; challenge bullish certainty with a parallel case.",
+          "exactDuplicateOf": "m2-pre-2"
+        },
+        "m2-post-3": {
+          "targetModule": 7,
+          "objective": "Update confidence after a miss that does not produce the expected selloff.",
+          "disposition": "adapted",
+          "reason": "Exact pre repeat; use disconfirming evidence instead of memorized reaction.",
+          "exactDuplicateOf": "m2-pre-3"
+        },
+        "m2-post-4": {
+          "targetModule": 10,
+          "objective": "Calculate MA on new observations and explain smoothing limitations.",
+          "disposition": "deferred",
+          "reason": "Advanced gate; exact duplicate needs a new numerical parallel form.",
+          "exactDuplicateOf": "m2-pre-4"
+        },
+        "m2-post-5": {
+          "targetModule": 10,
+          "objective": "Explain an EMA false alarm despite faster equal-period response.",
+          "disposition": "deferred",
+          "reason": "Advanced gate; exact duplicate becomes transfer, not speed-as-skill.",
+          "exactDuplicateOf": "m2-pre-5"
+        },
+        "m2-post-6": {
+          "targetModule": 10,
+          "objective": "Compare MA/EMA turning points on an unfamiliar reversal path.",
+          "disposition": "deferred",
+          "reason": "Advanced gate; reauthor duplicate and qualify period/path-dependent claims.",
+          "exactDuplicateOf": "m2-pre-6"
+        },
+        "m3-pre-1": {
+          "targetModule": 2,
+          "objective": "Compute spread as ask minus bid and interpret liquidity cost.",
+          "disposition": "adapted",
+          "reason": "Keep definition but require a quote-reading diagnostic."
+        },
+        "m3-pre-2": {
+          "targetModule": 5,
+          "objective": "Choose a price-limited order while accepting non-fill risk.",
+          "disposition": "adapted",
+          "reason": "Retain price-control concept with partial-fill and queue examples."
+        },
+        "m3-pre-3": {
+          "targetModule": 5,
+          "objective": "Trace a stop-market trigger through a potentially slipped fill.",
+          "disposition": "adapted",
+          "reason": "Clarify stop-market terminology rather than universalizing the game's stop-loss behavior."
+        },
+        "m3-pre-4": {
+          "targetModule": 5,
+          "objective": "Explain trigger plus limit and possible non-fill.",
+          "disposition": "adapted",
+          "reason": "Keep the tradeoff and apply it to a gapped path."
+        },
+        "m3-pre-5": {
+          "targetModule": 10,
+          "objective": "Trace borrow, sale, liability and cover in a short lifecycle.",
+          "disposition": "deferred",
+          "reason": "Advanced gate; add borrow availability, costs and margin before practice."
+        },
+        "m3-pre-6": {
+          "targetModule": 10,
+          "objective": "Calculate short PnL including an adverse move and borrow costs.",
+          "disposition": "deferred",
+          "reason": "Advanced gate; broaden the profitable fee-free example without rewarding return."
+        },
+        "m3-pre-7": {
+          "targetModule": 10,
+          "objective": "Recognize potentially unbounded short losses and squeeze exposure.",
+          "disposition": "deferred",
+          "reason": "Advanced gate; preserve warning and add margin/forced-cover contingencies."
+        },
+        "m3-pre-8": {
+          "targetModule": 10,
+          "objective": "Challenge the claim that MA/EMA confirmation reduces squeeze risk.",
+          "disposition": "deferred",
+          "reason": "No indicator guarantees risk reduction; replace unsupported correct-answer premise."
+        },
+        "m3-post-1": {
+          "targetModule": 2,
+          "objective": "Calculate the $0.20 spread and extend it to quantity-dependent friction.",
+          "disposition": "adapted",
+          "reason": "Keep correct arithmetic; add a fresh quote and cost application."
+        },
+        "m3-post-2": {
+          "targetModule": 5,
+          "objective": "Select a limit buy for a maximum price and explain possible non-fill.",
+          "disposition": "adapted",
+          "reason": "Keep suitability reasoning but add residual cash/exposure and alternatives."
+        },
+        "m3-post-3": {
+          "targetModule": 5,
+          "objective": "Select a planned sell-stop exit while recognizing gap slippage.",
+          "disposition": "adapted",
+          "reason": "Support is not a guaranteed loss boundary; protective order can slip."
+        },
+        "m3-post-4": {
+          "targetModule": 5,
+          "objective": "Compare stop-limit price control against non-fill on a new gap.",
+          "disposition": "adapted",
+          "reason": "Retain tradeoff; test application rather than near-identical definition recall."
+        },
+        "m3-post-5": {
+          "targetModule": 10,
+          "objective": "Reconcile short-cover PnL and residual liability after costs.",
+          "disposition": "deferred",
+          "reason": "Advanced gate; $960 arithmetic is valid only for the fee-free full-cover example."
+        },
+        "m3-post-6": {
+          "targetModule": 10,
+          "objective": "Compare buy-stop slippage and buy-stop-limit non-fill during a squeeze.",
+          "disposition": "deferred",
+          "reason": "Source asks which order can cap losses; neither guarantees a cap in a gap."
+        },
+        "m3-post-7": {
+          "targetModule": 10,
+          "objective": "Use counterevidence and exposure limits to reject adding to a short.",
+          "disposition": "deferred",
+          "reason": "Waiting for bearish realignment is not inherently safe; include exit/no-short choices."
+        },
+        "m3-post-8": {
+          "targetModule": 10,
+          "objective": "Verify borrow/cover lifecycle and risk plan before optional short practice.",
+          "disposition": "deferred",
+          "reason": "Remove module-specific recall and mandatory trend-confirmed entry workflow."
+        },
+        "m4-pre-1": {
+          "targetModule": 7,
+          "objective": "Interpret inflation surprise relative to consensus with multiple plausible reactions.",
+          "disposition": "adapted",
+          "reason": "Qualify most-likely direction and require confidence/source evidence."
+        },
+        "m4-pre-2": {
+          "targetModule": 7,
+          "objective": "Choose wait, reduce or hold from conflicting signals and a risk budget.",
+          "disposition": "adapted",
+          "reason": "Delete unsupported claim that selectivity usually outperforms; assess process."
+        },
+        "m4-pre-3": {
+          "targetModule": 6,
+          "objective": "Compute peak-to-trough drawdown separately from final PnL.",
+          "disposition": "adapted",
+          "reason": "Drawdown measures an outcome, not proof that the learner can cap it."
+        },
+        "m4-pre-4": {
+          "targetModule": 6,
+          "objective": "Apply an uncertainty contingency to position sizing without guaranteeing loss limits.",
+          "disposition": "adapted",
+          "reason": "Translate broad defensive language into exposure and plan evidence."
+        },
+        "m4-pre-5": {
+          "targetModule": 9,
+          "objective": "Justify no trade from insufficient evidence or unsuitable risk.",
+          "disposition": "adapted",
+          "reason": "Keep abstention valid, but inactivity alone must not earn completion."
+        },
+        "m4-pre-6": {
+          "targetModule": 8,
+          "objective": "Identify recency/chasing pressure in alternating headlines and choose a protective decision rule.",
+          "disposition": "adapted",
+          "reason": "Whipsaw context supports bias practice, not a complete fraud/protection curriculum."
+        },
+        "m4-post-1": {
+          "targetModule": 7,
+          "objective": "Separate improvement from surprise relative to consensus.",
+          "disposition": "adapted",
+          "reason": "Keep expectation reasoning while allowing uncertain market reactions."
+        },
+        "m4-post-2": {
+          "targetModule": 9,
+          "objective": "Distinguish a plan-consistent defensive result from a lucky flat result.",
+          "disposition": "adapted",
+          "reason": "Low drawdown and few orders alone cannot establish competence."
+        },
+        "m4-post-3": {
+          "targetModule": 6,
+          "objective": "Follow a precommitted risk-review action when approaching a drawdown band.",
+          "disposition": "adapted",
+          "reason": "Use a scenario-specific band and exposure evidence, not a universal 2% rule."
+        },
+        "m4-post-4": {
+          "targetModule": 9,
+          "objective": "Compare decision quality and friction for two action sequences.",
+          "disposition": "adapted",
+          "reason": "Do not replace trade-count rewards with low-count rewards; necessary exits are valid."
+        },
+        "m4-post-5": {
+          "targetModule": 9,
+          "objective": "Combine expectation updates, a prewritten plan and exposure review.",
+          "disposition": "adapted",
+          "reason": "Replace module-name recall with an integrated application case."
+        },
+        "m4-post-6": {
+          "targetModule": 9,
+          "objective": "Stress-test size and contingency decisions across both legs of a shock.",
+          "disposition": "adapted",
+          "reason": "Risk limits cannot guarantee mission survival; assess response and uncertainty."
+        },
+        "m5-pre-1": {
+          "targetModule": 4,
+          "objective": "Find common sector/factor risk despite many tickers.",
+          "disposition": "adapted",
+          "reason": "Bring diversification earlier with an allocation comparison."
+        },
+        "m5-pre-2": {
+          "targetModule": 4,
+          "objective": "Compute largest-position weight and explain its denominator.",
+          "disposition": "adapted",
+          "reason": "Apply concentration arithmetic; distinguish invested-capital and total-portfolio weights."
+        },
+        "m5-pre-3": {
+          "targetModule": 4,
+          "objective": "Identify correlated loss exposure and uncertainty in its estimate.",
+          "disposition": "adapted",
+          "reason": "Historical correlation can change under stress; add a contrasting regime."
+        },
+        "m5-pre-4": {
+          "targetModule": 6,
+          "objective": "Interpret beta 1.4 as estimated market sensitivity, not a guaranteed 40% move.",
+          "disposition": "adapted",
+          "reason": "Source shorthand omits estimation error, benchmark and horizon."
+        },
+        "m5-pre-5": {
+          "targetModule": 6,
+          "objective": "Estimate rolling volatility and state sample/window limitations.",
+          "disposition": "adapted",
+          "reason": "Realized instability is not next-tick direction or maximum loss."
+        },
+        "m5-pre-6": {
+          "targetModule": 4,
+          "objective": "Restore a target allocation when policy bands and costs justify it.",
+          "disposition": "adapted",
+          "reason": "Keep drift discipline earlier, without compulsory trading."
+        },
+        "m5-pre-7": {
+          "targetModule": 4,
+          "objective": "Calculate portfolio minus benchmark return on comparable cost/time bases.",
+          "disposition": "adapted",
+          "reason": "Excess return is a comparison, not demonstrated skill or required success."
+        },
+        "m5-pre-8": {
+          "targetModule": 4,
+          "objective": "Compare a cost-aware rebalance with holding under a declared allocation policy.",
+          "disposition": "adapted",
+          "reason": "Remove claim that rotation requires active timing within a window."
+        },
+        "m5-post-1": {
+          "targetModule": 4,
+          "objective": "Explain 58% single-name exposure and test an alternative allocation.",
+          "disposition": "adapted",
+          "reason": "Keep concentration diagnosis; add mandate and cash-denominator context."
+        },
+        "m5-post-2": {
+          "targetModule": 4,
+          "objective": "Detect correlated risk despite two large sector allocations.",
+          "disposition": "adapted",
+          "reason": "Use an unfamiliar allocation to test factor reasoning, not sector count."
+        },
+        "m5-post-3": {
+          "targetModule": 4,
+          "objective": "Calculate 1.3 percentage points excess return and qualify its interpretation.",
+          "disposition": "adapted",
+          "reason": "Correct percentage-point language, align costs/horizon and reject one-run alpha claims."
+        },
+        "m5-post-4": {
+          "targetModule": 4,
+          "objective": "Judge whether drift and costs justify a policy-based rebalance or hold.",
+          "disposition": "rejected",
+          "reason": "Tick 42 plus 8 equals 50 is engine-rule trivia; replace urgent deadline grading entirely."
+        },
+        "m5-post-5": {
+          "targetModule": 6,
+          "objective": "Distinguish beta sensitivity from realized volatility when one exceeds a scenario budget.",
+          "disposition": "adapted",
+          "reason": "Keep multidimensional risk interpretation and add sample limitations."
+        },
+        "m5-post-6": {
+          "targetModule": 7,
+          "objective": "Test rather than assume a defensive tag reduces portfolio stress.",
+          "disposition": "adapted",
+          "reason": "Tag presence is not reliable protection; static source facts require provenance review."
+        },
+        "m5-post-7": {
+          "targetModule": 4,
+          "objective": "Identify a concentration-plan violation despite benchmark outperformance.",
+          "disposition": "adapted",
+          "reason": "Retain process-over-outcome lesson; decouple success from alpha and arbitrary mission rules."
+        },
+        "m5-post-8": {
+          "targetModule": 4,
+          "objective": "Maintain a diversified allocation consistent with goals, risk and costs, then explain benchmark differences.",
+          "disposition": "adapted",
+          "reason": "Remove outperforms benchmark from the correct-answer definition of skill."
+        }
+      },
       "records": [
         {
           "line": 4821,
