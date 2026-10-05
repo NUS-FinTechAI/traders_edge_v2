@@ -1,17 +1,15 @@
+import tempfile
 import unittest
 
 from fastapi.testclient import TestClient
-from app.main import app
+from app.config import Settings
+from app.main import create_app
 
 
 class HealthTests(unittest.TestCase):
-    def test_health_is_available_without_credentials(self):
-        with TestClient(app) as client:
-            response = client.get("/health")
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.json(), {"status": "ok"})
-
-    def test_unknown_route_is_not_a_success(self):
-        with TestClient(app) as client:
-            response = client.get("/missing")
-        self.assertEqual(response.status_code, 404)
+    def test_health_and_unknown_route_without_credentials(self):
+        with tempfile.TemporaryDirectory() as directory:
+            app = create_app(Settings(database_url=f'sqlite+aiosqlite:///{directory}/health.db'), {'modules': []})
+            with TestClient(app) as client:
+                self.assertEqual(client.get('/health').json(), {'status': 'ok'})
+                self.assertEqual(client.get('/missing').status_code, 404)
