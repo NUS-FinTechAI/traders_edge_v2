@@ -1,13 +1,9 @@
-# Rebuild plan
+# Delivery status
 
-| Phase       | Deliverable                                                                                | Gate                                                                                      |
-| ----------- | ------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------- |
-| 0 Setup     | Empty app, source copies, conventions, CI                                                  | App builds and CI runs                                                                    |
-| 1 Discovery | Evidence-backed audits and complete migration inventory                                    | Contradictions resolved and summary published                                             |
-| 2 Design    | Three independently designed concepts; technical, curriculum and evaluation specifications | Owner selects visual direction; safety and staff review; separate implementation approval |
-| 3 Build     | Reviewed vertical slices                                                                   | Each slice works, is tested and documented before the next                                |
-| 4 Hardening | Accessibility, performance, security, determinism, content and language review             | Findings resolved with evidence                                                           |
+The owner selected the refined Fieldbook direction and authorized implementation. Discovery and its migration inventory remain in `docs/v1-audit/`; selected design evidence remains in `docs/design/explorations/review.md`.
 
-Build order: foundation/design system; auth/profile; progression/XP/streaks; lessons/quizzes; Module 1; simulation engine; guided simulation; remaining modules in order; rewards/archive; mastery-gated multiplayer/endless; leaderboard/rank.
+Implemented foundations include the ten-module authored catalog, persistent learning API, sequential checks and review queue, private journal, learning XP, opt-in leaderboard and persisted deterministic planned-trade simulation with guided/endless prerequisites and command replay. Content remains pending independent financial-accuracy review. The catalog’s guided decisions do not alone constitute executable lesson simulations.
 
-The design selection gate comes before final tokens, components or screen specifications. Concept prototypes are discovery artifacts, not approved application UI. Full documentation and authoring skills are delivered alongside the contracts and features they describe, rather than as empty promises.
+Remaining integration and release work includes the complete API-connected client, reward/cosmetic interfaces, shared practice modes, reviewed localization and deployment verification. Update this paragraph as those slices merge; an eligibility flag or authored prompt is not a completed feature.
+
+Before a public release, resolve independent content review, real-device accessibility and mobile performance findings, verify production identity/storage configuration, and finish account/privacy lifecycle requirements. The FYP evaluation is a proposed study until participants and outcomes have actually been collected. No phase status or local test result establishes profitability or real-market competence.
