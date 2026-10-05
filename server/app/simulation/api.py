@@ -76,8 +76,19 @@ async def require_access(request, db, user, mode):
         raise HTTPException(403, {'message': 'Complete the prerequisite mastery checks before this practice mode', 'prerequisite_module_ids': required})
 
 
+def observation_token(observed):
+    return hashlib.sha256(json.dumps(observed, sort_keys=True, separators=(',', ':')).encode()).hexdigest()
+
+
 def response(session):
-    return {'id': session.id, 'mode': session.mode, 'updated_at': session.updated_at.isoformat() if session.updated_at else None, **engine.public_view(session.snapshot_json)}
+    observed = engine.public_view(session.snapshot_json)
+    result = {'id': session.id, 'mode': session.mode, 'updated_at': session.updated_at.isoformat() if session.updated_at else None, **observed}
+    if 'bound_policy' in session.snapshot_json:
+        result['bound_policy'] = deepcopy(session.snapshot_json['bound_policy'])
+        result['audited_observation'] = deepcopy(session.snapshot_json.get('audited_observation'))
+        result['observation_token'] = observation_token(observed)
+    return result
+
 
 async def owned(db, user, session_id):
     session = await db.scalar(select(SimulationSession).where(SimulationSession.id == session_id, SimulationSession.user_id == user.id).with_for_update())
@@ -133,11 +144,14 @@ async def start(body: Create, request: Request, db: DB, user: User):
 
 
 @router.get('/{session_id}')
-async def resume(session_id: str, db: DB, user: User):
-    return response(await owned(db, user, session_id))
+async def resume(session_id: str, request: Request, db: DB, user: User):
+    from app.simulation.lesson_api import validate_session
+    session = await owned(db, user, session_id)
+    await validate_session(request, db, user, session)
+    return response(session)
 
 
-async def execute(session_id, body, operation, db, user, order_id=None):
+async def execute(session_id, body, operation, db, user, order_id=None, request=None):
     payload = body.model_dump(exclude={'idempotency_key'})
     digest = hashlib.sha256(json.dumps({'session': session_id, 'operation': operation, 'order': order_id, 'payload': payload}, sort_keys=True).encode()).hexdigest()
     previous = await db.get(SimulationCommand, (user.id, body.idempotency_key))
@@ -146,7 +160,11 @@ async def execute(session_id, body, operation, db, user, order_id=None):
             raise HTTPException(409, 'This command key was used for a different action')
         return previous.response
     session = await owned(db, user, session_id)
+    from app.simulation.lesson_api import restrict, validate_session
+    bound = await validate_session(request, db, user, session, mutation=True)
     state = deepcopy(session.snapshot_json)
+    if bound is not None:
+        restrict(state, operation, payload)
     try:
         if operation == 'order':
             if len(state['orders']) >= 100:
@@ -169,20 +187,20 @@ async def execute(session_id, body, operation, db, user, order_id=None):
 
 
 @router.post('/{session_id}/orders')
-async def order(session_id: str, body: Order, db: DB, user: User):
-    return await execute(session_id, body, 'order', db, user)
+async def order(session_id: str, body: Order, request: Request, db: DB, user: User):
+    return await execute(session_id, body, 'order', db, user, request=request)
 
 
 @router.post('/{session_id}/advance')
-async def advance(session_id: str, body: Advance, db: DB, user: User):
-    return await execute(session_id, body, 'advance', db, user)
+async def advance(session_id: str, body: Advance, request: Request, db: DB, user: User):
+    return await execute(session_id, body, 'advance', db, user, request=request)
 
 
 @router.post('/{session_id}/orders/{order_id}/cancel')
-async def cancel(session_id: str, order_id: str, body: Command, db: DB, user: User):
-    return await execute(session_id, body, 'cancel', db, user, order_id)
+async def cancel(session_id: str, order_id: str, body: Command, request: Request, db: DB, user: User):
+    return await execute(session_id, body, 'cancel', db, user, order_id, request=request)
 
 
 @router.post('/{session_id}/debrief')
-async def debrief(session_id: str, body: Debrief, db: DB, user: User):
-    return await execute(session_id, body, 'debrief', db, user)
+async def debrief(session_id: str, body: Debrief, request: Request, db: DB, user: User):
+    return await execute(session_id, body, 'debrief', db, user, request=request)

@@ -36,7 +36,7 @@ class CatalogAPITests(unittest.TestCase):
         self.assertEqual(sum(len(m['entry_tasks']) for m in modules), 30)
         self.assertEqual(sum(len(l['questions']) for m in modules for l in m['lessons']), 60)
         self.assertEqual(sum(len(m['assessment']) for m in modules), 50)
-        self.assertEqual(sum(len(l['tasks']) for m in modules for l in m['lessons']), 96)
+        self.assertEqual(sum(len(l['tasks']) for m in modules for l in m['lessons']), 97)
         self.assertEqual(sum(len(l['bonus_tasks']) for m in modules for l in m['lessons']), 30)
         with tempfile.TemporaryDirectory() as directory:
             app = create_app(Settings(database_url=f'sqlite+aiosqlite:///{directory}/catalog.db'))
@@ -68,7 +68,7 @@ class CatalogAPITests(unittest.TestCase):
                     self.assertEqual(response.status_code, 403, response.text)
 
                 def answer(task, wrong=False):
-                    if task['type'] == 'instruction':
+                    if task['type'] in {'instruction', 'simulation'}:
                         return {'acknowledged': True}
                     if task['type'] == 'choice':
                         option = next(o['id'] for o in task['options'] if o['id'] != task['correct_option_id']) if wrong else task['correct_option_id']
@@ -102,8 +102,19 @@ class CatalogAPITests(unittest.TestCase):
                             self.assertFalse(run['feedback'][0]['correct'])
                             self.assertIsNone(run['result'])
                             attempted_retry = True
-                        value = {'option_id': 'unsure', 'confidence': 0} if unsure else answer(task)
-                        run = submit(run, task, value)
+                        if task['type'] == 'simulation':
+                            path = f"/api/learning-runs/{run['id']}/simulation"
+                            view = public(client.post(path, json={'idempotency_key': key()}))
+                            while view['tick'] < view['bound_policy']['min_observe']:
+                                view = public(client.post(f"/api/simulations/{view['id']}/advance", json={'idempotency_key': key(), 'steps': view['bound_policy']['max_advance']}))
+                            view = public(client.get(path))
+                            self.assertEqual(view['orders'], [])
+                            body = {'idempotency_key': key(), 'audit': {'tick': view['tick'], 'engine_version': view['version'], 'observation_token': view['observation_token'], 'orders': [], 'session_fees': view['fees'], 'price_limit_guarantees_fill': False, 'no_order_reason': 'no_thesis_supplied'}}
+                            run = public(client.post(path + '/review', json=body))
+                            self.assertEqual(public(client.post(path + '/review', json=body)), run)
+                        else:
+                            value = {'option_id': 'unsure', 'confidence': 0} if unsure else answer(task)
+                            run = submit(run, task, value)
                         self.assertEqual(run['progress']['completed_steps'], index + 1)
                         if run['purpose'] in ('diagnostic', 'assessment') and index < len(tasks) - 1:
                             self.assertEqual(run['feedback'], [])
