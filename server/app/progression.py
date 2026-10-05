@@ -37,9 +37,9 @@ async def reward(db, profile, event_key, amount, reason):
     return amount
 
 
-async def record_lesson(db, profile, lesson_id, attempt_id):
+async def record_lesson(db, profile, lesson_id, attempt_id, review_after_days=1):
     if await db.get(LessonCompletion, (profile.id, lesson_id)):
         return 0
     db.add(LessonCompletion(user_id=profile.id, lesson_id=lesson_id, attempt_id=attempt_id))
-    db.add(ReviewItem(user_id=profile.id, lesson_id=lesson_id, due_at=now() + timedelta(hours=24)))
+    db.add(ReviewItem(user_id=profile.id, lesson_id=lesson_id, due_at=now() + timedelta(days=review_after_days)))
     return await reward(db, profile, 'lesson:' + lesson_id, 20, 'Passed lesson reasoning check')

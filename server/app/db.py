@@ -135,6 +135,31 @@ class SimulationSession(Base):
     updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now, onupdate=now)
 
 
+class LearningRun(Base):
+    __tablename__ = 'learning_runs'
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=uid)
+    user_id: Mapped[str] = mapped_column(ForeignKey('profiles.id'), index=True)
+    purpose: Mapped[str] = mapped_column(String(20))
+    module_id: Mapped[str] = mapped_column(String(120))
+    level_id: Mapped[str | None] = mapped_column(String(120))
+    content_version: Mapped[str] = mapped_column(String(120))
+    status: Mapped[str] = mapped_column(String(20))
+    snapshot_json: Mapped[dict] = mapped_column(JSON)
+    state_json: Mapped[dict] = mapped_column(JSON)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
+    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now, onupdate=now)
+
+
+class LearningRunCommand(Base):
+    __tablename__ = 'learning_run_commands'
+    user_id: Mapped[str] = mapped_column(ForeignKey('profiles.id'), primary_key=True)
+    key: Mapped[str] = mapped_column(String(100), primary_key=True)
+    run_id: Mapped[str] = mapped_column(ForeignKey('learning_runs.id'), index=True)
+    request_hash: Mapped[str] = mapped_column(String(64))
+    response: Mapped[dict] = mapped_column(JSON)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
+
+
 class Database:
     def __init__(self, settings: Settings):
         if settings.database_url.startswith('sqlite+aiosqlite:///'):

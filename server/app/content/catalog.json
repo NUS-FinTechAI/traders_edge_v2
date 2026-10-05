@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "content_version": "2026-10-04.1",
+  "content_version": "2026-10-04.2",
   "review_status": "authored_requires_independent_review",
   "sources": [
     {
@@ -178,6 +178,29 @@
       "order": 1,
       "title": "Money Before Markets",
       "description": "Connect goals, essential spending and risk capacity before considering market exposure.",
+      "entry_tasks": [
+        {
+          "id": "m01-entry-need", "type": "choice",
+          "prompt": "Before the lessons: Jo needs 250 units for transport to work next week. Which decision keeps that need independent of market prices?",
+          "options": [{"id": "keep", "text": "Keep the full transport amount available."}, {"id": "grow", "text": "Try to grow the amount in a volatile asset first."}, {"id": "unsure", "text": "Not sure yet."}],
+          "correct_option_id": "keep", "critical": true,
+          "explanation": "Money committed to a near-term essential need cannot depend on an uncertain gain."
+        },
+        {
+          "id": "m01-entry-capacity", "type": "choice",
+          "prompt": "Lee feels calm about price changes, but a loss would leave a bill unpaid. What does being calm tell us?",
+          "options": [{"id": "capacity", "text": "Lee can afford the loss."}, {"id": "willingness", "text": "Lee may be willing, but that does not establish capacity."}, {"id": "unsure", "text": "Not sure yet."}],
+          "correct_option_id": "willingness", "critical": true,
+          "explanation": "Willingness is a feeling; capacity depends on the practical consequences of losing money."
+        },
+        {
+          "id": "m01-entry-pause", "type": "choice",
+          "prompt": "An essential expense is unresolved and an opportunity promises a large gain. What is a reasonable next step?",
+          "options": [{"id": "act", "text": "Commit before checking the expense."}, {"id": "pause", "text": "Clarify the expense and available reserves first."}, {"id": "unsure", "text": "Not sure yet."}],
+          "correct_option_id": "pause", "critical": false,
+          "explanation": "A promised return does not resolve essential commitments. Waiting for relevant facts is a decision."
+        }
+      ],
       "prerequisite_module_ids": [],
       "review_status": "authored_requires_independent_review",
       "optional": false,
@@ -185,6 +208,16 @@
         {
           "id": "m01-l01",
           "title": "Give money a job",
+          "tasks": [
+            {"id": "m01-l01-task-brief", "type": "instruction", "prompt": "Give each amount a purpose and a deadline", "text": "In this fictional exercise, Sam has 600 units for rent next month and a separate 100 units with no assigned job. You will predict a shortfall, sort commitments, and decide what to check before taking risk. No trade is needed."},
+            {"id": "m01-l01-task-predict", "type": "choice", "prompt": "Predict: Sam exposes the 600-unit rent allocation to a 10% fall. How much rent is now uncovered?", "options": [{"id": "sixty", "text": "60 units"}, {"id": "six", "text": "6 units"}, {"id": "none", "text": "None: a later recovery pays the bill"}], "correct_option_id": "sixty", "critical": true, "explanation": "600 multiplied by 0.10 is 60. A future recovery is uncertain and may arrive after the bill."},
+            {"id": "m01-l01-task-example", "type": "instruction", "prompt": "Worked decision: separate the bill", "text": "Sam keeps all 600 rent units available, not just half. The separate 100 units are not automatically ready for investment: Sam first checks other commitments and reserves. Saving for a need and accepting uncertain market outcomes serve different jobs."},
+            {"id": "m01-l01-task-sort", "type": "classification", "prompt": "Sort each fictional amount by its next readiness step, not by a product to buy.", "items": [{"id": "rent", "text": "600 units: rent next month"}, {"id": "course", "text": "900 units: a required course fee in six weeks"}, {"id": "unassigned", "text": "100 units: no purpose or other commitments checked"}], "categories": [{"id": "protect", "text": "Keep available for the known need"}, {"id": "clarify", "text": "Clarify purpose and commitments first"}], "correct_assignments": {"rent": "protect", "course": "protect", "unassigned": "clarify"}, "critical": true, "explanation": "The rent and course fee have known near-term jobs. An unassigned amount still needs a readiness check; lack of a label is not evidence it can absorb a loss."},
+            {"id": "m01-l01-task-transfer", "type": "choice", "prompt": "A friend says investing only half the rent guarantees that the full bill stays safe. Which response identifies the flaw?", "options": [{"id": "half", "text": "The protected half covers only half the bill."}, {"id": "short", "text": "Short holding periods remove loss risk."}, {"id": "popular", "text": "A popular asset guarantees the other half."}], "correct_option_id": "half", "critical": true, "explanation": "Protecting 300 units cannot guarantee a 600-unit payment when the remaining 300 are uncertain."}
+          ],
+          "bonus_tasks": [
+            {"id": "m01-l01-bonus-decision", "type": "choice", "prompt": "Optional transfer: Noor's 750-unit exam fee is due in two weeks. A promotion promises a gain before then. Which fact is enough to reject using the fee money?", "options": [{"id": "deadline", "text": "All 750 units are committed to a fixed near-term payment."}, {"id": "promotion", "text": "The promotion uses a familiar logo."}, {"id": "recent", "text": "Someone else gained last week."}], "correct_option_id": "deadline", "critical": true, "explanation": "The known commitment conflicts with uncertain availability. Recognizing that conflict, not writing more text, verifies this bonus decision."}
+          ],
           "objective": "Separate essential near-term spending from money that can face uncertain outcomes.",
           "source_basis": [
             "sec-start",
@@ -255,6 +288,16 @@
         {
           "id": "m01-l02",
           "title": "Willing is different from able",
+          "tasks": [
+            {"id": "m01-l02-task-brief", "type": "instruction", "prompt": "Separate feelings from consequences", "text": "Alex is comfortable with uncertainty but needs 200 units for an essential repair. Willingness describes feelings. Capacity asks what a loss would prevent. You will compare the two without selecting a financial product."},
+            {"id": "m01-l02-task-predict", "type": "choice", "prompt": "The repair deadline moves from six months away to next week. What changes?", "options": [{"id": "less", "text": "There is less time to accommodate uncertain market value."}, {"id": "more", "text": "Confidence creates more spare money."}, {"id": "safe", "text": "A short deadline prevents losses."}], "correct_option_id": "less", "critical": true, "explanation": "A nearer deadline reduces flexibility. It does not change market risk or create resources."},
+            {"id": "m01-l02-task-example", "type": "instruction", "prompt": "Worked comparison", "text": "Alex says a loss would not feel upsetting, yet it would stop the repair. The first statement is willingness; the second limits capacity. A flexible purchase years away may allow more time, but time still cannot guarantee recovery."},
+            {"id": "m01-l02-task-sort", "type": "classification", "prompt": "Classify what each statement tells us.", "items": [{"id": "calm", "text": "I feel calm when prices change."}, {"id": "bill", "text": "A loss would make my bill unpaid."}, {"id": "worry", "text": "Uncertainty makes me uncomfortable."}], "categories": [{"id": "willingness", "text": "Willingness to face uncertainty"}, {"id": "capacity", "text": "Practical capacity for loss"}], "correct_assignments": {"calm": "willingness", "bill": "capacity", "worry": "willingness"}, "critical": true, "explanation": "Feelings describe willingness. The consequence for an essential bill constrains capacity regardless of feelings."},
+            {"id": "m01-l02-task-transfer", "type": "choice", "prompt": "Alex is offered a guarantee of recovery simply for holding longer. Which conclusion is supported?", "options": [{"id": "guaranteed", "text": "A long horizon guarantees a gain."}, {"id": "uncertain", "text": "More time may offer flexibility, but uncertainty remains."}, {"id": "calm", "text": "Staying calm guarantees recovery."}], "correct_option_id": "uncertain", "critical": false, "explanation": "No holding period or emotional state establishes that an investment will recover."}
+          ],
+          "bonus_tasks": [
+            {"id": "m01-l02-bonus-decision", "type": "choice", "prompt": "Optional transfer: Mina accepts price swings but would have to borrow for groceries after a loss. Which constraint should the readiness decision prioritize?", "options": [{"id": "capacity", "text": "The loss would compromise essentials and create a borrowing need."}, {"id": "confidence", "text": "Mina's confidence proves the loss is affordable."}, {"id": "app", "text": "The number of apps Mina understands."}], "correct_option_id": "capacity", "critical": true, "explanation": "Essential spending and a new debt obligation are practical consequences. Comfort does not remove them."}
+          ],
           "objective": "Distinguish comfort with uncertainty from the capacity to absorb a loss.",
           "source_basis": [
             "sec-horizon",
@@ -327,6 +370,16 @@
         {
           "id": "m01-l03",
           "title": "Readiness can mean waiting",
+          "tasks": [
+            {"id": "m01-l03-task-brief", "type": "instruction", "prompt": "A decision does not require a trade", "text": "Rae has irregular income and an essential bill of unknown size. A readiness decision can end with waiting and identifying missing facts. You will distinguish useful information from pressure to act."},
+            {"id": "m01-l03-task-predict", "type": "choice", "prompt": "If Rae commits the available funds before checking the bill, what could happen?", "options": [{"id": "shortfall", "text": "A loss or unavailable funds could leave the essential bill uncovered."}, {"id": "cancel", "text": "An advertised return cancels the bill."}, {"id": "ready", "text": "Taking action proves readiness."}], "correct_option_id": "shortfall", "critical": true, "explanation": "The bill remains an obligation even when an opportunity advertises gains. An unresolved commitment is a reason to clarify rather than assume."},
+            {"id": "m01-l03-task-example", "type": "instruction", "prompt": "Worked readiness decision", "text": "Rae pauses, checks the bill amount and deadline, lists accessible reserves and existing debt costs, then reassesses. No order is placed. This is a complete decision based on relevant constraints, not a failure to participate."},
+            {"id": "m01-l03-task-sort", "type": "classification", "prompt": "Which facts help resolve Rae's readiness, and which do not?", "items": [{"id": "bill", "text": "The bill amount and due date"}, {"id": "reserves", "text": "Accessible reserves and existing debt costs"}, {"id": "hype", "text": "A crowd says the opportunity is popular"}], "categories": [{"id": "relevant", "text": "Clarifies readiness constraints"}, {"id": "insufficient", "text": "Does not establish readiness"}], "correct_assignments": {"bill": "relevant", "reserves": "relevant", "hype": "insufficient"}, "critical": true, "explanation": "Obligations and resources inform capacity. Popularity is not evidence that Rae can afford a loss."},
+            {"id": "m01-l03-task-transfer", "type": "choice", "prompt": "Choose Rae's next decision while the bill remains unknown.", "options": [{"id": "borrow", "text": "Borrow automatically to avoid missing out."}, {"id": "wait", "text": "Wait and clarify the bill and reserves before considering exposure."}, {"id": "trade", "text": "Place a trade to show the lesson is complete."}], "correct_option_id": "wait", "critical": true, "explanation": "Waiting is justified by a specific missing fact. Lesson completion does not require a trade."}
+          ],
+          "bonus_tasks": [
+            {"id": "m01-l03-bonus-decision", "type": "choice", "prompt": "Optional transfer: A fictional learner pauses because a medical bill is unresolved. What new information is relevant before reassessing?", "options": [{"id": "likes", "text": "How many people liked the promotion."}, {"id": "gain", "text": "Yesterday's biggest gain."}, {"id": "commitments", "text": "The bill amount, deadline, available reserves and debt costs."}], "correct_option_id": "commitments", "critical": true, "explanation": "Those facts clarify obligations and capacity. Popularity and recent gains cannot settle an essential bill or establish suitability."}
+          ],
           "objective": "Explain why preserving flexibility can be a reason to avoid an unsuitable opportunity.",
           "source_basis": [
             "sec-start",
