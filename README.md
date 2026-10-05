@@ -3,7 +3,7 @@
 A mobile-first financial decision-making academy supported by a trading simulator.
 The repository currently contains an empty React/TypeScript app and a FastAPI health endpoint. Discovery is complete; three static visual directions await selection. Product features follow design approval.
 
-See the [direction comparison and review](docs/design/explorations/review.md) for working prototypes, screenshots, scores and local preview instructions.
+See the [selected design reference](docs/design/explorations/review.md) for the refined prototype, three phone screenshots and review evidence.
 
 ## Run
 
