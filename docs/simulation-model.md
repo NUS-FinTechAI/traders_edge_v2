@@ -25,3 +25,11 @@ A learner may finish after observing at least ten steps with a written reflectio
 ## Verification
 
 The engine tests cover independent deterministic seeds, hidden futures, required plans, quantity and exposure checks, exact fill/fee arithmetic, partial fills, limit protection, stop gaps, cancellation reservations, shared liquidity, JSON resume, expiry, no-trade reflection and nonnegative holdings/cash. This test scope does not establish real-market fidelity or learner outcomes.
+
+## Saved sessions and API
+
+`POST /api/simulations` starts `guided` practice after the first four module mastery checks or `endless` practice after the first nine. Both accept an `idempotency_key`. Endless means repeatable bounded scenarios; it does not imply a continuously running market. Up to three unfinished scenarios may be retained at once.
+
+List or resume owned sessions with `GET /api/simulations` and `GET /api/simulations/{id}`. Submit orders to `/{id}/orders`, observations to `/{id}/advance`, cancellation to `/{id}/orders/{order_id}/cancel`, and reflection to `/{id}/debrief`. Every mutation requires a request key. An unchanged retry returns the original committed response, including after an application restart; reusing the key for a different action returns 409. An order payload contains `symbol`, `side`, `type`, whole-number `quantity`, a decimal-string `price` for limits/stops, and the five plan fields described above. Advancing accepts `steps` from 1 to 5. Debrief accepts a 30–1500-character reflection.
+
+Session ownership is enforced on every command. Private snapshots and command results commit atomically. Saved engine versions are checked before use; incompatible versions return409 instead of silently changing a path. Migration 2 creates the command ledger and preserves existing learning records. API tests cover mastery gates, ownership, replay, concurrent requests, restarts, migration, plan validation, cancellation and no-trade reflection without trading XP.
