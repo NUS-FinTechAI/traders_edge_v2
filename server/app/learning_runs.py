@@ -1,4 +1,5 @@
 from copy import deepcopy
+from datetime import timedelta
 import hashlib
 import json
 from typing import Literal
@@ -7,10 +8,10 @@ from fastapi import APIRouter, HTTPException, Request
 from pydantic import Field
 from sqlalchemy import select
 
-from app.db import Attempt, LearningRun, LearningRunCommand, MasteredModule, uid
-from app.learning import DB, User, Payload, catalog, lesson_for, module_for, practice_eligibility, profile_data, require_lesson
-from app.content.validate import valid_choice_option_id
+from app.db import Attempt, LearningRun, LearningRunCommand, MasteredModule, aware, now, uid
+from app.learning import DB, User, Payload, catalog, interactive_review, lesson_for, module_for, owned_review, practice_eligibility, profile_data, require_lesson
 from app.progression import progress, record_lesson, require_module, reward
+from app.content.validate import valid_choice_option_id
 
 router = APIRouter(prefix='/api')
 
@@ -46,7 +47,10 @@ def run_data(run):
     state = run.state_json
     tasks = run.snapshot_json['tasks']
     position = state['position']
-    return {'id': run.id, 'purpose': run.purpose, 'module_id': run.module_id, 'level_id': run.level_id, 'content_version': run.content_version, 'status': run.status, 'current_step': public_task(tasks[position]) if position < len(tasks) else None, 'feedback': deepcopy(state['feedback']), 'progress': {'completed_steps': position, 'total_steps': len(tasks)}, 'result': deepcopy(state['result'])}
+    response = {'id': run.id, 'purpose': run.purpose, 'module_id': run.module_id, 'level_id': run.level_id, 'content_version': run.content_version, 'status': run.status, 'current_step': public_task(tasks[position]) if position < len(tasks) else None, 'feedback': deepcopy(state['feedback']), 'progress': {'completed_steps': position, 'total_steps': len(tasks)}, 'result': deepcopy(state['result'])}
+    if run.purpose == 'review':
+        response['review_id'] = run.snapshot_json['review_id']
+    return response
 
 
 def validate_pinned_content(run):
@@ -69,9 +73,11 @@ def validate_pinned_content(run):
     if snapshot.get('rubric_version') != 'interactive-1':
         raise HTTPException(409, 'Unsupported learning rubric version')
     require(type(snapshot.get('approved')) is bool)
-    require(run.purpose in {'diagnostic', 'practice', 'bonus', 'assessment'})
-    if run.purpose == 'practice':
+    require(run.purpose in {'diagnostic', 'practice', 'bonus', 'assessment', 'review'})
+    if run.purpose in {'practice', 'review'}:
         require(type(snapshot.get('review_after_days')) is int and snapshot['review_after_days'] > 0)
+    if run.purpose == 'review':
+        require(text(snapshot.get('review_id')) and text(snapshot.get('lesson_id')) and snapshot['lesson_id'] == run.level_id)
     tasks = snapshot.get('tasks')
     require(isinstance(tasks, list) and bool(tasks))
     seen = set()
@@ -82,6 +88,8 @@ def validate_pinned_content(run):
         seen.add(task['id'])
         kind = task.get('type')
         require(kind in ('instruction', 'choice', 'classification'))
+        if run.purpose == 'review':
+            require(kind == 'choice')
         if kind == 'instruction':
             require(run.purpose == 'practice' and text(task.get('text')))
             continue
@@ -199,6 +207,40 @@ async def start_level(level_id: str, body: StartLevel, request: Request, db: DB,
     return await start_run(request, db, user, body, body.purpose, level_id)
 
 
+def require_due_review(item):
+    if item.completed_at is not None:
+        raise HTTPException(409, 'This delayed review is already completed')
+    if aware(item.due_at) > now():
+        raise HTTPException(403, 'The delayed review is not due yet')
+
+
+@router.post('/reviews/{review_id}/runs')
+async def start_review(review_id: str, body: Command, request: Request, db: DB, user: User):
+    digest, previous = await replay(db, user, body, 'start:review', review_id)
+    if previous is not None:
+        return previous
+    item = await owned_review(db, user, review_id)
+    require_due_review(item)
+    existing = await db.scalar(select(LearningRun).where(LearningRun.user_id == user.id, LearningRun.purpose == 'review', LearningRun.status == 'active', LearningRun.snapshot_json['review_id'].as_string() == review_id).order_by(LearningRun.created_at).limit(1))
+    if existing:
+        pinned_publication(request, existing)
+        return await remember(db, user, body, digest, existing)
+    module, lesson = lesson_for(request, item.lesson_id)
+    content = catalog(request)
+    if not interactive_review(content, module):
+        raise HTTPException(409, 'This review has not been authored for interactive runs; use its legacy review path')
+    completed, mastered, _ = await progress(db, user.id)
+    require_module(module, content['modules'], mastered)
+    require_lesson(module, lesson['id'], completed)
+    if lesson['id'] not in completed:
+        raise HTTPException(403, 'Complete the lesson before its delayed review')
+    run = LearningRun(id=uid(), user_id=user.id, purpose='review', module_id=module['id'], level_id=lesson['id'], content_version=content['content_version'], status='active', snapshot_json={'review_id': review_id, 'lesson_id': lesson['id'], 'tasks': [{**deepcopy(question), 'type': 'choice'} for question in lesson['questions']], 'review_after_days': lesson.get('review_after_days'), 'approved': content.get('review_status') == 'approved' and module.get('review_status') == 'approved' and all(l.get('review_status') == 'approved' for l in module['lessons']), 'rubric_version': 'interactive-1'}, state_json={'position': 0, 'first_responses': {}, 'responses': [], 'feedback': [], 'result': None})
+    pinned_publication(request, run)
+    db.add(run)
+    await db.flush()
+    return await remember(db, user, body, digest, run)
+
+
 @router.get('/learning-runs/{run_id}')
 async def get_run(run_id: str, request: Request, db: DB, user: User):
     run = await owned_run(db, user, run_id)
@@ -232,18 +274,28 @@ async def finish_run(db, user, run, state):
     score = round(100 * correct_count / len(graded))
     passed = correct_count * 100 >= len(graded) * (80 if run.purpose == 'assessment' else 100) and critical
     attempt_id = uid()
-    attempt = Attempt(id=attempt_id, user_id=user.id, kind=run.purpose, target_id=run.level_id or run.module_id, idempotency_key='run:' + run.id, request_hash=hashlib.sha256(run.id.encode()).hexdigest(), answers=deepcopy(state['responses']), reflection='', score=score, passed=passed if run.purpose != 'diagnostic' else False, result={})
+    attempt = Attempt(id=attempt_id, user_id=user.id, kind=run.purpose, target_id=run.snapshot_json['review_id'] if run.purpose == 'review' else run.level_id or run.module_id, idempotency_key='run:' + run.id, request_hash=hashlib.sha256(run.id.encode()).hexdigest(), answers=deepcopy(state['responses']), reflection='', score=score, passed=passed if run.purpose != 'diagnostic' else False, result={})
     db.add(attempt)
     await db.flush()
     awarded = 0
-    if run.purpose == 'practice' and passed:
+    if run.purpose == 'review':
+        item = await owned_review(db, user, run.snapshot_json['review_id'])
+        require_due_review(item)
+        if item.lesson_id != run.level_id:
+            raise HTTPException(409, 'The review does not match its pinned lesson')
+        if passed:
+            item.completed_at = now()
+            awarded = await reward(db, user, 'review:' + item.lesson_id, 10, 'Passed delayed learning review')
+        else:
+            item.due_at = now() + timedelta(days=run.snapshot_json['review_after_days'])
+    elif run.purpose == 'practice' and passed:
         awarded = await record_lesson(db, user, run.level_id, attempt_id, run.snapshot_json['review_after_days'])
     elif run.purpose == 'assessment' and passed and not await db.get(MasteredModule, (user.id, run.module_id)):
         db.add(MasteredModule(user_id=user.id, module_id=run.module_id, attempt_id=attempt_id))
         awarded = await reward(db, user, 'mastery:' + run.module_id, 50, 'Passed module risk and reasoning check')
     await db.flush()
     state['result'] = {'attempt_id': attempt_id, 'passed': None if run.purpose == 'diagnostic' else passed, 'score_percent': score, 'critical_items_passed': critical, 'standard_star': run.purpose == 'practice' and passed, 'bonus_star': run.purpose == 'bonus' and passed, 'xp_awarded': awarded, 'profile': await profile_data(db, user)}
-    if run.purpose in {'diagnostic', 'assessment'}:
+    if run.purpose in {'diagnostic', 'assessment', 'review'}:
         state['feedback'] = [{'step_id': t['id'], 'correct': evidence[t['id']]['correct'], 'explanation': t['explanation']} for t in graded]
     run.status = 'completed'
     attempt.result = {'run_id': run.id, 'purpose': run.purpose, 'content_version': run.content_version, **deepcopy(state['result']), 'feedback': deepcopy(state['feedback'])}
@@ -257,6 +309,8 @@ async def submit_step(run_id: str, step_id: str, body: SubmitStep, request: Requ
     run = await owned_run(db, user, run_id)
     pinned_publication(request, run)
     if run.status != 'active':
+        if run.purpose == 'review':
+            raise HTTPException(409, 'This review run is complete; a failed review can be retried when due again')
         raise HTTPException(409, 'This run is complete; start a new practice or assessment run to retry')
     state = deepcopy(run.state_json)
     task = run.snapshot_json['tasks'][state['position']]
@@ -266,7 +320,7 @@ async def submit_step(run_id: str, step_id: str, body: SubmitStep, request: Requ
     evidence = {'step_id': step_id, 'answer': body.answer.model_dump(exclude_none=True), 'correct': correct}
     state['responses'].append(evidence)
     state['first_responses'].setdefault(step_id, deepcopy(evidence))
-    withheld = run.purpose in {'diagnostic', 'assessment'}
+    withheld = run.purpose in {'diagnostic', 'assessment', 'review'}
     if correct or withheld:
         state['position'] += 1
     state['feedback'] = [] if withheld or task['type'] == 'instruction' else [{'step_id': step_id, 'correct': correct, 'explanation': task['explanation']}]

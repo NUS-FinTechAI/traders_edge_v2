@@ -9,7 +9,7 @@ from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.auth import current_profile
-from app.db import Attempt, JournalEntry, LearningActivity, LessonCompletion, MasteredModule, Profile, ReviewItem, XPLedger, aware, get_db, now, uid
+from app.db import Attempt, JournalEntry, LearningActivity, LearningRun, LessonCompletion, MasteredModule, Profile, ReviewItem, XPLedger, aware, get_db, now, uid
 from app.progression import progress, record_lesson, require_module, reward
 
 router = APIRouter(prefix='/api')
@@ -131,7 +131,6 @@ async def get_curriculum(request: Request, db: DB, user: User):
     content = catalog(request)
     completed, mastered, _ = await progress(db, user.id)
     modules = []
-    from app.db import LearningRun
     diagnosed = set((await db.scalars(select(LearningRun.module_id).where(LearningRun.user_id == user.id, LearningRun.purpose == 'diagnostic', LearningRun.status == 'completed'))).all())
     ordered = sorted(content['modules'], key=lambda m: m['order'])
     for module in ordered:
@@ -274,15 +273,48 @@ async def get_attempt(attempt_id: str, db: DB, user: User):
     return attempt.result
 
 
+def interactive_review(content, module):
+    return bool(content.get('content_version') and module.get('entry_tasks'))
+
+
+async def owned_review(db, user, review_id):
+    item = await db.get(ReviewItem, review_id)
+    if not item:
+        raise HTTPException(404, 'Review not found')
+    if item.user_id != user.id:
+        raise HTTPException(403, 'This review belongs to another learner')
+    return item
+
+
+async def review_data(request, db, user, items):
+    content = catalog(request)
+    lessons = {lesson['id']: (module, lesson) for module in content['modules'] for lesson in module['lessons']}
+    summaries = (await db.execute(select(LearningRun.id, LearningRun.status, LearningRun.snapshot_json['review_id'].as_string().label('review_id')).where(LearningRun.user_id == user.id, LearningRun.purpose == 'review').order_by(LearningRun.created_at, LearningRun.id))).all()
+    latest, active = {}, {}
+    for summary in summaries:
+        latest[summary.review_id] = summary.id
+        if summary.status == 'active':
+            active[summary.review_id] = summary.id
+    result = []
+    instant = now()
+    for item in items:
+        module, lesson = lessons.get(item.lesson_id, ({}, {}))
+        required = interactive_review(content, module) or item.id in latest
+        due = item.completed_at is None and aware(item.due_at) <= instant
+        result.append({'id': item.id, 'lesson_id': item.lesson_id, 'title': lesson.get('title', item.lesson_id), 'due_at': aware(item.due_at), 'completed': item.completed_at is not None, 'due': due, 'questions': [public_question(q) for q in lesson.get('questions', [])] if due else [], 'interactive_required': required, 'reflection_required': not required, 'run_id': latest.get(item.id), 'active_run_id': active.get(item.id)})
+    return result
+
+
 @router.get('/reviews')
 async def reviews(request: Request, db: DB, user: User):
     items = (await db.scalars(select(ReviewItem).where(ReviewItem.user_id == user.id).order_by(ReviewItem.due_at))).all()
-    result = []
-    for item in items:
-        _, lesson = lesson_for(request, item.lesson_id)
-        due = not item.completed_at and aware(item.due_at) <= now()
-        result.append({'id': item.id, 'lesson_id': item.lesson_id, 'title': lesson['title'], 'due_at': item.due_at, 'completed': item.completed_at is not None, 'due': bool(due), 'questions': [public_question(q) for q in lesson['questions']] if due else []})
-    return {'reviews': result}
+    return {'reviews': await review_data(request, db, user, items)}
+
+
+@router.get('/reviews/{review_id}')
+async def get_review(review_id: str, request: Request, db: DB, user: User):
+    item = await owned_review(db, user, review_id)
+    return (await review_data(request, db, user, [item]))[0]
 
 
 @router.post('/reviews/{review_id}/submit')
@@ -290,12 +322,10 @@ async def submit_review(review_id: str, body: Submission, request: Request, db: 
     _, existing = await submission_replay(db, user, body, 'review', review_id)
     if existing is not None:
         return existing
-    item = await db.get(ReviewItem, review_id)
-    if not item:
-        raise HTTPException(404, 'Review not found')
-    if item.user_id != user.id:
-        raise HTTPException(403, 'This review belongs to another learner')
+    item = await owned_review(db, user, review_id)
     module, lesson = lesson_for(request, item.lesson_id)
+    if interactive_review(catalog(request), module) or await db.scalar(select(LearningRun.id).where(LearningRun.user_id == user.id, LearningRun.purpose == 'review', LearningRun.snapshot_json['review_id'].as_string() == review_id).limit(1)):
+        raise HTTPException(403, 'Use interactive review runs; whole-review submissions cannot bypass their tasks')
     return await submit(request, db, user, body, 'review', review_id, module, lesson, item)
 
 
