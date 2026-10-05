@@ -1,0 +1,3819 @@
+{
+  "schema_version": 1,
+  "content_version": "2026-10-04.1",
+  "review_status": "authored_requires_independent_review",
+  "sources": [
+    {
+      "id": "sec-start",
+      "title": "Introduction to Investing",
+      "url": "https://www.investor.gov/introduction-investing",
+      "reviewed_on": "2026-10-04",
+      "scope": "General financial concepts only. Jurisdiction-specific rules are not adopted."
+    },
+    {
+      "id": "sec-horizon",
+      "title": "Gauge Your Risk Tolerance",
+      "url": "https://www.investor.gov/introduction-investing/investing-basics/save-and-invest/gauge-your-risk-tolerance",
+      "reviewed_on": "2026-10-04",
+      "scope": "General financial concepts only. Jurisdiction-specific rules are not adopted."
+    },
+    {
+      "id": "sec-spread",
+      "title": "Ask Price",
+      "url": "https://www.investor.gov/introduction-investing/investing-basics/glossary/ask-price",
+      "reviewed_on": "2026-10-04",
+      "scope": "General financial concepts only. Jurisdiction-specific rules are not adopted."
+    },
+    {
+      "id": "sec-execution",
+      "title": "Executing an Order",
+      "url": "https://www.investor.gov/introduction-investing/investing-basics/how-stock-markets-work/executing-order",
+      "reviewed_on": "2026-10-04",
+      "scope": "General financial concepts only. Jurisdiction-specific rules are not adopted."
+    },
+    {
+      "id": "finra-stocks",
+      "title": "Stocks",
+      "url": "https://www.finra.org/investors/investing/investment-products/stocks",
+      "reviewed_on": "2026-10-04",
+      "scope": "General financial concepts only. Jurisdiction-specific rules are not adopted."
+    },
+    {
+      "id": "finra-bonds",
+      "title": "Bonds",
+      "url": "https://www.finra.org/investors/investing/investment-products/bonds",
+      "reviewed_on": "2026-10-04",
+      "scope": "General financial concepts only. Jurisdiction-specific rules are not adopted."
+    },
+    {
+      "id": "finra-funds",
+      "title": "Mutual Funds",
+      "url": "https://www.finra.org/investors/investing/investment-products/mutual-funds",
+      "reviewed_on": "2026-10-04",
+      "scope": "General financial concepts only. Jurisdiction-specific rules are not adopted."
+    },
+    {
+      "id": "finra-allocation",
+      "title": "Asset Allocation and Diversification",
+      "url": "https://www.finra.org/investors/investing/investing-basics/asset-allocation-diversification",
+      "reviewed_on": "2026-10-04",
+      "scope": "General financial concepts only. Jurisdiction-specific rules are not adopted."
+    },
+    {
+      "id": "finra-concentration",
+      "title": "Concentration Risk",
+      "url": "https://www.finra.org/investors/insights/concentration-risk",
+      "reviewed_on": "2026-10-04",
+      "scope": "General financial concepts only. Jurisdiction-specific rules are not adopted."
+    },
+    {
+      "id": "sec-orders",
+      "title": "Types of Orders",
+      "url": "https://www.investor.gov/introduction-investing/investing-basics/how-stock-markets-work/types-orders",
+      "reviewed_on": "2026-10-04",
+      "scope": "General financial concepts only. Jurisdiction-specific rules are not adopted."
+    },
+    {
+      "id": "sec-fees",
+      "title": "How Fees and Expenses Affect Your Investment Portfolio",
+      "url": "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/updated",
+      "reviewed_on": "2026-10-04",
+      "scope": "General financial concepts only. Jurisdiction-specific rules are not adopted."
+    },
+    {
+      "id": "finra-risk",
+      "title": "Risk",
+      "url": "https://www.finra.org/investors/investing/investing-basics/risk",
+      "reviewed_on": "2026-10-04",
+      "scope": "General financial concepts only. Jurisdiction-specific rules are not adopted."
+    },
+    {
+      "id": "finra-options",
+      "title": "Options",
+      "url": "https://www.finra.org/investors/investing/investment-products/options",
+      "reviewed_on": "2026-10-04",
+      "scope": "General financial concepts only. Jurisdiction-specific rules are not adopted."
+    },
+    {
+      "id": "finra-futures",
+      "title": "Security Futures Risk Disclosure",
+      "url": "https://www.finra.org/rules-guidance/notices/18-24",
+      "reviewed_on": "2026-10-04",
+      "scope": "General financial concepts only. Jurisdiction-specific rules are not adopted."
+    },
+    {
+      "id": "finra-margin",
+      "title": "Margin Calls",
+      "url": "https://www.finra.org/investors/insights/margin-calls",
+      "reviewed_on": "2026-10-04",
+      "scope": "General financial concepts only. Jurisdiction-specific rules are not adopted."
+    },
+    {
+      "id": "sec-short",
+      "title": "An Introduction to Short Sales",
+      "url": "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins-51",
+      "reviewed_on": "2026-10-04",
+      "scope": "General financial concepts only. Jurisdiction-specific rules are not adopted."
+    },
+    {
+      "id": "sec-fraud",
+      "title": "Social Media and Investment Fraud",
+      "url": "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-alerts/social-media-and-investment-fraud-investor-alert",
+      "reviewed_on": "2026-10-04",
+      "scope": "General financial concepts only. Jurisdiction-specific rules are not adopted."
+    },
+    {
+      "id": "finra-sentiment",
+      "title": "Social Sentiment Investing Tools",
+      "url": "https://www.finra.org/investors/insights/social-sentiment-investing-tools",
+      "reviewed_on": "2026-10-04",
+      "scope": "General financial concepts only. Jurisdiction-specific rules are not adopted."
+    },
+    {
+      "id": "sec-research",
+      "title": "Using EDGAR to Research Investments",
+      "url": "https://www.investor.gov/introduction-investing/getting-started/researching-investments/using-edgar-research-investments",
+      "reviewed_on": "2026-10-04",
+      "scope": "General financial concepts only. Jurisdiction-specific rules are not adopted."
+    },
+    {
+      "id": "sec-etf",
+      "title": "Exchange-Traded Funds",
+      "url": "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins-24",
+      "reviewed_on": "2026-10-04",
+      "scope": "General financial concepts only. Jurisdiction-specific rules are not adopted."
+    },
+    {
+      "id": "sec-settlement",
+      "title": "New T+1 Settlement Cycle: What Is Settlement?",
+      "url": "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/new-t1-settlement-cycle-what-investors-need-know-investor-bulletin",
+      "reviewed_on": "2026-10-04",
+      "scope": "General financial concepts only. Jurisdiction-specific rules are not adopted."
+    },
+    {
+      "id": "cnmv-bias",
+      "title": "Behavioural Economics for Investors",
+      "url": "https://www.cnmv.es/DocPortal/Publicaciones/Guias/EN-Guia_Psicologiaenen.pdf",
+      "reviewed_on": "2026-10-04",
+      "scope": "General financial concepts only. Jurisdiction-specific rules are not adopted."
+    },
+    {
+      "id": "drawdown-paper",
+      "title": "Drawdown: From Practice to Theory and Back Again",
+      "url": "https://arxiv.org/abs/1404.7493",
+      "reviewed_on": "2026-10-04",
+      "scope": "General financial concepts only. Jurisdiction-specific rules are not adopted."
+    },
+    {
+      "id": "brier-paper",
+      "title": "Variance Estimation for Brier Score Decomposition",
+      "url": "https://arxiv.org/abs/1303.6182",
+      "reviewed_on": "2026-10-04",
+      "scope": "General financial concepts only. Jurisdiction-specific rules are not adopted."
+    }
+  ],
+  "modules": [
+    {
+      "id": "m01-money-before-markets",
+      "order": 1,
+      "title": "Money Before Markets",
+      "description": "Connect goals, essential spending and risk capacity before considering market exposure.",
+      "prerequisite_module_ids": [],
+      "review_status": "authored_requires_independent_review",
+      "optional": false,
+      "lessons": [
+        {
+          "id": "m01-l01",
+          "title": "Give money a job",
+          "objective": "Separate essential near-term spending from money that can face uncertain outcomes.",
+          "source_basis": [
+            "sec-start",
+            "sec-horizon"
+          ],
+          "review_status": "authored_requires_independent_review",
+          "prerequisite_lesson_ids": [],
+          "explanation": "Begin with the purpose and due date. Saving keeps money available for a need; investing exposes money to uncertain outcomes in pursuit of a longer-term goal. Speculating relies strongly on an uncertain price move. None of these labels removes risk.",
+          "worked_example": "Sam has 600 units for rent due next month and 100 units without a near-term commitment. The rent allocation is 600, not 300: putting half into a volatile asset would still expose money needed for the bill. This is a fictional allocation, not a suggested personal budget.",
+          "learning_cycle": {
+            "question": "Sam needs all 600 units for rent next month. What protects that need?",
+            "explanation": "Begin with the purpose and due date. Saving keeps money available for a need; investing exposes money to uncertain outcomes in pursuit of a longer-term goal. Speculating relies strongly on an uncertain price move. None of these labels removes risk.",
+            "worked_example": "Sam has 600 units for rent due next month and 100 units without a near-term commitment. The rent allocation is 600, not 300: putting half into a volatile asset would still expose money needed for the bill. This is a fictional allocation, not a suggested personal budget.",
+            "prediction": "If the rent allocation falls by 10%, how much of the 600-unit bill remains uncovered?",
+            "guided_decision": "Allocate Sam’s 600 units to the essential bill. Decide whether the separate 100 units need another purpose before any market decision. Choosing to wait is valid.",
+            "feedback": "After answering, compare your reason with the explanation. Correct a mistaken assumption before trying again.",
+            "reflection": "Which due date made the decision clearer? Use a fictional need rather than private financial details.",
+            "delayed_review": "A 900-unit course fee is due in six weeks. Explain why a hoped-for market gain is not a reliable way to meet it.",
+            "mastery_check": "Complete both practice questions. Later, apply this idea in the module check without relying on a recent example."
+          },
+          "review_after_days": 1,
+          "activity_kind": "guided_decision",
+          "questions": [
+            {
+              "prompt": "Sam needs all 600 units for rent next month. What protects that need?",
+              "explanation": "The full bill is committed. A price fall can create a shortfall even over a few days.",
+              "critical": true,
+              "id": "m01-l01-q01",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "Invest it briefly; short exposure removes risk."
+                },
+                {
+                  "id": "b",
+                  "text": "Invest half; the other half guarantees the full rent."
+                },
+                {
+                  "id": "c",
+                  "text": "Keep the rent allocation separate from market uncertainty."
+                }
+              ],
+              "correct_option_id": "c"
+            },
+            {
+              "prompt": "A 600-unit allocation falls 10% before the bill is due. What is the shortfall?",
+              "explanation": "600 × 0.10 = 60. A possible later recovery does not pay today’s bill.",
+              "critical": true,
+              "id": "m01-l01-q02",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "60 units."
+                },
+                {
+                  "id": "b",
+                  "text": "6 units."
+                },
+                {
+                  "id": "c",
+                  "text": "No shortfall because the loss may recover."
+                }
+              ],
+              "correct_option_id": "a"
+            }
+          ]
+        },
+        {
+          "id": "m01-l02",
+          "title": "Willing is different from able",
+          "objective": "Distinguish comfort with uncertainty from the capacity to absorb a loss.",
+          "source_basis": [
+            "sec-horizon",
+            "finra-risk"
+          ],
+          "review_status": "authored_requires_independent_review",
+          "prerequisite_lesson_ids": [
+            "m01-l01"
+          ],
+          "explanation": "Risk tolerance describes willingness to face uncertainty; capacity asks what a loss would do to essential needs and goals. Feeling confident does not create spare money. A longer horizon may allow flexibility, but it cannot guarantee recovery.",
+          "worked_example": "Alex says a 200-unit loss feels manageable. However, losing it would prevent an essential repair. Alex’s willingness is high while capacity for this loss is low. The constraint comes from the repair, not the confidence.",
+          "learning_cycle": {
+            "question": "Alex can tolerate worry but cannot pay for an essential repair after a loss. What is limited?",
+            "explanation": "Risk tolerance describes willingness to face uncertainty; capacity asks what a loss would do to essential needs and goals. Feeling confident does not create spare money. A longer horizon may allow flexibility, but it cannot guarantee recovery.",
+            "worked_example": "Alex says a 200-unit loss feels manageable. However, losing it would prevent an essential repair. Alex’s willingness is high while capacity for this loss is low. The constraint comes from the repair, not the confidence.",
+            "prediction": "If the repair deadline moves closer, does the ability to wait through a price fall increase or decrease?",
+            "guided_decision": "Compare two fictional goals: a fixed repair next month and a flexible purchase in several years. Identify which deadline leaves less room for market uncertainty; do not select a product.",
+            "feedback": "After answering, compare your reason with the explanation. Correct a mistaken assumption before trying again.",
+            "reflection": "Name one practical constraint that confidence cannot remove.",
+            "delayed_review": "A learner is calm about losses but would need to borrow for a bill after one. Identify willingness and capacity separately.",
+            "mastery_check": "Complete both practice questions. Later, apply this idea in the module check without relying on a recent example."
+          },
+          "review_after_days": 1,
+          "activity_kind": "guided_decision",
+          "questions": [
+            {
+              "prompt": "Alex can tolerate worry but cannot pay for an essential repair after a loss. What is limited?",
+              "explanation": "Capacity concerns the consequences of a loss; confidence is not a substitute for available resources.",
+              "critical": true,
+              "id": "m01-l02-q01",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "Risk capacity."
+                },
+                {
+                  "id": "b",
+                  "text": "The ability to feel confident."
+                },
+                {
+                  "id": "c",
+                  "text": "The number of available investment apps."
+                }
+              ],
+              "correct_option_id": "a"
+            },
+            {
+              "prompt": "Does a long time horizon guarantee that an investment will recover?",
+              "explanation": "Time may offer flexibility, but no holding period guarantees a positive result.",
+              "critical": false,
+              "id": "m01-l02-q02",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "Yes, after a fixed number of years."
+                },
+                {
+                  "id": "b",
+                  "text": "No; uncertainty remains."
+                },
+                {
+                  "id": "c",
+                  "text": "Yes, if the learner stays calm."
+                }
+              ],
+              "correct_option_id": "b"
+            }
+          ]
+        },
+        {
+          "id": "m01-l03",
+          "title": "Readiness can mean waiting",
+          "objective": "Explain why preserving flexibility can be a reason to avoid an unsuitable opportunity.",
+          "source_basis": [
+            "sec-start",
+            "finra-risk"
+          ],
+          "review_status": "authored_requires_independent_review",
+          "prerequisite_lesson_ids": [
+            "m01-l02"
+          ],
+          "explanation": "A readiness decision considers essential commitments, accessible reserves, debt costs and the goal. Waiting is a complete decision when these facts are unresolved. A promised large return does not cancel obligations or establish that an opportunity suits the learner.",
+          "worked_example": "Rae has irregular income and an unknown bill arriving soon. Before choosing an investment, Rae lists the possible bill, accessible funds and the cost of existing debt. The exercise ends with a plan to clarify the bill, without placing a trade.",
+          "learning_cycle": {
+            "question": "Rae’s essential bill is unknown. What is the sound next learning decision?",
+            "explanation": "A readiness decision considers essential commitments, accessible reserves, debt costs and the goal. Waiting is a complete decision when these facts are unresolved. A promised large return does not cancel obligations or establish that an opportunity suits the learner.",
+            "worked_example": "Rae has irregular income and an unknown bill arriving soon. Before choosing an investment, Rae lists the possible bill, accessible funds and the cost of existing debt. The exercise ends with a plan to clarify the bill, without placing a trade.",
+            "prediction": "If Rae needs the money sooner than expected, what part of the decision becomes more important?",
+            "guided_decision": "Choose between committing funds now or first checking the bill and available reserves. Write the missing fact that justifies waiting.",
+            "feedback": "After answering, compare your reason with the explanation. Correct a mistaken assumption before trying again.",
+            "reflection": "What information would you need before deciding that money is available for uncertainty?",
+            "delayed_review": "An opportunity advertises a high return while a learner has an unresolved essential expense. Give a readiness reason to pause.",
+            "mastery_check": "Complete both practice questions. Later, apply this idea in the module check without relying on a recent example."
+          },
+          "review_after_days": 1,
+          "activity_kind": "guided_decision",
+          "questions": [
+            {
+              "prompt": "Rae’s essential bill is unknown. What is the sound next learning decision?",
+              "explanation": "An unresolved essential commitment limits readiness. A gain is uncertain and borrowing adds an obligation.",
+              "critical": true,
+              "id": "m01-l03-q01",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "Borrow automatically because the opportunity is popular."
+                },
+                {
+                  "id": "b",
+                  "text": "Clarify the bill and available reserves before taking market risk."
+                },
+                {
+                  "id": "c",
+                  "text": "Assume the return will cover it."
+                }
+              ],
+              "correct_option_id": "b"
+            },
+            {
+              "prompt": "Which statement describes a complete decision?",
+              "explanation": "A reasoned choice to avoid unsuitable exposure is evidence of decision-making, not a failure to participate.",
+              "critical": false,
+              "id": "m01-l03-q02",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "I must act to demonstrate that I learned."
+                },
+                {
+                  "id": "b",
+                  "text": "Every unused unit is a mistake."
+                },
+                {
+                  "id": "c",
+                  "text": "I will wait until I understand the costs and can explain the risk."
+                }
+              ],
+              "correct_option_id": "c"
+            }
+          ]
+        }
+      ],
+      "assessment": [
+        {
+          "prompt": "A learner has 400 units for a bill next week. What fact matters most before risking it?",
+          "explanation": "A fixed essential need cannot rely on uncertain market value.",
+          "critical": true,
+          "id": "m01-check-q01",
+          "options": [
+            {
+              "id": "a",
+              "text": "The app is easy to use."
+            },
+            {
+              "id": "b",
+              "text": "The full amount is needed on a fixed date."
+            },
+            {
+              "id": "c",
+              "text": "A friend recently gained money."
+            }
+          ],
+          "correct_option_id": "b"
+        },
+        {
+          "prompt": "Which combination signals low capacity for a loss?",
+          "explanation": "The effect on necessities defines this capacity constraint.",
+          "critical": true,
+          "id": "m01-check-q02",
+          "options": [
+            {
+              "id": "a",
+              "text": "The learner enjoys financial news."
+            },
+            {
+              "id": "b",
+              "text": "The learner accepts that prices move."
+            },
+            {
+              "id": "c",
+              "text": "A loss would prevent essential spending."
+            }
+          ],
+          "correct_option_id": "c"
+        },
+        {
+          "prompt": "Which claim about investing is accurate?",
+          "explanation": "A goal provides purpose, not a guarantee.",
+          "critical": false,
+          "id": "m01-check-q03",
+          "options": [
+            {
+              "id": "a",
+              "text": "It exposes money to uncertain outcomes."
+            },
+            {
+              "id": "b",
+              "text": "It guarantees that purchasing power grows."
+            },
+            {
+              "id": "c",
+              "text": "It removes risk if the goal is important."
+            }
+          ],
+          "correct_option_id": "a"
+        },
+        {
+          "prompt": "A 900-unit fee allocation loses 20%. How much is missing?",
+          "explanation": "900 × 0.20 = 180 missing; 720 remains.",
+          "critical": false,
+          "id": "m01-check-q04",
+          "options": [
+            {
+              "id": "a",
+              "text": "720 units."
+            },
+            {
+              "id": "b",
+              "text": "180 units."
+            },
+            {
+              "id": "c",
+              "text": "90 units."
+            }
+          ],
+          "correct_option_id": "b"
+        },
+        {
+          "prompt": "Which readiness note is useful?",
+          "explanation": "Specific constraints make a decision reviewable.",
+          "critical": false,
+          "id": "m01-check-q05",
+          "options": [
+            {
+              "id": "a",
+              "text": "I will act because others are acting."
+            },
+            {
+              "id": "b",
+              "text": "I will use confidence as my only evidence."
+            },
+            {
+              "id": "c",
+              "text": "I need to confirm the due date and accessible reserves."
+            }
+          ],
+          "correct_option_id": "c"
+        }
+      ],
+      "bonus_mission": {
+        "id": "m01-reflection",
+        "title": "Leave a learning note",
+        "optional": true,
+        "prompt": "Choose one decision in this module. Write the risk you noticed, the evidence you used and what would change your choice.",
+        "reward_basis": "A completed learning reflection; never a trade, return or transaction count.",
+        "implementation_status": "content_only"
+      }
+    },
+    {
+      "id": "m02-how-markets-work",
+      "order": 2,
+      "title": "How Markets Work",
+      "description": "Understand ownership, venues, changing quotes and liquidity before execution.",
+      "prerequisite_module_ids": [
+        "m01-money-before-markets"
+      ],
+      "review_status": "authored_requires_independent_review",
+      "optional": false,
+      "lessons": [
+        {
+          "id": "m02-l01",
+          "title": "Follow the roles",
+          "objective": "Distinguish an asset, a broker and a trading venue.",
+          "source_basis": [
+            "finra-stocks",
+            "sec-execution"
+          ],
+          "review_status": "authored_requires_independent_review",
+          "prerequisite_lesson_ids": [],
+          "explanation": "An asset is something held with economic value, such as a share representing company ownership. A broker provides services that can include routing an order. A trading venue brings trading interest together. The screen, the broker and the company are different parts of this system.",
+          "worked_example": "Lee sees a fictional company share in a broker’s app. The company issued the share; the broker receives an instruction; a venue may match trading interest. The broker’s logo is not a guarantee of the company’s future value.",
+          "learning_cycle": {
+            "question": "What does an ordinary company share represent?",
+            "explanation": "An asset is something held with economic value, such as a share representing company ownership. A broker provides services that can include routing an order. A trading venue brings trading interest together. The screen, the broker and the company are different parts of this system.",
+            "worked_example": "Lee sees a fictional company share in a broker’s app. The company issued the share; the broker receives an instruction; a venue may match trading interest. The broker’s logo is not a guarantee of the company’s future value.",
+            "prediction": "If the app changes its display, must the underlying company’s value change?",
+            "guided_decision": "Match the company share to ownership, the broker to order service and the venue to trading. Stop before submitting any order.",
+            "feedback": "After answering, compare your reason with the explanation. Correct a mistaken assumption before trying again.",
+            "reflection": "Which two roles did you initially combine?",
+            "delayed_review": "A share appears in two broker apps. Explain why the apps are not two different companies being owned.",
+            "mastery_check": "Complete both practice questions. Later, apply this idea in the module check without relying on a recent example."
+          },
+          "review_after_days": 1,
+          "activity_kind": "guided_decision",
+          "questions": [
+            {
+              "prompt": "What does an ordinary company share represent?",
+              "explanation": "A share is equity. Its value and any dividends are uncertain.",
+              "critical": false,
+              "id": "m02-l01-q01",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "An ownership interest in the company."
+                },
+                {
+                  "id": "b",
+                  "text": "A guaranteed loan repayment."
+                },
+                {
+                  "id": "c",
+                  "text": "Ownership of the broker app."
+                }
+              ],
+              "correct_option_id": "a"
+            },
+            {
+              "prompt": "Which role can a broker perform?",
+              "explanation": "Routing helps execute an instruction; it does not insure the investment.",
+              "critical": true,
+              "id": "m02-l01-q02",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "Remove the company’s business risk."
+                },
+                {
+                  "id": "b",
+                  "text": "Receive and route an order."
+                },
+                {
+                  "id": "c",
+                  "text": "Guarantee every future price."
+                }
+              ],
+              "correct_option_id": "b"
+            }
+          ]
+        },
+        {
+          "id": "m02-l02",
+          "title": "Read both sides of a quote",
+          "objective": "Calculate a quoted spread and recognize that quotes are time- and quantity-specific.",
+          "source_basis": [
+            "sec-spread",
+            "sec-execution"
+          ],
+          "review_status": "authored_requires_independent_review",
+          "prerequisite_lesson_ids": [
+            "m02-l01"
+          ],
+          "explanation": "The bid is a quoted buying price and the ask a quoted selling price. The spread is ask minus bid. Quotes apply at a moment and to available quantities; a last-traded price is not a promise of the next transaction price.",
+          "worked_example": "A fictional quote shows bid 19.80 and ask 20.00. The spread is 0.20 per unit. For 10 units, crossing that same spread in an unchanged market would create a 2.00-unit difference before other costs. No transaction occurs in this exercise.",
+          "learning_cycle": {
+            "question": "A quote is bid 19.80, ask 20.00. What is the spread?",
+            "explanation": "The bid is a quoted buying price and the ask a quoted selling price. The spread is ask minus bid. Quotes apply at a moment and to available quantities; a last-traded price is not a promise of the next transaction price.",
+            "worked_example": "A fictional quote shows bid 19.80 and ask 20.00. The spread is 0.20 per unit. For 10 units, crossing that same spread in an unchanged market would create a 2.00-unit difference before other costs. No transaction occurs in this exercise.",
+            "prediction": "If the bid falls to 19.60 while the ask stays 20.00, does the spread widen or narrow?",
+            "guided_decision": "Compare quotes 19.80/20.00 and 19.60/20.00. Identify the larger gap without choosing a trade.",
+            "feedback": "After answering, compare your reason with the explanation. Correct a mistaken assumption before trying again.",
+            "reflection": "Why is one displayed price insufficient to understand a quote?",
+            "delayed_review": "A bid is 8.90 and the ask 9.10. Calculate the spread and name one reason the next quote might differ.",
+            "mastery_check": "Complete both practice questions. Later, apply this idea in the module check without relying on a recent example."
+          },
+          "review_after_days": 1,
+          "activity_kind": "guided_decision",
+          "questions": [
+            {
+              "prompt": "A quote is bid 19.80, ask 20.00. What is the spread?",
+              "explanation": "Subtract bid from ask: 20.00 − 19.80 = 0.20.",
+              "critical": false,
+              "id": "m02-l02-q01",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "20.00 per unit."
+                },
+                {
+                  "id": "b",
+                  "text": "0.20 per unit."
+                },
+                {
+                  "id": "c",
+                  "text": "39.80 per unit."
+                }
+              ],
+              "correct_option_id": "b"
+            },
+            {
+              "prompt": "The last trade was at 20.00. What can you conclude about the next price?",
+              "explanation": "Trading interest and available quantities can change after the last trade.",
+              "critical": true,
+              "id": "m02-l02-q02",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "It must also be 20.00."
+                },
+                {
+                  "id": "b",
+                  "text": "It is guaranteed to be lower."
+                },
+                {
+                  "id": "c",
+                  "text": "It may differ from 20.00."
+                }
+              ],
+              "correct_option_id": "c"
+            }
+          ]
+        },
+        {
+          "id": "m02-l03",
+          "title": "Liquidity is not a promise",
+          "objective": "Identify the risk of being unable to transact promptly at an acceptable price.",
+          "source_basis": [
+            "finra-risk",
+            "sec-execution"
+          ],
+          "review_status": "authored_requires_independent_review",
+          "prerequisite_lesson_ids": [
+            "m02-l02"
+          ],
+          "explanation": "Liquidity concerns how readily an asset can be bought or sold without a large price effect. A visible quote may cover only a small quantity. Limited trading interest, interruptions or abrupt news can make an exit difficult. Popularity and a recent price increase do not guarantee liquidity.",
+          "worked_example": "A fictional display offers 5 units at 12.00 and the next 5 at 12.50. A request for 10 cannot assume all 10 are available at 12.00. This quote-reading example previews a cost that execution lessons will revisit.",
+          "learning_cycle": {
+            "question": "Only 5 units are quoted at 12.00. Is that a guarantee for 100 units?",
+            "explanation": "Liquidity concerns how readily an asset can be bought or sold without a large price effect. A visible quote may cover only a small quantity. Limited trading interest, interruptions or abrupt news can make an exit difficult. Popularity and a recent price increase do not guarantee liquidity.",
+            "worked_example": "A fictional display offers 5 units at 12.00 and the next 5 at 12.50. A request for 10 cannot assume all 10 are available at 12.00. This quote-reading example previews a cost that execution lessons will revisit.",
+            "prediction": "What changes if only one unit is available at the first quote?",
+            "guided_decision": "Choose whether a thin quote is enough evidence that an essential expense can be funded immediately. Explain the uncertainty; do not place an order.",
+            "feedback": "After answering, compare your reason with the explanation. Correct a mistaken assumption before trying again.",
+            "reflection": "How could an attractive displayed price conceal an exit problem?",
+            "delayed_review": "A buyer disappears from a thin market. Explain why the previous quote does not ensure an immediate sale.",
+            "mastery_check": "Complete both practice questions. Later, apply this idea in the module check without relying on a recent example."
+          },
+          "review_after_days": 1,
+          "activity_kind": "guided_decision",
+          "questions": [
+            {
+              "prompt": "Only 5 units are quoted at 12.00. Is that a guarantee for 100 units?",
+              "explanation": "The quote describes a limited amount at a moment, not unlimited liquidity.",
+              "critical": true,
+              "id": "m02-l03-q01",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "Yes; a quote applies to every size."
+                },
+                {
+                  "id": "b",
+                  "text": "Yes, if the last price was also 12.00."
+                },
+                {
+                  "id": "c",
+                  "text": "No; available quantity matters."
+                }
+              ],
+              "correct_option_id": "c"
+            },
+            {
+              "prompt": "What is liquidity risk?",
+              "explanation": "Market liquidity and interface speed are separate. A fast button cannot create a willing counterparty.",
+              "critical": false,
+              "id": "m02-l03-q02",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "Difficulty transacting when needed at an acceptable price."
+                },
+                {
+                  "id": "b",
+                  "text": "A guarantee that price will rise slowly."
+                },
+                {
+                  "id": "c",
+                  "text": "The same thing as the app’s loading speed."
+                }
+              ],
+              "correct_option_id": "a"
+            }
+          ]
+        }
+      ],
+      "assessment": [
+        {
+          "prompt": "A trading app shows a share. Which statement is accurate?",
+          "explanation": "The service and the asset have different roles.",
+          "critical": false,
+          "id": "m02-check-q01",
+          "options": [
+            {
+              "id": "a",
+              "text": "The app guarantees the company’s value."
+            },
+            {
+              "id": "b",
+              "text": "The share is an insured deposit."
+            },
+            {
+              "id": "c",
+              "text": "The share represents company ownership; the app is a service interface."
+            }
+          ],
+          "correct_option_id": "c"
+        },
+        {
+          "prompt": "Bid 7.90 and ask 8.20 give what spread?",
+          "explanation": "8.20 − 7.90 = 0.30.",
+          "critical": false,
+          "id": "m02-check-q02",
+          "options": [
+            {
+              "id": "a",
+              "text": "0.30 per unit."
+            },
+            {
+              "id": "b",
+              "text": "0.15 per unit."
+            },
+            {
+              "id": "c",
+              "text": "16.10 per unit."
+            }
+          ],
+          "correct_option_id": "a"
+        },
+        {
+          "prompt": "A displayed quote covers two units. What must a learner avoid assuming?",
+          "explanation": "Limited quote size can lead to different prices or incomplete execution.",
+          "critical": true,
+          "id": "m02-check-q03",
+          "options": [
+            {
+              "id": "a",
+              "text": "That quotes may change."
+            },
+            {
+              "id": "b",
+              "text": "That a much larger amount can transact at that price."
+            },
+            {
+              "id": "c",
+              "text": "That quantities can affect execution."
+            }
+          ],
+          "correct_option_id": "b"
+        },
+        {
+          "prompt": "Can a fast app eliminate liquidity risk?",
+          "explanation": "The interface cannot guarantee market depth.",
+          "critical": true,
+          "id": "m02-check-q04",
+          "options": [
+            {
+              "id": "a",
+              "text": "Yes; speed guarantees a counterparty."
+            },
+            {
+              "id": "b",
+              "text": "Yes; the last price is a standing promise."
+            },
+            {
+              "id": "c",
+              "text": "No; trading interest may still be unavailable."
+            }
+          ],
+          "correct_option_id": "c"
+        },
+        {
+          "prompt": "A previous trade was 50, while the current ask is 51. Which is a reliable conclusion?",
+          "explanation": "Quotes and trades describe different moments and roles.",
+          "critical": false,
+          "id": "m02-check-q05",
+          "options": [
+            {
+              "id": "a",
+              "text": "The last trade is historical information, not a promised next price."
+            },
+            {
+              "id": "b",
+              "text": "The broker must fill every request at 50."
+            },
+            {
+              "id": "c",
+              "text": "A price difference proves fraud."
+            }
+          ],
+          "correct_option_id": "a"
+        }
+      ],
+      "bonus_mission": {
+        "id": "m02-reflection",
+        "title": "Leave a learning note",
+        "optional": true,
+        "prompt": "Choose one decision in this module. Write the risk you noticed, the evidence you used and what would change your choice.",
+        "reward_basis": "A completed learning reflection; never a trade, return or transaction count.",
+        "implementation_status": "content_only"
+      }
+    },
+    {
+      "id": "m03-investment-products",
+      "order": 3,
+      "title": "Investment Products",
+      "description": "Compare stocks, bonds and pooled funds through risks, costs and return sources.",
+      "prerequisite_module_ids": [
+        "m02-how-markets-work"
+      ],
+      "review_status": "authored_requires_independent_review",
+      "optional": false,
+      "lessons": [
+        {
+          "id": "m03-l01",
+          "title": "Ownership has uncertain returns",
+          "objective": "Distinguish share-price changes and dividends from guaranteed income.",
+          "source_basis": [
+            "finra-stocks"
+          ],
+          "review_status": "authored_requires_independent_review",
+          "prerequisite_lesson_ids": [],
+          "explanation": "Shareholders own part of a company. Returns may include price changes and dividends, but neither a gain nor a dividend is assured. A successful business and a successful investment are not identical: the price paid also matters.",
+          "worked_example": "A fictional share begins at 40, ends at 38 and pays a 1-unit dividend. Before fees and tax, the total change is −1: (38 − 40) + 1. A dividend did not erase the price loss.",
+          "learning_cycle": {
+            "question": "A share falls from 40 to 38 and pays 1. What is the total change before costs?",
+            "explanation": "Shareholders own part of a company. Returns may include price changes and dividends, but neither a gain nor a dividend is assured. A successful business and a successful investment are not identical: the price paid also matters.",
+            "worked_example": "A fictional share begins at 40, ends at 38 and pays a 1-unit dividend. Before fees and tax, the total change is −1: (38 − 40) + 1. A dividend did not erase the price loss.",
+            "prediction": "If the dividend were zero instead, what would the total change be?",
+            "guided_decision": "Compare a headline saying “dividend paid” with the complete price-and-income record. Decide whether the headline alone establishes a gain.",
+            "feedback": "After answering, compare your reason with the explanation. Correct a mistaken assumption before trying again.",
+            "reflection": "What return component could be missing from a headline?",
+            "delayed_review": "A share falls 3 units and pays 1 unit of income. Explain the combined result before costs.",
+            "mastery_check": "Complete both practice questions. Later, apply this idea in the module check without relying on a recent example."
+          },
+          "review_after_days": 1,
+          "activity_kind": "guided_decision",
+          "questions": [
+            {
+              "prompt": "A share falls from 40 to 38 and pays 1. What is the total change before costs?",
+              "explanation": "The 2-unit price loss plus 1-unit income gives a 1-unit loss.",
+              "critical": false,
+              "id": "m03-l01-q01",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "No change."
+                },
+                {
+                  "id": "b",
+                  "text": "A loss of 1 unit per share."
+                },
+                {
+                  "id": "c",
+                  "text": "A gain of 1 unit per share."
+                }
+              ],
+              "correct_option_id": "b"
+            },
+            {
+              "prompt": "Does a past dividend guarantee the next dividend?",
+              "explanation": "Company decisions and financial conditions can change.",
+              "critical": true,
+              "id": "m03-l01-q02",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "Yes, for all ordinary shares."
+                },
+                {
+                  "id": "b",
+                  "text": "Yes, if the company is well known."
+                },
+                {
+                  "id": "c",
+                  "text": "No."
+                }
+              ],
+              "correct_option_id": "c"
+            }
+          ]
+        },
+        {
+          "id": "m03-l02",
+          "title": "A promise can still carry risk",
+          "objective": "Identify credit, interest-rate and inflation risk in bonds.",
+          "source_basis": [
+            "finra-bonds"
+          ],
+          "review_status": "authored_requires_independent_review",
+          "prerequisite_lesson_ids": [
+            "m03-l01"
+          ],
+          "explanation": "A bond is a debt instrument with contractual payments. The issuer may fail to pay: credit risk. A fixed-rate bond’s market price generally falls when market interest rates rise, other things equal. Inflation can reduce what payments buy. A bond is not automatically risk-free.",
+          "worked_example": "A fictional bond promises 100 at maturity. Before maturity, its market price is 94 after interest rates rise. Selling now differs from waiting for promised payment; waiting still leaves the issuer’s ability to pay uncertain.",
+          "learning_cycle": {
+            "question": "What is credit risk in a bond?",
+            "explanation": "A bond is a debt instrument with contractual payments. The issuer may fail to pay: credit risk. A fixed-rate bond’s market price generally falls when market interest rates rise, other things equal. Inflation can reduce what payments buy. A bond is not automatically risk-free.",
+            "worked_example": "A fictional bond promises 100 at maturity. Before maturity, its market price is 94 after interest rates rise. Selling now differs from waiting for promised payment; waiting still leaves the issuer’s ability to pay uncertain.",
+            "prediction": "Would a promised 100 necessarily buy the same goods after prices have risen?",
+            "guided_decision": "Sort three problems: issuer cannot pay, market rates rise, goods become more expensive. Match them to credit, interest-rate and inflation risk.",
+            "feedback": "After answering, compare your reason with the explanation. Correct a mistaken assumption before trying again.",
+            "reflection": "Which risk remains even if the learner intends to hold to maturity?",
+            "delayed_review": "A bond issuer misses a payment. Explain why a contract did not remove credit risk.",
+            "mastery_check": "Complete both practice questions. Later, apply this idea in the module check without relying on a recent example."
+          },
+          "review_after_days": 1,
+          "activity_kind": "guided_decision",
+          "questions": [
+            {
+              "prompt": "What is credit risk in a bond?",
+              "explanation": "A contractual obligation is not a guarantee of the issuer’s ability to pay.",
+              "critical": true,
+              "id": "m03-l02-q01",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "The broker changes its logo."
+                },
+                {
+                  "id": "b",
+                  "text": "All quoted bond prices are fixed forever."
+                },
+                {
+                  "id": "c",
+                  "text": "The issuer may fail to make promised payments."
+                }
+              ],
+              "correct_option_id": "c"
+            },
+            {
+              "prompt": "All else equal, what usually happens to an existing fixed-rate bond’s price when market rates rise?",
+              "explanation": "Its fixed payments become less attractive relative to newly available higher rates.",
+              "critical": false,
+              "id": "m03-l02-q02",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "Its price falls."
+                },
+                {
+                  "id": "b",
+                  "text": "Its price must rise."
+                },
+                {
+                  "id": "c",
+                  "text": "Its price cannot change."
+                }
+              ],
+              "correct_option_id": "a"
+            }
+          ]
+        },
+        {
+          "id": "m03-l03",
+          "title": "Look inside the fund",
+          "objective": "Compare pooled investments by holdings, structure and costs.",
+          "source_basis": [
+            "finra-funds",
+            "sec-fees",
+            "sec-etf"
+          ],
+          "review_status": "authored_requires_independent_review",
+          "prerequisite_lesson_ids": [
+            "m03-l02"
+          ],
+          "explanation": "A fund pools investors’ money into holdings. Diversification depends on those holdings, not the number of fund names. Some funds track an index; others use active decisions. Ongoing expenses reduce assets available to investors. An ETF trades on an exchange, so its trading price and spread also matter.",
+          "worked_example": "Two fictional funds each hold mostly the same large technology companies. Owning both does not create two unrelated exposures. A 0.50% annual expense on an unchanged 1,000-unit value is about 5 units for one year; actual charges depend on value and timing.",
+          "learning_cycle": {
+            "question": "Two funds have nearly identical holdings. What should a learner recognize?",
+            "explanation": "A fund pools investors’ money into holdings. Diversification depends on those holdings, not the number of fund names. Some funds track an index; others use active decisions. Ongoing expenses reduce assets available to investors. An ETF trades on an exchange, so its trading price and spread also matter.",
+            "worked_example": "Two fictional funds each hold mostly the same large technology companies. Owning both does not create two unrelated exposures. A 0.50% annual expense on an unchanged 1,000-unit value is about 5 units for one year; actual charges depend on value and timing.",
+            "prediction": "If both funds depend on the same industry, would a sector shock necessarily affect only one?",
+            "guided_decision": "Compare fund objectives, top holdings, concentration and disclosed costs before deciding whether either fills a portfolio need. No purchase is required.",
+            "feedback": "After answering, compare your reason with the explanation. Correct a mistaken assumption before trying again.",
+            "reflection": "Which fund name gave you less information than its holdings?",
+            "delayed_review": "Two funds overlap heavily. Explain why counting fund labels can exaggerate diversification.",
+            "mastery_check": "Complete both practice questions. Later, apply this idea in the module check without relying on a recent example."
+          },
+          "review_after_days": 1,
+          "activity_kind": "guided_decision",
+          "questions": [
+            {
+              "prompt": "Two funds have nearly identical holdings. What should a learner recognize?",
+              "explanation": "Look through to underlying exposures rather than counting labels.",
+              "critical": true,
+              "id": "m03-l03-q01",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "Their risks may overlap heavily."
+                },
+                {
+                  "id": "b",
+                  "text": "Two fund names guarantee broad diversification."
+                },
+                {
+                  "id": "c",
+                  "text": "A fund cannot lose value."
+                }
+              ],
+              "correct_option_id": "a"
+            },
+            {
+              "prompt": "About how much is 0.50% of an unchanged 1,000-unit value for one year?",
+              "explanation": "1,000 × 0.005 = 5; this is simplified fee arithmetic, not a return forecast.",
+              "critical": false,
+              "id": "m03-l03-q02",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "0.50 units."
+                },
+                {
+                  "id": "b",
+                  "text": "5 units."
+                },
+                {
+                  "id": "c",
+                  "text": "50 units."
+                }
+              ],
+              "correct_option_id": "b"
+            }
+          ]
+        }
+      ],
+      "assessment": [
+        {
+          "prompt": "A share rises 2 units and pays 1 unit of income. What is the change before costs?",
+          "explanation": "Price change and income both contribute to total return.",
+          "critical": false,
+          "id": "m03-check-q01",
+          "options": [
+            {
+              "id": "a",
+              "text": "3 units."
+            },
+            {
+              "id": "b",
+              "text": "1 unit."
+            },
+            {
+              "id": "c",
+              "text": "2 units."
+            }
+          ],
+          "correct_option_id": "a"
+        },
+        {
+          "prompt": "Which statement about a bond is unsafe?",
+          "explanation": "A promise does not eliminate credit, rate, inflation or liquidity risk.",
+          "critical": true,
+          "id": "m03-check-q02",
+          "options": [
+            {
+              "id": "a",
+              "text": "Its market price can change."
+            },
+            {
+              "id": "b",
+              "text": "Its promised payment means there is no possibility of loss."
+            },
+            {
+              "id": "c",
+              "text": "Its issuer can default."
+            }
+          ],
+          "correct_option_id": "b"
+        },
+        {
+          "prompt": "An existing fixed-rate bond is sold before maturity. What can differ from its face value?",
+          "explanation": "Market rates and credit conditions can change the price.",
+          "critical": false,
+          "id": "m03-check-q03",
+          "options": [
+            {
+              "id": "a",
+              "text": "Only the font on the statement."
+            },
+            {
+              "id": "b",
+              "text": "Nothing; face value is the mandatory sale price."
+            },
+            {
+              "id": "c",
+              "text": "Its market sale price."
+            }
+          ],
+          "correct_option_id": "c"
+        },
+        {
+          "prompt": "What establishes whether two funds diversify each other?",
+          "explanation": "Distinct names can conceal the same holdings.",
+          "critical": true,
+          "id": "m03-check-q04",
+          "options": [
+            {
+              "id": "a",
+              "text": "Their underlying exposures and overlap."
+            },
+            {
+              "id": "b",
+              "text": "Different logos."
+            },
+            {
+              "id": "c",
+              "text": "Different app pages."
+            }
+          ],
+          "correct_option_id": "a"
+        },
+        {
+          "prompt": "A fund’s annual expense is 1% of an unchanged 2,000 units. Approximate expense?",
+          "explanation": "2,000 × 0.01 = 20. Actual charges depend on the fund’s value over time.",
+          "critical": false,
+          "id": "m03-check-q05",
+          "options": [
+            {
+              "id": "a",
+              "text": "200 units."
+            },
+            {
+              "id": "b",
+              "text": "20 units."
+            },
+            {
+              "id": "c",
+              "text": "2 units."
+            }
+          ],
+          "correct_option_id": "b"
+        }
+      ],
+      "bonus_mission": {
+        "id": "m03-reflection",
+        "title": "Leave a learning note",
+        "optional": true,
+        "prompt": "Choose one decision in this module. Write the risk you noticed, the evidence you used and what would change your choice.",
+        "reward_basis": "A completed learning reflection; never a trade, return or transaction count.",
+        "implementation_status": "content_only"
+      }
+    },
+    {
+      "id": "m04-building-a-portfolio",
+      "order": 4,
+      "title": "Building a Portfolio",
+      "description": "Reason about allocation, overlap, drift and fair comparisons.",
+      "prerequisite_module_ids": [
+        "m03-investment-products"
+      ],
+      "review_status": "authored_requires_independent_review",
+      "optional": false,
+      "lessons": [
+        {
+          "id": "m04-l01",
+          "title": "Allocate around a purpose",
+          "objective": "Describe an allocation as proportions linked to a goal and constraints.",
+          "source_basis": [
+            "finra-allocation",
+            "sec-horizon"
+          ],
+          "review_status": "authored_requires_independent_review",
+          "prerequisite_lesson_ids": [],
+          "explanation": "Asset allocation divides a portfolio among asset types. There is no single suitable allocation for everyone. The goal, time horizon and ability to absorb losses matter. Essential near-term money should be considered separately before comparing uncertain investments.",
+          "worked_example": "A fictional 1,000-unit learning portfolio contains 500 in stock funds, 300 in bond funds and 200 in cash: 50%, 30%, 20%. These are arithmetic inputs, not a recommended allocation. Each part still has relevant risks.",
+          "learning_cycle": {
+            "question": "In a 1,000-unit portfolio, what fraction is a 300-unit bond allocation?",
+            "explanation": "Asset allocation divides a portfolio among asset types. There is no single suitable allocation for everyone. The goal, time horizon and ability to absorb losses matter. Essential near-term money should be considered separately before comparing uncertain investments.",
+            "worked_example": "A fictional 1,000-unit learning portfolio contains 500 in stock funds, 300 in bond funds and 200 in cash: 50%, 30%, 20%. These are arithmetic inputs, not a recommended allocation. Each part still has relevant risks.",
+            "prediction": "If the stock part alone falls 20%, how many units does the whole portfolio lose before other changes?",
+            "guided_decision": "Label the three proportions, then name a goal or constraint needed before judging suitability. Do not infer suitability from the tidy percentages.",
+            "feedback": "After answering, compare your reason with the explanation. Correct a mistaken assumption before trying again.",
+            "reflection": "What missing personal context prevents a universal allocation answer?",
+            "delayed_review": "A portfolio is 600/300/100 units across three groups. Express the proportions and state why arithmetic alone cannot establish suitability.",
+            "mastery_check": "Complete both practice questions. Later, apply this idea in the module check without relying on a recent example."
+          },
+          "review_after_days": 1,
+          "activity_kind": "guided_decision",
+          "questions": [
+            {
+              "prompt": "In a 1,000-unit portfolio, what fraction is a 300-unit bond allocation?",
+              "explanation": "300 ÷ 1,000 = 0.30.",
+              "critical": false,
+              "id": "m04-l01-q01",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "3%."
+                },
+                {
+                  "id": "b",
+                  "text": "70%."
+                },
+                {
+                  "id": "c",
+                  "text": "30%."
+                }
+              ],
+              "correct_option_id": "c"
+            },
+            {
+              "prompt": "Does a neat 50/30/20 allocation prove suitability?",
+              "explanation": "Allocation is a decision informed by circumstances, not a universal recipe.",
+              "critical": true,
+              "id": "m04-l01-q02",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "No; the goal and constraints still matter."
+                },
+                {
+                  "id": "b",
+                  "text": "Yes; three parts always remove risk."
+                },
+                {
+                  "id": "c",
+                  "text": "Yes; cash makes every other part safe."
+                }
+              ],
+              "correct_option_id": "a"
+            }
+          ]
+        },
+        {
+          "id": "m04-l02",
+          "title": "Count exposures, not labels",
+          "objective": "Detect concentration across direct holdings and pooled funds.",
+          "source_basis": [
+            "finra-concentration",
+            "finra-allocation"
+          ],
+          "review_status": "authored_requires_independent_review",
+          "prerequisite_lesson_ids": [
+            "m04-l01"
+          ],
+          "explanation": "Diversification spreads exposure across investments and risk sources. It can reduce dependence on one company or segment but cannot prevent every loss. Similar holdings can fall together. Employer shares can also connect investment losses with employment risk.",
+          "worked_example": "A fictional portfolio has 200 units directly in Company A and 100 units through funds’ holdings of A, within a 1,000-unit total. The exposure to A is 300, or 30%, not just the direct holding’s 20%.",
+          "learning_cycle": {
+            "question": "Direct exposure is 200 and indirect exposure is 100 in a 1,000-unit portfolio. Combined share?",
+            "explanation": "Diversification spreads exposure across investments and risk sources. It can reduce dependence on one company or segment but cannot prevent every loss. Similar holdings can fall together. Employer shares can also connect investment losses with employment risk.",
+            "worked_example": "A fictional portfolio has 200 units directly in Company A and 100 units through funds’ holdings of A, within a 1,000-unit total. The exposure to A is 300, or 30%, not just the direct holding’s 20%.",
+            "prediction": "If Company A falls while the other holdings stay unchanged, which two paths transmit the loss?",
+            "guided_decision": "Combine direct and indirect exposure. Decide whether buying another fund with the same major holding would actually reduce the concentration.",
+            "feedback": "After answering, compare your reason with the explanation. Correct a mistaken assumption before trying again.",
+            "reflection": "What did counting labels hide in the example?",
+            "delayed_review": "A learner holds employer shares plus a fund heavily invested in the same employer. Identify two connected sources of risk.",
+            "mastery_check": "Complete both practice questions. Later, apply this idea in the module check without relying on a recent example."
+          },
+          "review_after_days": 1,
+          "activity_kind": "guided_decision",
+          "questions": [
+            {
+              "prompt": "Direct exposure is 200 and indirect exposure is 100 in a 1,000-unit portfolio. Combined share?",
+              "explanation": "(200 + 100) ÷ 1,000 = 30%.",
+              "critical": false,
+              "id": "m04-l02-q01",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "30%."
+                },
+                {
+                  "id": "b",
+                  "text": "20%."
+                },
+                {
+                  "id": "c",
+                  "text": "10%."
+                }
+              ],
+              "correct_option_id": "a"
+            },
+            {
+              "prompt": "Can diversification guarantee no loss?",
+              "explanation": "Diversification manages some risks; it does not insure the portfolio.",
+              "critical": true,
+              "id": "m04-l02-q02",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "Yes, if every holding was profitable last year."
+                },
+                {
+                  "id": "b",
+                  "text": "No; broad market losses can still affect a diversified portfolio."
+                },
+                {
+                  "id": "c",
+                  "text": "Yes, with enough fund names."
+                }
+              ],
+              "correct_option_id": "b"
+            }
+          ]
+        },
+        {
+          "id": "m04-l03",
+          "title": "Notice drift and compare fairly",
+          "objective": "Explain rebalancing and choose a relevant benchmark.",
+          "source_basis": [
+            "finra-allocation",
+            "finra-sentiment",
+            "sec-fees"
+          ],
+          "review_status": "authored_requires_independent_review",
+          "prerequisite_lesson_ids": [
+            "m04-l02"
+          ],
+          "explanation": "Price changes can move an allocation away from its intended proportions. Rebalancing means bringing it back toward a considered target; contributions or transactions may do this, with costs and local tax consequences to check. A benchmark should match the goal, exposure and period, and use comparable cost assumptions.",
+          "worked_example": "A fictional 50/50 allocation becomes 600/400 after different returns. It is now 60/40. Separately, comparing a cautious mixed portfolio with a single soaring stock would not be a like-for-like performance test.",
+          "learning_cycle": {
+            "question": "A two-part portfolio is 600 and 400 units. What are the weights?",
+            "explanation": "Price changes can move an allocation away from its intended proportions. Rebalancing means bringing it back toward a considered target; contributions or transactions may do this, with costs and local tax consequences to check. A benchmark should match the goal, exposure and period, and use comparable cost assumptions.",
+            "worked_example": "A fictional 50/50 allocation becomes 600/400 after different returns. It is now 60/40. Separately, comparing a cautious mixed portfolio with a single soaring stock would not be a like-for-like performance test.",
+            "prediction": "If only the larger part grows again, does its share move closer to or farther from 50%?",
+            "guided_decision": "Identify the drift, review whether the goal changed and list costs to check before any adjustment. Select a comparison matching the portfolio’s broad exposure.",
+            "feedback": "After answering, compare your reason with the explanation. Correct a mistaken assumption before trying again.",
+            "reflection": "Why might “it gained more” be an incomplete comparison?",
+            "delayed_review": "Explain how an allocation can become concentrated without a new purchase.",
+            "mastery_check": "Complete both practice questions. Later, apply this idea in the module check without relying on a recent example."
+          },
+          "review_after_days": 1,
+          "activity_kind": "guided_decision",
+          "questions": [
+            {
+              "prompt": "A two-part portfolio is 600 and 400 units. What are the weights?",
+              "explanation": "Each part is divided by the 1,000 total.",
+              "critical": false,
+              "id": "m04-l03-q01",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "6% and 4%."
+                },
+                {
+                  "id": "b",
+                  "text": "60% and 40%."
+                },
+                {
+                  "id": "c",
+                  "text": "50% and 50%."
+                }
+              ],
+              "correct_option_id": "b"
+            },
+            {
+              "prompt": "Which comparison is more informative?",
+              "explanation": "A relevant benchmark avoids rewarding a mismatch in risk or timing.",
+              "critical": false,
+              "id": "m04-l03-q02",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "Any investment with the highest recent gain."
+                },
+                {
+                  "id": "b",
+                  "text": "Different periods chosen after seeing outcomes."
+                },
+                {
+                  "id": "c",
+                  "text": "The same period, similar exposure and comparable cost treatment."
+                }
+              ],
+              "correct_option_id": "c"
+            }
+          ]
+        }
+      ],
+      "assessment": [
+        {
+          "prompt": "A 200-unit holding in a 2,000-unit portfolio represents what exposure?",
+          "explanation": "200 ÷ 2,000 = 10%.",
+          "critical": false,
+          "id": "m04-check-q01",
+          "options": [
+            {
+              "id": "a",
+              "text": "1%."
+            },
+            {
+              "id": "b",
+              "text": "10%."
+            },
+            {
+              "id": "c",
+              "text": "20%."
+            }
+          ],
+          "correct_option_id": "b"
+        },
+        {
+          "prompt": "Which statement about diversification is correct?",
+          "explanation": "Shared market risks remain.",
+          "critical": true,
+          "id": "m04-check-q02",
+          "options": [
+            {
+              "id": "a",
+              "text": "It guarantees a gain."
+            },
+            {
+              "id": "b",
+              "text": "It is measured only by the number of app entries."
+            },
+            {
+              "id": "c",
+              "text": "It can reduce dependence on one holding but does not eliminate all losses."
+            }
+          ],
+          "correct_option_id": "c"
+        },
+        {
+          "prompt": "A fund and direct shares both expose the learner to one employer. What should be reviewed?",
+          "explanation": "Overlapping financial and employment risks can concentrate the same underlying risk.",
+          "critical": true,
+          "id": "m04-check-q03",
+          "options": [
+            {
+              "id": "a",
+              "text": "Their combined exposure, including employment dependence."
+            },
+            {
+              "id": "b",
+              "text": "Only the fund’s brand."
+            },
+            {
+              "id": "c",
+              "text": "Only the number of accounts."
+            }
+          ],
+          "correct_option_id": "a"
+        },
+        {
+          "prompt": "Why can an allocation drift without a new contribution?",
+          "explanation": "Weights change when component values change.",
+          "critical": false,
+          "id": "m04-check-q04",
+          "options": [
+            {
+              "id": "a",
+              "text": "A benchmark automatically moves money."
+            },
+            {
+              "id": "b",
+              "text": "Different holdings change value at different rates."
+            },
+            {
+              "id": "c",
+              "text": "Allocation proportions are permanently fixed."
+            }
+          ],
+          "correct_option_id": "b"
+        },
+        {
+          "prompt": "What makes a benchmark comparison fairer?",
+          "explanation": "Specify the comparison before interpreting the result.",
+          "critical": false,
+          "id": "m04-check-q05",
+          "options": [
+            {
+              "id": "a",
+              "text": "Choosing the winner after the period ends."
+            },
+            {
+              "id": "b",
+              "text": "Ignoring all income and expenses."
+            },
+            {
+              "id": "c",
+              "text": "Comparable exposure, time period and costs."
+            }
+          ],
+          "correct_option_id": "c"
+        }
+      ],
+      "bonus_mission": {
+        "id": "m04-reflection",
+        "title": "Leave a learning note",
+        "optional": true,
+        "prompt": "Choose one decision in this module. Write the risk you noticed, the evidence you used and what would change your choice.",
+        "reward_basis": "A completed learning reflection; never a trade, return or transaction count.",
+        "implementation_status": "content_only"
+      }
+    },
+    {
+      "id": "m05-safe-execution",
+      "order": 5,
+      "title": "Safe Execution",
+      "description": "Understand order constraints, uncertain fills, transaction friction and settlement.",
+      "prerequisite_module_ids": [
+        "m04-building-a-portfolio"
+      ],
+      "review_status": "authored_requires_independent_review",
+      "optional": false,
+      "lessons": [
+        {
+          "id": "m05-l01",
+          "title": "Choose the constraint before the order",
+          "objective": "Distinguish market and limit instructions without assuming either guarantees the desired result.",
+          "source_basis": [
+            "sec-orders",
+            "sec-execution"
+          ],
+          "review_status": "authored_requires_independent_review",
+          "prerequisite_lesson_ids": [],
+          "explanation": "A market order prioritizes execution at available prices; the exact price is not guaranteed. A buy limit sets the highest acceptable price and a sell limit the lowest, but execution is not guaranteed. Before any simulated trade, record the purpose, exposure, acceptable loss and exit or no-trade condition.",
+          "worked_example": "A fictional plan allows buying only at 25 or less. A buy limit of 25 expresses that price constraint. If the ask stays at 25.50, no fill is an acceptable result; changing the limit just to obtain a fill would change the plan.",
+          "learning_cycle": {
+            "question": "A fictional plan permits a purchase only at 25 or less. Which instruction expresses that constraint?",
+            "explanation": "A market order prioritizes execution at available prices; the exact price is not guaranteed. A buy limit sets the highest acceptable price and a sell limit the lowest, but execution is not guaranteed. Before any simulated trade, record the purpose, exposure, acceptable loss and exit or no-trade condition.",
+            "worked_example": "A fictional plan allows buying only at 25 or less. A buy limit of 25 expresses that price constraint. If the ask stays at 25.50, no fill is an acceptable result; changing the limit just to obtain a fill would change the plan.",
+            "prediction": "If the ask stays above 25, should the learner expect the buy limit to fill?",
+            "guided_decision": "Write the plan first. Then choose a price-constrained instruction or no trade for the example. This lesson records reasoning only; it does not submit an order.",
+            "feedback": "After answering, compare your reason with the explanation. Correct a mistaken assumption before trying again.",
+            "reflection": "Which matters more in this situation: getting a fill or respecting the stated price constraint?",
+            "delayed_review": "A learner needs a sale at no less than 30. Explain the tradeoff between a sell limit and execution certainty.",
+            "mastery_check": "Complete both practice questions. Later, apply this idea in the module check without relying on a recent example."
+          },
+          "review_after_days": 1,
+          "activity_kind": "guided_decision",
+          "questions": [
+            {
+              "prompt": "A fictional plan permits a purchase only at 25 or less. Which instruction expresses that constraint?",
+              "explanation": "A buy limit caps the purchase price, but may not fill.",
+              "critical": false,
+              "id": "m05-l01-q01",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "A buy limit of 25."
+                },
+                {
+                  "id": "b",
+                  "text": "A market order with a hoped-for price of 25."
+                },
+                {
+                  "id": "c",
+                  "text": "Any order after the last trade was 25."
+                }
+              ],
+              "correct_option_id": "a"
+            },
+            {
+              "prompt": "What must precede every simulated trade in this project?",
+              "explanation": "Planning must precede the action; a favorable result cannot retroactively supply the missing plan.",
+              "critical": true,
+              "id": "m05-l01-q02",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "A larger position after a previous win."
+                },
+                {
+                  "id": "b",
+                  "text": "A written plan including risk and a no-trade condition."
+                },
+                {
+                  "id": "c",
+                  "text": "A profit prediction stated as certain."
+                }
+              ],
+              "correct_option_id": "b"
+            }
+          ]
+        },
+        {
+          "id": "m05-l02",
+          "title": "Separate a trigger from a guarantee",
+          "objective": "Explain stop-market gaps and distinguish a planned loss from a guaranteed maximum.",
+          "source_basis": [
+            "sec-orders",
+            "sec-execution"
+          ],
+          "review_status": "authored_requires_independent_review",
+          "prerequisite_lesson_ids": [
+            "m05-l01"
+          ],
+          "explanation": "A stop-market order becomes a market order when its trigger condition is met. A trigger is not a guaranteed execution price. If prices gap or liquidity is limited, the actual fill can be worse. A stop-limit adds a price constraint but may remain unfilled. Order features vary by market and provider.",
+          "worked_example": "A fictional share closes at 50 with a sell stop-market trigger at 48. The next available market is around 44 after a gap. The trigger cannot make buyers appear at 48. An intended two-unit price loss could become larger.",
+          "learning_cycle": {
+            "question": "A stop-market sale triggers at 48 but the next available market is 44. Is a 48 fill guaranteed?",
+            "explanation": "A stop-market order becomes a market order when its trigger condition is met. A trigger is not a guaranteed execution price. If prices gap or liquidity is limited, the actual fill can be worse. A stop-limit adds a price constraint but may remain unfilled. Order features vary by market and provider.",
+            "worked_example": "A fictional share closes at 50 with a sell stop-market trigger at 48. The next available market is around 44 after a gap. The trigger cannot make buyers appear at 48. An intended two-unit price loss could become larger.",
+            "prediction": "What happens to the planned loss if the fill is below the stop trigger?",
+            "guided_decision": "Before choosing any hypothetical instruction, write the loss assumption and a gap stress case. If that stress case is unacceptable, choose no trade or revisit the exposure.",
+            "feedback": "After answering, compare your reason with the explanation. Correct a mistaken assumption before trying again.",
+            "reflection": "Which word in “stop trigger” helped distinguish it from a guaranteed exit?",
+            "delayed_review": "A stop-limit sale triggers but bids stay below the limit. Explain why the position may remain open.",
+            "mastery_check": "Complete both practice questions. Later, apply this idea in the module check without relying on a recent example."
+          },
+          "review_after_days": 1,
+          "activity_kind": "guided_decision",
+          "questions": [
+            {
+              "prompt": "A stop-market sale triggers at 48 but the next available market is 44. Is a 48 fill guaranteed?",
+              "explanation": "A trigger activates an instruction. It cannot guarantee available trading interest at that price.",
+              "critical": true,
+              "id": "m05-l02-q01",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "Yes; stops remove liquidity risk."
+                },
+                {
+                  "id": "b",
+                  "text": "No; the fill can be worse after the trigger."
+                },
+                {
+                  "id": "c",
+                  "text": "Yes; the trigger insures the price."
+                }
+              ],
+              "correct_option_id": "b"
+            },
+            {
+              "prompt": "What is an important stop-limit risk?",
+              "explanation": "A limit constrains price while leaving execution uncertain.",
+              "critical": true,
+              "id": "m05-l02-q02",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "It always fills immediately."
+                },
+                {
+                  "id": "b",
+                  "text": "It guarantees the maximum total loss."
+                },
+                {
+                  "id": "c",
+                  "text": "The order may not fill within its price limit."
+                }
+              ],
+              "correct_option_id": "c"
+            }
+          ]
+        },
+        {
+          "id": "m05-l03",
+          "title": "Account for friction and settlement",
+          "objective": "Include spread, slippage, fees and settlement timing in a plan.",
+          "source_basis": [
+            "sec-fees",
+            "sec-execution",
+            "sec-orders",
+            "sec-settlement"
+          ],
+          "review_status": "authored_requires_independent_review",
+          "prerequisite_lesson_ids": [
+            "m05-l02"
+          ],
+          "explanation": "Friction includes spread, transaction fees and prices differing from an earlier quote, often called slippage. Available quantity can cause partial fills. Execution and settlement are different: settlement completes the exchange of cash and securities. Timing, holidays and account rules depend on the market; do not assume proceeds are immediately withdrawable.",
+          "worked_example": "A fictional 10-unit purchase expected at 20 fills at 20.10. Price slippage is 1.00 total; a separate 2.00 fee adds another cost. The total cash cost is 203.00. A later withdrawal also depends on the applicable settlement rules.",
+          "learning_cycle": {
+            "question": "Ten units fill at 20.10 with a 2.00 fee. What is the total purchase cost?",
+            "explanation": "Friction includes spread, transaction fees and prices differing from an earlier quote, often called slippage. Available quantity can cause partial fills. Execution and settlement are different: settlement completes the exchange of cash and securities. Timing, holidays and account rules depend on the market; do not assume proceeds are immediately withdrawable.",
+            "worked_example": "A fictional 10-unit purchase expected at 20 fills at 20.10. Price slippage is 1.00 total; a separate 2.00 fee adds another cost. The total cash cost is 203.00. A later withdrawal also depends on the applicable settlement rules.",
+            "prediction": "If only four units fill, should a learner record ten units of exposure?",
+            "guided_decision": "Write a plan that includes estimated costs and cash availability. Reconcile actual quantity, prices and fees against the instruction before any next action.",
+            "feedback": "After answering, compare your reason with the explanation. Correct a mistaken assumption before trying again.",
+            "reflection": "Which cost or timing assumption could make an apparently affordable decision unsuitable?",
+            "delayed_review": "A sale is marked executed. Name the additional information needed before relying on its proceeds for a withdrawal.",
+            "mastery_check": "Complete both practice questions. Later, apply this idea in the module check without relying on a recent example."
+          },
+          "review_after_days": 1,
+          "activity_kind": "guided_decision",
+          "questions": [
+            {
+              "prompt": "Ten units fill at 20.10 with a 2.00 fee. What is the total purchase cost?",
+              "explanation": "10 × 20.10 + 2.00 = 203.00.",
+              "critical": false,
+              "id": "m05-l03-q01",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "202.00 units."
+                },
+                {
+                  "id": "b",
+                  "text": "201.00 units."
+                },
+                {
+                  "id": "c",
+                  "text": "203.00 units."
+                }
+              ],
+              "correct_option_id": "c"
+            },
+            {
+              "prompt": "An order is executed. Are the proceeds necessarily withdrawable immediately?",
+              "explanation": "Execution records a trade; settlement and withdrawal availability are separate.",
+              "critical": true,
+              "id": "m05-l03-q02",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "No; settlement and account rules must be checked."
+                },
+                {
+                  "id": "b",
+                  "text": "Yes; execution and settlement are identical."
+                },
+                {
+                  "id": "c",
+                  "text": "Yes; a fast app changes settlement rules."
+                }
+              ],
+              "correct_option_id": "a"
+            }
+          ]
+        }
+      ],
+      "assessment": [
+        {
+          "prompt": "A buy limit is set at 12. What does it guarantee if a purchase fills under that limit instruction?",
+          "explanation": "The limit is a price constraint, not a fill or return guarantee.",
+          "critical": false,
+          "id": "m05-check-q01",
+          "options": [
+            {
+              "id": "a",
+              "text": "The order will fill."
+            },
+            {
+              "id": "b",
+              "text": "The investment cannot lose value."
+            },
+            {
+              "id": "c",
+              "text": "The purchase price is 12 or lower, excluding separate fees."
+            }
+          ],
+          "correct_option_id": "c"
+        },
+        {
+          "prompt": "A market order’s exact execution price is what?",
+          "explanation": "Quotes can change and available quantity may span prices.",
+          "critical": false,
+          "id": "m05-check-q02",
+          "options": [
+            {
+              "id": "a",
+              "text": "Uncertain until filled."
+            },
+            {
+              "id": "b",
+              "text": "Always the last displayed trade."
+            },
+            {
+              "id": "c",
+              "text": "Always the learner’s preferred price."
+            }
+          ],
+          "correct_option_id": "a"
+        },
+        {
+          "prompt": "A stop trigger is reached during a price gap. What must the risk plan allow for?",
+          "explanation": "A stop-market instruction does not insure the exit price.",
+          "critical": true,
+          "id": "m05-check-q03",
+          "options": [
+            {
+              "id": "a",
+              "text": "No possibility of a loss."
+            },
+            {
+              "id": "b",
+              "text": "A worse fill than the trigger price."
+            },
+            {
+              "id": "c",
+              "text": "A guaranteed fill at the trigger."
+            }
+          ],
+          "correct_option_id": "b"
+        },
+        {
+          "prompt": "A simulated trade lacks a written plan. What should happen?",
+          "explanation": "The process requirement applies before the outcome is known.",
+          "critical": true,
+          "id": "m05-check-q04",
+          "options": [
+            {
+              "id": "a",
+              "text": "Accept it if the trade later wins."
+            },
+            {
+              "id": "b",
+              "text": "Award points for fast execution."
+            },
+            {
+              "id": "c",
+              "text": "Pause the action until the plan is recorded."
+            }
+          ],
+          "correct_option_id": "c"
+        },
+        {
+          "prompt": "Five units at 8.20 plus a 1-unit fee cost how much?",
+          "explanation": "5 × 8.20 + 1 = 42.",
+          "critical": false,
+          "id": "m05-check-q05",
+          "options": [
+            {
+              "id": "a",
+              "text": "42 units."
+            },
+            {
+              "id": "b",
+              "text": "41 units."
+            },
+            {
+              "id": "c",
+              "text": "40 units."
+            }
+          ],
+          "correct_option_id": "a"
+        }
+      ],
+      "bonus_mission": {
+        "id": "m05-reflection",
+        "title": "Leave a learning note",
+        "optional": true,
+        "prompt": "Choose one decision in this module. Write the risk you noticed, the evidence you used and what would change your choice.",
+        "reward_basis": "A completed learning reflection; never a trade, return or transaction count.",
+        "implementation_status": "content_only"
+      }
+    },
+    {
+      "id": "m06-managing-risk",
+      "order": 6,
+      "title": "Managing Risk",
+      "description": "Distinguish exposure, estimated loss, stress loss and uncertain outcomes.",
+      "prerequisite_module_ids": [
+        "m05-safe-execution"
+      ],
+      "review_status": "authored_requires_independent_review",
+      "optional": false,
+      "lessons": [
+        {
+          "id": "m06-l01",
+          "title": "Measure exposure before acting",
+          "objective": "Calculate cash exposure and test whether a planned loss understates a stress case.",
+          "source_basis": [
+            "finra-risk",
+            "sec-orders"
+          ],
+          "review_status": "authored_requires_independent_review",
+          "prerequisite_lesson_ids": [],
+          "explanation": "Exposure is the amount affected by a price move. In a simple unleveraged long share position, quantity times price gives market exposure. An estimated exit loss is not a guaranteed maximum: a gap can bypass the intended exit. Borrowing and derivatives introduce different loss structures, covered only later.",
+          "worked_example": "A fictional purchase of 10 shares at 20 has 200 units of exposure. A planned exit at 18 suggests a 20-unit price loss before costs. A gap to 15 instead implies 50. Neither the written target nor a stop guarantees the smaller number.",
+          "learning_cycle": {
+            "question": "Ten shares at 20 create what market exposure?",
+            "explanation": "Exposure is the amount affected by a price move. In a simple unleveraged long share position, quantity times price gives market exposure. An estimated exit loss is not a guaranteed maximum: a gap can bypass the intended exit. Borrowing and derivatives introduce different loss structures, covered only later.",
+            "worked_example": "A fictional purchase of 10 shares at 20 has 200 units of exposure. A planned exit at 18 suggests a 20-unit price loss before costs. A gap to 15 instead implies 50. Neither the written target nor a stop guarantees the smaller number.",
+            "prediction": "How does doubling the quantity change each loss estimate?",
+            "guided_decision": "Write quantity, exposure, costs, the planned exit and a worse-price stress case. Choose no trade if the stress loss conflicts with the exercise’s loss capacity.",
+            "feedback": "After answering, compare your reason with the explanation. Correct a mistaken assumption before trying again.",
+            "reflection": "Which number did you first mistake for a guaranteed maximum?",
+            "delayed_review": "Five unleveraged shares bought at 30 are worth 24 each. Calculate the price loss and name a cost not included.",
+            "mastery_check": "Complete both practice questions. Later, apply this idea in the module check without relying on a recent example."
+          },
+          "review_after_days": 1,
+          "activity_kind": "guided_decision",
+          "questions": [
+            {
+              "prompt": "Ten shares at 20 create what market exposure?",
+              "explanation": "Quantity × price = 10 × 20 = 200.",
+              "critical": false,
+              "id": "m06-l01-q01",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "2 units."
+                },
+                {
+                  "id": "b",
+                  "text": "200 units."
+                },
+                {
+                  "id": "c",
+                  "text": "20 units."
+                }
+              ],
+              "correct_option_id": "b"
+            },
+            {
+              "prompt": "Can a planned exit at 18 guarantee a 20-unit loss on ten shares bought at 20?",
+              "explanation": "The estimated loss is conditional on the fill assumption.",
+              "critical": true,
+              "id": "m06-l01-q02",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "Yes; writing it fixes the market price."
+                },
+                {
+                  "id": "b",
+                  "text": "Yes; a stop always fills at its trigger."
+                },
+                {
+                  "id": "c",
+                  "text": "No; gaps and costs can make the loss larger."
+                }
+              ],
+              "correct_option_id": "c"
+            }
+          ]
+        },
+        {
+          "id": "m06-l02",
+          "title": "Understand drawdown and recovery",
+          "objective": "Calculate a decline from a peak and recognize the asymmetric recovery percentage.",
+          "source_basis": [
+            "finra-risk",
+            "drawdown-paper"
+          ],
+          "review_status": "authored_requires_independent_review",
+          "prerequisite_lesson_ids": [
+            "m06-l01"
+          ],
+          "explanation": "Drawdown measures a decline from a prior peak to a later lower value. It describes a path of losses, not just an ending return. After a loss, the same percentage gain does not restore the original amount because the base is smaller.",
+          "worked_example": "A fictional portfolio falls from 1,000 to 800: a 20% drawdown. Returning from 800 to 1,000 requires 200 ÷ 800 = 25%. A later recovery is possible, but it is not owed by the market.",
+          "learning_cycle": {
+            "question": "A balance falls from 1,000 to 800. What is the drawdown from that peak?",
+            "explanation": "Drawdown measures a decline from a prior peak to a later lower value. It describes a path of losses, not just an ending return. After a loss, the same percentage gain does not restore the original amount because the base is smaller.",
+            "worked_example": "A fictional portfolio falls from 1,000 to 800: a 20% drawdown. Returning from 800 to 1,000 requires 200 ÷ 800 = 25%. A later recovery is possible, but it is not owed by the market.",
+            "prediction": "Would a 20% gain on 800 restore the original 1,000?",
+            "guided_decision": "Compare two fictional paths with the same final balance but different deepest declines. Discuss whether a learner could meet their needs along each path.",
+            "feedback": "After answering, compare your reason with the explanation. Correct a mistaken assumption before trying again.",
+            "reflection": "Why might an ending balance hide an unsuitable experience?",
+            "delayed_review": "A portfolio falls from 200 to 150. Calculate the drawdown and the gain percentage needed to recover.",
+            "mastery_check": "Complete both practice questions. Later, apply this idea in the module check without relying on a recent example."
+          },
+          "review_after_days": 1,
+          "activity_kind": "guided_decision",
+          "questions": [
+            {
+              "prompt": "A balance falls from 1,000 to 800. What is the drawdown from that peak?",
+              "explanation": "The decline is 200 divided by the original peak of 1,000.",
+              "critical": false,
+              "id": "m06-l02-q01",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "25%."
+                },
+                {
+                  "id": "b",
+                  "text": "80%."
+                },
+                {
+                  "id": "c",
+                  "text": "20%."
+                }
+              ],
+              "correct_option_id": "c"
+            },
+            {
+              "prompt": "What gain on 800 is required to return to 1,000?",
+              "explanation": "The required 200 is 25% of 800; recovery is not guaranteed.",
+              "critical": true,
+              "id": "m06-l02-q02",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "25%."
+                },
+                {
+                  "id": "b",
+                  "text": "20%."
+                },
+                {
+                  "id": "c",
+                  "text": "A guaranteed future gain."
+                }
+              ],
+              "correct_option_id": "a"
+            }
+          ]
+        },
+        {
+          "id": "m06-l03",
+          "title": "Risk and reward need probabilities",
+          "objective": "Explain why attractive payoff ratios alone do not establish a good decision.",
+          "source_basis": [
+            "finra-risk",
+            "sec-fees"
+          ],
+          "review_status": "authored_requires_independent_review",
+          "prerequisite_lesson_ids": [
+            "m06-l02"
+          ],
+          "explanation": "A payoff ratio compares possible gains and losses under stated assumptions. It says nothing by itself about how likely those outcomes are. Estimates can be wrong, losses can exceed a planned exit, and costs reduce results. A positive-looking calculation is not permission to ignore suitability.",
+          "worked_example": "A fictional two-outcome exercise gains 30 with probability 20% and loses 10 with probability 80%. Its expected change before costs is 0.20 × 30 − 0.80 × 10 = −2. The three-to-one payoff did not make the expectation positive.",
+          "learning_cycle": {
+            "question": "Gain 30 with 20% probability; lose 10 with 80%. Expected change before costs?",
+            "explanation": "A payoff ratio compares possible gains and losses under stated assumptions. It says nothing by itself about how likely those outcomes are. Estimates can be wrong, losses can exceed a planned exit, and costs reduce results. A positive-looking calculation is not permission to ignore suitability.",
+            "worked_example": "A fictional two-outcome exercise gains 30 with probability 20% and loses 10 with probability 80%. Its expected change before costs is 0.20 × 30 − 0.80 × 10 = −2. The three-to-one payoff did not make the expectation positive.",
+            "prediction": "If a 1-unit fee is added to every outcome, what happens to the expected change?",
+            "guided_decision": "Write outcomes, probabilities, costs and a condition that would invalidate them. Decide whether the evidence supports these assumptions; choose no trade if it does not.",
+            "feedback": "After answering, compare your reason with the explanation. Correct a mistaken assumption before trying again.",
+            "reflection": "Which assumption was least certain in the calculation?",
+            "delayed_review": "A large possible gain is advertised without loss probabilities. Explain what information is missing.",
+            "mastery_check": "Complete both practice questions. Later, apply this idea in the module check without relying on a recent example."
+          },
+          "review_after_days": 1,
+          "activity_kind": "guided_decision",
+          "questions": [
+            {
+              "prompt": "Gain 30 with 20% probability; lose 10 with 80%. Expected change before costs?",
+              "explanation": "0.20 × 30 − 0.80 × 10 = −2. An expected value is an average under assumptions, not a single-run promise.",
+              "critical": false,
+              "id": "m06-l03-q01",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "−2 units."
+                },
+                {
+                  "id": "b",
+                  "text": "20 units."
+                },
+                {
+                  "id": "c",
+                  "text": "A guaranteed gain of 30."
+                }
+              ],
+              "correct_option_id": "a"
+            },
+            {
+              "prompt": "Does a three-to-one possible gain/loss ratio prove a decision is suitable?",
+              "explanation": "A ratio omits likelihood and the learner’s constraints.",
+              "critical": true,
+              "id": "m06-l03-q02",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "Yes; large gains cancel all risk."
+                },
+                {
+                  "id": "b",
+                  "text": "No; probabilities, costs and loss capacity still matter."
+                },
+                {
+                  "id": "c",
+                  "text": "Yes; any ratio above one ensures profit."
+                }
+              ],
+              "correct_option_id": "b"
+            }
+          ]
+        }
+      ],
+      "assessment": [
+        {
+          "prompt": "Four shares at 25 represent how much unleveraged market exposure?",
+          "explanation": "4 × 25 = 100.",
+          "critical": false,
+          "id": "m06-check-q01",
+          "options": [
+            {
+              "id": "a",
+              "text": "100 units."
+            },
+            {
+              "id": "b",
+              "text": "25 units."
+            },
+            {
+              "id": "c",
+              "text": "4 units."
+            }
+          ],
+          "correct_option_id": "a"
+        },
+        {
+          "prompt": "A written exit assumes a 5-unit price loss. Which statement is sound?",
+          "explanation": "Stress cases and fees must accompany the estimate.",
+          "critical": true,
+          "id": "m06-check-q02",
+          "options": [
+            {
+              "id": "a",
+              "text": "Costs never matter."
+            },
+            {
+              "id": "b",
+              "text": "The actual loss may exceed it because execution can differ."
+            },
+            {
+              "id": "c",
+              "text": "The written loss is legally guaranteed."
+            }
+          ],
+          "correct_option_id": "b"
+        },
+        {
+          "prompt": "A portfolio drops from 500 to 400. What gain restores 500?",
+          "explanation": "100 ÷ 400 = 25%.",
+          "critical": false,
+          "id": "m06-check-q03",
+          "options": [
+            {
+              "id": "a",
+              "text": "20%."
+            },
+            {
+              "id": "b",
+              "text": "10%."
+            },
+            {
+              "id": "c",
+              "text": "25%."
+            }
+          ],
+          "correct_option_id": "c"
+        },
+        {
+          "prompt": "Why can two equal final balances conceal different risk?",
+          "explanation": "Interim losses can matter when obligations arrive.",
+          "critical": false,
+          "id": "m06-check-q04",
+          "options": [
+            {
+              "id": "a",
+              "text": "Their paths can have different drawdowns and cash needs."
+            },
+            {
+              "id": "b",
+              "text": "All paths to one balance are identical."
+            },
+            {
+              "id": "c",
+              "text": "Only the final balance has consequences."
+            }
+          ],
+          "correct_option_id": "a"
+        },
+        {
+          "prompt": "A potential reward is large but probabilities and losses are unclear. What is justified?",
+          "explanation": "Unquantified downside is not erased by a large upside claim.",
+          "critical": true,
+          "id": "m06-check-q05",
+          "options": [
+            {
+              "id": "a",
+              "text": "Treat the reward as certain."
+            },
+            {
+              "id": "b",
+              "text": "Pause and examine those uncertainties."
+            },
+            {
+              "id": "c",
+              "text": "Increase exposure to compensate."
+            }
+          ],
+          "correct_option_id": "b"
+        }
+      ],
+      "bonus_mission": {
+        "id": "m06-reflection",
+        "title": "Leave a learning note",
+        "optional": true,
+        "prompt": "Choose one decision in this module. Write the risk you noticed, the evidence you used and what would change your choice.",
+        "reward_basis": "A completed learning reflection; never a trade, return or transaction count.",
+        "implementation_status": "content_only"
+      }
+    },
+    {
+      "id": "m07-making-decisions",
+      "order": 7,
+      "title": "Making Decisions",
+      "description": "Build a falsifiable view, inspect evidence and express uncertainty honestly.",
+      "prerequisite_module_ids": [
+        "m06-managing-risk"
+      ],
+      "review_status": "authored_requires_independent_review",
+      "optional": false,
+      "lessons": [
+        {
+          "id": "m07-l01",
+          "title": "Make a view testable",
+          "objective": "Separate an observation, an assumption and a claim that could be contradicted.",
+          "source_basis": [
+            "sec-research",
+            "finra-sentiment"
+          ],
+          "review_status": "authored_requires_independent_review",
+          "prerequisite_lesson_ids": [],
+          "explanation": "A thesis is a reasoned view, not a prediction stated as fact. Name the observation, the assumption connecting it to an outcome and evidence that would change the view. Primary disclosures can describe a business and its risks; they do not guarantee future performance.",
+          "worked_example": "A fictional report says revenue increased, but cash collected did not. “Revenue grew” is an observation. “Cash will catch up” is an assumption. A testable view specifies what later cash information would support or contradict that assumption.",
+          "learning_cycle": {
+            "question": "Which part of a thesis makes it testable?",
+            "explanation": "A thesis is a reasoned view, not a prediction stated as fact. Name the observation, the assumption connecting it to an outcome and evidence that would change the view. Primary disclosures can describe a business and its risks; they do not guarantee future performance.",
+            "worked_example": "A fictional report says revenue increased, but cash collected did not. “Revenue grew” is an observation. “Cash will catch up” is an assumption. A testable view specifies what later cash information would support or contradict that assumption.",
+            "prediction": "Would another revenue headline alone resolve the cash-collection uncertainty?",
+            "guided_decision": "Before any hypothetical action, write the evidence date, the assumption, a contradictory outcome and a no-trade condition. The exercise can end with more research.",
+            "feedback": "After answering, compare your reason with the explanation. Correct a mistaken assumption before trying again.",
+            "reflection": "Which part of your view was evidence and which part was interpretation?",
+            "delayed_review": "A learner says “this company must rise.” Rewrite it as a conditional view with something that could disconfirm it.",
+            "mastery_check": "Complete both practice questions. Later, apply this idea in the module check without relying on a recent example."
+          },
+          "review_after_days": 1,
+          "activity_kind": "guided_decision",
+          "questions": [
+            {
+              "prompt": "Which part of a thesis makes it testable?",
+              "explanation": "A view that cannot be challenged provides little basis for review.",
+              "critical": false,
+              "id": "m07-l01-q01",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "Refusing to consider contrary facts."
+                },
+                {
+                  "id": "b",
+                  "text": "Repeating the same headline."
+                },
+                {
+                  "id": "c",
+                  "text": "Evidence that would change the view."
+                }
+              ],
+              "correct_option_id": "c"
+            },
+            {
+              "prompt": "Does a company’s official disclosure guarantee investment success?",
+              "explanation": "Information quality and uncertain future returns are different.",
+              "critical": true,
+              "id": "m07-l01-q02",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "No; it supplies information to evaluate."
+                },
+                {
+                  "id": "b",
+                  "text": "Yes; publication certifies future returns."
+                },
+                {
+                  "id": "c",
+                  "text": "Yes; a reported profit guarantees a rising share price."
+                }
+              ],
+              "correct_option_id": "a"
+            }
+          ]
+        },
+        {
+          "id": "m07-l02",
+          "title": "Check evidence and incentives",
+          "objective": "Evaluate dates, provenance and conflicts before trusting a market claim.",
+          "source_basis": [
+            "sec-research",
+            "finra-sentiment",
+            "sec-fraud"
+          ],
+          "review_status": "authored_requires_independent_review",
+          "prerequisite_lesson_ids": [
+            "m07-l01"
+          ],
+          "explanation": "Ask who produced a claim, when, using what information and with what incentive. A popular post may repeat another post rather than provide independent evidence. Compare dated primary information with the claim, and read limitations. A chart or indicator describes selected data; it does not make uncertainty disappear.",
+          "worked_example": "Three fictional posts repeat one unsourced sales estimate. They are not three independent confirmations. A dated company report covering a different period may be useful but does not directly verify the estimate either.",
+          "learning_cycle": {
+            "question": "Three posts repeat one unsupported estimate. How many independent confirmations are established?",
+            "explanation": "Ask who produced a claim, when, using what information and with what incentive. A popular post may repeat another post rather than provide independent evidence. Compare dated primary information with the claim, and read limitations. A chart or indicator describes selected data; it does not make uncertainty disappear.",
+            "worked_example": "Three fictional posts repeat one unsourced sales estimate. They are not three independent confirmations. A dated company report covering a different period may be useful but does not directly verify the estimate either.",
+            "prediction": "If all posts trace to the same source, how much independent confirmation has been added?",
+            "guided_decision": "Label each item as primary evidence, interpretation or unsupported repetition. Identify a potential promotional incentive before deciding whether any action is justified.",
+            "feedback": "After answering, compare your reason with the explanation. Correct a mistaken assumption before trying again.",
+            "reflection": "What source detail would make you revise your confidence?",
+            "delayed_review": "A colorful chart predicts a certain gain but omits the dates and method. Name two checks before relying on it.",
+            "mastery_check": "Complete both practice questions. Later, apply this idea in the module check without relying on a recent example."
+          },
+          "review_after_days": 1,
+          "activity_kind": "guided_decision",
+          "questions": [
+            {
+              "prompt": "Three posts repeat one unsupported estimate. How many independent confirmations are established?",
+              "explanation": "Repeated claims can share the same weak origin.",
+              "critical": false,
+              "id": "m07-l02-q01",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "None merely from the repetition."
+                },
+                {
+                  "id": "b",
+                  "text": "Three guaranteed confirmations."
+                },
+                {
+                  "id": "c",
+                  "text": "One confirmation for every repost."
+                }
+              ],
+              "correct_option_id": "a"
+            },
+            {
+              "prompt": "Which response to a “certain” chart prediction is safer?",
+              "explanation": "Analytical presentation does not eliminate errors, conflicts or uncertainty.",
+              "critical": true,
+              "id": "m07-l02-q02",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "Ignore contrary primary information."
+                },
+                {
+                  "id": "b",
+                  "text": "Check its data, method, dates and limitations."
+                },
+                {
+                  "id": "c",
+                  "text": "Treat a chart as a guarantee."
+                }
+              ],
+              "correct_option_id": "b"
+            }
+          ]
+        },
+        {
+          "id": "m07-l03",
+          "title": "Use confidence as a forecast",
+          "objective": "Interpret a probability and compare confidence with repeated outcomes.",
+          "source_basis": [
+            "finra-risk",
+            "brier-paper"
+          ],
+          "review_status": "authored_requires_independent_review",
+          "prerequisite_lesson_ids": [
+            "m07-l02"
+          ],
+          "explanation": "A 70% probability allows the event not to happen. One outcome cannot tell you whether a probability was well calibrated. Across many comparable forecasts near 70%, events occurring near 70% would be consistent with calibration. The sample, event definition and changing conditions still matter.",
+          "worked_example": "In a fictional group of ten 70% forecasts, seven events occur. That small group is consistent with the stated rate, but is too little evidence to certify forecasting skill. A single correct high-confidence answer also does not establish competence.",
+          "learning_cycle": {
+            "question": "What does a 70% probability allow?",
+            "explanation": "A 70% probability allows the event not to happen. One outcome cannot tell you whether a probability was well calibrated. Across many comparable forecasts near 70%, events occurring near 70% would be consistent with calibration. The sample, event definition and changing conditions still matter.",
+            "worked_example": "In a fictional group of ten 70% forecasts, seven events occur. That small group is consistent with the stated rate, but is too little evidence to certify forecasting skill. A single correct high-confidence answer also does not establish competence.",
+            "prediction": "If a 70% event fails to occur once, must the original estimate have been dishonest?",
+            "guided_decision": "Define an event and time window before assigning confidence. Record the estimate before the outcome, then compare a set of outcomes without rewriting earlier estimates.",
+            "feedback": "After answering, compare your reason with the explanation. Correct a mistaken assumption before trying again.",
+            "reflection": "How could hindsight change the confidence you remember having?",
+            "delayed_review": "A learner labels every answer 100% certain but misses several. Explain the calibration concern without judging the person.",
+            "mastery_check": "Complete both practice questions. Later, apply this idea in the module check without relying on a recent example."
+          },
+          "review_after_days": 1,
+          "activity_kind": "guided_decision",
+          "questions": [
+            {
+              "prompt": "What does a 70% probability allow?",
+              "explanation": "A probability describes uncertainty; small samples need not match it exactly.",
+              "critical": false,
+              "id": "m07-l03-q01",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "The event happens exactly seven times in every ten attempts."
+                },
+                {
+                  "id": "b",
+                  "text": "The event may not happen."
+                },
+                {
+                  "id": "c",
+                  "text": "The event is guaranteed."
+                }
+              ],
+              "correct_option_id": "b"
+            },
+            {
+              "prompt": "Does one correct answer at high confidence establish mastery?",
+              "explanation": "Repeated, varied checks and risk reasoning matter beyond one outcome.",
+              "critical": true,
+              "id": "m07-l03-q02",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "Yes; confidence proves understanding."
+                },
+                {
+                  "id": "b",
+                  "text": "Yes; one lucky result is sufficient."
+                },
+                {
+                  "id": "c",
+                  "text": "No; knowledge and application need broader evidence."
+                }
+              ],
+              "correct_option_id": "c"
+            }
+          ]
+        }
+      ],
+      "assessment": [
+        {
+          "prompt": "Which thesis is more reviewable?",
+          "explanation": "A reviewable thesis can be tested against new information.",
+          "critical": false,
+          "id": "m07-check-q01",
+          "options": [
+            {
+              "id": "a",
+              "text": "It rules out contrary evidence."
+            },
+            {
+              "id": "b",
+              "text": "It names evidence, assumptions and a condition that would change the view."
+            },
+            {
+              "id": "c",
+              "text": "It promises a price rise without conditions."
+            }
+          ],
+          "correct_option_id": "b"
+        },
+        {
+          "prompt": "Several posts cite the same rumor. What must a learner avoid?",
+          "explanation": "A shared unsupported origin remains unsupported.",
+          "critical": true,
+          "id": "m07-check-q02",
+          "options": [
+            {
+              "id": "a",
+              "text": "Checking the origin."
+            },
+            {
+              "id": "b",
+              "text": "Looking for dated primary information."
+            },
+            {
+              "id": "c",
+              "text": "Treating repetition as independent verification."
+            }
+          ],
+          "correct_option_id": "c"
+        },
+        {
+          "prompt": "An analytical indicator has no disclosed dates or method. What remains unresolved?",
+          "explanation": "The method and data are needed to judge the claim.",
+          "critical": false,
+          "id": "m07-check-q03",
+          "options": [
+            {
+              "id": "a",
+              "text": "Whether its evidence is relevant and reliable."
+            },
+            {
+              "id": "b",
+              "text": "Only its color choice."
+            },
+            {
+              "id": "c",
+              "text": "Nothing; technical appearance proves accuracy."
+            }
+          ],
+          "correct_option_id": "a"
+        },
+        {
+          "prompt": "A 60% event does not occur. Which conclusion is valid?",
+          "explanation": "A 60% estimate includes a 40% chance of non-occurrence.",
+          "critical": false,
+          "id": "m07-check-q04",
+          "options": [
+            {
+              "id": "a",
+              "text": "The event was impossible."
+            },
+            {
+              "id": "b",
+              "text": "That outcome was possible under the estimate."
+            },
+            {
+              "id": "c",
+              "text": "All probability reasoning has failed."
+            }
+          ],
+          "correct_option_id": "b"
+        },
+        {
+          "prompt": "One successful forecast earns what conclusion?",
+          "explanation": "Outcome luck and process quality must be separated.",
+          "critical": true,
+          "id": "m07-check-q05",
+          "options": [
+            {
+              "id": "a",
+              "text": "Guaranteed future forecasting skill."
+            },
+            {
+              "id": "b",
+              "text": "Permission to ignore loss limits."
+            },
+            {
+              "id": "c",
+              "text": "One recorded result, not proof of investment competence."
+            }
+          ],
+          "correct_option_id": "c"
+        }
+      ],
+      "bonus_mission": {
+        "id": "m07-reflection",
+        "title": "Leave a learning note",
+        "optional": true,
+        "prompt": "Choose one decision in this module. Write the risk you noticed, the evidence you used and what would change your choice.",
+        "reward_basis": "A completed learning reflection; never a trade, return or transaction count.",
+        "implementation_status": "content_only"
+      }
+    },
+    {
+      "id": "m08-psychology-and-protection",
+      "order": 8,
+      "title": "Psychology and Protection",
+      "description": "Recognize biased reasoning, promotional conflicts and fraud warning signs.",
+      "prerequisite_module_ids": [
+        "m07-making-decisions"
+      ],
+      "review_status": "authored_requires_independent_review",
+      "optional": false,
+      "lessons": [
+        {
+          "id": "m08-l01",
+          "title": "Separate a result from a reason",
+          "objective": "Recognize outcome bias, selective evidence and the urge to recover a loss.",
+          "source_basis": [
+            "finra-sentiment",
+            "finra-risk",
+            "cnmv-bias"
+          ],
+          "review_status": "authored_requires_independent_review",
+          "prerequisite_lesson_ids": [],
+          "explanation": "Outcome bias judges a decision only by its result. Confirmation bias favors evidence that supports an existing view. A desire to recover a loss can tempt a learner to abandon constraints. A written record lets the learner compare what was known and planned before the outcome.",
+          "worked_example": "In a fictional exercise, Noor ignores a loss limit and gains 15 units. The gain does not repair the missing risk process. On another run, Noor follows a reasonable plan and loses 5; that result alone does not prove the process was poor.",
+          "learning_cycle": {
+            "question": "A learner breaks a risk rule but gains money. What should the review record?",
+            "explanation": "Outcome bias judges a decision only by its result. Confirmation bias favors evidence that supports an existing view. A desire to recover a loss can tempt a learner to abandon constraints. A written record lets the learner compare what was known and planned before the outcome.",
+            "worked_example": "In a fictional exercise, Noor ignores a loss limit and gains 15 units. The gain does not repair the missing risk process. On another run, Noor follows a reasonable plan and loses 5; that result alone does not prove the process was poor.",
+            "prediction": "Would the same broken rule become acceptable if the gain were twice as large?",
+            "guided_decision": "Review two decision notes with their results hidden. Judge the evidence and constraints first, then uncover results and check whether your judgment changes.",
+            "feedback": "After answering, compare your reason with the explanation. Correct a mistaken assumption before trying again.",
+            "reflection": "Did seeing the result change a process judgment that should have stayed the same?",
+            "delayed_review": "A learner doubles exposure to recover a previous loss. Explain the missing reasoning and a pause condition.",
+            "mastery_check": "Complete both practice questions. Later, apply this idea in the module check without relying on a recent example."
+          },
+          "review_after_days": 1,
+          "activity_kind": "guided_decision",
+          "questions": [
+            {
+              "prompt": "A learner breaks a risk rule but gains money. What should the review record?",
+              "explanation": "A favorable outcome can occur by chance and does not validate ignoring a prior constraint.",
+              "critical": true,
+              "id": "m08-l01-q01",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "A process failure despite a favorable outcome."
+                },
+                {
+                  "id": "b",
+                  "text": "Proof the rule was unnecessary."
+                },
+                {
+                  "id": "c",
+                  "text": "Automatic mastery."
+                }
+              ],
+              "correct_option_id": "a"
+            },
+            {
+              "prompt": "Which behavior illustrates confirmation bias?",
+              "explanation": "Selective evidence can make an uncertain view feel more secure than the evidence supports.",
+              "critical": false,
+              "id": "m08-l01-q02",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "Comparing alternative explanations."
+                },
+                {
+                  "id": "b",
+                  "text": "Looking only for evidence that supports an existing view."
+                },
+                {
+                  "id": "c",
+                  "text": "Recording evidence that would change the view."
+                }
+              ],
+              "correct_option_id": "b"
+            }
+          ]
+        },
+        {
+          "id": "m08-l02",
+          "title": "Notice who benefits",
+          "objective": "Identify promotional incentives and distinguish popularity from evidence.",
+          "source_basis": [
+            "sec-fraud",
+            "finra-sentiment"
+          ],
+          "review_status": "authored_requires_independent_review",
+          "prerequisite_lesson_ids": [
+            "m08-l01"
+          ],
+          "explanation": "A promoter may be paid or may benefit if attention increases a holding’s price. A conflict does not by itself prove fraud, but it matters when judging a claim. Testimonials, follower counts and repeated recommendations are not verification of suitability or future returns.",
+          "worked_example": "A fictional creator calls a token a certain winner while receiving payment to promote it. The payment creates an incentive the viewer should know about. Even a disclosed incentive does not turn the prediction into reliable evidence.",
+          "learning_cycle": {
+            "question": "A creator is paid to promote an asset. What should a learner consider?",
+            "explanation": "A promoter may be paid or may benefit if attention increases a holding’s price. A conflict does not by itself prove fraud, but it matters when judging a claim. Testimonials, follower counts and repeated recommendations are not verification of suitability or future returns.",
+            "worked_example": "A fictional creator calls a token a certain winner while receiving payment to promote it. The payment creates an incentive the viewer should know about. Even a disclosed incentive does not turn the prediction into reliable evidence.",
+            "prediction": "Would a larger follower count remove the promoter’s incentive?",
+            "guided_decision": "Identify the claim, the possible benefit to its author and an independent source needed to check it. Decide to pause if the investment cannot be explained without the promotion.",
+            "feedback": "After answering, compare your reason with the explanation. Correct a mistaken assumption before trying again.",
+            "reflection": "Which social cue felt persuasive even though it did not verify the claim?",
+            "delayed_review": "A friend forwards a popular tip. Explain why the friendship and popularity do not establish the underlying evidence.",
+            "mastery_check": "Complete both practice questions. Later, apply this idea in the module check without relying on a recent example."
+          },
+          "review_after_days": 1,
+          "activity_kind": "guided_decision",
+          "questions": [
+            {
+              "prompt": "A creator is paid to promote an asset. What should a learner consider?",
+              "explanation": "An incentive is relevant context, not evidence of a reliable forecast.",
+              "critical": false,
+              "id": "m08-l02-q01",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "A large audience removes the conflict."
+                },
+                {
+                  "id": "b",
+                  "text": "The incentive may influence the claim."
+                },
+                {
+                  "id": "c",
+                  "text": "Payment guarantees accuracy."
+                }
+              ],
+              "correct_option_id": "b"
+            },
+            {
+              "prompt": "Do thousands of positive comments establish that an investment is suitable?",
+              "explanation": "Comments can be incomplete, coordinated or unrelated to the learner’s constraints.",
+              "critical": true,
+              "id": "m08-l02-q02",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "Yes; the crowd guarantees safety."
+                },
+                {
+                  "id": "b",
+                  "text": "Yes; losses cannot occur with enough followers."
+                },
+                {
+                  "id": "c",
+                  "text": "No; popularity is not a suitability or evidence check."
+                }
+              ],
+              "correct_option_id": "c"
+            }
+          ]
+        },
+        {
+          "id": "m08-l03",
+          "title": "Stop at fraud warning signs",
+          "objective": "Choose independent verification over pressure, impersonation and guaranteed-return claims.",
+          "source_basis": [
+            "sec-fraud"
+          ],
+          "review_status": "authored_requires_independent_review",
+          "prerequisite_lesson_ids": [
+            "m08-l02"
+          ],
+          "explanation": "Promises of high returns with little or no risk, pressure to act quickly and unsolicited requests to transfer funds are warning signs. Impersonators can copy names, logos and websites. Verify through an independently found official channel; a link supplied by the promoter is not independent verification.",
+          "worked_example": "A fictional message claims to be a regulator and asks for a transfer to “unlock” an account. The learner pauses, saves the message and checks the real institution through an independently found channel. Sending more money is not part of this learning exercise.",
+          "learning_cycle": {
+            "question": "A stranger promises a high guaranteed return and urges an immediate transfer. What is the safer response?",
+            "explanation": "Promises of high returns with little or no risk, pressure to act quickly and unsolicited requests to transfer funds are warning signs. Impersonators can copy names, logos and websites. Verify through an independently found official channel; a link supplied by the promoter is not independent verification.",
+            "worked_example": "A fictional message claims to be a regulator and asks for a transfer to “unlock” an account. The learner pauses, saves the message and checks the real institution through an independently found channel. Sending more money is not part of this learning exercise.",
+            "prediction": "If the message includes a familiar logo, has its identity been verified?",
+            "guided_decision": "Choose no transfer. Identify the claimed institution, the suspicious request and a separate official route for verification or reporting in the relevant region.",
+            "feedback": "After answering, compare your reason with the explanation. Correct a mistaken assumption before trying again.",
+            "reflection": "What made the message feel urgent, and how can a pause protect the decision?",
+            "delayed_review": "A new account promises guaranteed daily gains and asks for a withdrawal fee first. Identify the warning signs and a verification step.",
+            "mastery_check": "Complete both practice questions. Later, apply this idea in the module check without relying on a recent example."
+          },
+          "review_after_days": 1,
+          "activity_kind": "guided_decision",
+          "questions": [
+            {
+              "prompt": "A stranger promises a high guaranteed return and urges an immediate transfer. What is the safer response?",
+              "explanation": "Pressure and a high-return/no-risk claim are warning signs, not reasons to hurry.",
+              "critical": true,
+              "id": "m08-l03-q01",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "Transfer a little to test the promise."
+                },
+                {
+                  "id": "b",
+                  "text": "Act quickly to avoid missing the chance."
+                },
+                {
+                  "id": "c",
+                  "text": "Pause and verify independently; do not rely on the supplied link."
+                }
+              ],
+              "correct_option_id": "c"
+            },
+            {
+              "prompt": "A copied institutional logo proves what about a message?",
+              "explanation": "Impersonators can reuse familiar identities; verification needs an independent channel.",
+              "critical": true,
+              "id": "m08-l03-q02",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "Nothing by itself about the sender’s identity."
+                },
+                {
+                  "id": "b",
+                  "text": "That the sender is authorized."
+                },
+                {
+                  "id": "c",
+                  "text": "That every requested transfer is safe."
+                }
+              ],
+              "correct_option_id": "a"
+            }
+          ]
+        }
+      ],
+      "assessment": [
+        {
+          "prompt": "A risky decision wins once. What is the appropriate conclusion?",
+          "explanation": "One result cannot establish that the reasoning was sound.",
+          "critical": true,
+          "id": "m08-check-q01",
+          "options": [
+            {
+              "id": "a",
+              "text": "Treat it as proof of skill."
+            },
+            {
+              "id": "b",
+              "text": "Raise limits automatically."
+            },
+            {
+              "id": "c",
+              "text": "Review the process separately from the favorable outcome."
+            }
+          ],
+          "correct_option_id": "c"
+        },
+        {
+          "prompt": "Which action counters selective evidence?",
+          "explanation": "An explicit disconfirming condition keeps the view reviewable.",
+          "critical": false,
+          "id": "m08-check-q02",
+          "options": [
+            {
+              "id": "a",
+              "text": "Record a credible observation that would change the view."
+            },
+            {
+              "id": "b",
+              "text": "Read only agreeing posts."
+            },
+            {
+              "id": "c",
+              "text": "Delete contradictory information."
+            }
+          ],
+          "correct_option_id": "a"
+        },
+        {
+          "prompt": "What does a disclosed promotional payment establish?",
+          "explanation": "Disclosure adds context but does not validate the prediction.",
+          "critical": false,
+          "id": "m08-check-q03",
+          "options": [
+            {
+              "id": "a",
+              "text": "A suitable investment for every viewer."
+            },
+            {
+              "id": "b",
+              "text": "A possible conflict to consider, not reliable future returns."
+            },
+            {
+              "id": "c",
+              "text": "A guaranteed accurate recommendation."
+            }
+          ],
+          "correct_option_id": "b"
+        },
+        {
+          "prompt": "A familiar name asks for an urgent transfer via a new link. What is appropriate?",
+          "explanation": "Identity cues can be copied, and urgency can suppress verification.",
+          "critical": true,
+          "id": "m08-check-q04",
+          "options": [
+            {
+              "id": "a",
+              "text": "Trust the copied logo."
+            },
+            {
+              "id": "b",
+              "text": "Transfer before checking."
+            },
+            {
+              "id": "c",
+              "text": "Verify through an independently found official channel."
+            }
+          ],
+          "correct_option_id": "c"
+        },
+        {
+          "prompt": "After a loss, which note best preserves discipline?",
+          "explanation": "A past loss does not determine the next outcome or justify increased exposure.",
+          "critical": false,
+          "id": "m08-check-q05",
+          "options": [
+            {
+              "id": "a",
+              "text": "I will revisit evidence and constraints before considering another decision."
+            },
+            {
+              "id": "b",
+              "text": "I must recover the loss immediately."
+            },
+            {
+              "id": "c",
+              "text": "The next result is guaranteed to reverse."
+            }
+          ],
+          "correct_option_id": "a"
+        }
+      ],
+      "bonus_mission": {
+        "id": "m08-reflection",
+        "title": "Leave a learning note",
+        "optional": true,
+        "prompt": "Choose one decision in this module. Write the risk you noticed, the evidence you used and what would change your choice.",
+        "reward_basis": "A completed learning reflection; never a trade, return or transaction count.",
+        "implementation_status": "content_only"
+      }
+    },
+    {
+      "id": "m09-integrated-simulation",
+      "order": 9,
+      "title": "Integrated Simulation",
+      "description": "Apply planning, friction and review to controlled fictional scenarios.",
+      "prerequisite_module_ids": [
+        "m08-psychology-and-protection"
+      ],
+      "review_status": "authored_requires_independent_review",
+      "optional": false,
+      "lessons": [
+        {
+          "id": "m09-l01",
+          "title": "Write a plan before the path unfolds",
+          "objective": "Create a decision record that can be reviewed without hindsight.",
+          "source_basis": [
+            "finra-risk",
+            "sec-orders",
+            "sec-fees"
+          ],
+          "review_status": "authored_requires_independent_review",
+          "prerequisite_lesson_ids": [],
+          "explanation": "A simulation is a controlled exercise, not a forecast of live markets. Before each simulated trade, record the objective, evidence, exposure, loss capacity, order constraint, costs, exit condition and a reason to choose no trade. The future path stays hidden until the decision is recorded.",
+          "worked_example": "A fictional case supplies 1,000 units of learning capital and a maximum acceptable stress loss of 25. A candidate ten-share exposure has a 40-unit gap-loss stress case before fees. The plan rejects that candidate rather than treating the stated limit as insurance.",
+          "learning_cycle": {
+            "question": "A candidate has a 40-unit stress loss while the case permits 25. What decision respects the case?",
+            "explanation": "A simulation is a controlled exercise, not a forecast of live markets. Before each simulated trade, record the objective, evidence, exposure, loss capacity, order constraint, costs, exit condition and a reason to choose no trade. The future path stays hidden until the decision is recorded.",
+            "worked_example": "A fictional case supplies 1,000 units of learning capital and a maximum acceptable stress loss of 25. A candidate ten-share exposure has a 40-unit gap-loss stress case before fees. The plan rejects that candidate rather than treating the stated limit as insurance.",
+            "prediction": "If the hidden path later rises, would that change whether the candidate exceeded the stated stress constraint?",
+            "guided_decision": "Write the case’s constraint and the candidate’s stress loss. Choose no trade when the candidate exceeds it. This authored lesson is a planning exercise; interactive scenario execution is a separate feature.",
+            "feedback": "After answering, compare your reason with the explanation. Correct a mistaken assumption before trying again.",
+            "reflection": "Which facts must be recorded before revealing the outcome to prevent hindsight rewriting?",
+            "delayed_review": "A scenario ends profitably but had no prior plan. Explain what evidence is missing and why the result cannot replace it.",
+            "mastery_check": "Complete both practice questions. Later, apply this idea in the module check without relying on a recent example."
+          },
+          "review_after_days": 1,
+          "activity_kind": "guided_decision",
+          "questions": [
+            {
+              "prompt": "A candidate has a 40-unit stress loss while the case permits 25. What decision respects the case?",
+              "explanation": "A learning constraint must be checked before action and cannot guarantee market behavior.",
+              "critical": true,
+              "id": "m09-l01-q01",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "Wait to see whether it wins before writing the plan."
+                },
+                {
+                  "id": "b",
+                  "text": "Reject the candidate or revise it before any action."
+                },
+                {
+                  "id": "c",
+                  "text": "Act and assume the cap limits the market loss."
+                }
+              ],
+              "correct_option_id": "b"
+            },
+            {
+              "prompt": "Why hide the future scenario path until the plan is recorded?",
+              "explanation": "The exercise is about decision process under uncertainty, not exploiting visible future data.",
+              "critical": false,
+              "id": "m09-l01-q02",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "To promise live-market prediction."
+                },
+                {
+                  "id": "b",
+                  "text": "To reward guessing the best future price."
+                },
+                {
+                  "id": "c",
+                  "text": "To preserve a decision made with only information available at the time."
+                }
+              ],
+              "correct_option_id": "c"
+            }
+          ]
+        },
+        {
+          "id": "m09-l02",
+          "title": "Review what actually filled",
+          "objective": "Reconcile fills and friction against the original instruction.",
+          "source_basis": [
+            "sec-execution",
+            "sec-fees",
+            "sec-orders"
+          ],
+          "review_status": "authored_requires_independent_review",
+          "prerequisite_lesson_ids": [
+            "m09-l01"
+          ],
+          "explanation": "A plan and an execution record describe different things. Check filled quantity, average price, fees, unfilled quantity and remaining exposure. Do not submit another instruction merely because an interface still shows a pending amount. The simulator must preserve the original plan and actual events.",
+          "worked_example": "A fictional order requests 10 units, but only 4 fill at 15 with a 1-unit fee. Cash used is 61, filled exposure is 60 at that price and 6 units remain unfilled. Counting all 10 as owned would misstate the position.",
+          "learning_cycle": {
+            "question": "Four units fill at 15 with a 1-unit fee. What cash was used?",
+            "explanation": "A plan and an execution record describe different things. Check filled quantity, average price, fees, unfilled quantity and remaining exposure. Do not submit another instruction merely because an interface still shows a pending amount. The simulator must preserve the original plan and actual events.",
+            "worked_example": "A fictional order requests 10 units, but only 4 fill at 15 with a 1-unit fee. Cash used is 61, filled exposure is 60 at that price and 6 units remain unfilled. Counting all 10 as owned would misstate the position.",
+            "prediction": "If a later fill arrives, which records need updating before the next decision?",
+            "guided_decision": "Compare the fictional plan and fill record. Calculate filled exposure and total cost, then identify what remains uncertain before another action.",
+            "feedback": "After answering, compare your reason with the explanation. Correct a mistaken assumption before trying again.",
+            "reflection": "Which mismatch would be hidden if you looked only at the requested quantity?",
+            "delayed_review": "A planned price differs from the average fill. Explain how to document slippage without rewriting the earlier plan.",
+            "mastery_check": "Complete both practice questions. Later, apply this idea in the module check without relying on a recent example."
+          },
+          "review_after_days": 1,
+          "activity_kind": "guided_decision",
+          "questions": [
+            {
+              "prompt": "Four units fill at 15 with a 1-unit fee. What cash was used?",
+              "explanation": "4 × 15 + 1 = 61; an unfilled amount is not a purchased position.",
+              "critical": false,
+              "id": "m09-l02-q01",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "60 units."
+                },
+                {
+                  "id": "b",
+                  "text": "151 units."
+                },
+                {
+                  "id": "c",
+                  "text": "61 units."
+                }
+              ],
+              "correct_option_id": "c"
+            },
+            {
+              "prompt": "Ten were requested and four filled. What should the record show as filled quantity?",
+              "explanation": "Partial execution must be reflected accurately before further decisions.",
+              "critical": true,
+              "id": "m09-l02-q02",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "Four, with six still unfilled."
+                },
+                {
+                  "id": "b",
+                  "text": "Ten because the plan requested ten."
+                },
+                {
+                  "id": "c",
+                  "text": "Zero because the full amount did not fill."
+                }
+              ],
+              "correct_option_id": "a"
+            }
+          ]
+        },
+        {
+          "id": "m09-l03",
+          "title": "Review process across different paths",
+          "objective": "Separate plan adherence from return and test learning in unfamiliar conditions.",
+          "source_basis": [
+            "finra-risk",
+            "finra-sentiment"
+          ],
+          "review_status": "authored_requires_independent_review",
+          "prerequisite_lesson_ids": [
+            "m09-l02"
+          ],
+          "explanation": "Compare actions with the pre-written plan, including a justified choice to do nothing. Then examine costs, drawdowns and a preselected relevant benchmark over the same period. Several rising, falling, sideways and volatile cases reveal different constraints. These are learning checks, not proof of real-world profitability.",
+          "worked_example": "In two fictional runs, a planned 200-unit exposure is respected. One path gains 10 and the other loses 8. The process review can acknowledge adherence in both, while still examining whether the plan itself used sound evidence and realistic risk assumptions.",
+          "learning_cycle": {
+            "question": "A learner follows a written plan but loses virtual money. What should be assessed?",
+            "explanation": "Compare actions with the pre-written plan, including a justified choice to do nothing. Then examine costs, drawdowns and a preselected relevant benchmark over the same period. Several rising, falling, sideways and volatile cases reveal different constraints. These are learning checks, not proof of real-world profitability.",
+            "worked_example": "In two fictional runs, a planned 200-unit exposure is respected. One path gains 10 and the other loses 8. The process review can acknowledge adherence in both, while still examining whether the plan itself used sound evidence and realistic risk assumptions.",
+            "prediction": "Can a plan be followed exactly and still deserve revision because its assumptions were weak?",
+            "guided_decision": "Write one observation about adherence, one about the quality of the plan and one limitation of the scenario. Do not change the benchmark after seeing which comparison looks best.",
+            "feedback": "After answering, compare your reason with the explanation. Correct a mistaken assumption before trying again.",
+            "reflection": "What would you change because of new evidence, and what would merely be hindsight?",
+            "delayed_review": "Apply the same risk constraint to a new fictional falling path and explain why avoiding a trade can be the stronger decision.",
+            "mastery_check": "Complete both practice questions. Later, apply this idea in the module check without relying on a recent example."
+          },
+          "review_after_days": 1,
+          "activity_kind": "guided_decision",
+          "questions": [
+            {
+              "prompt": "A learner follows a written plan but loses virtual money. What should be assessed?",
+              "explanation": "Adherence is useful but cannot make a poorly reasoned plan good; profit is not the mastery criterion.",
+              "critical": false,
+              "id": "m09-l03-q01",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "Both adherence and whether the plan’s reasoning was sound."
+                },
+                {
+                  "id": "b",
+                  "text": "Only the negative balance change."
+                },
+                {
+                  "id": "c",
+                  "text": "Only whether a trade occurred."
+                }
+              ],
+              "correct_option_id": "a"
+            },
+            {
+              "prompt": "Which result justifies a competence claim?",
+              "explanation": "Profit can reflect luck, and repeated transactions are not evidence of understanding.",
+              "critical": true,
+              "id": "m09-l03-q02",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "The highest simulated trade count."
+                },
+                {
+                  "id": "b",
+                  "text": "None of these alone; varied risk and application checks are needed."
+                },
+                {
+                  "id": "c",
+                  "text": "One profitable scenario."
+                }
+              ],
+              "correct_option_id": "b"
+            }
+          ]
+        }
+      ],
+      "assessment": [
+        {
+          "prompt": "When must the simulation plan be written?",
+          "explanation": "The sequence preserves a reviewable decision under uncertainty.",
+          "critical": true,
+          "id": "m09-check-q01",
+          "options": [
+            {
+              "id": "a",
+              "text": "Before each simulated trade and before its future outcome is revealed."
+            },
+            {
+              "id": "b",
+              "text": "After seeing the most favorable outcome."
+            },
+            {
+              "id": "c",
+              "text": "Only after a loss."
+            }
+          ],
+          "correct_option_id": "a"
+        },
+        {
+          "prompt": "A case’s stress limit is 30 but estimated stressed loss is 45 before costs. What is appropriate?",
+          "explanation": "A constraint is a reason to limit exposure, not a guarantee.",
+          "critical": true,
+          "id": "m09-check-q02",
+          "options": [
+            {
+              "id": "a",
+              "text": "Ignore stress because the expected path rises."
+            },
+            {
+              "id": "b",
+              "text": "Reject or revise the candidate before action."
+            },
+            {
+              "id": "c",
+              "text": "Assume the scenario will cap the loss at 30."
+            }
+          ],
+          "correct_option_id": "b"
+        },
+        {
+          "prompt": "Six units fill at 10 with a 2-unit fee. What cash is used?",
+          "explanation": "6 × 10 + 2 = 62.",
+          "critical": false,
+          "id": "m09-check-q03",
+          "options": [
+            {
+              "id": "a",
+              "text": "60 units."
+            },
+            {
+              "id": "b",
+              "text": "102 units."
+            },
+            {
+              "id": "c",
+              "text": "62 units."
+            }
+          ],
+          "correct_option_id": "c"
+        },
+        {
+          "prompt": "When should a relevant comparison benchmark be selected?",
+          "explanation": "A preselected comparison reduces selective presentation.",
+          "critical": false,
+          "id": "m09-check-q04",
+          "options": [
+            {
+              "id": "a",
+              "text": "Before interpreting the scenario result."
+            },
+            {
+              "id": "b",
+              "text": "After choosing the comparison that makes the result look best."
+            },
+            {
+              "id": "c",
+              "text": "Only when the portfolio wins."
+            }
+          ],
+          "correct_option_id": "a"
+        },
+        {
+          "prompt": "What does a reflection need beyond the ending balance?",
+          "explanation": "Reflection explains decision quality and uncertainty.",
+          "critical": false,
+          "id": "m09-check-q05",
+          "options": [
+            {
+              "id": "a",
+              "text": "Only a favorable screenshot."
+            },
+            {
+              "id": "b",
+              "text": "Evidence, plan adherence, risk assumptions and a justified change or continuation."
+            },
+            {
+              "id": "c",
+              "text": "A promise to trade more."
+            }
+          ],
+          "correct_option_id": "b"
+        }
+      ],
+      "bonus_mission": {
+        "id": "m09-reflection",
+        "title": "Leave a learning note",
+        "optional": true,
+        "prompt": "Choose one decision in this module. Write the risk you noticed, the evidence you used and what would change your choice.",
+        "reward_basis": "A completed learning reflection; never a trade, return or transaction count.",
+        "implementation_status": "content_only"
+      }
+    },
+    {
+      "id": "m10-optional-advanced-paths",
+      "order": 10,
+      "title": "Optional Advanced Paths",
+      "description": "Recognize the additional obligations and losses of speculative and leveraged products.",
+      "prerequisite_module_ids": [
+        "m09-integrated-simulation"
+      ],
+      "review_status": "authored_requires_independent_review",
+      "optional": true,
+      "lessons": [
+        {
+          "id": "m10-l01",
+          "title": "Leverage adds obligations",
+          "objective": "Explain amplified losses and the possibility of forced liquidation.",
+          "source_basis": [
+            "finra-margin",
+            "finra-risk",
+            "sec-fees"
+          ],
+          "review_status": "authored_requires_independent_review",
+          "prerequisite_lesson_ids": [],
+          "explanation": "Active trading seeks to benefit from shorter-term changes and incurs friction. Leverage creates exposure larger than the learner’s own capital, often with borrowing or derivatives. Losses can consume that capital and, in some arrangements, exceed it. A provider may liquidate positions under its agreement and applicable rules.",
+          "worked_example": "A fictional position has assets worth 200, debt of 100 and equity of 100. If assets fall to 150 while debt remains 100, equity becomes 50: a 50% equity loss from a 25% asset-price decline, before interest and fees.",
+          "learning_cycle": {
+            "question": "Assets 200 and debt 100 become assets 150 and debt 100. What is remaining equity?",
+            "explanation": "Active trading seeks to benefit from shorter-term changes and incurs friction. Leverage creates exposure larger than the learner’s own capital, often with borrowing or derivatives. Losses can consume that capital and, in some arrangements, exceed it. A provider may liquidate positions under its agreement and applicable rules.",
+            "worked_example": "A fictional position has assets worth 200, debt of 100 and equity of 100. If assets fall to 150 while debt remains 100, equity becomes 50: a 50% equity loss from a 25% asset-price decline, before interest and fees.",
+            "prediction": "If assets fall below the 100-unit debt, can the equity loss exceed the original 100?",
+            "guided_decision": "Identify equity, debt, costs and liquidation terms in this fictional case. Choose not to use leverage if the obligations cannot be explained. No leveraged execution is offered here.",
+            "feedback": "After answering, compare your reason with the explanation. Correct a mistaken assumption before trying again.",
+            "reflection": "Why is the amount deposited an unreliable maximum-loss assumption for borrowing?",
+            "delayed_review": "Explain why a provider’s right to liquidate can make waiting for recovery unavailable.",
+            "mastery_check": "Complete both practice questions. Later, apply this idea in the module check without relying on a recent example."
+          },
+          "review_after_days": 1,
+          "activity_kind": "guided_decision",
+          "questions": [
+            {
+              "prompt": "Assets 200 and debt 100 become assets 150 and debt 100. What is remaining equity?",
+              "explanation": "Equity is assets minus debt: 150 − 100 = 50, before additional costs.",
+              "critical": false,
+              "id": "m10-l01-q01",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "150 units."
+                },
+                {
+                  "id": "b",
+                  "text": "100 units."
+                },
+                {
+                  "id": "c",
+                  "text": "50 units."
+                }
+              ],
+              "correct_option_id": "c"
+            },
+            {
+              "prompt": "Can leveraged losses exceed the learner’s initial capital?",
+              "explanation": "Borrowing and contract obligations can create losses beyond initial funds; terms and local rules matter.",
+              "critical": true,
+              "id": "m10-l01-q02",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "Yes, depending on the arrangement and price path."
+                },
+                {
+                  "id": "b",
+                  "text": "No; the deposit always caps every obligation."
+                },
+                {
+                  "id": "c",
+                  "text": "No; a provider must wait indefinitely for recovery."
+                }
+              ],
+              "correct_option_id": "a"
+            }
+          ]
+        },
+        {
+          "id": "m10-l02",
+          "title": "Short sales reverse the price risk",
+          "objective": "Distinguish a short sale’s obligations from an unleveraged long position.",
+          "source_basis": [
+            "sec-short"
+          ],
+          "review_status": "authored_requires_independent_review",
+          "prerequisite_lesson_ids": [
+            "m10-l01"
+          ],
+          "explanation": "A short sale generally involves selling borrowed shares and later returning equivalent shares. A rising price makes replacing them more costly. A stock price has no fixed upper bound, so a simple short position has theoretically unlimited price loss. Borrow costs and other obligations can add to it.",
+          "worked_example": "In a fictional exposure, five borrowed shares are sold at 20 and later repurchased at 32. The price loss is 5 × (32 − 20) = 60 before borrowing costs and other charges. A price above 32 would increase the loss further.",
+          "learning_cycle": {
+            "question": "Five shares sold short at 20 are repurchased at 32. Price loss before costs?",
+            "explanation": "A short sale generally involves selling borrowed shares and later returning equivalent shares. A rising price makes replacing them more costly. A stock price has no fixed upper bound, so a simple short position has theoretically unlimited price loss. Borrow costs and other obligations can add to it.",
+            "worked_example": "In a fictional exposure, five borrowed shares are sold at 20 and later repurchased at 32. The price loss is 5 × (32 − 20) = 60 before borrowing costs and other charges. A price above 32 would increase the loss further.",
+            "prediction": "If the price doubles again instead of falling, does the short position’s risk disappear?",
+            "guided_decision": "Explain the return obligation and the effect of rising prices. Select no short exposure when the loss structure or borrowing terms are unclear; no execution is provided.",
+            "feedback": "After answering, compare your reason with the explanation. Correct a mistaken assumption before trying again.",
+            "reflection": "What mistaken comparison with a cash purchase could hide the loss risk?",
+            "delayed_review": "A learner assumes short-sale losses are capped at sale proceeds. Correct that assumption with the direction of price risk.",
+            "mastery_check": "Complete both practice questions. Later, apply this idea in the module check without relying on a recent example."
+          },
+          "review_after_days": 1,
+          "activity_kind": "guided_decision",
+          "questions": [
+            {
+              "prompt": "Five shares sold short at 20 are repurchased at 32. Price loss before costs?",
+              "explanation": "The difference is 12 per share, multiplied by five.",
+              "critical": false,
+              "id": "m10-l02-q01",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "60 units."
+                },
+                {
+                  "id": "b",
+                  "text": "12 units."
+                },
+                {
+                  "id": "c",
+                  "text": "160 units."
+                }
+              ],
+              "correct_option_id": "a"
+            },
+            {
+              "prompt": "Why is a simple stock short’s price loss theoretically unlimited?",
+              "explanation": "Replacing borrowed shares can become increasingly expensive as the price rises.",
+              "critical": true,
+              "id": "m10-l02-q02",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "The original sale proceeds guarantee a loss cap."
+                },
+                {
+                  "id": "b",
+                  "text": "The stock price has no fixed upper bound."
+                },
+                {
+                  "id": "c",
+                  "text": "The price must eventually reach zero."
+                }
+              ],
+              "correct_option_id": "b"
+            }
+          ]
+        },
+        {
+          "id": "m10-l03",
+          "title": "Distinguish rights and obligations",
+          "objective": "Recognize futures obligations and different risks for option buyers and writers.",
+          "source_basis": [
+            "finra-futures",
+            "finra-options"
+          ],
+          "review_status": "authored_requires_independent_review",
+          "prerequisite_lesson_ids": [
+            "m10-l02"
+          ],
+          "explanation": "A futures contract creates contractual obligations and can involve losses beyond the initial margin deposit. An option buyer pays for a right under contract terms; an option writer accepts an obligation if assigned. A bought option can expire worthless. Some uncovered written options can create theoretically unlimited loss. Exercise, assignment and settlement add obligations that depend on the contract.",
+          "worked_example": "A fictional unexercised bought option costs a 12-unit premium and expires worthless: the premium is lost, plus fees. That example is not a loss cap for writing options or for positions created by exercise. A futures margin deposit is collateral, not the purchase price or a guaranteed loss ceiling.",
+          "learning_cycle": {
+            "question": "A bought option expires unexercised and worthless. What is lost?",
+            "explanation": "A futures contract creates contractual obligations and can involve losses beyond the initial margin deposit. An option buyer pays for a right under contract terms; an option writer accepts an obligation if assigned. A bought option can expire worthless. Some uncovered written options can create theoretically unlimited loss. Exercise, assignment and settlement add obligations that depend on the contract.",
+            "worked_example": "A fictional unexercised bought option costs a 12-unit premium and expires worthless: the premium is lost, plus fees. That example is not a loss cap for writing options or for positions created by exercise. A futures margin deposit is collateral, not the purchase price or a guaranteed loss ceiling.",
+            "prediction": "Would comparing only an option premium with a futures margin deposit reveal their full obligations?",
+            "guided_decision": "Match buyer’s right, writer’s obligation and futures obligation. Choose no position unless its contract, maximum-loss possibilities and settlement responsibilities can be explained.",
+            "feedback": "After answering, compare your reason with the explanation. Correct a mistaken assumption before trying again.",
+            "reflection": "Which small upfront amount could misleadingly make a large obligation appear small?",
+            "delayed_review": "Explain why “I only deposited 50” is insufficient to describe futures risk.",
+            "mastery_check": "Complete both practice questions. Later, apply this idea in the module check without relying on a recent example."
+          },
+          "review_after_days": 1,
+          "activity_kind": "guided_decision",
+          "questions": [
+            {
+              "prompt": "A bought option expires unexercised and worthless. What is lost?",
+              "explanation": "The right can expire with no value; not exercising does not refund the premium.",
+              "critical": false,
+              "id": "m10-l03-q01",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "Only a fraction fixed by the app."
+                },
+                {
+                  "id": "b",
+                  "text": "The premium paid, plus relevant fees."
+                },
+                {
+                  "id": "c",
+                  "text": "Nothing because exercising was optional."
+                }
+              ],
+              "correct_option_id": "b"
+            },
+            {
+              "prompt": "Does a futures margin deposit guarantee the maximum loss?",
+              "explanation": "Margin is collateral against a contractual exposure, not a universal loss cap.",
+              "critical": true,
+              "id": "m10-l03-q02",
+              "options": [
+                {
+                  "id": "a",
+                  "text": "Yes; it is an insurance premium."
+                },
+                {
+                  "id": "b",
+                  "text": "Yes; every futures contract is a bought option."
+                },
+                {
+                  "id": "c",
+                  "text": "No; obligations and losses can exceed it."
+                }
+              ],
+              "correct_option_id": "c"
+            }
+          ]
+        }
+      ],
+      "assessment": [
+        {
+          "prompt": "Assets 300 financed with debt 200 fall to 240. What is equity before costs?",
+          "explanation": "240 − 200 = 40; the original equity was 100.",
+          "critical": false,
+          "id": "m10-check-q01",
+          "options": [
+            {
+              "id": "a",
+              "text": "100 units."
+            },
+            {
+              "id": "b",
+              "text": "40 units."
+            },
+            {
+              "id": "c",
+              "text": "240 units."
+            }
+          ],
+          "correct_option_id": "b"
+        },
+        {
+          "prompt": "What must a learner understand about leveraged exposure?",
+          "explanation": "The exposure and contract terms determine risk, not just the starting cash.",
+          "critical": true,
+          "id": "m10-check-q02",
+          "options": [
+            {
+              "id": "a",
+              "text": "Borrowing removes loss risk."
+            },
+            {
+              "id": "b",
+              "text": "A small deposit means a small maximum loss."
+            },
+            {
+              "id": "c",
+              "text": "Losses and liquidation obligations can exceed expectations based on the deposit."
+            }
+          ],
+          "correct_option_id": "c"
+        },
+        {
+          "prompt": "A short position loses as the share price does what?",
+          "explanation": "A short seller must replace borrowed shares; costs can add losses even without a price change.",
+          "critical": false,
+          "id": "m10-check-q03",
+          "options": [
+            {
+              "id": "a",
+              "text": "Rises, making replacement shares more expensive."
+            },
+            {
+              "id": "b",
+              "text": "Falls toward zero."
+            },
+            {
+              "id": "c",
+              "text": "Remains unchanged before costs."
+            }
+          ],
+          "correct_option_id": "a"
+        },
+        {
+          "prompt": "Which statement correctly distinguishes an option buyer and writer?",
+          "explanation": "The sides have different obligations and risk structures.",
+          "critical": true,
+          "id": "m10-check-q04",
+          "options": [
+            {
+              "id": "a",
+              "text": "Neither can lose money."
+            },
+            {
+              "id": "b",
+              "text": "The buyer holds a contractual right; the writer takes an obligation if assigned."
+            },
+            {
+              "id": "c",
+              "text": "Both always have the same capped loss."
+            }
+          ],
+          "correct_option_id": "b"
+        },
+        {
+          "prompt": "Completing this advanced learning check establishes what?",
+          "explanation": "Educational progress cannot determine a person’s real-world suitability.",
+          "critical": false,
+          "id": "m10-check-q05",
+          "options": [
+            {
+              "id": "a",
+              "text": "Guaranteed profits from derivatives."
+            },
+            {
+              "id": "b",
+              "text": "That leverage should become the default."
+            },
+            {
+              "id": "c",
+              "text": "Understanding of these questions, not suitability or permission for real trading."
+            }
+          ],
+          "correct_option_id": "c"
+        }
+      ],
+      "bonus_mission": {
+        "id": "m10-reflection",
+        "title": "Leave a learning note",
+        "optional": true,
+        "prompt": "Choose one decision in this module. Write the risk you noticed, the evidence you used and what would change your choice.",
+        "reward_basis": "A completed learning reflection; never a trade, return or transaction count.",
+        "implementation_status": "content_only"
+      }
+    }
+  ],
+  "glossary": [
+    {
+      "id": "time-horizon",
+      "term": "Time horizon",
+      "definition": "How long until money is needed for a goal. A fixed near-term need limits flexibility.",
+      "source_basis": [
+        "sec-horizon"
+      ]
+    },
+    {
+      "id": "risk-capacity",
+      "term": "Risk capacity",
+      "definition": "The ability to absorb a loss without undermining essential needs or goals.",
+      "source_basis": [
+        "sec-horizon"
+      ]
+    },
+    {
+      "id": "risk-tolerance",
+      "term": "Risk tolerance",
+      "definition": "Willingness to accept uncertain outcomes and losses; consider it alongside capacity.",
+      "source_basis": [
+        "sec-horizon"
+      ]
+    },
+    {
+      "id": "share",
+      "term": "Share",
+      "definition": "An ownership interest in a company; its value and dividends can change.",
+      "source_basis": [
+        "finra-stocks"
+      ]
+    },
+    {
+      "id": "bond",
+      "term": "Bond",
+      "definition": "A debt instrument with promised payments that remain subject to issuer and other risks.",
+      "source_basis": [
+        "finra-bonds"
+      ]
+    },
+    {
+      "id": "fund",
+      "term": "Fund",
+      "definition": "A pool of investments. Its risk depends on its holdings, strategy, structure and costs.",
+      "source_basis": [
+        "finra-funds"
+      ]
+    },
+    {
+      "id": "bid",
+      "term": "Bid",
+      "definition": "A quoted buying price for available quantity at a moment.",
+      "source_basis": [
+        "sec-spread"
+      ]
+    },
+    {
+      "id": "ask",
+      "term": "Ask",
+      "definition": "A quoted selling price for available quantity at a moment.",
+      "source_basis": [
+        "sec-spread"
+      ]
+    },
+    {
+      "id": "spread",
+      "term": "Spread",
+      "definition": "The difference between the ask and bid prices.",
+      "source_basis": [
+        "sec-spread"
+      ]
+    },
+    {
+      "id": "liquidity",
+      "term": "Liquidity",
+      "definition": "How readily an asset can be transacted without a large price effect; availability can change.",
+      "source_basis": [
+        "finra-risk"
+      ]
+    },
+    {
+      "id": "allocation",
+      "term": "Asset allocation",
+      "definition": "The proportions of a portfolio assigned to different asset types.",
+      "source_basis": [
+        "finra-allocation"
+      ]
+    },
+    {
+      "id": "diversification",
+      "term": "Diversification",
+      "definition": "Spreading exposure across holdings and risk sources; it does not prevent all losses.",
+      "source_basis": [
+        "finra-allocation"
+      ]
+    },
+    {
+      "id": "concentration",
+      "term": "Concentration",
+      "definition": "Heavy exposure to one holding or related risk, including overlap through funds.",
+      "source_basis": [
+        "finra-concentration"
+      ]
+    },
+    {
+      "id": "rebalancing",
+      "term": "Rebalancing",
+      "definition": "Adjusting a portfolio toward a considered target allocation, while reviewing costs and constraints.",
+      "source_basis": [
+        "finra-allocation"
+      ]
+    },
+    {
+      "id": "market-order",
+      "term": "Market order",
+      "definition": "An instruction prioritizing execution at available prices without a guaranteed exact price.",
+      "source_basis": [
+        "sec-orders"
+      ]
+    },
+    {
+      "id": "limit-order",
+      "term": "Limit order",
+      "definition": "An instruction with a maximum purchase price or minimum sale price; it may not fill.",
+      "source_basis": [
+        "sec-orders"
+      ]
+    },
+    {
+      "id": "stop-market",
+      "term": "Stop-market order",
+      "definition": "An instruction that becomes a market order when its trigger is met; its fill can differ from the trigger.",
+      "source_basis": [
+        "sec-orders"
+      ]
+    },
+    {
+      "id": "slippage",
+      "term": "Slippage",
+      "definition": "The difference between a reference price and the actual execution price. It can be unfavorable.",
+      "source_basis": [
+        "sec-execution"
+      ]
+    },
+    {
+      "id": "exposure",
+      "term": "Exposure",
+      "definition": "The amount affected by changes in an investment or risk factor.",
+      "source_basis": [
+        "finra-risk"
+      ]
+    },
+    {
+      "id": "drawdown",
+      "term": "Drawdown",
+      "definition": "A decline from an earlier peak to a later lower value, usually expressed as a percentage of the peak.",
+      "source_basis": [
+        "finra-risk",
+        "drawdown-paper"
+      ]
+    },
+    {
+      "id": "benchmark",
+      "term": "Benchmark",
+      "definition": "A comparison selected to match the relevant exposure, period and cost assumptions.",
+      "source_basis": [
+        "finra-sentiment"
+      ]
+    },
+    {
+      "id": "conflict",
+      "term": "Conflict of interest",
+      "definition": "An incentive that may influence a claim or recommendation, such as payment to promote an asset.",
+      "source_basis": [
+        "finra-sentiment"
+      ]
+    },
+    {
+      "id": "leverage",
+      "term": "Leverage",
+      "definition": "Exposure larger than the learner’s own capital, which can magnify losses and create further obligations.",
+      "source_basis": [
+        "finra-margin"
+      ]
+    },
+    {
+      "id": "short-sale",
+      "term": "Short sale",
+      "definition": "Generally, selling borrowed shares with an obligation to return equivalent shares; rising prices increase replacement cost.",
+      "source_basis": [
+        "sec-short"
+      ]
+    },
+    {
+      "id": "option",
+      "term": "Option",
+      "definition": "A contract giving its buyer a right under specified terms and its writer an obligation if assigned.",
+      "source_basis": [
+        "finra-options"
+      ]
+    },
+    {
+      "id": "futures",
+      "term": "Futures contract",
+      "definition": "A contract creating obligations tied to an underlying exposure; losses may exceed initial margin.",
+      "source_basis": [
+        "finra-futures"
+      ]
+    }
+  ],
+  "assessment_policy": {
+    "lesson_required_correct_fraction": 1.0,
+    "module_required_correct_fraction": 0.8,
+    "all_critical_required": true,
+    "review_interval_days": 1,
+    "policy_status": "product_rule_not_validated_competence_threshold"
+  },
+  "content_notice": "Authored learning content awaiting independent financial-accuracy review. Examples are fictional; values are illustrative and currency-neutral. Completion is not a suitability assessment or a claim of trading competence."
+}
