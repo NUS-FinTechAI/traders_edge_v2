@@ -49,7 +49,9 @@ async def current_profile(request: Request, db: AsyncSession = Depends(get_db, s
     if not profile:
         raise HTTPException(401, 'Session is unavailable')
     if request.method not in {'GET', 'HEAD', 'OPTIONS'}:
-        profile = await db.scalar(select(Profile).where(Profile.id == profile.id).with_for_update())
+        profile = await db.scalar(select(Profile).where(Profile.id == profile.id).with_for_update().execution_options(populate_existing=True))
+        if profile is None:
+            raise HTTPException(401, 'Session is unavailable')
     return profile
 
 
