@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "content_version": "2026-10-04.2",
+  "content_version": "2026-10-04.3",
   "review_status": "authored_requires_independent_review",
   "sources": [
     {
@@ -568,6 +568,11 @@
     },
     {
       "id": "m02-how-markets-work",
+      "entry_tasks": [
+        {"id": "m02-entry-route", "type": "choice", "prompt": "Cedar issues shares. Lane routes client instructions to Square, where trading interests meet. Which is the venue?", "options": [{"id": "lane", "text": "Lane"}, {"id": "square", "text": "Square"}, {"id": "unsure", "text": "Not sure yet."}], "correct_option_id": "square", "critical": false, "explanation": "Square is the venue; Lane is the routing intermediary, not the issuer Cedar."},
+        {"id": "m02-entry-offer", "type": "choice", "prompt": "A paused display reads bid 31.40, ask 31.70, last 31.50. Which is the displayed selling offer?", "options": [{"id": "ask", "text": "31.70"}, {"id": "last", "text": "31.50"}, {"id": "unsure", "text": "Not sure yet."}], "correct_option_id": "ask", "critical": false, "explanation": "The ask is the selling offer; the last trade is a separate observation."},
+        {"id": "m02-entry-depth", "type": "choice", "prompt": "A screenshot from yesterday shows 12 units available. A card requests 9 today. What does the screenshot establish about today's availability?", "options": [{"id": "guaranteed", "text": "All 9 must still be available."}, {"id": "unknown", "text": "Today's availability is not established."}, {"id": "unsure", "text": "Not sure yet."}], "correct_option_id": "unknown", "critical": true, "explanation": "Displayed interest can change; old quantity is not a present guarantee."}
+      ],
       "order": 2,
       "title": "How Markets Work",
       "description": "Understand ownership, venues, changing quotes and liquidity before execution.",
@@ -579,6 +584,14 @@
       "lessons": [
         {
           "id": "m02-l01",
+          "tasks": [
+            {"id": "m02-l01-task-brief", "type": "instruction", "prompt": "Follow the role cards", "text": "A share represents ownership in its issuer. A broker can route an instruction; a venue brings trading interests together. Example: Oak issues a share, Bridge routes an instruction, and Hall matches interest. None of these roles guarantees the share's value. This is a card puzzle, not an order."},
+            {"id": "m02-l01-task-route", "type": "classification", "prompt": "Assign each card to its role in this fictional route.", "items": [{"id": "fern", "text": "Fern: company issuing the share"}, {"id": "link", "text": "Link: service routing client instructions"}, {"id": "court", "text": "Court: place matching trading interest"}], "categories": [{"id": "issuer", "text": "Issuer"}, {"id": "broker", "text": "Broker"}, {"id": "venue", "text": "Venue"}], "correct_assignments": {"fern": "issuer", "link": "broker", "court": "venue"}, "critical": false, "explanation": "Fern issues, Link routes and Court matches. Their different jobs do not transfer ownership of the issuer to the broker."},
+            {"id": "m02-l01-task-ownership", "type": "choice", "prompt": "A receipt describes one Fern share held through Link. What does the asset represent?", "options": [{"id": "link", "text": "Ownership of Link because its logo is on the receipt"}, {"id": "fern", "text": "Part ownership of Fern, with uncertain value"}, {"id": "floor", "text": "A guaranteed repayment from Court"}], "correct_option_id": "fern", "critical": true, "explanation": "The issuer is Fern. The intermediary's branding does not change the asset or guarantee its value."}
+          ],
+          "bonus_tasks": [
+            {"id": "m02-l01-bonus-audit", "type": "choice", "prompt": "A second app routes to the same venue and displays the same issuer. Which fact actually changed?", "options": [{"id": "issuer", "text": "The issuer necessarily changed."}, {"id": "risk", "text": "The investment can no longer lose value."}, {"id": "route", "text": "The intermediary changed; the issuer need not change."}], "correct_option_id": "route", "critical": false, "explanation": "Different intermediaries can provide access to the same asset and venue."}
+          ],
           "title": "Follow the roles",
           "objective": "Distinguish an asset, a broker and a trading venue.",
           "source_basis": [
@@ -649,6 +662,14 @@
         },
         {
           "id": "m02-l02",
+          "tasks": [
+            {"id": "m02-l02-task-brief", "type": "instruction", "prompt": "Separate quote and interval", "text": "Bid is buying interest; ask is selling interest. Spread is ask minus bid: 20.00 minus 19.80 is 0.20. A candle summarizes open, high, low and close over an interval, not a current offer. Read the timestamp and quantity too. No order is available in this puzzle."},
+            {"id": "m02-l02-task-spread", "type": "choice", "prompt": "The 10:02 quote is bid 14.60, ask 14.85 for 6 units. The earlier candle ranged from 14.10 to 15.00. Select the quoted spread.", "options": [{"id": "range", "text": "0.90 per unit"}, {"id": "spread", "text": "0.25 per unit"}, {"id": "size", "text": "6 per unit"}], "correct_option_id": "spread", "critical": false, "explanation": "14.85 minus 14.60 is 0.25; 0.90 is the candle range and 6 is quantity."},
+            {"id": "m02-l02-task-fields", "type": "classification", "prompt": "Label the evidence, without treating any field as a future promise.", "items": [{"id": "high", "text": "Highest trade in the 10:00–10:01 candle: 15.00"}, {"id": "ask", "text": "10:02 offer: 14.85 for 6 units"}, {"id": "close", "text": "Final trade in the 10:00–10:01 candle: 14.70"}], "categories": [{"id": "interval", "text": "Past interval summary"}, {"id": "quote", "text": "Time- and quantity-specific quote"}], "correct_assignments": {"high": "interval", "ask": "quote", "close": "interval"}, "critical": false, "explanation": "High and close summarize a past interval. The ask describes displayed selling interest at its own time and size."}
+          ],
+          "bonus_tasks": [
+            {"id": "m02-l02-bonus-timestamp", "type": "choice", "prompt": "At 10:10 a card asks about 20 units, but the screenshot says 10:02, ask 14.85 for 6. Which audit is complete?", "options": [{"id": "both", "text": "The time is old and the displayed size is insufficient."}, {"id": "size", "text": "Only size matters; timestamps never matter."}, {"id": "guarantee", "text": "The candle close guarantees all 20."}], "correct_option_id": "both", "critical": true, "explanation": "Neither current availability nor the full requested size is established by this snapshot."}
+          ],
           "title": "Read both sides of a quote",
           "objective": "Calculate a quoted spread and recognize that quotes are time- and quantity-specific.",
           "source_basis": [
@@ -721,6 +742,14 @@
         },
         {
           "id": "m02-l03",
+          "tasks": [
+            {"id": "m02-l03-task-brief", "type": "instruction", "prompt": "Inspect the thin shelf", "text": "Displayed depth is finite. On an unchanged fictional shelf, 5 units at 12 and 5 at 12.50 total 60 + 62.50 = 122.50 for ten, before fees. This is hypothetical quote arithmetic, not execution; real availability can change."},
+            {"id": "m02-l03-task-cost", "type": "choice", "prompt": "Freeze a new shelf: 4 units at 9, then 6 at 9.50. A ten-unit comparison uses both rows. What is its total before fees?", "options": [{"id": "ninety", "text": "90"}, {"id": "ninetyfive", "text": "95"}, {"id": "ninetythree", "text": "93"}], "correct_option_id": "ninetythree", "critical": false, "explanation": "4 × 9 + 6 × 9.50 = 36 + 57 = 93. Ten at the best ask was not offered."},
+            {"id": "m02-l03-task-depth", "type": "classification", "prompt": "For that frozen shelf, sort the claims.", "items": [{"id": "four", "text": "Four units are displayed at 9."}, {"id": "ten", "text": "All ten are displayed at 9."}, {"id": "later", "text": "The same rows will still exist tomorrow."}], "categories": [{"id": "supported", "text": "Supported by the snapshot"}, {"id": "unsupported", "text": "Not established"}], "correct_assignments": {"four": "supported", "ten": "unsupported", "later": "unsupported"}, "critical": true, "explanation": "The snapshot supports its current four-unit row, not arbitrary size or future availability."}
+          ],
+          "bonus_tasks": [
+            {"id": "m02-l03-bonus-shortfall", "type": "choice", "prompt": "An extra shelf displays 2 at 7 and 3 at 7.20, with no deeper rows shown. A card requests 8. What is missing?", "options": [{"id": "known", "text": "Nothing: multiply 8 by 7."}, {"id": "three", "text": "Prices and availability for the remaining 3 units."}, {"id": "one", "text": "Only one unit is missing."}], "correct_option_id": "three", "critical": true, "explanation": "Only five units are displayed. Do not invent deeper liquidity or its price."}
+          ],
           "title": "Liquidity is not a promise",
           "objective": "Identify the risk of being unable to transact promptly at an acceptable price.",
           "source_basis": [
@@ -910,6 +939,11 @@
     },
     {
       "id": "m03-investment-products",
+      "entry_tasks": [
+        {"id": "m03-entry-owner", "type": "choice", "prompt": "Mira holds a share in fictional Elm; Dev holds Elm's bond. Who holds the ownership claim?", "options": [{"id": "mira", "text": "Mira"}, {"id": "dev", "text": "Dev"}, {"id": "unsure", "text": "Not sure yet."}], "correct_option_id": "mira", "critical": false, "explanation": "A share is ownership; a bond is a debt instrument."},
+        {"id": "m03-entry-income", "type": "choice", "prompt": "A statement lists a 2-unit dividend but omits purchase price and current value. Can the statement alone establish a positive total return?", "options": [{"id": "yes", "text": "Yes, receiving any dividend establishes a gain."}, {"id": "no", "text": "No, the missing price change and costs matter."}, {"id": "unsure", "text": "Not sure yet."}], "correct_option_id": "no", "critical": true, "explanation": "Distributions alone do not establish total return."},
+        {"id": "m03-entry-wrapper", "type": "choice", "prompt": "A product card says only 'ETF: Harbor Basket'. What can Jo conclude about its holdings?", "options": [{"id": "unknown", "text": "The label does not reveal the holdings."}, {"id": "all", "text": "It must contain every asset class equally."}, {"id": "unsure", "text": "Not sure yet."}], "correct_option_id": "unknown", "critical": false, "explanation": "Inspect the actual holdings and structure; the wrapper is not an allocation."}
+      ],
       "order": 3,
       "title": "Investment Products",
       "description": "Compare stocks, bonds and pooled funds through risks, costs and return sources.",
@@ -921,6 +955,14 @@
       "lessons": [
         {
           "id": "m03-l01",
+          "tasks": [
+            {"id": "m03-l01-task-brief", "type": "instruction", "prompt": "Assemble the return receipt", "text": "A share is ownership, not guaranteed income. Price change and distributions both count. Example: price 40 to 38 plus dividend 1 gives (38 − 40) + 1 = −1 before costs and tax. These fictional receipts are comparisons, not trades."},
+            {"id": "m03-l01-task-receipt", "type": "choice", "prompt": "One fictional share cost 32, ends at 29, paid 2, and incurred 0.50 total fees. Ignore tax. Select the net change.", "options": [{"id": "gain", "text": "+1.50"}, {"id": "loss", "text": "−1.50"}, {"id": "dividend", "text": "+2.00"}], "correct_option_id": "loss", "critical": false, "explanation": "29 − 32 + 2 − 0.50 = −1.50. A distribution did not erase the price loss and fee."},
+            {"id": "m03-l01-task-components", "type": "classification", "prompt": "Put each receipt line in its component bucket.", "items": [{"id": "price", "text": "29 minus 32 = −3"}, {"id": "cash", "text": "Dividend received: 2"}, {"id": "fee", "text": "Service charge paid: 0.50"}], "categories": [{"id": "value", "text": "Price change"}, {"id": "income", "text": "Distribution"}, {"id": "cost", "text": "Cost"}], "correct_assignments": {"price": "value", "cash": "income", "fee": "cost"}, "critical": false, "explanation": "Keep all three components; neither a dividend nor company success alone establishes the investor's return."}
+          ],
+          "bonus_tasks": [
+            {"id": "m03-l01-bonus-price", "type": "choice", "prompt": "Two fictional owners finish with a share worth 24 and receive 1 each. One paid 20, the other 27. Ignore costs and tax. Select their changes in that order.", "options": [{"id": "same", "text": "+1 and +1"}, {"id": "both", "text": "+5 and +2"}, {"id": "different", "text": "+5 and −2"}], "correct_option_id": "different", "critical": false, "explanation": "24 − 20 + 1 = 5; 24 − 27 + 1 = −2. The price paid matters."}
+          ],
           "title": "Ownership has uncertain returns",
           "objective": "Distinguish share-price changes and dividends from guaranteed income.",
           "source_basis": [
@@ -990,6 +1032,14 @@
         },
         {
           "id": "m03-l02",
+          "tasks": [
+            {"id": "m03-l02-task-brief", "type": "instruction", "prompt": "Read a promise with risks", "text": "A bond promises payments, but the issuer can fail to pay. A fixed-rate bond's resale price generally falls as market rates rise, other things equal. Inflation can erode purchasing power. Example: a promised 100 at maturity and today's resale quote of 94 describe different things; neither establishes risk-free income."},
+            {"id": "m03-l02-task-risks", "type": "classification", "prompt": "Match each fictional event to the risk it illustrates.", "items": [{"id": "missed", "text": "Issuer cannot make its promised payment."}, {"id": "rates", "text": "Market rates rise; an otherwise unchanged fixed-rate bond's resale price falls."}, {"id": "basket", "text": "The same payment buys a smaller basket of goods."}], "categories": [{"id": "credit", "text": "Credit risk"}, {"id": "rate", "text": "Interest-rate risk"}, {"id": "inflation", "text": "Inflation risk"}], "correct_assignments": {"missed": "credit", "rates": "rate", "basket": "inflation"}, "critical": true, "explanation": "Failure to pay, changed resale value and reduced purchasing power are separate risks."},
+            {"id": "m03-l02-task-resale", "type": "choice", "prompt": "A fictional bond was bought for 200 and now has a resale quote of 188 before maturity. No payments or costs occurred. Which comparison is supported?", "options": [{"id": "loss", "text": "The quoted value is 12 below the purchase amount."}, {"id": "guaranteed", "text": "The issuer must repay 200 today on request."}, {"id": "none", "text": "Debt instruments cannot change value."}], "correct_option_id": "loss", "critical": false, "explanation": "188 − 200 = −12 in quoted value. Contractual maturity terms are not a promise of today's resale price."}
+          ],
+          "bonus_tasks": [
+            {"id": "m03-l02-bonus-wait", "type": "choice", "prompt": "A holder refuses a low resale quote and plans to wait until maturity. Which remaining check is still needed?", "options": [{"id": "none", "text": "None: waiting removes every risk."}, {"id": "credit", "text": "Whether the issuer can make the promised payments."}, {"id": "logo", "text": "Whether the broker's logo is familiar."}], "correct_option_id": "credit", "critical": true, "explanation": "Waiting rather than selling does not eliminate the issuer's credit risk."}
+          ],
           "title": "A promise can still carry risk",
           "objective": "Identify credit, interest-rate and inflation risk in bonds.",
           "source_basis": [
@@ -1061,6 +1111,14 @@
         },
         {
           "id": "m03-l03",
+          "tasks": [
+            {"id": "m03-l03-task-brief", "type": "instruction", "prompt": "Unpack the fund cards", "text": "Pooled funds must be compared by holdings, structure and costs. Different fund names may hide the same exposure. Example: a 0.50% annual expense on an unchanged 1,000 is about 5 for a year. An ETF's exchange quote also has a spread; it is not the annual expense."},
+            {"id": "m03-l03-task-cost", "type": "choice", "prompt": "Fund Bay's expense rate is 0.40% annually on a fictional value held unchanged at 1,500 for one year. Estimate that expense alone.", "options": [{"id": "sixty", "text": "60"}, {"id": "six", "text": "6"}, {"id": "spread", "text": "Its current quote spread"}], "correct_option_id": "six", "critical": false, "explanation": "1,500 × 0.004 = 6. Actual charges depend on value and timing; the trading spread is separate."},
+            {"id": "m03-l03-task-facts", "type": "classification", "prompt": "File these product facts under the right inspection tab.", "items": [{"id": "overlap", "text": "Bay and Cove each hold 60% in the same company."}, {"id": "annual", "text": "Bay: 0.40% annual expense."}, {"id": "quote", "text": "Cove ETF: bid 24.90, ask 25.10."}], "categories": [{"id": "holdings", "text": "Underlying exposure"}, {"id": "ongoing", "text": "Ongoing cost"}, {"id": "trading", "text": "Trading quote and spread"}], "correct_assignments": {"overlap": "holdings", "annual": "ongoing", "quote": "trading"}, "critical": false, "explanation": "Two labels do not remove the shared company exposure. Expense rate and quote spread describe different costs."}
+          ],
+          "bonus_tasks": [
+            {"id": "m03-l03-bonus-overlap", "type": "choice", "prompt": "Bay and Cove each hold 60% in the same company. An equal 100-unit allocation goes to each fund. How much of the combined 200 is exposed to that company?", "options": [{"id": "sixty", "text": "60, because the company appears only once"}, {"id": "zero", "text": "0, because there are two fund names"}, {"id": "onehundredtwenty", "text": "120, or 60% of the combined allocation"}], "correct_option_id": "onehundredtwenty", "critical": true, "explanation": "Each contributes 60 units of the same exposure: 60 + 60 = 120. Inspect holdings rather than count labels."}
+          ],
           "title": "Look inside the fund",
           "objective": "Compare pooled investments by holdings, structure and costs.",
           "source_basis": [
@@ -1251,6 +1309,11 @@
     },
     {
       "id": "m04-building-a-portfolio",
+      "entry_tasks": [
+        {"id": "m04-entry-weights", "type": "choice", "prompt": "A fictional board holds 90 stock-fund tokens, 60 bond-fund tokens and 30 cash tokens. What fraction is cash?", "options": [{"id": "third", "text": "One third"}, {"id": "sixth", "text": "One sixth"}, {"id": "unsure", "text": "Not sure yet."}], "correct_option_id": "sixth", "critical": false, "explanation": "The total is 180; 30 divided by 180 is one sixth."},
+        {"id": "m04-entry-concentration", "type": "choice", "prompt": "A company employee holds most savings in that employer's shares. A company shock threatens both job income and share value. Which exposure description fits?", "options": [{"id": "linked", "text": "Employment and investment risks are linked."}, {"id": "separate", "text": "Having a job removes the share risk."}, {"id": "unsure", "text": "Not sure yet."}], "correct_option_id": "linked", "critical": true, "explanation": "The same company can affect both income and invested savings."},
+        {"id": "m04-entry-period", "type": "choice", "prompt": "A report compares this month's mixed-portfolio return with a stock index's return from a different year. Is the comparison like-for-like?", "options": [{"id": "yes", "text": "Yes, any two percentages are comparable."}, {"id": "no", "text": "No, both period and exposure need checking."}, {"id": "unsure", "text": "Not sure yet."}], "correct_option_id": "no", "critical": false, "explanation": "A relevant comparison matches goal, exposure, period and cost assumptions."}
+      ],
       "order": 4,
       "title": "Building a Portfolio",
       "description": "Reason about allocation, overlap, drift and fair comparisons.",
@@ -1262,6 +1325,14 @@
       "lessons": [
         {
           "id": "m04-l01",
+          "tasks": [
+            {"id": "m04-l01-task-brief", "type": "instruction", "prompt": "Allocate fictional tokens, not orders", "text": "Weights divide each amount by the total. Example: 500/300/200 in 1,000 gives 50%/30%/20%, not a recommended mix. First protect stated near-term needs. The following boards check supplied constraints; many real allocations can be defensible."},
+            {"id": "m04-l01-task-board", "type": "choice", "prompt": "A 600-token brief reserves at least 180 as available cash for a fee next month. Which board totals 600 and respects that floor?", "options": [{"id": "short", "text": "300 stock fund, 150 bond fund, 150 cash"}, {"id": "fits", "text": "240 stock fund, 180 bond fund, 180 cash"}, {"id": "over", "text": "300 stock fund, 180 bond fund, 180 cash"}], "correct_option_id": "fits", "critical": true, "explanation": "240 + 180 + 180 = 600 and the cash meets 180. The first leaves a shortfall; the last spends 660 tokens."},
+            {"id": "m04-l01-task-weights", "type": "choice", "prompt": "Read the selected board of 240 stock, 180 bond and 180 cash tokens out of 600. Which weight labels fit?", "options": [{"id": "correct", "text": "40% stock, 30% bond, 30% cash"}, {"id": "half", "text": "50% stock, 25% bond, 25% cash"}, {"id": "amounts", "text": "240% stock, 180% bond, 180% cash"}], "correct_option_id": "correct", "critical": false, "explanation": "Divide each amount by 600. The weights sum to 100%; they describe the exercise, not personal advice."}
+          ],
+          "bonus_tasks": [
+            {"id": "m04-l01-bonus-deadline", "type": "choice", "prompt": "The fictional fee is corrected to 210, with the 600-token total unchanged. Which revised board respects it?", "options": [{"id": "old", "text": "240 stock, 180 bond, 180 cash"}, {"id": "overspend", "text": "240 stock, 180 bond, 210 cash"}, {"id": "revised", "text": "210 stock, 180 bond, 210 cash"}], "correct_option_id": "revised", "critical": true, "explanation": "210 + 180 + 210 = 600. Reassigning 30 protects the changed commitment without creating tokens."}
+          ],
           "title": "Allocate around a purpose",
           "objective": "Describe an allocation as proportions linked to a goal and constraints.",
           "source_basis": [
@@ -1332,6 +1403,14 @@
         },
         {
           "id": "m04-l02",
+          "tasks": [
+            {"id": "m04-l02-task-brief", "type": "instruction", "prompt": "Uncover hidden exposure", "text": "Count direct and indirect holdings together. Example: 200 direct plus 100 through a fund in the same issuer is 300 of 1,000, or 30%. Ticker count is not diversification. Similar holdings may fall together; diversification cannot prevent every loss."},
+            {"id": "m04-l02-task-lookthrough", "type": "choice", "prompt": "In a 1,200-unit portfolio, 180 is directly in Pine and a 300-unit fund holds 40% in Pine. Calculate total Pine exposure.", "options": [{"id": "direct", "text": "180, or 15%"}, {"id": "allfund", "text": "480, or 40%"}, {"id": "combined", "text": "300, or 25%"}], "correct_option_id": "combined", "critical": true, "explanation": "The fund contributes 300 × 0.40 = 120. Add 180 to obtain 300, then divide by 1,200 for 25%."},
+            {"id": "m04-l02-task-crowding", "type": "classification", "prompt": "Tag which cards reveal shared dependence, rather than independent protection.", "items": [{"id": "sector", "text": "Four different firms all depend heavily on the same industry."}, {"id": "fund", "text": "Two differently named funds own the same firms."}, {"id": "count", "text": "A list gives only ticker count, without holdings or risk sources."}], "categories": [{"id": "shared", "text": "Evidence of shared exposure"}, {"id": "unknown", "text": "Insufficient exposure information"}], "correct_assignments": {"sector": "shared", "fund": "shared", "count": "unknown"}, "critical": true, "explanation": "Shared firms or industries reveal crowding. A bare count cannot show the underlying risks."}
+          ],
+          "bonus_tasks": [
+            {"id": "m04-l02-bonus-stress", "type": "choice", "prompt": "Two sectors each occupy 40% and depend on the same customer spending cycle. What should the stress audit flag?", "options": [{"id": "together", "text": "The combined 80% may be hurt by the same shock."}, {"id": "safe", "text": "Different sector names guarantee independent returns."}, {"id": "count", "text": "Only the number of orders matters."}], "correct_option_id": "together", "critical": true, "explanation": "Different labels need not mean different risk sources. Shared dependence can produce simultaneous losses."}
+          ],
           "title": "Count exposures, not labels",
           "objective": "Detect concentration across direct holdings and pooled funds.",
           "source_basis": [
@@ -1404,6 +1483,14 @@
         },
         {
           "id": "m04-l03",
+          "tasks": [
+            {"id": "m04-l03-task-brief", "type": "instruction", "prompt": "Repair drift and compare fairly", "text": "A 50/50 board becoming 600/400 is now 60/40. Rebalancing returns toward a considered target, not the latest winner. Example: without costs, moving 100 from the first sleeve to the second restores 500/500. Here you select paper allocations only. Compare returns over the same period with relevant exposure and comparable costs."},
+            {"id": "m04-l03-task-rebalance", "type": "choice", "prompt": "A paper board has 660 in A and 340 in B. A supplied policy asks for equal sleeves. A fixed 4-unit adjustment cost comes out of A; ignore tax. Which final board balances the remaining total?", "options": [{"id": "gross", "text": "500 A / 500 B"}, {"id": "net", "text": "498 A / 498 B"}, {"id": "chase", "text": "700 A / 296 B"}], "correct_option_id": "net", "critical": false, "explanation": "The net total is 996, so half is 498. Deduct 4 from A, then move 158 from A to B: 660 − 4 − 158 = 498; 340 + 158 = 498."},
+            {"id": "m04-l03-task-benchmark", "type": "choice", "prompt": "The fictional policy is a mixed stock/bond allocation. Select the fairer comparison card.", "options": [{"id": "mixed", "text": "A relevant passive mixed allocation over the same dates, with comparable cost assumptions"}, {"id": "winner", "text": "Last year's best single stock"}, {"id": "gross", "text": "A different-period result that excludes only the benchmark's costs"}], "correct_option_id": "mixed", "critical": false, "explanation": "Match period, exposure and costs before interpreting differences; beating a comparison alone does not prove skill."}
+          ],
+          "bonus_tasks": [
+            {"id": "m04-l03-bonus-band", "type": "choice", "prompt": "A different written policy permits A weights from 45% to 55% inclusive. A is now 53%; changing the board would incur fees. Which reason supports holding it unchanged?", "options": [{"id": "deadline", "text": "A tick counter requires an immediate rotation."}, {"id": "winner", "text": "A recent winner must keep winning."}, {"id": "band", "text": "It remains within the stated band, avoiding an unnecessary adjustment cost."}], "correct_option_id": "band", "critical": false, "explanation": "The policy, not speed or a prediction of continued gains, supports this hold decision."}
+          ],
           "title": "Notice drift and compare fairly",
           "objective": "Explain rebalancing and choose a relevant benchmark.",
           "source_basis": [
@@ -1594,6 +1681,11 @@
     },
     {
       "id": "m05-safe-execution",
+      "entry_tasks": [
+        {"id": "m05-entry-limit", "type": "choice", "prompt": "A fictional buy limit says 42; the only displayed ask is 42.60. Which state is possible?", "options": [{"id": "open", "text": "The order remains unfilled."}, {"id": "must", "text": "It must fill at 42 immediately."}, {"id": "unsure", "text": "Not sure yet."}], "correct_option_id": "open", "critical": true, "explanation": "A limit constrains price but cannot require a willing counterparty."},
+        {"id": "m05-entry-trigger", "type": "choice", "prompt": "A recorded stop-market trigger is 63. The next available bid is 59. Does the trigger establish a sale at 63?", "options": [{"id": "yes", "text": "Yes, the trigger is a guaranteed price."}, {"id": "no", "text": "No, the trigger and execution price differ."}, {"id": "unsure", "text": "Not sure yet."}], "correct_option_id": "no", "critical": true, "explanation": "Activation does not guarantee the stop price; available prices can be worse."},
+        {"id": "m05-entry-fee", "type": "choice", "prompt": "A fictional receipt shows two units at 16 and a separate 1-unit fee. What is the total cash cost?", "options": [{"id": "thirtythree", "text": "33"}, {"id": "thirtytwo", "text": "32"}, {"id": "unsure", "text": "Not sure yet."}], "correct_option_id": "thirtythree", "critical": false, "explanation": "2 × 16 + 1 = 33; the fee is additional to the fill value."}
+      ],
       "order": 5,
       "title": "Safe Execution",
       "description": "Understand order constraints, uncertain fills, transaction friction and settlement.",
@@ -1605,6 +1697,14 @@
       "lessons": [
         {
           "id": "m05-l01",
+          "tasks": [
+            {"id": "m05-l01-task-brief", "type": "instruction", "prompt": "Match a ticket to its constraint", "text": "A market order prioritizes execution at available prices, not a guaranteed quote. A limit constrains price but may not fill. Example: a maximum purchase price of 25 matches a buy limit of 25; an ask of 25.50 may leave it open. Selecting a card here sends no order. Every actual simulated order needs its own written plan first."},
+            {"id": "m05-l01-task-ticket", "type": "choice", "prompt": "A fictional plan refuses purchases above 17.20 before fees and allows waiting. The ask is 17.40. Which ticket card preserves that constraint?", "options": [{"id": "market", "text": "Market buy; assume the last price of 17.10 is guaranteed"}, {"id": "limit", "text": "Buy limit 17.20; accept possible non-fill"}, {"id": "raise", "text": "Buy limit 18; treat the old constraint as satisfied"}], "correct_option_id": "limit", "critical": true, "explanation": "The limit preserves the maximum unit price. Non-fill is a possible result, not a reason to pretend the constraint changed."},
+            {"id": "m05-l01-task-states", "type": "classification", "prompt": "Label the recorded states of three ten-unit tickets; do not create new orders.", "items": [{"id": "zero", "text": "0 filled, 10 still open"}, {"id": "four", "text": "4 filled, 6 still open"}, {"id": "ten", "text": "10 filled, 0 remaining"}], "categories": [{"id": "open", "text": "Unfilled/open"}, {"id": "partial", "text": "Partially filled"}, {"id": "filled", "text": "Filled"}], "correct_assignments": {"zero": "open", "four": "partial", "ten": "filled"}, "critical": false, "explanation": "Requested quantity is not filled quantity. Read the fill and remaining fields separately."}
+          ],
+          "bonus_tasks": [
+            {"id": "m05-l01-bonus-wait", "type": "choice", "prompt": "A limit remains open. New evidence invalidates the plan's thesis. Which review response fits?", "options": [{"id": "force", "text": "Raise the limit solely to earn completion."}, {"id": "pretend", "text": "Record an imaginary fill at the limit."}, {"id": "review", "text": "Reconsider the unfilled instruction against the new evidence; any replacement order needs a new prior plan."}], "correct_option_id": "review", "critical": true, "explanation": "Neither activity nor invented fills demonstrate learning. A changed decision requires a plan before any actual replacement order."}
+          ],
           "title": "Choose the constraint before the order",
           "objective": "Distinguish market and limit instructions without assuming either guarantees the desired result.",
           "source_basis": [
@@ -1675,6 +1775,14 @@
         },
         {
           "id": "m05-l02",
+          "tasks": [
+            {"id": "m05-l02-task-brief", "type": "instruction", "prompt": "A trigger is not a floor", "text": "A stop-market activates a market instruction; it does not guarantee the stop price. Example: a sell stop at 48 can encounter bids at 44 after a gap. A stop-limit adds a limit after activation but may stay unfilled. These are recorded-case comparisons, not live tickets or a claim of engine support for stop-limit."},
+            {"id": "m05-l02-task-gap", "type": "choice", "prompt": "A supplied trace begins with 6 units bought at 30. A sell stop triggers at 28, but all 6 fill at 25. Ignore costs. What loss does this trace record?", "options": [{"id": "planned", "text": "12, using the trigger as the fill"}, {"id": "actual", "text": "30, using the recorded fill"}, {"id": "none", "text": "0, because stops prevent losses"}], "correct_option_id": "actual", "critical": true, "explanation": "6 × (30 − 25) = 30. The 12-unit planned price difference was not guaranteed."},
+            {"id": "m05-l02-task-tradeoffs", "type": "classification", "prompt": "Match these case cards to the risk they expose.", "items": [{"id": "market", "text": "Activated sell stop-market meets only lower bids."}, {"id": "limit", "text": "Activated sell stop-limit has a 27 floor; all available bids are 25."}], "categories": [{"id": "price", "text": "Execution at a worse price than the trigger is possible"}, {"id": "nonfill", "text": "Limit may prevent execution while exposure remains"}], "correct_assignments": {"market": "price", "limit": "nonfill"}, "critical": true, "explanation": "Price uncertainty and non-fill are different tradeoffs. Neither order guarantees a maximum loss."}
+          ],
+          "bonus_tasks": [
+            {"id": "m05-l02-bonus-timeline", "type": "classification", "prompt": "Audit a fresh recorded timeline by separating activation from execution.", "items": [{"id": "trigger", "text": "09:10: price reaches the stop condition."}, {"id": "fill", "text": "09:11: receipt records 3 units sold at 36."}], "categories": [{"id": "activation", "text": "Trigger evidence only"}, {"id": "execution", "text": "Fill evidence"}], "correct_assignments": {"trigger": "activation", "fill": "execution"}, "critical": false, "explanation": "The trigger authorizes an instruction; only the fill records the completed transaction and its price."}
+          ],
           "title": "Separate a trigger from a guarantee",
           "objective": "Explain stop-market gaps and distinguish a planned loss from a guaranteed maximum.",
           "source_basis": [
@@ -1747,6 +1855,14 @@
         },
         {
           "id": "m05-l03",
+          "tasks": [
+            {"id": "m05-l03-task-brief", "type": "instruction", "prompt": "Reconcile the full receipt", "text": "Example: ten units filled at 20.10 plus a 2 fee cost 203. Against a reference of 20, the price difference is 1 for ten units, already inside the fill value; do not add it twice. A fill and settlement are different stages. This puzzle supplies fictional withdrawal rules, not a country's settlement law."},
+            {"id": "m05-l03-task-receipt", "type": "choice", "prompt": "A ten-unit request has only 4 filled at 11.25, 6 still open, and a 1 fee charged so far. The reference was 11.00. What cash cost has the recorded fill incurred?", "options": [{"id": "all", "text": "113.50"}, {"id": "double", "text": "47"}, {"id": "actual", "text": "46"}], "correct_option_id": "actual", "critical": false, "explanation": "4 × 11.25 + 1 = 46. The 1-unit difference from the reference is already included. The six unfilled units have no fill cost yet."},
+            {"id": "m05-l03-task-settlement", "type": "classification", "prompt": "Fictional rule: sale proceeds cannot be withdrawn until the ledger marks settlement complete. Label these entries.", "items": [{"id": "pending", "text": "60 sale proceeds: fill recorded; settlement pending"}, {"id": "complete", "text": "40 sale proceeds: settlement complete; no other restrictions"}], "categories": [{"id": "wait", "text": "Not withdrawable under the supplied rule yet"}, {"id": "available", "text": "Withdrawable under the supplied rule"}], "correct_assignments": {"pending": "wait", "complete": "available"}, "critical": false, "explanation": "Read the settlement state, not just the fill. Actual rules depend on product, account and jurisdiction."}
+          ],
+          "bonus_tasks": [
+            {"id": "m05-l03-bonus-reference", "type": "choice", "prompt": "A new receipt shows 8 units at 15.25 and a 2 fee versus a 15 reference. Which pair separates total cash cost from the already-included reference-price difference?", "options": [{"id": "right", "text": "124 total cash cost; 2 reference-price difference"}, {"id": "double", "text": "126 total cash cost; 2 reference-price difference"}, {"id": "feeonly", "text": "122 total cash cost; no fee included"}], "correct_option_id": "right", "critical": false, "explanation": "8 × 15.25 + 2 = 124. The price difference is 8 × 0.25 = 2; adding it again would double count."}
+          ],
           "title": "Account for friction and settlement",
           "objective": "Include spread, slippage, fees and settlement timing in a plan.",
           "source_basis": [
@@ -1938,6 +2054,11 @@
     },
     {
       "id": "m06-managing-risk",
+      "entry_tasks": [
+        {"id": "m06-entry-exposure", "type": "choice", "prompt": "A fictional holdings card shows 7 units at 18 each, fully paid with cash. What value is exposed to the asset's price?", "options": [{"id": "seven", "text": "7"}, {"id": "product", "text": "126"}, {"id": "unsure", "text": "Not sure yet."}], "correct_option_id": "product", "critical": false, "explanation": "Quantity times price is 7 × 18 = 126."},
+        {"id": "m06-entry-stress", "type": "choice", "prompt": "A note estimates a 9-unit loss if an exit fills at its intended price. It has no gap case. Is 9 established as the largest possible loss?", "options": [{"id": "no", "text": "No, worse execution and other costs remain possible."}, {"id": "yes", "text": "Yes, writing the estimate caps the loss."}, {"id": "unsure", "text": "Not sure yet."}], "correct_option_id": "no", "critical": true, "explanation": "An intended exit is not a guaranteed execution price or a complete stress model."},
+        {"id": "m06-entry-recovery", "type": "choice", "prompt": "A balance moves from 300 to 240, then gains 20%. Where does it finish?", "options": [{"id": "restored", "text": "300"}, {"id": "below", "text": "288"}, {"id": "unsure", "text": "Not sure yet."}], "correct_option_id": "below", "critical": false, "explanation": "240 × 1.20 = 288. Equal percentage falls and gains use different bases."}
+      ],
       "order": 6,
       "title": "Managing Risk",
       "description": "Distinguish exposure, estimated loss, stress loss and uncertain outcomes.",
@@ -1949,6 +2070,14 @@
       "lessons": [
         {
           "id": "m06-l01",
+          "tasks": [
+            {"id": "m06-l01-task-brief", "type": "instruction", "prompt": "Size before surprise", "text": "Example: ten units at 20 expose 200. An intended exit at 18 implies 20 loss before costs, but a gap to 15 implies 50. Size against the stated stress assumptions, not a guaranteed stop. These fictional budgets are exercise constraints, not recommended risk limits. Selecting a size does not submit an order."},
+            {"id": "m06-l01-task-size", "type": "choice", "prompt": "A case uses entry 24, stress exit 19 and total fees 3. Its stress budget is 38. Which is the largest whole-unit size meeting that stated budget?", "options": [{"id": "eight", "text": "8 units"}, {"id": "seven", "text": "7 units"}, {"id": "nine", "text": "9 units"}], "correct_option_id": "seven", "critical": true, "explanation": "7 × (24 − 19) + 3 = 38. Eight would lose 43 under these assumptions. This stress case is not a maximum-loss guarantee."},
+            {"id": "m06-l01-task-loss", "type": "classification", "prompt": "For seven units at 24, intended exit 22, stress exit 19 and 3 total fees, label the measures.", "items": [{"id": "value", "text": "7 × 24 = 168, excluding fees"}, {"id": "intended", "text": "7 × 2 + 3 = 17"}, {"id": "stress", "text": "7 × 5 + 3 = 38"}], "categories": [{"id": "exposure", "text": "Entry asset value"}, {"id": "planned", "text": "Intended-price loss including fees"}, {"id": "adverse", "text": "Supplied stress-case loss including fees"}], "correct_assignments": {"value": "exposure", "intended": "planned", "stress": "adverse"}, "critical": true, "explanation": "Exposure, intended loss and stress loss answer different questions; none makes an exit price certain."}
+          ],
+          "bonus_tasks": [
+            {"id": "m06-l01-bonus-refuse", "type": "choice", "prompt": "A different case has at least 1 whole unit, 6 adverse loss per unit, a 4 total fee and a budget of 8. Which size respects the brief?", "options": [{"id": "one", "text": "One unit, ignoring the fee"}, {"id": "two", "text": "Two units to recover the fee"}, {"id": "none", "text": "No positive whole-unit size; decline this case"}], "correct_option_id": "none", "critical": true, "explanation": "Even one unit implies 6 + 4 = 10, above 8. A constraint-based no-trade choice is valid."}
+          ],
           "title": "Measure exposure before acting",
           "objective": "Calculate cash exposure and test whether a planned loss understates a stress case.",
           "source_basis": [
@@ -2019,6 +2148,14 @@
         },
         {
           "id": "m06-l02",
+          "tasks": [
+            {"id": "m06-l02-task-brief", "type": "instruction", "prompt": "Trace peaks before recovery", "text": "Drawdown measures a decline from an earlier peak. Example: 100 to 80 is a 20% fall, but recovering 20 from 80 requires 25%. Later recovery does not erase the earlier drawdown. Judge the path rather than the final wealth."},
+            {"id": "m06-l02-task-path", "type": "choice", "prompt": "A fictional sequence is 200 → 240 → 180 → 230. What is the largest observed peak-to-later-trough percentage decline?", "options": [{"id": "ten", "text": "10%, using 200 to 180 only"}, {"id": "twentyfive", "text": "25%, using 240 to 180"}, {"id": "zero", "text": "0%, because the last value exceeds the start"}], "correct_option_id": "twentyfive", "critical": false, "explanation": "The 60 drop from the 240 peak is 60 / 240 = 25%. The later recovery does not remove it."},
+            {"id": "m06-l02-task-recovery", "type": "choice", "prompt": "On a new path, value falls from 160 to 128. What gain from 128 would restore 160?", "options": [{"id": "twentyfive", "text": "25%"}, {"id": "twenty", "text": "20%"}, {"id": "thirtytwo", "text": "32%"}], "correct_option_id": "twentyfive", "critical": false, "explanation": "The missing 32 divided by the new base of 128 is 25%. A 20% rise reaches only 153.60."}
+          ],
+          "bonus_tasks": [
+            {"id": "m06-l02-bonus-boundary", "type": "choice", "prompt": "A written fictional policy says to pause and reassess if drawdown reaches 10%. A path goes 500 → 550 → 495. Which response follows that supplied policy?", "options": [{"id": "profit", "text": "Ignore the boundary because 550 was profitable."}, {"id": "chase", "text": "Increase exposure automatically to regain 550."}, {"id": "review", "text": "Pause and reassess: 55 / 550 is 10%."}], "correct_option_id": "review", "critical": true, "explanation": "The drawdown reached the policy threshold. This is a specific exercise rule, not a universal limit or guaranteed protection."}
+          ],
           "title": "Understand drawdown and recovery",
           "objective": "Calculate a decline from a peak and recognize the asymmetric recovery percentage.",
           "source_basis": [
@@ -2091,6 +2228,14 @@
         },
         {
           "id": "m06-l03",
+          "tasks": [
+            {"id": "m06-l03-task-brief", "type": "instruction", "prompt": "Inspect the ratio trap", "text": "A possible gain of 30 versus loss of 10 is a 3:1 payoff ratio, not a probability or a recommendation. Example: if a fictional set has one +30 outcome and three −10 outcomes, its average is zero before costs. Costs and how often outcomes occur matter; this set cannot promise the next result."},
+            {"id": "m06-l03-task-cards", "type": "choice", "prompt": "Four equally weighted fictional outcome cards show +24, −8, −8, −8 before costs. Each includes a 2-unit total fee. What is their average net result?", "options": [{"id": "zero", "text": "0"}, {"id": "negative", "text": "−2"}, {"id": "positive", "text": "+6"}], "correct_option_id": "negative", "critical": false, "explanation": "Gross sum is zero. Subtract four fees of 2: −8 / 4 = −2. A 3:1 payoff alone did not establish a favorable net average."},
+            {"id": "m06-l03-task-missing", "type": "classification", "prompt": "A promotion gives possible gain 40 and possible loss 10, but no likelihoods or costs. Audit its claims.", "items": [{"id": "ratio", "text": "The stated payoff ratio is 4:1."}, {"id": "chance", "text": "A gain has an 80% chance."}, {"id": "net", "text": "The net expected result must be positive."}], "categories": [{"id": "known", "text": "Supported by the supplied amounts"}, {"id": "missing", "text": "Not established by the supplied information"}], "correct_assignments": {"ratio": "known", "chance": "missing", "net": "missing"}, "critical": true, "explanation": "40 / 10 is 4. The ratio supplies neither probabilities nor costs, so it cannot establish expected net return."}
+          ],
+          "bonus_tasks": [
+            {"id": "m06-l03-bonus-transfer", "type": "choice", "prompt": "A new fictional five-card set has two +15 outcomes and three −10 outcomes, before a 1-unit fee on every card. Is a larger headline gain enough to make the net average positive?", "options": [{"id": "no", "text": "No: the average net result is −1."}, {"id": "yes", "text": "Yes: 15 exceeds 10."}, {"id": "certain", "text": "Yes: the next card must be a gain."}], "correct_option_id": "no", "critical": false, "explanation": "2 × 15 − 3 × 10 = 0 before five fees. Net total −5 divided by five is −1; the next result remains unknown."}
+          ],
           "title": "Risk and reward need probabilities",
           "objective": "Explain why attractive payoff ratios alone do not establish a good decision.",
           "source_basis": [
@@ -2280,6 +2425,11 @@
     },
     {
       "id": "m07-making-decisions",
+      "entry_tasks": [
+        {"id": "m07-entry-evidence", "type": "choice", "prompt": "A repost says Harbor's sales doubled but shows no date or original document. Which missing evidence would most directly let you check that claim?", "options": [{"id": "likes", "text": "The number of likes"}, {"id": "record", "text": "The dated original sales disclosure and comparison period"}, {"id": "unsure", "text": "Not sure yet."}], "correct_option_id": "record", "critical": false, "explanation": "A dated underlying record can be checked; popularity does not verify the claim."},
+        {"id": "m07-entry-inference", "type": "choice", "prompt": "An analyst writes: 'Cedar reported 8 units of earnings, so its share price will certainly double.' Which part is a prediction rather than a reported observation?", "options": [{"id": "future", "text": "The certain doubling of the share price"}, {"id": "reported", "text": "The reported 8 units"}, {"id": "unsure", "text": "Not sure yet."}], "correct_option_id": "future", "critical": true, "explanation": "A reported result does not establish a certain future price path."},
+        {"id": "m07-entry-confidence", "type": "choice", "prompt": "A forecast assigned 60% probability to a rise; the price then fell. What follows from this single case?", "options": [{"id": "impossible", "text": "The fall was impossible under the forecast."}, {"id": "possible", "text": "A fall was possible; one case cannot establish calibration."}, {"id": "unsure", "text": "Not sure yet."}], "correct_option_id": "possible", "critical": false, "explanation": "A 60% forecast leaves 40% for the other outcome. Calibration needs repeated evidence."}
+      ],
       "order": 7,
       "title": "Making Decisions",
       "description": "Build a falsifiable view, inspect evidence and express uncertainty honestly.",
@@ -2291,6 +2441,14 @@
       "lessons": [
         {
           "id": "m07-l01",
+          "tasks": [
+            {"id": "m07-l01-task-brief", "type": "instruction", "prompt": "Build a testable view", "text": "Separate observations from interpretations and future claims. Example: a fictional report says revenue grew 4%; 'growth will continue' is an inference, not another reported fact. A useful thesis names evidence that would challenge it. News, earnings and expectations do not guarantee a price direction."},
+            {"id": "m07-l01-task-sort", "type": "classification", "prompt": "Sort the fictional earnings desk cards by what they assert.", "items": [{"id": "actual", "text": "The supplied report records earnings of 6."}, {"id": "estimate", "text": "The supplied pre-release consensus was 7."}, {"id": "future", "text": "The next report will exceed 7."}], "categories": [{"id": "record", "text": "Observation about the supplied record"}, {"id": "forecast", "text": "Future claim needing evidence"}], "correct_assignments": {"actual": "record", "estimate": "record", "future": "forecast"}, "critical": false, "explanation": "Both the result and recorded prior consensus are observations about documents. The next result is not yet observed."},
+            {"id": "m07-l01-task-falsifier", "type": "choice", "prompt": "A fictional thesis depends on renewals staying above 80%. Which new evidence directly challenges that stated assumption?", "options": [{"id": "price", "text": "The share price rose yesterday."}, {"id": "renewals", "text": "A verified current report shows renewals at 62%."}, {"id": "fans", "text": "More people follow the company's page."}], "correct_option_id": "renewals", "critical": false, "explanation": "62% contradicts the specific renewal assumption. Price and popularity are not substitutes for the measured condition."}
+          ],
+          "bonus_tasks": [
+            {"id": "m07-l01-bonus-expectations", "type": "choice", "prompt": "A fictional release reports earnings of 9 versus 8 previously and consensus of 11. Which comparison is correct without forecasting the price?", "options": [{"id": "both", "text": "Better than the previous result, below the prior consensus."}, {"id": "guarantee", "text": "Better than before, so the price must rise."}, {"id": "beat", "text": "It exceeded both comparison values."}], "correct_option_id": "both", "critical": false, "explanation": "9 is above 8 and below 11. Expectations and past results are different comparisons; neither forces a price outcome."}
+          ],
           "title": "Make a view testable",
           "objective": "Separate an observation, an assumption and a claim that could be contradicted.",
           "source_basis": [
@@ -2361,6 +2519,14 @@
         },
         {
           "id": "m07-l02",
+          "tasks": [
+            {"id": "m07-l02-task-brief", "type": "instruction", "prompt": "Work the evidence desk", "text": "Check the source, date, comparison and incentive before changing a view. Example: a dated issuer disclosure is evidence about reported results; a sponsored repost with no date needs verification. Neither is a guaranteed trading signal. These fictional cards do not replay news or unlock technical tools."},
+            {"id": "m07-l02-task-source", "type": "choice", "prompt": "Which card most directly checks whether fictional Brook's current reported debt rose?", "options": [{"id": "label", "text": "An undated 'defensive quality' label"}, {"id": "sponsor", "text": "A paid post saying Brook is always safe"}, {"id": "filing", "text": "Current and prior dated issuer disclosures with comparable debt figures"}], "correct_option_id": "filing", "critical": false, "explanation": "Comparable reported figures address the question. A label or incentive-bearing claim does not verify debt or safety."},
+            {"id": "m07-l02-task-checks", "type": "classification", "prompt": "Assign each fictional evidence problem to its missing check.", "items": [{"id": "date", "text": "A screenshot cuts off the publication date."}, {"id": "origin", "text": "A repost omits the underlying disclosure."}, {"id": "paid", "text": "The author is paid to promote the issuer."}], "categories": [{"id": "time", "text": "Timing and relevance"}, {"id": "source", "text": "Original evidence and provenance"}, {"id": "incentive", "text": "Conflict or incentive"}], "correct_assignments": {"date": "time", "origin": "source", "paid": "incentive"}, "critical": false, "explanation": "These checks answer different questions. A disclosed incentive is a reason for scrutiny, not by itself proof of fraud."}
+          ],
+          "bonus_tasks": [
+            {"id": "m07-l02-bonus-macro", "type": "choice", "prompt": "A fictional inflation release is 3.5%, below last month's 4% but above the pre-release consensus of 3%. Which desk note preserves both evidence and uncertainty?", "options": [{"id": "must", "text": "Inflation fell, so every share must rise."}, {"id": "compare", "text": "It fell versus last month but exceeded consensus; price effects remain uncertain."}, {"id": "ignore", "text": "Consensus and dates cannot matter."}], "correct_option_id": "compare", "critical": true, "explanation": "The two reference points differ. This arithmetic comparison does not dictate a market response or an order."}
+          ],
           "title": "Check evidence and incentives",
           "objective": "Evaluate dates, provenance and conflicts before trusting a market claim.",
           "source_basis": [
@@ -2434,6 +2600,14 @@
         },
         {
           "id": "m07-l03",
+          "tasks": [
+            {"id": "m07-l03-task-brief", "type": "instruction", "prompt": "Read confidence without certainty", "text": "A 70% probability leaves 30% for the other binary outcome. Example: seven successes in a fictional ten-case record illustrate a 70% observed frequency, not a guarantee for case eleven. Many comparable predictions and outcomes are needed to evaluate calibration; a small record does not certify it."},
+            {"id": "m07-l03-task-frequency", "type": "choice", "prompt": "Twelve of twenty fictional forecasts assigned to the same confidence group had the predicted outcome. What is the observed frequency in this record?", "options": [{"id": "sixty", "text": "60%"}, {"id": "twelve", "text": "12%"}, {"id": "certain", "text": "100% for the next case"}], "correct_option_id": "sixty", "critical": false, "explanation": "12 / 20 = 0.60. This describes the completed record, not the next outcome."},
+            {"id": "m07-l03-task-interpret", "type": "classification", "prompt": "For a fictional 75% binary forecast, sort these interpretations.", "items": [{"id": "other", "text": "The other outcome still has 25% assigned probability."}, {"id": "certain", "text": "The predicted outcome cannot fail."}, {"id": "one", "text": "One successful result proves the forecaster is calibrated."}], "categories": [{"id": "consistent", "text": "Consistent with the probability"}, {"id": "unsupported", "text": "Unsupported certainty or calibration claim"}], "correct_assignments": {"other": "consistent", "certain": "unsupported", "one": "unsupported"}, "critical": true, "explanation": "Probability is not certainty, and one result cannot establish repeated alignment between confidence and outcomes."}
+          ],
+          "bonus_tasks": [
+            {"id": "m07-l03-bonus-update", "type": "choice", "prompt": "A learner labels every forecast 90%, but only 5 of the latest 10 comparable cases succeeded. Which review is warranted?", "options": [{"id": "hide", "text": "Remove failures from the record."}, {"id": "proof", "text": "Declare permanent incompetence from ten cases."}, {"id": "review", "text": "Inspect possible overconfidence and the evidence; keep the small sample and uncertainty visible."}], "correct_option_id": "review", "critical": false, "explanation": "The discrepancy warrants review, not selective records or a definitive judgment from a small sample."}
+          ],
           "title": "Use confidence as a forecast",
           "objective": "Interpret a probability and compare confidence with repeated outcomes.",
           "source_basis": [
@@ -2623,6 +2797,11 @@
     },
     {
       "id": "m08-psychology-and-protection",
+      "entry_tasks": [
+        {"id": "m08-entry-outcome", "type": "choice", "prompt": "A diary shows a lucky gain after its author ignored a written cash constraint. What does the gain establish about adherence?", "options": [{"id": "compliant", "text": "It makes the earlier action compliant."}, {"id": "breach", "text": "It does not erase the recorded breach."}, {"id": "unsure", "text": "Not sure yet."}], "correct_option_id": "breach", "critical": true, "explanation": "Judge adherence against the information and constraint at the time, not the later prize."},
+        {"id": "m08-entry-conflict", "type": "choice", "prompt": "A video creator receives a payment for every viewer who joins a product. Which fact is established?", "options": [{"id": "incentive", "text": "The creator has a promotional incentive."}, {"id": "safe", "text": "The product is independently verified as safe."}, {"id": "unsure", "text": "Not sure yet."}], "correct_option_id": "incentive", "critical": false, "explanation": "Compensation creates an incentive; it neither verifies safety nor by itself proves fraud."},
+        {"id": "m08-entry-urgency", "type": "choice", "prompt": "An unsolicited caller promises to recover a loss if you immediately reveal an account code. Which next action protects the account?", "options": [{"id": "share", "text": "Read out the code because the caller sounds official."}, {"id": "pause", "text": "End the request and check independently through an official channel."}, {"id": "unsure", "text": "Not sure yet."}], "correct_option_id": "pause", "critical": true, "explanation": "Do not give account credentials or codes to an unsolicited caller. Verify independently rather than through the caller's instructions."}
+      ],
       "order": 8,
       "title": "Psychology and Protection",
       "description": "Recognize biased reasoning, promotional conflicts and fraud warning signs.",
@@ -2634,6 +2813,14 @@
       "lessons": [
         {
           "id": "m08-l01",
+          "tasks": [
+            {"id": "m08-l01-task-brief", "type": "instruction", "prompt": "Judge the record before the prize", "text": "Outcome bias judges a decision only by what happened later. Example: an oversized unplanned choice can win while a risk-limited choice loses. Compare the original constraints and evidence first. Selecting a process judgment is not a semantic grade of someone's plan."},
+            {"id": "m08-l01-task-blind", "type": "classification", "prompt": "Outcomes are omitted. Both fictional records had a written 100-unit exposure ceiling. Classify only compliance with that ceiling.", "items": [{"id": "r", "text": "Record R: exposure was knowingly raised to 160."}, {"id": "s", "text": "Record S: exposure stayed at 80 throughout."}], "categories": [{"id": "breach", "text": "Recorded ceiling breach"}, {"id": "within", "text": "Within the stated ceiling"}], "correct_assignments": {"r": "breach", "s": "within"}, "critical": true, "explanation": "160 exceeds 100; 80 does not. This verifies a specific constraint, not every dimension of decision quality."},
+            {"id": "m08-l01-task-reveal", "type": "choice", "prompt": "Now reveal: R gained 20; S lost 5. Which earlier ceiling judgment should change solely because of these outcomes?", "options": [{"id": "r", "text": "R becomes compliant because it won."}, {"id": "neither", "text": "Neither; the recorded exposures are unchanged."}, {"id": "s", "text": "S becomes a ceiling breach because it lost."}], "correct_option_id": "neither", "critical": true, "explanation": "Outcome does not rewrite the information or constraints under which the choices were made."}
+          ],
+          "bonus_tasks": [
+            {"id": "m08-l01-bonus-chasing", "type": "choice", "prompt": "Fictional headlines alternate between relief and concern. After a loss, Jo proposes doubling exposure solely to win it back, despite an unchanged ceiling. What should the review flag?", "options": [{"id": "guarantee", "text": "A guaranteed recovery opportunity"}, {"id": "volume", "text": "Too few trades to earn a reward"}, {"id": "chasing", "text": "Loss chasing without new evidence and a proposed constraint breach"}], "correct_option_id": "chasing", "critical": true, "explanation": "Alternating headlines and a desire to recover do not justify violating a precommitted constraint."}
+          ],
           "title": "Separate a result from a reason",
           "objective": "Recognize outcome bias, selective evidence and the urge to recover a loss.",
           "source_basis": [
@@ -2705,6 +2892,14 @@
         },
         {
           "id": "m08-l02",
+          "tasks": [
+            {"id": "m08-l02-task-brief", "type": "instruction", "prompt": "Ask who benefits", "text": "A paid promotion creates an incentive, not independent verification. Example: 'I receive a referral payment' discloses a conflict; it does not itself prove fraud. Separate the return claim, the incentive and the evidence before choosing whether to research, wait or refuse."},
+            {"id": "m08-l02-task-tags", "type": "classification", "prompt": "Tag the fictional promotion's three cards.", "items": [{"id": "return", "text": "The post says: this product cannot lose."}, {"id": "payment", "text": "The author receives 10 units per signup."}, {"id": "missing", "text": "No product documents or independently checkable provider identity are supplied."}], "categories": [{"id": "claim", "text": "Unverified guarantee claim"}, {"id": "incentive", "text": "Promotional incentive"}, {"id": "evidence", "text": "Missing verification evidence"}], "correct_assignments": {"return": "claim", "payment": "incentive", "missing": "evidence"}, "critical": true, "explanation": "The guarantee is a warning, the payment an incentive, and absent documents a verification gap."},
+            {"id": "m08-l02-task-route", "type": "choice", "prompt": "The post above has thousands of approving comments. Which next decision addresses the actual evidence gap?", "options": [{"id": "join", "text": "Sign up because popularity verifies the guarantee."}, {"id": "verify", "text": "Do not rely on the guarantee; independently check the provider and documents before considering anything further."}, {"id": "share", "text": "Send account credentials to get private proof."}], "correct_option_id": "verify", "critical": true, "explanation": "Social proof is not verification. No account credentials or real payments are needed for this exercise."}
+          ],
+          "bonus_tasks": [
+            {"id": "m08-l02-bonus-conflict", "type": "choice", "prompt": "A different author clearly discloses sponsorship and provides documents. Which conclusion is justified before those documents are checked?", "options": [{"id": "conflict", "text": "A disclosed conflict exists; the investment claims still require checking."}, {"id": "safe", "text": "Disclosure proves all claims are true."}, {"id": "fraud", "text": "Payment alone proves fraud."}], "correct_option_id": "conflict", "critical": false, "explanation": "Disclosure helps identify incentives but establishes neither truth nor fraud by itself."}
+          ],
           "title": "Notice who benefits",
           "objective": "Identify promotional incentives and distinguish popularity from evidence.",
           "source_basis": [
@@ -2777,6 +2972,14 @@
         },
         {
           "id": "m08-l03",
+          "tasks": [
+            {"id": "m08-l03-task-brief", "type": "instruction", "prompt": "Choose an independent verification route", "text": "Pause when a message combines guaranteed returns, urgency or requests for credentials or transfers. Example: an official-looking logo plus a supplied verification link is not independent verification. Locate the relevant official channel yourself; appropriate local reporting help varies by jurisdiction. Do not enter real data in these puzzles."},
+            {"id": "m08-l03-task-routes", "type": "classification", "prompt": "A fictional chat promises 'no-risk' income and asks for a deposit through its own link. Classify the proposed checks.", "items": [{"id": "link", "text": "Ask the chat's linked page whether the chat is genuine."}, {"id": "official", "text": "Independently locate official contact details and check the claimed provider."}, {"id": "friend", "text": "Treat another group member's profit screenshot as identity verification."}], "categories": [{"id": "independent", "text": "Independent verification route"}, {"id": "not", "text": "Not independent verification"}], "correct_assignments": {"link": "not", "official": "independent", "friend": "not"}, "critical": true, "explanation": "The sender's own page and group endorsements do not independently establish identity or legitimacy."},
+            {"id": "m08-l03-task-triage", "type": "choice", "prompt": "A second message asks for an extra transfer to release fictional profits and threatens to close access today. Which response preserves safety?", "options": [{"id": "pay", "text": "Transfer first to avoid the deadline."}, {"id": "code", "text": "Share the account code instead of money."}, {"id": "pause", "text": "Do not transfer or share codes; preserve the message and seek independently located official help."}], "correct_option_id": "pause", "critical": true, "explanation": "Urgency and a release-payment request are warning signs. The claimed deadline does not make unsafe payment or credential sharing appropriate."}
+          ],
+          "bonus_tasks": [
+            {"id": "m08-l03-bonus-channel", "type": "choice", "prompt": "An unsolicited voice call uses a familiar institution's name and requests a password to 'protect' funds. Which pair identifies the issue and a safer route?", "options": [{"id": "trust", "text": "Familiar name proves identity; share the password."}, {"id": "check", "text": "Credential request and unverified identity; end the call and independently contact the institution."}, {"id": "callback", "text": "Use only the number supplied by the caller as verification."}], "correct_option_id": "check", "critical": true, "explanation": "A familiar name can be impersonated. Independent contact avoids relying on the caller's own verification route."}
+          ],
           "title": "Stop at fraud warning signs",
           "objective": "Choose independent verification over pressure, impersonation and guaranteed-return claims.",
           "source_basis": [
@@ -2965,6 +3168,11 @@
     },
     {
       "id": "m09-integrated-simulation",
+      "entry_tasks": [
+        {"id": "m09-entry-plan", "type": "choice", "prompt": "A saved order has a plan timestamp one minute after its submission. Does that record demonstrate a pre-order plan?", "options": [{"id": "no", "text": "No, the timing does not establish planning before submission."}, {"id": "yes", "text": "Yes, any later note counts as prior planning."}, {"id": "unsure", "text": "Not sure yet."}], "correct_option_id": "no", "critical": true, "explanation": "A plan must precede every actual simulated order; a later note cannot be relabeled as prior evidence."},
+        {"id": "m09-entry-fill", "type": "choice", "prompt": "A record requests 12 units, fills 5 and cancels the other 7. With no earlier holding, what position does that record establish?", "options": [{"id": "requested", "text": "12 units"}, {"id": "filled", "text": "5 units"}, {"id": "unsure", "text": "Not sure yet."}], "correct_option_id": "filled", "critical": false, "explanation": "Only filled units create the holding; cancellation of the remainder is not another fill."},
+        {"id": "m09-entry-hindsight", "type": "choice", "prompt": "A reviewer rewrites a forecast after seeing the ending price, then labels it the original prediction. What has happened to the evidence?", "options": [{"id": "corrupted", "text": "The distinction between prior forecast and later knowledge was lost."}, {"id": "improved", "text": "The original prediction became more accurate."}, {"id": "unsure", "text": "Not sure yet."}], "correct_option_id": "corrupted", "critical": true, "explanation": "Preserve the original forecast and record later revisions separately; hindsight is not pre-decision evidence."}
+      ],
       "order": 9,
       "title": "Integrated Simulation",
       "description": "Apply planning, friction and review to controlled fictional scenarios.",
@@ -2976,6 +3184,14 @@
       "lessons": [
         {
           "id": "m09-l01",
+          "tasks": [
+            {"id": "m09-l01-task-brief", "type": "instruction", "prompt": "Audit before the reveal", "text": "Decision practice checks supplied plan facts, not free-text quality. Example: four units at 20 expose 80; a stress exit at 16 plus 2 fees implies 18 loss. A 15-unit stress budget would justify no trade or a smaller case. Actual simulator orders require written plans before submission. These cards are not bound to a simulator and cannot execute trades."},
+            {"id": "m09-l01-task-consistency", "type": "choice", "prompt": "A fictional brief allows 120 exposure and 22 stress loss. Candidate A proposes 5 units at 20, stress exit 15 and total fees 2. Candidate B proposes 4 at the same prices and fees. Which candidate meets both stated limits?", "options": [{"id": "a", "text": "A: 100 exposure and 27 stress loss"}, {"id": "b", "text": "B: 80 exposure and 22 stress loss"}, {"id": "both", "text": "Both, because their exposure is below 120"}], "correct_option_id": "b", "critical": true, "explanation": "B meets both constraints. A meets exposure but fails stress loss. This arithmetic does not validate every aspect of either plan."},
+            {"id": "m09-l01-task-evidence", "type": "classification", "prompt": "Sort these records by whether they demonstrate the named process requirement.", "items": [{"id": "prior", "text": "09:00 written plan; 09:05 corresponding order submitted."}, {"id": "late", "text": "09:05 order; first plan written at 09:10."}, {"id": "wait", "text": "Before acting, record no trade because the essential cash amount remains unknown."}], "categories": [{"id": "prior", "text": "Evidence of plan before this order"}, {"id": "late", "text": "Does not establish a prior plan"}, {"id": "abstain", "text": "Constraint-based no-trade record"}], "correct_assignments": {"prior": "prior", "late": "late", "wait": "abstain"}, "critical": true, "explanation": "Timing establishes prior-plan presence, not its quality. An identified unresolved constraint supports abstention without an order."}
+          ],
+          "bonus_tasks": [
+            {"id": "m09-l01-bonus-replacement", "type": "choice", "prompt": "An old plan covered one now-cancelled instruction. A learner wants a replacement with larger size after conflicting news. What must precede any actual replacement order?", "options": [{"id": "old", "text": "Nothing: the old plan automatically covers any size."}, {"id": "after", "text": "A justification written after seeing the fill."}, {"id": "new", "text": "A new written plan addressing the changed evidence, exposure, risk and constraint."}], "correct_option_id": "new", "critical": true, "explanation": "Every actual simulated order, including a replacement, needs its own pre-order plan. This choice does not send it."}
+          ],
           "title": "Write a plan before the path unfolds",
           "objective": "Create a decision record that can be reviewed without hindsight.",
           "source_basis": [
@@ -3047,6 +3263,14 @@
         },
         {
           "id": "m09-l02",
+          "tasks": [
+            {"id": "m09-l02-task-brief", "type": "instruction", "prompt": "Reconcile a provided tape", "text": "Submission, fill and cancellation are different events. Example: ten requested, four filled and six still open creates four units of holdings, not ten. The open remainder may still create later exposure. This is a fictional recorded trace for decision practice, not a live lesson-linked simulation."},
+            {"id": "m09-l02-task-cash", "type": "choice", "prompt": "Start with 500 cash and no holdings. A recorded request for 9 units fills 3 at 21 and 2 at 21.50, with total fees 2 so far; 4 remain open. Select the reconciled cash and holding.", "options": [{"id": "right", "text": "392 cash and 5 units held"}, {"id": "requested", "text": "309 cash and 9 units held"}, {"id": "nofee", "text": "394 cash and 5 units held"}], "correct_option_id": "right", "critical": false, "explanation": "Filled value is 3 × 21 + 2 × 21.50 = 106. Cash is 500 − 106 − 2 = 392; holdings are 5, while 4 remain open."},
+            {"id": "m09-l02-task-events", "type": "classification", "prompt": "The remaining 4 are then cancelled with no additional fills. Tag each statement about the record.", "items": [{"id": "holding", "text": "Five units were actually acquired."}, {"id": "cancel", "text": "Cancelling the last four acquired four more units."}, {"id": "remaining", "text": "The cancelled remainder is no longer an open request."}], "categories": [{"id": "supported", "text": "Supported by the trace"}, {"id": "false", "text": "Contradicted by the trace"}], "correct_assignments": {"holding": "supported", "cancel": "false", "remaining": "supported"}, "critical": true, "explanation": "Cancellation removes the open remainder, not an existing holding, and it does not create fills."}
+          ],
+          "bonus_tasks": [
+            {"id": "m09-l02-bonus-cap", "type": "choice", "prompt": "A plan allows at most 6 units. The trace currently has 4 held plus an open request for 4 more. Which audit identifies the pending exposure?", "options": [{"id": "safe", "text": "Only the current 4 can ever count."}, {"id": "risk", "text": "A full remaining fill could produce 8, above the plan's 6-unit ceiling."}, {"id": "cancel", "text": "Reading this answer automatically cancels the excess."}], "correct_option_id": "risk", "critical": true, "explanation": "Current holdings plus possible remaining fills are 8. This audit neither executes nor cancels anything."}
+          ],
           "title": "Review what actually filled",
           "objective": "Reconcile fills and friction against the original instruction.",
           "source_basis": [
@@ -3120,6 +3344,14 @@
         },
         {
           "id": "m09-l03",
+          "tasks": [
+            {"id": "m09-l03-task-brief", "type": "instruction", "prompt": "One process, different paths", "text": "A sound constraint-respecting decision can lose; a reckless one can win. Example: a supplied exposure ceiling of 25% is breached by a deliberate 35% holding even if it gains. The following rising, falling, sideways and volatile cards are fictional summaries, not historical replay or completed scenario missions. We check explicit records only, not plan quality."},
+            {"id": "m09-l03-task-regimes", "type": "classification", "prompt": "Every plan specifies a 25% exposure ceiling. Classify only recorded ceiling adherence across these four fictional paths.", "items": [{"id": "rising", "text": "Rising path: knowingly raised exposure to 35%; ended with a gain."}, {"id": "falling", "text": "Falling path: exposure stayed at 20%; ended with a loss."}, {"id": "sideways", "text": "Sideways path: held 0% while required evidence was missing."}, {"id": "volatile", "text": "Volatile path: knowingly reached 30% before a final recovery."}], "categories": [{"id": "within", "text": "Recorded exposure stayed within ceiling"}, {"id": "breach", "text": "Recorded deliberate ceiling breach"}], "correct_assignments": {"rising": "breach", "falling": "within", "sideways": "within", "volatile": "breach"}, "critical": true, "explanation": "35% and 30% breach 25%; 20% and 0% do not. A zero exposure record alone does not prove good reasoning, but this card also states the missing evidence."},
+            {"id": "m09-l03-task-benchmark", "type": "choice", "prompt": "A fictional falling-path portfolio returned −4% net. A relevant same-period passive benchmark returned −3% on comparable cost assumptions. Which review is accurate?", "options": [{"id": "proof", "text": "The portfolio loss proves its plan was reckless."}, {"id": "difference", "text": "It lagged by 1 percentage point; inspect adherence separately."}, {"id": "beat", "text": "It beat the benchmark by 1 percentage point."}], "correct_option_id": "difference", "critical": false, "explanation": "−4% minus −3% is −1 percentage point. Relative outcome and process adherence are different evidence."}
+          ],
+          "bonus_tasks": [
+            {"id": "m09-l03-bonus-adverse", "type": "choice", "prompt": "An extra shock-rebound-shock trace follows the written size and order constraints, but a gap causes a worse fill than the estimated exit. Which correction preserves the evidence?", "options": [{"id": "rewrite", "text": "Rewrite the original estimate to match the fill."}, {"id": "breach", "text": "Call every adverse outcome a deliberate breach."}, {"id": "stress", "text": "Record the execution surprise and review the stress assumptions without rewriting the original plan."}], "correct_option_id": "stress", "critical": true, "explanation": "Distinguish an execution surprise from deliberate deviation. Review whether stress assumptions were adequate while retaining the original evidence."}
+          ],
           "title": "Review process across different paths",
           "objective": "Separate plan adherence from return and test learning in unfamiliar conditions.",
           "source_basis": [
@@ -3309,6 +3541,11 @@
     },
     {
       "id": "m10-optional-advanced-paths",
+      "entry_tasks": [
+        {"id": "m10-entry-debt", "type": "choice", "prompt": "A fictional asset worth 360 was financed with 120 of the owner's money and 240 debt. Its value falls to 300, with debt unchanged. What equity remains before costs?", "options": [{"id": "sixty", "text": "60"}, {"id": "onehundredtwenty", "text": "120"}, {"id": "unsure", "text": "Not sure yet."}], "correct_option_id": "sixty", "critical": true, "explanation": "Equity is asset value minus debt: 300 − 240 = 60. Debt does not fall just because the asset does."},
+        {"id": "m10-entry-return", "type": "choice", "prompt": "A fictional short seller sold 3 borrowed shares. Before closing, the share price rose. What is still owed?", "options": [{"id": "nothing", "text": "Nothing, because the original sale is complete."}, {"id": "shares", "text": "Replacement of the 3 borrowed shares, with applicable costs and terms."}, {"id": "unsure", "text": "Not sure yet."}], "correct_option_id": "shares", "critical": true, "explanation": "The sale does not remove the borrowed-share obligation; replacing shares at a higher price can create a loss."},
+        {"id": "m10-entry-right", "type": "choice", "prompt": "A contract card gives its holder an option to exercise, not a requirement to exercise. Does that description establish the same obligation for the option's writer?", "options": [{"id": "same", "text": "Yes, buyer and writer have identical obligations."}, {"id": "different", "text": "No, the writer has contract-specific obligations if assigned."}, {"id": "unsure", "text": "Not sure yet."}], "correct_option_id": "different", "critical": true, "explanation": "An option holder's right is not the writer's obligation. Contract terms and risks must be distinguished."}
+      ],
       "order": 10,
       "title": "Optional Advanced Paths",
       "description": "Recognize the additional obligations and losses of speculative and leveraged products.",
@@ -3320,6 +3557,14 @@
       "lessons": [
         {
           "id": "m10-l01",
+          "tasks": [
+            {"id": "m10-l01-task-brief", "type": "instruction", "prompt": "Test borrowed exposure without trading it", "text": "This optional path follows all nine core modules; declining advanced products is valid. Debt remains when asset value falls. Example: 200 assets funded by 100 equity and 100 debt fall to 150; equity becomes 50 before costs. Leverage can amplify loss and lead to forced liquidation. These cards do not enable leveraged execution."},
+            {"id": "m10-l01-task-equity", "type": "choice", "prompt": "A fictional position begins with 500 assets, 200 owner equity and 300 debt. Assets fall to 350; debt stays 300 and costs are omitted. Select remaining equity and percentage loss of original equity.", "options": [{"id": "assets", "text": "350 equity; 30% loss"}, {"id": "equity", "text": "50 equity; 75% loss"}, {"id": "deposit", "text": "200 equity; no loss until sale"}], "correct_option_id": "equity", "critical": true, "explanation": "350 − 300 = 50 equity. The 150 loss divided by initial equity 200 is 75%, greater than the asset's 30% fall."},
+            {"id": "m10-l01-task-stress", "type": "classification", "prompt": "For the same 300 debt, match adverse asset values to remaining equity before costs.", "items": [{"id": "threehundred", "text": "Assets fall to 300."}, {"id": "twofifty", "text": "Assets fall to 250."}], "categories": [{"id": "zero", "text": "Zero equity: assets equal debt"}, {"id": "negative", "text": "Negative 50 equity: assets do not cover debt"}], "correct_assignments": {"threehundred": "zero", "twofifty": "negative"}, "critical": true, "explanation": "Subtract the unchanged debt. The original deposit is not a universal maximum-loss cap; actual liquidation and obligations depend on terms."}
+          ],
+          "bonus_tasks": [
+            {"id": "m10-l01-bonus-refuse", "type": "choice", "prompt": "A fictional learner can lose at most a 100-unit spare amount and cannot meet extra demands. A leveraged product can require more than its 100-unit deposit. Which decision fits the constraint?", "options": [{"id": "refuse", "text": "Decline: the possible obligation exceeds the stated capacity."}, {"id": "safe", "text": "Accept because every deposit caps loss."}, {"id": "speed", "text": "Accept if the position is closed quickly enough to guarantee safety."}], "correct_option_id": "refuse", "critical": true, "explanation": "The mismatch is the possible additional obligation, not the learner's confidence or intended holding time."}
+          ],
           "title": "Leverage adds obligations",
           "objective": "Explain amplified losses and the possibility of forced liquidation.",
           "source_basis": [
@@ -3391,6 +3636,14 @@
         },
         {
           "id": "m10-l02",
+          "tasks": [
+            {"id": "m10-l02-task-brief", "type": "instruction", "prompt": "Borrow, sell, replace, return", "text": "Short stock involves borrowed shares sold now and later replaced and returned. Example: ten sold at 20 and replaced at 30 lose 100 before costs. Prices can keep rising, so loss is potentially unlimited. Borrow costs, recall and margin terms matter; neither an indicator nor an exit order guarantees a squeeze-loss cap. This is obligation practice, not short execution."},
+            {"id": "m10-l02-task-cover", "type": "choice", "prompt": "A fictional short record sells 8 borrowed shares at 25 and later replaces them at 32. Total supplied costs are 4. What net result does the record show?", "options": [{"id": "gain", "text": "+52"}, {"id": "gross", "text": "−56"}, {"id": "net", "text": "−60"}], "correct_option_id": "net", "critical": true, "explanation": "8 × (25 − 32) − 4 = −60. Rising prices increased replacement cost; the sale proceeds did not cap the loss."},
+            {"id": "m10-l02-task-lifecycle", "type": "classification", "prompt": "Assign each recorded lifecycle action to its role, without placing an order.", "items": [{"id": "borrow", "text": "Borrow 8 shares and sell those borrowed shares."}, {"id": "cover", "text": "Buy 8 replacement shares and return them to the lender."}, {"id": "recall", "text": "The lender demands return under the borrowing terms."}], "categories": [{"id": "open", "text": "Establish the short exposure"}, {"id": "close", "text": "Close the borrowed-share obligation"}, {"id": "obligation", "text": "Recall risk requiring attention to terms"}], "correct_assignments": {"borrow": "open", "cover": "close", "recall": "obligation"}, "critical": true, "explanation": "Selling borrowed shares opens the liability; replacement and return close it. Recall is not a profitable signal or a guarantee of a favorable close."}
+          ],
+          "bonus_tasks": [
+            {"id": "m10-l02-bonus-squeeze", "type": "choice", "prompt": "A fictional short is open at 40 with a buy-stop trigger at 44. A gap leaves the next available ask at 51. Which statement corrects the claim that the stop caps loss at 4 per share?", "options": [{"id": "cap", "text": "The trigger guarantees replacement at 44."}, {"id": "gap", "text": "Replacement can cost more than 44; a stop-limit could instead remain unfilled."}, {"id": "signal", "text": "An indicator confirmation prevents the gap."}], "correct_option_id": "gap", "critical": true, "explanation": "Neither buy-stop nor buy-stop-limit guarantees a squeeze-loss ceiling. Trigger price, actual fill and non-fill risk are distinct."}
+          ],
           "title": "Short sales reverse the price risk",
           "objective": "Distinguish a short sale’s obligations from an unleveraged long position.",
           "source_basis": [
@@ -3462,6 +3715,14 @@
         },
         {
           "id": "m10-l03",
+          "tasks": [
+            {"id": "m10-l03-task-brief", "type": "instruction", "prompt": "Separate rights from obligations", "text": "Futures create contract obligations; an option buyer holds a right, while a writer has obligations if assigned under the contract. Example: a bought option left unexercised at expiry can lose its 5 premium; that is not a general limit on a writer's loss. These simplified contract cards do not model advanced instruments or enable their execution."},
+            {"id": "m10-l03-task-contracts", "type": "classification", "prompt": "Match the supplied contract cards to their roles.", "items": [{"id": "future", "text": "Contract to transact or settle under specified futures terms."}, {"id": "buyer", "text": "Pays a premium for the option right."}, {"id": "writer", "text": "Receives a premium and must fulfill the option terms if assigned."}], "categories": [{"id": "futures", "text": "Futures obligation"}, {"id": "holder", "text": "Option buyer's right"}, {"id": "seller", "text": "Option writer's obligation"}], "correct_assignments": {"future": "futures", "buyer": "holder", "writer": "seller"}, "critical": true, "explanation": "Do not transfer the buyer's right or premium-loss example to futures or writers. Their obligations and risks differ."},
+            {"id": "m10-l03-task-premium", "type": "choice", "prompt": "A fictional learner buys an option for a 7 premium with a 1 fee. It expires unexercised and worthless, with no other charges or positions. What is this case's loss?", "options": [{"id": "eight", "text": "8; this is not a general writer-loss limit"}, {"id": "seven", "text": "7, because fees do not count"}, {"id": "universal", "text": "8, proving every derivatives position loses at most 8"}], "correct_option_id": "eight", "critical": true, "explanation": "7 + 1 = 8 for this unexercised bought-option case. Exercise, other positions and writer or futures obligations require separate analysis."}
+          ],
+          "bonus_tasks": [
+            {"id": "m10-l03-bonus-mismatch", "type": "classification", "prompt": "A fictional brief forbids obligations beyond the available deposit. Decide whether each supplied description establishes compliance; do not choose a product to trade.", "items": [{"id": "futures", "text": "Futures terms may require extra funds beyond the deposit."}, {"id": "writer", "text": "Uncovered option writer with possible losses beyond the received premium."}, {"id": "buyer", "text": "Fully paid option expires unexercised; premium and all fees fit the available amount, with no other obligation in this case."}], "categories": [{"id": "mismatch", "text": "Conflicts with the stated obligation constraint"}, {"id": "bounded", "text": "Fits this one supplied constraint, not proof of overall suitability"}], "correct_assignments": {"futures": "mismatch", "writer": "mismatch", "buyer": "bounded"}, "critical": true, "explanation": "Extra obligations conflict with the brief. The fully specified expiry case is bounded, but satisfying one condition is not a personal suitability recommendation."}
+          ],
           "title": "Distinguish rights and obligations",
           "objective": "Recognize futures obligations and different risks for option buyers and writers.",
           "source_basis": [
@@ -3868,5 +4129,5 @@
     "review_interval_days": 1,
     "policy_status": "product_rule_not_validated_competence_threshold"
   },
-  "content_notice": "Authored learning content awaiting independent financial-accuracy review. Examples are fictional; values are illustrative and currency-neutral. Completion is not a suitability assessment or a claim of trading competence."
+  "content_notice": "Authored learning content awaiting independent financial-accuracy review. Examples are fictional; values are illustrative and currency-neutral. Completion is not a suitability assessment or a claim of trading competence. All ten modules offer interactive decision practice; selecting an answer never submits a trade. Guided scenario and tool binding, news replay, advanced-instrument execution and validated parallel assessment forms remain pending. Structured answers do not establish free-text plan quality."
 }

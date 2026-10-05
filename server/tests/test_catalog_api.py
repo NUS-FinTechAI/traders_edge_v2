@@ -33,11 +33,11 @@ class CatalogAPITests(unittest.TestCase):
         private_catalog = load_catalog()
         modules = private_catalog['modules']
         self.assertEqual(len(modules), 10)
-        self.assertEqual(sum(len(m.get('entry_tasks', [])) for m in modules), 3)
+        self.assertEqual(sum(len(m['entry_tasks']) for m in modules), 30)
         self.assertEqual(sum(len(l['questions']) for m in modules for l in m['lessons']), 60)
         self.assertEqual(sum(len(m['assessment']) for m in modules), 50)
-        self.assertEqual(sum(len(l.get('tasks', [])) for m in modules for l in m['lessons']), 15)
-        self.assertEqual(sum(len(l.get('bonus_tasks', [])) for m in modules for l in m['lessons']), 3)
+        self.assertEqual(sum(len(l['tasks']) for m in modules for l in m['lessons']), 96)
+        self.assertEqual(sum(len(l['bonus_tasks']) for m in modules for l in m['lessons']), 30)
         with tempfile.TemporaryDirectory() as directory:
             app = create_app(Settings(database_url=f'sqlite+aiosqlite:///{directory}/catalog.db'))
             with TestClient(app, headers={'Origin': 'http://localhost:5173'}) as client:
@@ -117,23 +117,6 @@ class CatalogAPITests(unittest.TestCase):
                 for number, module in enumerate(modules):
                     with self.subTest(module=module['id']):
                         mid = module['id']
-                        if not module.get('entry_tasks'):
-                            briefing = client.get(f"/api/levels/{module['lessons'][0]['id']}").json()['level']
-                            self.assertEqual(briefing['completion_rule'], 'Pass the complete legacy lesson question set')
-                            self.assertEqual(briefing['bonus_rule'], 'No interactive bonus is available for this level')
-                            for lesson in module['lessons']:
-                                response = client.get(f"/api/lessons/{lesson['id']}")
-                                self.assertEqual(response.status_code, 200, response.text)
-                                self.assertNotIn('correct_option_id', response.text)
-                                body = {'idempotency_key': key(), 'answers': [{'question_id': q['id'], 'option_id': q['correct_option_id']} for q in lesson['questions']], 'reflection': 'Consider risk and essential needs before acting.'}
-                                result = client.post(f"/api/lessons/{lesson['id']}/complete", json=body)
-                                self.assertEqual(result.status_code, 200, result.text)
-                                self.assertTrue(result.json()['passed'])
-                            body = {'idempotency_key': key(), 'answers': [{'question_id': q['id'], 'option_id': q['correct_option_id']} for q in module['assessment']], 'reflection': 'A favorable result alone is not decision quality.'}
-                            result = client.post(f"/api/modules/{module['id']}/assessment", json=body)
-                            self.assertEqual(result.status_code, 200, result.text)
-                            self.assertTrue(result.json()['passed'])
-                            continue
                         mapping = public(client.get(f'/api/modules/{mid}/map'))
                         self.assertTrue(mapping['interactive_available'])
                         self.assertTrue(mapping['unlocked'])
@@ -143,11 +126,7 @@ class CatalogAPITests(unittest.TestCase):
                         reject(f"levels/{first['id']}/runs")
                         reject(f'modules/{mid}/assessment-runs')
                         if number < 9:
-                            following = modules[number + 1]
-                            if following.get('entry_tasks'):
-                                reject(f"modules/{following['id']}/diagnostic-runs")
-                            else:
-                                self.assertEqual(client.get(f"/api/lessons/{following['lessons'][0]['id']}").status_code, 403)
+                            reject(f"modules/{modules[number + 1]['id']}/diagnostic-runs")
                         baseline = finish(start(f'modules/{mid}/diagnostic-runs'), module['entry_tasks'], unsure=True)
                         self.assertIsNone(baseline['result']['passed'])
                         self.assertEqual(baseline['result']['score_percent'], 0)

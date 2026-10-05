@@ -3,6 +3,7 @@
 import hashlib
 import json
 import unittest
+from collections import Counter
 
 from .catalog import load_catalog
 from .validate import ContentValidationError, validate_catalog
@@ -47,7 +48,7 @@ class CatalogTests(unittest.TestCase):
 
     def test_new_edition_remains_pending_independent_review(self):
         self.assertEqual(self.catalog['schema_version'], 1)
-        self.assertEqual(self.catalog['content_version'], '2026-10-04.2')
+        self.assertEqual(self.catalog['content_version'], '2026-10-04.3')
         pending = 'authored_requires_independent_review'
         self.assertEqual(self.catalog['review_status'], pending)
         for module in self.catalog['modules']:
@@ -159,6 +160,49 @@ class CatalogTests(unittest.TestCase):
                 self.replace_correct_option_id(self.choice_banks(content)[bank], 'x' * 100)
                 validate_catalog(content)
 
+
+    def test_all_modules_have_diagnostic_required_and_optional_banks(self):
+        modules = self.catalog['modules']
+        self.assertEqual([m['order'] for m in modules], list(range(1, 11)))
+        self.assertEqual(sum(len(m['entry_tasks']) for m in modules), 30)
+        required = []
+        bonus = []
+        for module in modules:
+            with self.subTest(module=module['id']):
+                self.assertEqual(len(module['entry_tasks']), 3)
+                self.assertEqual(len(module['assessment']), 5)
+                for lesson in module['lessons']:
+                    self.assertEqual(len(lesson['questions']), 2)
+                    self.assertEqual(lesson['tasks'][0]['type'], 'instruction')
+                    self.assertGreaterEqual(sum(t['type'] != 'instruction' for t in lesson['tasks']), 2)
+                    self.assertEqual(len(lesson['bonus_tasks']), 1)
+                    self.assertTrue(all(t['type'] in {'choice', 'classification'} for t in lesson['bonus_tasks']))
+                    required.extend(lesson['tasks'])
+                    bonus.extend(lesson['bonus_tasks'])
+                self.assertTrue(module['bonus_mission']['optional'])
+                self.assertEqual(module['bonus_mission']['implementation_status'], 'content_only')
+        self.assertEqual(Counter(t['type'] for t in required), {'instruction': 33, 'choice': 36, 'classification': 27})
+        self.assertEqual(Counter(t['type'] for t in bonus), {'choice': 28, 'classification': 2})
+        identifiers = [t['id'] for m in modules for t in m['entry_tasks']] + [t['id'] for t in required + bonus]
+        self.assertEqual(len(identifiers), 156)
+        self.assertEqual(len(set(identifiers)), 156)
+        validate_catalog(self.catalog)
+
+    def test_entry_bank_is_unhinted_distinct_and_allows_uncertainty(self):
+        exits = {q['prompt'].strip().casefold() for m in self.catalog['modules'] for q in m['assessment']}
+        prompts = []
+        for module in self.catalog['modules']:
+            for task in module['entry_tasks']:
+                with self.subTest(task=task['id']):
+                    self.assertEqual(task['type'], 'choice')
+                    self.assertNotIn('hints', task)
+                    self.assertNotIn('text', task)
+                    self.assertNotIn(task['prompt'].strip().casefold(), exits)
+                    options = {o['id']: o['text'] for o in task['options']}
+                    self.assertIn('not sure', options['unsure'].casefold())
+                    self.assertNotEqual(task['correct_option_id'], 'unsure')
+                    prompts.append(task['prompt'])
+        self.assertEqual(len(set(prompts)), 30)
 
 if __name__ == "__main__":
     unittest.main()
