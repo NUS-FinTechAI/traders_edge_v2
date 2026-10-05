@@ -2,7 +2,7 @@
 
 from sqlalchemy import select
 
-LATEST_VERSION = 1
+LATEST_VERSION = 2
 
 
 async def initial_schema(connection):
@@ -10,7 +10,9 @@ async def initial_schema(connection):
     await connection.run_sync(metadata.create_all)
 
 
-MIGRATIONS = ((1, initial_schema),)
+from app.migration_v2 import upgrade as simulation_commands
+
+MIGRATIONS = ((1, initial_schema), (2, simulation_commands))
 
 
 async def migrate(engine):

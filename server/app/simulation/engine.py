@@ -22,8 +22,8 @@ def amount(value: Any) -> Decimal:
         result = Decimal(str(value))
     except Exception as exc:
         raise SimulationError("Enter a valid amount.") from exc
-    if not result.is_finite():
-        raise SimulationError("Amounts must be finite.")
+    if not result.is_finite() or abs(result) > Decimal("1e15"):
+        raise SimulationError("Enter a finite amount within the supported range.")
     return result
 
 
