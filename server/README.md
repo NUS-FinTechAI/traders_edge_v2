@@ -98,3 +98,25 @@ Runs pin content and rubric snapshots. Instruction steps require acknowledgement
 `POST /api/reviews/{review_id}/runs` starts or resumes an owned, due, uncompleted review for a completed lesson. Review list/detail projections include current run identifiers. The run pins its familiar lesson questions and retry interval; it does not implement unseen retention or transfer forms. No essay is required. First answers remain frozen and correctness stays hidden until the entire form ends. Every item must be correct to pass.
 
 Passing completes the review and awards the existing `review:<lesson_id>` reward of 10 XP once. Failure reschedules by the pinned interval and retains prior mastery. Fresh whole-review submissions cannot bypass canonical interactive reviews; historical committed legacy responses still replay. Learning-run commands preserve exact response replay before current due/publication/version gates. Ownership, early/completed checks, rollback, retry and concurrency are covered by `test_review_runs.py`.
+
+### Rewards and learning activity
+
+`app/rewards.py` defines a finite code policy, not a new authoring/configuration format. All six items currently use `rule_version: "1"`:
+
+| Item ID                      | Kind   | Recorded criterion                              |
+| ---------------------------- | ------ | ----------------------------------------------- |
+| `badge-first-lesson`         | badge  | At least one positive `lesson:` XP event        |
+| `badge-foundations`          | badge  | Mastery records for all four foundation modules |
+| `badge-core`                 | badge  | Mastery records for all nine core modules       |
+| `badge-first-review`         | badge  | At least one positive `review:` XP event        |
+| `avatar-compass`             | avatar | At least one positive `lesson:` XP event        |
+| `title-foundations-complete` | title  | Mastery records for all four foundation modules |
+
+- `GET /api/me/rewards` returns `items` and `equipment`. Each item includes ID, kind, name, `visual_key`, rule version, criteria, `status` (`owned`, `eligible`, `locked`), evidence and creation time (null until owned). Owned grants preserve their public snapshot/evidence even after policy retirement; retired grants remain in inventory.
+- `POST /api/me/rewards/claims`: `{"idempotency_key":"reward-claim-001","item_id":"avatar-compass"}`. New grants require a current policy item, the publication gate and qualifying evidence. Unknown item: 404; unmet criteria: 403. An already-owned item is not granted again.
+- `PATCH /api/me/rewards/equipment`: key plus optional `avatar_id` and/or `title_id`. Omitted slots are unchanged; explicit null clears the slot. Only owned items may be equipped (403 otherwise), and kind must match the slot (422 otherwise); all validation precedes applying either slot. Owned retired items remain equippable by their saved kind.
+- Claim/equip keys are 8–100 ASCII letters, digits, underscores or hyphens in a **separate per-user reward-command namespace**. Same-key unchanged requests return the original response before publication/policy checks; changed operation/target/payload conflicts with 409. Omission versus explicit null is part of the hash. Replay does not reapply old equipment. Fetch inventory for current state.
+- Claims/equipment create **zero XP and zero learning activity**. Visual keys do not supply artwork; there is no player-level or multiplayer-rank policy.
+- `GET /api/me/activity` accepts ISO `start_date`/`end_date`. The default is the 30-day window ending today UTC; the inclusive ordered window must be 1–366 days (422 otherwise). Response includes `basis: "days with rewarded learning events"`, `timezone: "UTC"`, dates, `{date, active}` days, `current_streak_days` and `longest_streak_days`. Both streaks use **all recorded history**, not the requested window. Current streak runs through today if active, otherwise yesterday. Logins, zero-XP bonuses, claims, equipment and trades do not create activity.
+
+Migration **4 adds only `reward_grants`, `reward_commands`, `profiles.equipped_avatar_id` and `profiles.equipped_title_id`**; both columns are nullable. Migrations 1–3 are untouched. Populated-upgrade regression coverage preserves existing learner/run/simulation evidence; rule snapshots survive policy changes. Back up before upgrading. See `test_rewards.py` and `test_learning_upgrade.py`, rather than interpreting schema changes as deployment validation.
