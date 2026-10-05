@@ -1,0 +1,23 @@
+# Evaluation plan
+
+This is a proposed study, not a report of measured learning improvement. No participant outcome, effect size or profitability claim is established by the current application.
+
+The first question is whether beginners understand risks and can apply a reasoned decision in an unfamiliar situation. Before recruitment, obtain the institution’s required ethics review and informed consent, define eligibility and withdrawal, and preregister outcomes and analysis. Use fictional finances and simulated decisions; collecting personal balances or real trading activity is unnecessary.
+
+| Outcome                     | Proposed evidence                                                                | Current limitation                                                                                           |
+| --------------------------- | -------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| Financial understanding     | Parallel pre/post questions with reviewed answer keys                            | Runtime catalog is a small teaching bank, not a validated test                                               |
+| Retention                   | Delayed unseen checks at a prespecified follow-up                                | Runtime review is 24 hours and repeats practice questions                                                    |
+| Risk recognition            | Correct critical-risk explanations in unfamiliar cases                           | Multiple choice does not fully establish explanatory reasoning                                               |
+| Decision quality            | Blind rubric scoring of a plan, including justified abstention                   | Human-reviewed plan rubric and scenario execution are not yet implemented                                    |
+| Probability accuracy        | Optional confidence, first-attempt correctness and Brier analysis                | An attempt-level Brier score is reported; long-term calibration and comparative analysis are not implemented |
+| Plan adherence              | Compare a frozen prior plan with actual simulated decisions                      | The content package has prose exercises, not a simulator event record                                        |
+| Reflection                  | Independent ratings of evidence, uncertainty and justified changes               | Reflection is stored, not semantically graded                                                                |
+| Usability                   | Task success, errors, time to first useful action and short interviews on mobile | Expert checks and loading budgets do not replace beginner testing                                            |
+| Engagement without pressure | Learning return rate and a survey of pressure or loss-chasing intent             | More time or more transactions is not automatically beneficial                                               |
+
+Use alternate forms and counterbalanced presentation to reduce answer familiarity. If comparing the redesign with another experience, randomize assignment where practical, keep content/time exposure comparable and state unavoidable differences. Separate first attempts from retries, disclose attrition and missing confidence, and report uncertainty alongside descriptive change. Determine sample size from a prespecified primary outcome and a justified power or precision analysis; do not invent a convenient effect size.
+
+Have independent reviewers check content accuracy and rubric agreement before the study. Keep critical-risk failures visible even when an average improves. Establish a stopping and correction process for misleading content, unexpected distress or increased pressure to speculate. Do not infer real-market competence from a simulated gain.
+
+Use voluntary analytics, minimal event fields and a stated retention period. The current learning service’s aggregate events and learner-owned attempts are implementation records; study exports, research consent and participant data management require a separate approved protocol. Report what was actually collected and tested, including null or negative results.
