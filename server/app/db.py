@@ -40,6 +40,8 @@ class Profile(Base):
     display_name: Mapped[str] = mapped_column(String(40), default='Learner')
     leaderboard_opt_in: Mapped[bool] = mapped_column(Boolean, default=False)
     analytics_opt_in: Mapped[bool] = mapped_column(Boolean, default=False)
+    equipped_avatar_id: Mapped[str | None] = mapped_column(String(120))
+    equipped_title_id: Mapped[str | None] = mapped_column(String(120))
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
 
 
@@ -155,6 +157,25 @@ class LearningRunCommand(Base):
     user_id: Mapped[str] = mapped_column(ForeignKey('profiles.id'), primary_key=True)
     key: Mapped[str] = mapped_column(String(100), primary_key=True)
     run_id: Mapped[str] = mapped_column(ForeignKey('learning_runs.id'), index=True)
+    request_hash: Mapped[str] = mapped_column(String(64))
+    response: Mapped[dict] = mapped_column(JSON)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
+
+
+class RewardGrant(Base):
+    __tablename__ = 'reward_grants'
+    user_id: Mapped[str] = mapped_column(ForeignKey('profiles.id'), primary_key=True)
+    item_id: Mapped[str] = mapped_column(String(120), primary_key=True)
+    rule_version: Mapped[str] = mapped_column(String(40))
+    public_snapshot: Mapped[dict] = mapped_column(JSON)
+    evidence: Mapped[list] = mapped_column(JSON)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
+
+
+class RewardCommand(Base):
+    __tablename__ = 'reward_commands'
+    user_id: Mapped[str] = mapped_column(ForeignKey('profiles.id'), primary_key=True)
+    key: Mapped[str] = mapped_column(String(100), primary_key=True)
     request_hash: Mapped[str] = mapped_column(String(64))
     response: Mapped[dict] = mapped_column(JSON)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
