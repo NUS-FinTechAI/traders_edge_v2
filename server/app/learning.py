@@ -5,7 +5,7 @@ from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, Request
 from pydantic import BaseModel, ConfigDict, Field, field_validator
-from sqlalchemy import select, func
+from sqlalchemy import case, select, func
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.auth import current_profile
@@ -100,7 +100,8 @@ async def profile_data(db, profile, progress_state=None):
     completed, mastered, xp = progress_state if progress_state is not None else await progress(db, profile.id)
     activity = (await db.scalars(select(LearningActivity.day).where(LearningActivity.user_id == profile.id).order_by(LearningActivity.day.desc()).limit(90))).all()
     due = await db.scalar(select(func.count()).select_from(ReviewItem).where(ReviewItem.user_id == profile.id, ReviewItem.completed_at.is_(None), ReviewItem.due_at <= now()))
-    return {'id': profile.id, 'display_name': profile.display_name, 'leaderboard_opt_in': profile.leaderboard_opt_in, 'analytics_opt_in': profile.analytics_opt_in, 'xp': xp, 'completed_lesson_ids': sorted(completed), 'mastered_module_ids': sorted(mastered), 'activity_days': list(activity), 'activity_timezone': 'UTC', 'due_review_count': due, 'learning_only': True}
+    xp, game_xp = (await db.execute(select(func.coalesce(func.sum(XPLedger.amount), 0), func.coalesce(func.sum(case((XPLedger.event_key.like('game:%'), XPLedger.amount), else_=0)), 0)).where(XPLedger.user_id == profile.id))).one()
+    return {'id': profile.id, 'display_name': profile.display_name, 'leaderboard_opt_in': profile.leaderboard_opt_in, 'analytics_opt_in': profile.analytics_opt_in, 'xp': xp, 'completed_lesson_ids': sorted(completed), 'mastered_module_ids': sorted(mastered), 'activity_days': list(activity), 'activity_timezone': 'UTC', 'due_review_count': due, 'learning_only': game_xp == 0, 'learning_xp': xp - game_xp, 'game_xp': game_xp, 'player_level': 1 + xp // 100, 'player_level_policy': '100-xp-per-level-1', 'xp_basis': 'learning and game events'}
 
 
 @router.get('/me/profile')
@@ -361,6 +362,6 @@ async def delete_journal(entry_id: str, db: DB, user: User):
 async def leaderboard(db: DB, user: User):
     if not user.leaderboard_opt_in:
         return {'opted_in': False, 'basis': 'Verified learning checks and delayed review; never trading profit or volume', 'entries': []}
-    totals = select(XPLedger.user_id, func.sum(XPLedger.amount).label('xp')).group_by(XPLedger.user_id).subquery()
+    totals = select(XPLedger.user_id, func.sum(XPLedger.amount).label('xp')).where(~XPLedger.event_key.like('game:%')).group_by(XPLedger.user_id).subquery()
     rows = (await db.execute(select(Profile.display_name, totals.c.xp).join(totals, totals.c.user_id == Profile.id).where(Profile.leaderboard_opt_in.is_(True)).order_by(totals.c.xp.desc(), Profile.created_at).limit(50))).all()
     return {'opted_in': True, 'basis': 'Verified learning checks and delayed review; never trading profit or volume', 'entries': [{'rank': i + 1, 'display_name': name, 'xp': xp} for i, (name, xp) in enumerate(rows)]}
