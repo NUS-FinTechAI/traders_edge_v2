@@ -53,7 +53,7 @@ No filler comments, invented citations, marketing language, decorative emoji, de
 
 ## Test
 
-Each test case should verify one behavior or scenario. Multiple assertions are acceptable when they support the same behavior. Use descriptive test names that state the condition and expected outcome. 
+Each test case should verify one behavior or scenario. Multiple assertions are acceptable when they support the same behavior. Use descriptive test names that state the condition and expected outcome.
 Follow the Arrange–Act–Assert structure: prepare the inputs, perform the action, and verify the result. Test observable behavior rather than internal implementation details.
 
 Cover normal behavior, relevant edge cases, and expected failure conditions. Keep tests independent and deterministic. They must not depend on execution order, shared mutable state, real network services, or arbitrary delays. Mock external dependencies when needed, but do not mock the behavior being tested. Keep test setup minimal. Reuse fixtures or helpers when they improve clarity. Follow the project's existing testing framework, conventions, and file structure.
