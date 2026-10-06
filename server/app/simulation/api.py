@@ -7,12 +7,12 @@ from typing import Annotated, Literal
 
 from fastapi import APIRouter, Depends, HTTPException, Request
 from pydantic import BaseModel, ConfigDict, Field
-from sqlalchemy import DateTime, ForeignKey, JSON, String, select
+from sqlalchemy import DateTime, ForeignKey, JSON, String, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import Mapped, mapped_column
 
 from app.auth import current_profile
-from app.db import Base, Profile, SimulationSession, get_db, now, uid
+from app.db import Base, LearningRun, Profile, SimulationSession, get_db, now, uid
 from app.learning import catalog
 from app.progression import progress
 from app.simulation import engine
@@ -76,27 +76,38 @@ async def require_access(request, db, user, mode):
         raise HTTPException(403, {'message': 'Complete the prerequisite mastery checks before this practice mode', 'prerequisite_module_ids': required})
 
 
+def observation_token(observed):
+    return hashlib.sha256(json.dumps(observed, sort_keys=True, separators=(',', ':')).encode()).hexdigest()
+
+
 def response(session):
-    return {'id': session.id, 'mode': session.mode, 'updated_at': session.updated_at.isoformat() if session.updated_at else None, **engine.public_view(session.snapshot_json)}
+    observed = engine.public_view(session.snapshot_json)
+    result = {'id': session.id, 'mode': session.mode, 'updated_at': session.updated_at.isoformat() if session.updated_at else None, **observed}
+    if 'bound_policy' in session.snapshot_json:
+        result['bound_policy'] = deepcopy(session.snapshot_json['bound_policy'])
+        result['audited_observation'] = deepcopy(session.snapshot_json.get('audited_observation'))
+        result['observation_token'] = observation_token(observed)
+    return result
 
 
 async def owned(db, user, session_id):
     session = await db.scalar(select(SimulationSession).where(SimulationSession.id == session_id, SimulationSession.user_id == user.id).with_for_update())
     if session is None:
         raise HTTPException(404, 'Practice session not found')
-    if session.version != engine.VERSION:
+    if session.version != engine.VERSION or session.snapshot_json.get('version') != engine.VERSION:
         raise HTTPException(409, 'This saved scenario needs a version migration')
     return session
 
 
-async def create_session(db, user, mode='guided', seed=None, kind=None):
-    active = (await db.scalars(select(SimulationSession).where(SimulationSession.user_id == user.id))).all()
-    if sum(not s.snapshot_json['finished'] for s in active) >= 3:
+async def create_session(db, user, mode='guided', seed=None, kind=None, ticks=120):
+    active = await db.scalar(select(func.count()).select_from(SimulationSession).where(
+        SimulationSession.user_id == user.id, SimulationSession.snapshot_json['finished'].as_boolean().is_not(True)))
+    if active >= 3:
         raise HTTPException(409, 'Resume or finish an existing session before starting another')
     session = SimulationSession(id=uid(), user_id=user.id, mode=mode,
                                 scenario_kind=kind or secrets.choice(engine.KINDS), version=engine.VERSION,
                                 snapshot_json={}, updated_at=now())
-    session.snapshot_json = engine.new_session(seed if seed is not None else secrets.randbits(63), session.scenario_kind)
+    session.snapshot_json = engine.new_session(seed if seed is not None else secrets.randbits(63), session.scenario_kind, ticks=ticks)
     db.add(session)
     await db.flush()
     return session
@@ -104,8 +115,16 @@ async def create_session(db, user, mode='guided', seed=None, kind=None):
 
 @router.get('')
 async def list_sessions(db: DB, user: User):
-    sessions = (await db.scalars(select(SimulationSession).where(SimulationSession.user_id == user.id).order_by(SimulationSession.updated_at.desc()).limit(50))).all()
-    return {'sessions': [{'id': s.id, 'mode': s.mode, 'tick': s.snapshot_json['tick'], 'finished': s.snapshot_json['finished'], 'updated_at': s.updated_at} for s in sessions]}
+    statement = select(SimulationSession.id, SimulationSession.mode, SimulationSession.updated_at,
+                       SimulationSession.snapshot_json['tick'].as_integer().label('tick'),
+                       SimulationSession.snapshot_json['finished'].as_boolean().label('finished'),
+                       LearningRun.id.label('learning_run_id')).outerjoin(LearningRun,
+                           (LearningRun.user_id == user.id)
+                           & (LearningRun.id == SimulationSession.snapshot_json['bound_policy']['run_id'].as_string())
+                           & (LearningRun.state_json['simulation_session_id'].as_string() == SimulationSession.id)
+                       ).where(SimulationSession.user_id == user.id).order_by(SimulationSession.updated_at.desc()).limit(50)
+    sessions = (await db.execute(statement)).mappings().all()
+    return {'sessions': [dict(session) for session in sessions]}
 
 
 @router.post('', status_code=201)
@@ -125,12 +144,14 @@ async def start(body: Create, request: Request, db: DB, user: User):
 
 
 @router.get('/{session_id}')
-async def resume(session_id: str, db: DB, user: User):
-    return response(await owned(db, user, session_id))
-
-
-async def execute(session_id, body, operation, db, user, order_id=None):
+async def resume(session_id: str, request: Request, db: DB, user: User):
+    from app.simulation.lesson_api import validate_session
     session = await owned(db, user, session_id)
+    await validate_session(request, db, user, session)
+    return response(session)
+
+
+async def execute(session_id, body, operation, db, user, order_id=None, request=None):
     payload = body.model_dump(exclude={'idempotency_key'})
     digest = hashlib.sha256(json.dumps({'session': session_id, 'operation': operation, 'order': order_id, 'payload': payload}, sort_keys=True).encode()).hexdigest()
     previous = await db.get(SimulationCommand, (user.id, body.idempotency_key))
@@ -138,7 +159,12 @@ async def execute(session_id, body, operation, db, user, order_id=None):
         if previous.request_hash != digest:
             raise HTTPException(409, 'This command key was used for a different action')
         return previous.response
+    session = await owned(db, user, session_id)
+    from app.simulation.lesson_api import restrict, validate_session
+    bound = await validate_session(request, db, user, session, mutation=True)
     state = deepcopy(session.snapshot_json)
+    if bound is not None:
+        restrict(state, operation, payload)
     try:
         if operation == 'order':
             if len(state['orders']) >= 100:
@@ -161,20 +187,20 @@ async def execute(session_id, body, operation, db, user, order_id=None):
 
 
 @router.post('/{session_id}/orders')
-async def order(session_id: str, body: Order, db: DB, user: User):
-    return await execute(session_id, body, 'order', db, user)
+async def order(session_id: str, body: Order, request: Request, db: DB, user: User):
+    return await execute(session_id, body, 'order', db, user, request=request)
 
 
 @router.post('/{session_id}/advance')
-async def advance(session_id: str, body: Advance, db: DB, user: User):
-    return await execute(session_id, body, 'advance', db, user)
+async def advance(session_id: str, body: Advance, request: Request, db: DB, user: User):
+    return await execute(session_id, body, 'advance', db, user, request=request)
 
 
 @router.post('/{session_id}/orders/{order_id}/cancel')
-async def cancel(session_id: str, order_id: str, body: Command, db: DB, user: User):
-    return await execute(session_id, body, 'cancel', db, user, order_id)
+async def cancel(session_id: str, order_id: str, body: Command, request: Request, db: DB, user: User):
+    return await execute(session_id, body, 'cancel', db, user, order_id, request=request)
 
 
 @router.post('/{session_id}/debrief')
-async def debrief(session_id: str, body: Debrief, db: DB, user: User):
-    return await execute(session_id, body, 'debrief', db, user)
+async def debrief(session_id: str, body: Debrief, request: Request, db: DB, user: User):
+    return await execute(session_id, body, 'debrief', db, user, request=request)

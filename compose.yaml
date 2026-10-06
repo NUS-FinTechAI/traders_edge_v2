@@ -1,0 +1,51 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: traders_edge
+      POSTGRES_USER: traders_edge
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set a database password}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U traders_edge -d traders_edge']
+      interval: 5s
+      timeout: 5s
+      retries: 12
+    restart: unless-stopped
+  migrate:
+    build: ./server
+    command: ['python', '-m', 'app.db']
+    environment: &api-environment
+      APP_ENV: production
+      AUTH_MODE: firebase
+      AUTO_MIGRATE: 'false'
+      DATABASE_URL: ${DATABASE_URL:?Set the PostgreSQL URL using postgres as the hostname}
+      FIREBASE_PROJECT_ID: ${FIREBASE_PROJECT_ID:?Set the Firebase project ID}
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:?Set explicit HTTPS browser origins}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: 'no'
+  api:
+    build: ./server
+    environment: *api-environment
+    ports:
+      - '127.0.0.1:${API_PORT:-8000}:8000'
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'python',
+          '-c',
+          "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3)",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+    restart: unless-stopped
+volumes:
+  postgres-data:

@@ -13,7 +13,12 @@ from app.config import Settings
 from app.db import Database
 from app.auth import router as auth_router
 from app.learning import router as learning_router
+from app.learning_runs import router as learning_runs_router
+from app.rewards import router as rewards_router
+from app.challenges.api import router as challenges_router
+from app.economy import router as economy_router
 from app.simulation.api import router as simulation_router
+from app.simulation.lesson_api import router as lesson_simulation_router
 
 
 def create_app(settings: Settings | None = None, content: dict | None = None) -> FastAPI:
@@ -91,7 +96,12 @@ def create_app(settings: Settings | None = None, content: dict | None = None) ->
 
     application.include_router(auth_router)
     application.include_router(learning_router)
+    application.include_router(learning_runs_router)
+    application.include_router(rewards_router)
+    application.include_router(challenges_router)
+    application.include_router(economy_router)
     application.include_router(simulation_router)
+    application.include_router(lesson_simulation_router)
     return application
 
 

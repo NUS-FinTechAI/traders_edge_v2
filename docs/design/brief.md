@@ -1,12 +1,16 @@
 # Design brief
 
-Status: exploration brief. No direction, final tokens or product UI is approved.
+Status: design selection reopened on 5 October 2026 after owner rejection of the connected application. The earlier Fieldbook reference is historical. A teammate now owns frontend visual design. Three independent concept branches are unmerged exploration material, not a selected application design. Backend/content work must support the complete workflow without imposing one candidate's appearance.
 
 ## Audience and purpose
 
 Complete beginners learning on a phone, usually in portrait orientation and short sessions. They may not know what an asset, broker, spread or drawdown is. The product teaches reasoning about money, uncertainty and risk before trading. It must feel calm, curious and trustworthy, with clear feedback and time to reconsider.
 
-The owner describes v1 as slow, unfriendly and unintuitive. Changing colors will not resolve that. A learner should understand where they are, what to do next and why a feature is locked without learning the interface first. Reveal one decision at a time. Explain a new term in place. Preserve work across interruptions once that capability is implemented; never label a restart as resume.
+The owner rejected the connected experience inspected on 5 October because routine lessons were long forms rather than interactive levels, and module entry quizzes, missions and rewards were missing from that learner journey. The backend now provides sequential tasks, diagnostics, required/bonus completion and finite rewards; frontend integration and the reopened visual selection remain pending. This is an interaction and progression problem, not a request to recolor Fieldbook. Preserve v1's useful learning loop without copying its desktop layout, early speculative content or financial-outcome scoring.
+
+The route to demonstrate is module selection → diagnostic entry check → level briefing → interactive task → required and optional missions → feedback and learning reward → next level → module exit check. Wrong entry-check answers must not punish beginners. Exit criteria, remediation and retries need their own contract. A level must ask the learner to do something observable: choose between cases, sort needs, inspect a quote, compare allocations or use a guided simulator. A paragraph called a simulation does not qualify.
+
+Present one task at a time. Do not require generic prediction, decision and reflection text boxes for every lesson, quiz and delayed review. Written plans remain mandatory before simulated orders; free text elsewhere needs a specific learning purpose. Connect interruption/recovery flows to the existing persisted learning runs and simulation sessions; never label a restart as resume.
 
 ## Shared exploration task
 
@@ -14,9 +18,11 @@ Each direction is a working static HTML/CSS prototype of three screens: dashboar
 
 Use the same example learning objective across concepts: distinguish money needed for essential near-term spending from money available for uncertain market outcomes. Label every displayed progress state as an example. Do not invent testimonials, user counts, live prices, performance results or promised learning outcomes.
 
-The dashboard has one dominant learning action, progress context, a restrained learning-streak/activity summary and clear secondary access to the learning path. The path must use the required treasure-map metaphor through meaningful geography, route and milestones rather than wallpaper. Standard and bonus stars require text equivalents. The quiz uses one question, a reasoned choice, explanatory feedback, optional confidence input and a clear next action. Reward reasoning or learning completion, never an order or its return.
+The dashboard shows the current module, a concrete next level or entry/exit check, earned learning progress, and a learning activity summary. The map includes an entry checkpoint, distinct playable levels, an optional bonus branch and an exit checkpoint. Standard and bonus stars have different explained criteria and text equivalents. A level opens a briefing that identifies the objective, task and required/bonus missions before entry. Locked nodes name their prerequisite.
 
-Three independent briefs: an editorial reading experience; a paper-and-ink fieldbook journey; a calm utilitarian learning workspace. Designers must not inspect each other's concepts before critique. Each direction must differ in composition, hierarchy and navigation treatment, not just palette.
+Each prototype must support a connected click-through, not three unrelated screenshots: dashboard → map → entry check or level briefing → task/quiz → feedback → updated example map. Use one question at a time, a clear answer action, explanatory feedback, retry and an explicit next step. Completion updates labelled example progress without implying production persistence. Routine answer selection must not require an essay. Show a documented reset control for reviewers. Every visible control works or states the actual prerequisite; omit nonfunctional mode and reward buttons.
+
+Assign three independent composition briefs after the learning-loop audit is reconciled. Do not simply regenerate the earlier Editorial, Fieldbook and Workbench layouts. Each direction needs a distinct visual identity, spatial route, task presentation and reward treatment, not only a different palette. Designers must not inspect each other's concepts before critique.
 
 ## Screen inventory beyond the prototypes
 
@@ -44,4 +50,4 @@ Use restrained colors with assigned roles, deliberate typography and consistent 
 
 ## Selection gate
 
-Render every concept and its states at the four target widths. Review all three independently for visual distinction, beginner comprehension, accessibility, safety and performance discipline. Record evidence, scores and disagreements; fix blockers before recommending a direction. Present screenshots and a recommendation to the owner, then stop for selection or feedback. Only after approval write `DESIGN.md`, final tokens, component inventory and full screen specifications. Implementation still needs a separate go-ahead.
+Frontend design ownership is with the teammate. Supply the content/assessment and server-state contracts plus the isolated concept evidence; do not merge a candidate or write final design tokens on their behalf. The owner must select the direction before final specifications or product UI. UI implementation requires a separate go-ahead after technical and safety review, plus mobile interaction and accessibility evidence. Backend implementation can proceed under the owner's delegated authority after contract review, without waiting for a cosmetic decision or asking for each routine change. Automated checks are not participant research.

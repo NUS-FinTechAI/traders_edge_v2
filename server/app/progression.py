@@ -2,6 +2,8 @@ from datetime import timedelta
 
 from fastapi import HTTPException
 from sqlalchemy import select, func
+from sqlalchemy.dialects.postgresql import insert as postgresql_insert
+from sqlalchemy.dialects.sqlite import insert as sqlite_insert
 
 from app.db import AggregateEvent, LearningActivity, LessonCompletion, MasteredModule, ReviewItem, XPLedger, now
 
@@ -28,18 +30,18 @@ async def reward(db, profile, event_key, amount, reason):
     if not await db.get(LearningActivity, (profile.id, day)):
         db.add(LearningActivity(user_id=profile.id, day=day))
     if profile.analytics_opt_in:
-        aggregate = await db.get(AggregateEvent, (day, 'learning_completed'), with_for_update=True)
-        if aggregate:
-            aggregate.count += 1
-        else:
-            db.add(AggregateEvent(day=day, kind='learning_completed', count=1))
+        insert = {'sqlite': sqlite_insert, 'postgresql': postgresql_insert}[db.get_bind().dialect.name]
+        statement = insert(AggregateEvent).values(day=day, kind='learning_completed', count=1)
+        await db.execute(statement.on_conflict_do_update(
+            index_elements=[AggregateEvent.day, AggregateEvent.kind],
+            set_={'count': AggregateEvent.count + 1}))
     await db.flush()
     return amount
 
 
-async def record_lesson(db, profile, lesson_id, attempt_id):
+async def record_lesson(db, profile, lesson_id, attempt_id, review_after_days=1):
     if await db.get(LessonCompletion, (profile.id, lesson_id)):
         return 0
     db.add(LessonCompletion(user_id=profile.id, lesson_id=lesson_id, attempt_id=attempt_id))
-    db.add(ReviewItem(user_id=profile.id, lesson_id=lesson_id, due_at=now() + timedelta(hours=24)))
+    db.add(ReviewItem(user_id=profile.id, lesson_id=lesson_id, due_at=now() + timedelta(days=review_after_days)))
     return await reward(db, profile, 'lesson:' + lesson_id, 20, 'Passed lesson reasoning check')
