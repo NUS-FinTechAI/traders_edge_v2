@@ -1,6 +1,8 @@
-# Selected design reference
+# Historical design reference
 
-The owner selected Fieldbook’s learning structure, then requested a contemporary treatment informed by Brilliant and Duolingo and a small thoughtful fox. The retained refinement uses white surfaces, cobalt actions, a compact next task and an accessible connected learning route. The original parchment/forest palette and serif treatment were rejected. Product implementation has since been authorized; these static examples are historical design references, not the current application.
+On 5 October 2026 the owner rejected the connected learning experience and reopened design selection. The reference below records the earlier choice; it does not authorize replacement UI. New concepts must demonstrate the module entry-check, interactive level, mission and exit-check loop before selection. Prototype checks below do not establish acceptance of the application.
+
+In the earlier selection, the owner chose Fieldbook’s learning structure, then requested a contemporary treatment informed by Brilliant and Duolingo and a small thoughtful fox. The retained refinement uses white surfaces, cobalt actions, a compact next task and a connected learning route. The original parchment/forest palette and serif treatment were rejected. Implementation of that earlier direction was authorized before selection reopened. These static examples preserve that history; they do not authorize the reopened replacement UI or establish its accessibility.
 
 | Screen       | Working reference                             | Retained 390px capture                                                   |
 | ------------ | --------------------------------------------- | ------------------------------------------------------------------------ |
@@ -14,4 +16,4 @@ The [rationale](fieldbook-refined/rationale.md) records the composition and its 
 
 Early maps were blocked because they behaved like renamed checklists. Connected spatial checkpoints, an optional reflection branch and a learning-cache destination made the map’s meaning explicit. The refinement shortened the dashboard’s path to practice, explained wrong answers specifically and kept confidence optional. The fox offers a useful question without pressure; one correct answer is explicitly insufficient for mastery. Stars describe learning, never profit.
 
-The discarded Editorial, original Fieldbook and Workbench prototypes, comparison gallery and full capture matrices remain recoverable from Git history before this cleanup. Only the three selected phone captures are retained in the working tree to keep review evidence useful and compact. The [performance and usability requirements](../../performance-and-usability.md) apply to implementation separately.
+An earlier historical cleanup removed the Editorial, original Fieldbook and Workbench prototypes, comparison gallery and full capture matrices from the tracked tree; they remain recoverable from that Git history. It retained the refined examples and three selected phone captures. The current cleanup preserves those existing tracked examples and captures without deleting files. The [performance and usability requirements](../../performance-and-usability.md) apply to implementation separately.
