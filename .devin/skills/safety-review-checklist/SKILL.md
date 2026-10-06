@@ -1,0 +1,17 @@
+---
+name: safety-review-checklist
+description: Review financial copy, rewards, learning gates and simulation changes for concrete safety failures and unsupported claims.
+---
+
+# Safety Review Checklist
+
+Use for changes to financial claims, assessment, rewards or simulated actions. Paths are repository-relative.
+
+1. Read the changed code/copy, `docs/source/traders-edge-supervisor-summary.md`, `docs/gamification-and-safety.md`, `docs/assessment-model.md` and the relevant `server/README.md` contract. Separate implemented behavior from teaching proposals.
+2. Trace success, rejection and retry/reload through the server: ownership, prerequisites, private answer keys/futures and exact replay must hold. Guided orders require modules 1–4; bounded endless requires 1–9, not merely a visible eligibility label.
+3. Require a prior written plan for every actual order. Read current `server/app/simulation/lesson_api.py`, `server/app/simulation/bindings.py` and ordinary routes before reviewing a bound lesson: enforce action caps on every route, raw-debrief/post-finish 409 and dedicated audit payload. Verify observed facts, false fill guarantee, supported no-order reason using current ask (not midpoint), specific feedback and stale rejection before evidence. Require the public `observation_token` for fresh audits, including after same-tick placement/cancellation, and preserve historical tokenless committed replay and unchanged `StepAnswer` hashes. Preserve pre-finish audit separately from cancellation. The no-thesis case is education, not a recommendation; neither profit nor order count earns success. Planned loss is not a guaranteed maximum. Routine choices need no order or essay.
+4. Reject profit, trade-count or volume awards/leaderboards, default leverage, copy-trading, one-swipe execution, order confetti, urgent alerts/countdowns and loss-chasing or streak-loss pressure. Rewards must describe verified learning events, not financial gains.
+5. Check diagnostic/exit/review feedback stays hidden until completion, first responses freeze and pinned history remains intact. Reviews require due/uncompleted ownership, all-correct passing, pinned failure intervals and no legacy bypass. Wrong diagnostics permit teaching; bonuses never gate progress. Inspect `server/app/rewards.py` and its tests: finite versioned grants, retirement snapshots, slot owner/kind checks and separate replay; claims/equipment produce no XP/activity. Calendar streaks use all rewarded UTC learning-day history, not logins or bonus activity. Stars, XP, reflection and small confidence samples are not validated competence.
+6. Verify changed factual claims against primary sources, arithmetic and jurisdiction scope; keep local legal rules in reviewed localization. Require independent financial/pedagogical review and fail-closed production publication for unapproved content.
+7. Report each finding with file/line, trigger, consequence, severity and required retest. Use the approved session handoff when `.coordination/` is absent or inaccessible; do not bypass ignored-path restrictions or claim a persistent review log was updated.
+8. Block material safety failures until resolved and retested. A narrow review cannot certify the whole product, profitable learners, effective pedagogy or broader scenario/reward behavior beyond the inspected finite contracts. SQLite/mocked-Firebase profile-refresh tests are not live PostgreSQL locking evidence; report unavailable deployment checks.
