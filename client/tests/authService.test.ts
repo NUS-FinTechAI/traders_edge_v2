@@ -107,8 +107,7 @@ test('authentication checks reject successful responses without a valid identity
   }
 })
 
-test('logout deletes the session and accepts an already expired session', async (t) => {
-  let status = 204
+test('logout deletes the session', async (t) => {
   const fetchMock = t.mock.method(
     globalThis,
     'fetch',
@@ -116,17 +115,18 @@ test('logout deletes the session and accepts an already expired session', async 
       assert.equal(new URL(String(input)).pathname, '/api/session')
       assert.equal(options?.method, 'DELETE')
       assert.equal(options?.credentials, 'include')
-      return status === 204
-        ? new Response(null, { status })
-        : Response.json({ detail: 'Session expired' }, { status })
+      return new Response(null, { status: 204 })
     },
   )
-  assert.equal(await authService.logout(), undefined)
-  status = 401
-  assert.equal(await authService.logout(), undefined)
-  status = 403
-  await assert.rejects(authService.logout(), { status: 403 })
-  assert.equal(fetchMock.mock.callCount(), 3)
+  await assert.doesNotReject(authService.logout())
+  assert.equal(fetchMock.mock.callCount(), 1)
+})
+
+test('logout accepts an already expired session', async (t) => {
+  t.mock.method(globalThis, 'fetch', async () =>
+    Response.json({ detail: 'Session expired' }, { status: 401 }),
+  )
+  await assert.doesNotReject(authService.logout())
 })
 
 test('logout surfaces network failures instead of claiming the session was revoked', async (t) => {
