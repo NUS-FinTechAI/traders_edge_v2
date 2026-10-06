@@ -13,6 +13,8 @@ class Settings:
     cookie_name: str = 'traders_edge_session'
     firebase_project_id: str | None = None
     auto_migrate: bool = True
+    instructor_firebase_uids: tuple[str, ...] = ()
+    instructor_profile_ids: tuple[str, ...] = ()
 
     @classmethod
     def from_env(cls):
@@ -25,6 +27,8 @@ class Settings:
             allowed_origins=tuple(x.strip() for x in os.getenv('ALLOWED_ORIGINS', ','.join(default.allowed_origins)).split(',') if x.strip()),
             firebase_project_id=os.getenv('FIREBASE_PROJECT_ID'),
             auto_migrate=os.getenv('AUTO_MIGRATE', 'false' if production else 'true').lower() == 'true',
+            instructor_firebase_uids=tuple(x.strip() for x in os.getenv('INSTRUCTOR_FIREBASE_UIDS', '').split(',') if x.strip()),
+            instructor_profile_ids=() if production else tuple(x.strip() for x in os.getenv('INSTRUCTOR_PROFILE_IDS', '').split(',') if x.strip()),
         )
 
     def validate(self):
