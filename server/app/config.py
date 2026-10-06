@@ -15,6 +15,9 @@ class Settings:
     auto_migrate: bool = True
     instructor_firebase_uids: tuple[str, ...] = ()
     instructor_profile_ids: tuple[str, ...] = ()
+    research_enabled: bool = False
+    research_policy_version: str | None = None
+    research_policy_text: str | None = None
 
     @classmethod
     def from_env(cls):
@@ -29,9 +32,16 @@ class Settings:
             auto_migrate=os.getenv('AUTO_MIGRATE', 'false' if production else 'true').lower() == 'true',
             instructor_firebase_uids=tuple(x.strip() for x in os.getenv('INSTRUCTOR_FIREBASE_UIDS', '').split(',') if x.strip()),
             instructor_profile_ids=() if production else tuple(x.strip() for x in os.getenv('INSTRUCTOR_PROFILE_IDS', '').split(',') if x.strip()),
+            research_enabled=os.getenv('RESEARCH_ENABLED', 'false').lower() == 'true',
+            research_policy_version=os.getenv('RESEARCH_POLICY_VERSION'),
+            research_policy_text=os.getenv('RESEARCH_POLICY_TEXT'),
         )
 
     def validate(self):
+        if self.research_enabled and (not isinstance(self.research_policy_version, str) or not self.research_policy_version.strip()
+                or self.research_policy_version != self.research_policy_version.strip()
+                or len(self.research_policy_version) > 80 or not isinstance(self.research_policy_text, str) or not self.research_policy_text.strip()):
+            raise ValueError('Enabled study enrollment requires an unpadded policy version (1–80 characters) and nonblank consent text')
         if self.auth_mode not in {'guest', 'firebase'}:
             raise ValueError('AUTH_MODE must be guest or firebase')
         if self.auth_mode == 'firebase' and not self.firebase_project_id:
