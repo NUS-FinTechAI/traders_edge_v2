@@ -2,7 +2,7 @@
 
 from sqlalchemy import select
 
-LATEST_VERSION = 4
+LATEST_VERSION = 5
 
 
 async def initial_schema(connection):
@@ -16,7 +16,9 @@ from app.migration_v3 import upgrade as learning_runs
 
 from app.migration_v4 import upgrade as rewards
 
-MIGRATIONS = ((1, initial_schema), (2, simulation_commands), (3, learning_runs), (4, rewards))
+from app.migration_v5 import upgrade as challenges
+
+MIGRATIONS = ((1, initial_schema), (2, simulation_commands), (3, learning_runs), (4, rewards), (5, challenges))
 
 
 async def migrate(engine):
