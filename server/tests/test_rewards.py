@@ -398,13 +398,15 @@ class RewardMigrationTests(unittest.TestCase):
                 await database.check_schema()
             async with database.engine.connect() as connection:
                 before = await connection.run_sync(lambda c: set(inspect(c).get_table_names()))
-            await database.migrate()
+            with patch('app.migrations.MIGRATIONS', MIGRATIONS[:4]):
+                await database.migrate()
             statements = []
             def record(connection, cursor, statement, parameters, context, many):
                 statements.append(statement)
             event.listen(database.engine.sync_engine, 'before_cursor_execute', record)
             try:
-                await database.migrate()
+                with patch('app.migrations.MIGRATIONS', MIGRATIONS[:4]):
+                    await database.migrate()
                 async with database.engine.begin() as connection:
                     await upgrade(connection)
                     await upgrade(connection)
@@ -423,7 +425,6 @@ class RewardMigrationTests(unittest.TestCase):
             self.assertTrue(all(column['nullable'] for column in columns if column['name'].startswith('equipped_')))
             self.assertEqual(grant_pk['constrained_columns'], ['user_id', 'item_id'])
             self.assertEqual(command_pk['constrained_columns'], ['user_id', 'key'])
-            await database.check_schema()
             async with database.engine.connect() as connection:
                 _, upgraded_rows = await connection.run_sync(lambda sync: original_rows(sync, old_columns))
             self.assertEqual(upgraded_rows, old_rows)
@@ -440,6 +441,8 @@ class RewardMigrationTests(unittest.TestCase):
                 self.assertIsNone(profile.equipped_title_id)
                 self.assertEqual(await db.scalar(select(func.count()).select_from(RewardGrant)), 0)
                 self.assertEqual(await db.scalar(select(func.count()).select_from(RewardCommand)), 0)
+            await database.migrate()
+            await database.check_schema()
             await database.engine.dispose()
         with tempfile.TemporaryDirectory() as directory:
             asyncio.run(exercise(directory))

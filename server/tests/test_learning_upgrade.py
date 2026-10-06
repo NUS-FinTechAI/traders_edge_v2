@@ -31,9 +31,9 @@ class LearningUpgradeTests(unittest.TestCase):
                 versions = list((await connection.execute(select(SchemaVersion.version).order_by(SchemaVersion.version))).scalars())
             self.assertEqual(version_three - before, {'learning_runs', 'learning_run_commands'})
             self.assertEqual(versions, [1, 2, 3])
-            await database.migrate()
-            await database.migrate()
-            await database.check_schema()
+            with patch('app.migrations.MIGRATIONS', MIGRATIONS[:4]):
+                await database.migrate()
+                await database.migrate()
             async with database.engine.connect() as connection:
                 after = await connection.run_sync(lambda c: set(inspect(c).get_table_names()))
             self.assertEqual(after - before, {'learning_runs', 'learning_run_commands', 'reward_grants', 'reward_commands'})
@@ -45,6 +45,8 @@ class LearningUpgradeTests(unittest.TestCase):
                 self.assertIsNotNone(await db.get(LessonCompletion, ('legacy-user', 'm01-l01')))
                 self.assertIsNotNone(await db.get(MasteredModule, ('legacy-user', 'historical-module')))
                 self.assertIsNotNone(await db.get(ReviewItem, 'legacy-review'))
+            await database.migrate()
+            await database.check_schema()
             await database.engine.dispose()
         with tempfile.TemporaryDirectory() as directory:
             asyncio.run(exercise(directory))
