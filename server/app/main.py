@@ -19,6 +19,8 @@ from app.challenges.api import router as challenges_router
 from app.economy import router as economy_router
 from app import gameplay
 from app.quizzes.api import router as quizzes_router
+from app.multiplayer.api import router as multiplayer_router
+from app.multiplayer import policy as multiplayer_policy
 from app.simulation.api import router as simulation_router
 from app.simulation.lesson_api import router as lesson_simulation_router
 
@@ -62,6 +64,8 @@ def create_app(settings: Settings | None = None, content: dict | None = None) ->
     application.state.challenge_created_handler = gameplay.created
     application.state.challenge_result_handler = gameplay.complete_policy
     application.state.challenge_abandon_handler = gameplay.abandoned
+    application.state.multiplayer_access_handler = multiplayer_policy.access
+    application.state.multiplayer_result_handler = multiplayer_policy.complete
     locks = WeakValueDictionary()
     application.add_middleware(CORSMiddleware, allow_origins=list(settings.allowed_origins), allow_credentials=True, allow_methods=['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'], allow_headers=['Content-Type', 'Authorization'])
 
@@ -108,6 +112,7 @@ def create_app(settings: Settings | None = None, content: dict | None = None) ->
     application.include_router(economy_router)
     application.include_router(gameplay.router)
     application.include_router(quizzes_router)
+    application.include_router(multiplayer_router)
     application.include_router(simulation_router)
     application.include_router(lesson_simulation_router)
     return application
