@@ -1,0 +1,17 @@
+*
+!Dockerfile
+!pyproject.toml
+!uv.lock
+!README.md
+!app/
+!app/**
+app/**/__pycache__/
+app/**/*.pyc
+**/.env*
+**/*service-account*
+**/*credentials*
+**/*firebase-adminsdk*
+**/*.pem
+**/*.key
+**/*.p12
+**/*.pfx

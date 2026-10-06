@@ -1,0 +1,44 @@
+name: PostgreSQL integration
+
+on:
+  pull_request:
+    branches: [master]
+  push:
+    branches: [master]
+
+permissions:
+  contents: read
+
+jobs:
+  postgres:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: traders_edge_qa
+          POSTGRES_USER: traders_edge_qa
+          POSTGRES_PASSWORD: disposable-ci-only
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U traders_edge_qa -d traders_edge_qa"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 12
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Install locked test dependencies
+        run: |
+          python -m pip install uv==0.12.23
+          uv sync --project server --extra test --locked
+      - name: Verify live PostgreSQL persistence and concurrency
+        env:
+          TRADERS_EDGE_TEST_POSTGRES_URL: postgresql+psycopg://traders_edge_qa:disposable-ci-only@127.0.0.1:5432/traders_edge_qa
+        run: uv run --project server --extra test --locked python -m unittest discover -s server/tests -p test_postgres_integration.py -v
