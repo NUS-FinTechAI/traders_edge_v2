@@ -22,5 +22,5 @@
     "erasableSyntaxOnly": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["*.tsx", "components", "pages", "services"]
+  "include": ["*.tsx", "components", "pages", "services", "auth-guards/authGuard.ts"]
 }
