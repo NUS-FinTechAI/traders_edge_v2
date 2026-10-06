@@ -1,0 +1,15 @@
+# Adventure and daily challenge contracts
+
+Policy `adventure-1` connects the existing chapter curriculum to the shared AI challenge engine. Migration 7 appends shared private challenge definitions, chapter access and boss completions. Existing mastery, lesson attempts and learning rewards retain their meaning.
+
+`GET /api/adventure` supplies chapter progress, early-entry availability, boss results and the beginner recommendation to learn sequentially. Maps, level briefings, curriculum and workflow also recognize earned chapter access. Normal and bonus stars remain verified learning completions.
+
+Start a boss with `POST /api/challenges`, `mode: chapter_entry` or `chapter_exit`, and `module_id`. Chapter 1 uses its existing introductory diagnostic instead of an entry boss. An entry victory unlocks that chapter without marking earlier modules mastered. Required lessons remain sequential and canonical diagnostics remain mandatory. An exit boss requires chapter access, its diagnostic and every required level. Victory unlocks the next chapter; the separate structured exit check still determines learning mastery. Completion, unlocks, rewards and the replay receipt commit together.
+
+Boss parameters are persisted once per catalog edition, chapter and purpose. Opponents increase from one to three across the ten chapters; market families cycle through sideways, volatile, rising and falling. All use the existing foundation engine, written order plans, friction, a 25% concentration cap and 30 observations. Entry and exit forms have the same market family and opponent count, with separately pinned seeds. They are game assessments: their title and chapter association do not establish concept-specific grading, calibrated difficulty, equivalent pre/post forms or advanced-product execution. Those remain content and evaluation work. A no-order decision can win when it outperforms the opponents; profit does not establish learning.
+
+`mode: daily` selects one server-owned form for the UTC date, shared across profiles with one opponent. Clients cannot choose its seed, market family, chapter or opponent count. A profile may have only one active daily attempt, including an unfinished older date. Resume or abandon it before starting another. Loss or abandonment invokes the economy cooldown; a paid refresh is consumed only by a successfully committed fresh start and is linked to that attempt's private research record. Exact replay does not consume a second refresh. A previous date's form cannot earn today's victory Stocks.
+
+Earned chapter access also permits that chapter's existing constrained lesson-bound simulation after its earlier learning steps. It does not unlock general guided or endless simulation.
+
+Daily and boss completions use the versioned [economy policy](economy.md). Game XP contributes to player level while learning XP, learning activity and learning mastery remain distinct. Hidden scenario parameters, future prices and unfinished opponent portfolios stay private. Production continues requiring independently approved content; committed commands retain their original response.

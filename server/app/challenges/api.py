@@ -112,6 +112,9 @@ async def start(body: Create, request: Request, db: DB, user: User):
         attempt = await start_attempt(db, user, **config)
     except engine.SimulationError as exc:
         raise HTTPException(422, str(exc)) from None
+    created = getattr(request.app.state, 'challenge_created_handler', None)
+    if created:
+        await created(request, db, user, attempt)
     return await save_command(db, user, body.idempotency_key, digest, attempt)
 
 

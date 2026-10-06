@@ -10,7 +10,7 @@ from sqlalchemy import select
 
 from app.db import Attempt, LearningRun, LearningRunCommand, MasteredModule, aware, now, uid
 from app.learning import DB, User, Payload, catalog, interactive_review, lesson_for, module_for, owned_review, practice_eligibility, profile_data, require_lesson
-from app.progression import progress, record_lesson, require_module, reward
+from app.progression import progress, record_lesson, reward
 from app.content.validate import valid_choice_option_id
 from app.simulation.bindings import public_binding, valid_binding
 
@@ -174,7 +174,8 @@ async def start_run(request, db, user, body, purpose, target):
     require_interactive(module)
     content = catalog(request)
     completed, mastered, _ = await progress(db, user.id)
-    require_module(module, content['modules'], mastered)
+    from app.gameplay import require_chapter
+    await require_chapter(db, user.id, module, content['modules'], mastered)
     if purpose != 'diagnostic':
         await require_diagnostic(db, user, module)
     if lesson:
@@ -243,7 +244,8 @@ async def start_review(review_id: str, body: Command, request: Request, db: DB, 
     if not interactive_review(content, module):
         raise HTTPException(409, 'This review has not been authored for interactive runs; use its legacy review path')
     completed, mastered, _ = await progress(db, user.id)
-    require_module(module, content['modules'], mastered)
+    from app.gameplay import require_chapter
+    await require_chapter(db, user.id, module, content['modules'], mastered)
     require_lesson(module, lesson['id'], completed)
     if lesson['id'] not in completed:
         raise HTTPException(403, 'Complete the lesson before its delayed review')
@@ -353,9 +355,9 @@ async def run_summaries(db, user, module_id=None):
     return (await db.execute(statement.order_by(LearningRun.created_at))).all()
 
 
-def map_data(content, module, progress_state, runs):
+def map_data(content, module, progress_state, runs, chapter_access=None):
     completed, mastered, _ = progress_state
-    missing = [m['id'] for m in content['modules'] if m['order'] < module['order'] and m['id'] not in mastered]
+    missing = [] if module['id'] in (chapter_access or set()) else [m['id'] for m in content['modules'] if m['order'] < module['order'] and m['id'] not in mastered]
     interactive = bool(module.get('entry_tasks'))
     baseline = next((r for r in runs if r.purpose == 'diagnostic'), None) if interactive else None
     baseline_done = baseline is not None and baseline.status == 'completed'
@@ -374,13 +376,15 @@ def map_data(content, module, progress_state, runs):
 @router.get('/modules/{module_id}/map')
 async def get_map(module_id: str, request: Request, db: DB, user: User):
     module = module_for(request, module_id)
-    return map_data(catalog(request), module, await progress(db, user.id), await run_summaries(db, user, module_id))
+    from app.gameplay import chapter_access_ids
+    return map_data(catalog(request), module, await progress(db, user.id), await run_summaries(db, user, module_id), await chapter_access_ids(db, user.id))
 
 
 @router.get('/levels/{level_id}')
 async def get_level(level_id: str, request: Request, db: DB, user: User):
     module, lesson = lesson_for(request, level_id)
-    mapping = map_data(catalog(request), module, await progress(db, user.id), await run_summaries(db, user, module['id']))
+    from app.gameplay import chapter_access_ids
+    mapping = map_data(catalog(request), module, await progress(db, user.id), await run_summaries(db, user, module['id']), await chapter_access_ids(db, user.id))
     node = next(n for n in mapping['levels'] if n['id'] == level_id)
     return {'module_id': module['id'], 'content_version': mapping['content_version'], 'interactive_available': mapping['interactive_available'], 'level': {**node, 'source_basis': lesson.get('source_basis', []), 'required_steps': len(lesson.get('tasks', [])), 'bonus_steps': len(lesson.get('bonus_tasks', [])), 'completion_rule': 'Complete each required task in order; retry incorrect practice decisions' if mapping['interactive_available'] else 'Pass the complete legacy lesson question set', 'bonus_rule': 'Optional verified decision; never required for the next level' if mapping['interactive_available'] else 'No interactive bonus is available for this level', 'review_after_days': lesson.get('review_after_days', 1)}}
 
@@ -388,13 +392,15 @@ async def get_level(level_id: str, request: Request, db: DB, user: User):
 @router.get('/me/workflow')
 async def workflow(request: Request, db: DB, user: User):
     content = catalog(request)
-    progress_state = await progress(db, user.id)
+    progress_state = await progress(db, user.id, include_xp=False)
+    from app.gameplay import chapter_access_ids
+    chapter_access = await chapter_access_ids(db, user.id)
     summaries = await run_summaries(db, user)
     by_module = {}
     for summary in summaries:
         by_module.setdefault(summary.module_id, []).append(summary)
     ordered = sorted(content['modules'], key=lambda m: m['order'])
-    maps = [map_data(content, module, progress_state, by_module.get(module['id'], [])) for module in ordered]
+    maps = [map_data(content, module, progress_state, by_module.get(module['id'], []), chapter_access) for module in ordered]
     active = await db.scalar(select(LearningRun).where(LearningRun.user_id == user.id, LearningRun.status == 'active').order_by(LearningRun.updated_at.desc()).limit(1))
     if active:
         pinned_publication(request, active)
