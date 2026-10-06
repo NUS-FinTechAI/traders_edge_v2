@@ -23,6 +23,10 @@ services:
       DATABASE_URL: ${DATABASE_URL:?Set the PostgreSQL URL using postgres as the hostname}
       FIREBASE_PROJECT_ID: ${FIREBASE_PROJECT_ID:?Set the Firebase project ID}
       ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:?Set explicit HTTPS browser origins}
+      INSTRUCTOR_FIREBASE_UIDS: ${INSTRUCTOR_FIREBASE_UIDS:-}
+      RESEARCH_ENABLED: ${RESEARCH_ENABLED:-false}
+      RESEARCH_POLICY_VERSION: ${RESEARCH_POLICY_VERSION:-}
+      RESEARCH_POLICY_TEXT: ${RESEARCH_POLICY_TEXT:-}
     depends_on:
       postgres:
         condition: service_healthy
