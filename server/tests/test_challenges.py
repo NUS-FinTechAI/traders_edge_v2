@@ -135,8 +135,8 @@ class ChallengeAPITests(unittest.TestCase):
         self.assertEqual(self.start(key='forged-challenge-key', seed=1).status_code, 422)
         self.assertEqual(self.start(key='forged-profit-key', profit='100').status_code, 422)
         self.assertEqual(self.start(key='unknown-mode-key', mode='ranked').status_code, 422)
-        self.assertEqual(self.start(key='unknown-daily-key', mode='daily').status_code, 409)
-        self.assertEqual(self.start(key='practice-module-key', module_id='m2').status_code, 409)
+        self.assertEqual(self.start(key='unknown-daily-key', mode='daily').status_code, 201)
+        self.assertEqual(self.start(key='practice-module-key', module_id='m2').status_code, 422)
 
     def test_ownership_plan_order_cancel_and_no_early_reward(self):
         self.unlock()

@@ -162,3 +162,22 @@ class PostgreSQLIntegrationTests(unittest.IsolatedAsyncioTestCase):
         async with self.database.sessions() as db:
             self.assertEqual(await db.scalar(select(func.count()).select_from(LearningRunCommand)), 1)
             self.assertEqual(await db.scalar(select(func.count()).select_from(LearningRun)), 1)
+
+    async def test_daily_definition_is_shared_across_concurrent_profiles(self):
+        from app.gameplay import ChallengeDefinition
+        await self.database.migrate()
+        first, second = create_app(self.settings), create_app(self.settings)
+        async with AsyncExitStack() as stack:
+            for app in (first, second):
+                await stack.enter_async_context(app.router.lifespan_context(app))
+            clients = [await stack.enter_async_context(httpx.AsyncClient(transport=httpx.ASGITransport(app=app), base_url='http://localhost', headers={'Origin': 'http://localhost:5173'})) for app in (first, second)]
+            for client in clients:
+                self.assertEqual((await client.post('/api/session')).status_code, 200)
+            results = await asyncio.wait_for(asyncio.gather(*(client.post('/api/challenges', json={'mode': 'daily', 'idempotency_key': 'shared-daily-start'}) for client in clients)), 10)
+            self.assertEqual([result.status_code for result in results], [201, 201])
+            left, right = (result.json() for result in results)
+            self.assertNotEqual(left['id'], right['id'])
+            self.assertEqual(left['challenge_id'], right['challenge_id'])
+            self.assertEqual(left['player']['quotes'], right['player']['quotes'])
+        async with self.database.sessions() as db:
+            self.assertEqual(await db.scalar(select(func.count()).select_from(ChallengeDefinition)), 1)

@@ -17,6 +17,7 @@ from app.learning_runs import router as learning_runs_router
 from app.rewards import router as rewards_router
 from app.challenges.api import router as challenges_router
 from app.economy import router as economy_router
+from app import gameplay
 from app.simulation.api import router as simulation_router
 from app.simulation.lesson_api import router as lesson_simulation_router
 
@@ -56,6 +57,10 @@ def create_app(settings: Settings | None = None, content: dict | None = None) ->
 
     application = FastAPI(title="Trader's Edge API", lifespan=lifespan)
     application.state.settings = settings
+    application.state.challenge_start_handler = gameplay.start_policy
+    application.state.challenge_created_handler = gameplay.created
+    application.state.challenge_result_handler = gameplay.complete_policy
+    application.state.challenge_abandon_handler = gameplay.abandoned
     locks = WeakValueDictionary()
     application.add_middleware(CORSMiddleware, allow_origins=list(settings.allowed_origins), allow_credentials=True, allow_methods=['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'], allow_headers=['Content-Type', 'Authorization'])
 
@@ -100,6 +105,7 @@ def create_app(settings: Settings | None = None, content: dict | None = None) ->
     application.include_router(rewards_router)
     application.include_router(challenges_router)
     application.include_router(economy_router)
+    application.include_router(gameplay.router)
     application.include_router(simulation_router)
     application.include_router(lesson_simulation_router)
     return application

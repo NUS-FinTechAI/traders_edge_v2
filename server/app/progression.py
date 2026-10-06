@@ -8,10 +8,10 @@ from sqlalchemy.dialects.sqlite import insert as sqlite_insert
 from app.db import AggregateEvent, LearningActivity, LessonCompletion, MasteredModule, ReviewItem, XPLedger, now
 
 
-async def progress(db, user_id):
+async def progress(db, user_id, include_xp=True):
     completed = set((await db.scalars(select(LessonCompletion.lesson_id).where(LessonCompletion.user_id == user_id))).all())
     mastered = set((await db.scalars(select(MasteredModule.module_id).where(MasteredModule.user_id == user_id))).all())
-    xp = await db.scalar(select(func.coalesce(func.sum(XPLedger.amount), 0)).where(XPLedger.user_id == user_id))
+    xp = await db.scalar(select(func.coalesce(func.sum(XPLedger.amount), 0)).where(XPLedger.user_id == user_id)) if include_xp else 0
     return completed, mastered, xp
 
 

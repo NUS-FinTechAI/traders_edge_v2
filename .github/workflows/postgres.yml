@@ -41,4 +41,4 @@ jobs:
       - name: Verify live PostgreSQL persistence and concurrency
         env:
           TRADERS_EDGE_TEST_POSTGRES_URL: postgresql+psycopg://traders_edge_qa:disposable-ci-only@127.0.0.1:5432/traders_edge_qa
-        run: uv run --project server --extra test --locked python -m unittest discover -s server/tests -p test_postgres_integration.py -v
+        run: uv run --project server --extra test --locked python -m unittest discover -s server/tests -v
