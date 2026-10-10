@@ -90,7 +90,7 @@ async def save_command(db, user, key, digest, attempt):
     return result
 
 
-@router.post('', status_code=201)
+@router.post('', status_code=201, operation_id='startChallenge')
 async def start(body: Create, request: Request, db: DB, user: User):
     digest = request_hash('start', None, body.model_dump(exclude={'idempotency_key'}))
     previous = await replay(db, user, body.idempotency_key, digest)
@@ -118,7 +118,7 @@ async def start(body: Create, request: Request, db: DB, user: User):
     return await save_command(db, user, body.idempotency_key, digest, attempt)
 
 
-@router.get('')
+@router.get('', operation_id='listChallenges')
 async def list_attempts(db: DB, user: User):
     rows = (await db.execute(select(ChallengeAttempt.id, ChallengeAttempt.challenge_id,
         ChallengeAttempt.mode, ChallengeAttempt.module_id, ChallengeAttempt.status,
@@ -188,26 +188,26 @@ async def execute(attempt_id, body, operation, request, db, user, order_id=None)
     return await save_command(db, user, body.idempotency_key, digest, attempt)
 
 
-@router.post('/{attempt_id}/orders')
+@router.post('/{attempt_id}/orders', operation_id='submitChallengeOrder')
 async def order(attempt_id: str, body: Order, request: Request, db: DB, user: User):
     return await execute(attempt_id, body, 'order', request, db, user)
 
 
-@router.post('/{attempt_id}/orders/{order_id}/cancel')
+@router.post('/{attempt_id}/orders/{order_id}/cancel', operation_id='cancelChallengeOrder')
 async def cancel(attempt_id: str, order_id: str, body: Command, request: Request, db: DB, user: User):
     return await execute(attempt_id, body, 'cancel', request, db, user, order_id)
 
 
-@router.post('/{attempt_id}/advance')
+@router.post('/{attempt_id}/advance', operation_id='advanceChallenge')
 async def advance(attempt_id: str, body: Advance, request: Request, db: DB, user: User):
     return await execute(attempt_id, body, 'advance', request, db, user)
 
 
-@router.post('/{attempt_id}/complete')
+@router.post('/{attempt_id}/complete', operation_id='completeChallenge')
 async def complete(attempt_id: str, body: Debrief, request: Request, db: DB, user: User):
     return await execute(attempt_id, body, 'complete', request, db, user)
 
 
-@router.post('/{attempt_id}/abandon')
+@router.post('/{attempt_id}/abandon', operation_id='abandonChallenge')
 async def abandon(attempt_id: str, body: Command, request: Request, db: DB, user: User):
     return await execute(attempt_id, body, 'abandon', request, db, user)

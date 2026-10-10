@@ -206,17 +206,17 @@ async def start_run(request, db, user, body, purpose, target):
     return await remember(db, user, body, digest, run)
 
 
-@router.post('/modules/{module_id}/diagnostic-runs')
+@router.post('/modules/{module_id}/diagnostic-runs', operation_id='startDiagnosticRun')
 async def start_diagnostic(module_id: str, body: Command, request: Request, db: DB, user: User):
     return await start_run(request, db, user, body, 'diagnostic', module_id)
 
 
-@router.post('/modules/{module_id}/assessment-runs')
+@router.post('/modules/{module_id}/assessment-runs', operation_id='startAssessmentRun')
 async def start_assessment(module_id: str, body: Command, request: Request, db: DB, user: User):
     return await start_run(request, db, user, body, 'assessment', module_id)
 
 
-@router.post('/levels/{level_id}/runs')
+@router.post('/levels/{level_id}/runs', operation_id='startLevelRun')
 async def start_level(level_id: str, body: StartLevel, request: Request, db: DB, user: User):
     return await start_run(request, db, user, body, body.purpose, level_id)
 
@@ -228,7 +228,7 @@ def require_due_review(item):
         raise HTTPException(403, 'The delayed review is not due yet')
 
 
-@router.post('/reviews/{review_id}/runs')
+@router.post('/reviews/{review_id}/runs', operation_id='startReviewRun')
 async def start_review(review_id: str, body: Command, request: Request, db: DB, user: User):
     digest, previous = await replay(db, user, body, 'start:review', review_id)
     if previous is not None:
@@ -256,7 +256,7 @@ async def start_review(review_id: str, body: Command, request: Request, db: DB, 
     return await remember(db, user, body, digest, run)
 
 
-@router.get('/learning-runs/{run_id}')
+@router.get('/learning-runs/{run_id}', operation_id='getLearningRun')
 async def get_run(run_id: str, request: Request, db: DB, user: User):
     run = await owned_run(db, user, run_id)
     pinned_publication(request, run)
@@ -316,7 +316,7 @@ async def finish_run(db, user, run, state):
     attempt.result = {'run_id': run.id, 'purpose': run.purpose, 'content_version': run.content_version, **deepcopy(state['result']), 'feedback': deepcopy(state['feedback'])}
 
 
-@router.post('/learning-runs/{run_id}/steps/{step_id}/submit')
+@router.post('/learning-runs/{run_id}/steps/{step_id}/submit', operation_id='submitLearningStep')
 async def submit_step(run_id: str, step_id: str, body: SubmitStep, request: Request, db: DB, user: User):
     digest, previous = await replay(db, user, body, 'submit-step', [run_id, step_id])
     if previous is not None:
@@ -373,14 +373,14 @@ def map_data(content, module, progress_state, runs, chapter_access=None):
     return {'module_id': module['id'], 'title': module['title'], 'content_version': content.get('content_version'), 'interactive_available': interactive, 'unlocked': not missing, 'prerequisite_module_ids': missing, 'mastered': module['id'] in mastered, 'diagnostic': {'required': interactive, 'completed': baseline_done, 'run_id': baseline.id if baseline else None}, 'levels': levels, 'assessment_available': not missing and (baseline_done or not interactive) and all(l['id'] in completed for l in module['lessons'])}
 
 
-@router.get('/modules/{module_id}/map')
+@router.get('/modules/{module_id}/map', operation_id='getModuleMap')
 async def get_map(module_id: str, request: Request, db: DB, user: User):
     module = module_for(request, module_id)
     from app.gameplay import chapter_access_ids
     return map_data(catalog(request), module, await progress(db, user.id), await run_summaries(db, user, module_id), await chapter_access_ids(db, user.id))
 
 
-@router.get('/levels/{level_id}')
+@router.get('/levels/{level_id}', operation_id='getLevel')
 async def get_level(level_id: str, request: Request, db: DB, user: User):
     module, lesson = lesson_for(request, level_id)
     from app.gameplay import chapter_access_ids
@@ -389,7 +389,7 @@ async def get_level(level_id: str, request: Request, db: DB, user: User):
     return {'module_id': module['id'], 'content_version': mapping['content_version'], 'interactive_available': mapping['interactive_available'], 'level': {**node, 'source_basis': lesson.get('source_basis', []), 'required_steps': len(lesson.get('tasks', [])), 'bonus_steps': len(lesson.get('bonus_tasks', [])), 'completion_rule': 'Complete each required task in order; retry incorrect practice decisions' if mapping['interactive_available'] else 'Pass the complete legacy lesson question set', 'bonus_rule': 'Optional verified decision; never required for the next level' if mapping['interactive_available'] else 'No interactive bonus is available for this level', 'review_after_days': lesson.get('review_after_days', 1)}}
 
 
-@router.get('/me/workflow')
+@router.get('/me/workflow', operation_id='getLearningWorkflow')
 async def workflow(request: Request, db: DB, user: User):
     content = catalog(request)
     progress_state = await progress(db, user.id, include_xp=False)

@@ -138,7 +138,7 @@ async def active_cap(db, user):
         raise HTTPException(409, 'Resume or abandon a match before joining another')
 
 
-@router.post('/lobbies', status_code=201)
+@router.post('/lobbies', status_code=201, operation_id='createMultiplayerLobby')
 async def create(body: Command, request: Request, db: DB, user: User):
     request_hash = digest('create_private', None, {})
     previous = await replay(db, user, body.idempotency_key, request_hash)
@@ -151,7 +151,7 @@ async def create(body: Command, request: Request, db: DB, user: User):
     return await save_command(db, user, body.idempotency_key, request_hash, lobby, {'join_code': code})
 
 
-@router.post('/join')
+@router.post('/join', operation_id='joinMultiplayerLobby')
 async def join(body: Join, request: Request, db: DB, user: User):
     request_hash = digest('join_private', None, {'code': body.code})
     previous = await replay(db, user, body.idempotency_key, request_hash)
@@ -191,7 +191,7 @@ async def join(body: Join, request: Request, db: DB, user: User):
     return await save_command(db, user, body.idempotency_key, request_hash, lobby)
 
 
-@router.post('/matchmaking')
+@router.post('/matchmaking', operation_id='joinMultiplayerMatchmaking')
 async def matchmaking(body: Command, request: Request, db: DB, user: User):
     request_hash = digest('matchmaking', None, {})
     previous = await replay(db, user, body.idempotency_key, request_hash)
@@ -225,7 +225,7 @@ async def matchmaking(body: Command, request: Request, db: DB, user: User):
     return await save_command(db, user, body.idempotency_key, request_hash, lobby)
 
 
-@router.get('/matches')
+@router.get('/matches', operation_id='listMultiplayerMatches')
 async def matches(db: DB, user: User):
     rows = (await db.execute(select(MultiplayerLobby.id, MultiplayerLobby.mode, MultiplayerLobby.status,
         MultiplayerLobby.created_at, MultiplayerLobby.updated_at).join(MultiplayerMember)
@@ -234,7 +234,7 @@ async def matches(db: DB, user: User):
     return {'matches': [dict(row) for row in rows]}
 
 
-@router.get('/leaderboard')
+@router.get('/leaderboard', operation_id='getMultiplayerLeaderboard')
 async def leaderboard(db: DB, user: User):
     rows = (await db.execute(select(MultiplayerRating.user_id, Profile.display_name, MultiplayerRating.rating,
         MultiplayerRating.matches).join(Profile).where(MultiplayerRating.matches > 0)
@@ -244,7 +244,7 @@ async def leaderboard(db: DB, user: User):
             'your_rating': own.rating if own else 1000, 'your_matches': own.matches if own else 0}
 
 
-@router.get('/{lobby_id}')
+@router.get('/{lobby_id}', operation_id='getMultiplayerLobby')
 async def resume(lobby_id: str, request: Request, db: DB, user: User):
     return view(await owned(db, user, lobby_id, request), user.id)
 
@@ -352,31 +352,31 @@ async def execute(lobby_id, body, operation, request, db, user, order_id=None):
     return await save_command(db, user, body.idempotency_key, request_hash, lobby)
 
 
-@router.post('/{lobby_id}/start')
+@router.post('/{lobby_id}/start', operation_id='startMultiplayerMatch')
 async def start(lobby_id: str, body: Command, request: Request, db: DB, user: User):
     return await execute(lobby_id, body, 'start', request, db, user)
 
 
-@router.post('/{lobby_id}/orders')
+@router.post('/{lobby_id}/orders', operation_id='submitMultiplayerOrder')
 async def order(lobby_id: str, body: TickOrder, request: Request, db: DB, user: User):
     return await execute(lobby_id, body, 'order', request, db, user)
 
 
-@router.post('/{lobby_id}/orders/{order_id}/cancel')
+@router.post('/{lobby_id}/orders/{order_id}/cancel', operation_id='cancelMultiplayerOrder')
 async def cancel(lobby_id: str, order_id: str, body: TickCommand, request: Request, db: DB, user: User):
     return await execute(lobby_id, body, 'cancel', request, db, user, order_id)
 
 
-@router.post('/{lobby_id}/ready')
+@router.post('/{lobby_id}/ready', operation_id='markMultiplayerReady')
 async def ready(lobby_id: str, body: TickCommand, request: Request, db: DB, user: User):
     return await execute(lobby_id, body, 'ready', request, db, user)
 
 
-@router.post('/{lobby_id}/complete')
+@router.post('/{lobby_id}/complete', operation_id='completeMultiplayerMatch')
 async def complete(lobby_id: str, body: Debrief, request: Request, db: DB, user: User):
     return await execute(lobby_id, body, 'complete', request, db, user)
 
 
-@router.post('/{lobby_id}/abandon')
+@router.post('/{lobby_id}/abandon', operation_id='abandonMultiplayerMatch')
 async def abandon(lobby_id: str, body: Command, request: Request, db: DB, user: User):
     return await execute(lobby_id, body, 'abandon', request, db, user)

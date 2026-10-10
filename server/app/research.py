@@ -111,22 +111,22 @@ async def mutation(db, user, body, operation, settings):
     return result
 
 
-@router.get('')
+@router.get('', operation_id='getResearchMetadata')
 async def read_metadata(request: Request, db: DB, user: User):
     return metadata_data(await db.get(ResearchParticipant, user.id), request.app.state.settings)
 
 
-@router.post('/metadata')
+@router.post('/metadata', operation_id='setResearchMetadata')
 async def set_metadata(body: Metadata, request: Request, db: DB, user: User):
     return await mutation(db, user, body, 'metadata', request.app.state.settings)
 
 
-@router.post('/consents')
+@router.post('/consents', operation_id='submitResearchConsent')
 async def consent(body: Consent, request: Request, db: DB, user: User):
     return await mutation(db, user, body, 'consent', request.app.state.settings)
 
 
-@router.post('/withdrawals')
+@router.post('/withdrawals', operation_id='withdrawResearchConsent')
 async def withdraw(body: Command, request: Request, db: DB, user: User):
     return await mutation(db, user, body, 'withdrawal', request.app.state.settings)
 
@@ -217,7 +217,7 @@ def challenge_data(attempt):
             'result': result}
 
 
-@router.get('/export/{kind}')
+@router.get('/export/{kind}', operation_id='exportResearchEvidence')
 async def export(kind: ExportKind, request: Request, response: Response, db: DB, user: User, cursor: str | None = Query(default=None, max_length=36), limit: int = Query(default=50, ge=1, le=100)):
     if kind == 'ai-challenges':
         from app.challenges.models import ChallengeAttempt

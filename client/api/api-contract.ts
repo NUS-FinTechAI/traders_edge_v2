@@ -26,7 +26,7 @@ export interface paths {
       cookie?: never
     }
     /** Adventure */
-    get: operations['adventure_api_adventure_get']
+    get: operations['getAdventure']
     put?: never
     post?: never
     delete?: never
@@ -43,7 +43,7 @@ export interface paths {
       cookie?: never
     }
     /** Archive */
-    get: operations['archive_api_archive_get']
+    get: operations['getArchive']
     put?: never
     post?: never
     delete?: never
@@ -60,7 +60,7 @@ export interface paths {
       cookie?: never
     }
     /** Get Attempt */
-    get: operations['get_attempt_api_attempts__attempt_id__get']
+    get: operations['getLearningAttempt']
     put?: never
     post?: never
     delete?: never
@@ -77,10 +77,10 @@ export interface paths {
       cookie?: never
     }
     /** List Attempts */
-    get: operations['list_attempts_api_challenges_get']
+    get: operations['listChallenges']
     put?: never
     /** Start */
-    post: operations['start_api_challenges_post']
+    post: operations['startChallenge']
     delete?: never
     options?: never
     head?: never
@@ -114,7 +114,7 @@ export interface paths {
     get?: never
     put?: never
     /** Abandon */
-    post: operations['abandon_api_challenges__attempt_id__abandon_post']
+    post: operations['abandonChallenge']
     delete?: never
     options?: never
     head?: never
@@ -131,7 +131,7 @@ export interface paths {
     get?: never
     put?: never
     /** Advance */
-    post: operations['advance_api_challenges__attempt_id__advance_post']
+    post: operations['advanceChallenge']
     delete?: never
     options?: never
     head?: never
@@ -148,7 +148,7 @@ export interface paths {
     get?: never
     put?: never
     /** Complete */
-    post: operations['complete_api_challenges__attempt_id__complete_post']
+    post: operations['completeChallenge']
     delete?: never
     options?: never
     head?: never
@@ -165,7 +165,7 @@ export interface paths {
     get?: never
     put?: never
     /** Order */
-    post: operations['order_api_challenges__attempt_id__orders_post']
+    post: operations['submitChallengeOrder']
     delete?: never
     options?: never
     head?: never
@@ -182,7 +182,7 @@ export interface paths {
     get?: never
     put?: never
     /** Cancel */
-    post: operations['cancel_api_challenges__attempt_id__orders__order_id__cancel_post']
+    post: operations['cancelChallengeOrder']
     delete?: never
     options?: never
     head?: never
@@ -214,7 +214,7 @@ export interface paths {
       cookie?: never
     }
     /** Get Curriculum */
-    get: operations['get_curriculum_api_curriculum_get']
+    get: operations['getCurriculum']
     put?: never
     post?: never
     delete?: never
@@ -234,7 +234,7 @@ export interface paths {
     get: operations['listJournal']
     put?: never
     /** Add Journal */
-    post: operations['add_journal_api_journal_post']
+    post: operations['createJournalEntry']
     delete?: never
     options?: never
     head?: never
@@ -252,7 +252,7 @@ export interface paths {
     put?: never
     post?: never
     /** Delete Journal */
-    delete: operations['delete_journal_api_journal__entry_id__delete']
+    delete: operations['deleteJournalEntry']
     options?: never
     head?: never
     patch?: never
@@ -266,7 +266,7 @@ export interface paths {
       cookie?: never
     }
     /** Leaderboard */
-    get: operations['leaderboard_api_leaderboard_get']
+    get: operations['getLearningLeaderboard']
     put?: never
     post?: never
     delete?: never
@@ -283,7 +283,7 @@ export interface paths {
       cookie?: never
     }
     /** Get Run */
-    get: operations['get_run_api_learning_runs__run_id__get']
+    get: operations['getLearningRun']
     put?: never
     post?: never
     delete?: never
@@ -300,10 +300,10 @@ export interface paths {
       cookie?: never
     }
     /** Resume */
-    get: operations['resume_api_learning_runs__run_id__simulation_get']
+    get: operations['resumeLearningSimulation']
     put?: never
     /** Bind */
-    post: operations['bind_api_learning_runs__run_id__simulation_post']
+    post: operations['bindLearningSimulation']
     delete?: never
     options?: never
     head?: never
@@ -320,7 +320,7 @@ export interface paths {
     get?: never
     put?: never
     /** Review */
-    post: operations['review_api_learning_runs__run_id__simulation_review_post']
+    post: operations['reviewLearningSimulation']
     delete?: never
     options?: never
     head?: never
@@ -337,7 +337,7 @@ export interface paths {
     get?: never
     put?: never
     /** Submit Step */
-    post: operations['submit_step_api_learning_runs__run_id__steps__step_id__submit_post']
+    post: operations['submitLearningStep']
     delete?: never
     options?: never
     head?: never
@@ -352,7 +352,7 @@ export interface paths {
       cookie?: never
     }
     /** Get Lesson */
-    get: operations['get_lesson_api_lessons__lesson_id__get']
+    get: operations['getLesson']
     put?: never
     post?: never
     delete?: never
@@ -371,7 +371,7 @@ export interface paths {
     get?: never
     put?: never
     /** Complete Lesson */
-    post: operations['complete_lesson_api_lessons__lesson_id__complete_post']
+    post: operations['completeLesson']
     delete?: never
     options?: never
     head?: never
@@ -386,7 +386,7 @@ export interface paths {
       cookie?: never
     }
     /** Get Level */
-    get: operations['get_level_api_levels__level_id__get']
+    get: operations['getLevel']
     put?: never
     post?: never
     delete?: never
@@ -405,7 +405,7 @@ export interface paths {
     get?: never
     put?: never
     /** Start Level */
-    post: operations['start_level_api_levels__level_id__runs_post']
+    post: operations['startLevelRun']
     delete?: never
     options?: never
     head?: never
@@ -420,7 +420,7 @@ export interface paths {
       cookie?: never
     }
     /** Activity */
-    get: operations['activity_api_me_activity_get']
+    get: operations['getLearningActivity']
     put?: never
     post?: never
     delete?: never
@@ -437,7 +437,7 @@ export interface paths {
       cookie?: never
     }
     /** Read Wallet */
-    get: operations['read_wallet_api_me_economy_get']
+    get: operations['getEconomy']
     put?: never
     post?: never
     delete?: never
@@ -456,7 +456,7 @@ export interface paths {
     get?: never
     put?: never
     /** Refresh Daily */
-    post: operations['refresh_daily_api_me_economy_daily_refresh_post']
+    post: operations['refreshDailyChallenge']
     delete?: never
     options?: never
     head?: never
@@ -473,7 +473,7 @@ export interface paths {
     get?: never
     put?: never
     /** Login Claim */
-    post: operations['login_claim_api_me_economy_login_claims_post']
+    post: operations['claimLoginReward']
     delete?: never
     options?: never
     head?: never
@@ -488,7 +488,7 @@ export interface paths {
       cookie?: never
     }
     /** Read Shop */
-    get: operations['read_shop_api_me_economy_shop_get']
+    get: operations['getShop']
     put?: never
     post?: never
     delete?: never
@@ -507,7 +507,7 @@ export interface paths {
     get?: never
     put?: never
     /** Purchase */
-    post: operations['purchase_api_me_economy_shop_purchases_post']
+    post: operations['purchaseShopItem']
     delete?: never
     options?: never
     head?: never
@@ -540,7 +540,7 @@ export interface paths {
       cookie?: never
     }
     /** Read Metadata */
-    get: operations['read_metadata_api_me_research_get']
+    get: operations['getResearchMetadata']
     put?: never
     post?: never
     delete?: never
@@ -559,7 +559,7 @@ export interface paths {
     get?: never
     put?: never
     /** Consent */
-    post: operations['consent_api_me_research_consents_post']
+    post: operations['submitResearchConsent']
     delete?: never
     options?: never
     head?: never
@@ -574,7 +574,7 @@ export interface paths {
       cookie?: never
     }
     /** Export */
-    get: operations['export_api_me_research_export__kind__get']
+    get: operations['exportResearchEvidence']
     put?: never
     post?: never
     delete?: never
@@ -593,7 +593,7 @@ export interface paths {
     get?: never
     put?: never
     /** Set Metadata */
-    post: operations['set_metadata_api_me_research_metadata_post']
+    post: operations['setResearchMetadata']
     delete?: never
     options?: never
     head?: never
@@ -610,7 +610,7 @@ export interface paths {
     get?: never
     put?: never
     /** Withdraw */
-    post: operations['withdraw_api_me_research_withdrawals_post']
+    post: operations['withdrawResearchConsent']
     delete?: never
     options?: never
     head?: never
@@ -625,7 +625,7 @@ export interface paths {
       cookie?: never
     }
     /** Inventory */
-    get: operations['inventory_api_me_rewards_get']
+    get: operations['getRewardInventory']
     put?: never
     post?: never
     delete?: never
@@ -644,7 +644,7 @@ export interface paths {
     get?: never
     put?: never
     /** Claim */
-    post: operations['claim_api_me_rewards_claims_post']
+    post: operations['claimLearningReward']
     delete?: never
     options?: never
     head?: never
@@ -665,7 +665,7 @@ export interface paths {
     options?: never
     head?: never
     /** Equip */
-    patch: operations['equip_api_me_rewards_equipment_patch']
+    patch: operations['updateRewardEquipment']
     trace?: never
   }
   '/api/me/workflow': {
@@ -676,7 +676,7 @@ export interface paths {
       cookie?: never
     }
     /** Workflow */
-    get: operations['workflow_api_me_workflow_get']
+    get: operations['getLearningWorkflow']
     put?: never
     post?: never
     delete?: never
@@ -693,10 +693,10 @@ export interface paths {
       cookie?: never
     }
     /** Get Assessment */
-    get: operations['get_assessment_api_modules__module_id__assessment_get']
+    get: operations['getModuleAssessment']
     put?: never
     /** Complete Assessment */
-    post: operations['complete_assessment_api_modules__module_id__assessment_post']
+    post: operations['completeModuleAssessment']
     delete?: never
     options?: never
     head?: never
@@ -713,7 +713,7 @@ export interface paths {
     get?: never
     put?: never
     /** Start Assessment */
-    post: operations['start_assessment_api_modules__module_id__assessment_runs_post']
+    post: operations['startAssessmentRun']
     delete?: never
     options?: never
     head?: never
@@ -730,7 +730,7 @@ export interface paths {
     get?: never
     put?: never
     /** Start Diagnostic */
-    post: operations['start_diagnostic_api_modules__module_id__diagnostic_runs_post']
+    post: operations['startDiagnosticRun']
     delete?: never
     options?: never
     head?: never
@@ -745,7 +745,7 @@ export interface paths {
       cookie?: never
     }
     /** Get Map */
-    get: operations['get_map_api_modules__module_id__map_get']
+    get: operations['getModuleMap']
     put?: never
     post?: never
     delete?: never
@@ -762,7 +762,7 @@ export interface paths {
       cookie?: never
     }
     /** Resume */
-    get: operations['resume_api_multiplayer__lobby_id__get']
+    get: operations['getMultiplayerLobby']
     put?: never
     post?: never
     delete?: never
@@ -781,7 +781,7 @@ export interface paths {
     get?: never
     put?: never
     /** Abandon */
-    post: operations['abandon_api_multiplayer__lobby_id__abandon_post']
+    post: operations['abandonMultiplayerMatch']
     delete?: never
     options?: never
     head?: never
@@ -798,7 +798,7 @@ export interface paths {
     get?: never
     put?: never
     /** Complete */
-    post: operations['complete_api_multiplayer__lobby_id__complete_post']
+    post: operations['completeMultiplayerMatch']
     delete?: never
     options?: never
     head?: never
@@ -815,7 +815,7 @@ export interface paths {
     get?: never
     put?: never
     /** Order */
-    post: operations['order_api_multiplayer__lobby_id__orders_post']
+    post: operations['submitMultiplayerOrder']
     delete?: never
     options?: never
     head?: never
@@ -832,7 +832,7 @@ export interface paths {
     get?: never
     put?: never
     /** Cancel */
-    post: operations['cancel_api_multiplayer__lobby_id__orders__order_id__cancel_post']
+    post: operations['cancelMultiplayerOrder']
     delete?: never
     options?: never
     head?: never
@@ -849,7 +849,7 @@ export interface paths {
     get?: never
     put?: never
     /** Ready */
-    post: operations['ready_api_multiplayer__lobby_id__ready_post']
+    post: operations['markMultiplayerReady']
     delete?: never
     options?: never
     head?: never
@@ -866,7 +866,7 @@ export interface paths {
     get?: never
     put?: never
     /** Start */
-    post: operations['start_api_multiplayer__lobby_id__start_post']
+    post: operations['startMultiplayerMatch']
     delete?: never
     options?: never
     head?: never
@@ -883,7 +883,7 @@ export interface paths {
     get?: never
     put?: never
     /** Join */
-    post: operations['join_api_multiplayer_join_post']
+    post: operations['joinMultiplayerLobby']
     delete?: never
     options?: never
     head?: never
@@ -898,7 +898,7 @@ export interface paths {
       cookie?: never
     }
     /** Leaderboard */
-    get: operations['leaderboard_api_multiplayer_leaderboard_get']
+    get: operations['getMultiplayerLeaderboard']
     put?: never
     post?: never
     delete?: never
@@ -917,7 +917,7 @@ export interface paths {
     get?: never
     put?: never
     /** Create */
-    post: operations['create_api_multiplayer_lobbies_post']
+    post: operations['createMultiplayerLobby']
     delete?: never
     options?: never
     head?: never
@@ -932,7 +932,7 @@ export interface paths {
       cookie?: never
     }
     /** Matches */
-    get: operations['matches_api_multiplayer_matches_get']
+    get: operations['listMultiplayerMatches']
     put?: never
     post?: never
     delete?: never
@@ -951,7 +951,7 @@ export interface paths {
     get?: never
     put?: never
     /** Matchmaking */
-    post: operations['matchmaking_api_multiplayer_matchmaking_post']
+    post: operations['joinMultiplayerMatchmaking']
     delete?: never
     options?: never
     head?: never
@@ -966,10 +966,10 @@ export interface paths {
       cookie?: never
     }
     /** List Attempts */
-    get: operations['list_attempts_api_quizzes_attempts_get']
+    get: operations['listQuizAttempts']
     put?: never
     /** Start Attempt */
-    post: operations['start_attempt_api_quizzes_attempts_post']
+    post: operations['startQuizAttempt']
     delete?: never
     options?: never
     head?: never
@@ -984,7 +984,7 @@ export interface paths {
       cookie?: never
     }
     /** Get Attempt */
-    get: operations['get_attempt_api_quizzes_attempts__attempt_id__get']
+    get: operations['getQuizAttempt']
     put?: never
     post?: never
     delete?: never
@@ -1003,7 +1003,7 @@ export interface paths {
     get?: never
     put?: never
     /** Answer */
-    post: operations['answer_api_quizzes_attempts__attempt_id__answers_post']
+    post: operations['submitQuizAnswer']
     delete?: never
     options?: never
     head?: never
@@ -1018,7 +1018,7 @@ export interface paths {
       cookie?: never
     }
     /** Forms */
-    get: operations['forms_api_quizzes_forms_get']
+    get: operations['listQuizForms']
     put?: never
     post?: never
     delete?: never
@@ -1035,7 +1035,7 @@ export interface paths {
       cookie?: never
     }
     /** Question Bank */
-    get: operations['question_bank_api_quizzes_question_bank_get']
+    get: operations['getQuizQuestionBank']
     put?: never
     post?: never
     delete?: never
@@ -1052,10 +1052,10 @@ export interface paths {
       cookie?: never
     }
     /** List Rooms */
-    get: operations['list_rooms_api_quizzes_rooms_get']
+    get: operations['listQuizRooms']
     put?: never
     /** Create Room */
-    post: operations['create_room_api_quizzes_rooms_post']
+    post: operations['createQuizRoom']
     delete?: never
     options?: never
     head?: never
@@ -1070,7 +1070,7 @@ export interface paths {
       cookie?: never
     }
     /** Get Room */
-    get: operations['get_room_api_quizzes_rooms__room_id__get']
+    get: operations['getQuizRoom']
     put?: never
     post?: never
     delete?: never
@@ -1089,7 +1089,7 @@ export interface paths {
     get?: never
     put?: never
     /** Close Room */
-    post: operations['close_room_api_quizzes_rooms__room_id__close_post']
+    post: operations['closeQuizRoom']
     delete?: never
     options?: never
     head?: never
@@ -1104,7 +1104,7 @@ export interface paths {
       cookie?: never
     }
     /** Room Results */
-    get: operations['room_results_api_quizzes_rooms__room_id__results_get']
+    get: operations['getQuizRoomResults']
     put?: never
     post?: never
     delete?: never
@@ -1123,7 +1123,7 @@ export interface paths {
     get?: never
     put?: never
     /** Start Room */
-    post: operations['start_room_api_quizzes_rooms__room_id__start_post']
+    post: operations['startQuizRoom']
     delete?: never
     options?: never
     head?: never
@@ -1140,7 +1140,7 @@ export interface paths {
     get?: never
     put?: never
     /** Join Room */
-    post: operations['join_room_api_quizzes_rooms_join_post']
+    post: operations['joinQuizRoom']
     delete?: never
     options?: never
     head?: never
@@ -1155,7 +1155,7 @@ export interface paths {
       cookie?: never
     }
     /** Reviews */
-    get: operations['reviews_api_reviews_get']
+    get: operations['listReviews']
     put?: never
     post?: never
     delete?: never
@@ -1172,7 +1172,7 @@ export interface paths {
       cookie?: never
     }
     /** Get Review */
-    get: operations['get_review_api_reviews__review_id__get']
+    get: operations['getReview']
     put?: never
     post?: never
     delete?: never
@@ -1191,7 +1191,7 @@ export interface paths {
     get?: never
     put?: never
     /** Start Review */
-    post: operations['start_review_api_reviews__review_id__runs_post']
+    post: operations['startReviewRun']
     delete?: never
     options?: never
     head?: never
@@ -1208,7 +1208,7 @@ export interface paths {
     get?: never
     put?: never
     /** Submit Review */
-    post: operations['submit_review_api_reviews__review_id__submit_post']
+    post: operations['submitReview']
     delete?: never
     options?: never
     head?: never
@@ -1241,10 +1241,10 @@ export interface paths {
       cookie?: never
     }
     /** List Sessions */
-    get: operations['list_sessions_api_simulations_get']
+    get: operations['listSimulations']
     put?: never
     /** Start */
-    post: operations['start_api_simulations_post']
+    post: operations['startSimulation']
     delete?: never
     options?: never
     head?: never
@@ -1259,7 +1259,7 @@ export interface paths {
       cookie?: never
     }
     /** Resume */
-    get: operations['resume_api_simulations__session_id__get']
+    get: operations['resumeSimulation']
     put?: never
     post?: never
     delete?: never
@@ -1278,7 +1278,7 @@ export interface paths {
     get?: never
     put?: never
     /** Advance */
-    post: operations['advance_api_simulations__session_id__advance_post']
+    post: operations['advanceSimulation']
     delete?: never
     options?: never
     head?: never
@@ -1295,7 +1295,7 @@ export interface paths {
     get?: never
     put?: never
     /** Debrief */
-    post: operations['debrief_api_simulations__session_id__debrief_post']
+    post: operations['debriefSimulation']
     delete?: never
     options?: never
     head?: never
@@ -1312,7 +1312,7 @@ export interface paths {
     get?: never
     put?: never
     /** Order */
-    post: operations['order_api_simulations__session_id__orders_post']
+    post: operations['submitSimulationOrder']
     delete?: never
     options?: never
     head?: never
@@ -1329,7 +1329,7 @@ export interface paths {
     get?: never
     put?: never
     /** Cancel */
-    post: operations['cancel_api_simulations__session_id__orders__order_id__cancel_post']
+    post: operations['cancelSimulationOrder']
     delete?: never
     options?: never
     head?: never
@@ -1377,7 +1377,7 @@ export interface operations {
       }
     }
   }
-  adventure_api_adventure_get: {
+  getAdventure: {
     parameters: {
       query?: never
       header?: never
@@ -1397,7 +1397,7 @@ export interface operations {
       }
     }
   }
-  archive_api_archive_get: {
+  getArchive: {
     parameters: {
       query?: never
       header?: never
@@ -1417,7 +1417,7 @@ export interface operations {
       }
     }
   }
-  get_attempt_api_attempts__attempt_id__get: {
+  getLearningAttempt: {
     parameters: {
       query?: never
       header?: never
@@ -1448,7 +1448,7 @@ export interface operations {
       }
     }
   }
-  list_attempts_api_challenges_get: {
+  listChallenges: {
     parameters: {
       query?: never
       header?: never
@@ -1468,7 +1468,7 @@ export interface operations {
       }
     }
   }
-  start_api_challenges_post: {
+  startChallenge: {
     parameters: {
       query?: never
       header?: never
@@ -1532,7 +1532,7 @@ export interface operations {
       }
     }
   }
-  abandon_api_challenges__attempt_id__abandon_post: {
+  abandonChallenge: {
     parameters: {
       query?: never
       header?: never
@@ -1567,7 +1567,7 @@ export interface operations {
       }
     }
   }
-  advance_api_challenges__attempt_id__advance_post: {
+  advanceChallenge: {
     parameters: {
       query?: never
       header?: never
@@ -1602,7 +1602,7 @@ export interface operations {
       }
     }
   }
-  complete_api_challenges__attempt_id__complete_post: {
+  completeChallenge: {
     parameters: {
       query?: never
       header?: never
@@ -1637,7 +1637,7 @@ export interface operations {
       }
     }
   }
-  order_api_challenges__attempt_id__orders_post: {
+  submitChallengeOrder: {
     parameters: {
       query?: never
       header?: never
@@ -1672,7 +1672,7 @@ export interface operations {
       }
     }
   }
-  cancel_api_challenges__attempt_id__orders__order_id__cancel_post: {
+  cancelChallengeOrder: {
     parameters: {
       query?: never
       header?: never
@@ -1728,7 +1728,7 @@ export interface operations {
       }
     }
   }
-  get_curriculum_api_curriculum_get: {
+  getCurriculum: {
     parameters: {
       query?: never
       header?: never
@@ -1779,7 +1779,7 @@ export interface operations {
       }
     }
   }
-  add_journal_api_journal_post: {
+  createJournalEntry: {
     parameters: {
       query?: never
       header?: never
@@ -1812,7 +1812,7 @@ export interface operations {
       }
     }
   }
-  delete_journal_api_journal__entry_id__delete: {
+  deleteJournalEntry: {
     parameters: {
       query?: never
       header?: never
@@ -1841,7 +1841,7 @@ export interface operations {
       }
     }
   }
-  leaderboard_api_leaderboard_get: {
+  getLearningLeaderboard: {
     parameters: {
       query?: never
       header?: never
@@ -1861,7 +1861,7 @@ export interface operations {
       }
     }
   }
-  get_run_api_learning_runs__run_id__get: {
+  getLearningRun: {
     parameters: {
       query?: never
       header?: never
@@ -1892,7 +1892,7 @@ export interface operations {
       }
     }
   }
-  resume_api_learning_runs__run_id__simulation_get: {
+  resumeLearningSimulation: {
     parameters: {
       query?: never
       header?: never
@@ -1923,7 +1923,7 @@ export interface operations {
       }
     }
   }
-  bind_api_learning_runs__run_id__simulation_post: {
+  bindLearningSimulation: {
     parameters: {
       query?: never
       header?: never
@@ -1958,7 +1958,7 @@ export interface operations {
       }
     }
   }
-  review_api_learning_runs__run_id__simulation_review_post: {
+  reviewLearningSimulation: {
     parameters: {
       query?: never
       header?: never
@@ -1993,7 +1993,7 @@ export interface operations {
       }
     }
   }
-  submit_step_api_learning_runs__run_id__steps__step_id__submit_post: {
+  submitLearningStep: {
     parameters: {
       query?: never
       header?: never
@@ -2029,7 +2029,7 @@ export interface operations {
       }
     }
   }
-  get_lesson_api_lessons__lesson_id__get: {
+  getLesson: {
     parameters: {
       query?: never
       header?: never
@@ -2060,7 +2060,7 @@ export interface operations {
       }
     }
   }
-  complete_lesson_api_lessons__lesson_id__complete_post: {
+  completeLesson: {
     parameters: {
       query?: never
       header?: never
@@ -2095,7 +2095,7 @@ export interface operations {
       }
     }
   }
-  get_level_api_levels__level_id__get: {
+  getLevel: {
     parameters: {
       query?: never
       header?: never
@@ -2126,7 +2126,7 @@ export interface operations {
       }
     }
   }
-  start_level_api_levels__level_id__runs_post: {
+  startLevelRun: {
     parameters: {
       query?: never
       header?: never
@@ -2161,7 +2161,7 @@ export interface operations {
       }
     }
   }
-  activity_api_me_activity_get: {
+  getLearningActivity: {
     parameters: {
       query?: {
         end_date?: string | null
@@ -2193,7 +2193,7 @@ export interface operations {
       }
     }
   }
-  read_wallet_api_me_economy_get: {
+  getEconomy: {
     parameters: {
       query?: never
       header?: never
@@ -2213,7 +2213,7 @@ export interface operations {
       }
     }
   }
-  refresh_daily_api_me_economy_daily_refresh_post: {
+  refreshDailyChallenge: {
     parameters: {
       query?: never
       header?: never
@@ -2246,7 +2246,7 @@ export interface operations {
       }
     }
   }
-  login_claim_api_me_economy_login_claims_post: {
+  claimLoginReward: {
     parameters: {
       query?: never
       header?: never
@@ -2279,7 +2279,7 @@ export interface operations {
       }
     }
   }
-  read_shop_api_me_economy_shop_get: {
+  getShop: {
     parameters: {
       query?: never
       header?: never
@@ -2299,7 +2299,7 @@ export interface operations {
       }
     }
   }
-  purchase_api_me_economy_shop_purchases_post: {
+  purchaseShopItem: {
     parameters: {
       query?: never
       header?: never
@@ -2385,7 +2385,7 @@ export interface operations {
       }
     }
   }
-  read_metadata_api_me_research_get: {
+  getResearchMetadata: {
     parameters: {
       query?: never
       header?: never
@@ -2405,7 +2405,7 @@ export interface operations {
       }
     }
   }
-  consent_api_me_research_consents_post: {
+  submitResearchConsent: {
     parameters: {
       query?: never
       header?: never
@@ -2438,7 +2438,7 @@ export interface operations {
       }
     }
   }
-  export_api_me_research_export__kind__get: {
+  exportResearchEvidence: {
     parameters: {
       query?: {
         cursor?: string | null
@@ -2472,7 +2472,7 @@ export interface operations {
       }
     }
   }
-  set_metadata_api_me_research_metadata_post: {
+  setResearchMetadata: {
     parameters: {
       query?: never
       header?: never
@@ -2505,7 +2505,7 @@ export interface operations {
       }
     }
   }
-  withdraw_api_me_research_withdrawals_post: {
+  withdrawResearchConsent: {
     parameters: {
       query?: never
       header?: never
@@ -2538,7 +2538,7 @@ export interface operations {
       }
     }
   }
-  inventory_api_me_rewards_get: {
+  getRewardInventory: {
     parameters: {
       query?: never
       header?: never
@@ -2558,7 +2558,7 @@ export interface operations {
       }
     }
   }
-  claim_api_me_rewards_claims_post: {
+  claimLearningReward: {
     parameters: {
       query?: never
       header?: never
@@ -2591,7 +2591,7 @@ export interface operations {
       }
     }
   }
-  equip_api_me_rewards_equipment_patch: {
+  updateRewardEquipment: {
     parameters: {
       query?: never
       header?: never
@@ -2624,7 +2624,7 @@ export interface operations {
       }
     }
   }
-  workflow_api_me_workflow_get: {
+  getLearningWorkflow: {
     parameters: {
       query?: never
       header?: never
@@ -2644,7 +2644,7 @@ export interface operations {
       }
     }
   }
-  get_assessment_api_modules__module_id__assessment_get: {
+  getModuleAssessment: {
     parameters: {
       query?: never
       header?: never
@@ -2675,7 +2675,7 @@ export interface operations {
       }
     }
   }
-  complete_assessment_api_modules__module_id__assessment_post: {
+  completeModuleAssessment: {
     parameters: {
       query?: never
       header?: never
@@ -2710,7 +2710,7 @@ export interface operations {
       }
     }
   }
-  start_assessment_api_modules__module_id__assessment_runs_post: {
+  startAssessmentRun: {
     parameters: {
       query?: never
       header?: never
@@ -2745,7 +2745,7 @@ export interface operations {
       }
     }
   }
-  start_diagnostic_api_modules__module_id__diagnostic_runs_post: {
+  startDiagnosticRun: {
     parameters: {
       query?: never
       header?: never
@@ -2780,7 +2780,7 @@ export interface operations {
       }
     }
   }
-  get_map_api_modules__module_id__map_get: {
+  getModuleMap: {
     parameters: {
       query?: never
       header?: never
@@ -2811,7 +2811,7 @@ export interface operations {
       }
     }
   }
-  resume_api_multiplayer__lobby_id__get: {
+  getMultiplayerLobby: {
     parameters: {
       query?: never
       header?: never
@@ -2842,7 +2842,7 @@ export interface operations {
       }
     }
   }
-  abandon_api_multiplayer__lobby_id__abandon_post: {
+  abandonMultiplayerMatch: {
     parameters: {
       query?: never
       header?: never
@@ -2877,7 +2877,7 @@ export interface operations {
       }
     }
   }
-  complete_api_multiplayer__lobby_id__complete_post: {
+  completeMultiplayerMatch: {
     parameters: {
       query?: never
       header?: never
@@ -2912,7 +2912,7 @@ export interface operations {
       }
     }
   }
-  order_api_multiplayer__lobby_id__orders_post: {
+  submitMultiplayerOrder: {
     parameters: {
       query?: never
       header?: never
@@ -2947,7 +2947,7 @@ export interface operations {
       }
     }
   }
-  cancel_api_multiplayer__lobby_id__orders__order_id__cancel_post: {
+  cancelMultiplayerOrder: {
     parameters: {
       query?: never
       header?: never
@@ -2983,7 +2983,7 @@ export interface operations {
       }
     }
   }
-  ready_api_multiplayer__lobby_id__ready_post: {
+  markMultiplayerReady: {
     parameters: {
       query?: never
       header?: never
@@ -3018,7 +3018,7 @@ export interface operations {
       }
     }
   }
-  start_api_multiplayer__lobby_id__start_post: {
+  startMultiplayerMatch: {
     parameters: {
       query?: never
       header?: never
@@ -3053,7 +3053,7 @@ export interface operations {
       }
     }
   }
-  join_api_multiplayer_join_post: {
+  joinMultiplayerLobby: {
     parameters: {
       query?: never
       header?: never
@@ -3086,7 +3086,7 @@ export interface operations {
       }
     }
   }
-  leaderboard_api_multiplayer_leaderboard_get: {
+  getMultiplayerLeaderboard: {
     parameters: {
       query?: never
       header?: never
@@ -3106,7 +3106,7 @@ export interface operations {
       }
     }
   }
-  create_api_multiplayer_lobbies_post: {
+  createMultiplayerLobby: {
     parameters: {
       query?: never
       header?: never
@@ -3139,7 +3139,7 @@ export interface operations {
       }
     }
   }
-  matches_api_multiplayer_matches_get: {
+  listMultiplayerMatches: {
     parameters: {
       query?: never
       header?: never
@@ -3159,7 +3159,7 @@ export interface operations {
       }
     }
   }
-  matchmaking_api_multiplayer_matchmaking_post: {
+  joinMultiplayerMatchmaking: {
     parameters: {
       query?: never
       header?: never
@@ -3192,7 +3192,7 @@ export interface operations {
       }
     }
   }
-  list_attempts_api_quizzes_attempts_get: {
+  listQuizAttempts: {
     parameters: {
       query?: never
       header?: never
@@ -3212,7 +3212,7 @@ export interface operations {
       }
     }
   }
-  start_attempt_api_quizzes_attempts_post: {
+  startQuizAttempt: {
     parameters: {
       query?: never
       header?: never
@@ -3245,7 +3245,7 @@ export interface operations {
       }
     }
   }
-  get_attempt_api_quizzes_attempts__attempt_id__get: {
+  getQuizAttempt: {
     parameters: {
       query?: never
       header?: never
@@ -3276,7 +3276,7 @@ export interface operations {
       }
     }
   }
-  answer_api_quizzes_attempts__attempt_id__answers_post: {
+  submitQuizAnswer: {
     parameters: {
       query?: never
       header?: never
@@ -3311,7 +3311,7 @@ export interface operations {
       }
     }
   }
-  forms_api_quizzes_forms_get: {
+  listQuizForms: {
     parameters: {
       query?: never
       header?: never
@@ -3331,7 +3331,7 @@ export interface operations {
       }
     }
   }
-  question_bank_api_quizzes_question_bank_get: {
+  getQuizQuestionBank: {
     parameters: {
       query?: never
       header?: never
@@ -3351,7 +3351,7 @@ export interface operations {
       }
     }
   }
-  list_rooms_api_quizzes_rooms_get: {
+  listQuizRooms: {
     parameters: {
       query?: never
       header?: never
@@ -3371,7 +3371,7 @@ export interface operations {
       }
     }
   }
-  create_room_api_quizzes_rooms_post: {
+  createQuizRoom: {
     parameters: {
       query?: never
       header?: never
@@ -3404,7 +3404,7 @@ export interface operations {
       }
     }
   }
-  get_room_api_quizzes_rooms__room_id__get: {
+  getQuizRoom: {
     parameters: {
       query?: never
       header?: never
@@ -3435,7 +3435,7 @@ export interface operations {
       }
     }
   }
-  close_room_api_quizzes_rooms__room_id__close_post: {
+  closeQuizRoom: {
     parameters: {
       query?: never
       header?: never
@@ -3470,7 +3470,7 @@ export interface operations {
       }
     }
   }
-  room_results_api_quizzes_rooms__room_id__results_get: {
+  getQuizRoomResults: {
     parameters: {
       query?: never
       header?: never
@@ -3501,7 +3501,7 @@ export interface operations {
       }
     }
   }
-  start_room_api_quizzes_rooms__room_id__start_post: {
+  startQuizRoom: {
     parameters: {
       query?: never
       header?: never
@@ -3536,7 +3536,7 @@ export interface operations {
       }
     }
   }
-  join_room_api_quizzes_rooms_join_post: {
+  joinQuizRoom: {
     parameters: {
       query?: never
       header?: never
@@ -3569,7 +3569,7 @@ export interface operations {
       }
     }
   }
-  reviews_api_reviews_get: {
+  listReviews: {
     parameters: {
       query?: never
       header?: never
@@ -3589,7 +3589,7 @@ export interface operations {
       }
     }
   }
-  get_review_api_reviews__review_id__get: {
+  getReview: {
     parameters: {
       query?: never
       header?: never
@@ -3620,7 +3620,7 @@ export interface operations {
       }
     }
   }
-  start_review_api_reviews__review_id__runs_post: {
+  startReviewRun: {
     parameters: {
       query?: never
       header?: never
@@ -3655,7 +3655,7 @@ export interface operations {
       }
     }
   }
-  submit_review_api_reviews__review_id__submit_post: {
+  submitReview: {
     parameters: {
       query?: never
       header?: never
@@ -3728,7 +3728,7 @@ export interface operations {
       }
     }
   }
-  list_sessions_api_simulations_get: {
+  listSimulations: {
     parameters: {
       query?: never
       header?: never
@@ -3748,7 +3748,7 @@ export interface operations {
       }
     }
   }
-  start_api_simulations_post: {
+  startSimulation: {
     parameters: {
       query?: never
       header?: never
@@ -3781,7 +3781,7 @@ export interface operations {
       }
     }
   }
-  resume_api_simulations__session_id__get: {
+  resumeSimulation: {
     parameters: {
       query?: never
       header?: never
@@ -3812,7 +3812,7 @@ export interface operations {
       }
     }
   }
-  advance_api_simulations__session_id__advance_post: {
+  advanceSimulation: {
     parameters: {
       query?: never
       header?: never
@@ -3847,7 +3847,7 @@ export interface operations {
       }
     }
   }
-  debrief_api_simulations__session_id__debrief_post: {
+  debriefSimulation: {
     parameters: {
       query?: never
       header?: never
@@ -3882,7 +3882,7 @@ export interface operations {
       }
     }
   }
-  order_api_simulations__session_id__orders_post: {
+  submitSimulationOrder: {
     parameters: {
       query?: never
       header?: never
@@ -3917,7 +3917,7 @@ export interface operations {
       }
     }
   }
-  cancel_api_simulations__session_id__orders__order_id__cancel_post: {
+  cancelSimulationOrder: {
     parameters: {
       query?: never
       header?: never

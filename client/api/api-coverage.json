@@ -8,31 +8,31 @@
       "status": "200"
     },
     {
-      "operationId": "adventure_api_adventure_get",
+      "operationId": "getAdventure",
       "method": "GET",
       "path": "/api/adventure",
       "status": "200"
     },
     {
-      "operationId": "archive_api_archive_get",
+      "operationId": "getArchive",
       "method": "GET",
       "path": "/api/archive",
       "status": "200"
     },
     {
-      "operationId": "get_attempt_api_attempts__attempt_id__get",
+      "operationId": "getLearningAttempt",
       "method": "GET",
       "path": "/api/attempts/{attempt_id}",
       "status": "200"
     },
     {
-      "operationId": "list_attempts_api_challenges_get",
+      "operationId": "listChallenges",
       "method": "GET",
       "path": "/api/challenges",
       "status": "200"
     },
     {
-      "operationId": "start_api_challenges_post",
+      "operationId": "startChallenge",
       "method": "POST",
       "path": "/api/challenges",
       "status": "201"
@@ -44,37 +44,37 @@
       "status": "200"
     },
     {
-      "operationId": "abandon_api_challenges__attempt_id__abandon_post",
+      "operationId": "abandonChallenge",
       "method": "POST",
       "path": "/api/challenges/{attempt_id}/abandon",
       "status": "200"
     },
     {
-      "operationId": "advance_api_challenges__attempt_id__advance_post",
+      "operationId": "advanceChallenge",
       "method": "POST",
       "path": "/api/challenges/{attempt_id}/advance",
       "status": "200"
     },
     {
-      "operationId": "complete_api_challenges__attempt_id__complete_post",
+      "operationId": "completeChallenge",
       "method": "POST",
       "path": "/api/challenges/{attempt_id}/complete",
       "status": "200"
     },
     {
-      "operationId": "order_api_challenges__attempt_id__orders_post",
+      "operationId": "submitChallengeOrder",
       "method": "POST",
       "path": "/api/challenges/{attempt_id}/orders",
       "status": "200"
     },
     {
-      "operationId": "cancel_api_challenges__attempt_id__orders__order_id__cancel_post",
+      "operationId": "cancelChallengeOrder",
       "method": "POST",
       "path": "/api/challenges/{attempt_id}/orders/{order_id}/cancel",
       "status": "200"
     },
     {
-      "operationId": "get_curriculum_api_curriculum_get",
+      "operationId": "getCurriculum",
       "method": "GET",
       "path": "/api/curriculum",
       "status": "200"
@@ -86,403 +86,403 @@
       "status": "200"
     },
     {
-      "operationId": "add_journal_api_journal_post",
+      "operationId": "createJournalEntry",
       "method": "POST",
       "path": "/api/journal",
       "status": "201"
     },
     {
-      "operationId": "leaderboard_api_leaderboard_get",
+      "operationId": "getLearningLeaderboard",
       "method": "GET",
       "path": "/api/leaderboard",
       "status": "200"
     },
     {
-      "operationId": "get_run_api_learning_runs__run_id__get",
+      "operationId": "getLearningRun",
       "method": "GET",
       "path": "/api/learning-runs/{run_id}",
       "status": "200"
     },
     {
-      "operationId": "resume_api_learning_runs__run_id__simulation_get",
+      "operationId": "resumeLearningSimulation",
       "method": "GET",
       "path": "/api/learning-runs/{run_id}/simulation",
       "status": "200"
     },
     {
-      "operationId": "bind_api_learning_runs__run_id__simulation_post",
+      "operationId": "bindLearningSimulation",
       "method": "POST",
       "path": "/api/learning-runs/{run_id}/simulation",
       "status": "200"
     },
     {
-      "operationId": "review_api_learning_runs__run_id__simulation_review_post",
+      "operationId": "reviewLearningSimulation",
       "method": "POST",
       "path": "/api/learning-runs/{run_id}/simulation/review",
       "status": "200"
     },
     {
-      "operationId": "submit_step_api_learning_runs__run_id__steps__step_id__submit_post",
+      "operationId": "submitLearningStep",
       "method": "POST",
       "path": "/api/learning-runs/{run_id}/steps/{step_id}/submit",
       "status": "200"
     },
     {
-      "operationId": "get_lesson_api_lessons__lesson_id__get",
+      "operationId": "getLesson",
       "method": "GET",
       "path": "/api/lessons/{lesson_id}",
       "status": "200"
     },
     {
-      "operationId": "complete_lesson_api_lessons__lesson_id__complete_post",
+      "operationId": "completeLesson",
       "method": "POST",
       "path": "/api/lessons/{lesson_id}/complete",
       "status": "200"
     },
     {
-      "operationId": "get_level_api_levels__level_id__get",
+      "operationId": "getLevel",
       "method": "GET",
       "path": "/api/levels/{level_id}",
       "status": "200"
     },
     {
-      "operationId": "start_level_api_levels__level_id__runs_post",
+      "operationId": "startLevelRun",
       "method": "POST",
       "path": "/api/levels/{level_id}/runs",
       "status": "200"
     },
     {
-      "operationId": "activity_api_me_activity_get",
+      "operationId": "getLearningActivity",
       "method": "GET",
       "path": "/api/me/activity",
       "status": "200"
     },
     {
-      "operationId": "read_wallet_api_me_economy_get",
+      "operationId": "getEconomy",
       "method": "GET",
       "path": "/api/me/economy",
       "status": "200"
     },
     {
-      "operationId": "refresh_daily_api_me_economy_daily_refresh_post",
+      "operationId": "refreshDailyChallenge",
       "method": "POST",
       "path": "/api/me/economy/daily-refresh",
       "status": "200"
     },
     {
-      "operationId": "login_claim_api_me_economy_login_claims_post",
+      "operationId": "claimLoginReward",
       "method": "POST",
       "path": "/api/me/economy/login-claims",
       "status": "200"
     },
     {
-      "operationId": "read_shop_api_me_economy_shop_get",
+      "operationId": "getShop",
       "method": "GET",
       "path": "/api/me/economy/shop",
       "status": "200"
     },
     {
-      "operationId": "purchase_api_me_economy_shop_purchases_post",
+      "operationId": "purchaseShopItem",
       "method": "POST",
       "path": "/api/me/economy/shop/purchases",
       "status": "200"
     },
     {
-      "operationId": "read_metadata_api_me_research_get",
+      "operationId": "getResearchMetadata",
       "method": "GET",
       "path": "/api/me/research",
       "status": "200"
     },
     {
-      "operationId": "consent_api_me_research_consents_post",
+      "operationId": "submitResearchConsent",
       "method": "POST",
       "path": "/api/me/research/consents",
       "status": "200"
     },
     {
-      "operationId": "export_api_me_research_export__kind__get",
+      "operationId": "exportResearchEvidence",
       "method": "GET",
       "path": "/api/me/research/export/{kind}",
       "status": "200"
     },
     {
-      "operationId": "set_metadata_api_me_research_metadata_post",
+      "operationId": "setResearchMetadata",
       "method": "POST",
       "path": "/api/me/research/metadata",
       "status": "200"
     },
     {
-      "operationId": "withdraw_api_me_research_withdrawals_post",
+      "operationId": "withdrawResearchConsent",
       "method": "POST",
       "path": "/api/me/research/withdrawals",
       "status": "200"
     },
     {
-      "operationId": "inventory_api_me_rewards_get",
+      "operationId": "getRewardInventory",
       "method": "GET",
       "path": "/api/me/rewards",
       "status": "200"
     },
     {
-      "operationId": "claim_api_me_rewards_claims_post",
+      "operationId": "claimLearningReward",
       "method": "POST",
       "path": "/api/me/rewards/claims",
       "status": "200"
     },
     {
-      "operationId": "equip_api_me_rewards_equipment_patch",
+      "operationId": "updateRewardEquipment",
       "method": "PATCH",
       "path": "/api/me/rewards/equipment",
       "status": "200"
     },
     {
-      "operationId": "workflow_api_me_workflow_get",
+      "operationId": "getLearningWorkflow",
       "method": "GET",
       "path": "/api/me/workflow",
       "status": "200"
     },
     {
-      "operationId": "get_assessment_api_modules__module_id__assessment_get",
+      "operationId": "getModuleAssessment",
       "method": "GET",
       "path": "/api/modules/{module_id}/assessment",
       "status": "200"
     },
     {
-      "operationId": "complete_assessment_api_modules__module_id__assessment_post",
+      "operationId": "completeModuleAssessment",
       "method": "POST",
       "path": "/api/modules/{module_id}/assessment",
       "status": "200"
     },
     {
-      "operationId": "start_assessment_api_modules__module_id__assessment_runs_post",
+      "operationId": "startAssessmentRun",
       "method": "POST",
       "path": "/api/modules/{module_id}/assessment-runs",
       "status": "200"
     },
     {
-      "operationId": "start_diagnostic_api_modules__module_id__diagnostic_runs_post",
+      "operationId": "startDiagnosticRun",
       "method": "POST",
       "path": "/api/modules/{module_id}/diagnostic-runs",
       "status": "200"
     },
     {
-      "operationId": "get_map_api_modules__module_id__map_get",
+      "operationId": "getModuleMap",
       "method": "GET",
       "path": "/api/modules/{module_id}/map",
       "status": "200"
     },
     {
-      "operationId": "join_api_multiplayer_join_post",
+      "operationId": "joinMultiplayerLobby",
       "method": "POST",
       "path": "/api/multiplayer/join",
       "status": "200"
     },
     {
-      "operationId": "leaderboard_api_multiplayer_leaderboard_get",
+      "operationId": "getMultiplayerLeaderboard",
       "method": "GET",
       "path": "/api/multiplayer/leaderboard",
       "status": "200"
     },
     {
-      "operationId": "create_api_multiplayer_lobbies_post",
+      "operationId": "createMultiplayerLobby",
       "method": "POST",
       "path": "/api/multiplayer/lobbies",
       "status": "201"
     },
     {
-      "operationId": "matches_api_multiplayer_matches_get",
+      "operationId": "listMultiplayerMatches",
       "method": "GET",
       "path": "/api/multiplayer/matches",
       "status": "200"
     },
     {
-      "operationId": "matchmaking_api_multiplayer_matchmaking_post",
+      "operationId": "joinMultiplayerMatchmaking",
       "method": "POST",
       "path": "/api/multiplayer/matchmaking",
       "status": "200"
     },
     {
-      "operationId": "resume_api_multiplayer__lobby_id__get",
+      "operationId": "getMultiplayerLobby",
       "method": "GET",
       "path": "/api/multiplayer/{lobby_id}",
       "status": "200"
     },
     {
-      "operationId": "abandon_api_multiplayer__lobby_id__abandon_post",
+      "operationId": "abandonMultiplayerMatch",
       "method": "POST",
       "path": "/api/multiplayer/{lobby_id}/abandon",
       "status": "200"
     },
     {
-      "operationId": "complete_api_multiplayer__lobby_id__complete_post",
+      "operationId": "completeMultiplayerMatch",
       "method": "POST",
       "path": "/api/multiplayer/{lobby_id}/complete",
       "status": "200"
     },
     {
-      "operationId": "order_api_multiplayer__lobby_id__orders_post",
+      "operationId": "submitMultiplayerOrder",
       "method": "POST",
       "path": "/api/multiplayer/{lobby_id}/orders",
       "status": "200"
     },
     {
-      "operationId": "cancel_api_multiplayer__lobby_id__orders__order_id__cancel_post",
+      "operationId": "cancelMultiplayerOrder",
       "method": "POST",
       "path": "/api/multiplayer/{lobby_id}/orders/{order_id}/cancel",
       "status": "200"
     },
     {
-      "operationId": "ready_api_multiplayer__lobby_id__ready_post",
+      "operationId": "markMultiplayerReady",
       "method": "POST",
       "path": "/api/multiplayer/{lobby_id}/ready",
       "status": "200"
     },
     {
-      "operationId": "start_api_multiplayer__lobby_id__start_post",
+      "operationId": "startMultiplayerMatch",
       "method": "POST",
       "path": "/api/multiplayer/{lobby_id}/start",
       "status": "200"
     },
     {
-      "operationId": "list_attempts_api_quizzes_attempts_get",
+      "operationId": "listQuizAttempts",
       "method": "GET",
       "path": "/api/quizzes/attempts",
       "status": "200"
     },
     {
-      "operationId": "start_attempt_api_quizzes_attempts_post",
+      "operationId": "startQuizAttempt",
       "method": "POST",
       "path": "/api/quizzes/attempts",
       "status": "201"
     },
     {
-      "operationId": "get_attempt_api_quizzes_attempts__attempt_id__get",
+      "operationId": "getQuizAttempt",
       "method": "GET",
       "path": "/api/quizzes/attempts/{attempt_id}",
       "status": "200"
     },
     {
-      "operationId": "answer_api_quizzes_attempts__attempt_id__answers_post",
+      "operationId": "submitQuizAnswer",
       "method": "POST",
       "path": "/api/quizzes/attempts/{attempt_id}/answers",
       "status": "200"
     },
     {
-      "operationId": "forms_api_quizzes_forms_get",
+      "operationId": "listQuizForms",
       "method": "GET",
       "path": "/api/quizzes/forms",
       "status": "200"
     },
     {
-      "operationId": "question_bank_api_quizzes_question_bank_get",
+      "operationId": "getQuizQuestionBank",
       "method": "GET",
       "path": "/api/quizzes/question-bank",
       "status": "200"
     },
     {
-      "operationId": "list_rooms_api_quizzes_rooms_get",
+      "operationId": "listQuizRooms",
       "method": "GET",
       "path": "/api/quizzes/rooms",
       "status": "200"
     },
     {
-      "operationId": "create_room_api_quizzes_rooms_post",
+      "operationId": "createQuizRoom",
       "method": "POST",
       "path": "/api/quizzes/rooms",
       "status": "201"
     },
     {
-      "operationId": "join_room_api_quizzes_rooms_join_post",
+      "operationId": "joinQuizRoom",
       "method": "POST",
       "path": "/api/quizzes/rooms/join",
       "status": "200"
     },
     {
-      "operationId": "get_room_api_quizzes_rooms__room_id__get",
+      "operationId": "getQuizRoom",
       "method": "GET",
       "path": "/api/quizzes/rooms/{room_id}",
       "status": "200"
     },
     {
-      "operationId": "close_room_api_quizzes_rooms__room_id__close_post",
+      "operationId": "closeQuizRoom",
       "method": "POST",
       "path": "/api/quizzes/rooms/{room_id}/close",
       "status": "200"
     },
     {
-      "operationId": "room_results_api_quizzes_rooms__room_id__results_get",
+      "operationId": "getQuizRoomResults",
       "method": "GET",
       "path": "/api/quizzes/rooms/{room_id}/results",
       "status": "200"
     },
     {
-      "operationId": "start_room_api_quizzes_rooms__room_id__start_post",
+      "operationId": "startQuizRoom",
       "method": "POST",
       "path": "/api/quizzes/rooms/{room_id}/start",
       "status": "200"
     },
     {
-      "operationId": "reviews_api_reviews_get",
+      "operationId": "listReviews",
       "method": "GET",
       "path": "/api/reviews",
       "status": "200"
     },
     {
-      "operationId": "get_review_api_reviews__review_id__get",
+      "operationId": "getReview",
       "method": "GET",
       "path": "/api/reviews/{review_id}",
       "status": "200"
     },
     {
-      "operationId": "start_review_api_reviews__review_id__runs_post",
+      "operationId": "startReviewRun",
       "method": "POST",
       "path": "/api/reviews/{review_id}/runs",
       "status": "200"
     },
     {
-      "operationId": "submit_review_api_reviews__review_id__submit_post",
+      "operationId": "submitReview",
       "method": "POST",
       "path": "/api/reviews/{review_id}/submit",
       "status": "200"
     },
     {
-      "operationId": "list_sessions_api_simulations_get",
+      "operationId": "listSimulations",
       "method": "GET",
       "path": "/api/simulations",
       "status": "200"
     },
     {
-      "operationId": "start_api_simulations_post",
+      "operationId": "startSimulation",
       "method": "POST",
       "path": "/api/simulations",
       "status": "201"
     },
     {
-      "operationId": "resume_api_simulations__session_id__get",
+      "operationId": "resumeSimulation",
       "method": "GET",
       "path": "/api/simulations/{session_id}",
       "status": "200"
     },
     {
-      "operationId": "advance_api_simulations__session_id__advance_post",
+      "operationId": "advanceSimulation",
       "method": "POST",
       "path": "/api/simulations/{session_id}/advance",
       "status": "200"
     },
     {
-      "operationId": "debrief_api_simulations__session_id__debrief_post",
+      "operationId": "debriefSimulation",
       "method": "POST",
       "path": "/api/simulations/{session_id}/debrief",
       "status": "200"
     },
     {
-      "operationId": "order_api_simulations__session_id__orders_post",
+      "operationId": "submitSimulationOrder",
       "method": "POST",
       "path": "/api/simulations/{session_id}/orders",
       "status": "200"
     },
     {
-      "operationId": "cancel_api_simulations__session_id__orders__order_id__cancel_post",
+      "operationId": "cancelSimulationOrder",
       "method": "POST",
       "path": "/api/simulations/{session_id}/orders/{order_id}/cancel",
       "status": "200"

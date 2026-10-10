@@ -125,7 +125,7 @@ async def locked_room(db, room_id, request):
     return room
 
 
-@router.get('/forms')
+@router.get('/forms', operation_id='listQuizForms')
 async def forms(request: Request, user: User):
     content = catalog(request)
     return {'content_version': content['content_version'], 'policy_version': VERSION,
@@ -134,7 +134,7 @@ async def forms(request: Request, user: User):
                        'passing_xp': 20, 'source_basis': module.get('source_basis', [])} for module in content['modules']]}
 
 
-@router.get('/question-bank')
+@router.get('/question-bank', operation_id='getQuizQuestionBank')
 async def question_bank(request: Request, user: User):
     require_instructor(request, user)
     content = catalog(request)
@@ -142,7 +142,7 @@ async def question_bank(request: Request, user: User):
         {'module_id': entry['module_id'], **public_question(entry['question'])} for entry in bank(content).values()]}
 
 
-@router.post('/rooms', status_code=201)
+@router.post('/rooms', status_code=201, operation_id='createQuizRoom')
 async def create_room(body: CreateRoom, request: Request, db: DB, user: User):
     digest, previous = await replay(db, user, body, 'create-room')
     if previous is not None:
@@ -170,7 +170,7 @@ async def create_room(body: CreateRoom, request: Request, db: DB, user: User):
     return await remember(db, user, body, digest, await room_view(db, room))
 
 
-@router.post('/rooms/join')
+@router.post('/rooms/join', operation_id='joinQuizRoom')
 async def join_room(body: Join, request: Request, db: DB, user: User):
     digest, previous = await replay(db, user, body, 'join-room')
     if previous is not None:
@@ -196,7 +196,7 @@ async def join_room(body: Join, request: Request, db: DB, user: User):
     return await remember(db, user, body, digest, await room_view(db, room))
 
 
-@router.get('/rooms')
+@router.get('/rooms', operation_id='listQuizRooms')
 async def list_rooms(db: DB, user: User):
     joined = select(QuizMember.room_id).where(QuizMember.user_id == user.id)
     rooms = (await db.scalars(select(QuizRoom).where(or_(QuizRoom.host_id == user.id, QuizRoom.id.in_(joined)))
@@ -204,7 +204,7 @@ async def list_rooms(db: DB, user: User):
     return {'rooms': [await room_view(db, room) for room in rooms]}
 
 
-@router.get('/rooms/{room_id}')
+@router.get('/rooms/{room_id}', operation_id='getQuizRoom')
 async def get_room(room_id: str, request: Request, db: DB, user: User):
     room = await db.get(QuizRoom, room_id)
     if room is None or (room.host_id != user.id and not await db.get(QuizMember, (room.id, user.id))):
@@ -236,17 +236,17 @@ async def change_room(room_id, body, request, db, user, operation):
     return await remember(db, user, body, digest, await room_view(db, room))
 
 
-@router.post('/rooms/{room_id}/start')
+@router.post('/rooms/{room_id}/start', operation_id='startQuizRoom')
 async def start_room(room_id: str, body: Command, request: Request, db: DB, user: User):
     return await change_room(room_id, body, request, db, user, 'start-room')
 
 
-@router.post('/rooms/{room_id}/close')
+@router.post('/rooms/{room_id}/close', operation_id='closeQuizRoom')
 async def close_room(room_id: str, body: Command, request: Request, db: DB, user: User):
     return await change_room(room_id, body, request, db, user, 'close-room')
 
 
-@router.get('/rooms/{room_id}/results')
+@router.get('/rooms/{room_id}/results', operation_id='getQuizRoomResults')
 async def room_results(room_id: str, request: Request, db: DB, user: User):
     require_instructor(request, user)
     room = await db.get(QuizRoom, room_id)
@@ -266,7 +266,7 @@ async def room_results(room_id: str, request: Request, db: DB, user: User):
             for attempt in attempts if attempt.user_id == identifier]} for identifier, name in rows]}
 
 
-@router.post('/attempts', status_code=201)
+@router.post('/attempts', status_code=201, operation_id='startQuizAttempt')
 async def start_attempt(body: Start, request: Request, db: DB, user: User):
     digest, previous = await replay(db, user, body, 'start-attempt')
     if previous is not None:
@@ -320,7 +320,7 @@ async def owned_attempt(db, user, attempt_id, request):
     return attempt
 
 
-@router.get('/attempts')
+@router.get('/attempts', operation_id='listQuizAttempts')
 async def list_attempts(db: DB, user: User):
     rows = (await db.execute(select(QuizAttempt.id, QuizAttempt.room_id, QuizAttempt.quiz_id,
         QuizAttempt.content_version, QuizAttempt.attempt_number, QuizAttempt.status, QuizAttempt.created_at)
@@ -328,12 +328,12 @@ async def list_attempts(db: DB, user: User):
     return {'attempts': [dict(row) for row in rows]}
 
 
-@router.get('/attempts/{attempt_id}')
+@router.get('/attempts/{attempt_id}', operation_id='getQuizAttempt')
 async def get_attempt(attempt_id: str, request: Request, db: DB, user: User):
     return attempt_view(await owned_attempt(db, user, attempt_id, request))
 
 
-@router.post('/attempts/{attempt_id}/answers')
+@router.post('/attempts/{attempt_id}/answers', operation_id='submitQuizAnswer')
 async def answer(attempt_id: str, body: Response, request: Request, db: DB, user: User):
     digest, previous = await replay(db, user, body, 'answer', attempt_id)
     if previous is not None:

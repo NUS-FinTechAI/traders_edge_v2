@@ -113,7 +113,7 @@ async def create_session(db, user, mode='guided', seed=None, kind=None, ticks=12
     return session
 
 
-@router.get('')
+@router.get('', operation_id='listSimulations')
 async def list_sessions(db: DB, user: User):
     statement = select(SimulationSession.id, SimulationSession.mode, SimulationSession.updated_at,
                        SimulationSession.snapshot_json['tick'].as_integer().label('tick'),
@@ -127,7 +127,7 @@ async def list_sessions(db: DB, user: User):
     return {'sessions': [dict(session) for session in sessions]}
 
 
-@router.post('', status_code=201)
+@router.post('', status_code=201, operation_id='startSimulation')
 async def start(body: Create, request: Request, db: DB, user: User):
     digest = hashlib.sha256(json.dumps({'operation': 'create', 'mode': body.mode}, sort_keys=True).encode()).hexdigest()
     previous = await db.get(SimulationCommand, (user.id, body.idempotency_key))
@@ -143,7 +143,7 @@ async def start(body: Create, request: Request, db: DB, user: User):
     return result
 
 
-@router.get('/{session_id}')
+@router.get('/{session_id}', operation_id='resumeSimulation')
 async def resume(session_id: str, request: Request, db: DB, user: User):
     from app.simulation.lesson_api import validate_session
     session = await owned(db, user, session_id)
@@ -186,21 +186,21 @@ async def execute(session_id, body, operation, db, user, order_id=None, request=
     return result
 
 
-@router.post('/{session_id}/orders')
+@router.post('/{session_id}/orders', operation_id='submitSimulationOrder')
 async def order(session_id: str, body: Order, request: Request, db: DB, user: User):
     return await execute(session_id, body, 'order', db, user, request=request)
 
 
-@router.post('/{session_id}/advance')
+@router.post('/{session_id}/advance', operation_id='advanceSimulation')
 async def advance(session_id: str, body: Advance, request: Request, db: DB, user: User):
     return await execute(session_id, body, 'advance', db, user, request=request)
 
 
-@router.post('/{session_id}/orders/{order_id}/cancel')
+@router.post('/{session_id}/orders/{order_id}/cancel', operation_id='cancelSimulationOrder')
 async def cancel(session_id: str, order_id: str, body: Command, request: Request, db: DB, user: User):
     return await execute(session_id, body, 'cancel', db, user, order_id, request=request)
 
 
-@router.post('/{session_id}/debrief')
+@router.post('/{session_id}/debrief', operation_id='debriefSimulation')
 async def debrief(session_id: str, body: Debrief, request: Request, db: DB, user: User):
     return await execute(session_id, body, 'debrief', db, user, request=request)

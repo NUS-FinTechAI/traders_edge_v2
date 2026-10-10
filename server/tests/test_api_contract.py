@@ -7,12 +7,28 @@ import unittest
 from unittest.mock import patch
 
 from fastapi.encoders import jsonable_encoder
+from fastapi.routing import APIRoute
 
 from app.api_schemas import GuestSession, UserProfile
 from app.export_openapi import export_schema
+from app.config import Settings
+from app.main import create_app
 
 
 class ApiContractTests(unittest.TestCase):
+    def test_every_public_route_has_an_explicit_unique_camel_case_operation_id(self):
+        app = create_app(Settings(auth_mode='guest', auto_migrate=False))
+        routes = [route for route in app.routes if isinstance(route, APIRoute) and route.include_in_schema]
+        identifiers = []
+
+        for route in routes:
+            with self.subTest(path=route.path, methods=route.methods):
+                self.assertIsNotNone(route.operation_id)
+                self.assertRegex(route.operation_id, r'^[a-z][a-zA-Z0-9]*$')
+                identifiers.append(route.operation_id)
+
+        self.assertEqual(len(identifiers), len(set(identifiers)))
+
     def test_export_does_not_initialize_database_or_firebase(self):
         with patch('app.main.Database', side_effect=AssertionError('Database initialized')), \
                 patch('firebase_admin.initialize_app', side_effect=AssertionError('Firebase initialized')):

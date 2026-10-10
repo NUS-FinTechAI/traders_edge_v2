@@ -232,12 +232,12 @@ async def settle_challenge(db, profile, result):
     return response
 
 
-@router.get('')
+@router.get('', operation_id='getEconomy')
 async def read_wallet(db: DB, user: User):
     return wallet(await db.get(EconomyAccount, user.id), utc(now()))
 
 
-@router.post('/login-claims')
+@router.post('/login-claims', operation_id='claimLoginReward')
 async def login_claim(body: Command, db: DB, user: User):
     request_hash, previous = await replay(db, user.id, body, 'login')
     if previous is not None:
@@ -262,7 +262,7 @@ async def login_claim(body: Command, db: DB, user: User):
     return await remember(db, user.id, body, request_hash, response)
 
 
-@router.post('/daily-refresh')
+@router.post('/daily-refresh', operation_id='refreshDailyChallenge')
 async def refresh_daily(body: Command, db: DB, user: User):
     request_hash, previous = await replay(db, user.id, body, 'daily-refresh')
     if previous is not None:
@@ -293,7 +293,7 @@ def shop_snapshot(item, current_week):
             'criteria': {'description': 'Purchased with earned game currency under economy policy 1'}}
 
 
-@router.get('/shop')
+@router.get('/shop', operation_id='getShop')
 async def read_shop(db: DB, user: User):
     current_week = week(now())
     items = []
@@ -304,7 +304,7 @@ async def read_shop(db: DB, user: User):
     return {'policy_version': POLICY_VERSION, 'items': items}
 
 
-@router.post('/shop/purchases')
+@router.post('/shop/purchases', operation_id='purchaseShopItem')
 async def purchase(body: Purchase, db: DB, user: User):
     request_hash, previous = await replay(db, user.id, body, 'purchase')
     if previous is not None:
