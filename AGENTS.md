@@ -51,6 +51,7 @@ The authoring contract is in `docs/curriculum/README.md`, `server/README.md` and
 The game design document is the source of truth for gameplay requirements: `docs/game-design.md`.
 
 Before implementing or changing gameplay features:
+
 1. Read the latest version of the relevant sections.
 2. Follow the requirements described in the document.
 3. If the document conflicts with the current task, highlight the conflict.

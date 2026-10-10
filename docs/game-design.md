@@ -15,11 +15,11 @@ Trading performance determines the outcome of competitions, while learning asses
 
 The application aims to:
 
-* Teach trading terminology and techniques through a progression from basic to advanced topics.  
-* Give players opportunities to apply their knowledge against AI opponents and other players.  
-* Encourage continued participation through daily challenges, collectible rewards, and ranked competition.  
-* Support classroom activities through private multiplayer lobbies and quizzes.  
-* Capture gameplay evidence that helps researchers evaluate learning beyond quiz scores.
+- Teach trading terminology and techniques through a progression from basic to advanced topics.
+- Give players opportunities to apply their knowledge against AI opponents and other players.
+- Encourage continued participation through daily challenges, collectible rewards, and ranked competition.
+- Support classroom activities through private multiplayer lobbies and quizzes.
+- Capture gameplay evidence that helps researchers evaluate learning beyond quiz scores.
 
 ## **3\. Shared Trading Challenge Rules**
 
@@ -27,9 +27,9 @@ The application aims to:
 
 Stock trading challenges support the following formats:
 
-* One player against one AI opponent.  
-* One player against multiple AI opponents trading simultaneously.  
-* Multiple human players competing in the same multiplayer session.
+- One player against one AI opponent.
+- One player against multiple AI opponents trading simultaneously.
+- Multiple human players competing in the same multiplayer session.
 
 The number of AI opponents and the scenario used depend on the challenge.
 
@@ -65,8 +65,8 @@ Each chapter contains multiple levels displayed through an adventure map interfa
 
 Each level includes basic missions and may include bonus missions.
 
-* **Normal star:** Awarded for completing the basic missions.  
-* **Special star:** Awarded for completing the bonus missions.
+- **Normal star:** Awarded for completing the basic missions.
+- **Special star:** Awarded for completing the bonus missions.
 
 Bonus missions provide additional goals for players who want to demonstrate deeper understanding or pursue full completion.
 
@@ -120,12 +120,12 @@ Winning awards a custom reward currency that contributes toward a weekly cosmeti
 
 Example weekly reward structure:
 
-| Item | Example |
-| ----- | ----- |
-| Weekly reward | “Colossal Challenger” player title |
-| Required currency | 1,000 Stocks |
-| Currency per daily victory | 200 Stocks |
-| Required daily victories | Five within seven days |
+| Item                       | Example                            |
+| -------------------------- | ---------------------------------- |
+| Weekly reward              | “Colossal Challenger” player title |
+| Required currency          | 1,000 Stocks                       |
+| Currency per daily victory | 200 Stocks                         |
+| Required daily victories   | Five within seven days             |
 
 “Stocks” is a working name for the reward currency. It should be clearly distinguished from tradable shares and simulated trading funds.
 
@@ -135,8 +135,8 @@ Example weekly reward structure:
 
 After losing, the player can:
 
-* Wait for a two-hour cooldown to expire.  
-* Spend premium currency to refresh the challenge immediately.
+- Wait for a two-hour cooldown to expire.
+- Spend premium currency to refresh the challenge immediately.
 
 The premium currency cost, daily reset time, and handling of a cooldown across the daily reset remain to be defined.
 
@@ -144,8 +144,8 @@ The premium currency cost, daily reset time, and handling of a cooldown across t
 
 Players can log in each day to claim rewards and build a daily login streak. Rewards may include:
 
-* **Player XP:** Contributes toward player level progression.  
-* **Stocks:** Contributes toward the current weekly reward.
+- **Player XP:** Contributes toward player level progression.
+- **Stocks:** Contributes toward the current weekly reward.
 
 Consecutive daily logins advance the streak. Daily login rewards can be claimed once per day and are separate from daily challenge victory rewards.
 
@@ -159,9 +159,9 @@ Daily challenge currency rewards successful participation and progresses players
 
 Possible rewards include:
 
-* Avatar icons.  
-* Player titles.  
-* Badges.
+- Avatar icons.
+- Player titles.
+- Badges.
 
 Unspent currency from the week expires and the progress resets in a brand new week.
 
@@ -171,8 +171,8 @@ Premium currency is earned through ranked multiplayer progression.
 
 Players may spend it to:
 
-* Refresh daily challenges after a defeat.  
-* Purchase premium rewards from the shop.
+- Refresh daily challenges after a defeat.
+- Purchase premium rewards from the shop.
 
 The earning rates, refresh costs, shop inventory, and reward prices remain to be defined. Real-money purchasing is not specified in the current design.
 
@@ -180,9 +180,9 @@ The earning rates, refresh costs, shop inventory, and reward prices remain to be
 
 The interface should clearly distinguish between:
 
-* Simulated funds used to trade during challenges.  
-* Currency earned through daily challenges.  
-* Premium currency earned through ranked progression.
+- Simulated funds used to trade during challenges.
+- Currency earned through daily challenges.
+- Premium currency earned through ranked progression.
 
 These resources serve different purposes and should have distinct names and visual indicators.
 
@@ -200,11 +200,11 @@ Other players enter the code within the application to join the lobby.
 
 ### **8.2 Match Flow**
 
-1. A player creates a lobby.  
-2. The host shares the join code.  
-3. Other players enter the code and join.  
-4. Once at least two players are present, the host starts the match.  
-5. Players compete in a trading challenge.  
+1. A player creates a lobby.
+2. The host shares the join code.
+3. Other players enter the code and join.
+4. Once at least two players are present, the host starts the match.
+5. Players compete in a trading challenge.
 6. The match ends with a leaderboard ranked by total profit.
 
 Maximum lobby size, host controls, match settings, and disconnection handling remain to be defined.
@@ -221,10 +221,10 @@ The application includes a global multiplayer leaderboard ranked by player ratin
 
 This is separate from the leaderboard displayed at the end of each match:
 
-| Leaderboard | Ranking basis | Purpose |
-| ----- | ----- | ----- |
-| Match leaderboard | Total profit in one challenge | Determines the challenge winner |
-| Global multiplayer leaderboard | Player rank rating | Shows competitive standing across matches |
+| Leaderboard                    | Ranking basis                 | Purpose                                   |
+| ------------------------------ | ----------------------------- | ----------------------------------------- |
+| Match leaderboard              | Total profit in one challenge | Determines the challenge winner           |
+| Global multiplayer leaderboard | Player rank rating            | Shows competitive standing across matches |
 
 Players improve their rating through ranked competition and can earn premium currency as they progress.
 
@@ -246,13 +246,13 @@ Player actions during AI challenges are recorded in the backend for later analys
 
 **Proposed logged information includes:**
 
-* Challenge identifier, scenario version, and difficulty.  
-* Relevant market information available when a decision was made.  
-* Buy and sell actions, including timing, quantity, and price.  
-* Cash balance and portfolio holdings over time.  
-* Exposure to individual stocks and changes in allocation.  
-* Realized and unrealized profit or loss.  
-* Attempt number, final profit, and leaderboard position.
+- Challenge identifier, scenario version, and difficulty.
+- Relevant market information available when a decision was made.
+- Buy and sell actions, including timing, quantity, and price.
+- Cash balance and portfolio holdings over time.
+- Exposure to individual stocks and changes in allocation.
+- Realized and unrealized profit or loss.
+- Attempt number, final profit, and leaderboard position.
 
 Logs should include enough scenario context to interpret decisions, rather than recording actions in isolation.
 
@@ -260,12 +260,12 @@ Logs should include enough scenario context to interpret decisions, rather than 
 
 Possible measures include:
 
-* Improvement between pre-learning and post-learning challenges.  
-* Application of the concepts targeted by a scenario.  
-* Changes in risk-taking and portfolio concentration.  
-* Consistency across multiple challenges.  
-* Ability to apply knowledge to unfamiliar scenarios.  
-* Differences in learning gains between prior-knowledge groups.
+- Improvement between pre-learning and post-learning challenges.
+- Application of the concepts targeted by a scenario.
+- Changes in risk-taking and portfolio concentration.
+- Consistency across multiple challenges.
+- Ability to apply knowledge to unfamiliar scenarios.
+- Differences in learning gains between prior-knowledge groups.
 
 These measures are proposed assessment inputs. A scoring rubric must be defined before they can be treated as a validated measure of learning.
 
@@ -289,12 +289,12 @@ Instructor controls, question selection, attempt limits, and access to results r
 
 The following decisions are required before implementation:
 
-* Chapter topics, level content, and learning objectives.  
-* Exact chapter unlock and boss-fight progression rules.  
-* Trading simulation rules, challenge duration, and profit calculation.  
-* AI behaviour, difficulty, and scenario structure.  
-* Currency names and reward costs.  
-* Ranked rating calculations and premium currency rewards.  
-* Shop functionality and available cosmetics.  
-* Learning assessment rubric and prior-knowledge measurement.  
-* Classroom quiz and instructor features.
+- Chapter topics, level content, and learning objectives.
+- Exact chapter unlock and boss-fight progression rules.
+- Trading simulation rules, challenge duration, and profit calculation.
+- AI behaviour, difficulty, and scenario structure.
+- Currency names and reward costs.
+- Ranked rating calculations and premium currency rewards.
+- Shop functionality and available cosmetics.
+- Learning assessment rubric and prior-knowledge measurement.
+- Classroom quiz and instructor features.
