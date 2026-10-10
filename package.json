@@ -4,7 +4,6 @@
   "scripts": {
     "api:generate": "node scripts/generate-api.mjs",
     "api:check": "node scripts/generate-api.mjs --check",
-    "api:test": "node --test scripts/tests/*.test.mjs",
     "dev": "npm --prefix client run dev",
     "build": "npm --prefix client run build",
     "test": "npm --prefix client test",

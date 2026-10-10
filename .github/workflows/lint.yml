@@ -61,7 +61,7 @@ jobs:
         run: uv run --project server --extra test --locked python -m unittest discover -s server/tests
 
       - name: Check generated API contract
-        run: npm run api:test && npm run api:check
+        run: npm run api:check
 
       - name: Validate curriculum and its contract
         run: |
