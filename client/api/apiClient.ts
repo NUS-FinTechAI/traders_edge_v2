@@ -2,7 +2,7 @@ import httpService, {
   type HttpService,
   type RequestOptions,
 } from '../services/httpService.ts'
-import type { operations } from './api-types.ts'
+import type { operations } from './api-contract.ts'
 import { apiEndpoints } from './api-endpoints.ts'
 
 type Endpoint = (typeof apiEndpoints)[keyof typeof apiEndpoints]

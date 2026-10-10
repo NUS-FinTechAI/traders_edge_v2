@@ -54,16 +54,23 @@ export async function buildArtifacts(schema, root) {
     operation_count: Object.keys(endpoints).length,
     unspecified_success_responses: missingResponses,
   }
+  const declarations = await openapiTS(schema, {
+    alphabetize: true,
+    defaultNonNullable: false,
+    emptyObjectsUnknown: true,
+  })
+  const componentDeclarations = declarations.filter(
+    (declaration) => declaration.name?.text === 'components',
+  )
+  const contractDeclarations = declarations.filter(
+    (declaration) => declaration.name?.text !== 'components',
+  )
   const outputs = {
-    'client/api/api-types.ts':
+    'client/api/api-types.ts': banner + astToString(componentDeclarations),
+    'client/api/api-contract.ts':
       banner +
-      astToString(
-        await openapiTS(schema, {
-          alphabetize: true,
-          defaultNonNullable: false,
-          emptyObjectsUnknown: true,
-        }),
-      ),
+      "import type { components } from './api-types.ts'\n" +
+      astToString(contractDeclarations),
     'client/api/api-endpoints.ts':
       banner +
       `export const apiEndpoints = ${JSON.stringify(endpoints, null, 2)} as const\n`,
