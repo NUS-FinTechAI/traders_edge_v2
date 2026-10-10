@@ -61,30 +61,6 @@ export class HttpService {
     }
   }
 
-  get<T = unknown>(path: string, options?: RequestOptions): Promise<T> {
-    return this.request<T>(path, { ...options, method: 'GET' })
-  }
-
-  post<T = unknown>(
-    path: string,
-    body?: unknown,
-    options?: RequestOptions,
-  ): Promise<T> {
-    return this.request<T>(path, { ...options, method: 'POST', body })
-  }
-
-  patch<T = unknown>(
-    path: string,
-    body?: unknown,
-    options?: RequestOptions,
-  ): Promise<T> {
-    return this.request<T>(path, { ...options, method: 'PATCH', body })
-  }
-
-  delete<T = void>(path: string, options?: RequestOptions): Promise<T> {
-    return this.request<T>(path, { ...options, method: 'DELETE' })
-  }
-
   async request<T = unknown>(
     path: string,
     options: HttpRequestOptions = {},

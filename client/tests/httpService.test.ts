@@ -24,7 +24,7 @@ test('GET includes cookies, encodes query values and returns JSON', async (t) =>
     return Response.json({ entries: [] })
   })
   assert.deepEqual(
-    await httpService.get('/api/journal?limit=10', {
+    await httpService.request('/api/journal?limit=10', {
       query: { limit: 0, enabled: false, tag: ['a & b', 'c'], missing: null },
     }),
     { entries: [] },
@@ -36,10 +36,13 @@ test('network failures are distinguishable and mutations are never retried', asy
   const fetchMock = stubFetch(t, async () => {
     throw new TypeError('Failed to fetch')
   })
-  await assert.rejects(httpService.post('/api/session'), {
-    kind: 'network',
-    status: null,
-  })
+  await assert.rejects(
+    httpService.request('/api/session', { method: 'POST' }),
+    {
+      kind: 'network',
+      status: null,
+    },
+  )
   assert.equal(fetchMock.mock.callCount(), 1)
 })
 
@@ -49,7 +52,7 @@ test('aborted requests do not obtain tokens or call fetch', async (t) => {
   const controller = new AbortController()
   controller.abort()
   await assert.rejects(
-    new HttpService({ baseUrl, getAccessToken }).get('/api/me/profile', {
+    new HttpService({ baseUrl, getAccessToken }).request('/api/me/profile', {
       signal: controller.signal,
     }),
     { kind: 'aborted', status: null },
@@ -66,7 +69,7 @@ test('cancellation during a request forwards the signal and remains distinguisha
     throw controller.signal.reason
   })
   await assert.rejects(
-    new HttpService({ baseUrl }).get('/api/me/profile', {
+    new HttpService({ baseUrl }).request('/api/me/profile', {
       signal: controller.signal,
     }),
     { kind: 'aborted' },
@@ -85,7 +88,7 @@ test('unsafe destinations fail before obtaining credentials or making requests',
     'api/profile',
     '/api/profile#fragment',
   ]) {
-    await assert.rejects(http.get(path), TypeError)
+    await assert.rejects(http.request(path), TypeError)
   }
   await assert.rejects(http.request('/api/me/profile', { body: {} }), TypeError)
   assert.equal(getAccessToken.mock.callCount(), 0)
