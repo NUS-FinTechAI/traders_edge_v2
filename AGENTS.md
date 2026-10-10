@@ -42,9 +42,19 @@ Challenge profit results and public multiplayer rating are separate from learnin
 
 Routine backend implementation decisions are delegated within the authorized scope. The owner must select a visual direction before final design specifications or product UI; replacement UI implementation also requires a separate go-ahead after technical and safety review. Static concepts may support that selection. Record alternatives and independent critique. Historical design selection is not approval of the reopened design. Keep frontend visual work in its separate task scope; do not overwrite another worktree's dirty changes.
 
-No navy/neon styling, glowing hexagons, glass gradients or fantasy-map textures. Use the required treasure-map metaphor with accessible, meaningful navigation. Follow `docs/design/anti-slop-checklist.md`. Minimum touch target is 44px; support visible focus, reduced motion and non-color state labels.
+No navy/neon styling, glowing hexagons, glass gradients or fantasy-map textures. Use the required treasure-map metaphor with accessible, meaningful navigation. Follow `docs/design/anti-slop-checklist.md`. Minimum touch target is 44px; support visible focus, reduced motion and non-color state labels. Refer to `docs/source/Trader_s_Edge_Sample_UI.jpg` for expected UI layouts.
 
 The authoring contract is in `docs/curriculum/README.md`, `server/README.md` and `server/app/content/validate.py`; extend the canonical catalog rather than inventing a parallel runtime format. Every module's `entry_tasks`, lesson `tasks` and `bonus_tasks` are executable decision practice; the older module-level reflection prompts remain `content_only`. Lessons need source basis and objectives; scenarios need provenance, seed, friction and private future state. Pin task/rubric versions in new runs and keep diagnostic/exit/review feedback hidden until the form completes. Review failure uses the pinned interval; bound simulation audits use their dedicated payload without changing `StepAnswer` hashing. Fresh audits must echo the latest public `observation_token`, including after same-tick order changes; historical committed tokenless audits still replay. Verify ordinary routes enforce bound policy and replay precedes fresh gates. Keep existing learning-earned badges distinct from game challenge cosmetics; never reward trading frequency or present challenge rewards as validated competence. Catalog validation is not independent financial/pedagogical review; production must continue refusing unapproved content.
+
+## Game Design
+
+The game design document is the source of truth for gameplay requirements: `docs/game-design.md`.
+
+Before implementing or changing gameplay features:
+
+1. Read the latest version of the relevant sections.
+2. Follow the requirements described in the document.
+3. If the document conflicts with the current task, highlight the conflict.
 
 ## Work and review
 
@@ -56,7 +66,7 @@ Review every PR independently for correctness, scope, tests and plain language. 
 
 No filler comments, invented citations, marketing language, decorative emoji, dead code, unused dependencies or unfinished functionality described as complete. Separate research claims, target contracts, branch work and merged behavior.
 
-## Test
+## Testing
 
 Each test case should verify one behavior or scenario. Multiple assertions are acceptable when they support the same behavior. Use descriptive test names that state the condition and expected outcome.
 Follow the Arrange–Act–Assert structure: prepare the inputs, perform the action, and verify the result. Test observable behavior rather than internal implementation details.
