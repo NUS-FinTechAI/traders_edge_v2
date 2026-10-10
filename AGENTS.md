@@ -56,6 +56,15 @@ Review every PR independently for correctness, scope, tests and plain language. 
 
 No filler comments, invented citations, marketing language, decorative emoji, dead code, unused dependencies or unfinished functionality described as complete. Separate research claims, target contracts, branch work and merged behavior.
 
+## Test
+
+Each test case should verify one behavior or scenario. Multiple assertions are acceptable when they support the same behavior. Use descriptive test names that state the condition and expected outcome.
+Follow the Arrange–Act–Assert structure: prepare the inputs, perform the action, and verify the result. Test observable behavior rather than internal implementation details.
+
+Cover normal behavior, relevant edge cases, and expected failure conditions. Keep tests independent and deterministic. They must not depend on execution order, shared mutable state, real network services, or arbitrary delays. Mock external dependencies when needed, but do not mock the behavior being tested. Keep test setup minimal. Reuse fixtures or helpers when they improve clarity. Follow the project's existing testing framework, conventions, and file structure.
+
+Never weaken assertions, skip tests, or change expected results merely to make a failing test pass. Run the relevant tests after making changes. Report what was run, any failures, and any tests that could not be run.
+
 ## Definition of done
 
 State the goal and observable acceptance criteria before implementation. Relevant checks pass, documentation matches the named baseline, independent reviewers resolve findings and CI passes before merge. Verify success, rejection, retry/reload and migration paths for affected contracts. Product UI also needs 390px before/after evidence and accessibility/design review. Do not report a phase or the full learning workflow complete while approval, integration or evidence is missing.
