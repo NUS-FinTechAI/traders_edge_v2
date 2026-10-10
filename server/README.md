@@ -27,6 +27,25 @@ curl -b /tmp/traders-edge-cookies http://127.0.0.1:8000/api/curriculum
 
 `GET /health` is unauthenticated liveness. Endpoint schemas are available at `/docs`. Payloads reject unknown fields, duplicate/missing question answers, unknown choices and out-of-range confidence. Legacy whole-lesson/review submissions require a reflection; interactive runs do not require essays. Free-text reflections and journal entries remain private; their quality is not automatically assessed.
 
+## Public frontend configuration
+
+`GET /api/config` is available before sign-in and returns only the public authentication settings of the running app:
+
+```json
+{
+  "auth": {
+    "mode": "guest",
+    "firebase_project_id": null
+  }
+}
+```
+
+`auth.mode` follows `Settings.auth_mode`. Firebase mode returns the configured project ID; guest mode returns `null` even if an inactive Firebase project is configured. The endpoint does not create a session and sends `Cache-Control: no-store`. Database URLs, instructor identifiers, cookie settings and research settings are excluded.
+
+The frontend can call `configService.getConfig({ signal })` from `client/services/configService.ts` using the existing HTTP service and API base URL. It fetches on each call without obtaining an authentication token, validates the response and propagates errors without defaulting to guest mode. The service is available for future login integration; the homepage does not yet call it.
+
+These settings describe the current authentication mode, not enabled Google/email providers or complete Firebase web-client configuration. Guest sessions remain disabled in Firebase mode; the endpoint does not change access policy.
+
 ## Endpoint contract
 
 | Endpoint                                    | Behavior                                                                                                                                                                                   |
