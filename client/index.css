@@ -1,8 +1,7 @@
-/* Temporary setup screen. Product styling follows design approval. */
 :root {
-  font-family: sans-serif;
-  color: #242424;
-  background: #fff;
+  font-family: 'Trebuchet MS', 'Segoe UI', sans-serif;
+  color: #f2ecdb;
+  background: #101c1b;
   line-height: 1.5;
 }
 * {

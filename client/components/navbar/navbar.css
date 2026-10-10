@@ -2,10 +2,11 @@
   position: sticky;
   top: 0;
   z-index: 20;
-  background: #faf8f0;
-  border-bottom: 1px solid #b9c4b1;
-  color: #263c32;
-  font-family: 'Segoe UI', sans-serif;
+  background: #142321;
+  border-bottom: 1px solid #82724b;
+  box-shadow: inset 0 -3px #0b1514;
+  color: #f2ecdb;
+  font-family: 'Trebuchet MS', 'Segoe UI', sans-serif;
 }
 .site-navbar {
   display: flex;
@@ -23,20 +24,21 @@
   min-height: 44px;
   color: inherit;
   text-decoration: none;
-  font-family: Georgia, serif;
+  font-family: 'Trebuchet MS', 'Segoe UI', sans-serif;
   font-weight: bold;
   font-size: 1.25rem;
 }
 .site-brand svg {
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 36px;
   flex-shrink: 0;
   fill: none;
-  stroke: #365744;
+  stroke: #e2c17d;
   stroke-width: 1.5;
 }
 .site-tagline {
   font-size: 0.875rem;
+  color: #b4c3b8;
 }
 .site-auth-actions {
   margin-left: auto;
@@ -48,9 +50,12 @@
   justify-content: center;
   min-height: 44px;
   padding: 0.625rem 1rem;
-  border: 1px solid #365744;
+  border: 1px solid #88ad83;
   border-radius: 4px;
-  background: #365744;
+  background: #277354;
+  box-shadow:
+    inset 0 1px #65947b,
+    0 3px #0b1514;
   color: #fff;
   font: inherit;
   text-decoration: none;
@@ -62,14 +67,14 @@
 }
 .site-navbar a:focus-visible,
 .site-navbar button:focus-visible {
-  outline: 3px solid #915512;
+  outline: 3px solid #ecc878;
   outline-offset: 3px;
 }
 .site-auth-error {
   max-width: 72rem;
   margin: 0 auto;
   padding: 0 1.5rem 0.75rem;
-  color: #862e27;
+  color: #ffb7a8;
   font-size: 0.875rem;
 }
 @media (max-width: 750px) {

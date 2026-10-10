@@ -110,9 +110,17 @@ export default function LoginPage() {
           aria-labelledby="login-title"
           aria-busy={loading || busy}
         >
-          <span className="login-kicker">Start here</span>
+          <div className="login-crest" aria-hidden="true">
+            <svg viewBox="0 0 64 72">
+              <path d="m32 4 25 10v23c0 14-13 24-25 30C20 61 7 51 7 37V14Z" />
+              <circle cx="32" cy="32" r="15" />
+              <path d="m40 24-5 11-11 5 5-11Z" />
+              <path d="M32 11v5m0 32v5M11 32h5m32 0h5" />
+            </svg>
+          </div>
+          <span className="login-kicker">Trader’s Edge</span>
           <h2 id="login-title">
-            {register ? 'Create an account' : 'Welcome to Trader’s Edge'}
+            {register ? 'Create an account' : 'Begin your adventure'}
           </h2>
           {loading && <p role="status">Loading sign-in…</p>}
           {error && (
