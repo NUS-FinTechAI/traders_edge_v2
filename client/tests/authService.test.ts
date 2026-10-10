@@ -3,6 +3,14 @@ import { test } from 'node:test'
 import { AuthService, type UserProfile } from '../services/authService.ts'
 import { HttpError, HttpService } from '../services/httpService.ts'
 
+function deferred<T>() {
+  let resolve!: (value: T) => void
+  const promise = new Promise<T>((done) => {
+    resolve = done
+  })
+  return { promise, resolve }
+}
+
 const authService = new AuthService(
   new HttpService({ baseUrl: 'http://localhost:8000' }),
 )
@@ -68,6 +76,114 @@ const profile: UserProfile = {
   player_level_policy: '100-xp-per-level-1',
   xp_basis: 'learning and game events',
 }
+
+test('successful logout clears the shared user and notifies subscribers', async (t) => {
+  t.mock.method(
+    globalThis,
+    'fetch',
+    async (_input: Parameters<typeof fetch>[0], init?: RequestInit) =>
+      init?.method === 'DELETE'
+        ? new Response(null, { status: 204 })
+        : Response.json(profile),
+  )
+  const auth = new AuthService(
+    new HttpService({ baseUrl: 'http://localhost:8000' }),
+  )
+  await auth.getProfile()
+  const userChanges: (UserProfile | null)[] = []
+  const unsubscribe = auth.subscribe(() => userChanges.push(auth.getUser()))
+  await auth.logout()
+  assert.equal(auth.getUser(), null)
+  assert.deepEqual(userChanges, [null])
+  unsubscribe()
+})
+
+test('failed logout preserves the shared user', async (t) => {
+  t.mock.method(
+    globalThis,
+    'fetch',
+    async (_input: Parameters<typeof fetch>[0], init?: RequestInit) => {
+      if (init?.method === 'DELETE') throw new TypeError('Offline')
+      return Response.json(profile)
+    },
+  )
+  const auth = new AuthService(
+    new HttpService({ baseUrl: 'http://localhost:8000' }),
+  )
+  await auth.getProfile()
+  await assert.rejects(auth.logout(), { kind: 'network' })
+  assert.deepEqual(auth.getUser(), profile)
+})
+
+test('an expired session clears the shared user', async (t) => {
+  let expired = false
+  t.mock.method(globalThis, 'fetch', async () =>
+    expired
+      ? Response.json({ detail: 'Expired' }, { status: 401 })
+      : Response.json(profile),
+  )
+  const auth = new AuthService(
+    new HttpService({ baseUrl: 'http://localhost:8000' }),
+  )
+  await auth.getProfile()
+  expired = true
+  assert.equal(await auth.isAuthenticated(), false)
+  assert.equal(auth.getUser(), null)
+})
+
+test('a profile response started before logout cannot restore the signed-out user', async (t) => {
+  const pending = deferred<Response>()
+  const requested = deferred<void>()
+  t.mock.method(
+    globalThis,
+    'fetch',
+    async (_input: Parameters<typeof fetch>[0], init?: RequestInit) => {
+      if (init?.method === 'DELETE') return new Response(null, { status: 204 })
+      requested.resolve()
+      return pending.promise
+    },
+  )
+  const auth = new AuthService(
+    new HttpService({ baseUrl: 'http://localhost:8000' }),
+  )
+  const load = auth.getProfile()
+  await requested.promise
+  await auth.logout()
+  pending.resolve(Response.json(profile))
+  await load
+  assert.equal(auth.getUser(), null)
+})
+
+test('a profile response started during logout cannot restore the signed-out user', async (t) => {
+  const pendingProfile = deferred<Response>()
+  const profileRequested = deferred<void>()
+  const pendingLogout = deferred<Response>()
+  const logoutRequested = deferred<void>()
+  t.mock.method(
+    globalThis,
+    'fetch',
+    async (_input: Parameters<typeof fetch>[0], init?: RequestInit) => {
+      if (init?.method === 'DELETE') {
+        logoutRequested.resolve()
+        return pendingLogout.promise
+      }
+      profileRequested.resolve()
+      return pendingProfile.promise
+    },
+  )
+  const auth = new AuthService(
+    new HttpService({ baseUrl: 'http://localhost:8000' }),
+  )
+  const logout = auth.logout()
+  await logoutRequested.promise
+  const load = auth.getProfile()
+  await profileRequested.promise
+  pendingLogout.resolve(new Response(null, { status: 204 }))
+  await logout
+  pendingProfile.resolve(Response.json(profile))
+  await load
+  assert.equal(auth.getUser(), null)
+})
 
 test('guest session creation is explicit and uses the shared HTTP service', async (t) => {
   const session = {

@@ -1,21 +1,15 @@
 import '../../App.css'
-import { useState, useEffect } from 'react'
-import authService from '../../services/authService'
-import type { UserProfile } from '../../services/authService'
+import useUser from '../../hooks/useUser.ts'
 
 export default function HomePage() {
-  const [user, setUser] = useState<string | null>(null)
-
-  useEffect(() => {
-    authService.getProfile().then((profile: UserProfile) => setUser(profile.display_name));
-  }, [setUser])
+  const user = useUser()
 
   return (
     <main>
       {user === null ? (
         <h1>Welcome!</h1>
       ) : (
-        <h1>Welcome, {user}!</h1>
+        <h1>Welcome, {user.display_name}!</h1>
       )}
     </main>
   )
