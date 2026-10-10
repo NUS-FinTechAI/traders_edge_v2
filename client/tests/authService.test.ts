@@ -18,6 +18,11 @@ const profile: UserProfile = {
   activity_timezone: 'UTC',
   due_review_count: 0,
   learning_only: true,
+  learning_xp: 0,
+  game_xp: 0,
+  player_level: 1,
+  player_level_policy: '100-xp-per-level-1',
+  xp_basis: 'learning and game events',
 }
 
 test('guest session creation is explicit and uses the shared HTTP service', async (t) => {

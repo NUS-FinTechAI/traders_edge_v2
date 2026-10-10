@@ -1,10 +1,9 @@
-import httpService, { HttpError, type HttpService } from './httpService.ts'
+import { HttpError } from './httpService.ts'
+import { ApiClient } from '../api/apiClient.ts'
+import { apiEndpoints } from '../api/api-endpoints.ts'
+import type { components } from '../api/api-types.ts'
 
-export interface PublicConfig {
-  auth:
-    | { mode: 'guest'; firebase_project_id: null }
-    | { mode: 'firebase'; firebase_project_id: string }
-}
+export type PublicConfig = components['schemas']['PublicConfig']
 
 export interface ConfigRequestOptions {
   signal?: AbortSignal
@@ -15,11 +14,11 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 }
 
 export class ConfigService {
-  private readonly http: HttpService
+  private readonly api: ApiClient
   private cachedConfig?: PublicConfig
 
   constructor() {
-    this.http = httpService
+    this.api = new ApiClient()
   }
 
   async getConfig(options?: ConfigRequestOptions): Promise<PublicConfig> {
@@ -31,10 +30,7 @@ export class ConfigService {
       return structuredClone(this.cachedConfig)
     }
 
-    const config = await this.http.get<unknown>('/api/config', {
-      ...options,
-      auth: 'none',
-    })
+    const config = await this.api.call(apiEndpoints.getConfig, options)
     if (isRecord(config) && isRecord(config.auth)) {
       const { mode, firebase_project_id } = config.auth
       if (mode === 'guest' && firebase_project_id === null) {

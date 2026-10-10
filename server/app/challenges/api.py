@@ -127,7 +127,7 @@ async def list_attempts(db: DB, user: User):
     return {'attempts': [dict(row) for row in rows]}
 
 
-@router.get('/{attempt_id}')
+@router.get('/{attempt_id}', operation_id='getChallenge')
 async def resume(attempt_id: str, request: Request, db: DB, user: User):
     return response(await owned(db, user, attempt_id, request))
 
