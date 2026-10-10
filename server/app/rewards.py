@@ -111,7 +111,7 @@ async def remember(db, user, body, digest, response):
     return response
 
 
-@router.get('/rewards')
+@router.get('/rewards', operation_id='getRewardInventory')
 async def inventory(db: DB, user: User):
     grants = {grant.item_id: grant for grant in (await db.scalars(select(RewardGrant).where(RewardGrant.user_id == user.id))).all()}
     events, mastery = await learning_evidence(db, user.id)
@@ -127,7 +127,7 @@ async def inventory(db: DB, user: User):
     return {'items': items, 'equipment': equipment_data(user)}
 
 
-@router.post('/rewards/claims')
+@router.post('/rewards/claims', operation_id='claimLearningReward')
 async def claim(body: Claim, request: Request, db: DB, user: User):
     digest, previous = await replay(db, user, body, 'claim', body.item_id)
     if previous is not None:
@@ -147,7 +147,7 @@ async def claim(body: Claim, request: Request, db: DB, user: User):
     return await remember(db, user, body, digest, {'item': owned_item(grant)})
 
 
-@router.patch('/rewards/equipment')
+@router.patch('/rewards/equipment', operation_id='updateRewardEquipment')
 async def equip(body: Equipment, db: DB, user: User):
     digest, previous = await replay(db, user, body, 'equip', 'profile-equipment')
     if previous is not None:
@@ -169,7 +169,7 @@ async def equip(body: Equipment, db: DB, user: User):
     return await remember(db, user, body, digest, {'equipment': equipment_data(user)})
 
 
-@router.get('/activity')
+@router.get('/activity', operation_id='getLearningActivity')
 async def activity(db: DB, user: User, start_date: date | None = None, end_date: date | None = None):
     today = aware(now()).astimezone(timezone.utc).date()
     end = end_date or today

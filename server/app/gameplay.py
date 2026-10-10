@@ -151,7 +151,7 @@ async def abandoned(db, user, result):
         won=False, completed_at=now(), chapter_id=result.get('module_id'), abandoned=True))
 
 
-@router.get('/adventure')
+@router.get('/adventure', operation_id='getAdventure')
 async def adventure(request: Request, db: DB, user: User):
     content = catalog(request)
     completed, mastered, _ = await progress(db, user.id)

@@ -128,7 +128,7 @@ def practice_eligibility(ordered, mastered):
     return {'simulation': simulation, 'multiplayer': practice, 'endless': practice, 'prerequisite_module_ids': required}
 
 
-@router.get('/curriculum')
+@router.get('/curriculum', operation_id='getCurriculum')
 async def get_curriculum(request: Request, db: DB, user: User):
     content = catalog(request)
     completed, mastered, _ = await progress(db, user.id)
@@ -146,13 +146,13 @@ async def get_curriculum(request: Request, db: DB, user: User):
     return {'schema_version': content.get('schema_version', 1), 'review_status': content.get('review_status', 'unreviewed'), 'modules': modules, 'sources': content.get('sources', []), 'practice_eligibility': practice_eligibility(ordered, mastered)}
 
 
-@router.get('/archive')
+@router.get('/archive', operation_id='getArchive')
 async def archive(request: Request, user: User):
     content = catalog(request)
     return {'terms': content.get('glossary', []), 'sources': content.get('sources', []), 'review_status': content.get('review_status', 'unreviewed')}
 
 
-@router.get('/lessons/{lesson_id}')
+@router.get('/lessons/{lesson_id}', operation_id='getLesson')
 async def get_lesson(lesson_id: str, request: Request, db: DB, user: User):
     module, lesson = lesson_for(request, lesson_id)
     completed, mastered, _ = await progress(db, user.id)
@@ -239,7 +239,7 @@ async def submit(request, db, user, body, kind, target_id, module, lesson=None, 
     return result
 
 
-@router.post('/lessons/{lesson_id}/complete')
+@router.post('/lessons/{lesson_id}/complete', operation_id='completeLesson')
 async def complete_lesson(lesson_id: str, body: Submission, request: Request, db: DB, user: User):
     _, existing = await submission_replay(db, user, body, 'lesson', lesson_id)
     if existing is not None:
@@ -248,7 +248,7 @@ async def complete_lesson(lesson_id: str, body: Submission, request: Request, db
     return await submit(request, db, user, body, 'lesson', lesson_id, module, lesson)
 
 
-@router.get('/modules/{module_id}/assessment')
+@router.get('/modules/{module_id}/assessment', operation_id='getModuleAssessment')
 async def get_assessment(module_id: str, request: Request, db: DB, user: User):
     module = module_for(request, module_id)
     completed, mastered, _ = await progress(db, user.id)
@@ -262,7 +262,7 @@ async def get_assessment(module_id: str, request: Request, db: DB, user: User):
     return {'module_id': module_id, 'mastered': module_id in mastered, 'questions': [public_question(q) for q in module['assessment']], 'mastery_rule': 'At least 80% correct and every critical risk item correct', 'reflection_required': not bool(module.get('entry_tasks')), 'interactive_required': bool(module.get('entry_tasks'))}
 
 
-@router.post('/modules/{module_id}/assessment')
+@router.post('/modules/{module_id}/assessment', operation_id='completeModuleAssessment')
 async def complete_assessment(module_id: str, body: Submission, request: Request, db: DB, user: User):
     _, existing = await submission_replay(db, user, body, 'assessment', module_id)
     if existing is not None:
@@ -270,7 +270,7 @@ async def complete_assessment(module_id: str, body: Submission, request: Request
     return await submit(request, db, user, body, 'assessment', module_id, module_for(request, module_id))
 
 
-@router.get('/attempts/{attempt_id}')
+@router.get('/attempts/{attempt_id}', operation_id='getLearningAttempt')
 async def get_attempt(attempt_id: str, db: DB, user: User):
     attempt = await db.get(Attempt, attempt_id)
     if not attempt:
@@ -312,19 +312,19 @@ async def review_data(request, db, user, items):
     return result
 
 
-@router.get('/reviews')
+@router.get('/reviews', operation_id='listReviews')
 async def reviews(request: Request, db: DB, user: User):
     items = (await db.scalars(select(ReviewItem).where(ReviewItem.user_id == user.id).order_by(ReviewItem.due_at))).all()
     return {'reviews': await review_data(request, db, user, items)}
 
 
-@router.get('/reviews/{review_id}')
+@router.get('/reviews/{review_id}', operation_id='getReview')
 async def get_review(review_id: str, request: Request, db: DB, user: User):
     item = await owned_review(db, user, review_id)
     return (await review_data(request, db, user, [item]))[0]
 
 
-@router.post('/reviews/{review_id}/submit')
+@router.post('/reviews/{review_id}/submit', operation_id='submitReview')
 async def submit_review(review_id: str, body: Submission, request: Request, db: DB, user: User):
     _, existing = await submission_replay(db, user, body, 'review', review_id)
     if existing is not None:
@@ -344,7 +344,7 @@ async def journal(db: DB, user: User, limit: int = 50):
     return {'entries': [{'id': e.id, 'text': e.text, 'lesson_id': e.lesson_id, 'created_at': e.created_at} for e in items]}
 
 
-@router.post('/journal', status_code=201)
+@router.post('/journal', status_code=201, operation_id='createJournalEntry')
 async def add_journal(body: JournalCreate, request: Request, db: DB, user: User):
     if body.lesson_id:
         lesson_for(request, body.lesson_id)
@@ -354,7 +354,7 @@ async def add_journal(body: JournalCreate, request: Request, db: DB, user: User)
     return {'id': entry.id, 'text': entry.text, 'lesson_id': entry.lesson_id, 'created_at': entry.created_at}
 
 
-@router.delete('/journal/{entry_id}', status_code=204)
+@router.delete('/journal/{entry_id}', status_code=204, operation_id='deleteJournalEntry')
 async def delete_journal(entry_id: str, db: DB, user: User):
     entry = await db.get(JournalEntry, entry_id)
     if not entry:
@@ -364,7 +364,7 @@ async def delete_journal(entry_id: str, db: DB, user: User):
     await db.delete(entry)
 
 
-@router.get('/leaderboard')
+@router.get('/leaderboard', operation_id='getLearningLeaderboard')
 async def leaderboard(db: DB, user: User):
     if not user.leaderboard_opt_in:
         return {'opted_in': False, 'basis': 'Verified learning checks and delayed review; never trading profit or volume', 'entries': []}

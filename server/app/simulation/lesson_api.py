@@ -154,7 +154,7 @@ async def linked_session(request, db, user, run, mutation=False):
     return session
 
 
-@router.post('/{run_id}/simulation')
+@router.post('/{run_id}/simulation', operation_id='bindLearningSimulation')
 async def bind(run_id: str, body: runs.Command, request: Request, db: DB, user: User):
     digest, previous = await runs.replay(db, user, body, 'simulation:bind', run_id)
     if previous is not None:
@@ -181,7 +181,7 @@ async def bind(run_id: str, body: runs.Command, request: Request, db: DB, user: 
     return result
 
 
-@router.get('/{run_id}/simulation')
+@router.get('/{run_id}/simulation', operation_id='resumeLearningSimulation')
 async def resume(run_id: str, request: Request, db: DB, user: User):
     run = await bound_run(request, db, user, run_id)
     return api.response(await linked_session(request, db, user, run))
@@ -230,7 +230,7 @@ def audit_issues(audit, state):
     return issues
 
 
-@router.post('/{run_id}/simulation/review')
+@router.post('/{run_id}/simulation/review', operation_id='reviewLearningSimulation')
 async def review(run_id: str, body: Review, request: Request, db: DB, user: User):
     digest, previous = await runs.replay(db, user, body, 'simulation:review', run_id)
     if previous is not None:

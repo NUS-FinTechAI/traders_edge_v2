@@ -6,32 +6,32 @@ export const apiEndpoints = {
     path: '/',
     auth: 'none',
   },
-  adventure_api_adventure_get: {
-    operationId: 'adventure_api_adventure_get',
+  getAdventure: {
+    operationId: 'getAdventure',
     method: 'GET',
     path: '/api/adventure',
     auth: 'required',
   },
-  archive_api_archive_get: {
-    operationId: 'archive_api_archive_get',
+  getArchive: {
+    operationId: 'getArchive',
     method: 'GET',
     path: '/api/archive',
     auth: 'required',
   },
-  get_attempt_api_attempts__attempt_id__get: {
-    operationId: 'get_attempt_api_attempts__attempt_id__get',
+  getLearningAttempt: {
+    operationId: 'getLearningAttempt',
     method: 'GET',
     path: '/api/attempts/{attempt_id}',
     auth: 'required',
   },
-  list_attempts_api_challenges_get: {
-    operationId: 'list_attempts_api_challenges_get',
+  listChallenges: {
+    operationId: 'listChallenges',
     method: 'GET',
     path: '/api/challenges',
     auth: 'required',
   },
-  start_api_challenges_post: {
-    operationId: 'start_api_challenges_post',
+  startChallenge: {
+    operationId: 'startChallenge',
     method: 'POST',
     path: '/api/challenges',
     auth: 'required',
@@ -42,33 +42,32 @@ export const apiEndpoints = {
     path: '/api/challenges/{attempt_id}',
     auth: 'required',
   },
-  abandon_api_challenges__attempt_id__abandon_post: {
-    operationId: 'abandon_api_challenges__attempt_id__abandon_post',
+  abandonChallenge: {
+    operationId: 'abandonChallenge',
     method: 'POST',
     path: '/api/challenges/{attempt_id}/abandon',
     auth: 'required',
   },
-  advance_api_challenges__attempt_id__advance_post: {
-    operationId: 'advance_api_challenges__attempt_id__advance_post',
+  advanceChallenge: {
+    operationId: 'advanceChallenge',
     method: 'POST',
     path: '/api/challenges/{attempt_id}/advance',
     auth: 'required',
   },
-  complete_api_challenges__attempt_id__complete_post: {
-    operationId: 'complete_api_challenges__attempt_id__complete_post',
+  completeChallenge: {
+    operationId: 'completeChallenge',
     method: 'POST',
     path: '/api/challenges/{attempt_id}/complete',
     auth: 'required',
   },
-  order_api_challenges__attempt_id__orders_post: {
-    operationId: 'order_api_challenges__attempt_id__orders_post',
+  submitChallengeOrder: {
+    operationId: 'submitChallengeOrder',
     method: 'POST',
     path: '/api/challenges/{attempt_id}/orders',
     auth: 'required',
   },
-  cancel_api_challenges__attempt_id__orders__order_id__cancel_post: {
-    operationId:
-      'cancel_api_challenges__attempt_id__orders__order_id__cancel_post',
+  cancelChallengeOrder: {
+    operationId: 'cancelChallengeOrder',
     method: 'POST',
     path: '/api/challenges/{attempt_id}/orders/{order_id}/cancel',
     auth: 'required',
@@ -79,8 +78,8 @@ export const apiEndpoints = {
     path: '/api/config',
     auth: 'none',
   },
-  get_curriculum_api_curriculum_get: {
-    operationId: 'get_curriculum_api_curriculum_get',
+  getCurriculum: {
+    operationId: 'getCurriculum',
     method: 'GET',
     path: '/api/curriculum',
     auth: 'required',
@@ -91,111 +90,110 @@ export const apiEndpoints = {
     path: '/api/journal',
     auth: 'required',
   },
-  add_journal_api_journal_post: {
-    operationId: 'add_journal_api_journal_post',
+  createJournalEntry: {
+    operationId: 'createJournalEntry',
     method: 'POST',
     path: '/api/journal',
     auth: 'required',
   },
-  delete_journal_api_journal__entry_id__delete: {
-    operationId: 'delete_journal_api_journal__entry_id__delete',
+  deleteJournalEntry: {
+    operationId: 'deleteJournalEntry',
     method: 'DELETE',
     path: '/api/journal/{entry_id}',
     auth: 'required',
   },
-  leaderboard_api_leaderboard_get: {
-    operationId: 'leaderboard_api_leaderboard_get',
+  getLearningLeaderboard: {
+    operationId: 'getLearningLeaderboard',
     method: 'GET',
     path: '/api/leaderboard',
     auth: 'required',
   },
-  get_run_api_learning_runs__run_id__get: {
-    operationId: 'get_run_api_learning_runs__run_id__get',
+  getLearningRun: {
+    operationId: 'getLearningRun',
     method: 'GET',
     path: '/api/learning-runs/{run_id}',
     auth: 'required',
   },
-  resume_api_learning_runs__run_id__simulation_get: {
-    operationId: 'resume_api_learning_runs__run_id__simulation_get',
+  resumeLearningSimulation: {
+    operationId: 'resumeLearningSimulation',
     method: 'GET',
     path: '/api/learning-runs/{run_id}/simulation',
     auth: 'required',
   },
-  bind_api_learning_runs__run_id__simulation_post: {
-    operationId: 'bind_api_learning_runs__run_id__simulation_post',
+  bindLearningSimulation: {
+    operationId: 'bindLearningSimulation',
     method: 'POST',
     path: '/api/learning-runs/{run_id}/simulation',
     auth: 'required',
   },
-  review_api_learning_runs__run_id__simulation_review_post: {
-    operationId: 'review_api_learning_runs__run_id__simulation_review_post',
+  reviewLearningSimulation: {
+    operationId: 'reviewLearningSimulation',
     method: 'POST',
     path: '/api/learning-runs/{run_id}/simulation/review',
     auth: 'required',
   },
-  submit_step_api_learning_runs__run_id__steps__step_id__submit_post: {
-    operationId:
-      'submit_step_api_learning_runs__run_id__steps__step_id__submit_post',
+  submitLearningStep: {
+    operationId: 'submitLearningStep',
     method: 'POST',
     path: '/api/learning-runs/{run_id}/steps/{step_id}/submit',
     auth: 'required',
   },
-  get_lesson_api_lessons__lesson_id__get: {
-    operationId: 'get_lesson_api_lessons__lesson_id__get',
+  getLesson: {
+    operationId: 'getLesson',
     method: 'GET',
     path: '/api/lessons/{lesson_id}',
     auth: 'required',
   },
-  complete_lesson_api_lessons__lesson_id__complete_post: {
-    operationId: 'complete_lesson_api_lessons__lesson_id__complete_post',
+  completeLesson: {
+    operationId: 'completeLesson',
     method: 'POST',
     path: '/api/lessons/{lesson_id}/complete',
     auth: 'required',
   },
-  get_level_api_levels__level_id__get: {
-    operationId: 'get_level_api_levels__level_id__get',
+  getLevel: {
+    operationId: 'getLevel',
     method: 'GET',
     path: '/api/levels/{level_id}',
     auth: 'required',
   },
-  start_level_api_levels__level_id__runs_post: {
-    operationId: 'start_level_api_levels__level_id__runs_post',
+  startLevelRun: {
+    operationId: 'startLevelRun',
     method: 'POST',
     path: '/api/levels/{level_id}/runs',
     auth: 'required',
   },
-  activity_api_me_activity_get: {
-    operationId: 'activity_api_me_activity_get',
+  getLearningActivity: {
+    operationId: 'getLearningActivity',
     method: 'GET',
     path: '/api/me/activity',
     auth: 'required',
   },
-  read_wallet_api_me_economy_get: {
-    operationId: 'read_wallet_api_me_economy_get',
+  getEconomy: {
+    operationId: 'getEconomy',
     method: 'GET',
     path: '/api/me/economy',
     auth: 'required',
   },
-  refresh_daily_api_me_economy_daily_refresh_post: {
-    operationId: 'refresh_daily_api_me_economy_daily_refresh_post',
+  refreshDailyChallenge: {
+    operationId: 'refreshDailyChallenge',
     method: 'POST',
     path: '/api/me/economy/daily-refresh',
     auth: 'required',
   },
-  login_claim_api_me_economy_login_claims_post: {
-    operationId: 'login_claim_api_me_economy_login_claims_post',
+  claimLoginReward: {
+    operationId: 'claimLoginReward',
     method: 'POST',
     path: '/api/me/economy/login-claims',
     auth: 'required',
   },
-  read_shop_api_me_economy_shop_get: {
-    operationId: 'read_shop_api_me_economy_shop_get',
+  getShop: {
+    operationId: 'getShop',
     method: 'GET',
     path: '/api/me/economy/shop',
     auth: 'required',
   },
-  purchase_api_me_economy_shop_purchases_post: {
-    operationId: 'purchase_api_me_economy_shop_purchases_post',
+  purchaseShopItem: {
+    operationId: 'purchaseShopItem',
     method: 'POST',
     path: '/api/me/economy/shop/purchases',
     auth: 'required',
@@ -212,263 +210,260 @@ export const apiEndpoints = {
     path: '/api/me/profile',
     auth: 'required',
   },
-  read_metadata_api_me_research_get: {
-    operationId: 'read_metadata_api_me_research_get',
+  getResearchMetadata: {
+    operationId: 'getResearchMetadata',
     method: 'GET',
     path: '/api/me/research',
     auth: 'required',
   },
-  consent_api_me_research_consents_post: {
-    operationId: 'consent_api_me_research_consents_post',
+  submitResearchConsent: {
+    operationId: 'submitResearchConsent',
     method: 'POST',
     path: '/api/me/research/consents',
     auth: 'required',
   },
-  export_api_me_research_export__kind__get: {
-    operationId: 'export_api_me_research_export__kind__get',
+  exportResearchEvidence: {
+    operationId: 'exportResearchEvidence',
     method: 'GET',
     path: '/api/me/research/export/{kind}',
     auth: 'required',
   },
-  set_metadata_api_me_research_metadata_post: {
-    operationId: 'set_metadata_api_me_research_metadata_post',
+  setResearchMetadata: {
+    operationId: 'setResearchMetadata',
     method: 'POST',
     path: '/api/me/research/metadata',
     auth: 'required',
   },
-  withdraw_api_me_research_withdrawals_post: {
-    operationId: 'withdraw_api_me_research_withdrawals_post',
+  withdrawResearchConsent: {
+    operationId: 'withdrawResearchConsent',
     method: 'POST',
     path: '/api/me/research/withdrawals',
     auth: 'required',
   },
-  inventory_api_me_rewards_get: {
-    operationId: 'inventory_api_me_rewards_get',
+  getRewardInventory: {
+    operationId: 'getRewardInventory',
     method: 'GET',
     path: '/api/me/rewards',
     auth: 'required',
   },
-  claim_api_me_rewards_claims_post: {
-    operationId: 'claim_api_me_rewards_claims_post',
+  claimLearningReward: {
+    operationId: 'claimLearningReward',
     method: 'POST',
     path: '/api/me/rewards/claims',
     auth: 'required',
   },
-  equip_api_me_rewards_equipment_patch: {
-    operationId: 'equip_api_me_rewards_equipment_patch',
+  updateRewardEquipment: {
+    operationId: 'updateRewardEquipment',
     method: 'PATCH',
     path: '/api/me/rewards/equipment',
     auth: 'required',
   },
-  workflow_api_me_workflow_get: {
-    operationId: 'workflow_api_me_workflow_get',
+  getLearningWorkflow: {
+    operationId: 'getLearningWorkflow',
     method: 'GET',
     path: '/api/me/workflow',
     auth: 'required',
   },
-  get_assessment_api_modules__module_id__assessment_get: {
-    operationId: 'get_assessment_api_modules__module_id__assessment_get',
+  getModuleAssessment: {
+    operationId: 'getModuleAssessment',
     method: 'GET',
     path: '/api/modules/{module_id}/assessment',
     auth: 'required',
   },
-  complete_assessment_api_modules__module_id__assessment_post: {
-    operationId: 'complete_assessment_api_modules__module_id__assessment_post',
+  completeModuleAssessment: {
+    operationId: 'completeModuleAssessment',
     method: 'POST',
     path: '/api/modules/{module_id}/assessment',
     auth: 'required',
   },
-  start_assessment_api_modules__module_id__assessment_runs_post: {
-    operationId:
-      'start_assessment_api_modules__module_id__assessment_runs_post',
+  startAssessmentRun: {
+    operationId: 'startAssessmentRun',
     method: 'POST',
     path: '/api/modules/{module_id}/assessment-runs',
     auth: 'required',
   },
-  start_diagnostic_api_modules__module_id__diagnostic_runs_post: {
-    operationId:
-      'start_diagnostic_api_modules__module_id__diagnostic_runs_post',
+  startDiagnosticRun: {
+    operationId: 'startDiagnosticRun',
     method: 'POST',
     path: '/api/modules/{module_id}/diagnostic-runs',
     auth: 'required',
   },
-  get_map_api_modules__module_id__map_get: {
-    operationId: 'get_map_api_modules__module_id__map_get',
+  getModuleMap: {
+    operationId: 'getModuleMap',
     method: 'GET',
     path: '/api/modules/{module_id}/map',
     auth: 'required',
   },
-  join_api_multiplayer_join_post: {
-    operationId: 'join_api_multiplayer_join_post',
+  joinMultiplayerLobby: {
+    operationId: 'joinMultiplayerLobby',
     method: 'POST',
     path: '/api/multiplayer/join',
     auth: 'required',
   },
-  leaderboard_api_multiplayer_leaderboard_get: {
-    operationId: 'leaderboard_api_multiplayer_leaderboard_get',
+  getMultiplayerLeaderboard: {
+    operationId: 'getMultiplayerLeaderboard',
     method: 'GET',
     path: '/api/multiplayer/leaderboard',
     auth: 'required',
   },
-  create_api_multiplayer_lobbies_post: {
-    operationId: 'create_api_multiplayer_lobbies_post',
+  createMultiplayerLobby: {
+    operationId: 'createMultiplayerLobby',
     method: 'POST',
     path: '/api/multiplayer/lobbies',
     auth: 'required',
   },
-  matches_api_multiplayer_matches_get: {
-    operationId: 'matches_api_multiplayer_matches_get',
+  listMultiplayerMatches: {
+    operationId: 'listMultiplayerMatches',
     method: 'GET',
     path: '/api/multiplayer/matches',
     auth: 'required',
   },
-  matchmaking_api_multiplayer_matchmaking_post: {
-    operationId: 'matchmaking_api_multiplayer_matchmaking_post',
+  joinMultiplayerMatchmaking: {
+    operationId: 'joinMultiplayerMatchmaking',
     method: 'POST',
     path: '/api/multiplayer/matchmaking',
     auth: 'required',
   },
-  resume_api_multiplayer__lobby_id__get: {
-    operationId: 'resume_api_multiplayer__lobby_id__get',
+  getMultiplayerLobby: {
+    operationId: 'getMultiplayerLobby',
     method: 'GET',
     path: '/api/multiplayer/{lobby_id}',
     auth: 'required',
   },
-  abandon_api_multiplayer__lobby_id__abandon_post: {
-    operationId: 'abandon_api_multiplayer__lobby_id__abandon_post',
+  abandonMultiplayerMatch: {
+    operationId: 'abandonMultiplayerMatch',
     method: 'POST',
     path: '/api/multiplayer/{lobby_id}/abandon',
     auth: 'required',
   },
-  complete_api_multiplayer__lobby_id__complete_post: {
-    operationId: 'complete_api_multiplayer__lobby_id__complete_post',
+  completeMultiplayerMatch: {
+    operationId: 'completeMultiplayerMatch',
     method: 'POST',
     path: '/api/multiplayer/{lobby_id}/complete',
     auth: 'required',
   },
-  order_api_multiplayer__lobby_id__orders_post: {
-    operationId: 'order_api_multiplayer__lobby_id__orders_post',
+  submitMultiplayerOrder: {
+    operationId: 'submitMultiplayerOrder',
     method: 'POST',
     path: '/api/multiplayer/{lobby_id}/orders',
     auth: 'required',
   },
-  cancel_api_multiplayer__lobby_id__orders__order_id__cancel_post: {
-    operationId:
-      'cancel_api_multiplayer__lobby_id__orders__order_id__cancel_post',
+  cancelMultiplayerOrder: {
+    operationId: 'cancelMultiplayerOrder',
     method: 'POST',
     path: '/api/multiplayer/{lobby_id}/orders/{order_id}/cancel',
     auth: 'required',
   },
-  ready_api_multiplayer__lobby_id__ready_post: {
-    operationId: 'ready_api_multiplayer__lobby_id__ready_post',
+  markMultiplayerReady: {
+    operationId: 'markMultiplayerReady',
     method: 'POST',
     path: '/api/multiplayer/{lobby_id}/ready',
     auth: 'required',
   },
-  start_api_multiplayer__lobby_id__start_post: {
-    operationId: 'start_api_multiplayer__lobby_id__start_post',
+  startMultiplayerMatch: {
+    operationId: 'startMultiplayerMatch',
     method: 'POST',
     path: '/api/multiplayer/{lobby_id}/start',
     auth: 'required',
   },
-  list_attempts_api_quizzes_attempts_get: {
-    operationId: 'list_attempts_api_quizzes_attempts_get',
+  listQuizAttempts: {
+    operationId: 'listQuizAttempts',
     method: 'GET',
     path: '/api/quizzes/attempts',
     auth: 'required',
   },
-  start_attempt_api_quizzes_attempts_post: {
-    operationId: 'start_attempt_api_quizzes_attempts_post',
+  startQuizAttempt: {
+    operationId: 'startQuizAttempt',
     method: 'POST',
     path: '/api/quizzes/attempts',
     auth: 'required',
   },
-  get_attempt_api_quizzes_attempts__attempt_id__get: {
-    operationId: 'get_attempt_api_quizzes_attempts__attempt_id__get',
+  getQuizAttempt: {
+    operationId: 'getQuizAttempt',
     method: 'GET',
     path: '/api/quizzes/attempts/{attempt_id}',
     auth: 'required',
   },
-  answer_api_quizzes_attempts__attempt_id__answers_post: {
-    operationId: 'answer_api_quizzes_attempts__attempt_id__answers_post',
+  submitQuizAnswer: {
+    operationId: 'submitQuizAnswer',
     method: 'POST',
     path: '/api/quizzes/attempts/{attempt_id}/answers',
     auth: 'required',
   },
-  forms_api_quizzes_forms_get: {
-    operationId: 'forms_api_quizzes_forms_get',
+  listQuizForms: {
+    operationId: 'listQuizForms',
     method: 'GET',
     path: '/api/quizzes/forms',
     auth: 'required',
   },
-  question_bank_api_quizzes_question_bank_get: {
-    operationId: 'question_bank_api_quizzes_question_bank_get',
+  getQuizQuestionBank: {
+    operationId: 'getQuizQuestionBank',
     method: 'GET',
     path: '/api/quizzes/question-bank',
     auth: 'required',
   },
-  list_rooms_api_quizzes_rooms_get: {
-    operationId: 'list_rooms_api_quizzes_rooms_get',
+  listQuizRooms: {
+    operationId: 'listQuizRooms',
     method: 'GET',
     path: '/api/quizzes/rooms',
     auth: 'required',
   },
-  create_room_api_quizzes_rooms_post: {
-    operationId: 'create_room_api_quizzes_rooms_post',
+  createQuizRoom: {
+    operationId: 'createQuizRoom',
     method: 'POST',
     path: '/api/quizzes/rooms',
     auth: 'required',
   },
-  join_room_api_quizzes_rooms_join_post: {
-    operationId: 'join_room_api_quizzes_rooms_join_post',
+  joinQuizRoom: {
+    operationId: 'joinQuizRoom',
     method: 'POST',
     path: '/api/quizzes/rooms/join',
     auth: 'required',
   },
-  get_room_api_quizzes_rooms__room_id__get: {
-    operationId: 'get_room_api_quizzes_rooms__room_id__get',
+  getQuizRoom: {
+    operationId: 'getQuizRoom',
     method: 'GET',
     path: '/api/quizzes/rooms/{room_id}',
     auth: 'required',
   },
-  close_room_api_quizzes_rooms__room_id__close_post: {
-    operationId: 'close_room_api_quizzes_rooms__room_id__close_post',
+  closeQuizRoom: {
+    operationId: 'closeQuizRoom',
     method: 'POST',
     path: '/api/quizzes/rooms/{room_id}/close',
     auth: 'required',
   },
-  room_results_api_quizzes_rooms__room_id__results_get: {
-    operationId: 'room_results_api_quizzes_rooms__room_id__results_get',
+  getQuizRoomResults: {
+    operationId: 'getQuizRoomResults',
     method: 'GET',
     path: '/api/quizzes/rooms/{room_id}/results',
     auth: 'required',
   },
-  start_room_api_quizzes_rooms__room_id__start_post: {
-    operationId: 'start_room_api_quizzes_rooms__room_id__start_post',
+  startQuizRoom: {
+    operationId: 'startQuizRoom',
     method: 'POST',
     path: '/api/quizzes/rooms/{room_id}/start',
     auth: 'required',
   },
-  reviews_api_reviews_get: {
-    operationId: 'reviews_api_reviews_get',
+  listReviews: {
+    operationId: 'listReviews',
     method: 'GET',
     path: '/api/reviews',
     auth: 'required',
   },
-  get_review_api_reviews__review_id__get: {
-    operationId: 'get_review_api_reviews__review_id__get',
+  getReview: {
+    operationId: 'getReview',
     method: 'GET',
     path: '/api/reviews/{review_id}',
     auth: 'required',
   },
-  start_review_api_reviews__review_id__runs_post: {
-    operationId: 'start_review_api_reviews__review_id__runs_post',
+  startReviewRun: {
+    operationId: 'startReviewRun',
     method: 'POST',
     path: '/api/reviews/{review_id}/runs',
     auth: 'required',
   },
-  submit_review_api_reviews__review_id__submit_post: {
-    operationId: 'submit_review_api_reviews__review_id__submit_post',
+  submitReview: {
+    operationId: 'submitReview',
     method: 'POST',
     path: '/api/reviews/{review_id}/submit',
     auth: 'required',
@@ -485,45 +480,44 @@ export const apiEndpoints = {
     path: '/api/session',
     auth: 'none',
   },
-  list_sessions_api_simulations_get: {
-    operationId: 'list_sessions_api_simulations_get',
+  listSimulations: {
+    operationId: 'listSimulations',
     method: 'GET',
     path: '/api/simulations',
     auth: 'required',
   },
-  start_api_simulations_post: {
-    operationId: 'start_api_simulations_post',
+  startSimulation: {
+    operationId: 'startSimulation',
     method: 'POST',
     path: '/api/simulations',
     auth: 'required',
   },
-  resume_api_simulations__session_id__get: {
-    operationId: 'resume_api_simulations__session_id__get',
+  resumeSimulation: {
+    operationId: 'resumeSimulation',
     method: 'GET',
     path: '/api/simulations/{session_id}',
     auth: 'required',
   },
-  advance_api_simulations__session_id__advance_post: {
-    operationId: 'advance_api_simulations__session_id__advance_post',
+  advanceSimulation: {
+    operationId: 'advanceSimulation',
     method: 'POST',
     path: '/api/simulations/{session_id}/advance',
     auth: 'required',
   },
-  debrief_api_simulations__session_id__debrief_post: {
-    operationId: 'debrief_api_simulations__session_id__debrief_post',
+  debriefSimulation: {
+    operationId: 'debriefSimulation',
     method: 'POST',
     path: '/api/simulations/{session_id}/debrief',
     auth: 'required',
   },
-  order_api_simulations__session_id__orders_post: {
-    operationId: 'order_api_simulations__session_id__orders_post',
+  submitSimulationOrder: {
+    operationId: 'submitSimulationOrder',
     method: 'POST',
     path: '/api/simulations/{session_id}/orders',
     auth: 'required',
   },
-  cancel_api_simulations__session_id__orders__order_id__cancel_post: {
-    operationId:
-      'cancel_api_simulations__session_id__orders__order_id__cancel_post',
+  cancelSimulationOrder: {
+    operationId: 'cancelSimulationOrder',
     method: 'POST',
     path: '/api/simulations/{session_id}/orders/{order_id}/cancel',
     auth: 'required',
