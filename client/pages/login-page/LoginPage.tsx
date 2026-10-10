@@ -1,5 +1,5 @@
 import { useEffect, useState, type SubmitEvent } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import configService, {
   type PublicConfig,
 } from '../../services/configService.ts'
@@ -19,7 +19,7 @@ function errorMessage(error: unknown): string {
       return 'An account already uses this email. Try signing in.'
     case 'auth/weak-password':
     case 'auth/password-does-not-meet-requirements':
-      return 'Choose a stronger password according to the account password policy.'
+      return 'Choose a stronger password.'
     case 'auth/popup-closed-by-user':
     case 'auth/cancelled-popup-request':
       return 'Google sign-in was cancelled. You can try again.'
@@ -104,28 +104,7 @@ export default function LoginPage() {
 
   return (
     <main className="login-page">
-      <header className="login-header">
-        <Link to="/">Trader’s Edge</Link>
-        <span>Financial decision-making academy</span>
-      </header>
       <div className="login-layout">
-        <aside className="login-introduction">
-          <span className="login-kicker">Your learning journey</span>
-          <h1>
-            Find your footing.
-            <br />
-            Plan your next step.
-          </h1>
-          <p>
-            Build an understanding of risk and practise financial decisions
-            through lessons and simulations.
-          </p>
-          <ol className="login-route">
-            <li>Understand the basics</li>
-            <li>Practise decisions</li>
-            <li>Reflect and progress</li>
-          </ol>
-        </aside>
         <section
           className="login-panel"
           aria-labelledby="login-title"
@@ -271,9 +250,6 @@ export default function LoginPage() {
               </button>
             </>
           )}
-          <Link className="login-home" to="/">
-            Back to home
-          </Link>
         </section>
       </div>
     </main>
