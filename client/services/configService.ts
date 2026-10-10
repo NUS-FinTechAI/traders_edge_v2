@@ -16,12 +16,21 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 
 export class ConfigService {
   private readonly http: HttpService
+  private cachedConfig?: PublicConfig
 
   constructor() {
     this.http = httpService
   }
 
   async getConfig(options?: ConfigRequestOptions): Promise<PublicConfig> {
+    if (options?.signal?.aborted) {
+      throw new HttpError('Request cancelled', 'aborted')
+    }
+
+    if (this.cachedConfig) {
+      return structuredClone(this.cachedConfig)
+    }
+
     const config = await this.http.get<unknown>('/api/config', {
       ...options,
       auth: 'none',
@@ -29,14 +38,14 @@ export class ConfigService {
     if (isRecord(config) && isRecord(config.auth)) {
       const { mode, firebase_project_id } = config.auth
       if (mode === 'guest' && firebase_project_id === null) {
-        return { auth: { mode, firebase_project_id } }
+        return this.cacheConfig({ auth: { mode, firebase_project_id } })
       }
       if (
         mode === 'firebase' &&
         typeof firebase_project_id === 'string' &&
         firebase_project_id.trim().length > 0
       ) {
-        return { auth: { mode, firebase_project_id } }
+        return this.cacheConfig({ auth: { mode, firebase_project_id } })
       }
     }
     throw new HttpError(
@@ -44,6 +53,11 @@ export class ConfigService {
       'invalid-response',
       200,
     )
+  }
+
+  private cacheConfig(config: PublicConfig): PublicConfig {
+    this.cachedConfig = config
+    return structuredClone(config)
   }
 }
 

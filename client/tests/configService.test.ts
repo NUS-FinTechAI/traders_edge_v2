@@ -1,12 +1,17 @@
 import assert from 'node:assert/strict'
-import { test } from 'node:test'
-import configService from '../services/configService.ts'
+import { beforeEach, test } from 'node:test'
+import { ConfigService } from '../services/configService.ts'
 import httpService, { HttpService } from '../services/httpService.ts'
 
 const guestConfig = { auth: { mode: 'guest', firebase_project_id: null } }
 const firebaseConfig = {
   auth: { mode: 'firebase', firebase_project_id: 'test-project' },
 }
+
+let configService: ConfigService
+beforeEach(() => {
+  configService = new ConfigService()
+})
 
 test('public config loads without consulting the token provider', async (t) => {
   const getAccessToken = t.mock.fn(async () => 'private-token')
@@ -78,7 +83,7 @@ for (const [condition, body] of [
   })
 }
 
-test('each config request fetches current settings', async (t) => {
+test('subsequent config requests reuse the successful response', async (t) => {
   let response: unknown = guestConfig
   const fetchMock = t.mock.method(globalThis, 'fetch', async () =>
     Response.json(response),
@@ -88,8 +93,35 @@ test('each config request fetches current settings', async (t) => {
 
   const config = await configService.getConfig()
 
-  assert.deepEqual(config, firebaseConfig)
-  assert.equal(fetchMock.mock.callCount(), 2)
+  assert.deepEqual(config, guestConfig)
+  assert.equal(fetchMock.mock.callCount(), 1)
+})
+
+test('invalid responses are not cached and can be retried', async (t) => {
+  let response: unknown = {}
+  t.mock.method(globalThis, 'fetch', async () => Response.json(response))
+  await assert.rejects(configService.getConfig(), { kind: 'invalid-response' })
+  response = guestConfig
+
+  const config = await configService.getConfig()
+
+  assert.deepEqual(config, guestConfig)
+})
+
+test('an aborted request rejects even when configuration is cached', async (t) => {
+  const fetchMock = t.mock.method(globalThis, 'fetch', async () =>
+    Response.json(guestConfig),
+  )
+  await configService.getConfig()
+  const controller = new AbortController()
+  controller.abort()
+
+  await assert.rejects(configService.getConfig({ signal: controller.signal }), {
+    kind: 'aborted',
+  })
+
+  assert.equal(fetchMock.mock.callCount(), 1)
+  assert.deepEqual(await configService.getConfig(), guestConfig)
 })
 
 test('config can be retried after a network failure', async (t) => {
