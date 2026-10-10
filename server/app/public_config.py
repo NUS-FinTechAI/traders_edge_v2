@@ -1,25 +1,29 @@
-from typing import Literal
+from typing import Annotated, Literal
 
 from fastapi import APIRouter, Request
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 router = APIRouter(prefix='/api/config', tags=['config'])
 
 
-class PublicAuthConfig(BaseModel):
-    mode: Literal['guest', 'firebase']
-    firebase_project_id: str | None
+class GuestAuthConfig(BaseModel):
+    mode: Literal['guest']
+    firebase_project_id: None
+
+
+class FirebaseAuthConfig(BaseModel):
+    mode: Literal['firebase']
+    firebase_project_id: str = Field(min_length=1)
 
 
 class PublicConfig(BaseModel):
-    auth: PublicAuthConfig
+    auth: Annotated[GuestAuthConfig | FirebaseAuthConfig, Field(discriminator='mode')]
 
 
-@router.get('', response_model=PublicConfig)
+@router.get('', response_model=PublicConfig, operation_id='getConfig', openapi_extra={'x-client-auth': 'none'})
 def get_config(request: Request) -> PublicConfig:
     settings = request.app.state.settings
-    return PublicConfig(auth=PublicAuthConfig(
-        mode=settings.auth_mode,
-        firebase_project_id=settings.firebase_project_id if settings.auth_mode == 'firebase' else None,
-    ))
+    if settings.auth_mode == 'firebase':
+        return PublicConfig(auth=FirebaseAuthConfig(mode='firebase', firebase_project_id=settings.firebase_project_id))
+    return PublicConfig(auth=GuestAuthConfig(mode='guest', firebase_project_id=None))

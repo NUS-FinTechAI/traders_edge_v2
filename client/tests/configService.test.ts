@@ -19,7 +19,7 @@ test('public config loads without consulting the token provider', async (t) => {
     baseUrl: 'http://localhost:8000',
     getAccessToken,
   })
-  t.mock.method(httpService, 'get', http.get.bind(http))
+  t.mock.method(httpService, 'request', http.request.bind(http))
   const fetchMock = t.mock.method(globalThis, 'fetch', async () =>
     Response.json(guestConfig),
   )
@@ -145,7 +145,7 @@ for (const status of [401, 503]) {
       baseUrl: 'http://localhost:8000',
       onUnauthorized,
     })
-    t.mock.method(httpService, 'get', http.get.bind(http))
+    t.mock.method(httpService, 'request', http.request.bind(http))
     t.mock.method(globalThis, 'fetch', async () =>
       Response.json({ detail: 'Unavailable' }, { status }),
     )

@@ -1,45 +1,28 @@
 import httpService, { HttpError, type HttpService } from './httpService.ts'
+import { ApiClient } from '../api/apiClient.ts'
+import { apiEndpoints } from '../api/api-endpoints.ts'
+import type { components } from '../api/api-types.ts'
 
-export interface GuestSession {
-  profile_id: string
-  auth_mode: 'guest'
-  expires_at: string
-}
-
-export interface UserProfile {
-  id: string
-  display_name: string
-  leaderboard_opt_in: boolean
-  analytics_opt_in: boolean
-  xp: number
-  completed_lesson_ids: string[]
-  mastered_module_ids: string[]
-  activity_days: string[]
-  activity_timezone: 'UTC'
-  due_review_count: number
-  learning_only: true
-}
+export type GuestSession = components['schemas']['GuestSession']
+export type UserProfile = components['schemas']['UserProfile']
 
 export interface AuthRequestOptions {
   signal?: AbortSignal
 }
 
 export class AuthService {
-  private readonly http: HttpService
+  private readonly api: ApiClient
 
   constructor(http: HttpService = httpService) {
-    this.http = http
+    this.api = new ApiClient(http)
   }
 
   startGuestSession(options?: AuthRequestOptions): Promise<GuestSession> {
-    return this.http.post<GuestSession>('/api/session', undefined, {
-      ...options,
-      auth: 'none',
-    })
+    return this.api.call(apiEndpoints.startGuestSession, options)
   }
 
   async getProfile(options?: AuthRequestOptions): Promise<UserProfile> {
-    const profile = await this.http.get<UserProfile>('/api/me/profile', options)
+    const profile = await this.api.call(apiEndpoints.getProfile, options)
     if (!profile || typeof profile.id !== 'string' || !profile.id) {
       throw new HttpError(
         'The server returned a profile without a valid identity',
@@ -62,7 +45,7 @@ export class AuthService {
 
   async logout(options?: AuthRequestOptions): Promise<void> {
     try {
-      await this.http.delete('/api/session', options)
+      await this.api.call(apiEndpoints.logout, options)
     } catch (error) {
       // An expired or missing session already has no authenticated access.
       if (!this.isUnauthorized(error)) throw error

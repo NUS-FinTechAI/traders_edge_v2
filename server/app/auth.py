@@ -9,6 +9,7 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db import Profile, SessionToken, aware, get_db, now
+from app.api_schemas import GuestSession
 
 router = APIRouter(prefix='/api')
 
@@ -55,7 +56,7 @@ async def current_profile(request: Request, db: AsyncSession = Depends(get_db, s
     return profile
 
 
-@router.post('/session')
+@router.post('/session', response_model=GuestSession, operation_id='startGuestSession', openapi_extra={'x-client-auth': 'none'})
 async def guest_session(request: Request, response: Response, db: AsyncSession = Depends(get_db, scope='function')):
     settings = request.app.state.settings
     if settings.auth_mode != 'guest':
@@ -74,7 +75,7 @@ async def guest_session(request: Request, response: Response, db: AsyncSession =
     return {'profile_id': profile.id, 'auth_mode': 'guest', 'expires_at': expires_at}
 
 
-@router.delete('/session', status_code=204)
+@router.delete('/session', status_code=204, operation_id='logout')
 async def logout(request: Request, response: Response, db: AsyncSession = Depends(get_db, scope='function'), profile: Profile = Depends(current_profile)):
     settings = request.app.state.settings
     token = request.cookies.get(settings.cookie_name)

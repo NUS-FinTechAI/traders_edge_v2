@@ -98,11 +98,11 @@ def create_app(settings: Settings | None = None, content: dict | None = None) ->
             response.headers['X-Content-Type-Options'] = 'nosniff'
         return response
 
-    @application.get('/')
+    @application.get('/', operation_id='getRoot', openapi_extra={'x-client-auth': 'none'})
     def read_root():
         return {'message': "Trader's Edge API is running"}
 
-    @application.get('/health')
+    @application.get('/health', operation_id='getHealth', openapi_extra={'x-client-auth': 'none'})
     def health_check():
         return {'status': 'ok'}
 

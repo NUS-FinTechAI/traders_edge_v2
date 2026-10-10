@@ -46,6 +46,39 @@ The frontend can call `configService.getConfig({ signal })` from `client/service
 
 These settings describe the current authentication mode, not enabled Google/email providers or complete Firebase web-client configuration. Guest sessions remain disabled in Firebase mode; the endpoint does not change access policy.
 
+## Generate the frontend contract
+
+From the repository root, after installing the locked Node and Python dependencies:
+
+```sh
+npm run api:generate
+npm run api:check
+npm run api:test
+```
+
+`api:generate` exports FastAPI OpenAPI in a separate Python process with fixed development settings. It does not start the application lifespan, open a database or initialize Firebase, and does not need a running API. It generates `client/api/api-types.ts`, `client/api/api-endpoints.ts` and `client/api/api-coverage.json`. Commit these artifacts together with backend contract changes; do not edit them manually. `api:check` rebuilds the artifacts in memory and fails if committed output is missing or stale, without rewriting it. CI runs the check and generator tests using locked dependencies.
+
+Use the generated operations through `client/api/apiClient.ts`:
+
+```ts
+import { api } from './api/apiClient.ts'
+import { apiEndpoints } from './api/api-endpoints.ts'
+import type { components } from './api/api-types.ts'
+
+type UserProfile = components['schemas']['UserProfile']
+const profile: UserProfile = await api.call(apiEndpoints.getProfile)
+await api.call(apiEndpoints.updateProfile, {
+  body: { display_name: 'Learner' },
+})
+await api.call(apiEndpoints.getChallenge, {
+  path: { attempt_id: 'saved-attempt-id' },
+})
+```
+
+The wrapper checks operation names, methods, request bodies, path and query parameters at compile time and encodes path values. It uses the existing HTTP service for cookies, bearer tokens, cancellation and `HttpError`. Public operations declare `x-client-auth: none` in their backend OpenAPI metadata; other operations default to authenticated client requests. This metadata controls token acquisition, not server authorization. The auth/config services use generated types and operations; config caching and runtime response checks remain in place.
+
+All 88 operations are generated. This first response-model slice covers guest sessions, profile reads/updates and public configuration; two delete operations have empty responses. The coverage report lists 82 success responses that still lack schemas. Those JSON results remain `unknown`; progressively add public response models before relying on their fields. Existing routes use FastAPI's generated operation IDs unless explicitly named. Set a unique, stable `operation_id` when adopting a route, regenerate, and update callers. TypeScript types do not perform runtime validation or prove a deployed backend matches this checkout.
+
 ## Endpoint contract
 
 | Endpoint                                    | Behavior                                                                                                                                                                                   |

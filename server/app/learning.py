@@ -9,6 +9,7 @@ from sqlalchemy import case, select, func
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.auth import current_profile
+from app.api_schemas import UserProfile
 from app.db import Attempt, JournalEntry, LearningActivity, LearningRun, LessonCompletion, MasteredModule, Profile, ReviewItem, XPLedger, aware, get_db, now, uid
 from app.progression import progress, record_lesson, reward
 
@@ -104,12 +105,12 @@ async def profile_data(db, profile, progress_state=None):
     return {'id': profile.id, 'display_name': profile.display_name, 'leaderboard_opt_in': profile.leaderboard_opt_in, 'analytics_opt_in': profile.analytics_opt_in, 'xp': xp, 'completed_lesson_ids': sorted(completed), 'mastered_module_ids': sorted(mastered), 'activity_days': list(activity), 'activity_timezone': 'UTC', 'due_review_count': due, 'learning_only': game_xp == 0, 'learning_xp': xp - game_xp, 'game_xp': game_xp, 'player_level': 1 + xp // 100, 'player_level_policy': '100-xp-per-level-1', 'xp_basis': 'learning and game events'}
 
 
-@router.get('/me/profile')
+@router.get('/me/profile', response_model=UserProfile, operation_id='getProfile')
 async def get_profile(db: DB, user: User):
     return await profile_data(db, user)
 
 
-@router.patch('/me/profile')
+@router.patch('/me/profile', response_model=UserProfile, operation_id='updateProfile')
 async def patch_profile(body: ProfileUpdate, db: DB, user: User):
     for key, value in body.model_dump(exclude_unset=True).items():
         if value is None:
@@ -335,7 +336,7 @@ async def submit_review(review_id: str, body: Submission, request: Request, db: 
     return await submit(request, db, user, body, 'review', review_id, module, lesson, item)
 
 
-@router.get('/journal')
+@router.get('/journal', operation_id='listJournal')
 async def journal(db: DB, user: User, limit: int = 50):
     if limit < 1 or limit > 100:
         raise HTTPException(422, 'Limit must be between 1 and 100')
