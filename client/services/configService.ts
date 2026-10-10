@@ -1,7 +1,8 @@
-import { HttpError } from './httpService.ts'
+import httpService, { HttpError, type HttpService } from './httpService.ts'
 import { ApiClient } from '../api/apiClient.ts'
 import { apiEndpoints } from '../api/api-endpoints.ts'
 import type { components } from '../api/api-types.ts'
+import { waitForRequest } from './requestCancellation.ts'
 
 export type PublicConfig = components['schemas']['PublicConfig']
 
@@ -16,9 +17,10 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 export class ConfigService {
   private readonly api: ApiClient
   private cachedConfig?: PublicConfig
+  private pendingConfig?: Promise<PublicConfig>
 
-  constructor() {
-    this.api = new ApiClient()
+  constructor(http: HttpService = httpService) {
+    this.api = new ApiClient(http)
   }
 
   async getConfig(options?: ConfigRequestOptions): Promise<PublicConfig> {
@@ -30,7 +32,18 @@ export class ConfigService {
       return structuredClone(this.cachedConfig)
     }
 
-    const config = await this.api.call(apiEndpoints.getConfig, options)
+    if (!this.pendingConfig) {
+      this.pendingConfig = this.fetchConfig().finally(() => {
+        this.pendingConfig = undefined
+      })
+    }
+    return structuredClone(
+      await waitForRequest(this.pendingConfig, options?.signal),
+    )
+  }
+
+  private async fetchConfig(): Promise<PublicConfig> {
+    const config = await this.api.call(apiEndpoints.getConfig)
     if (isRecord(config) && isRecord(config.auth)) {
       const { mode, firebase_project_id } = config.auth
       if (mode === 'guest' && firebase_project_id === null) {

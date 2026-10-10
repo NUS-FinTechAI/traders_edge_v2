@@ -12,8 +12,10 @@
     "typecheck": "tsc -b --pretty false"
   },
   "dependencies": {
+    "firebase": "^13.0.0",
     "react": "^19.2.8",
-    "react-dom": "^19.2.8"
+    "react-dom": "^19.2.8",
+    "react-router-dom": "^7.18.4"
   },
   "devDependencies": {
     "@babel/core": "^7.29.7",

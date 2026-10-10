@@ -1,3 +1,5 @@
+import firebaseService from './firebaseService.ts'
+
 export type HttpErrorKind = 'http' | 'network' | 'aborted' | 'invalid-response'
 
 export class HttpError extends Error {
@@ -232,6 +234,9 @@ export class HttpService {
 
 export const httpService = new HttpService({
   baseUrl: import.meta.env?.VITE_BACKEND_URL || 'http://localhost:8000',
+  getAccessToken: async () => {
+    return firebaseService.getAccessToken()
+  },
 })
 
 export default httpService
