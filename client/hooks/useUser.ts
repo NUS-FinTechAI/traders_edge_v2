@@ -1,10 +1,5 @@
-import { useSyncExternalStore } from 'react'
-import authService from '../services/authService.ts'
+import useAuth from './useAuth.ts'
 
 export default function useUser() {
-  return useSyncExternalStore(
-    authService.subscribe,
-    authService.getUser,
-    authService.getUser,
-  )
+  return useAuth().user
 }

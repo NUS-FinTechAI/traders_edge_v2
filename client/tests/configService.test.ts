@@ -170,19 +170,35 @@ test('cancelled config requests do not call the server', async (t) => {
   assert.equal(fetchMock.mock.callCount(), 0)
 })
 
-test('config cancellation forwards the signal during a request', async (t) => {
+test('cancelling one config caller does not cancel another caller or the cache fill', async (t) => {
   const controller = new AbortController()
-  t.mock.method(
-    globalThis,
-    'fetch',
-    async (_input: Parameters<typeof fetch>[0], options?: RequestInit) => {
-      assert.equal(options?.signal, controller.signal)
-      controller.abort()
-      throw controller.signal.reason
-    },
-  )
-
-  await assert.rejects(configService.getConfig({ signal: controller.signal }), {
-    kind: 'aborted',
+  let finish!: (response: Response) => void
+  const response = new Promise<Response>((resolve) => {
+    finish = resolve
   })
+  const fetchMock = t.mock.method(globalThis, 'fetch', async () => response)
+  const cancelled = configService.getConfig({ signal: controller.signal })
+  const active = configService.getConfig()
+  controller.abort()
+
+  await assert.rejects(cancelled, { kind: 'aborted' })
+  finish(Response.json(guestConfig))
+  assert.deepEqual(await active, guestConfig)
+  assert.deepEqual(await configService.getConfig(), guestConfig)
+  assert.equal(fetchMock.mock.callCount(), 1)
+})
+
+test('concurrent config callers share one fetch and receive independent objects', async (t) => {
+  const fetchMock = t.mock.method(globalThis, 'fetch', async () =>
+    Response.json(guestConfig),
+  )
+  const [first, second] = await Promise.all([
+    configService.getConfig(),
+    configService.getConfig(),
+  ])
+  assert.deepEqual(first, guestConfig)
+  assert.deepEqual(second, guestConfig)
+  assert.notEqual(first, second)
+  assert.notEqual(first.auth, second.auth)
+  assert.equal(fetchMock.mock.callCount(), 1)
 })

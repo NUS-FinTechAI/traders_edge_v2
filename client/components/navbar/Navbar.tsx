@@ -1,50 +1,18 @@
-import { useEffect, useRef, useState } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
-import authService from '../../services/authService.ts'
+import { Link, useNavigate } from 'react-router-dom'
+import useAuth from '../../hooks/useAuth.ts'
 import './navbar.css'
 
-type AuthStatus = 'loading' | 'signed-in' | 'signed-out' | 'unavailable'
-
 export default function Navbar() {
-  const { pathname } = useLocation()
   const navigate = useNavigate()
-  const [status, setStatus] = useState<AuthStatus>('loading')
-  const [error, setError] = useState('')
-  const [busy, setBusy] = useState(false)
-  const [attempt, setAttempt] = useState(0)
-  const pendingCheck = useRef<AbortController | null>(null)
-
-  useEffect(() => {
-    const controller = new AbortController()
-    pendingCheck.current = controller
-    void authService.isAuthenticated({ signal: controller.signal }).then(
-      (authenticated) => {
-        if (controller.signal.aborted) return
-        setStatus(authenticated ? 'signed-in' : 'signed-out')
-        setError('')
-      },
-      () => {
-        if (controller.signal.aborted) return
-        setStatus('unavailable')
-        setError('Unable to check your sign-in. Please try again.')
-      },
-    )
-    return () => controller.abort()
-  }, [pathname, attempt])
+  const { status, error, signingOut: busy, logout, retry } = useAuth()
 
   async function signOut() {
     if (busy) return
-    pendingCheck.current?.abort()
-    setBusy(true)
-    setError('')
     try {
-      await authService.logout()
-      setStatus('signed-out')
+      await logout()
       void navigate('/', { replace: true })
     } catch {
-      setError('Unable to sign out. Please try again.')
-    } finally {
-      setBusy(false)
+      /* The controller exposes the error in the shared state. */
     }
   }
 
@@ -59,7 +27,6 @@ export default function Navbar() {
           </svg>
           <span>Trader’s Edge</span>
         </Link>
-        <span className="site-tagline">Financial decision-making academy</span>
         <div className="site-auth-actions">
           {status === 'loading' && <span role="status">Checking sign-in…</span>}
           {status === 'signed-out' && (
@@ -79,11 +46,7 @@ export default function Navbar() {
           {status === 'unavailable' && (
             <button
               className="site-auth-button"
-              onClick={() => {
-                setStatus('loading')
-                setError('')
-                setAttempt(attempt + 1)
-              }}
+              onClick={() => void retry().catch(() => {})}
             >
               Retry sign-in check
             </button>
