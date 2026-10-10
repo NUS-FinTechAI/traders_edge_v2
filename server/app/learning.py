@@ -10,7 +10,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.auth import current_profile
 from app.db import Attempt, JournalEntry, LearningActivity, LearningRun, LessonCompletion, MasteredModule, Profile, ReviewItem, XPLedger, aware, get_db, now, uid
-from app.progression import progress, record_lesson, require_module, reward
+from app.progression import progress, record_lesson, reward
 
 router = APIRouter(prefix='/api')
 DB = Annotated[AsyncSession, Depends(get_db, scope='function')]
@@ -97,7 +97,7 @@ def public_lesson(lesson):
 
 
 async def profile_data(db, profile, progress_state=None):
-    completed, mastered, xp = progress_state if progress_state is not None else await progress(db, profile.id)
+    completed, mastered, xp = progress_state if progress_state is not None else await progress(db, profile.id, include_xp=False)
     activity = (await db.scalars(select(LearningActivity.day).where(LearningActivity.user_id == profile.id).order_by(LearningActivity.day.desc()).limit(90))).all()
     due = await db.scalar(select(func.count()).select_from(ReviewItem).where(ReviewItem.user_id == profile.id, ReviewItem.completed_at.is_(None), ReviewItem.due_at <= now()))
     xp, game_xp = (await db.execute(select(func.coalesce(func.sum(XPLedger.amount), 0), func.coalesce(func.sum(case((XPLedger.event_key.like('game:%'), XPLedger.amount), else_=0)), 0)).where(XPLedger.user_id == profile.id))).one()
@@ -134,9 +134,11 @@ async def get_curriculum(request: Request, db: DB, user: User):
     modules = []
     diagnosed = set((await db.scalars(select(LearningRun.module_id).where(LearningRun.user_id == user.id, LearningRun.purpose == 'diagnostic', LearningRun.status == 'completed'))).all())
     ordered = sorted(content['modules'], key=lambda m: m['order'])
+    from app.gameplay import chapter_access_ids
+    chapter_access = await chapter_access_ids(db, user.id)
     for module in ordered:
         prerequisites = [m['id'] for m in ordered if m['order'] < module['order']]
-        unlocked = all(mid in mastered for mid in prerequisites)
+        unlocked = module['id'] in chapter_access or all(mid in mastered for mid in prerequisites)
         ready = unlocked and (not module.get('entry_tasks') or module['id'] in diagnosed)
         lessons = [{'id': lesson['id'], 'title': lesson['title'], 'objective': lesson['objective'], 'completed': lesson['id'] in completed, 'unlocked': ready and all(previous['id'] in completed for previous in module['lessons'][:index])} for index, lesson in enumerate(module['lessons'])]
         modules.append({'id': module['id'], 'order': module['order'], 'title': module['title'], 'description': module.get('description', ''), 'optional': module['order'] == 10, 'unlocked': unlocked, 'mastered': module['id'] in mastered, 'prerequisite_module_ids': prerequisites, 'assessment_available': ready and all(l['completed'] for l in lessons), 'lessons': lessons})
@@ -153,7 +155,8 @@ async def archive(request: Request, user: User):
 async def get_lesson(lesson_id: str, request: Request, db: DB, user: User):
     module, lesson = lesson_for(request, lesson_id)
     completed, mastered, _ = await progress(db, user.id)
-    require_module(module, catalog(request)['modules'], mastered)
+    from app.gameplay import require_chapter
+    await require_chapter(db, user.id, module, catalog(request)['modules'], mastered)
     require_lesson(module, lesson_id, completed)
     if module.get('entry_tasks'):
         from app.learning_runs import require_diagnostic
@@ -200,7 +203,8 @@ async def submit(request, db, user, body, kind, target_id, module, lesson=None, 
     if module.get('entry_tasks') and kind in {'lesson', 'assessment'}:
         raise HTTPException(403, 'Use interactive learning runs for this module; whole-lesson submissions cannot bypass its tasks')
     completed, mastered, _ = await progress(db, user.id)
-    require_module(module, catalog(request)['modules'], mastered)
+    from app.gameplay import require_chapter
+    await require_chapter(db, user.id, module, catalog(request)['modules'], mastered)
     if kind == 'lesson':
         require_lesson(module, lesson['id'], completed)
     if kind == 'assessment' and any(l['id'] not in completed for l in module['lessons']):
@@ -247,7 +251,8 @@ async def complete_lesson(lesson_id: str, body: Submission, request: Request, db
 async def get_assessment(module_id: str, request: Request, db: DB, user: User):
     module = module_for(request, module_id)
     completed, mastered, _ = await progress(db, user.id)
-    require_module(module, catalog(request)['modules'], mastered)
+    from app.gameplay import require_chapter
+    await require_chapter(db, user.id, module, catalog(request)['modules'], mastered)
     if any(lesson['id'] not in completed for lesson in module['lessons']):
         raise HTTPException(403, 'Pass every required lesson before the module assessment')
     if module.get('entry_tasks'):

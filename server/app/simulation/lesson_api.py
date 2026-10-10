@@ -160,7 +160,9 @@ async def bind(run_id: str, body: runs.Command, request: Request, db: DB, user: 
     if previous is not None:
         return previous
     run = await bound_run(request, db, user, run_id, active=True)
-    await api.require_access(request, db, user, 'guided')
+    from app.gameplay import ChapterAccess
+    if not await db.get(ChapterAccess, (user.id, run.module_id)):
+        await api.require_access(request, db, user, 'guided')
     binding = run.snapshot_json['simulation_binding']
     if binding['engine_version'] != engine.VERSION:
         raise HTTPException(409, 'Unsupported bound engine version')
