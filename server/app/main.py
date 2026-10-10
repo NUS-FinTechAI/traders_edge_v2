@@ -12,6 +12,7 @@ import uvicorn
 from app.config import Settings
 from app.db import Database
 from app.auth import router as auth_router
+from app.public_config import router as public_config_router
 from app.learning import router as learning_router
 from app.learning_runs import router as learning_runs_router
 from app.rewards import router as rewards_router
@@ -106,6 +107,7 @@ def create_app(settings: Settings | None = None, content: dict | None = None) ->
         return {'status': 'ok'}
 
     application.include_router(auth_router)
+    application.include_router(public_config_router)
     application.include_router(learning_router)
     application.include_router(learning_runs_router)
     application.include_router(rewards_router)
