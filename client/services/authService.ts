@@ -27,8 +27,8 @@ export interface AuthRequestOptions {
 export class AuthService {
   private readonly http: HttpService
 
-  constructor() {
-    this.http = httpService
+  constructor(http: HttpService = httpService) {
+    this.http = http
   }
 
   startGuestSession(options?: AuthRequestOptions): Promise<GuestSession> {
