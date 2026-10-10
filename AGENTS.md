@@ -46,6 +46,15 @@ No navy/neon styling, glowing hexagons, glass gradients or fantasy-map textures.
 
 The authoring contract is in `docs/curriculum/README.md`, `server/README.md` and `server/app/content/validate.py`; extend the canonical catalog rather than inventing a parallel runtime format. Every module's `entry_tasks`, lesson `tasks` and `bonus_tasks` are executable decision practice; the older module-level reflection prompts remain `content_only`. Lessons need source basis and objectives; scenarios need provenance, seed, friction and private future state. Pin task/rubric versions in new runs and keep diagnostic/exit/review feedback hidden until the form completes. Review failure uses the pinned interval; bound simulation audits use their dedicated payload without changing `StepAnswer` hashing. Fresh audits must echo the latest public `observation_token`, including after same-tick order changes; historical committed tokenless audits still replay. Verify ordinary routes enforce bound policy and replay precedes fresh gates. Keep existing learning-earned badges distinct from game challenge cosmetics; never reward trading frequency or present challenge rewards as validated competence. Catalog validation is not independent financial/pedagogical review; production must continue refusing unapproved content.
 
+## Game Design
+
+The game design document is the source of truth for gameplay requirements: `docs/game-design.md`.
+
+Before implementing or changing gameplay features:
+1. Read the latest version of the relevant sections.
+2. Follow the requirements described in the document.
+3. If the document conflicts with the current task, highlight the conflict.
+
 ## Work and review
 
 Use isolated task branches named `chore/short-scope`, `docs/short-scope`, `feat/short-scope` or `fix/short-scope`. Declare owned files and dependencies; keep PRs narrow and coordinate integration across branches. Use the existing git identity and concise imperative Conventional Commit messages. Do not add tool attribution, persona names or coauthor trailers to tracked work or git history. Do not force-push shared branches.
@@ -56,7 +65,7 @@ Review every PR independently for correctness, scope, tests and plain language. 
 
 No filler comments, invented citations, marketing language, decorative emoji, dead code, unused dependencies or unfinished functionality described as complete. Separate research claims, target contracts, branch work and merged behavior.
 
-## Test
+## Testing
 
 Each test case should verify one behavior or scenario. Multiple assertions are acceptable when they support the same behavior. Use descriptive test names that state the condition and expected outcome.
 Follow the Arrange–Act–Assert structure: prepare the inputs, perform the action, and verify the result. Test observable behavior rather than internal implementation details.
