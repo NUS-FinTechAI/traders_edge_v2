@@ -1,8 +1,9 @@
 import assert from 'node:assert/strict'
 import { test, type TestContext } from 'node:test'
-import httpService, { HttpService } from '../services/httpService.ts'
+import { HttpService } from '../services/httpService.ts'
 
 const baseUrl = 'http://localhost:8000'
+const httpService = new HttpService({ baseUrl })
 
 function stubFetch(t: TestContext, respond: typeof fetch) {
   return t.mock.method(globalThis, 'fetch', respond)

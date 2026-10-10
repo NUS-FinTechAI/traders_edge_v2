@@ -2,6 +2,8 @@ import httpService, { HttpError, type HttpService } from './httpService.ts'
 import { ApiClient } from '../api/apiClient.ts'
 import { apiEndpoints } from '../api/api-endpoints.ts'
 import type { components } from '../api/api-types.ts'
+import configService from './configService.ts'
+import firebaseService from './firebaseService.ts'
 
 export type GuestSession = components['schemas']['GuestSession']
 export type UserProfile = components['schemas']['UserProfile']
@@ -12,9 +14,14 @@ export interface AuthRequestOptions {
 
 export class AuthService {
   private readonly api: ApiClient
+  private readonly signOutIdentity?: () => Promise<void>
 
-  constructor(http: HttpService = httpService) {
+  constructor(
+    http: HttpService = httpService,
+    signOutIdentity?: () => Promise<void>,
+  ) {
     this.api = new ApiClient(http)
+    this.signOutIdentity = signOutIdentity
   }
 
   startGuestSession(options?: AuthRequestOptions): Promise<GuestSession> {
@@ -50,6 +57,7 @@ export class AuthService {
       // An expired or missing session already has no authenticated access.
       if (!this.isUnauthorized(error)) throw error
     }
+    await this.signOutIdentity?.()
   }
 
   private isUnauthorized(error: unknown): boolean {
@@ -61,6 +69,10 @@ export class AuthService {
   }
 }
 
-export const authService = new AuthService()
+export const authService = new AuthService(httpService, async () => {
+  if ((await configService.getConfig()).auth.mode === 'firebase') {
+    await firebaseService.signOut()
+  }
+})
 
 export default authService

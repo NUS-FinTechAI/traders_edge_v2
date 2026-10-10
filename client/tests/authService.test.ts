@@ -1,10 +1,54 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import authService, {
-  AuthService,
-  type UserProfile,
-} from '../services/authService.ts'
+import { AuthService, type UserProfile } from '../services/authService.ts'
 import { HttpError, HttpService } from '../services/httpService.ts'
+
+const authService = new AuthService(
+  new HttpService({ baseUrl: 'http://localhost:8000' }),
+)
+
+test('logout signs out the identity provider after clearing the backend session', async (t) => {
+  let backendCleared = false
+  t.mock.method(globalThis, 'fetch', async () => {
+    backendCleared = true
+    return new Response(null, { status: 204 })
+  })
+  const signOut = t.mock.fn(async () => {
+    assert.equal(backendCleared, true)
+  })
+  const auth = new AuthService(
+    new HttpService({ baseUrl: 'http://localhost:8000' }),
+    signOut,
+  )
+  await auth.logout()
+  assert.equal(signOut.mock.callCount(), 1)
+})
+
+test('logout signs out the identity provider when the backend session has expired', async (t) => {
+  t.mock.method(globalThis, 'fetch', async () =>
+    Response.json({ detail: 'Expired' }, { status: 401 }),
+  )
+  const signOut = t.mock.fn(async () => {})
+  const auth = new AuthService(
+    new HttpService({ baseUrl: 'http://localhost:8000' }),
+    signOut,
+  )
+  await auth.logout()
+  assert.equal(signOut.mock.callCount(), 1)
+})
+
+test('logout preserves identity when backend session deletion fails', async (t) => {
+  t.mock.method(globalThis, 'fetch', async () => {
+    throw new TypeError('Offline')
+  })
+  const signOut = t.mock.fn(async () => {})
+  const auth = new AuthService(
+    new HttpService({ baseUrl: 'http://localhost:8000' }),
+    signOut,
+  )
+  await assert.rejects(auth.logout(), { kind: 'network' })
+  assert.equal(signOut.mock.callCount(), 0)
+})
 
 const profile: UserProfile = {
   id: 'learner-id',
