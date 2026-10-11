@@ -1,6 +1,10 @@
 .adventure-chapter-card {
   flex: 0 0 18.5rem;
   scroll-snap-align: start;
+  transition: transform 0.2s ease;
+}
+.adventure-chapter-card:hover {
+  transform: scale(1.02);
 }
 .adventure-chapter-card > a {
   display: flex;

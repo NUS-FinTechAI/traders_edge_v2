@@ -65,16 +65,11 @@
   border-color: #858e89;
   background: #303735;
 }
-.adventure-map-stop.is-locked .adventure-node-star {
-  color: #b8bfbb;
-}
 .adventure-map-stop:hover {
-  border-color: #839d76;
-  background: #203c30;
+  transform: scale(1.15);
 }
 .adventure-map-stop.is-locked:hover {
-  border-color: #858e89;
-  background: #2b3430;
+  transform: none;
 }
 
 .adventure-map-row {
@@ -124,6 +119,7 @@
   background: transparent;
   color: #f2ecdb;
   text-align: center;
+  transition: transform 0.2s ease;
 }
 @media (max-width: 700px) {
   .adventure-map-row {

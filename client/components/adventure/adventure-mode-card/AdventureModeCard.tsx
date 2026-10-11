@@ -12,7 +12,7 @@ export default function AdventureModeCard() {
         the map.
       </p>
       <span className="adventure-mode-link">
-        Explore chapters <span aria-hidden="true">→</span>
+        Explore <span aria-hidden="true">→</span>
       </span>
     </Link>
   )
