@@ -143,6 +143,7 @@ export default function PublicAdventurePage() {
                   title: item.title,
                   marker: String(index + 1).padStart(2, '0'),
                   status: 'Sign in to play',
+                  starEarned: false,
                   bonus: item.bonus_steps > 0,
                 })),
                 {

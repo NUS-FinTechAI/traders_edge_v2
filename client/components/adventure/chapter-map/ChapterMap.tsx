@@ -9,10 +9,12 @@ import './ChapterMap.css'
 export default function ChapterMap({
   map,
   chapter,
+  bonusLevelIds,
   onSelect,
 }: {
   map: ModuleMap
   chapter: AdventureChapter
+  bonusLevelIds: string[]
   onSelect: (stop: string) => void
 }) {
   const routeStops = [
@@ -67,7 +69,9 @@ export default function ChapterMap({
         stops={routeStops.map((stop) => ({
           ...stop,
           starEarned: stop.level?.standard_star,
-          bonus: !!(stop.level?.bonus_available || stop.level?.bonus_star),
+          bonus:
+            !!stop.level &&
+            (bonusLevelIds.includes(stop.level.id) || stop.level.bonus_star),
           bonusEarned: stop.level?.bonus_star,
         }))}
         onSelect={onSelect}
@@ -139,29 +143,32 @@ export function ChapterRoute({
           <button
             className="adventure-map-stop"
             onClick={() => onSelect(stop.id)}
-            aria-label={`${stop.marker === 'Start' || stop.marker === 'Boss' ? '' : `Level ${Number(stop.marker)}: `}${stop.title}. ${stop.status}. View details.`}
+            aria-label={`${stop.marker === 'Start' || stop.marker === 'Boss' ? '' : `Level ${Number(stop.marker)}: `}${stop.title}. ${stop.status}.${stop.bonus ? (stop.bonusEarned ? ' Special star earned.' : ' Optional bonus missions.') : ''} View details.`}
           >
             <span className="adventure-node-number">{stop.marker}</span>
             <span className="adventure-node-title">{stop.title}</span>
             <span className="adventure-node-status">{stop.status}</span>
-            {stop.starEarned !== undefined && (
-              <span className="adventure-node-star">
-                <Star earned={stop.starEarned} />
-                {stop.starEarned ? 'Normal star earned' : 'Required missions'}
+            {(stop.starEarned !== undefined || stop.bonus) && (
+              <span className="adventure-node-missions">
+                {stop.starEarned !== undefined && (
+                  <span className="adventure-node-star">
+                    <Star earned={stop.starEarned} />
+                    {stop.starEarned
+                      ? 'Normal star earned'
+                      : 'Required missions'}
+                  </span>
+                )}
+                {stop.bonus && (
+                  <span className="adventure-node-star">
+                    <Star special earned={!!stop.bonusEarned} />
+                    {stop.bonusEarned
+                      ? 'Special star earned'
+                      : 'Bonus missions'}
+                  </span>
+                )}
               </span>
             )}
           </button>
-          {stop.bonus && (
-            <button
-              className="adventure-bonus-branch"
-              onClick={() => onSelect(stop.id)}
-              aria-label={`View optional bonus for ${stop.title}`}
-            >
-              <Star special />
-              <span>Bonus</span>
-              <small>{stop.bonusEarned ? 'Star earned' : 'Optional'}</small>
-            </button>
-          )}
         </li>
       ))}
     </ol>

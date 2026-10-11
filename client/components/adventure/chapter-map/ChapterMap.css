@@ -154,39 +154,22 @@
   color: #e0d4b2;
   background: #192e27;
 }
+.adventure-node-missions {
+  display: grid;
+  gap: 0.5rem;
+  width: fit-content;
+  max-width: 100%;
+  text-align: left;
+}
 .adventure-node-star {
-  display: inline-flex;
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr);
   gap: 0.4rem;
   align-items: center;
   font-size: 0.75rem;
   color: #d5dfce;
   background: #192e27;
   padding: 0.2rem 0.3rem;
-}
-.adventure-bonus-branch {
-  position: relative;
-  width: 30%;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  padding: 0.75rem 0.5rem;
-  gap: 0.4rem;
-  color: #eeddf3;
-  border: 1px solid #a58baf;
-  border-radius: 5px;
-  background: #302c36;
-}
-.adventure-bonus-branch::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  right: 100%;
-  width: 30%;
-  border-top: 2px dashed #c6aecf;
-}
-.adventure-map-row:nth-child(even) .adventure-bonus-branch::before {
-  right: auto;
-  left: 100%;
 }
 @media (max-width: 700px) {
   .adventure-learning-check {
@@ -211,10 +194,6 @@
     font-size: 1.15rem;
     overflow-wrap: anywhere;
   }
-  .adventure-node-star {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
 }
 @container (max-width: 18rem) {
   .adventure-map-row,
@@ -234,10 +213,8 @@
   .adventure-connector path {
     display: none;
   }
-  .adventure-bonus-branch {
-    width: 100%;
-  }
-  .adventure-bonus-branch::before {
-    display: none;
-  }
+}
+
+.adventure-node-star .adventure-star-special:not(.adventure-star-unearned) {
+  fill: #d4b9df;
 }

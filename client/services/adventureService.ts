@@ -16,16 +16,24 @@ export function loadAdventure(signal: AbortSignal) {
 }
 
 export async function loadChapter(moduleId: string, signal: AbortSignal) {
-  const [overview, map] = await Promise.all([
+  const [overview, map, catalog] = await Promise.all([
     loadAdventure(signal),
     api.call(apiEndpoints.getModuleMap, {
       path: { module_id: moduleId },
       signal,
     }),
+    loadPublicAdventure(signal),
   ])
   const chapter = overview.chapters.find((item) => item.module_id === moduleId)
   if (!chapter) throw new HttpError('Chapter not found', 'http', 404)
-  return { chapter, map, chapters: overview.chapters }
+  const offeredChapter = catalog.chapters.find(
+    (item) => item.module_id === moduleId,
+  )
+  if (!offeredChapter) throw new HttpError('Chapter not found', 'http', 404)
+  const bonusLevelIds = offeredChapter.levels
+    .filter((level) => level.bonus_steps > 0)
+    .map((level) => level.id)
+  return { chapter, map, chapters: overview.chapters, bonusLevelIds }
 }
 
 export function loadLevel(levelId: string, signal: AbortSignal) {

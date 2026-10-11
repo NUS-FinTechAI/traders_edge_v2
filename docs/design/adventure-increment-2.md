@@ -6,7 +6,7 @@ Implemented on `feat/adventure-2`, based on `34964435c2f66533c93822bac97d35689ab
 
 - Home adds an Adventure Mode card linking to `/adventure`.
 - `/adventure` shows server-provided chapter progress, separate normal/special star totals, horizontal scrolling and keyboard-accessible chapter links. Locked chapters remain inspectable.
-- `/adventure/chapters/:moduleId` shows the diagnostic, connected numbered levels and chapter boss. Available or earned bonuses branch from their level. The separate learning check does not imply a prerequisite for the boss. Earlier-check links and the entry-boss briefing explain chapter locks.
+- `/adventure/chapters/:moduleId` shows the diagnostic, connected numbered levels and chapter boss. Offered bonuses appear as a second star row below required missions, including before they unlock; earned stars use the filled state. The separate learning check does not imply a prerequisite for the boss. Earlier-check links and the entry-boss briefing explain chapter locks.
 - Selecting a stop opens a native dialog. Level briefings load the existing level endpoint and show objectives, required/bonus criteria and lock reasons. Escape and the close controls return focus to the opener. The `stop` query parameter supports direct briefing links.
 - Authentication, HTTP failures, empty chapters and loading states are explicit. Requests are cancelled on unmount; profile and chapter identity key the screens to prevent another profile's progress remaining visible. Expired-session recovery rechecks shared authentication.
 

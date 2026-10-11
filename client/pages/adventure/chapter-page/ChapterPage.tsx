@@ -48,7 +48,7 @@ function ChapterContent({ moduleId }: { moduleId: string }) {
         )}
       </main>
     )
-  const { chapter, map, chapters } = state.data
+  const { chapter, map, chapters, bonusLevelIds } = state.data
   const chosenLevel = map.levels.find((level) => level.id === selected)
   const validStop =
     chosenLevel ||
@@ -137,7 +137,12 @@ function ChapterContent({ moduleId }: { moduleId: string }) {
           </button>
         </section>
       )}
-      <ChapterMap map={map} chapter={chapter} onSelect={select} />
+      <ChapterMap
+        map={map}
+        chapter={chapter}
+        bonusLevelIds={bonusLevelIds}
+        onSelect={select}
+      />
       <StarLegend />
       <p className="adventure-footnote">
         Open any level to inspect its required and optional missions. This map

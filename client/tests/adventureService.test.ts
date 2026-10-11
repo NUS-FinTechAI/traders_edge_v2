@@ -38,7 +38,7 @@ const map: ModuleMap = {
   assessment_available: false,
 }
 
-test('chapter read joins owned overview and map while forwarding cancellation', async (t) => {
+test('chapter read includes offered locked bonuses without changing progress and forwards cancellation', async (t) => {
   t.mock.method(firebaseService, 'getAccessToken', async () => null)
   const chapter = { module_id: 'chapter', unlocked: true }
   const fetchMock = t.mock.method(
@@ -46,15 +46,34 @@ test('chapter read joins owned overview and map while forwarding cancellation', 
     'fetch',
     async (input: Parameters<typeof fetch>[0]) =>
       Response.json(
-        String(input).endsWith('/adventure') ? { chapters: [chapter] } : map,
+        String(input).endsWith('/catalog')
+          ? {
+              chapters: [
+                {
+                  module_id: 'chapter',
+                  levels: [
+                    { id: 'first', bonus_steps: 1 },
+                    { id: 'no-bonus', bonus_steps: 0 },
+                  ],
+                },
+              ],
+            }
+          : String(input).endsWith('/adventure')
+            ? { chapters: [chapter] }
+            : map,
       ),
   )
   const controller = new AbortController()
 
   const result = await loadChapter('chapter', controller.signal)
 
-  assert.deepEqual(result, { chapter, map, chapters: [chapter] })
-  assert.equal(fetchMock.mock.calls.length, 2)
+  assert.deepEqual(result, {
+    chapter,
+    map,
+    chapters: [chapter],
+    bonusLevelIds: ['first'],
+  })
+  assert.equal(fetchMock.mock.calls.length, 3)
   for (const call of fetchMock.mock.calls) {
     assert.equal(call.arguments[1]?.signal, controller.signal)
     assert.equal(call.arguments[1]?.credentials, 'include')
