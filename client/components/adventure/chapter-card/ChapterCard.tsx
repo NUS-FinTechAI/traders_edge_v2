@@ -42,19 +42,16 @@ export default function ChapterCard({
         ) : (
           <>
             <p>
-              {chapter.completed_required_levels} of{' '}
-              {chapter.total_required_levels} levels completed
+              {chapter.completed_required_levels}/{chapter.total_required_levels} levels
             </p>
             <div className="adventure-star-counts">
               <span>
                 <Star />
                 {chapter.normal_stars.earned}/{chapter.normal_stars.total}{' '}
-                normal
               </span>
               <span>
                 <Star special />
                 {chapter.special_stars.earned}/{chapter.special_stars.total}{' '}
-                special
               </span>
             </div>
             <progress
@@ -65,7 +62,7 @@ export default function ChapterCard({
           </>
         )}
         <span className="adventure-card-link">
-          {!preview && chapter.unlocked ? 'Explore chapter' : 'Preview chapter'}{' '}
+          {!preview && chapter.unlocked ? 'Explore' : 'Preview'}{' '}
           <span aria-hidden="true">→</span>
         </span>
       </Link>

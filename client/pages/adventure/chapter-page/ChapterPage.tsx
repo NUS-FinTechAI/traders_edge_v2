@@ -96,8 +96,8 @@ function ChapterContent({ moduleId }: { moduleId: string }) {
         <div className="adventure-notice">
           <strong>This chapter is locked.</strong>
           <p>
-            Pass the earlier chapter checks, win the previous chapter’s boss, or
-            pass this chapter’s entry boss to unlock it.
+            Pass the earlier chapters, or
+            defeat this chapter’s entry boss to unlock it.
           </p>
           {prerequisites.length > 0 && (
             <details>
@@ -144,11 +144,6 @@ function ChapterContent({ moduleId }: { moduleId: string }) {
         onSelect={select}
       />
       <StarLegend />
-      <p className="adventure-footnote">
-        Open any level to inspect its required and optional missions. This map
-        currently supports browsing; missions and boss fights are not yet
-        playable here.
-      </p>
       <nav className="adventure-chapter-nav" aria-label="Adjacent chapters">
         {previous && (
           <Link
@@ -159,6 +154,7 @@ function ChapterContent({ moduleId }: { moduleId: string }) {
         )}
         {next && (
           <Link
+            className="next-chapter"
             to={`/adventure/chapters/${encodeURIComponent(next.module_id)}`}
           >
             Chapter {next.order} →

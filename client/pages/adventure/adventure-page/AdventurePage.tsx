@@ -91,10 +91,6 @@ function ChapterSelection() {
       {state.status === 'ready' &&
         (state.data.chapters.length ? (
           <>
-            <p className="adventure-muted">
-              Scroll sideways to explore. Locked chapters can still be
-              previewed.
-            </p>
             <ul
               className="adventure-chapter-rail"
               ref={rail}
