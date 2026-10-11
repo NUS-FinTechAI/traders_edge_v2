@@ -141,13 +141,27 @@ export function ChapterRoute({
             </svg>
           )}
           <button
-            className="adventure-map-stop"
+            className={`adventure-map-stop${stop.status === 'Locked' ? ' is-locked' : ''}`}
             onClick={() => onSelect(stop.id)}
             aria-label={`${stop.marker === 'Start' || stop.marker === 'Boss' ? '' : `Level ${Number(stop.marker)}: `}${stop.title}. ${stop.status}.${stop.bonus ? (stop.bonusEarned ? ' Special star earned.' : ' Optional bonus missions.') : ''} View details.`}
           >
-            <span className="adventure-node-number">{stop.marker}</span>
+            <span className="adventure-node-number">
+              {stop.marker}
+              {stop.status === 'Locked' && (
+                <svg
+                  className="adventure-node-lock"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true"
+                >
+                  <rect x="5" y="10" width="14" height="11" rx="2" />
+                  <path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3" />
+                </svg>
+              )}
+            </span>
             <span className="adventure-node-title">{stop.title}</span>
-            <span className="adventure-node-status">{stop.status}</span>
+            {stop.status !== 'Locked' && (
+              <span className="adventure-node-status">{stop.status}</span>
+            )}
             {(stop.starEarned !== undefined || stop.bonus) && (
               <span className="adventure-node-missions">
                 {stop.starEarned !== undefined && (

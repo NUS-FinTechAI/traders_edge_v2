@@ -128,6 +128,7 @@
   background: #203c30;
 }
 .adventure-node-number {
+  position: relative;
   display: grid;
   place-items: center;
   min-width: 64px;
@@ -217,4 +218,37 @@
 
 .adventure-node-star .adventure-star-special:not(.adventure-star-unearned) {
   fill: #d4b9df;
+}
+
+.adventure-node-lock {
+  position: absolute;
+  right: -9px;
+  bottom: -3px;
+  width: 28px;
+  height: 28px;
+  padding: 3px;
+  border-radius: 50%;
+  background: #303735;
+  fill: none;
+  stroke: #d3d8d5;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.adventure-map-stop.is-locked {
+  color: #b8bfbb;
+}
+.adventure-map-stop.is-locked .adventure-node-number {
+  border-color: #858e89;
+  background: #303735;
+}
+.adventure-map-stop.is-locked .adventure-node-star {
+  color: #b8bfbb;
+}
+.adventure-map-stop.is-locked .adventure-star {
+  stroke: #b8bfbb;
+}
+.adventure-map-stop.is-locked:hover {
+  border-color: #858e89;
+  background: #2b3430;
 }
