@@ -14,7 +14,7 @@ import {
   NormalStar,
   SpecialStar,
 } from '../../../icons/mission-stars/MissionStars.tsx'
-import './StopDetails.css'
+import './NodeDetails.css'
 
 function Briefing({
   level,
@@ -238,7 +238,7 @@ function CheckpointDetails({
   )
 }
 
-export function StopDialog({
+export function NodeDialog({
   children,
   close,
 }: {
@@ -297,7 +297,7 @@ export function StopDialog({
   )
 }
 
-export default function StopDetails({
+export default function NodeDetails({
   selected,
   map,
   chapter,
@@ -310,12 +310,12 @@ export default function StopDetails({
 }) {
   const level = map.levels.find((item) => item.id === selected)
   return (
-    <StopDialog close={close}>
+    <NodeDialog close={close}>
       {level ? (
         <Briefing key={level.id} level={level} map={map} chapter={chapter} />
       ) : (
         <CheckpointDetails stop={selected} chapter={chapter} map={map} />
       )}
-    </StopDialog>
+    </NodeDialog>
   )
 }

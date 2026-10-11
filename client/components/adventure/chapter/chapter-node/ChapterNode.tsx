@@ -1,25 +1,25 @@
 import { NormalStar, SpecialStar } from '../../../icons/mission-stars/MissionStars'
 import { LockIcon } from '../../../icons/lock-icon/LockIcon'
-import type { ChapterRouteStop } from '../chapter-map/ChapterMap'
+import type { ChapterRouteNode } from '../chapter-map/ChapterMap'
 import './ChapterNode.css'
 
 export function ChapterNode({
-  stop,
+  node,
   index,
-  stops,
+  nodes,
   onSelect,
 }: {
-  stop: ChapterRouteStop
+  node: ChapterRouteNode
   index: number
-  stops: ChapterRouteStop[]
+  nodes: ChapterRouteNode[]
   onSelect: (id: string) => void
 }) {
   return (
     <li
-      key={stop.id}
-      className={`adventure-map-row${stop.status === 'Completed' || stop.status === 'Defeated' ? ' is-complete' : ''}${stop.isLocked ? ' is-locked' : ''}`}
+      key={node.id}
+      className={`adventure-map-row${node.status === 'Completed' || node.status === 'Defeated' ? ' is-complete' : ''}${node.isLocked ? ' is-locked' : ''}`}
     >
-      {index < stops.length - 1 && (
+      {index < nodes.length - 1 && (
         <svg
           className="adventure-connector"
           viewBox="0 0 100 100"
@@ -30,28 +30,28 @@ export function ChapterNode({
         </svg>
       )}
       <button
-        className={`adventure-map-stop${stop.isLocked ? ' is-locked' : ''}`}
-        onClick={() => onSelect(stop.id)}
-        aria-label={`${stop.marker === 'Start' || stop.marker === 'Boss' ? '' : `Level ${Number(stop.marker)}: `}${stop.title}. ${stop.status}.${stop.bonus ? (stop.bonusEarned ? ' Special star earned.' : ' Optional bonus missions.') : ''} View details.`}
+        className={`adventure-map-stop${node.isLocked ? ' is-locked' : ''}`}
+        onClick={() => onSelect(node.id)}
+        aria-label={`${node.marker === 'Start' || node.marker === 'Boss' ? '' : `Level ${Number(node.marker)}: `}${node.title}. ${node.status}.${node.bonus ? (node.bonusEarned ? ' Special star earned.' : ' Optional bonus missions.') : ''} View details.`}
       >
         <span className="adventure-node-number">
-          {stop.marker}
-          {stop.isLocked && <LockIcon className="adventure-node-lock" />}
+          {node.marker}
+          {node.isLocked && <LockIcon className="adventure-node-lock" />}
         </span>
-        <span className="adventure-node-title">{stop.title}</span>
-        {!stop.isLocked && (
-          <span className="adventure-node-status">{stop.status}</span>
+        <span className="adventure-node-title">{node.title}</span>
+        {!node.isLocked && (
+          <span className="adventure-node-status">{node.status}</span>
         )}
-        {(stop.starEarned !== undefined || stop.bonus) && (
+        {(node.starEarned !== undefined || node.bonus) && (
           <span className="adventure-node-missions">
-            {stop.starEarned !== undefined && (
+            {node.starEarned !== undefined && (
               <span className="adventure-node-star">
-                <NormalStar earned={stop.starEarned} />
+                <NormalStar earned={node.starEarned} />
               </span>
             )}
-            {stop.bonus && (
+            {node.bonus && (
               <span className="adventure-node-star">
-                <SpecialStar earned={!!stop.bonusEarned} />
+                <SpecialStar earned={!!node.bonusEarned} />
               </span>
             )}
           </span>

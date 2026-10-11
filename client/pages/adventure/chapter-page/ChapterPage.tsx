@@ -5,7 +5,7 @@ import { loadChapter, bossStatus } from '../../../services/adventureService.ts'
 import { AdventureGate } from '../AdventureShared.tsx'
 import ReadError from '../../../components/adventure/read-error/ReadError.tsx'
 import ChapterMap from '../../../components/adventure/chapter/chapter-map/ChapterMap.tsx'
-import StopDetails from '../../../components/adventure/chapter/stop-details/StopDetails.tsx'
+import NodeDetails from '../../../components/adventure/chapter/stop-details/NodeDetails.tsx'
 import {
   NormalStar,
   SpecialStar,
@@ -159,7 +159,7 @@ function ChapterContent({ moduleId }: { moduleId: string }) {
         )}
       </nav>
       {selected && validStop && (
-        <StopDetails
+        <NodeDetails
           selected={selected}
           map={map}
           chapter={chapter}

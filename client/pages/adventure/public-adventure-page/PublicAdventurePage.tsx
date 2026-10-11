@@ -5,7 +5,7 @@ import { loadPublicAdventure } from '../../../services/adventureService.ts'
 import ChapterCard from '../../../components/adventure/chapter/chapter-card/ChapterCard.tsx'
 import { ChapterRoute } from '../../../components/adventure/chapter/chapter-map/ChapterMap.tsx'
 import ReadError from '../../../components/adventure/read-error/ReadError.tsx'
-import PublicStopDetails from '../../../components/adventure/chapter/stop-details/PublicStopDetails.tsx'
+import PublicNodeDetails from '../../../components/adventure/chapter/stop-details/PublicNodeDetails.tsx'
 import './PublicAdventurePage.css'
 
 export default function PublicAdventurePage() {
@@ -127,7 +127,7 @@ export default function PublicAdventurePage() {
             </div>
             <ChapterRoute
               onSelect={select}
-              stops={[
+              nodes={[
                 ...(chapter.introductory_assessment
                   ? [
                       {
@@ -181,7 +181,7 @@ export default function PublicAdventurePage() {
             prerequisites still apply.
           </p>
           {selected && validStop && (
-            <PublicStopDetails
+            <PublicNodeDetails
               chapter={chapter}
               selected={selected}
               signIn={signIn}

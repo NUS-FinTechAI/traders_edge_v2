@@ -45,10 +45,6 @@
   font-size: 1.15rem;
   overflow-wrap: anywhere;
 }
-.adventure-node-star .adventure-star-special:not(.adventure-star-unearned) {
-  fill: #d4b9df;
-}
-
 .adventure-node-lock {
   position: absolute;
   right: -9px;
@@ -64,10 +60,102 @@
   stroke-linecap: round;
   stroke-linejoin: round;
 }
+
 .adventure-map-stop.is-locked .adventure-node-number {
   border-color: #858e89;
   background: #303735;
 }
 .adventure-map-stop.is-locked .adventure-node-star {
   color: #b8bfbb;
+}
+.adventure-map-stop:hover {
+  border-color: #839d76;
+  background: #203c30;
+}
+.adventure-map-stop.is-locked:hover {
+  border-color: #858e89;
+  background: #2b3430;
+}
+
+.adventure-map-row {
+  min-height: 15rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.adventure-map-row:nth-child(even) {
+  flex-direction: row-reverse;
+}
+.adventure-map-row:nth-child(even) .adventure-connector {
+  transform: scaleX(-1);
+}
+
+.adventure-connector {
+  position: absolute;
+  top: 32%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.adventure-connector path {
+  fill: none;
+  stroke: #9dad87;
+  stroke-width: 2px;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 6 7;
+}
+.adventure-map-stop {
+  position: relative;
+  z-index: 1;
+  width: 60%;
+  min-height: 12rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  color: #f2ecdb;
+  text-align: center;
+}
+@media (max-width: 700px) {
+  .adventure-map-row {
+    min-height: 17rem;
+  }
+  .adventure-map-stop {
+    padding: 0.75rem 0.5rem;
+    min-height: 13rem;
+  }
+}
+@container (max-width: 18rem) {
+  .adventure-map-row,
+  .adventure-map-row:nth-child(even) {
+    flex-direction: column;
+    justify-content: center;
+    padding-block: 1rem;
+  }
+  .adventure-map-stop {
+    width: 100%;
+  }
+  .adventure-connector {
+    left: 50%;
+    width: 0;
+    border-left: 2px dashed #9dad87;
+  }
+  .adventure-connector path {
+    display: none;
+  }
+}
+.adventure-map-stop.is-locked {
+  color: #b8bfbb;
+}
+.adventure-map-stop.is-locked .adventure-star {
+  stroke: #b8bfbb;
 }

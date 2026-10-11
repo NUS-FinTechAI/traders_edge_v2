@@ -17,7 +17,7 @@ export default function ChapterMap({
   bonusLevelIds: string[]
   onSelect: (stop: string) => void
 }) {
-  const routeStops = [
+  const routeNodes = [
     ...(map.diagnostic.required
       ? [
           {
@@ -69,13 +69,13 @@ export default function ChapterMap({
         </span>
       </div>
       <ChapterRoute
-        stops={routeStops.map((stop) => ({
-          ...stop,
-          starEarned: stop.level?.standard_star,
+        nodes={routeNodes.map((node) => ({
+          ...node,
+          starEarned: node.level?.standard_star,
           bonus:
-            !!stop.level &&
-            (bonusLevelIds.includes(stop.level.id) || stop.level.bonus_star),
-          bonusEarned: stop.level?.bonus_star,
+            !!node.level &&
+            (bonusLevelIds.includes(node.level.id) || node.level.bonus_star),
+          bonusEarned: node.level?.bonus_star,
         }))}
         onSelect={onSelect}
       />
@@ -109,7 +109,7 @@ export default function ChapterMap({
   )
 }
 
-export type ChapterRouteStop = {
+export type ChapterRouteNode = {
   id: string
   title: string
   marker: string
@@ -121,20 +121,20 @@ export type ChapterRouteStop = {
 }
 
 export function ChapterRoute({
-  stops,
+  nodes,
   onSelect,
 }: {
-  stops: ChapterRouteStop[]
+  nodes: ChapterRouteNode[]
   onSelect: (id: string) => void
 }) {
   return (
     <ol className="adventure-route">
-      {stops.map((stop, index) => (
+      {nodes.map((node, index) => (
         <ChapterNode
-          key={stop.id}
-          stop={stop}
+          key={node.id}
+          node={node}
           index={index}
-          stops={stops}
+          nodes={nodes}
           onSelect={onSelect}
         />
       ))}

@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom'
 import type { PublicAdventureChapter } from '../../../../services/adventureService.ts'
-import { StopDialog } from './StopDetails.tsx'
-import './PublicStopDetails.css'
+import { NodeDialog } from './NodeDetails.tsx'
+import './PublicNodeDetails.css'
 
-export default function PublicStopDetails({
+export default function PublicNodeDetails({
   chapter,
   selected,
   signIn,
@@ -24,8 +24,8 @@ export default function PublicStopDetails({
       assessment: 'Chapter learning check',
     }[selected]
   return (
-    <StopDialog close={close}>
-      <div className="public-stop-details">
+    <NodeDialog close={close}>
+      <div className="public-node-details">
         <p className="adventure-eyebrow">Preview</p>
         <h2 id="stop-title">{title}</h2>
         {level ? (
@@ -83,6 +83,6 @@ export default function PublicStopDetails({
           Sign in to play
         </Link>
       </div>
-    </StopDialog>
+    </NodeDialog>
   )
 }
