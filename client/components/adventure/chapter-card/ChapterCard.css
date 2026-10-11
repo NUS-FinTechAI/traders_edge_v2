@@ -27,10 +27,19 @@
   color: #d8bf85;
 }
 .adventure-status {
+  display: inline-flex;
+  align-items: center;
   color: #f2ecdb;
   padding: 0.15rem 0.5rem;
-  border: 1px solid #7b9180;
-  border-radius: 3px;
+}
+.adventure-card-lock {
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 .adventure-chapter-card h2 {
   font-family: Georgia, 'Times New Roman', serif;

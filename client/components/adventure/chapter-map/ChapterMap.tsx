@@ -1,3 +1,4 @@
+import { LockIcon } from "../../icons/lock-icon/LockIcon.tsx";
 import {
   bossStatus,
   type AdventureChapter,
@@ -152,14 +153,7 @@ export function ChapterRoute({
             <span className="adventure-node-number">
               {stop.marker}
               {stop.status === 'Locked' && (
-                <svg
-                  className="adventure-node-lock"
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                >
-                  <rect x="5" y="10" width="14" height="11" rx="2" />
-                  <path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3" />
-                </svg>
+                <LockIcon className="adventure-node-lock" />
               )}
             </span>
             <span className="adventure-node-title">{stop.title}</span>

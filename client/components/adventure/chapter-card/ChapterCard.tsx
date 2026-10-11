@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { LockIcon } from '../../icons/lock-icon/LockIcon.tsx'
 import type {
   AdventureChapter,
   PublicAdventureChapter,
@@ -18,9 +19,11 @@ export default function ChapterCard({
       <Link to={`/adventure/chapters/${encodeURIComponent(chapter.module_id)}`}>
         <div className="adventure-card-top">
           <span>Chapter {String(chapter.order).padStart(2, '0')}</span>
-          <span className="adventure-status">
-            {preview ? 'Preview' : chapter.unlocked ? 'Unlocked' : 'Locked'}
-          </span>
+          {!preview && !chapter.unlocked && (
+            <span className="adventure-status" role="img" aria-label="Locked">
+              <LockIcon className="adventure-card-lock" />
+            </span>
+          )}
         </div>
         <h2>{chapter.title}</h2>
         <div className="adventure-card-route" aria-hidden="true">
