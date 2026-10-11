@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import type { LearningRun } from '../../../services/learningRunService.ts'
-import { Star } from '../mission-stars/MissionStars.tsx'
+import { Star } from '../../icons/mission-stars/MissionStars.tsx'
 import LearningFeedback from '../learning-feedback/LearningFeedback.tsx'
 import './LearningResult.css'
 

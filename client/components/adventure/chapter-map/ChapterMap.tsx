@@ -4,7 +4,7 @@ import {
   type AdventureChapter,
   type ModuleMap,
 } from '../../../services/adventureService.ts'
-import { Star } from '../mission-stars/MissionStars.tsx'
+import { Star } from '../../icons/mission-stars/MissionStars.tsx'
 import './ChapterMap.css'
 
 export default function ChapterMap({

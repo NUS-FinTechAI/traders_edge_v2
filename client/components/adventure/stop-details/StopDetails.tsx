@@ -10,7 +10,7 @@ import {
 } from '../../../services/adventureService.ts'
 import ReadError from '../read-error/ReadError.tsx'
 import LearningLaunch from '../learning-launch/LearningLaunch.tsx'
-import { Star } from '../mission-stars/MissionStars.tsx'
+import { Star } from '../../icons/mission-stars/MissionStars.tsx'
 import './StopDetails.css'
 
 function Briefing({

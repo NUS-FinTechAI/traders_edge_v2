@@ -9,7 +9,7 @@ import StopDetails from '../../../components/adventure/stop-details/StopDetails.
 import {
   Star,
   StarLegend,
-} from '../../../components/adventure/mission-stars/MissionStars.tsx'
+} from '../../../components/icons/mission-stars/MissionStars.tsx'
 import './ChapterPage.css'
 
 function ChapterContent({ moduleId }: { moduleId: string }) {
@@ -76,10 +76,6 @@ function ChapterContent({ moduleId }: { moduleId: string }) {
           <h1 ref={title} tabIndex={-1}>
             {chapter.title}
           </h1>
-          <p>
-            Follow the route. Open a stop to see its objective and
-            prerequisites.
-          </p>
         </div>
         <div className="adventure-chapter-totals">
           <span>

@@ -4,7 +4,7 @@ import type {
   AdventureChapter,
   PublicAdventureChapter,
 } from '../../../services/adventureService.ts'
-import { Star } from '../mission-stars/MissionStars.tsx'
+import { Star } from '../../icons/mission-stars/MissionStars.tsx'
 import './ChapterCard.css'
 
 export default function ChapterCard({

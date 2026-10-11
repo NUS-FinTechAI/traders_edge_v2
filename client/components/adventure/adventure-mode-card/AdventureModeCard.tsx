@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import RouteEmblem from '../route-emblem/RouteEmblem.tsx'
+import RouteEmblem from '../../icons/route-emblem/RouteEmblem.tsx'
 import './AdventureModeCard.css'
 
 export default function AdventureModeCard() {
