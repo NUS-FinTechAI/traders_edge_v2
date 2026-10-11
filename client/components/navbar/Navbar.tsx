@@ -1,4 +1,5 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { AppLogo } from '../icons/app-logo/AppLogo.tsx'
 import useAuth from '../../hooks/useAuth.ts'
 import './navbar.css'
 
@@ -22,12 +23,10 @@ export default function Navbar() {
     <header className="site-header">
       <nav className="site-navbar" aria-label="Main navigation">
         <Link className="site-brand" to="/" aria-label="Trader’s Edge home">
-          <svg viewBox="0 0 32 36" aria-hidden="true">
-            <path d="M16 2 29 7v12c0 7-7 12-13 15C10 31 3 26 3 19V7Z" />
-            <circle cx="16" cy="16" r="8" />
-            <path d="m20 12-3 5-5 3 3-5Z" />
-          </svg>
-          <span>Trader’s Edge</span>
+          <>
+            <AppLogo />
+            <span>Trader’s Edge</span>
+          </>
         </Link>
         <div className="site-auth-actions">
           {status === 'loading' && <span role="status">Checking sign-in…</span>}
