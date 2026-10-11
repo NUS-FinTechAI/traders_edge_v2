@@ -3,7 +3,6 @@ import { redirect } from 'react-router-dom'
 
 /**
  * Guard for handling authentication and redirecting unauthenticated users.
- * Certain actions or routes may require the user to be authenticated.
  */
 export class AuthGuard {
   async canActivate(returnTo: URL, signal?: AbortSignal): Promise<boolean> {
@@ -12,7 +11,6 @@ export class AuthGuard {
     if (!authenticated) {
       this.redirectToLogin(returnTo)
     }
-
     return true
   }
 
