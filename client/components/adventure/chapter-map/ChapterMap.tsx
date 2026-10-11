@@ -31,6 +31,7 @@ export default function ChapterMap({
                 : map.diagnostic.run_id
                   ? 'In progress'
                   : 'Available',
+            isLocked: !map.unlocked,
             level: null,
           },
         ]
@@ -43,9 +44,10 @@ export default function ChapterMap({
         ? 'Completed'
         : level.active_run_id
           ? 'In progress'
-          : level.unlocked
-            ? 'Available'
-            : 'Locked',
+            : level.unlocked
+              ? 'Available'
+              : 'Locked',
+      isLocked: !level.unlocked,
       level,
     })),
     {
@@ -53,6 +55,7 @@ export default function ChapterMap({
       title: 'Chapter boss',
       marker: 'Boss',
       status: bossStatus(chapter.exit_boss, chapter.exit_boss_passed),
+      isLocked: !chapter.exit_boss.available,
       level: null,
     },
   ]
@@ -111,6 +114,7 @@ export type ChapterRouteStop = {
   title: string
   marker: string
   status: string
+  isLocked: boolean
   starEarned?: boolean
   bonus?: boolean
   bonusEarned?: boolean
@@ -128,7 +132,7 @@ export function ChapterRoute({
       {stops.map((stop, index) => (
         <li
           key={stop.id}
-          className={`adventure-map-row${stop.status === 'Completed' || stop.status === 'Defeated' ? ' is-complete' : ''}`}
+          className={`adventure-map-row${stop.status === 'Completed' || stop.status === 'Defeated' ? ' is-complete' : ''}${stop.isLocked ? ' is-locked' : ''}`}
         >
           {index < stops.length - 1 && (
             <svg
@@ -141,7 +145,7 @@ export function ChapterRoute({
             </svg>
           )}
           <button
-            className={`adventure-map-stop${stop.status === 'Locked' ? ' is-locked' : ''}`}
+            className={`adventure-map-stop${stop.isLocked ? ' is-locked' : ''}`}
             onClick={() => onSelect(stop.id)}
             aria-label={`${stop.marker === 'Start' || stop.marker === 'Boss' ? '' : `Level ${Number(stop.marker)}: `}${stop.title}. ${stop.status}.${stop.bonus ? (stop.bonusEarned ? ' Special star earned.' : ' Optional bonus missions.') : ''} View details.`}
           >
