@@ -5,7 +5,7 @@ import { loadChapter, bossStatus } from '../../../services/adventureService.ts'
 import { AdventureGate } from '../AdventureShared.tsx'
 import ReadError from '../../../components/adventure/read-error/ReadError.tsx'
 import ChapterMap from '../../../components/adventure/chapter/chapter-map/ChapterMap.tsx'
-import NodeDetails from '../../../components/adventure/chapter/stop-details/NodeDetails.tsx'
+import NodeDetails from '../../../components/adventure/chapter/node-details/NodeDetails.tsx'
 import {
   NormalStar,
   SpecialStar,

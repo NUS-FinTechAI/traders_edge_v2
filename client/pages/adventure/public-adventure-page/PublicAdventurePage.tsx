@@ -5,7 +5,7 @@ import { loadPublicAdventure } from '../../../services/adventureService.ts'
 import ChapterCard from '../../../components/adventure/chapter/chapter-card/ChapterCard.tsx'
 import { ChapterRoute } from '../../../components/adventure/chapter/chapter-map/ChapterMap.tsx'
 import ReadError from '../../../components/adventure/read-error/ReadError.tsx'
-import PublicNodeDetails from '../../../components/adventure/chapter/stop-details/PublicNodeDetails.tsx'
+import PublicNodeDetails from '../../../components/adventure/chapter/node-details/PublicNodeDetails.tsx'
 import './PublicAdventurePage.css'
 
 export default function PublicAdventurePage() {
