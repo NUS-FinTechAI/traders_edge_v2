@@ -4,7 +4,10 @@ import type {
   AdventureChapter,
   PublicAdventureChapter,
 } from '../../../services/adventureService.ts'
-import { Star } from '../../icons/mission-stars/MissionStars.tsx'
+import {
+  NormalStar,
+  SpecialStar,
+} from '../../icons/mission-stars/MissionStars.tsx'
 import './ChapterCard.css'
 
 export default function ChapterCard({
@@ -50,11 +53,11 @@ export default function ChapterCard({
             </p>
             <div className="adventure-star-counts">
               <span>
-                <Star />
+                <NormalStar />
                 {chapter.normal_stars.earned}/{chapter.normal_stars.total}{' '}
               </span>
               <span>
-                <Star special />
+                <SpecialStar />
                 {chapter.special_stars.earned}/
                 {chapter.special_stars.total}{' '}
               </span>

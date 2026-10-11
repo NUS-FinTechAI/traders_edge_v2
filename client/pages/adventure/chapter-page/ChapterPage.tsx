@@ -7,7 +7,8 @@ import ReadError from '../../../components/adventure/read-error/ReadError.tsx'
 import ChapterMap from '../../../components/adventure/chapter-map/ChapterMap.tsx'
 import StopDetails from '../../../components/adventure/stop-details/StopDetails.tsx'
 import {
-  Star,
+  NormalStar,
+  SpecialStar,
   StarLegend,
 } from '../../../components/icons/mission-stars/MissionStars.tsx'
 import './ChapterPage.css'
@@ -79,10 +80,11 @@ function ChapterContent({ moduleId }: { moduleId: string }) {
         </div>
         <div className="adventure-chapter-totals">
           <span>
-            <Star /> {chapter.normal_stars.earned}/{chapter.normal_stars.total}
+            <NormalStar /> {chapter.normal_stars.earned}/
+            {chapter.normal_stars.total}
           </span>
           <span>
-            <Star special /> {chapter.special_stars.earned}/
+            <SpecialStar /> {chapter.special_stars.earned}/
             {chapter.special_stars.total}
           </span>
         </div>

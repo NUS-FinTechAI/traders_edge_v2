@@ -10,7 +10,10 @@ import {
 } from '../../../services/adventureService.ts'
 import ReadError from '../read-error/ReadError.tsx'
 import LearningLaunch from '../learning-launch/LearningLaunch.tsx'
-import { Star } from '../../icons/mission-stars/MissionStars.tsx'
+import {
+  NormalStar,
+  SpecialStar,
+} from '../../icons/mission-stars/MissionStars.tsx'
 import './StopDetails.css'
 
 function Briefing({
@@ -47,7 +50,7 @@ function Briefing({
       {state.status === 'ready' && (
         <>
           <h3>
-            <Star /> Required missions
+            <NormalStar /> Required missions
           </h3>
           <p>{state.data.level.completion_rule}</p>
           <p>
@@ -72,7 +75,7 @@ function Briefing({
           {state.data.level.bonus_steps > 0 && (
             <>
               <h3>
-                <Star special /> Optional bonus
+                <SpecialStar /> Optional bonus
               </h3>
               <p>{state.data.level.bonus_rule}</p>
               <p>

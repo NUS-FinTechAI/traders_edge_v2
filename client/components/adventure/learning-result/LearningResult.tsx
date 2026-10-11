@@ -1,6 +1,9 @@
 import { Link } from 'react-router-dom'
 import type { LearningRun } from '../../../services/learningRunService.ts'
-import { Star } from '../../icons/mission-stars/MissionStars.tsx'
+import {
+  NormalStar,
+  SpecialStar,
+} from '../../icons/mission-stars/MissionStars.tsx'
 import LearningFeedback from '../learning-feedback/LearningFeedback.tsx'
 import './LearningResult.css'
 
@@ -24,12 +27,12 @@ export default function LearningResult({ run }: { run: LearningRun }) {
       <p>Score: {result.score_percent}%</p>
       {result.standard_star && (
         <p className="learning-earned-star">
-          <Star /> Normal star earned
+          <NormalStar /> Normal star earned
         </p>
       )}
       {result.bonus_star && (
         <p className="learning-earned-star">
-          <Star special /> Special star earned
+          <SpecialStar /> Special star earned
         </p>
       )}
       <p>XP recorded for this run: {result.xp_awarded}.</p>

@@ -1,10 +1,13 @@
-import { LockIcon } from "../../icons/lock-icon/LockIcon.tsx";
+import { LockIcon } from '../../icons/lock-icon/LockIcon.tsx'
 import {
   bossStatus,
   type AdventureChapter,
   type ModuleMap,
 } from '../../../services/adventureService.ts'
-import { Star } from '../../icons/mission-stars/MissionStars.tsx'
+import {
+  NormalStar,
+  SpecialStar,
+} from '../../icons/mission-stars/MissionStars.tsx'
 import './ChapterMap.css'
 
 export default function ChapterMap({
@@ -152,30 +155,22 @@ export function ChapterRoute({
           >
             <span className="adventure-node-number">
               {stop.marker}
-              {stop.status === 'Locked' && (
-                <LockIcon className="adventure-node-lock" />
-              )}
+              {stop.isLocked && <LockIcon className="adventure-node-lock" />}
             </span>
             <span className="adventure-node-title">{stop.title}</span>
-            {stop.status !== 'Locked' && (
+            {!stop.isLocked && (
               <span className="adventure-node-status">{stop.status}</span>
             )}
             {(stop.starEarned !== undefined || stop.bonus) && (
               <span className="adventure-node-missions">
                 {stop.starEarned !== undefined && (
                   <span className="adventure-node-star">
-                    <Star earned={stop.starEarned} />
-                    {stop.starEarned
-                      ? 'Normal star earned'
-                      : 'Required missions'}
+                    <NormalStar earned={stop.starEarned} />
                   </span>
                 )}
                 {stop.bonus && (
                   <span className="adventure-node-star">
-                    <Star special earned={!!stop.bonusEarned} />
-                    {stop.bonusEarned
-                      ? 'Special star earned'
-                      : 'Bonus missions'}
+                    <SpecialStar earned={!!stop.bonusEarned} />
                   </span>
                 )}
               </span>

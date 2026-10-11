@@ -147,20 +147,19 @@
   font-family: Georgia, 'Times New Roman', serif;
   font-size: 1.25rem;
   line-height: 1.3;
-  background: #192e27;
   padding: 0.2rem 0.3rem;
 }
 .adventure-node-status {
   font-size: 0.875rem;
   color: #e0d4b2;
-  background: #192e27;
 }
 .adventure-node-missions {
-  display: grid;
-  gap: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   width: fit-content;
   max-width: 100%;
-  text-align: left;
+  margin-inline: auto;
 }
 .adventure-node-star {
   display: grid;
@@ -169,7 +168,6 @@
   align-items: center;
   font-size: 0.75rem;
   color: #d5dfce;
-  background: #192e27;
   padding: 0.2rem 0.3rem;
 }
 @media (max-width: 700px) {
