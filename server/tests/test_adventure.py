@@ -47,6 +47,13 @@ class AdventureTests(unittest.TestCase):
         mapping = self.client.get('/api/modules/m2/map').json()
         self.assertTrue(mapping['unlocked'])
         self.assertFalse(mapping['mastered'])
+        chapter = self.client.get('/api/adventure').json()['chapters'][1]
+        self.assertTrue(chapter['unlocked'])
+        self.assertTrue(chapter['entry_boss_passed'])
+        self.assertEqual(chapter['normal_stars']['earned'], 0)
+        self.assertEqual(chapter['exit_boss']['reason'], 'required_levels_incomplete')
+        self.assertEqual(chapter['entry_boss']['active_attempt_ids'], [])
+        self.assertTrue(self.client.get('/api/levels/m2-l1').json()['level']['unlocked'])
         curriculum = self.client.get('/api/curriculum').json()['modules']
         self.assertTrue(next(module for module in curriculum if module['id'] == 'm2')['unlocked'])
         workflow = self.client.get('/api/me/workflow').json()['modules']

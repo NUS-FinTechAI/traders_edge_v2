@@ -8,12 +8,6 @@
       "status": "200"
     },
     {
-      "operationId": "getAdventure",
-      "method": "GET",
-      "path": "/api/adventure",
-      "status": "200"
-    },
-    {
       "operationId": "getArchive",
       "method": "GET",
       "path": "/api/archive",
@@ -140,12 +134,6 @@
       "status": "200"
     },
     {
-      "operationId": "getLevel",
-      "method": "GET",
-      "path": "/api/levels/{level_id}",
-      "status": "200"
-    },
-    {
       "operationId": "startLevelRun",
       "method": "POST",
       "path": "/api/levels/{level_id}/runs",
@@ -263,12 +251,6 @@
       "operationId": "startDiagnosticRun",
       "method": "POST",
       "path": "/api/modules/{module_id}/diagnostic-runs",
-      "status": "200"
-    },
-    {
-      "operationId": "getModuleMap",
-      "method": "GET",
-      "path": "/api/modules/{module_id}/map",
       "status": "200"
     },
     {

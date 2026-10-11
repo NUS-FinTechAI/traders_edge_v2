@@ -8,6 +8,7 @@ from fastapi import APIRouter, HTTPException, Request
 from pydantic import Field
 from sqlalchemy import select
 
+from app.api_schemas import LevelResponse, ModuleMap
 from app.db import Attempt, LearningRun, LearningRunCommand, MasteredModule, aware, now, uid
 from app.learning import DB, User, Payload, catalog, interactive_review, lesson_for, module_for, owned_review, practice_eligibility, profile_data, require_lesson
 from app.progression import progress, record_lesson, reward
@@ -373,14 +374,14 @@ def map_data(content, module, progress_state, runs, chapter_access=None):
     return {'module_id': module['id'], 'title': module['title'], 'content_version': content.get('content_version'), 'interactive_available': interactive, 'unlocked': not missing, 'prerequisite_module_ids': missing, 'mastered': module['id'] in mastered, 'diagnostic': {'required': interactive, 'completed': baseline_done, 'run_id': baseline.id if baseline else None}, 'levels': levels, 'assessment_available': not missing and (baseline_done or not interactive) and all(l['id'] in completed for l in module['lessons'])}
 
 
-@router.get('/modules/{module_id}/map', operation_id='getModuleMap')
+@router.get('/modules/{module_id}/map', operation_id='getModuleMap', response_model=ModuleMap)
 async def get_map(module_id: str, request: Request, db: DB, user: User):
     module = module_for(request, module_id)
     from app.gameplay import chapter_access_ids
     return map_data(catalog(request), module, await progress(db, user.id), await run_summaries(db, user, module_id), await chapter_access_ids(db, user.id))
 
 
-@router.get('/levels/{level_id}', operation_id='getLevel')
+@router.get('/levels/{level_id}', operation_id='getLevel', response_model=LevelResponse)
 async def get_level(level_id: str, request: Request, db: DB, user: User):
     module, lesson = lesson_for(request, level_id)
     from app.gameplay import chapter_access_ids
