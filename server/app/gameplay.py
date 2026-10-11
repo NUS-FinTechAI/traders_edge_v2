@@ -8,6 +8,7 @@ from sqlalchemy.dialects.postgresql import insert as pg_insert
 from sqlalchemy.dialects.sqlite import insert as sqlite_insert
 from sqlalchemy.orm import Mapped, mapped_column
 
+from app.api_schemas import AdventureResponse
 from app.db import Base, now
 from app.challenges.models import ChallengeAttempt
 from app.economy import ServerChallengeResult, consume_daily_refresh, daily_can_start, settle_challenge
@@ -151,23 +152,56 @@ async def abandoned(db, user, result):
         won=False, completed_at=now(), chapter_id=result.get('module_id'), abandoned=True))
 
 
-@router.get('/adventure', operation_id='getAdventure')
+@router.get('/adventure', operation_id='getAdventure', response_model=AdventureResponse)
 async def adventure(request: Request, db: DB, user: User):
+    from app.learning_runs import map_data, run_summaries
+
     content = catalog(request)
-    completed, mastered, _ = await progress(db, user.id)
+    progress_state = await progress(db, user.id, include_xp=False)
     access = await chapter_access_ids(db, user.id)
     bosses = list(await db.scalars(select(ChapterBossCompletion).where(ChapterBossCompletion.user_id == user.id)))
     entries = {(boss.module_id, boss.purpose) for boss in bosses}
+    by_module = {}
+    for run in await run_summaries(db, user):
+        by_module.setdefault(run.module_id, []).append(run)
+    active = (await db.execute(select(ChallengeAttempt.id, ChallengeAttempt.module_id,
+        ChallengeAttempt.mode).where(ChallengeAttempt.user_id == user.id,
+        ChallengeAttempt.status == 'active').order_by(ChallengeAttempt.created_at, ChallengeAttempt.id))).all()
     modules = []
     ordered = sorted(content['modules'], key=lambda module: module['order'])
     for module in ordered:
-        normal = all(previous['id'] in mastered for previous in ordered if previous['order'] < module['order'])
+        runs = by_module.get(module['id'], [])
+        mapping = map_data(content, module, progress_state, runs, access)
+        normal_stars = sum(level['standard_star'] for level in mapping['levels'])
+        entry_reason = 'introductory_diagnostic' if module['order'] == 1 else None
+        exit_reason = None
+        if not mapping['unlocked']:
+            exit_reason = 'chapter_locked'
+        elif normal_stars < len(module['lessons']):
+            exit_reason = 'required_levels_incomplete'
+        elif mapping['diagnostic']['required'] and not mapping['diagnostic']['completed']:
+            exit_reason = 'diagnostic_incomplete'
+
+        def boss_availability(mode, reason):
+            if reason is None and len(active) >= 3:
+                reason = 'active_challenge_limit'
+            return {'available': reason is None, 'reason': reason,
+                'active_attempt_ids': [attempt.id for attempt in active
+                    if attempt.module_id == module['id'] and attempt.mode == mode]}
+
         modules.append({'module_id': module['id'], 'title': module['title'], 'order': module['order'],
-            'unlocked': normal or module['id'] in access, 'early_entry_available': module['order'] > 1,
+            'unlocked': mapping['unlocked'], 'early_entry_available': module['order'] > 1,
             'entry_boss_passed': (module['id'], 'chapter_entry') in entries,
             'exit_boss_passed': (module['id'], 'chapter_exit') in entries,
-            'completed_required_levels': sum(lesson['id'] in completed for lesson in module['lessons']),
+            'completed_required_levels': normal_stars,
             'total_required_levels': len(module['lessons']),
+            'normal_stars': {'earned': normal_stars, 'total': len(module['lessons'])},
+            'special_stars': {'earned': sum(level['bonus_star'] for level in mapping['levels']),
+                'total': sum(bool(lesson.get('bonus_tasks')) for lesson in module['lessons'])},
+            'entry_boss': boss_availability('chapter_entry', entry_reason),
+            'exit_boss': boss_availability('chapter_exit', exit_reason),
+            'active_learning_runs': [{'run_id': run.id, 'purpose': run.purpose, 'level_id': run.level_id}
+                for run in runs if run.status == 'active' and run.purpose in {'diagnostic', 'practice', 'bonus', 'assessment'}],
             'beginner_recommendation': 'New to trading? Learn the chapters in order before trying an early boss fight.',
             'assessment_basis': 'Game outcome; structured learning evidence is recorded separately'})
     return {'policy_version': VERSION, 'chapters': modules}
