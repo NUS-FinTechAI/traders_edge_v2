@@ -3,9 +3,9 @@ import { Link, useLoaderData, useLocation, useParams } from 'react-router-dom'
 import useAuth from '../../../hooks/useAuth.ts'
 import useAdventureRead from '../../../hooks/useAdventureRead.ts'
 import type { UserProfile } from '../../../services/authService.ts'
-import LearningTaskForm from '../../../components/adventure/learning-task/LearningTaskForm.tsx'
-import LearningFeedback from '../../../components/adventure/learning-feedback/LearningFeedback.tsx'
-import LearningResult from '../../../components/adventure/learning-result/LearningResult.tsx'
+import LearningTaskForm from '../../../components/adventure/learning/learning-task/LearningTaskForm.tsx'
+import LearningFeedback from '../../../components/adventure/learning/learning-feedback/LearningFeedback.tsx'
+import LearningResult from '../../../components/adventure/learning/learning-result/LearningResult.tsx'
 import {
   getLearningRun,
   LearningCommands,

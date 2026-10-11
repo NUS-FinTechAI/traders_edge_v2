@@ -1,4 +1,4 @@
-import type { LearningRun } from '../../../services/learningRunService.ts'
+import type { LearningRun } from '../../../../services/learningRunService.ts'
 import './LearningFeedback.css'
 
 export default function LearningFeedback({

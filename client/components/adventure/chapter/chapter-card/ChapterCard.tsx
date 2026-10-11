@@ -1,13 +1,13 @@
 import { Link } from 'react-router-dom'
-import { LockIcon } from '../../icons/lock-icon/LockIcon.tsx'
+import { LockIcon } from '../../../icons/lock-icon/LockIcon.tsx'
 import type {
   AdventureChapter,
   PublicAdventureChapter,
-} from '../../../services/adventureService.ts'
+} from '../../../../services/adventureService.ts'
 import {
   NormalStar,
   SpecialStar,
-} from '../../icons/mission-stars/MissionStars.tsx'
+} from '../../../icons/mission-stars/MissionStars.tsx'
 import './ChapterCard.css'
 
 export default function ChapterCard({

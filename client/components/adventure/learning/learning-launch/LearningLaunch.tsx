@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import type { LearningPurpose } from '../../../services/learningRunService.ts'
+import type { LearningPurpose } from '../../../../services/learningRunService.ts'
 import './LearningLaunch.css'
 
 export default function LearningLaunch({

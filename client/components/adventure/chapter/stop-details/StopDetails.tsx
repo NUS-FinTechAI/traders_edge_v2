@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, type ReactNode } from 'react'
-import useAdventureRead from '../../../hooks/useAdventureRead.ts'
+import useAdventureRead from '../../../../hooks/useAdventureRead.ts'
 import {
   loadLevel,
   levelLockReason,
@@ -7,13 +7,13 @@ import {
   type AdventureChapter,
   type ModuleMap,
   type LevelProgress,
-} from '../../../services/adventureService.ts'
-import ReadError from '../read-error/ReadError.tsx'
-import LearningLaunch from '../learning-launch/LearningLaunch.tsx'
+} from '../../../../services/adventureService.ts'
+import ReadError from '../../read-error/ReadError.tsx'
+import LearningLaunch from '../../learning/learning-launch/LearningLaunch.tsx'
 import {
   NormalStar,
   SpecialStar,
-} from '../../icons/mission-stars/MissionStars.tsx'
+} from '../../../icons/mission-stars/MissionStars.tsx'
 import './StopDetails.css'
 
 function Briefing({

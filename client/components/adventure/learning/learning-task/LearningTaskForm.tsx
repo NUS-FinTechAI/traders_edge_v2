@@ -2,7 +2,7 @@ import { useState, type SubmitEvent } from 'react'
 import type {
   LearningTask,
   StepAnswer,
-} from '../../../services/learningRunService.ts'
+} from '../../../../services/learningRunService.ts'
 import './LearningTaskForm.css'
 
 export default function LearningTaskForm({

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import type { PublicAdventureChapter } from '../../../services/adventureService.ts'
+import type { PublicAdventureChapter } from '../../../../services/adventureService.ts'
 import { StopDialog } from './StopDetails.tsx'
 import './PublicStopDetails.css'
 

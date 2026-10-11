@@ -2,10 +2,10 @@ import { useRef } from 'react'
 import { Link, useLocation, useParams, useSearchParams } from 'react-router-dom'
 import useAdventureRead from '../../../hooks/useAdventureRead.ts'
 import { loadPublicAdventure } from '../../../services/adventureService.ts'
-import ChapterCard from '../../../components/adventure/chapter-card/ChapterCard.tsx'
-import { ChapterRoute } from '../../../components/adventure/chapter-map/ChapterMap.tsx'
+import ChapterCard from '../../../components/adventure/chapter/chapter-card/ChapterCard.tsx'
+import { ChapterRoute } from '../../../components/adventure/chapter/chapter-map/ChapterMap.tsx'
 import ReadError from '../../../components/adventure/read-error/ReadError.tsx'
-import PublicStopDetails from '../../../components/adventure/stop-details/PublicStopDetails.tsx'
+import PublicStopDetails from '../../../components/adventure/chapter/stop-details/PublicStopDetails.tsx'
 import './PublicAdventurePage.css'
 
 export default function PublicAdventurePage() {

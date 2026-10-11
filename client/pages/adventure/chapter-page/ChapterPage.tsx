@@ -4,8 +4,8 @@ import useAdventureRead from '../../../hooks/useAdventureRead.ts'
 import { loadChapter, bossStatus } from '../../../services/adventureService.ts'
 import { AdventureGate } from '../AdventureShared.tsx'
 import ReadError from '../../../components/adventure/read-error/ReadError.tsx'
-import ChapterMap from '../../../components/adventure/chapter-map/ChapterMap.tsx'
-import StopDetails from '../../../components/adventure/stop-details/StopDetails.tsx'
+import ChapterMap from '../../../components/adventure/chapter/chapter-map/ChapterMap.tsx'
+import StopDetails from '../../../components/adventure/chapter/stop-details/StopDetails.tsx'
 import {
   NormalStar,
   SpecialStar,
