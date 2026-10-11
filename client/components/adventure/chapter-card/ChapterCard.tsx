@@ -42,7 +42,8 @@ export default function ChapterCard({
         ) : (
           <>
             <p>
-              {chapter.completed_required_levels}/{chapter.total_required_levels} levels
+              {chapter.completed_required_levels}/
+              {chapter.total_required_levels} levels
             </p>
             <div className="adventure-star-counts">
               <span>
@@ -51,7 +52,8 @@ export default function ChapterCard({
               </span>
               <span>
                 <Star special />
-                {chapter.special_stars.earned}/{chapter.special_stars.total}{' '}
+                {chapter.special_stars.earned}/
+                {chapter.special_stars.total}{' '}
               </span>
             </div>
             <progress

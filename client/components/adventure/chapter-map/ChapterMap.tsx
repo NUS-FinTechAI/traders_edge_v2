@@ -44,9 +44,9 @@ export default function ChapterMap({
         ? 'Completed'
         : level.active_run_id
           ? 'In progress'
-            : level.unlocked
-              ? 'Available'
-              : 'Locked',
+          : level.unlocked
+            ? 'Available'
+            : 'Locked',
       isLocked: !level.unlocked,
       level,
     })),
@@ -65,7 +65,7 @@ export default function ChapterMap({
         <span>Your learning route</span>
         <span>
           {chapter.completed_required_levels}/{chapter.total_required_levels}{' '}
-          levels completed
+          levels
         </span>
       </div>
       <ChapterRoute

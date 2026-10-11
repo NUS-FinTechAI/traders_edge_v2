@@ -83,12 +83,11 @@ function ChapterContent({ moduleId }: { moduleId: string }) {
         </div>
         <div className="adventure-chapter-totals">
           <span>
-            <Star /> {chapter.normal_stars.earned}/{chapter.normal_stars.total}{' '}
-            normal stars
+            <Star /> {chapter.normal_stars.earned}/{chapter.normal_stars.total}
           </span>
           <span>
             <Star special /> {chapter.special_stars.earned}/
-            {chapter.special_stars.total} special stars
+            {chapter.special_stars.total}
           </span>
         </div>
       </header>
@@ -96,8 +95,8 @@ function ChapterContent({ moduleId }: { moduleId: string }) {
         <div className="adventure-notice">
           <strong>This chapter is locked.</strong>
           <p>
-            Pass the earlier chapters, or
-            defeat this chapter’s entry boss to unlock it.
+            Pass the earlier chapters, or defeat this chapter’s entry boss to
+            unlock it.
           </p>
           {prerequisites.length > 0 && (
             <details>
