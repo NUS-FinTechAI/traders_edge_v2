@@ -14,9 +14,11 @@
   background: #1b3029;
   color: #f2ecdb;
   text-decoration: none;
+  transition: transform 0.2s ease;
 }
 .adventure-home-card:hover {
   background: #233d33;
+  transform: scale(1.02);
 }
 .adventure-home-card h3 {
   font-family: Georgia, 'Times New Roman', serif;

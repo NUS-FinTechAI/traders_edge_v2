@@ -1,0 +1,12 @@
+.learning-feedback {
+  margin: 1.5rem 0;
+  padding: 1rem 1.5rem;
+  border-left: 4px solid #d1b571;
+  background: #20372d;
+}
+.learning-feedback h2 {
+  font-size: 1.2rem;
+}
+.learning-feedback p {
+  white-space: pre-line;
+}

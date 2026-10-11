@@ -95,6 +95,8 @@
   place-items: center;
   width: 44px;
   height: 44px;
+  padding: 0;
+  line-height: 1;
   margin: -0.75rem -0.75rem 0 0.5rem;
   border: 1px solid #91a184;
   border-radius: 4px;

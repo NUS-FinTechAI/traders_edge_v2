@@ -4,9 +4,9 @@ import useAdventureRead from '../../../hooks/useAdventureRead.ts'
 import { loadAdventure } from '../../../services/adventureService.ts'
 import { AdventureGate } from '../AdventureShared.tsx'
 import ReadError from '../../../components/adventure/read-error/ReadError.tsx'
-import ChapterCard from '../../../components/adventure/chapter-card/ChapterCard.tsx'
-import RouteEmblem from '../../../components/adventure/route-emblem/RouteEmblem.tsx'
-import { StarLegend } from '../../../components/adventure/mission-stars/MissionStars.tsx'
+import ChapterCard from '../../../components/adventure/chapter/chapter-card/ChapterCard.tsx'
+import RouteEmblem from '../../../components/icons/route-emblem/RouteEmblem.tsx'
+import { StarLegend } from '../../../components/icons/mission-stars/MissionStars.tsx'
 import './AdventurePage.css'
 
 function ChapterSelection() {

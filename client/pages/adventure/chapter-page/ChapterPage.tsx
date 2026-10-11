@@ -4,12 +4,13 @@ import useAdventureRead from '../../../hooks/useAdventureRead.ts'
 import { loadChapter, bossStatus } from '../../../services/adventureService.ts'
 import { AdventureGate } from '../AdventureShared.tsx'
 import ReadError from '../../../components/adventure/read-error/ReadError.tsx'
-import ChapterMap from '../../../components/adventure/chapter-map/ChapterMap.tsx'
-import StopDetails from '../../../components/adventure/stop-details/StopDetails.tsx'
+import ChapterMap from '../../../components/adventure/chapter/chapter-map/ChapterMap.tsx'
+import NodeDetails from '../../../components/adventure/chapter/node-details/NodeDetails.tsx'
 import {
-  Star,
+  NormalStar,
+  SpecialStar,
   StarLegend,
-} from '../../../components/adventure/mission-stars/MissionStars.tsx'
+} from '../../../components/icons/mission-stars/MissionStars.tsx'
 import './ChapterPage.css'
 
 function ChapterContent({ moduleId }: { moduleId: string }) {
@@ -76,17 +77,14 @@ function ChapterContent({ moduleId }: { moduleId: string }) {
           <h1 ref={title} tabIndex={-1}>
             {chapter.title}
           </h1>
-          <p>
-            Follow the route. Open a stop to see its objective and
-            prerequisites.
-          </p>
         </div>
         <div className="adventure-chapter-totals">
           <span>
-            <Star /> {chapter.normal_stars.earned}/{chapter.normal_stars.total}
+            <NormalStar /> {chapter.normal_stars.earned}/
+            {chapter.normal_stars.total}
           </span>
           <span>
-            <Star special /> {chapter.special_stars.earned}/
+            <SpecialStar /> {chapter.special_stars.earned}/
             {chapter.special_stars.total}
           </span>
         </div>
@@ -161,7 +159,7 @@ function ChapterContent({ moduleId }: { moduleId: string }) {
         )}
       </nav>
       {selected && validStop && (
-        <StopDetails
+        <NodeDetails
           selected={selected}
           map={map}
           chapter={chapter}

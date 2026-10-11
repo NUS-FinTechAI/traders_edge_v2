@@ -1,9 +1,13 @@
 import { Link } from 'react-router-dom'
+import { LockIcon } from '../../../icons/lock-icon/LockIcon.tsx'
 import type {
   AdventureChapter,
   PublicAdventureChapter,
-} from '../../../services/adventureService.ts'
-import { Star } from '../mission-stars/MissionStars.tsx'
+} from '../../../../services/adventureService.ts'
+import {
+  NormalStar,
+  SpecialStar,
+} from '../../../icons/mission-stars/MissionStars.tsx'
 import './ChapterCard.css'
 
 export default function ChapterCard({
@@ -18,9 +22,11 @@ export default function ChapterCard({
       <Link to={`/adventure/chapters/${encodeURIComponent(chapter.module_id)}`}>
         <div className="adventure-card-top">
           <span>Chapter {String(chapter.order).padStart(2, '0')}</span>
-          <span className="adventure-status">
-            {preview ? 'Preview' : chapter.unlocked ? 'Unlocked' : 'Locked'}
-          </span>
+          {!preview && !chapter.unlocked && (
+            <span className="adventure-status" role="img" aria-label="Locked">
+              <LockIcon className="adventure-card-lock" />
+            </span>
+          )}
         </div>
         <h2>{chapter.title}</h2>
         <div className="adventure-card-route" aria-hidden="true">
@@ -47,11 +53,11 @@ export default function ChapterCard({
             </p>
             <div className="adventure-star-counts">
               <span>
-                <Star />
+                <NormalStar />
                 {chapter.normal_stars.earned}/{chapter.normal_stars.total}{' '}
               </span>
               <span>
-                <Star special />
+                <SpecialStar />
                 {chapter.special_stars.earned}/
                 {chapter.special_stars.total}{' '}
               </span>

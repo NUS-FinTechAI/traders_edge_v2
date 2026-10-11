@@ -2,8 +2,8 @@ import {
   bossStatus,
   type AdventureChapter,
   type ModuleMap,
-} from '../../../services/adventureService.ts'
-import { Star } from '../mission-stars/MissionStars.tsx'
+} from '../../../../services/adventureService.ts'
+import { ChapterNode } from '../chapter-node/ChapterNode.tsx'
 import './ChapterMap.css'
 
 export default function ChapterMap({
@@ -17,7 +17,7 @@ export default function ChapterMap({
   bonusLevelIds: string[]
   onSelect: (stop: string) => void
 }) {
-  const routeStops = [
+  const routeNodes = [
     ...(map.diagnostic.required
       ? [
           {
@@ -69,13 +69,13 @@ export default function ChapterMap({
         </span>
       </div>
       <ChapterRoute
-        stops={routeStops.map((stop) => ({
-          ...stop,
-          starEarned: stop.level?.standard_star,
+        nodes={routeNodes.map((node) => ({
+          ...node,
+          starEarned: node.level?.standard_star,
           bonus:
-            !!stop.level &&
-            (bonusLevelIds.includes(stop.level.id) || stop.level.bonus_star),
-          bonusEarned: stop.level?.bonus_star,
+            !!node.level &&
+            (bonusLevelIds.includes(node.level.id) || node.level.bonus_star),
+          bonusEarned: node.level?.bonus_star,
         }))}
         onSelect={onSelect}
       />
@@ -109,7 +109,7 @@ export default function ChapterMap({
   )
 }
 
-export type ChapterRouteStop = {
+export type ChapterRouteNode = {
   id: string
   title: string
   marker: string
@@ -121,73 +121,22 @@ export type ChapterRouteStop = {
 }
 
 export function ChapterRoute({
-  stops,
+  nodes,
   onSelect,
 }: {
-  stops: ChapterRouteStop[]
+  nodes: ChapterRouteNode[]
   onSelect: (id: string) => void
 }) {
   return (
     <ol className="adventure-route">
-      {stops.map((stop, index) => (
-        <li
-          key={stop.id}
-          className={`adventure-map-row${stop.status === 'Completed' || stop.status === 'Defeated' ? ' is-complete' : ''}${stop.isLocked ? ' is-locked' : ''}`}
-        >
-          {index < stops.length - 1 && (
-            <svg
-              className="adventure-connector"
-              viewBox="0 0 100 100"
-              preserveAspectRatio="none"
-              aria-hidden="true"
-            >
-              <path d="M30 0 C30 55 70 45 70 100" />
-            </svg>
-          )}
-          <button
-            className={`adventure-map-stop${stop.isLocked ? ' is-locked' : ''}`}
-            onClick={() => onSelect(stop.id)}
-            aria-label={`${stop.marker === 'Start' || stop.marker === 'Boss' ? '' : `Level ${Number(stop.marker)}: `}${stop.title}. ${stop.status}.${stop.bonus ? (stop.bonusEarned ? ' Special star earned.' : ' Optional bonus missions.') : ''} View details.`}
-          >
-            <span className="adventure-node-number">
-              {stop.marker}
-              {stop.status === 'Locked' && (
-                <svg
-                  className="adventure-node-lock"
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
-                >
-                  <rect x="5" y="10" width="14" height="11" rx="2" />
-                  <path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3" />
-                </svg>
-              )}
-            </span>
-            <span className="adventure-node-title">{stop.title}</span>
-            {stop.status !== 'Locked' && (
-              <span className="adventure-node-status">{stop.status}</span>
-            )}
-            {(stop.starEarned !== undefined || stop.bonus) && (
-              <span className="adventure-node-missions">
-                {stop.starEarned !== undefined && (
-                  <span className="adventure-node-star">
-                    <Star earned={stop.starEarned} />
-                    {stop.starEarned
-                      ? 'Normal star earned'
-                      : 'Required missions'}
-                  </span>
-                )}
-                {stop.bonus && (
-                  <span className="adventure-node-star">
-                    <Star special earned={!!stop.bonusEarned} />
-                    {stop.bonusEarned
-                      ? 'Special star earned'
-                      : 'Bonus missions'}
-                  </span>
-                )}
-              </span>
-            )}
-          </button>
-        </li>
+      {nodes.map((node, index) => (
+        <ChapterNode
+          key={node.id}
+          node={node}
+          index={index}
+          nodes={nodes}
+          onSelect={onSelect}
+        />
       ))}
     </ol>
   )

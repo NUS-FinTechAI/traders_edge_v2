@@ -1,9 +1,9 @@
 import { Link } from 'react-router-dom'
-import type { PublicAdventureChapter } from '../../../services/adventureService.ts'
-import { StopDialog } from './StopDetails.tsx'
-import './PublicStopDetails.css'
+import type { PublicAdventureChapter } from '../../../../services/adventureService.ts'
+import { NodeDialog } from './NodeDetails.tsx'
+import './PublicNodeDetails.css'
 
-export default function PublicStopDetails({
+export default function PublicNodeDetails({
   chapter,
   selected,
   signIn,
@@ -24,8 +24,8 @@ export default function PublicStopDetails({
       assessment: 'Chapter learning check',
     }[selected]
   return (
-    <StopDialog close={close}>
-      <div className="public-stop-details">
+    <NodeDialog close={close}>
+      <div className="public-node-details">
         <p className="adventure-eyebrow">Preview</p>
         <h2 id="stop-title">{title}</h2>
         {level ? (
@@ -75,13 +75,14 @@ export default function PublicStopDetails({
           </p>
         )}
         <p>
-          Sign in to see your progress and eligibility. Missions and boss fights
-          are not yet playable in this interface.
+          Sign in to play lessons and bonus missions when their prerequisites
+          are complete. Boss fights, chapter learning checks and the simulation
+          interface are coming in later increments.
         </p>
         <Link className="adventure-button" to={signIn}>
           Sign in to play
         </Link>
       </div>
-    </StopDialog>
+    </NodeDialog>
   )
 }

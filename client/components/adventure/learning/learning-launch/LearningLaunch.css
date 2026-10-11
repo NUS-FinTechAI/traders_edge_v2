@@ -1,0 +1,17 @@
+.learning-launch {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0.65rem 1rem;
+  margin: 0.5rem 0;
+  background: #277354;
+  border: 1px solid #9db997;
+  border-radius: 4px;
+  color: #fff;
+  text-decoration: none;
+}
+.learning-launch:focus-visible {
+  outline: 3px solid #f5d38c;
+  outline-offset: 3px;
+}

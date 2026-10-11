@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import RouteEmblem from '../route-emblem/RouteEmblem.tsx'
+import RouteEmblem from '../../icons/route-emblem/RouteEmblem.tsx'
 import './AdventureModeCard.css'
 
 export default function AdventureModeCard() {
@@ -12,7 +12,7 @@ export default function AdventureModeCard() {
         the map.
       </p>
       <span className="adventure-mode-link">
-        Explore chapters <span aria-hidden="true">→</span>
+        Explore <span aria-hidden="true">→</span>
       </span>
     </Link>
   )
