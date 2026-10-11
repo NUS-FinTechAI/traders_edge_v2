@@ -1,0 +1,33 @@
+.adventure-star {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  fill: #dfbd73;
+  stroke: #dfbd73;
+  stroke-width: 1.2;
+  vertical-align: middle;
+}
+.adventure-star-special {
+  fill: none;
+  stroke: #d4b9df;
+  stroke-width: 2;
+}
+.adventure-star-unearned {
+  fill: none;
+}
+.adventure-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+  padding: 1.25rem 0;
+  margin: 0.5rem 0;
+  list-style: none;
+  border-bottom: 1px solid #456052;
+  font-size: 0.9rem;
+}
+.adventure-legend li {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}

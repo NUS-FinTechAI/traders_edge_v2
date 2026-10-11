@@ -1,0 +1,15 @@
+.adventure-emblem {
+  width: 160px;
+  max-width: 100%;
+  flex-shrink: 0;
+  fill: none;
+  stroke: #dbc487;
+  stroke-width: 2;
+}
+.emblem-paper {
+  fill: #203d32;
+}
+.emblem-trail {
+  stroke: #c9d9b8;
+  stroke-dasharray: 5 5;
+}

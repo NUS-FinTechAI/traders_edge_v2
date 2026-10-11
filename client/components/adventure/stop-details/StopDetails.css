@@ -1,0 +1,109 @@
+:where(.adventure-dialog) .adventure-eyebrow {
+  font-size: 0.875rem;
+  color: #d8bf85;
+  margin: 0 0 0.5rem;
+}
+:where(.adventure-dialog) .adventure-muted,
+:where(.adventure-dialog) .adventure-footnote {
+  color: #b4c3b8;
+}
+:where(.adventure-dialog) .adventure-footnote {
+  font-size: 0.9rem;
+  margin-top: 1.5rem;
+}
+:where(.adventure-dialog) .adventure-notice {
+  border: 1px solid #8c9b83;
+  border-left: 4px solid #d6ba78;
+  padding: 1.25rem;
+  background: #1c302a;
+  margin: 1rem 0;
+}
+:where(.adventure-dialog) .adventure-notice p:first-child {
+  margin-top: 0;
+}
+:where(.adventure-dialog) .adventure-notice summary {
+  min-height: 44px;
+  padding: 0.6rem 0;
+  cursor: pointer;
+}
+:where(.adventure-dialog) .adventure-notice li a {
+  display: inline-block;
+  padding: 0.6rem 0;
+  min-height: 44px;
+}
+:where(.adventure-dialog) .adventure-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0.65rem 1rem;
+  background: #277354;
+  color: #fff;
+  border: 1px solid #9db997;
+  border-radius: 4px;
+  text-decoration: none;
+}
+:where(.adventure-dialog) .adventure-button-secondary {
+  background: #20372d;
+  color: #f2ecdb;
+}
+.adventure-dialog h2 {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 400;
+  line-height: 1.15;
+  text-wrap: balance;
+}
+.adventure-dialog a {
+  color: inherit;
+}
+.adventure-dialog button {
+  font: inherit;
+  cursor: pointer;
+}
+.adventure-dialog :is(a, button):focus-visible {
+  outline: 3px solid #f5d38c;
+  outline-offset: 4px;
+}
+.adventure-dialog {
+  width: min(36rem, calc(100% - 2rem));
+  max-height: calc(100dvh - 2rem);
+  overflow-y: auto;
+  padding: 2rem;
+  color: #f2ecdb;
+  background: #192e27;
+  border: 1px solid #d1b571;
+  border-radius: 6px;
+}
+.adventure-dialog::backdrop {
+  background: rgb(5 15 11 / 80%);
+}
+.adventure-dialog h2 {
+  font-size: 2rem;
+  margin: 1rem 0;
+  padding-right: 1.5rem;
+}
+.adventure-dialog h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 1.75rem 0 0.5rem;
+}
+.adventure-dialog-close {
+  float: right;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin: -0.75rem -0.75rem 0 0.5rem;
+  border: 1px solid #91a184;
+  border-radius: 4px;
+  background: #203c30;
+  color: #f2ecdb;
+  font-size: 1.75rem !important;
+}
+@media (max-width: 700px) {
+  .adventure-dialog {
+    padding: 1.5rem;
+  }
+}
