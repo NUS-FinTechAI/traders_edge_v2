@@ -23,10 +23,10 @@ export default function Navbar() {
     <header className="site-header">
       <nav className="site-navbar" aria-label="Main navigation">
         <Link className="site-brand" to="/" aria-label="Trader’s Edge home">
-            <>
-              <AppLogo />
-              <span>Trader’s Edge</span>
-            </>
+          <>
+            <AppLogo />
+            <span>Trader’s Edge</span>
+          </>
         </Link>
         <div className="site-auth-actions">
           {status === 'loading' && <span role="status">Checking sign-in…</span>}
