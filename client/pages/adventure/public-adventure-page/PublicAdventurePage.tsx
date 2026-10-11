@@ -135,6 +135,7 @@ export default function PublicAdventurePage() {
                         title: 'Introductory assessment',
                         marker: 'Start',
                         status: 'Sign in to play',
+                        isLocked: true,
                       },
                     ]
                   : []),
@@ -143,6 +144,7 @@ export default function PublicAdventurePage() {
                   title: item.title,
                   marker: String(index + 1).padStart(2, '0'),
                   status: 'Sign in to play',
+                  isLocked: true,
                   starEarned: false,
                   bonus: item.bonus_steps > 0,
                 })),
@@ -151,6 +153,7 @@ export default function PublicAdventurePage() {
                   title: 'Chapter boss',
                   marker: 'Boss',
                   status: 'Sign in to play',
+                  isLocked: true,
                 },
               ]}
             />
