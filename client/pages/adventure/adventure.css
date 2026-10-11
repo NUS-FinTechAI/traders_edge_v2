@@ -1,0 +1,610 @@
+.adventure-page {
+  max-width: 72rem;
+  margin: 2rem auto;
+  padding: 0 1.5rem 2rem;
+  color: #f2ecdb;
+}
+.adventure-page h1,
+.adventure-dialog h2 {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 400;
+  line-height: 1.15;
+  text-wrap: balance;
+}
+.adventure-page h1 {
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  margin: 0.5rem 0 1rem;
+}
+.adventure-page h2 {
+  font-size: 1.3rem;
+  line-height: 1.3;
+}
+.adventure-page p {
+  max-width: 65ch;
+}
+.adventure-page a,
+.adventure-dialog a {
+  color: inherit;
+}
+.adventure-page button,
+.adventure-dialog button {
+  font: inherit;
+  cursor: pointer;
+}
+.adventure-page :is(a, button, summary):focus-visible,
+.adventure-home-card:focus-visible,
+.adventure-dialog :is(a, button):focus-visible {
+  outline: 3px solid #f5d38c;
+  outline-offset: 4px;
+}
+.adventure-page h1:focus {
+  outline: none;
+}
+.adventure-back {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  text-underline-offset: 4px;
+}
+.adventure-heading {
+  display: flex;
+  gap: 2rem;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1rem 0 2.5rem;
+}
+.adventure-eyebrow {
+  font-size: 0.875rem;
+  color: #d8bf85;
+  margin: 0 0 0.5rem;
+}
+.adventure-muted,
+.adventure-footnote {
+  color: #b4c3b8;
+}
+.adventure-footnote {
+  font-size: 0.9rem;
+  margin-top: 1.5rem;
+}
+.adventure-emblem {
+  width: 160px;
+  max-width: 100%;
+  flex-shrink: 0;
+  fill: none;
+  stroke: #dbc487;
+  stroke-width: 2;
+}
+.emblem-paper {
+  fill: #203d32;
+}
+.emblem-trail {
+  stroke: #c9d9b8;
+  stroke-dasharray: 5 5;
+}
+.adventure-section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.adventure-rail-controls {
+  display: flex;
+  gap: 0.5rem;
+}
+.adventure-rail-controls button {
+  width: 48px;
+  height: 48px;
+  border: 1px solid #83978a;
+  background: #1c302a;
+  color: #f2ecdb;
+  border-radius: 4px;
+  font-size: 1.5rem;
+}
+.adventure-rail-controls button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+.adventure-chapter-rail {
+  display: flex;
+  gap: 1.25rem;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  padding: 0.5rem 0.25rem 1.25rem;
+  margin: 0 -0.25rem;
+  list-style: none;
+  scrollbar-color: #8ca589 #1c302a;
+}
+.adventure-chapter-card {
+  flex: 0 0 18.5rem;
+  scroll-snap-align: start;
+}
+.adventure-chapter-card > a {
+  display: flex;
+  flex-direction: column;
+  min-height: 26rem;
+  height: 100%;
+  border: 1px solid #708b76;
+  border-top: 4px solid #c1a56b;
+  border-radius: 5px;
+  padding: 1.5rem;
+  background: #1b3029;
+  text-decoration: none;
+}
+.adventure-chapter-card > a:hover {
+  background: #233d33;
+  border-color: #c9d9b8;
+}
+.adventure-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: #d8bf85;
+}
+.adventure-status {
+  color: #f2ecdb;
+  padding: 0.15rem 0.5rem;
+  border: 1px solid #7b9180;
+  border-radius: 3px;
+}
+.adventure-chapter-card h2 {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1.65rem;
+  font-weight: 400;
+  margin: 1.25rem 0;
+  min-height: 4.4rem;
+}
+.adventure-card-route {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  min-height: 5rem;
+  margin: 0.25rem 0 1rem;
+}
+.adventure-card-route::before {
+  content: '';
+  position: absolute;
+  left: 5%;
+  right: 5%;
+  border-top: 2px dashed #9bae95;
+}
+.adventure-card-route span {
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  border: 1px solid #9bae95;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #172a23;
+  color: #d5dfce;
+}
+.adventure-card-route span:nth-child(even) {
+  transform: translateY(-12px);
+}
+.adventure-card-route span.is-complete {
+  background: #355842;
+  border-color: #e5c87e;
+}
+.adventure-star-counts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 1rem;
+  font-size: 0.85rem;
+}
+.adventure-star-counts span,
+.adventure-chapter-totals span {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.adventure-chapter-card progress {
+  width: 100%;
+  height: 7px;
+  accent-color: #dac384;
+  margin: 1.25rem 0 1.5rem;
+  border: none;
+  background: #405547;
+}
+.adventure-chapter-card progress::-webkit-progress-bar {
+  background: #405547;
+}
+.adventure-chapter-card progress::-webkit-progress-value {
+  background: #dac384;
+}
+.adventure-card-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: auto;
+  font-weight: bold;
+  color: #f1d69a;
+}
+.adventure-star {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  fill: #dfbd73;
+  stroke: #dfbd73;
+  stroke-width: 1.2;
+  vertical-align: middle;
+}
+.adventure-star-special {
+  fill: none;
+  stroke: #d4b9df;
+  stroke-width: 2;
+}
+.adventure-star-unearned {
+  fill: none;
+}
+.adventure-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+  padding: 1.25rem 0;
+  margin: 0.5rem 0;
+  list-style: none;
+  border-bottom: 1px solid #456052;
+  font-size: 0.9rem;
+}
+.adventure-legend li {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+.adventure-notice {
+  border: 1px solid #8c9b83;
+  border-left: 4px solid #d6ba78;
+  padding: 1.25rem;
+  background: #1c302a;
+  margin: 1rem 0;
+}
+.adventure-notice p:first-child {
+  margin-top: 0;
+}
+.adventure-notice summary {
+  min-height: 44px;
+  padding: 0.6rem 0;
+  cursor: pointer;
+}
+.adventure-notice li a {
+  display: inline-block;
+  padding: 0.6rem 0;
+  min-height: 44px;
+}
+.adventure-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0.65rem 1rem;
+  background: #277354;
+  color: #fff;
+  border: 1px solid #9db997;
+  border-radius: 4px;
+  text-decoration: none;
+}
+.adventure-button-secondary {
+  background: #20372d;
+  color: #f2ecdb;
+}
+.adventure-entry,
+.adventure-learning-check {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  border: 1px solid #718672;
+  margin: 1.5rem 0;
+}
+.adventure-entry h2,
+.adventure-learning-check h2 {
+  margin: 0;
+}
+.adventure-entry .adventure-button,
+.adventure-learning-check .adventure-button {
+  flex-shrink: 0;
+}
+.adventure-chapter-totals {
+  display: grid;
+  gap: 0.6rem;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+.adventure-map {
+  container-type: inline-size;
+  background: #192e27;
+  border: 1px solid #5d7964;
+  border-radius: 6px;
+  padding: 1.5rem;
+}
+.adventure-map-caption {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  color: #d6c291;
+  border-bottom: 1px solid #526b57;
+  padding-bottom: 1rem;
+  font-size: 0.9rem;
+}
+.adventure-route {
+  margin: 1rem auto;
+  padding: 0;
+  list-style: none;
+  max-width: 48rem;
+}
+.adventure-map-row {
+  min-height: 15rem;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.adventure-map-row:nth-child(even) {
+  flex-direction: row-reverse;
+}
+.adventure-connector {
+  position: absolute;
+  top: 32%;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+.adventure-connector path {
+  fill: none;
+  stroke: #9dad87;
+  stroke-width: 2px;
+  vector-effect: non-scaling-stroke;
+  stroke-dasharray: 6 7;
+}
+.adventure-map-row:nth-child(even) .adventure-connector {
+  transform: scaleX(-1);
+}
+.adventure-map-stop {
+  position: relative;
+  z-index: 1;
+  width: 60%;
+  min-height: 12rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: transparent;
+  color: #f2ecdb;
+  text-align: center;
+}
+.adventure-map-stop:hover {
+  border-color: #839d76;
+  background: #203c30;
+}
+.adventure-node-number {
+  display: grid;
+  place-items: center;
+  min-width: 64px;
+  min-height: 64px;
+  padding: 0.3rem;
+  border: 2px solid #d1b571;
+  border-radius: 50%;
+  background: #12251d;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+.is-complete .adventure-node-number {
+  background: #486343;
+}
+.adventure-node-title {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1.25rem;
+  line-height: 1.3;
+  background: #192e27;
+  padding: 0.2rem 0.3rem;
+}
+.adventure-node-status {
+  font-size: 0.875rem;
+  color: #e0d4b2;
+  background: #192e27;
+}
+.adventure-node-star {
+  display: inline-flex;
+  gap: 0.4rem;
+  align-items: center;
+  font-size: 0.75rem;
+  color: #d5dfce;
+  background: #192e27;
+  padding: 0.2rem 0.3rem;
+}
+.adventure-bonus-branch {
+  position: relative;
+  width: 30%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 0.75rem 0.5rem;
+  gap: 0.4rem;
+  color: #eeddf3;
+  border: 1px solid #a58baf;
+  border-radius: 5px;
+  background: #302c36;
+}
+.adventure-bonus-branch::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  width: 30%;
+  border-top: 2px dashed #c6aecf;
+}
+.adventure-map-row:nth-child(even) .adventure-bonus-branch::before {
+  right: auto;
+  left: 100%;
+}
+.adventure-chapter-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+.adventure-chapter-nav a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+}
+.adventure-dialog {
+  width: min(36rem, calc(100% - 2rem));
+  max-height: calc(100dvh - 2rem);
+  overflow-y: auto;
+  padding: 2rem;
+  color: #f2ecdb;
+  background: #192e27;
+  border: 1px solid #d1b571;
+  border-radius: 6px;
+}
+.adventure-dialog::backdrop {
+  background: rgb(5 15 11 / 80%);
+}
+.adventure-dialog h2 {
+  font-size: 2rem;
+  margin: 1rem 0;
+  padding-right: 1.5rem;
+}
+.adventure-dialog h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 1.75rem 0 0.5rem;
+}
+.adventure-dialog-close {
+  float: right;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin: -0.75rem -0.75rem 0 0.5rem;
+  border: 1px solid #91a184;
+  border-radius: 4px;
+  background: #203c30;
+  color: #f2ecdb;
+  font-size: 1.75rem !important;
+}
+.adventure-home-section {
+  margin-top: 2.5rem;
+}
+.adventure-home-card {
+  max-width: 22rem;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  padding: 1.5rem;
+  border: 1px solid #718672;
+  border-top: 4px solid #c1a56b;
+  border-radius: 5px;
+  background: #1b3029;
+  color: #f2ecdb;
+  text-decoration: none;
+}
+.adventure-home-card:hover {
+  background: #233d33;
+}
+.adventure-home-card h3 {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 400;
+  font-size: 1.75rem;
+  margin: 1rem 0 0;
+}
+.adventure-home-card .adventure-card-link {
+  width: 100%;
+  margin-top: 1rem;
+  min-height: 44px;
+}
+@media (max-width: 700px) {
+  .adventure-page {
+    padding: 0 1rem 1.5rem;
+    margin-top: 1rem;
+  }
+  .adventure-heading {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+  .adventure-heading > .adventure-emblem {
+    display: none;
+  }
+  .adventure-chapter-card {
+    flex-basis: min(18.5rem, 85vw);
+  }
+  .adventure-entry,
+  .adventure-learning-check {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 1rem;
+  }
+  .adventure-map {
+    padding: 0.75rem;
+  }
+  .adventure-map-caption {
+    flex-wrap: wrap;
+  }
+  .adventure-map-row {
+    min-height: 17rem;
+  }
+  .adventure-map-stop {
+    padding: 0.75rem 0.5rem;
+    min-height: 13rem;
+  }
+  .adventure-node-title {
+    font-size: 1.15rem;
+    overflow-wrap: anywhere;
+  }
+  .adventure-node-star {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .adventure-dialog {
+    padding: 1.5rem;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .adventure-chapter-rail {
+    scroll-behavior: auto;
+    scroll-snap-type: none;
+  }
+}
+@container (max-width: 18rem) {
+  .adventure-map-row,
+  .adventure-map-row:nth-child(even) {
+    flex-direction: column;
+    justify-content: center;
+    padding-block: 1rem;
+  }
+  .adventure-map-stop {
+    width: 100%;
+  }
+  .adventure-connector {
+    left: 50%;
+    width: 0;
+    border-left: 2px dashed #9dad87;
+  }
+  .adventure-connector path {
+    display: none;
+  }
+  .adventure-bonus-branch {
+    width: 100%;
+  }
+  .adventure-bonus-branch::before {
+    display: none;
+  }
+}
