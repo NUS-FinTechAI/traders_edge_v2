@@ -9,10 +9,19 @@ import {
   type LevelProgress,
 } from '../../../services/adventureService.ts'
 import ReadError from '../read-error/ReadError.tsx'
+import LearningLaunch from '../learning-launch/LearningLaunch.tsx'
 import { Star } from '../mission-stars/MissionStars.tsx'
 import './StopDetails.css'
 
-function Briefing({ level, map }: { level: LevelProgress; map: ModuleMap }) {
+function Briefing({
+  level,
+  map,
+  chapter,
+}: {
+  level: LevelProgress
+  map: ModuleMap
+  chapter: AdventureChapter
+}) {
   const load = useCallback(
     (signal: AbortSignal) => loadLevel(level.id, signal),
     [level.id],
@@ -48,6 +57,18 @@ function Briefing({ level, map }: { level: LevelProgress; map: ModuleMap }) {
               ? 'Normal star earned'
               : 'Normal star not yet earned'}
           </p>
+          <LearningLaunch
+            purpose="practice"
+            target={level.id}
+            available={state.data.level.unlocked}
+            runId={state.data.level.active_run_id}
+            label={
+              state.data.level.standard_star
+                ? 'Practise required missions again'
+                : 'Start required missions'
+            }
+            resumeLabel="Resume required missions"
+          />
           {state.data.level.bonus_steps > 0 && (
             <>
               <h3>
@@ -61,15 +82,41 @@ function Briefing({ level, map }: { level: LevelProgress; map: ModuleMap }) {
                   ? 'Special star earned'
                   : 'Special star not yet earned'}
               </p>
+              <LearningLaunch
+                purpose="bonus"
+                target={level.id}
+                available={state.data.level.bonus_available}
+                runId={
+                  chapter.active_learning_runs.find(
+                    (run) =>
+                      run.purpose === 'bonus' && run.level_id === level.id,
+                  )?.run_id
+                }
+                label={
+                  state.data.level.bonus_star
+                    ? 'Practise bonus again'
+                    : 'Start bonus missions'
+                }
+                resumeLabel="Resume bonus missions"
+              />
+              {!state.data.level.bonus_available &&
+                !state.data.level.bonus_star && (
+                  <p>
+                    Complete the required missions to unlock this optional
+                    bonus.
+                  </p>
+                )}
             </>
           )}
           {state.data.level.active_run_id && (
             <p>Your required mission is saved in progress.</p>
           )}
-          <p className="adventure-footnote">
-            Preview only. Playing and resuming missions is not available here
-            yet.
-          </p>
+          {level.id === 'm05-l01' && (
+            <p className="adventure-footnote">
+              The final simulation audit is not yet playable in this interface.
+              Earlier lesson steps can be saved and resumed.
+            </p>
+          )}
         </>
       )}
     </>
@@ -106,9 +153,18 @@ function CheckpointDetails({
                   ? 'Available'
                   : 'Unlock this chapter first'}
         </p>
-        <p className="adventure-footnote">
-          Preview only. This assessment is not available to play here yet.
-        </p>
+        <LearningLaunch
+          purpose="diagnostic"
+          target={map.module_id}
+          available={map.unlocked && map.diagnostic.required}
+          runId={map.diagnostic.run_id}
+          label="Start introductory assessment"
+          resumeLabel={
+            map.diagnostic.completed
+              ? 'View assessment results'
+              : 'Resume introductory assessment'
+          }
+        />
       </>
     )
   if (stop === 'assessment')
@@ -132,9 +188,6 @@ function CheckpointDetails({
         <p>
           This check records learning progress separately from the profit-based
           boss result.
-        </p>
-        <p className="adventure-footnote">
-          Preview only. This learning check is not available to play here yet.
         </p>
       </>
     )
@@ -177,10 +230,6 @@ function CheckpointDetails({
         Results rank players and AI opponents by net portfolio profit. A win
         requires outperforming every opponent; a tie is not a victory. Profit is
         a game outcome, not proof of learning.
-      </p>
-      <p className="adventure-footnote">
-        Preview only. Playing and resuming boss fights is not available here
-        yet.
       </p>
     </>
   )
@@ -260,7 +309,7 @@ export default function StopDetails({
   return (
     <StopDialog close={close}>
       {level ? (
-        <Briefing key={level.id} level={level} map={map} />
+        <Briefing key={level.id} level={level} map={map} chapter={chapter} />
       ) : (
         <CheckpointDetails stop={selected} chapter={chapter} map={map} />
       )}

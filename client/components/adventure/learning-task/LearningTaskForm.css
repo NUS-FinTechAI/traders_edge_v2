@@ -1,0 +1,56 @@
+.learning-task-form {
+  padding: 1.5rem;
+  border: 1px solid #718672;
+  background: #1b3029;
+}
+.learning-task-form h2 {
+  margin-top: 0;
+  font-size: 1.4rem;
+}
+.learning-task-form fieldset {
+  border: 0;
+  padding: 0;
+  margin: 1.5rem 0;
+  min-width: 0;
+}
+.learning-task-form legend {
+  margin-bottom: 0.75rem;
+}
+.learning-instruction {
+  white-space: pre-line;
+  line-height: 1.7;
+}
+.learning-choice {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.8rem;
+  min-height: 44px;
+  border: 1px solid #718672;
+  margin: 0.75rem 0;
+  cursor: pointer;
+}
+.learning-choice:has(input:checked) {
+  border-color: #f5d38c;
+  background: #2b4638;
+}
+.learning-choice input {
+  flex-shrink: 0;
+  accent-color: #d1b571;
+}
+.learning-classification,
+.learning-confidence {
+  display: grid;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+.learning-task-form select {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 0.5rem;
+  font: inherit;
+  color: #f2ecdb;
+  background: #142321;
+  border: 1px solid #91a184;
+}

@@ -75,8 +75,9 @@ export default function PublicStopDetails({
           </p>
         )}
         <p>
-          Sign in to see your progress and eligibility. Missions and boss fights
-          are not yet playable in this interface.
+          Sign in to play lessons and bonus missions when their prerequisites
+          are complete. Boss fights, chapter learning checks and the simulation
+          interface are coming in later increments.
         </p>
         <Link className="adventure-button" to={signIn}>
           Sign in to play

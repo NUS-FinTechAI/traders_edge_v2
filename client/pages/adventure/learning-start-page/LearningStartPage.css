@@ -1,0 +1,28 @@
+.learning-start-page {
+  max-width: 48rem;
+  margin: 2rem auto;
+  padding: 1.5rem;
+  color: #f2ecdb;
+}
+.learning-start-page h1 {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 400;
+}
+.learning-start-page a,
+.learning-start-page button {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0.65rem 1rem;
+  color: #f2ecdb;
+}
+.learning-start-page button {
+  font: inherit;
+  background: #277354;
+  border: 1px solid #9db997;
+  cursor: pointer;
+}
+.learning-start-page :is(a, button):focus-visible {
+  outline: 3px solid #f5d38c;
+  outline-offset: 3px;
+}
