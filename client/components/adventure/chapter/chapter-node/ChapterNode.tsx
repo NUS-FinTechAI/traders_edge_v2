@@ -1,4 +1,7 @@
-import { NormalStar, SpecialStar } from '../../../icons/mission-stars/MissionStars'
+import {
+  NormalStar,
+  SpecialStar,
+} from '../../../icons/mission-stars/MissionStars'
 import { LockIcon } from '../../../icons/lock-icon/LockIcon'
 import type { ChapterRouteNode } from '../chapter-map/ChapterMap'
 import './ChapterNode.css'

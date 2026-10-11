@@ -50,7 +50,8 @@ function Briefing({
       {state.status === 'ready' && (
         <>
           <h3>
-            <NormalStar earned={state.data.level.standard_star} /> Required missions
+            <NormalStar earned={state.data.level.standard_star} /> Required
+            missions
           </h3>
           <p>{state.data.level.completion_rule}</p>
           <p>
@@ -75,7 +76,8 @@ function Briefing({
           {state.data.level.bonus_steps > 0 && (
             <>
               <h3>
-                <SpecialStar earned={state.data.level.bonus_star} /> Optional bonus
+                <SpecialStar earned={state.data.level.bonus_star} /> Optional
+                bonus
               </h3>
               <p>{state.data.level.bonus_rule}</p>
               <p>
