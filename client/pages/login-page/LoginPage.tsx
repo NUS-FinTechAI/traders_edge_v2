@@ -1,5 +1,5 @@
 import { useEffect, useState, type SubmitEvent } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import authService from '../../services/authService.ts'
 import firebaseService from '../../services/firebaseService.ts'
 import useAuth from '../../hooks/useAuth.ts'
@@ -35,6 +35,8 @@ function errorMessage(error: unknown): string {
 
 export default function LoginPage() {
   const navigate = useNavigate()
+  const [search] = useSearchParams()
+  const destination = search.get('returnTo') || '/'
   const { config, status, error: authError, refreshUser, retry } = useAuth()
   const loading = status === 'loading'
   const [error, setError] = useState('')
@@ -47,8 +49,8 @@ export default function LoginPage() {
   const [password, setPassword] = useState('')
 
   useEffect(() => {
-    if (status === 'signed-in') void navigate('/', { replace: true })
-  }, [status, navigate])
+    if (status === 'signed-in') void navigate(destination, { replace: true })
+  }, [status, navigate, destination])
 
   async function signIn(action?: () => Promise<unknown>) {
     if (busy) {

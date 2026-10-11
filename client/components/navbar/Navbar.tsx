@@ -1,9 +1,11 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import useAuth from '../../hooks/useAuth.ts'
 import './navbar.css'
 
 export default function Navbar() {
   const navigate = useNavigate()
+  const location = useLocation()
+  const destination = location.pathname + location.search
   const { status, error, signingOut: busy, logout, retry } = useAuth()
 
   async function signOut() {
@@ -30,7 +32,14 @@ export default function Navbar() {
         <div className="site-auth-actions">
           {status === 'loading' && <span role="status">Checking sign-in…</span>}
           {status === 'signed-out' && (
-            <Link className="site-auth-button" to="/login">
+            <Link
+              className="site-auth-button"
+              to={
+                destination === '/'
+                  ? '/login'
+                  : `/login?returnTo=${encodeURIComponent(destination)}`
+              }
+            >
               Sign in
             </Link>
           )}

@@ -8,7 +8,7 @@ from sqlalchemy.dialects.postgresql import insert as pg_insert
 from sqlalchemy.dialects.sqlite import insert as sqlite_insert
 from sqlalchemy.orm import Mapped, mapped_column
 
-from app.api_schemas import AdventureResponse
+from app.api_schemas import AdventureResponse, PublicAdventureResponse
 from app.db import Base, now
 from app.challenges.models import ChallengeAttempt
 from app.economy import ServerChallengeResult, consume_daily_refresh, daily_can_start, settle_challenge
@@ -150,6 +150,22 @@ async def complete_policy(db, user, result):
 async def abandoned(db, user, result):
     await settle_challenge(db, user, ServerChallengeResult(attempt_id=result['attempt_id'], mode=result['mode'],
         won=False, completed_at=now(), chapter_id=result.get('module_id'), abandoned=True))
+
+
+@router.get('/adventure/catalog', operation_id='getPublicAdventure', response_model=PublicAdventureResponse,
+    openapi_extra={'x-client-auth': 'none'})
+async def public_adventure(request: Request):
+    content = catalog(request)
+    return {'chapters': [{
+        'module_id': module['id'], 'title': module['title'], 'order': module['order'],
+        'description': module.get('description', ''),
+        'introductory_assessment': bool(module.get('entry_tasks')),
+        'levels': [{
+            'id': lesson['id'], 'title': lesson['title'], 'objective': lesson['objective'],
+            'required_steps': len(lesson.get('tasks', lesson.get('questions', []))),
+            'bonus_steps': len(lesson.get('bonus_tasks', [])),
+        } for lesson in module['lessons']],
+    } for module in sorted(content['modules'], key=lambda item: item['order'])]}
 
 
 @router.get('/adventure', operation_id='getAdventure', response_model=AdventureResponse)

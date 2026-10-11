@@ -12,6 +12,12 @@ export const apiEndpoints = {
     path: '/api/adventure',
     auth: 'required',
   },
+  getPublicAdventure: {
+    operationId: 'getPublicAdventure',
+    method: 'GET',
+    path: '/api/adventure/catalog',
+    auth: 'none',
+  },
   getArchive: {
     operationId: 'getArchive',
     method: 'GET',

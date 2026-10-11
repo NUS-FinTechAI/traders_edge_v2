@@ -1,0 +1,39 @@
+.adventure-home-card:focus-visible {
+  outline: 3px solid #f5d38c;
+  outline-offset: 4px;
+}
+.adventure-home-card {
+  max-width: 22rem;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  padding: 1.5rem;
+  border: 1px solid #718672;
+  border-top: 4px solid #c1a56b;
+  border-radius: 5px;
+  background: #1b3029;
+  color: #f2ecdb;
+  text-decoration: none;
+}
+.adventure-home-card:hover {
+  background: #233d33;
+}
+.adventure-home-card h3 {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 400;
+  font-size: 1.75rem;
+  margin: 1rem 0 0;
+}
+.adventure-home-card .adventure-mode-link {
+  width: 100%;
+  margin-top: 1rem;
+  min-height: 44px;
+}
+.adventure-mode-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  font-weight: bold;
+  color: #f1d69a;
+}
