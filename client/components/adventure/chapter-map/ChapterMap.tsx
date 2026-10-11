@@ -63,56 +63,15 @@ export default function ChapterMap({
           levels completed
         </span>
       </div>
-      <ol className="adventure-route">
-        {routeStops.map((stop, index) => (
-          <li
-            key={stop.id}
-            className={`adventure-map-row${stop.status === 'Completed' || stop.status === 'Defeated' ? ' is-complete' : ''}`}
-          >
-            {index < routeStops.length - 1 && (
-              <svg
-                className="adventure-connector"
-                viewBox="0 0 100 100"
-                preserveAspectRatio="none"
-                aria-hidden="true"
-              >
-                <path d="M30 0 C30 55 70 45 70 100" />
-              </svg>
-            )}
-            <button
-              className="adventure-map-stop"
-              onClick={() => onSelect(stop.id)}
-              aria-label={`${stop.marker === 'Start' || stop.marker === 'Boss' ? '' : `Level ${index + (map.diagnostic.required ? 0 : 1)}: `}${stop.title}. ${stop.status}. View details.`}
-            >
-              <span className="adventure-node-number">{stop.marker}</span>
-              <span className="adventure-node-title">{stop.title}</span>
-              <span className="adventure-node-status">{stop.status}</span>
-              {stop.level && (
-                <span className="adventure-node-star">
-                  <Star earned={stop.level.standard_star} />
-                  {stop.level.standard_star
-                    ? 'Normal star earned'
-                    : 'Required missions'}
-                </span>
-              )}
-            </button>
-            {stop.level &&
-              (stop.level.bonus_available || stop.level.bonus_star) && (
-                <button
-                  className="adventure-bonus-branch"
-                  onClick={() => onSelect(stop.id)}
-                  aria-label={`View optional bonus for ${stop.title}`}
-                >
-                  <Star special />
-                  <span>Bonus</span>
-                  <small>
-                    {stop.level.bonus_star ? 'Star earned' : 'Optional'}
-                  </small>
-                </button>
-              )}
-          </li>
-        ))}
-      </ol>
+      <ChapterRoute
+        stops={routeStops.map((stop) => ({
+          ...stop,
+          starEarned: stop.level?.standard_star,
+          bonus: !!(stop.level?.bonus_available || stop.level?.bonus_star),
+          bonusEarned: stop.level?.bonus_star,
+        }))}
+        onSelect={onSelect}
+      />
       {map.levels.length === 0 && (
         <p className="adventure-notice">
           No levels have been published in this chapter.
@@ -140,5 +99,71 @@ export default function ChapterMap({
         </button>
       </div>
     </section>
+  )
+}
+
+export type ChapterRouteStop = {
+  id: string
+  title: string
+  marker: string
+  status: string
+  starEarned?: boolean
+  bonus?: boolean
+  bonusEarned?: boolean
+}
+
+export function ChapterRoute({
+  stops,
+  onSelect,
+}: {
+  stops: ChapterRouteStop[]
+  onSelect: (id: string) => void
+}) {
+  return (
+    <ol className="adventure-route">
+      {stops.map((stop, index) => (
+        <li
+          key={stop.id}
+          className={`adventure-map-row${stop.status === 'Completed' || stop.status === 'Defeated' ? ' is-complete' : ''}`}
+        >
+          {index < stops.length - 1 && (
+            <svg
+              className="adventure-connector"
+              viewBox="0 0 100 100"
+              preserveAspectRatio="none"
+              aria-hidden="true"
+            >
+              <path d="M30 0 C30 55 70 45 70 100" />
+            </svg>
+          )}
+          <button
+            className="adventure-map-stop"
+            onClick={() => onSelect(stop.id)}
+            aria-label={`${stop.marker === 'Start' || stop.marker === 'Boss' ? '' : `Level ${Number(stop.marker)}: `}${stop.title}. ${stop.status}. View details.`}
+          >
+            <span className="adventure-node-number">{stop.marker}</span>
+            <span className="adventure-node-title">{stop.title}</span>
+            <span className="adventure-node-status">{stop.status}</span>
+            {stop.starEarned !== undefined && (
+              <span className="adventure-node-star">
+                <Star earned={stop.starEarned} />
+                {stop.starEarned ? 'Normal star earned' : 'Required missions'}
+              </span>
+            )}
+          </button>
+          {stop.bonus && (
+            <button
+              className="adventure-bonus-branch"
+              onClick={() => onSelect(stop.id)}
+              aria-label={`View optional bonus for ${stop.title}`}
+            >
+              <Star special />
+              <span>Bonus</span>
+              <small>{stop.bonusEarned ? 'Star earned' : 'Optional'}</small>
+            </button>
+          )}
+        </li>
+      ))}
+    </ol>
   )
 }

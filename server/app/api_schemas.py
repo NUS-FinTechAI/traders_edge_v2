@@ -33,6 +33,27 @@ class UserProfile(BaseModel):
     xp_basis: Literal['learning and game events']
 
 
+class PublicAdventureLevel(BaseModel):
+    id: str
+    title: str
+    objective: str
+    required_steps: int
+    bonus_steps: int
+
+
+class PublicAdventureChapter(BaseModel):
+    module_id: str
+    title: str
+    order: int
+    description: str
+    introductory_assessment: bool
+    levels: list[PublicAdventureLevel]
+
+
+class PublicAdventureResponse(BaseModel):
+    chapters: list[PublicAdventureChapter]
+
+
 class LevelProgress(BaseModel):
     id: str
     title: str

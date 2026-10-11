@@ -6,6 +6,10 @@ Policy `adventure-1` connects the existing chapter curriculum to the shared AI c
 
 ## Adventure read contracts
 
+`GET /api/adventure/catalog` is an unauthenticated, read-only preview from the canonical catalog. It returns ordered chapter IDs, titles, descriptions, introductory-assessment presence and level IDs, titles, objectives and required/bonus step counts. It creates no profile or session and excludes tasks, answer keys, assessments, personal progress and attempt IDs. The existing production publication-review gate applies.
+
+Signed-out users can browse chapter cards, maps and level previews. Signing in returns them to the selected chapter or level; progression prerequisites still apply. Personal reads and all play mutations remain authenticated. Development guest sessions retain their existing authentication semantics. This browsing slice does not implement mission or boss gameplay in the client.
+
 `GET /api/adventure`, `GET /api/modules/{module_id}/map` and `GET /api/levels/{level_id}` have explicit OpenAPI response schemas, used to generate the client API types. Maps and briefings preserve their existing fields, including nullable `content_version` for legacy content and `active_run_id` for required practice.
 
 Each Adventure chapter retains its existing fields and adds:

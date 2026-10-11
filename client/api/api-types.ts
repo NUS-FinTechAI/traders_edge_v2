@@ -447,6 +447,39 @@ export interface components {
       /** Leaderboard Opt In */
       leaderboard_opt_in?: boolean | null
     }
+    /** PublicAdventureChapter */
+    PublicAdventureChapter: {
+      /** Description */
+      description: string
+      /** Introductory Assessment */
+      introductory_assessment: boolean
+      /** Levels */
+      levels: components['schemas']['PublicAdventureLevel'][]
+      /** Module Id */
+      module_id: string
+      /** Order */
+      order: number
+      /** Title */
+      title: string
+    }
+    /** PublicAdventureLevel */
+    PublicAdventureLevel: {
+      /** Bonus Steps */
+      bonus_steps: number
+      /** Id */
+      id: string
+      /** Objective */
+      objective: string
+      /** Required Steps */
+      required_steps: number
+      /** Title */
+      title: string
+    }
+    /** PublicAdventureResponse */
+    PublicAdventureResponse: {
+      /** Chapters */
+      chapters: components['schemas']['PublicAdventureChapter'][]
+    }
     /** PublicConfig */
     PublicConfig: {
       /** Auth */

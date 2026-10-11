@@ -8,6 +8,8 @@ export type ModuleMap = components['schemas']['ModuleMap']
 export type LevelProgress = components['schemas']['LevelProgress']
 export type LevelBriefing = components['schemas']['LevelBriefing']
 export type BossAvailability = components['schemas']['BossAvailability']
+export type PublicAdventureChapter =
+  components['schemas']['PublicAdventureChapter']
 
 export function loadAdventure(signal: AbortSignal) {
   return api.call(apiEndpoints.getAdventure, { signal })
@@ -82,4 +84,8 @@ export function bossStatus(boss: BossAvailability, passed: boolean): string {
     default:
       return 'Not available'
   }
+}
+
+export function loadPublicAdventure(signal: AbortSignal) {
+  return api.call(apiEndpoints.getPublicAdventure, { signal })
 }

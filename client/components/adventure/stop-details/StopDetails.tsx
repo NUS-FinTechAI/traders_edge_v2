@@ -186,7 +186,7 @@ function CheckpointDetails({
   )
 }
 
-function StopDialog({
+export function StopDialog({
   children,
   close,
 }: {
@@ -241,9 +241,6 @@ function StopDialog({
         ×
       </button>
       {children}
-      <button className="adventure-button" onClick={close}>
-        Back to map
-      </button>
     </dialog>
   )
 }
