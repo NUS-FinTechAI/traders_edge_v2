@@ -5,13 +5,15 @@
   flex-shrink: 0;
   fill: #dfbd73;
   stroke: #dfbd73;
-  stroke-width: 1.2;
+  stroke-width: 2;
+  stroke-linejoin: round;
   vertical-align: middle;
 }
 .adventure-star-special {
   fill: #d4b9df;
   stroke: #d4b9df;
   stroke-width: 2;
+  stroke-linejoin: round;
 }
 .adventure-star-unearned {
   fill: none;
