@@ -1,29 +1,45 @@
 .toast-region {
   position: fixed;
   bottom: 1rem;
-  right: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
   max-width: min(28rem, calc(100vw - 2rem));
-  z-index: 100;
+  z-index: 1100;
 }
+
 .error-toast {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
   padding: 1rem;
-  border: 1px solid #a11919;
   border-radius: 4px;
-  background: #ffe6e6;
-  color: #a11919;
+  background: #b31f1f;
+  animation: slide-in 0.3s ease-out forwards;
+}
+
+.error-toast .error-message {
+  margin: 0;
+  font-weight: bold;
+  color: #ffffff;
   overflow-wrap: anywhere;
 }
-.error-toast p {
-  margin: 0 0 0.5rem;
-}
-.error-toast button {
-  min-width: 44px;
-  min-height: 44px;
-  padding: 0.5rem 1rem;
-  font: inherit;
+
+.dismiss-button {
+  flex-shrink: 0;
+  font-size: 1.5rem;
+  color: inherit;
+  border: none;
+  background: transparent;
   cursor: pointer;
 }
-.error-toast button:focus-visible {
-  outline: 3px solid #a11919;
-  outline-offset: 3px;
+
+@keyframes slide-in {
+  from {
+    transform: translateY(150%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }

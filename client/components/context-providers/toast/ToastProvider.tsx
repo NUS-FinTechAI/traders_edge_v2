@@ -1,4 +1,4 @@
-import { useCallback, useState, type ReactNode } from 'react'
+import { useCallback, useState, useEffect, type ReactNode } from 'react'
 import { ToastContext } from '../../../contexts/ToastContext.ts'
 import './Toast.css'
 
@@ -10,10 +10,14 @@ export default function ToastProvider({ children }: { children: ReactNode }) {
 
   const showToast = useCallback((message: string) => {
     setToast((previous) => ({ message, id: (previous?.id ?? 0) + 1 }))
-
-    const timer = setTimeout(() => setToast(null), TOAST_DURATION)
-    return () => clearTimeout(timer)
   }, [])
+
+  useEffect(() => {
+    if (toast) {
+      const timer = setTimeout(() => setToast(null), TOAST_DURATION)
+      return () => clearTimeout(timer)
+    }
+  }, [toast])
 
   return (
     <ToastContext.Provider value={showToast}>
@@ -21,13 +25,13 @@ export default function ToastProvider({ children }: { children: ReactNode }) {
       <div className="toast-region" aria-live="assertive" aria-atomic="true">
         {toast && (
           <div className="error-toast" key={toast.id}>
-            <p>{toast.message}</p>
+            <p className="error-message">{toast.message}</p>
             <button
-              type="button"
+              className="dismiss-button"
               aria-label="Dismiss error notification"
               onClick={() => setToast(null)}
             >
-              Dismiss
+              x
             </button>
           </div>
         )}

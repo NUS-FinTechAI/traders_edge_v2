@@ -1,5 +1,17 @@
+.error-panel {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.error-logo {
+  background-color: #fceded;
+}
+
 .error-message {
-  color: #ffff;
+  color: #ffeded;
   font-weight: bold;
   font-size: 1.2rem;
 }
@@ -7,6 +19,6 @@
 .route-error {
   flex: 1;
   display: grid;
-  place-items: center;
-  padding: 1rem;
+  justify-items: center;
+  align-content: start;
 }
