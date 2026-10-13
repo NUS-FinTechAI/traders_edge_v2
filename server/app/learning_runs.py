@@ -2,39 +2,20 @@ from copy import deepcopy
 from datetime import timedelta
 import hashlib
 import json
-from typing import Literal
 
+from app.api_schemas.shared_schema import Command
 from fastapi import APIRouter, HTTPException, Request
-from pydantic import Field
 from sqlalchemy import select
 
-from app.api_schemas import LevelResponse, ModuleMap
+from app.api_schemas.gameplay_schema import LevelResponse, ModuleMap
+from app.api_schemas.learning_run_schema import LearningRunResponse, StartLevel, SubmitStep
 from app.db import Attempt, LearningRun, LearningRunCommand, MasteredModule, aware, now, uid
-from app.learning import DB, User, Payload, catalog, interactive_review, lesson_for, module_for, owned_review, practice_eligibility, profile_data, require_lesson
+from app.learning import DB, User, catalog, interactive_review, lesson_for, module_for, owned_review, practice_eligibility, profile_data, require_lesson
 from app.progression import progress, record_lesson, reward
 from app.content.validate import valid_choice_option_id
 from app.simulation.bindings import public_binding, valid_binding
 
 router = APIRouter(prefix='/api')
-
-
-class Command(Payload):
-    idempotency_key: str = Field(min_length=8, max_length=100, pattern=r'^[a-zA-Z0-9_-]+$')
-
-
-class StartLevel(Command):
-    purpose: Literal['practice', 'bonus'] = 'practice'
-
-
-class StepAnswer(Payload):
-    acknowledged: bool | None = Field(default=None, strict=True)
-    option_id: str | None = Field(default=None, min_length=1, max_length=100)
-    assignments: dict[str, str] | None = None
-    confidence: int | None = Field(default=None, ge=0, le=100, strict=True)
-
-
-class SubmitStep(Command):
-    answer: StepAnswer
 
 
 def public_task(task):
@@ -207,17 +188,17 @@ async def start_run(request, db, user, body, purpose, target):
     return await remember(db, user, body, digest, run)
 
 
-@router.post('/modules/{module_id}/diagnostic-runs', operation_id='startDiagnosticRun')
+@router.post('/modules/{module_id}/diagnostic-runs', operation_id='startDiagnosticRun', response_model=LearningRunResponse, response_model_exclude_unset=True)
 async def start_diagnostic(module_id: str, body: Command, request: Request, db: DB, user: User):
     return await start_run(request, db, user, body, 'diagnostic', module_id)
 
 
-@router.post('/modules/{module_id}/assessment-runs', operation_id='startAssessmentRun')
+@router.post('/modules/{module_id}/assessment-runs', operation_id='startAssessmentRun', response_model=LearningRunResponse, response_model_exclude_unset=True)
 async def start_assessment(module_id: str, body: Command, request: Request, db: DB, user: User):
     return await start_run(request, db, user, body, 'assessment', module_id)
 
 
-@router.post('/levels/{level_id}/runs', operation_id='startLevelRun')
+@router.post('/levels/{level_id}/runs', operation_id='startLevelRun', response_model=LearningRunResponse, response_model_exclude_unset=True)
 async def start_level(level_id: str, body: StartLevel, request: Request, db: DB, user: User):
     return await start_run(request, db, user, body, body.purpose, level_id)
 
@@ -229,7 +210,7 @@ def require_due_review(item):
         raise HTTPException(403, 'The delayed review is not due yet')
 
 
-@router.post('/reviews/{review_id}/runs', operation_id='startReviewRun')
+@router.post('/reviews/{review_id}/runs', operation_id='startReviewRun', response_model=LearningRunResponse, response_model_exclude_unset=True)
 async def start_review(review_id: str, body: Command, request: Request, db: DB, user: User):
     digest, previous = await replay(db, user, body, 'start:review', review_id)
     if previous is not None:
@@ -257,7 +238,7 @@ async def start_review(review_id: str, body: Command, request: Request, db: DB, 
     return await remember(db, user, body, digest, run)
 
 
-@router.get('/learning-runs/{run_id}', operation_id='getLearningRun')
+@router.get('/learning-runs/{run_id}', operation_id='getLearningRun', response_model=LearningRunResponse, response_model_exclude_unset=True)
 async def get_run(run_id: str, request: Request, db: DB, user: User):
     run = await owned_run(db, user, run_id)
     pinned_publication(request, run)
@@ -317,7 +298,7 @@ async def finish_run(db, user, run, state):
     attempt.result = {'run_id': run.id, 'purpose': run.purpose, 'content_version': run.content_version, **deepcopy(state['result']), 'feedback': deepcopy(state['feedback'])}
 
 
-@router.post('/learning-runs/{run_id}/steps/{step_id}/submit', operation_id='submitLearningStep')
+@router.post('/learning-runs/{run_id}/steps/{step_id}/submit', operation_id='submitLearningStep', response_model=LearningRunResponse, response_model_exclude_unset=True)
 async def submit_step(run_id: str, step_id: str, body: SubmitStep, request: Request, db: DB, user: User):
     digest, previous = await replay(db, user, body, 'submit-step', [run_id, step_id])
     if previous is not None:

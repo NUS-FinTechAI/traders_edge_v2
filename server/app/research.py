@@ -2,42 +2,20 @@
 from copy import deepcopy
 import hashlib
 import json
-from typing import Literal
 
 from fastapi import APIRouter, HTTPException, Query, Request, Response
-from pydantic import Field, field_validator
 from sqlalchemy import and_, or_, select
 
 from app.db import Attempt, LearningRun, LearningRunCommand, aware, now
-from app.learning import DB, Payload, User
+from app.learning import DB, User
 from app.learning_runs import public_task
 from app.research_models import ResearchCommand, ResearchParticipant
 from app.simulation import engine
 
+from app.api_schemas.research_schema import Metadata, Consent, ExportKind
+from app.api_schemas.shared_schema import Command
+
 router = APIRouter(prefix='/api/me/research', tags=['owned research evidence'])
-PriorKnowledge = Literal['unknown', 'none', 'some', 'experienced']
-ExportKind = Literal['learning-runs', 'learning-attempts', 'ai-challenges']
-
-
-class Command(Payload):
-    idempotency_key: str = Field(min_length=8, max_length=100, pattern=r'^[a-zA-Z0-9_-]+$')
-
-
-class Metadata(Command):
-    prior_knowledge: PriorKnowledge
-
-
-class Consent(Command):
-    accepted: bool = Field(strict=True)
-    policy_version: str = Field(min_length=1, max_length=80)
-    policy_digest: str = Field(strict=True, min_length=64, max_length=64, pattern=r'^[0-9a-f]{64}$')
-
-    @field_validator('accepted')
-    @classmethod
-    def explicit_acceptance(cls, value):
-        if value is not True:
-            raise ValueError('Explicit acceptance is required; use withdrawals to withdraw')
-        return value
 
 
 def study_policy(settings):

@@ -10,7 +10,9 @@ from pydantic import Field
 from sqlalchemy import or_, select
 
 from app.db import LearningActivity, MasteredModule, RewardCommand, RewardGrant, XPLedger, aware, now
-from app.learning import DB, User, Payload, catalog
+from app.learning import DB, User, catalog
+
+from app.api_schemas.shared_schema import Payload
 
 router = APIRouter(prefix='/api/me')
 

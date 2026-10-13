@@ -16,6 +16,8 @@ from app.db import Base, LearningRun, Profile, SimulationSession, get_db, now, u
 from app.learning import catalog
 from app.progression import progress
 from app.simulation import engine
+from app.api_schemas.simulation_schema import Create, Order, Advance, Debrief
+from app.api_schemas.shared_schema import Command
 
 router = APIRouter(prefix='/api/simulations', tags=['simulation'])
 DB = Annotated[AsyncSession, Depends(get_db, scope='function')]
@@ -34,39 +36,6 @@ class SimulationCommand(Base):
 
 class Payload(BaseModel):
     model_config = ConfigDict(extra='forbid', str_strip_whitespace=True)
-
-
-class Command(Payload):
-    idempotency_key: str = Field(min_length=8, max_length=100, pattern=r'^[a-zA-Z0-9_-]+$')
-
-
-class Create(Command):
-    mode: Literal['guided', 'endless'] = 'guided'
-
-
-class Plan(Payload):
-    reason: str = Field(min_length=12, max_length=1500)
-    risk: str = Field(min_length=12, max_length=1500)
-    exit: str = Field(min_length=12, max_length=1500)
-    size_reason: str = Field(min_length=12, max_length=1500)
-    max_loss: str = Field(min_length=1, max_length=20)
-
-
-class Order(Command):
-    symbol: Literal['NORTH', 'HARBOR', 'PLAIN', 'COVE']
-    side: Literal['buy', 'sell']
-    type: Literal['market', 'limit', 'stop']
-    quantity: int = Field(ge=1, le=1000, strict=True)
-    price: str | None = Field(default=None, max_length=20)
-    plan: Plan
-
-
-class Advance(Command):
-    steps: int = Field(default=1, ge=1, le=5, strict=True)
-
-
-class Debrief(Command):
-    reflection: str = Field(min_length=30, max_length=1500)
 
 
 async def require_access(request, db, user, mode):

@@ -92,36 +92,6 @@
       "status": "200"
     },
     {
-      "operationId": "getLearningRun",
-      "method": "GET",
-      "path": "/api/learning-runs/{run_id}",
-      "status": "200"
-    },
-    {
-      "operationId": "resumeLearningSimulation",
-      "method": "GET",
-      "path": "/api/learning-runs/{run_id}/simulation",
-      "status": "200"
-    },
-    {
-      "operationId": "bindLearningSimulation",
-      "method": "POST",
-      "path": "/api/learning-runs/{run_id}/simulation",
-      "status": "200"
-    },
-    {
-      "operationId": "reviewLearningSimulation",
-      "method": "POST",
-      "path": "/api/learning-runs/{run_id}/simulation/review",
-      "status": "200"
-    },
-    {
-      "operationId": "submitLearningStep",
-      "method": "POST",
-      "path": "/api/learning-runs/{run_id}/steps/{step_id}/submit",
-      "status": "200"
-    },
-    {
       "operationId": "getLesson",
       "method": "GET",
       "path": "/api/lessons/{lesson_id}",
@@ -131,12 +101,6 @@
       "operationId": "completeLesson",
       "method": "POST",
       "path": "/api/lessons/{lesson_id}/complete",
-      "status": "200"
-    },
-    {
-      "operationId": "startLevelRun",
-      "method": "POST",
-      "path": "/api/levels/{level_id}/runs",
       "status": "200"
     },
     {
@@ -239,18 +203,6 @@
       "operationId": "completeModuleAssessment",
       "method": "POST",
       "path": "/api/modules/{module_id}/assessment",
-      "status": "200"
-    },
-    {
-      "operationId": "startAssessmentRun",
-      "method": "POST",
-      "path": "/api/modules/{module_id}/assessment-runs",
-      "status": "200"
-    },
-    {
-      "operationId": "startDiagnosticRun",
-      "method": "POST",
-      "path": "/api/modules/{module_id}/diagnostic-runs",
       "status": "200"
     },
     {
@@ -413,12 +365,6 @@
       "operationId": "getReview",
       "method": "GET",
       "path": "/api/reviews/{review_id}",
-      "status": "200"
-    },
-    {
-      "operationId": "startReviewRun",
-      "method": "POST",
-      "path": "/api/reviews/{review_id}/runs",
       "status": "200"
     },
     {
