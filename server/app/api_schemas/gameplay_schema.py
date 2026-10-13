@@ -22,15 +22,18 @@ class PublicAdventureResponse(Payload):
     chapters: list[PublicAdventureChapter]
 
 
+type LevelStatus = Literal['completed', 'active', 'available', 'locked']
+type LevelCompletionSource = Literal['interactive', 'legacy']
+
 class LevelProgress(Payload):
     id: str
     title: str
     objective: str
     unlocked: bool
-    status: Literal['completed', 'active', 'available', 'locked']
+    status: LevelStatus
     standard_star: bool
     bonus_star: bool
-    completion_source: Literal['interactive', 'legacy'] | None
+    completion_source: LevelCompletionSource | None
     bonus_available: bool
     active_run_id: str | None
 
@@ -75,16 +78,21 @@ class StarProgress(Payload):
     total: int
 
 
+type BossAvailabilityReasons = Literal['introductory_diagnostic', 'chapter_locked', 'required_levels_incomplete',
+                     'diagnostic_incomplete', 'active_challenge_limit']
+
+
 class BossAvailability(Payload):
     available: bool
-    reason: Literal['introductory_diagnostic', 'chapter_locked', 'required_levels_incomplete',
-                    'diagnostic_incomplete', 'active_challenge_limit'] | None
+    reason: BossAvailabilityReasons | None
     active_attempt_ids: list[str]
 
 
+type ChapterPurpose = Literal['diagnostic', 'practice', 'bonus', 'assessment']
+
 class ActiveChapterRun(Payload):
     run_id: str
-    purpose: Literal['diagnostic', 'practice', 'bonus', 'assessment']
+    purpose: ChapterPurpose
     level_id: str | None
 
 

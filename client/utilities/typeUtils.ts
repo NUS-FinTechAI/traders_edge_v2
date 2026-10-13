@@ -21,21 +21,6 @@ export function list<T>(value: unknown, parse: (item: unknown) => T): T[] {
   return value.map(parse)
 }
 
-export function choice<T extends string>(
-  value: unknown,
-  choices: readonly T[],
-): T {
-  if (typeof value !== 'string' || !choices.includes(value as T))
-    return invalid()
-  return value as T
-}
-
-export function record(value: unknown): Record<string, unknown> {
-  if (!value || typeof value !== 'object' || Array.isArray(value))
-    return invalid()
-  return value as Record<string, unknown>
-}
-
 export function object(value: unknown): Record<string, unknown> {
   if (!value || typeof value !== 'object' || Array.isArray(value))
     return invalid()

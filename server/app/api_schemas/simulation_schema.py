@@ -1,12 +1,14 @@
-from app.api_schemas.order_schema import AuditOrder, OrderAudit, Order
+from app.api_schemas.order_schema import AuditOrder, OrderAudit, Order, OrderSide
 from app.api_schemas.shared_schema import Payload, BaseCommand
 from app.simulation import engine
 from pydantic import Field, field_validator
 from typing import Literal
 
 
+type SimulationMode = Literal['guided', 'endless']
+
 class CreateSimulation(BaseCommand):
-    mode: Literal['guided', 'endless'] = 'guided'
+    mode: SimulationMode = 'guided'
 
 
 class AdvanceSimulation(BaseCommand):
@@ -62,7 +64,7 @@ class SimulationFill(Payload):
     order_id: str
     tick: int
     symbol: str
-    side: Literal['buy', 'sell']
+    side: OrderSide
     quantity: int
     price: str
     fee: str
@@ -104,6 +106,9 @@ class BoundSimulationPolicy(LessonSimulationPolicy):
     unit_price_cap: str
 
 
+type SimulationNoOrderReason = Literal['no_thesis_supplied', 'current_ask_above_cap']
+
+
 class SimulationAuditObservation(Payload):
     tick: int
     engine_version: int
@@ -112,12 +117,12 @@ class SimulationAuditObservation(Payload):
     orders: list[AuditOrder]
     session_fees: str
     price_limit_guarantees_fill: bool
-    no_order_reason: Literal['no_thesis_supplied', 'current_ask_above_cap'] | None
+    no_order_reason: SimulationNoOrderReason | None
 
 
 class SimulationResponse(Payload):
     id: str
-    mode: Literal['guided', 'endless']
+    mode: SimulationMode
     updated_at: str | None
     version: int
     tick: int

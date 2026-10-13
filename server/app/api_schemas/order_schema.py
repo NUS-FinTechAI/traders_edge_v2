@@ -4,7 +4,10 @@ from app.api_schemas.shared_schema import BaseCommand, Payload
 from app.simulation import engine
 
 
-OrderStatus = Literal['open', 'partial', 'filled', 'cancelled', 'expired', 'rejected']
+type OrderStatus = Literal['open', 'partial', 'filled', 'cancelled', 'expired', 'rejected']
+type OrderSymbol = Literal['NORTH', 'HARBOR', 'PLAIN', 'COVE']
+type OrderSide = Literal['buy', 'sell']
+type OrderType = Literal['market', 'limit', 'stop']
 
 
 class OrderPlan(Payload):
@@ -17,9 +20,9 @@ class OrderPlan(Payload):
 
 class Order(Payload):
     id: str
-    symbol: Literal['NORTH', 'HARBOR', 'PLAIN', 'COVE']
-    side: Literal['buy', 'sell']
-    type: Literal['market', 'limit', 'stop']
+    symbol: OrderSymbol
+    side: OrderSide
+    type: OrderType
     quantity: int = Field(ge=1, le=1000, strict=True)
     remaining: int = Field(ge=0, le=1000, strict=True)
     price: str | None = Field(default=None, max_length=20)
@@ -39,7 +42,7 @@ class AuditOrder(Payload):
   
 class OrderAudit(Payload):
     order_id: str = Field(min_length=1, max_length=100, strict=True)
-    status: Literal['open', 'partial', 'filled', 'cancelled', 'expired', 'rejected']
+    status: OrderStatus
     filled_quantity: int = Field(ge=0, le=5, strict=True)
     limit_price: str = Field(min_length=1, max_length=30, strict=True, pattern=r'^\d+(?:\.\d+)?$')
 

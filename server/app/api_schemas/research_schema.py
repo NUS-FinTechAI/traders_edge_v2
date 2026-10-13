@@ -3,8 +3,8 @@ from typing import Literal
 from app.api_schemas.shared_schema import BaseCommand
 from pydantic import Field, field_validator
 
-PriorKnowledge = Literal['unknown', 'none', 'some', 'experienced']
-ExportKind = Literal['learning-runs', 'learning-attempts', 'ai-challenges']
+type PriorKnowledge = Literal['unknown', 'none', 'some', 'experienced']
+type ExportKind = Literal['learning-runs', 'learning-attempts', 'ai-challenges']
 
 class ResearchMetadata(BaseCommand):
     prior_knowledge: PriorKnowledge

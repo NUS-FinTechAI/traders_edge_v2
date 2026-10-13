@@ -15,11 +15,7 @@ export interface components {
     ActiveChapterRun: {
       /** Level Id */
       level_id: string | null
-      /**
-       * Purpose
-       * @enum {string}
-       */
-      purpose: 'diagnostic' | 'practice' | 'bonus' | 'assessment'
+      purpose: components['schemas']['ChapterPurpose']
       /** Run Id */
       run_id: string
     }
@@ -88,12 +84,7 @@ export interface components {
       limit_price: string
       /** Order Id */
       order_id: string
-      /**
-       * Status
-       * @enum {string}
-       */
-      status:
-        'open' | 'partial' | 'filled' | 'cancelled' | 'expired' | 'rejected'
+      status: components['schemas']['OrderStatus']
     }
     /** BindLearningSimulation */
     BindLearningSimulation: {
@@ -106,17 +97,15 @@ export interface components {
       active_attempt_ids: string[]
       /** Available */
       available: boolean
-      /** Reason */
-      reason:
-        | (
-            | 'introductory_diagnostic'
-            | 'chapter_locked'
-            | 'required_levels_incomplete'
-            | 'diagnostic_incomplete'
-            | 'active_challenge_limit'
-          )
-        | null
+      reason: components['schemas']['BossAvailabilityReasons'] | null
     }
+    /** @enum {string} */
+    BossAvailabilityReasons:
+      | 'introductory_diagnostic'
+      | 'chapter_locked'
+      | 'required_levels_incomplete'
+      | 'diagnostic_incomplete'
+      | 'active_challenge_limit'
     /** BoundSimulationPolicy */
     BoundSimulationPolicy: {
       /** Content Version */
@@ -194,11 +183,7 @@ export interface components {
       id: string
       /** Max Drawdown Percent */
       max_drawdown_percent: string
-      /**
-       * Mode
-       * @enum {string}
-       */
-      mode: 'guided' | 'endless'
+      mode: components['schemas']['SimulationMode']
       /** Observation Token */
       observation_token?: string | null
       /** Orders */
@@ -226,6 +211,10 @@ export interface components {
       /** Idempotency Key */
       idempotency_key: string
     }
+    /** @enum {string} */
+    ChallengeType: 'practice' | 'daily' | 'chapter_entry' | 'chapter_exit'
+    /** @enum {string} */
+    ChapterPurpose: 'diagnostic' | 'practice' | 'bonus' | 'assessment'
     /** ChoiceTask */
     ChoiceTask: {
       /** Id */
@@ -283,12 +272,8 @@ export interface components {
     CreateChallenge: {
       /** Idempotency Key */
       idempotency_key: string
-      /**
-       * Mode
-       * @default practice
-       * @enum {string}
-       */
-      mode?: 'practice' | 'daily' | 'chapter_entry' | 'chapter_exit'
+      /** @default practice */
+      mode?: components['schemas']['ChallengeType']
       /** Module Id */
       module_id?: string | null
       /**
@@ -320,12 +305,8 @@ export interface components {
     CreateSimulation: {
       /** Idempotency Key */
       idempotency_key: string
-      /**
-       * Mode
-       * @default guided
-       * @enum {string}
-       */
-      mode?: 'guided' | 'endless'
+      /** @default guided */
+      mode?: components['schemas']['SimulationMode']
     }
     /** DebriefSimulation */
     DebriefSimulation: {
@@ -519,19 +500,14 @@ export interface components {
       /** Xp Awarded */
       xp_awarded: number
     }
+    /** @enum {string} */
+    LearningRunPurpose:
+      'diagnostic' | 'practice' | 'bonus' | 'assessment' | 'review'
     /** LearningRunResponse */
     LearningRunResponse: {
       /** Content Version */
       content_version: string
-      /** Current Step */
-      current_step:
-        | (
-            | components['schemas']['InstructionTask']
-            | components['schemas']['ChoiceTask']
-            | components['schemas']['ClassificationTask']
-            | components['schemas']['SimulationTask']
-          )
-        | null
+      current_step: components['schemas']['LearningTask'] | null
       /** Feedback */
       feedback: components['schemas']['LearningFeedback'][]
       /** Id */
@@ -541,11 +517,7 @@ export interface components {
       /** Module Id */
       module_id: string
       progress: components['schemas']['LearningProgress']
-      /**
-       * Purpose
-       * @enum {string}
-       */
-      purpose: 'diagnostic' | 'practice' | 'bonus' | 'assessment' | 'review'
+      purpose: components['schemas']['LearningRunPurpose']
       result: components['schemas']['LearningResult'] | null
       /** Review Id */
       review_id?: string | null
@@ -564,6 +536,11 @@ export interface components {
       /** Url */
       url: string
     }
+    LearningTask:
+      | components['schemas']['InstructionTask']
+      | components['schemas']['ChoiceTask']
+      | components['schemas']['ClassificationTask']
+      | components['schemas']['SimulationTask']
     /** LessonSimulationPolicy */
     LessonSimulationPolicy: {
       /** Engine Version */
@@ -618,8 +595,7 @@ export interface components {
       bonus_steps: number
       /** Completion Rule */
       completion_rule: string
-      /** Completion Source */
-      completion_source: ('interactive' | 'legacy') | null
+      completion_source: components['schemas']['LevelCompletionSource'] | null
       /** Id */
       id: string
       /** Objective */
@@ -632,16 +608,14 @@ export interface components {
       source_basis: string[]
       /** Standard Star */
       standard_star: boolean
-      /**
-       * Status
-       * @enum {string}
-       */
-      status: 'completed' | 'active' | 'available' | 'locked'
+      status: components['schemas']['LevelStatus']
       /** Title */
       title: string
       /** Unlocked */
       unlocked: boolean
     }
+    /** @enum {string} */
+    LevelCompletionSource: 'interactive' | 'legacy'
     /** LevelProgress */
     LevelProgress: {
       /** Active Run Id */
@@ -650,19 +624,14 @@ export interface components {
       bonus_available: boolean
       /** Bonus Star */
       bonus_star: boolean
-      /** Completion Source */
-      completion_source: ('interactive' | 'legacy') | null
+      completion_source: components['schemas']['LevelCompletionSource'] | null
       /** Id */
       id: string
       /** Objective */
       objective: string
       /** Standard Star */
       standard_star: boolean
-      /**
-       * Status
-       * @enum {string}
-       */
-      status: 'completed' | 'active' | 'available' | 'locked'
+      status: components['schemas']['LevelStatus']
       /** Title */
       title: string
       /** Unlocked */
@@ -678,6 +647,8 @@ export interface components {
       /** Module Id */
       module_id: string
     }
+    /** @enum {string} */
+    LevelStatus: 'completed' | 'active' | 'available' | 'locked'
     /** ModuleMap */
     ModuleMap: {
       /** Assessment Available */
@@ -713,31 +684,14 @@ export interface components {
       quantity: number
       /** Remaining */
       remaining: number
-      /**
-       * Side
-       * @enum {string}
-       */
-      side: 'buy' | 'sell'
-      /**
-       * Status
-       * @enum {string}
-       */
-      status:
-        'open' | 'partial' | 'filled' | 'cancelled' | 'expired' | 'rejected'
+      side: components['schemas']['OrderSide']
+      status: components['schemas']['OrderStatus']
       /** Submitted Tick */
       submitted_tick: number
-      /**
-       * Symbol
-       * @enum {string}
-       */
-      symbol: 'NORTH' | 'HARBOR' | 'PLAIN' | 'COVE'
+      symbol: components['schemas']['OrderSymbol']
       /** Triggered */
       triggered: boolean
-      /**
-       * Type
-       * @enum {string}
-       */
-      type: 'market' | 'limit' | 'stop'
+      type: components['schemas']['OrderType']
     }
     /** OrderAudit */
     OrderAudit: {
@@ -747,12 +701,7 @@ export interface components {
       limit_price: string
       /** Order Id */
       order_id: string
-      /**
-       * Status
-       * @enum {string}
-       */
-      status:
-        'open' | 'partial' | 'filled' | 'cancelled' | 'expired' | 'rejected'
+      status: components['schemas']['OrderStatus']
     }
     /** OrderPlan */
     OrderPlan: {
@@ -767,6 +716,17 @@ export interface components {
       /** Size Reason */
       size_reason: string
     }
+    /** @enum {string} */
+    OrderSide: 'buy' | 'sell'
+    /** @enum {string} */
+    OrderStatus:
+      'open' | 'partial' | 'filled' | 'cancelled' | 'expired' | 'rejected'
+    /** @enum {string} */
+    OrderSymbol: 'NORTH' | 'HARBOR' | 'PLAIN' | 'COVE'
+    /** @enum {string} */
+    OrderType: 'market' | 'limit' | 'stop'
+    /** @enum {string} */
+    PriorKnowledge: 'unknown' | 'none' | 'some' | 'experienced'
     /** ProfileUpdate */
     ProfileUpdate: {
       /** Analytics Opt In */
@@ -839,11 +799,7 @@ export interface components {
     ResearchMetadata: {
       /** Idempotency Key */
       idempotency_key: string
-      /**
-       * Prior Knowledge
-       * @enum {string}
-       */
-      prior_knowledge: 'unknown' | 'none' | 'some' | 'experienced'
+      prior_knowledge: components['schemas']['PriorKnowledge']
     }
     /** ReviewSimulation */
     ReviewSimulation: {
@@ -886,8 +842,7 @@ export interface components {
     SimulationAuditObservation: {
       /** Engine Version */
       engine_version: number
-      /** No Order Reason */
-      no_order_reason: ('no_thesis_supplied' | 'current_ask_above_cap') | null
+      no_order_reason: components['schemas']['SimulationNoOrderReason'] | null
       /** Observation Token */
       observation_token?: string | null
       /** Orders */
@@ -909,16 +864,16 @@ export interface components {
       price: string
       /** Quantity */
       quantity: number
-      /**
-       * Side
-       * @enum {string}
-       */
-      side: 'buy' | 'sell'
+      side: components['schemas']['OrderSide']
       /** Symbol */
       symbol: string
       /** Tick */
       tick: number
     }
+    /** @enum {string} */
+    SimulationMode: 'guided' | 'endless'
+    /** @enum {string} */
+    SimulationNoOrderReason: 'no_thesis_supplied' | 'current_ask_above_cap'
     /** SimulationPosition */
     SimulationPosition: {
       /** Cost */
@@ -999,13 +954,11 @@ export interface components {
     StartLevel: {
       /** Idempotency Key */
       idempotency_key: string
-      /**
-       * Purpose
-       * @default practice
-       * @enum {string}
-       */
-      purpose?: 'practice' | 'bonus'
+      /** @default practice */
+      purpose?: components['schemas']['StartLevelPurpose']
     }
+    /** @enum {string} */
+    StartLevelPurpose: 'practice' | 'bonus'
     /** StartMultiplayerMatch */
     StartMultiplayerMatch: {
       /** Idempotency Key */

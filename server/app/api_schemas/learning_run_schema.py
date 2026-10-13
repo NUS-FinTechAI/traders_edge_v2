@@ -38,7 +38,7 @@ class SimulationTask(TaskBase):
     type: Literal['simulation']
 
 
-LearningTask = Annotated[InstructionTask | ChoiceTask | ClassificationTask | SimulationTask, Field(discriminator='type')]
+type LearningTask = Annotated[InstructionTask | ChoiceTask | ClassificationTask | SimulationTask, Field(discriminator='type')]
 
 
 class SimulationAuditIssue(Payload):
@@ -89,9 +89,11 @@ class LearningSimulationLink(Payload):
     policy: LessonSimulationPolicy
 
 
+type LearningRunPurpose = Literal['diagnostic', 'practice', 'bonus', 'assessment', 'review']
+
 class LearningRunResponse(Payload):
     id: str
-    purpose: Literal['diagnostic', 'practice', 'bonus', 'assessment', 'review']
+    purpose: LearningRunPurpose
     module_id: str
     level_id: str | None
     content_version: str
@@ -103,9 +105,13 @@ class LearningRunResponse(Payload):
     review_id: str | None = None
     simulation: LearningSimulationLink | None = None
 
-class StartLevel(BaseCommand):
-    purpose: Literal['practice', 'bonus'] = 'practice'
 
+type StartLevelPurpose = Literal['practice', 'bonus']
+
+
+class StartLevel(BaseCommand):
+    purpose: StartLevelPurpose = 'practice'
+    
 
 class StepAnswer(Payload):
     acknowledged: bool | None = Field(default=None, strict=True)

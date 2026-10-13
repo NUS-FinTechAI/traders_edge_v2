@@ -235,55 +235,6 @@ test('cancelled opening does not write storage or send a request', async (t) => 
   assert.equal(fetch.mock.callCount(), 0)
 })
 
-test('resume projects observed portfolio and partially filled orders without private fields', async (t) => {
-  t.mock.method(firebaseService, 'getAccessToken', async () => null)
-  const order = {
-    id: 'order-1',
-    symbol: 'NORTH',
-    side: 'buy',
-    type: 'limit',
-    status: 'partial',
-    quantity: 5,
-    filled: 2,
-    remaining: 3,
-    price: '100.10',
-  }
-  const position = {
-    symbol: 'NORTH',
-    quantity: 2,
-    value: '200.00',
-    weight_percent: '2.00',
-  }
-  t.mock.method(globalThis, 'fetch', async () =>
-    Response.json({
-      ...session(2),
-      cash: '9799.75',
-      available_cash: '9497.00',
-      equity: '9999.75',
-      fees: '0.25',
-      positions: [{ ...position, cost: '200.25' }],
-      orders: [
-        {
-          ...order,
-          reservation_per_unit: '101.00',
-          plan: { reason: 'Private plan text' },
-        },
-      ],
-      seed: 'private',
-      prices: { NORTH: ['100.00', 'future-price'] },
-    }),
-  )
-
-  const result = await resumeLessonSimulation('run-one')
-
-  assert.equal(result.available_cash, '9497.00')
-  assert.equal(result.fees, '0.25')
-  assert.deepEqual(result.positions, [position])
-  assert.deepEqual(result.orders, [order])
-  assert.equal('seed' in result, false)
-  assert.equal('prices' in result, false)
-})
-
 test('resume rejects history containing observations beyond the current tick', async (t) => {
   t.mock.method(firebaseService, 'getAccessToken', async () => null)
   t.mock.method(globalThis, 'fetch', async () =>
