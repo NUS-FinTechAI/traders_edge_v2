@@ -3,11 +3,16 @@ import { ToastContext } from '../../../contexts/ToastContext.ts'
 import './Toast.css'
 
 export default function ToastProvider({ children }: { children: ReactNode }) {
+  const TOAST_DURATION = 5000
   const [toast, setToast] = useState<{ message: string; id: number } | null>(
     null,
   )
+
   const showToast = useCallback((message: string) => {
     setToast((previous) => ({ message, id: (previous?.id ?? 0) + 1 }))
+
+    const timer = setTimeout(() => setToast(null), TOAST_DURATION)
+    return () => clearTimeout(timer)
   }, [])
 
   return (
