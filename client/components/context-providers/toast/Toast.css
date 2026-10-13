@@ -1,0 +1,29 @@
+.toast-region {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  max-width: min(28rem, calc(100vw - 2rem));
+  z-index: 100;
+}
+.error-toast {
+  padding: 1rem;
+  border: 1px solid #a11919;
+  border-radius: 4px;
+  background: #ffe6e6;
+  color: #a11919;
+  overflow-wrap: anywhere;
+}
+.error-toast p {
+  margin: 0 0 0.5rem;
+}
+.error-toast button {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0.5rem 1rem;
+  font: inherit;
+  cursor: pointer;
+}
+.error-toast button:focus-visible {
+  outline: 3px solid #a11919;
+  outline-offset: 3px;
+}

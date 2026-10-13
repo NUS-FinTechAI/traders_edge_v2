@@ -1,11 +1,10 @@
+import { useToast } from '../../../../contexts/ToastContext.ts'
+import { learningError } from '../../../../services/learningRunService.ts'
 import { useEffect, useRef, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
 import {
   openLessonSimulation,
   type LessonSimulation as Session,
 } from '../../../../services/lessonSimulationService.ts'
-import { learningError } from '../../../../services/learningRunService.ts'
-import { HttpError } from '../../../../services/httpService.ts'
 import './LessonSimulation.css'
 
 export default function LessonSimulation({
@@ -18,10 +17,9 @@ export default function LessonSimulation({
   prompt: string
 }) {
   const [session, setSession] = useState<Session | null>(null)
-  const [error, setError] = useState<unknown>(null)
+  const showToast = useToast()
   const [busy, setBusy] = useState(false)
   const request = useRef<AbortController | null>(null)
-  const location = useLocation()
   useEffect(
     () => () => {
       request.current?.abort()
@@ -34,7 +32,6 @@ export default function LessonSimulation({
     const controller = new AbortController()
     request.current = controller
     setBusy(true)
-    setError(null)
     try {
       const current = await openLessonSimulation(
         owner,
@@ -44,7 +41,7 @@ export default function LessonSimulation({
       )
       if (!controller.signal.aborted) setSession(current)
     } catch (failure) {
-      if (!controller.signal.aborted) setError(failure)
+      if (!controller.signal.aborted) showToast(learningError(failure))
     } finally {
       if (!controller.signal.aborted) {
         request.current = null
@@ -60,18 +57,6 @@ export default function LessonSimulation({
         Your simulation is saved with this lesson. Opening it again resumes the
         same session.
       </p>
-      {error !== null && (
-        <div role="alert">
-          <p>{learningError(error)}</p>
-          {error instanceof HttpError && error.status === 401 && (
-            <Link
-              to={`/login?returnTo=${encodeURIComponent(location.pathname + location.search + location.hash)}`}
-            >
-              Sign in again
-            </Link>
-          )}
-        </div>
-      )}
       {session ? (
         <p role="status">
           Saved simulation loaded at observation {session.tick}.{' '}
@@ -81,11 +66,7 @@ export default function LessonSimulation({
         </p>
       ) : (
         <button disabled={busy} onClick={() => void open()}>
-          {busy
-            ? 'Opening simulation…'
-            : error
-              ? 'Retry saved request'
-              : 'Open saved simulation'}
+          {busy ? 'Opening simulation…' : 'Open saved simulation'}
         </button>
       )}
       <p>

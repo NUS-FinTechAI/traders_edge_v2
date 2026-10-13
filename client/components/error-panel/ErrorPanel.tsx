@@ -1,7 +1,6 @@
-import type { ReactNode } from 'react'
 import './ErrorPanel.css'
 
-function ErrorPanel({}: { message?: string; children?: ReactNode }) {
+export default function ErrorPanel() {
   return (
     <div className="error-panel" role="alert">
       <p className="error-message">
@@ -10,5 +9,3 @@ function ErrorPanel({}: { message?: string; children?: ReactNode }) {
     </div>
   )
 }
-
-export default ErrorPanel

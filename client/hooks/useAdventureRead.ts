@@ -8,7 +8,6 @@ type ReadState<T> =
 export default function useAdventureRead<T>(
   load: (signal: AbortSignal) => Promise<T>,
 ) {
-  const [attempt, setAttempt] = useState(0)
   const [state, setState] = useState<ReadState<T>>({ status: 'loading' })
   useEffect(() => {
     const controller = new AbortController()
@@ -21,11 +20,7 @@ export default function useAdventureRead<T>(
       },
     )
     return () => controller.abort()
-  }, [load, attempt])
+  }, [load])
 
-  function retry() {
-    setState({ status: 'loading' })
-    setAttempt((value) => value + 1)
-  }
-  return { state, retry }
+  return { state }
 }

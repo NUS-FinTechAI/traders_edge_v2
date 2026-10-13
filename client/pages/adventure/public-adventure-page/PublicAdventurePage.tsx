@@ -10,7 +10,7 @@ import './PublicAdventurePage.css'
 
 export default function PublicAdventurePage() {
   const { moduleId } = useParams()
-  const { state, retry } = useAdventureRead(loadPublicAdventure)
+  const { state } = useAdventureRead(loadPublicAdventure)
   const [search, setSearch] = useSearchParams()
   const location = useLocation()
   const rail = useRef<HTMLUListElement>(null)
@@ -57,9 +57,7 @@ export default function PublicAdventurePage() {
         </Link>
       </header>
       {state.status === 'loading' && <p role="status">Loading chapters…</p>}
-      {state.status === 'error' && (
-        <ReadError error={state.error} retry={retry} />
-      )}
+      {state.status === 'error' && <ReadError fatal error={state.error} />}
       {state.status === 'ready' && !moduleId && (
         <>
           <div className="adventure-section-heading">

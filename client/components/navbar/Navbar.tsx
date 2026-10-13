@@ -1,3 +1,4 @@
+import { useToast } from '../../contexts/ToastContext.ts'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { AppLogo } from '../icons/app-logo/AppLogo.tsx'
 import useAuth from '../../hooks/useAuth.ts'
@@ -7,7 +8,9 @@ export default function Navbar() {
   const navigate = useNavigate()
   const location = useLocation()
   const destination = location.pathname + location.search
-  const { status, error, signingOut: busy, logout, retry } = useAuth()
+  const { status, signingOut: busy, logout } = useAuth()
+
+  const showToast = useToast()
 
   async function signOut() {
     if (busy) return
@@ -15,7 +18,7 @@ export default function Navbar() {
       await logout()
       void navigate('/', { replace: true })
     } catch {
-      /* The controller exposes the error in the shared state. */
+      showToast('Unable to sign out. Please try again later.')
     }
   }
 
@@ -52,20 +55,12 @@ export default function Navbar() {
             </button>
           )}
           {status === 'unavailable' && (
-            <button
-              className="site-auth-button"
-              onClick={() => void retry().catch(() => {})}
-            >
-              Retry sign-in check
-            </button>
+            <Link className="site-auth-button" to="/login">
+              Sign in
+            </Link>
           )}
         </div>
       </nav>
-      {error && (
-        <p className="site-auth-error" role="alert">
-          {error}
-        </p>
-      )}
     </header>
   )
 }

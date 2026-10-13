@@ -1,0 +1,5 @@
+.app-layout:has(> .route-error) {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}

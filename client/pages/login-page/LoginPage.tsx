@@ -1,3 +1,4 @@
+import { useToast } from '../../contexts/ToastContext.ts'
 import { useEffect, useState, type SubmitEvent } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import authService from '../../services/authService.ts'
@@ -37,9 +38,9 @@ export default function LoginPage() {
   const navigate = useNavigate()
   const [search] = useSearchParams()
   const destination = search.get('returnTo') || '/'
-  const { config, status, error: authError, refreshUser, retry } = useAuth()
+  const { config, status, error: authError, refreshUser } = useAuth()
   const loading = status === 'loading'
-  const [error, setError] = useState('')
+  const showToast = useToast()
   const [busy, setBusy] = useState(false)
   const [identityReady, setIdentityReady] = useState(false)
   const [emailForm, setEmailForm] = useState(false)
@@ -57,9 +58,8 @@ export default function LoginPage() {
       return
     }
     setBusy(true)
-    setError('')
     try {
-      if (action) {
+      if (action && !identityReady) {
         await action()
         setIdentityReady(true)
       }
@@ -67,7 +67,7 @@ export default function LoginPage() {
       if (!profile)
         throw new HttpError('Sign-in could not be verified', 'http', 401)
     } catch (error) {
-      setError(errorMessage(error))
+      showToast(errorMessage(error))
       setBusy(false)
     }
   }
@@ -80,6 +80,9 @@ export default function LoginPage() {
         : firebaseService.signInWithEmail(email, password),
     )
   }
+
+  if (!config && status === 'unavailable')
+    throw new Error(authError || 'Sign-in is unavailable')
 
   return (
     <main className="login-page">
@@ -102,25 +105,7 @@ export default function LoginPage() {
             {register ? 'Create an account' : 'Begin your adventure'}
           </h2>
           {loading && <p role="status">Loading sign-in…</p>}
-          {(error || authError) && (
-            <p className="login-error" role="alert">
-              {error || authError}
-            </p>
-          )}
-          {!loading &&
-            !identityReady &&
-            (status === 'unavailable' || !config) && (
-              <button
-                onClick={() => {
-                  setError('')
-                  void retry().catch(() => {})
-                }}
-              >
-                Try again
-              </button>
-            )}
-          {status === 'signed-out' &&
-            !identityReady &&
+          {(status === 'signed-out' || status === 'unavailable') &&
             config?.auth.mode === 'guest' && (
               <>
                 <p>
@@ -137,8 +122,7 @@ export default function LoginPage() {
                 </button>
               </>
             )}
-          {status === 'signed-out' &&
-            !identityReady &&
+          {(status === 'signed-out' || status === 'unavailable') &&
             config?.auth.mode === 'firebase' && (
               <>
                 <p>Sign in to access your learning profile.</p>
@@ -222,7 +206,6 @@ export default function LoginPage() {
                       onClick={() => {
                         setRegister(!register)
                         setPassword('')
-                        setError('')
                       }}
                     >
                       {register
@@ -234,14 +217,6 @@ export default function LoginPage() {
               </>
             )}
           {busy && <p role="status">Checking your sign-in…</p>}
-          {identityReady && !busy && (
-            <>
-              <p>You’re signed in. Your profile could not be loaded yet.</p>
-              <button onClick={() => void signIn()}>
-                Retry loading profile
-              </button>
-            </>
-          )}
         </section>
       </div>
     </main>

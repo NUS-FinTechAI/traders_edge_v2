@@ -29,7 +29,7 @@ function Briefing({
     (signal: AbortSignal) => loadLevel(level.id, signal),
     [level.id],
   )
-  const { state, retry } = useAdventureRead(load)
+  const { state } = useAdventureRead(load)
   const reason = levelLockReason(map, level)
   return (
     <>
@@ -44,9 +44,7 @@ function Briefing({
       {state.status === 'loading' && (
         <p role="status">Loading mission details…</p>
       )}
-      {state.status === 'error' && (
-        <ReadError error={state.error} retry={retry} />
-      )}
+      {state.status === 'error' && <ReadError error={state.error} />}
       {state.status === 'ready' && (
         <>
           <h3>
