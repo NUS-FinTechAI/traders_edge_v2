@@ -10,7 +10,7 @@ import { StarLegend } from '../../../components/icons/mission-stars/MissionStars
 import './AdventurePage.css'
 
 function ChapterSelection() {
-  const { state, retry } = useAdventureRead(loadAdventure)
+  const { state } = useAdventureRead(loadAdventure)
   const rail = useRef<HTMLUListElement>(null)
   const [edges, setEdges] = useState({ start: true, end: false })
   useEffect(() => {
@@ -85,9 +85,7 @@ function ChapterSelection() {
           Loading chapters and saved stars…
         </p>
       )}
-      {state.status === 'error' && (
-        <ReadError error={state.error} retry={retry} />
-      )}
+      {state.status === 'error' && <ReadError fatal error={state.error} />}
       {state.status === 'ready' &&
         (state.data.chapters.length ? (
           <>

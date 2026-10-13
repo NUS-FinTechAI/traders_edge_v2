@@ -1,6 +1,6 @@
 import { useEffect, useSyncExternalStore, type ReactNode } from 'react'
-import { authController } from '../services/authController.ts'
-import { AuthContext } from './authContext.ts'
+import { authController } from '../../../services/authController.ts'
+import { AuthContext } from '../../../contexts/AuthContext.ts'
 
 export default function AuthProvider({ children }: { children: ReactNode }) {
   const snapshot = useSyncExternalStore(

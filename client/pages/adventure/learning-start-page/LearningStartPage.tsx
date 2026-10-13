@@ -4,7 +4,6 @@ import type { UserProfile } from '../../../services/authService.ts'
 import {
   isLearningPurpose,
   LearningCommands,
-  learningError,
   type LearningPurpose,
 } from '../../../services/learningRunService.ts'
 import './LearningStartPage.css'
@@ -19,7 +18,6 @@ function StartActivity({
   target: string
 }) {
   const navigate = useNavigate()
-  const [attempt, setAttempt] = useState(0)
   const [error, setError] = useState<unknown>(null)
   const [commands] = useState(() => {
     try {
@@ -44,7 +42,9 @@ function StartActivity({
         if (!controller.signal.aborted) setError(failure)
       })
     return () => controller.abort()
-  }, [commands, purpose, target, attempt, navigate])
+  }, [commands, purpose, target, navigate])
+  if (error !== null) throw error
+  if (!commands) throw new Error('Browser storage is unavailable')
   return (
     <main className="learning-start-page">
       <h1>
@@ -54,26 +54,7 @@ function StartActivity({
             ? 'Bonus missions'
             : 'Required missions'}
       </h1>
-      {!commands ? (
-        <p role="alert">
-          Enable browser storage and reload this page to start an activity
-          safely.
-        </p>
-      ) : error ? (
-        <div role="alert">
-          <p>{learningError(error)}</p>
-          <button
-            onClick={() => {
-              setError(null)
-              setAttempt((value) => value + 1)
-            }}
-          >
-            Retry saved request
-          </button>
-        </div>
-      ) : (
-        <p role="status">Opening your saved activity…</p>
-      )}
+      <p role="status">Opening your saved activity…</p>
       <Link to="/adventure">Return to chapters</Link>
     </main>
   )

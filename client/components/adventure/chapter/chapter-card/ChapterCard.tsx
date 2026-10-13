@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { LockIcon } from '../../../icons/lock-icon/LockIcon.tsx'
+import { LockIcon } from '../../../icons/LockIcon.tsx'
 import type {
   AdventureChapter,
   PublicAdventureChapter,

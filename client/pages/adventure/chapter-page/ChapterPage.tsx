@@ -18,7 +18,7 @@ function ChapterContent({ moduleId }: { moduleId: string }) {
     (signal: AbortSignal) => loadChapter(moduleId, signal),
     [moduleId],
   )
-  const { state, retry } = useAdventureRead(load)
+  const { state } = useAdventureRead(load)
   const [search, setSearch] = useSearchParams()
   const selected = search.get('stop')
   const title = useRef<HTMLHeadingElement>(null)
@@ -45,7 +45,7 @@ function ChapterContent({ moduleId }: { moduleId: string }) {
             Loading your chapter route…
           </p>
         ) : (
-          <ReadError error={state.error} retry={retry} />
+          <ReadError fatal error={state.error} />
         )}
       </main>
     )
