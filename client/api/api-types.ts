@@ -18,6 +18,11 @@ export interface components {
       /** Idempotency Key */
       idempotency_key: string
       /**
+       * Policy Version
+       * @default 1
+       */
+      policy_version?: '1' | null
+      /**
        * Steps
        * @default 1
        */
@@ -70,6 +75,34 @@ export interface components {
       /** Question Id */
       question_id: string
     }
+    /** Join */
+    app__api_schemas__quiz_schema__Join: {
+      /** Idempotency Key */
+      idempotency_key: string
+      /** Join Code */
+      join_code: string
+      /**
+       * Policy Version
+       * @default 1
+       */
+      policy_version?: '1' | null
+    }
+    /** Create */
+    app__api_schemas__simulation_schema__Create: {
+      /** Idempotency Key */
+      idempotency_key: string
+      /**
+       * Mode
+       * @default guided
+       * @enum {string}
+       */
+      mode?: 'guided' | 'endless'
+      /**
+       * Policy Version
+       * @default 1
+       */
+      policy_version?: '1' | null
+    }
     /** Create */
     app__challenges__api__Create: {
       /** Idempotency Key */
@@ -87,22 +120,11 @@ export interface components {
        * @default 1
        */
       opponent_count?: number
-    }
-    /** Command */
-    app__economy__Command: {
-      /** Idempotency Key */
-      idempotency_key: string
       /**
        * Policy Version
        * @default 1
-       * @constant
        */
-      policy_version?: '1'
-    }
-    /** Command */
-    app__learning_runs__Command: {
-      /** Idempotency Key */
-      idempotency_key: string
+      policy_version?: '1' | null
     }
     /** Join */
     app__multiplayer__api__Join: {
@@ -110,39 +132,11 @@ export interface components {
       code: string
       /** Idempotency Key */
       idempotency_key: string
-    }
-    /** Command */
-    app__quizzes__api__Command: {
-      /** Idempotency Key */
-      idempotency_key: string
-    }
-    /** Join */
-    app__quizzes__api__Join: {
-      /** Idempotency Key */
-      idempotency_key: string
-      /** Join Code */
-      join_code: string
-    }
-    /** Command */
-    app__research__Command: {
-      /** Idempotency Key */
-      idempotency_key: string
-    }
-    /** Command */
-    app__simulation__api__Command: {
-      /** Idempotency Key */
-      idempotency_key: string
-    }
-    /** Create */
-    app__simulation__api__Create: {
-      /** Idempotency Key */
-      idempotency_key: string
       /**
-       * Mode
-       * @default guided
-       * @enum {string}
+       * Policy Version
+       * @default 1
        */
-      mode?: 'guided' | 'endless'
+      policy_version?: '1' | null
     }
     /** Audit */
     Audit: {
@@ -193,12 +187,156 @@ export interface components {
           )
         | null
     }
+    /** BoundSimulationPolicy */
+    BoundSimulationPolicy: {
+      /** Content Version */
+      content_version: string
+      /** Engine Version */
+      engine_version: number
+      /** Id */
+      id: string
+      /** Investment Thesis Supplied */
+      investment_thesis_supplied: boolean
+      /** Max Advance */
+      max_advance: number
+      /** Max Orders */
+      max_orders: number
+      /** Max Quantity */
+      max_quantity: number
+      /** Max Tick */
+      max_tick: number
+      /** Min Observe */
+      min_observe: number
+      /**
+       * Order Type
+       * @constant
+       */
+      order_type: 'limit'
+      /** Provenance */
+      provenance: string
+      /** Rubric Version */
+      rubric_version: string
+      /** Run Id */
+      run_id: string
+      /** Session Id */
+      session_id: string
+      /**
+       * Side
+       * @constant
+       */
+      side: 'buy'
+      /** Symbol */
+      symbol: string
+      /** Unit Price Cap */
+      unit_price_cap: string
+      /**
+       * Unit Price Cap Basis
+       * @constant
+       */
+      unit_price_cap_basis: 'opening_ask'
+      /** Unit Price Cap Excludes Fees */
+      unit_price_cap_excludes_fees: boolean
+    }
+    /** BoundSimulationResponse */
+    BoundSimulationResponse: {
+      audited_observation:
+        components['schemas']['SimulationAuditObservation'] | null
+      /** Available Cash */
+      available_cash: string
+      /** Benchmark Value */
+      benchmark_value: string
+      bound_policy: components['schemas']['BoundSimulationPolicy']
+      /** Cash */
+      cash: string
+      /** Equity */
+      equity: string
+      /** Fees */
+      fees: string
+      /** Fills */
+      fills: components['schemas']['SimulationFill'][]
+      /** Finished */
+      finished: boolean
+      /** History */
+      history: {
+        [key: string]: string[]
+      }
+      /** Id */
+      id: string
+      /** Max Drawdown Percent */
+      max_drawdown_percent: string
+      /**
+       * Mode
+       * @enum {string}
+       */
+      mode: 'guided' | 'endless'
+      /** Observation Token */
+      observation_token: string
+      /** Orders */
+      orders: components['schemas']['SimulationOrder'][]
+      /** Positions */
+      positions: components['schemas']['SimulationPosition'][]
+      /** Quotes */
+      quotes: components['schemas']['SimulationQuote'][]
+      /** Reflection */
+      reflection: string | null
+      rules: components['schemas']['SimulationRules']
+      /** Scenario */
+      scenario: string
+      /** Tick */
+      tick: number
+      /** Total Ticks */
+      total_ticks: number
+      /** Updated At */
+      updated_at: string | null
+      /** Version */
+      version: number
+    }
+    /** ChoiceTask */
+    ChoiceTask: {
+      /** Id */
+      id: string
+      /** Options */
+      options: components['schemas']['TaskEntry'][]
+      /** Prompt */
+      prompt: string
+      /**
+       * @description discriminator enum property added by openapi-typescript
+       * @enum {string}
+       */
+      type: 'choice'
+    }
     /** Claim */
     Claim: {
       /** Idempotency Key */
       idempotency_key: string
       /** Item Id */
       item_id: string
+    }
+    /** ClassificationTask */
+    ClassificationTask: {
+      /** Categories */
+      categories: components['schemas']['TaskEntry'][]
+      /** Id */
+      id: string
+      /** Items */
+      items: components['schemas']['TaskEntry'][]
+      /** Prompt */
+      prompt: string
+      /**
+       * @description discriminator enum property added by openapi-typescript
+       * @enum {string}
+       */
+      type: 'classification'
+    }
+    /** Command */
+    Command: {
+      /** Idempotency Key */
+      idempotency_key: string
+      /**
+       * Policy Version
+       * @default 1
+       */
+      policy_version?: '1' | null
     }
     /** Consent */
     Consent: {
@@ -220,6 +358,11 @@ export interface components {
       attempt_limit?: number
       /** Idempotency Key */
       idempotency_key: string
+      /**
+       * Policy Version
+       * @default 1
+       */
+      policy_version?: '1' | null
       /** Question Ids */
       question_ids: string[]
       /** Title */
@@ -229,6 +372,11 @@ export interface components {
     Debrief: {
       /** Idempotency Key */
       idempotency_key: string
+      /**
+       * Policy Version
+       * @default 1
+       */
+      policy_version?: '1' | null
       /** Reflection */
       reflection: string
     }
@@ -287,12 +435,190 @@ export interface components {
       /** Detail */
       detail?: components['schemas']['ValidationError'][]
     }
+    /** InstructionTask */
+    InstructionTask: {
+      /** Id */
+      id: string
+      /** Prompt */
+      prompt: string
+      /** Text */
+      text: string
+      /**
+       * @description discriminator enum property added by openapi-typescript
+       * @enum {string}
+       */
+      type: 'instruction'
+    }
     /** JournalCreate */
     JournalCreate: {
       /** Lesson Id */
       lesson_id?: string | null
       /** Text */
       text: string
+    }
+    JsonValue: unknown
+    /** LearningFeedback */
+    LearningFeedback: {
+      audited_observation?:
+        components['schemas']['SimulationAuditObservation'] | null
+      /** Correct */
+      correct: boolean
+      /** Explanation */
+      explanation: string
+      /** Issues */
+      issues?: components['schemas']['SimulationAuditIssue'][] | null
+      /** Observation Phase */
+      observation_phase?: 'before_finish_cancellation' | null
+      /** Step Id */
+      step_id: string
+    }
+    /** LearningProfileSnapshot */
+    LearningProfileSnapshot: {
+      /** Activity Days */
+      activity_days: string[]
+      /**
+       * Activity Timezone
+       * @constant
+       */
+      activity_timezone: 'UTC'
+      /** Analytics Opt In */
+      analytics_opt_in: boolean
+      /** Completed Lesson Ids */
+      completed_lesson_ids: string[]
+      /** Display Name */
+      display_name: string
+      /** Due Review Count */
+      due_review_count: number
+      /** Game Xp */
+      game_xp?: number | null
+      /** Id */
+      id: string
+      /** Leaderboard Opt In */
+      leaderboard_opt_in: boolean
+      /** Learning Only */
+      learning_only: boolean
+      /** Learning Xp */
+      learning_xp?: number | null
+      /** Mastered Module Ids */
+      mastered_module_ids: string[]
+      /** Player Level */
+      player_level?: number | null
+      /** Player Level Policy */
+      player_level_policy?: '100-xp-per-level-1' | null
+      /** Xp */
+      xp: number
+      /** Xp Basis */
+      xp_basis?: 'learning and game events' | null
+    }
+    /** LearningProgress */
+    LearningProgress: {
+      /** Completed Steps */
+      completed_steps: number
+      /** Total Steps */
+      total_steps: number
+    }
+    /** LearningResult */
+    LearningResult: {
+      /** Attempt Id */
+      attempt_id: string
+      /** Bonus Star */
+      bonus_star: boolean
+      /** Critical Items Passed */
+      critical_items_passed: boolean
+      /** Passed */
+      passed: boolean | null
+      profile: components['schemas']['LearningProfileSnapshot']
+      /** Score Percent */
+      score_percent: number
+      /** Standard Star */
+      standard_star: boolean
+      /** Xp Awarded */
+      xp_awarded: number
+    }
+    /** LearningRunResponse */
+    LearningRunResponse: {
+      /** Content Version */
+      content_version: string
+      /** Current Step */
+      current_step:
+        | (
+            | components['schemas']['InstructionTask']
+            | components['schemas']['ChoiceTask']
+            | components['schemas']['ClassificationTask']
+            | components['schemas']['SimulationTask']
+          )
+        | null
+      /** Feedback */
+      feedback: components['schemas']['LearningFeedback'][]
+      /** Id */
+      id: string
+      /** Level Id */
+      level_id: string | null
+      /** Module Id */
+      module_id: string
+      progress: components['schemas']['LearningProgress']
+      /**
+       * Purpose
+       * @enum {string}
+       */
+      purpose: 'diagnostic' | 'practice' | 'bonus' | 'assessment' | 'review'
+      result: components['schemas']['LearningResult'] | null
+      /** Review Id */
+      review_id?: string | null
+      simulation?: components['schemas']['LearningSimulationLink'] | null
+      /**
+       * Status
+       * @enum {string}
+       */
+      status: 'active' | 'completed'
+    }
+    /** LearningSimulationLink */
+    LearningSimulationLink: {
+      policy: components['schemas']['LessonSimulationPolicy']
+      /** Session Id */
+      session_id: string | null
+      /** Url */
+      url: string
+    }
+    /** LessonSimulationPolicy */
+    LessonSimulationPolicy: {
+      /** Engine Version */
+      engine_version: number
+      /** Id */
+      id: string
+      /** Investment Thesis Supplied */
+      investment_thesis_supplied: boolean
+      /** Max Advance */
+      max_advance: number
+      /** Max Orders */
+      max_orders: number
+      /** Max Quantity */
+      max_quantity: number
+      /** Max Tick */
+      max_tick: number
+      /** Min Observe */
+      min_observe: number
+      /**
+       * Order Type
+       * @constant
+       */
+      order_type: 'limit'
+      /** Provenance */
+      provenance: string
+      /**
+       * Side
+       * @constant
+       */
+      side: 'buy'
+      /** Symbol */
+      symbol: string
+      /**
+       * Unit Price Cap Basis
+       * @constant
+       */
+      unit_price_cap_basis: 'opening_ask'
+      /** Unit Price Cap Excludes Fees */
+      unit_price_cap_excludes_fees: boolean
     }
     /** LevelBriefing */
     LevelBriefing: {
@@ -373,6 +699,11 @@ export interface components {
       /** Idempotency Key */
       idempotency_key: string
       /**
+       * Policy Version
+       * @default 1
+       */
+      policy_version?: '1' | null
+      /**
        * Prior Knowledge
        * @enum {string}
        */
@@ -405,6 +736,11 @@ export interface components {
       /** Idempotency Key */
       idempotency_key: string
       plan: components['schemas']['Plan']
+      /**
+       * Policy Version
+       * @default 1
+       */
+      policy_version?: '1' | null
       /** Price */
       price?: string | null
       /** Quantity */
@@ -496,21 +832,204 @@ export interface components {
       /**
        * Policy Version
        * @default 1
-       * @constant
        */
-      policy_version?: '1'
+      policy_version?: '1' | null
     }
     /** Response */
     Response: {
       answer: components['schemas']['Answer']
       /** Idempotency Key */
       idempotency_key: string
+      /**
+       * Policy Version
+       * @default 1
+       */
+      policy_version?: '1' | null
     }
     /** Review */
     Review: {
       audit: components['schemas']['Audit']
       /** Idempotency Key */
       idempotency_key: string
+      /**
+       * Policy Version
+       * @default 1
+       */
+      policy_version?: '1' | null
+    }
+    /** SimulationAuditIssue */
+    SimulationAuditIssue: {
+      /** Code */
+      code: string
+      expected?: components['schemas']['JsonValue']
+      /** Message */
+      message: string
+      /** Observed */
+      observed?: {
+        [key: string]: components['schemas']['JsonValue']
+      } | null
+      /** Order Id */
+      order_id?: string | null
+    }
+    /** SimulationAuditObservation */
+    SimulationAuditObservation: {
+      /** Engine Version */
+      engine_version: number
+      /** No Order Reason */
+      no_order_reason: ('no_thesis_supplied' | 'current_ask_above_cap') | null
+      /** Observation Token */
+      observation_token?: string | null
+      /** Orders */
+      orders: components['schemas']['SimulationAuditOrder'][]
+      /** Price Limit Guarantees Fill */
+      price_limit_guarantees_fill: boolean
+      /** Session Fees */
+      session_fees: string
+      /** Tick */
+      tick: number
+    }
+    /** SimulationAuditOrder */
+    SimulationAuditOrder: {
+      /** Filled Quantity */
+      filled_quantity: number
+      /** Limit Price */
+      limit_price: string
+      /** Order Id */
+      order_id: string
+      /**
+       * Status
+       * @enum {string}
+       */
+      status:
+        'open' | 'partial' | 'filled' | 'cancelled' | 'expired' | 'rejected'
+    }
+    /** SimulationFill */
+    SimulationFill: {
+      /** Fee */
+      fee: string
+      /** Order Id */
+      order_id: string
+      /** Price */
+      price: string
+      /** Quantity */
+      quantity: number
+      /**
+       * Side
+       * @enum {string}
+       */
+      side: 'buy' | 'sell'
+      /** Symbol */
+      symbol: string
+      /** Tick */
+      tick: number
+    }
+    /** SimulationOrder */
+    SimulationOrder: {
+      /** Filled */
+      filled: number
+      /** Id */
+      id: string
+      plan: components['schemas']['SimulationPlan']
+      /** Price */
+      price: string | null
+      /** Quantity */
+      quantity: number
+      /** Remaining */
+      remaining: number
+      /**
+       * Side
+       * @enum {string}
+       */
+      side: 'buy' | 'sell'
+      /**
+       * Status
+       * @enum {string}
+       */
+      status:
+        'open' | 'partial' | 'filled' | 'cancelled' | 'expired' | 'rejected'
+      /** Submitted Tick */
+      submitted_tick: number
+      /** Symbol */
+      symbol: string
+      /** Triggered */
+      triggered: boolean
+      /**
+       * Type
+       * @enum {string}
+       */
+      type: 'market' | 'limit' | 'stop'
+    }
+    /** SimulationPlan */
+    SimulationPlan: {
+      /** Exit */
+      exit: string
+      /** Max Loss */
+      max_loss: string
+      /** Reason */
+      reason: string
+      /** Risk */
+      risk: string
+      /** Size Reason */
+      size_reason: string
+    }
+    /** SimulationPosition */
+    SimulationPosition: {
+      /** Cost */
+      cost: string
+      /** Quantity */
+      quantity: number
+      /** Realized */
+      realized: string
+      /** Symbol */
+      symbol: string
+      /** Value */
+      value: string
+      /** Weight Percent */
+      weight_percent: string
+    }
+    /** SimulationQuote */
+    SimulationQuote: {
+      /** Ask */
+      ask: string
+      /** Available Units */
+      available_units: number
+      /** Bid */
+      bid: string
+      /** Mid */
+      mid: string
+      /** Symbol */
+      symbol: string
+    }
+    /** SimulationRules */
+    SimulationRules: {
+      /** Benchmark */
+      benchmark: string
+      /** Fee Rate */
+      fee_rate: string
+      /** First Fill Fee */
+      first_fill_fee: string
+      /** Leverage */
+      leverage: number
+      /** Max Asset Weight Percent */
+      max_asset_weight_percent: number
+      /** Settlement */
+      settlement: string
+      /** Shorting */
+      shorting: boolean
+      /** Spread Percent */
+      spread_percent: string
+    }
+    /** SimulationTask */
+    SimulationTask: {
+      /** Id */
+      id: string
+      /** Prompt */
+      prompt: string
+      /**
+       * @description discriminator enum property added by openapi-typescript
+       * @enum {string}
+       */
+      type: 'simulation'
     }
     /** StarProgress */
     StarProgress: {
@@ -525,6 +1044,11 @@ export interface components {
       idempotency_key: string
       /** Module Id */
       module_id?: string | null
+      /**
+       * Policy Version
+       * @default 1
+       */
+      policy_version?: '1' | null
       /** Room Id */
       room_id?: string | null
     }
@@ -532,6 +1056,11 @@ export interface components {
     StartLevel: {
       /** Idempotency Key */
       idempotency_key: string
+      /**
+       * Policy Version
+       * @default 1
+       */
+      policy_version?: '1' | null
       /**
        * Purpose
        * @default practice
@@ -566,6 +1095,18 @@ export interface components {
       answer: components['schemas']['StepAnswer']
       /** Idempotency Key */
       idempotency_key: string
+      /**
+       * Policy Version
+       * @default 1
+       */
+      policy_version?: '1' | null
+    }
+    /** TaskEntry */
+    TaskEntry: {
+      /** Id */
+      id: string
+      /** Text */
+      text: string
     }
     /** TickCommand */
     TickCommand: {
@@ -573,6 +1114,11 @@ export interface components {
       expected_tick: number
       /** Idempotency Key */
       idempotency_key: string
+      /**
+       * Policy Version
+       * @default 1
+       */
+      policy_version?: '1' | null
     }
     /** TickOrder */
     TickOrder: {
@@ -581,6 +1127,11 @@ export interface components {
       /** Idempotency Key */
       idempotency_key: string
       plan: components['schemas']['Plan']
+      /**
+       * Policy Version
+       * @default 1
+       */
+      policy_version?: '1' | null
       /** Price */
       price?: string | null
       /** Quantity */

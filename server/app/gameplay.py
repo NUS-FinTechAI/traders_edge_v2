@@ -8,7 +8,7 @@ from sqlalchemy.dialects.postgresql import insert as pg_insert
 from sqlalchemy.dialects.sqlite import insert as sqlite_insert
 from sqlalchemy.orm import Mapped, mapped_column
 
-from app.api_schemas import AdventureResponse, PublicAdventureResponse
+from app.api_schemas.gameplay_schema import AdventureResponse, PublicAdventureResponse
 from app.db import Base, now
 from app.challenges.models import ChallengeAttempt
 from app.economy import ServerChallengeResult, consume_daily_refresh, daily_can_start, settle_challenge

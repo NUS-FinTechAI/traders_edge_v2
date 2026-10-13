@@ -1,24 +1,7 @@
-from typing import Annotated, Literal
-
 from fastapi import APIRouter, Request
-from pydantic import BaseModel, Field
-
+from app.api_schemas.config_schema import PublicConfig, GuestAuthConfig, FirebaseAuthConfig
 
 router = APIRouter(prefix='/api/config', tags=['config'])
-
-
-class GuestAuthConfig(BaseModel):
-    mode: Literal['guest']
-    firebase_project_id: None
-
-
-class FirebaseAuthConfig(BaseModel):
-    mode: Literal['firebase']
-    firebase_project_id: str = Field(min_length=1)
-
-
-class PublicConfig(BaseModel):
-    auth: Annotated[GuestAuthConfig | FirebaseAuthConfig, Field(discriminator='mode')]
 
 
 @router.get('', response_model=PublicConfig, operation_id='getConfig', openapi_extra={'x-client-auth': 'none'})

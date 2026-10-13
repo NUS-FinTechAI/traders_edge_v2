@@ -1,53 +1,20 @@
 from copy import deepcopy
 from decimal import InvalidOperation
 import json
-from typing import Literal
 
 from fastapi import APIRouter, HTTPException, Request
-from pydantic import Field, field_validator
 from sqlalchemy import select
 
 from app.db import LearningRun, LearningRunCommand, SimulationSession, now
-from app.learning import DB, User, Payload
+from app.learning import DB, User
 from app import learning_runs as runs
 from app.simulation import api, engine
 from app.simulation.bindings import public_binding
+from app.api_schemas.simulation_schema import BoundSimulationResponse
+from app.api_schemas.learning_run_schema import LearningRunResponse
+from app.api_schemas.simulation_schema import Review
 
 router = APIRouter(prefix='/api/learning-runs', tags=['bound-simulation'])
-
-
-class AuditOrder(Payload):
-    order_id: str = Field(min_length=1, max_length=100, strict=True)
-    status: Literal['open', 'partial', 'filled', 'cancelled', 'expired', 'rejected']
-    filled_quantity: int = Field(ge=0, le=5, strict=True)
-    limit_price: str = Field(min_length=1, max_length=30, strict=True, pattern=r'^\d+(?:\.\d+)?$')
-
-    @field_validator('limit_price')
-    @classmethod
-    def price_cents(cls, value):
-        if engine.cents(value) <= 0:
-            raise ValueError('A positive unit price is required')
-        return value
-
-
-class Audit(Payload):
-    tick: int = Field(ge=0, strict=True)
-    engine_version: int = Field(ge=1, strict=True)
-    observation_token: str | None = Field(default=None, min_length=64, max_length=64, strict=True, pattern=r'^[0-9a-f]{64}$', exclude_if=lambda value: value is None)
-    orders: list[AuditOrder] = Field(max_length=2)
-    session_fees: str = Field(min_length=1, max_length=30, strict=True, pattern=r'^\d+(?:\.\d+)?$')
-    price_limit_guarantees_fill: bool = Field(strict=True)
-    no_order_reason: Literal['no_thesis_supplied', 'current_ask_above_cap'] | None
-
-    @field_validator('session_fees')
-    @classmethod
-    def fee_cents(cls, value):
-        engine.cents(value)
-        return value
-
-
-class Review(runs.Command):
-    audit: Audit
 
 
 def require_current(run):
@@ -154,7 +121,7 @@ async def linked_session(request, db, user, run, mutation=False):
     return session
 
 
-@router.post('/{run_id}/simulation', operation_id='bindLearningSimulation')
+@router.post('/{run_id}/simulation', operation_id='bindLearningSimulation', response_model=BoundSimulationResponse, response_model_exclude_unset=True)
 async def bind(run_id: str, body: runs.Command, request: Request, db: DB, user: User):
     digest, previous = await runs.replay(db, user, body, 'simulation:bind', run_id)
     if previous is not None:
@@ -181,7 +148,7 @@ async def bind(run_id: str, body: runs.Command, request: Request, db: DB, user: 
     return result
 
 
-@router.get('/{run_id}/simulation', operation_id='resumeLearningSimulation')
+@router.get('/{run_id}/simulation', operation_id='resumeLearningSimulation', response_model=BoundSimulationResponse, response_model_exclude_unset=True)
 async def resume(run_id: str, request: Request, db: DB, user: User):
     run = await bound_run(request, db, user, run_id)
     return api.response(await linked_session(request, db, user, run))
@@ -230,7 +197,7 @@ def audit_issues(audit, state):
     return issues
 
 
-@router.post('/{run_id}/simulation/review', operation_id='reviewLearningSimulation')
+@router.post('/{run_id}/simulation/review', operation_id='reviewLearningSimulation', response_model=LearningRunResponse, response_model_exclude_unset=True)
 async def review(run_id: str, body: Review, request: Request, db: DB, user: User):
     digest, previous = await runs.replay(db, user, body, 'simulation:review', run_id)
     if previous is not None:

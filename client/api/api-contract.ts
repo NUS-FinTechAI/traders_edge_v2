@@ -1580,7 +1580,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__simulation__api__Command']
+        'application/json': components['schemas']['Command']
       }
     }
     responses: {
@@ -1721,7 +1721,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__simulation__api__Command']
+        'application/json': components['schemas']['Command']
       }
     }
     responses: {
@@ -1915,7 +1915,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['LearningRunResponse']
         }
       }
       /** @description Validation Error */
@@ -1946,7 +1946,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['BoundSimulationResponse']
         }
       }
       /** @description Validation Error */
@@ -1971,7 +1971,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__learning_runs__Command']
+        'application/json': components['schemas']['Command']
       }
     }
     responses: {
@@ -1981,7 +1981,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['BoundSimulationResponse']
         }
       }
       /** @description Validation Error */
@@ -2016,7 +2016,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['LearningRunResponse']
         }
       }
       /** @description Validation Error */
@@ -2052,7 +2052,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['LearningRunResponse']
         }
       }
       /** @description Validation Error */
@@ -2184,7 +2184,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['LearningRunResponse']
         }
       }
       /** @description Validation Error */
@@ -2259,7 +2259,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__economy__Command']
+        'application/json': components['schemas']['Command']
       }
     }
     responses: {
@@ -2292,7 +2292,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__economy__Command']
+        'application/json': components['schemas']['Command']
       }
     }
     responses: {
@@ -2551,7 +2551,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__research__Command']
+        'application/json': components['schemas']['Command']
       }
     }
     responses: {
@@ -2758,7 +2758,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__learning_runs__Command']
+        'application/json': components['schemas']['Command']
       }
     }
     responses: {
@@ -2768,7 +2768,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['LearningRunResponse']
         }
       }
       /** @description Validation Error */
@@ -2793,7 +2793,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__learning_runs__Command']
+        'application/json': components['schemas']['Command']
       }
     }
     responses: {
@@ -2803,7 +2803,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['LearningRunResponse']
         }
       }
       /** @description Validation Error */
@@ -2890,7 +2890,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__simulation__api__Command']
+        'application/json': components['schemas']['Command']
       }
     }
     responses: {
@@ -3066,7 +3066,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__simulation__api__Command']
+        'application/json': components['schemas']['Command']
       }
     }
     responses: {
@@ -3152,7 +3152,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__simulation__api__Command']
+        'application/json': components['schemas']['Command']
       }
     }
     responses: {
@@ -3205,7 +3205,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__simulation__api__Command']
+        'application/json': components['schemas']['Command']
       }
     }
     responses: {
@@ -3483,7 +3483,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__quizzes__api__Command']
+        'application/json': components['schemas']['Command']
       }
     }
     responses: {
@@ -3549,7 +3549,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__quizzes__api__Command']
+        'application/json': components['schemas']['Command']
       }
     }
     responses: {
@@ -3582,7 +3582,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__quizzes__api__Join']
+        'application/json': components['schemas']['app__api_schemas__quiz_schema__Join']
       }
     }
     responses: {
@@ -3668,7 +3668,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__learning_runs__Command']
+        'application/json': components['schemas']['Command']
       }
     }
     responses: {
@@ -3678,7 +3678,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['LearningRunResponse']
         }
       }
       /** @description Validation Error */
@@ -3794,7 +3794,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__simulation__api__Create']
+        'application/json': components['schemas']['app__api_schemas__simulation_schema__Create']
       }
     }
     responses: {
@@ -3966,7 +3966,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__simulation__api__Command']
+        'application/json': components['schemas']['Command']
       }
     }
     responses: {

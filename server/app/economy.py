@@ -8,14 +8,15 @@ import json
 from typing import Literal
 
 from fastapi import APIRouter, HTTPException
-from pydantic import Field
+from app.api_schemas.shared_schema import Command
+from app.api_schemas.economy_schema import Purchase
 from sqlalchemy import select
 from sqlalchemy.dialects.postgresql import insert as postgresql_insert
 from sqlalchemy.dialects.sqlite import insert as sqlite_insert
 
 from app.db import RewardGrant, XPLedger, aware, now
 from app.economy_models import EconomyAccount, EconomyCommand, EconomyEvent
-from app.learning import DB, Payload, User
+from app.learning import DB, User
 
 router = APIRouter(prefix='/api/me/economy')
 POLICY_VERSION = '1'
@@ -52,15 +53,6 @@ class ServerChallengeResult:
     chapter_id: str | None = None
     abandoned: bool = False
     challenge_day: str | None = None
-
-
-class Command(Payload):
-    idempotency_key: str = Field(min_length=8, max_length=100, pattern=r'^[a-zA-Z0-9_-]+$')
-    policy_version: Literal['1'] = '1'
-
-
-class Purchase(Command):
-    item_id: str = Field(min_length=1, max_length=120)
 
 
 def utc(value):

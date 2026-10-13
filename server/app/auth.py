@@ -9,7 +9,7 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.db import Profile, SessionToken, aware, get_db, now
-from app.api_schemas import GuestSession
+from app.api_schemas.auth_schema import GuestSession
 
 router = APIRouter(prefix='/api')
 
