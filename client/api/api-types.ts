@@ -764,8 +764,8 @@ export interface components {
       /** Size Reason */
       size_reason: string
     }
-    /** PlanCommand */
-    PlanCommand: {
+    /** PlanOrder */
+    PlanOrder: {
       /** Exit */
       exit: string
       /** Idempotency Key */
@@ -1068,7 +1068,7 @@ export interface components {
     SubmitOrder: {
       /** Idempotency Key */
       idempotency_key: string
-      plan: components['schemas']['PlanCommand']
+      plan: components['schemas']['PlanOrder']
       /** Price */
       price?: string | null
       /** Quantity */
