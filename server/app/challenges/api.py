@@ -129,6 +129,9 @@ async def resume(attempt_id: str, request: Request, db: DB, user: User):
 
 async def execute(attempt_id, body, operation, request, db, user, order_id=None):
     payload = body.model_dump(exclude={'idempotency_key'})
+    if operation == 'order':
+        # Preserve the payload used by saved command hashes and event evidence.
+        payload = payload['order']
     digest = request_hash(operation, attempt_id, payload, order_id)
     previous = await replay(db, user, body.idempotency_key, digest)
     if previous is not None:

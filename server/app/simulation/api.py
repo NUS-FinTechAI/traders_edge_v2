@@ -117,6 +117,9 @@ async def resume(session_id: str, request: Request, db: DB, user: User):
 
 async def execute(session_id, body, operation, db, user, order_id=None, request=None):
     payload = body.model_dump(exclude={'idempotency_key'})
+    if operation == 'order':
+        # Preserve the payload used by saved command hashes and the engine.
+        payload = payload['order']
     digest = hashlib.sha256(json.dumps({'session': session_id, 'operation': operation, 'order': order_id, 'payload': payload}, sort_keys=True).encode()).hexdigest()
     previous = await db.get(SimulationCommand, (user.id, body.idempotency_key))
     if previous:

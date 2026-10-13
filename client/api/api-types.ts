@@ -703,6 +703,17 @@ export interface components {
       order_id: string
       status: components['schemas']['OrderStatus']
     }
+    /** OrderInput */
+    OrderInput: {
+      plan: components['schemas']['OrderPlan']
+      /** Price */
+      price?: string | null
+      /** Quantity */
+      quantity: number
+      side: components['schemas']['OrderSide']
+      symbol: components['schemas']['OrderSymbol']
+      type: components['schemas']['OrderType']
+    }
     /** OrderPlan */
     OrderPlan: {
       /** Exit */
@@ -1009,7 +1020,7 @@ export interface components {
     SubmitOrder: {
       /** Idempotency Key */
       idempotency_key: string
-      order: components['schemas']['Order']
+      order: components['schemas']['OrderInput']
     }
     /** SubmitStep */
     SubmitStep: {
@@ -1037,7 +1048,7 @@ export interface components {
       expected_tick: number
       /** Idempotency Key */
       idempotency_key: string
-      order: components['schemas']['Order']
+      order: components['schemas']['OrderInput']
     }
     /** UserProfile */
     UserProfile: {

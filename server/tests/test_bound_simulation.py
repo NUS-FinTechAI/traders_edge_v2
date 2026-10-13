@@ -106,9 +106,9 @@ class BoundSimulationTests(unittest.TestCase):
     def test_plain_routes_enforce_bound_constraints_and_plan(self):
         self.ready()
         self.bind()
-        valid = {**order(type='limit', price=self.view['bound_policy']['unit_price_cap'], quantity=1)}
+        valid = {'order': order(type='limit', price=self.view['bound_policy']['unit_price_cap'], quantity=1)}
         for changes in ({'symbol': 'COVE'}, {'side': 'sell'}, {'type': 'market'}, {'quantity': 6}, {'price': '40.05'}, {'plan': {}}):
-            response = self.client.post(self.base + '/orders/submit', json={**valid, **changes, 'idempotency_key': self.key()})
+            response = self.client.post(self.base + '/orders/submit', json={**valid, 'order': {**valid['order'], **changes}, 'idempotency_key': self.key()})
             self.assertEqual(response.status_code, 422, response.text)
         self.assertEqual(self.client.post(self.base + '/advance', json={'steps': 3, 'idempotency_key': self.key()}).status_code, 422)
         self.assertEqual(self.client.post(self.base + '/debrief', json={'reflection': 'An ordinary reflection must not bypass the graded audit.', 'idempotency_key': self.key()}).status_code, 409)
@@ -170,7 +170,7 @@ class BoundSimulationTests(unittest.TestCase):
             with self.subTest(operation=operation):
                 stale = self.audit()
                 if operation == 'place':
-                    response = self.client.post(self.base + '/orders/submit', json={**order(type='limit', price='1.00', quantity=1), 'idempotency_key': self.key()})
+                    response = self.client.post(self.base + '/orders/submit', json={'order': order(type='limit', price='1.00', quantity=1), 'idempotency_key': self.key()})
                 else:
                     response = self.client.post(self.base + '/orders/order-1/cancel', json={'idempotency_key': self.key()})
                 self.assertEqual(response.status_code, 200, response.text)
@@ -238,7 +238,7 @@ class BoundSimulationTests(unittest.TestCase):
     def test_order_audit_retries_exact_set_and_preserves_pre_cancel_observation(self):
         self.ready()
         self.bind()
-        body = {**order(type='limit', price='1.00', quantity=5), 'idempotency_key': self.key()}
+        body = {'order': order(type='limit', price='1.00', quantity=5), 'idempotency_key': self.key()}
         self.assertEqual(self.client.post(self.base + '/orders/submit', json=body).status_code, 200)
         for _ in range(5):
             self.advance()
@@ -398,8 +398,8 @@ class BoundSimulationTests(unittest.TestCase):
         generated = engine.new_session(1, 'sideways', 30)
         self.assertEqual(state['prices'], generated['prices'])
         self.assertEqual(state['liquidity'], generated['liquidity'])
-        body = {**order(type='limit', price=self.view['bound_policy']['unit_price_cap'], quantity=5), 'idempotency_key': self.key()}
-        missing_plan = {k: v for k, v in body.items() if k != 'plan'}
+        body = {'order': order(type='limit', price=self.view['bound_policy']['unit_price_cap'], quantity=5), 'idempotency_key': self.key()}
+        missing_plan = {**body, 'order': {k: v for k, v in body['order'].items() if k != 'plan'}}
         self.assertEqual(self.client.post(self.base + '/orders/submit', json=missing_plan).status_code, 422)
         self.assertEqual(self.client.post(self.base + '/orders/submit', json=body).status_code, 200)
         view = self.advance(1)
@@ -573,7 +573,7 @@ class BoundSimulationTests(unittest.TestCase):
     def test_audit_issues_explain_observed_errors_and_replay_preserves_first_response(self):
         self.ready()
         self.bind()
-        body = {**order(type='limit', price='1.00', quantity=5), 'idempotency_key': self.key()}
+        body = {'order': order(type='limit', price='1.00', quantity=5), 'idempotency_key': self.key()}
         self.assertEqual(self.client.post(self.base + '/orders/submit', json=body).status_code, 200)
         for _ in range(5):
             self.advance()
@@ -677,7 +677,7 @@ class BoundSimulationTests(unittest.TestCase):
         self.ready()
         self.bind()
         self.change_session(lambda s: s['liquidity'].update(NORTH=[0] * 30))
-        body = {**order(type='limit', price=self.view['bound_policy']['unit_price_cap'], quantity=1), 'idempotency_key': self.key()}
+        body = {'order': order(type='limit', price=self.view['bound_policy']['unit_price_cap'], quantity=1), 'idempotency_key': self.key()}
         response = self.client.post(self.base + '/orders/submit', json=body)
         self.assertEqual(response.status_code, 200, response.text)
         for _ in range(5):

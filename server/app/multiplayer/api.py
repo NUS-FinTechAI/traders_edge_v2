@@ -263,6 +263,9 @@ async def settle_rating(db, lobby, result):
 
 async def execute(lobby_id, body, operation, request, db, user, order_id=None):
     payload = body.model_dump(exclude={'idempotency_key'})
+    if operation == 'order':
+        # Keep the observation tick in the historical command hash payload.
+        payload = {**payload['order'], 'expected_tick': payload['expected_tick']}
     request_hash = digest(operation, lobby_id, payload, order_id)
     previous = await replay(db, user, body.idempotency_key, request_hash)
     if previous is not None:

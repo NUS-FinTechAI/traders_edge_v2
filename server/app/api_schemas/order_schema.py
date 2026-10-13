@@ -54,8 +54,17 @@ class OrderAudit(Payload):
         return value
 
 
+class OrderInput(Payload):
+    symbol: OrderSymbol
+    side: OrderSide
+    type: OrderType
+    quantity: int = Field(ge=1, le=1000, strict=True)
+    price: str | None = Field(default=None, max_length=20)
+    plan: OrderPlan
+
+
 class SubmitOrder(BaseCommand):
-    order: Order
+    order: OrderInput
 
 
 class CancelOrder(BaseCommand):

@@ -195,8 +195,8 @@ class MultiplayerAPITests(unittest.TestCase):
 
     def test_planned_orders_ready_barrier_cancel_and_owned_actions(self):
         identifier = self.private()
-        body = {**order(type='limit', price='1', quantity=1), 'idempotency_key': 'multiplayer-order-key'}
-        self.assertEqual(self.post(0, f'/{identifier}/orders', {**body, 'plan': {}}).status_code, 422)
+        body = {'order': order(type='limit', price='1', quantity=1), 'idempotency_key': 'multiplayer-order-key'}
+        self.assertEqual(self.post(0, f'/{identifier}/orders', {**body, 'order': {**body['order'], 'plan': {}}}).status_code, 422)
         accepted = self.post(0, f'/{identifier}/orders', body)
         self.assertEqual(accepted.status_code, 200, accepted.text)
         self.assertEqual(self.post(0, f'/{identifier}/orders', body).json(), accepted.json())
@@ -277,7 +277,7 @@ class MultiplayerAPITests(unittest.TestCase):
     def test_actual_order_profit_winner_and_loser_complete_without_replaying_rating(self):
         with patch('app.multiplayer.api.secrets.randbits', return_value=1), patch('app.multiplayer.api.secrets.choice', return_value='rising'):
             identifier = self.public()
-        placed = self.post(0, f'/{identifier}/orders', {**order(quantity=10), 'idempotency_key': 'profit-order-key'})
+        placed = self.post(0, f'/{identifier}/orders', {'order': order(quantity=10), 'idempotency_key': 'profit-order-key'})
         self.assertEqual(placed.status_code, 200, placed.text)
         calls = []
         registered = self.app.state.multiplayer_result_handler
@@ -367,7 +367,7 @@ class MultiplayerAPITests(unittest.TestCase):
 
     def test_restart_and_retired_version_replay_before_gate(self):
         identifier = self.private()
-        body = {**order(quantity=1), 'idempotency_key': 'restart-multiplayer-key'}
+        body = {'order': order(quantity=1), 'idempotency_key': 'restart-multiplayer-key'}
         first = self.post(0, f'/{identifier}/orders', body)
         self.assertEqual(self.post(0, f'/{identifier}/orders', body, self.other).json(), first.json())
         async def retire():
@@ -378,7 +378,7 @@ class MultiplayerAPITests(unittest.TestCase):
         self.assertEqual(self.post(0, f'/{identifier}/orders', body, self.other).json(), first.json())
         self.assertEqual(self.get(0, f'/{identifier}').status_code, 409)
         self.assertEqual(self.post(0, f'/{identifier}/orders', {**body, 'idempotency_key': 'fresh-retired-match'}).status_code, 409)
-        self.assertEqual(self.post(0, f'/{identifier}/orders', {**body, 'quantity': 2}).status_code, 409)
+        self.assertEqual(self.post(0, f'/{identifier}/orders', {**body, 'order': {**body['order'], 'quantity': 2}}).status_code, 409)
 
     def test_unapproved_saved_match_blocks_production_but_replays_prior_commands(self):
         identifier = self.private()
@@ -398,7 +398,7 @@ class MultiplayerAPITests(unittest.TestCase):
         self.post(0, f'/{identifier}/ready', {'idempotency_key': 'stale-first-ready', 'expected_tick': 0})
         self.post(1, f'/{identifier}/ready', {'idempotency_key': 'stale-second-ready', 'expected_tick': 0})
         before = self.get(0, f'/{identifier}').json()
-        for path, payload in [('/orders', order(quantity=1)), ('/ready', {})]:
+        for path, payload in [('/orders', {'order': order(quantity=1)}), ('/ready', {})]:
             rejected = self.post(0, f'/{identifier}' + path, {**payload, 'idempotency_key': 'stale-action' + path.replace('/', '-'), 'expected_tick': 0})
             self.assertEqual(rejected.status_code, 409, rejected.text)
         self.assertEqual(self.get(0, f'/{identifier}').json(), before)
