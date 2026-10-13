@@ -1,0 +1,33 @@
+.error-panel {
+  border: 1px solid red;
+  background-color: #ffe6e6;
+  padding: 16px;
+  border-radius: 4px;
+  margin: 16px 0;
+}
+
+.error-message {
+  color: #a11919;
+  font-weight: bold;
+  margin: 0;
+}
+
+.route-error {
+  max-width: 72rem;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.error-panel button {
+  min-height: 44px;
+  min-width: 44px;
+  margin-top: 1rem;
+  padding: 0.65rem 1rem;
+  font: inherit;
+  cursor: pointer;
+}
+
+.error-panel button:focus-visible {
+  outline: 3px solid #a11919;
+  outline-offset: 3px;
+}

@@ -2,6 +2,7 @@ import useAuth from '../../../hooks/useAuth.ts'
 import { adventureError } from '../../../services/adventureService.ts'
 import { HttpError } from '../../../services/httpService.ts'
 import './ReadError.css'
+import ErrorPanel from '../../error-panel/ErrorPanel.tsx'
 
 export default function ReadError({
   error,
@@ -12,8 +13,7 @@ export default function ReadError({
 }) {
   const { refreshUser } = useAuth()
   return (
-    <div className="adventure-notice adventure-read-error" role="alert">
-      <p>{adventureError(error)}</p>
+    <ErrorPanel message={adventureError(error)}>
       {error instanceof HttpError && error.status === 401 ? (
         <button
           className="adventure-button"
@@ -30,6 +30,6 @@ export default function ReadError({
           Try again
         </button>
       )}
-    </div>
+    </ErrorPanel>
   )
 }
