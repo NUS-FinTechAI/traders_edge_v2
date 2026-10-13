@@ -1,6 +1,6 @@
 ﻿# Trader’s Edge
 
-A mobile-first financial decision-making academy with simulated game challenges.
+A financial decision-making academy with simulated game challenges.
 
 ## Run
 
