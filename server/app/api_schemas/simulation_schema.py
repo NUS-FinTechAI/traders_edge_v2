@@ -42,7 +42,7 @@ class DebriefSimulation(BaseCommand):
     reflection: str = Field(min_length=30, max_length=1500)
 
 
-class AuditSimulationOrder(Payload):
+class SimulationOrderAudit(Payload):
     order_id: str = Field(min_length=1, max_length=100, strict=True)
     status: Literal['open', 'partial', 'filled', 'cancelled', 'expired', 'rejected']
     filled_quantity: int = Field(ge=0, le=5, strict=True)
@@ -56,11 +56,11 @@ class AuditSimulationOrder(Payload):
         return value
 
 
-class AuditSimulation(Payload):
+class SimulationAudit(Payload):
     tick: int = Field(ge=0, strict=True)
     engine_version: int = Field(ge=1, strict=True)
     observation_token: str | None = Field(default=None, min_length=64, max_length=64, strict=True, pattern=r'^[0-9a-f]{64}$', exclude_if=lambda value: value is None)
-    orders: list[AuditSimulationOrder] = Field(max_length=2)
+    orders: list[SimulationOrderAudit] = Field(max_length=2)
     session_fees: str = Field(min_length=1, max_length=30, strict=True, pattern=r'^\d+(?:\.\d+)?$')
     price_limit_guarantees_fill: bool = Field(strict=True)
     no_order_reason: Literal['no_thesis_supplied', 'current_ask_above_cap'] | None
@@ -73,7 +73,7 @@ class AuditSimulation(Payload):
 
 
 class ReviewSimulation(BaseCommand):
-    audit: AuditSimulation
+    audit: SimulationAudit
 
 
 class SimulationQuote(BaseModel):
