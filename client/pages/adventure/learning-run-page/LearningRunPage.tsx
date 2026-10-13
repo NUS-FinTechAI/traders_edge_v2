@@ -6,6 +6,7 @@ import type { UserProfile } from '../../../services/authService.ts'
 import LearningTaskForm from '../../../components/adventure/learning/learning-task/LearningTaskForm.tsx'
 import LearningFeedback from '../../../components/adventure/learning/learning-feedback/LearningFeedback.tsx'
 import LearningResult from '../../../components/adventure/learning/learning-result/LearningResult.tsx'
+import LessonSimulation from '../../../components/adventure/learning/lesson-simulation/LessonSimulation.tsx'
 import {
   getLearningRun,
   LearningCommands,
@@ -206,6 +207,13 @@ function RunContent({
               : 'Continue'}
           </button>
         </>
+      ) : run.current_step?.type === 'simulation' ? (
+        <LessonSimulation
+          key={`${owner}:${run.id}`}
+          owner={owner}
+          runId={run.id}
+          prompt={run.current_step.prompt}
+        />
       ) : (
         run.current_step && (
           <LearningTaskForm

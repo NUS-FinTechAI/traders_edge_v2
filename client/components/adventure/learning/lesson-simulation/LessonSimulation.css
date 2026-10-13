@@ -1,0 +1,16 @@
+.lesson-simulation {
+  margin-top: 1.5rem;
+  overflow-wrap: anywhere;
+}
+.lesson-simulation button,
+.lesson-simulation a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0.65rem 1rem;
+}
+.lesson-simulation button:focus-visible,
+.lesson-simulation a:focus-visible {
+  outline: 3px solid #e5c87e;
+  outline-offset: 3px;
+}
