@@ -1,6 +1,7 @@
 import { useCallback, useState, useEffect, type ReactNode } from 'react'
 import { ToastContext } from '../../../contexts/ToastContext.ts'
 import './Toast.css'
+import WarningLogo from '../../icons/error-logo/WarningLogo'
 
 export default function ToastProvider({ children }: { children: ReactNode }) {
   const TOAST_DURATION = 5000
@@ -25,6 +26,7 @@ export default function ToastProvider({ children }: { children: ReactNode }) {
       <div className="toast-region" aria-live="assertive" aria-atomic="true">
         {toast && (
           <div className="error-toast" key={toast.id}>
+            <WarningLogo />
             <p className="error-message">{toast.message}</p>
             <button
               className="dismiss-button"

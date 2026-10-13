@@ -6,12 +6,14 @@
   gap: 2rem;
 }
 
-.error-logo {
-  background-color: #fceded;
+.error-panel > svg {
+  color: #e2bfbf;
+  width: 80px;
+  height: 80px;
 }
 
 .error-message {
-  color: #ffeded;
+  color: white;
   font-weight: bold;
   font-size: 1.2rem;
 }
