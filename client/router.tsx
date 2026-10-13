@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom'
+import { createBrowserRouter, Navigate } from 'react-router-dom'
 import HomePage from './pages/home-page/HomePage.tsx'
 import LoginPage from './pages/login-page/LoginPage.tsx'
 import AppLayout from './layouts/AppLayout.tsx'
@@ -28,6 +28,10 @@ export const router = createBrowserRouter([
         loader: authGuard.loader,
         ErrorBoundary: AuthGuardError,
         Component: LearningRunPage,
+      },
+      {
+        path: '*',
+        element: <Navigate to="/" replace />,
       },
     ],
   },
