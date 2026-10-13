@@ -2,7 +2,7 @@ import {
   NormalStar,
   SpecialStar,
 } from '../../../icons/mission-stars/MissionStars'
-import { LockIcon } from '../../../icons/lock-icon/LockIcon'
+import { LockIcon } from '../../../icons/LockIcon'
 import type { ChapterRouteNode } from '../chapter-map/ChapterMap'
 import './ChapterNode.css'
 

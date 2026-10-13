@@ -1,6 +1,6 @@
 import { useToast } from '../../contexts/ToastContext.ts'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { AppLogo } from '../icons/app-logo/AppLogo.tsx'
+import { AppLogo } from '../icons/AppLogo.tsx'
 import useAuth from '../../hooks/useAuth.ts'
 import './navbar.css'
 

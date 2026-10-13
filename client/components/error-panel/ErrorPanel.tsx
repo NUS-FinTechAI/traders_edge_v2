@@ -1,5 +1,5 @@
 import './ErrorPanel.css'
-import ErrorLogo from '../icons/error-logo/ErrorLogo'
+import ErrorLogo from '../icons/ErrorLogo'
 
 export default function ErrorPanel() {
   return (

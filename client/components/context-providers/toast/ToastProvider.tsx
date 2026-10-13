@@ -1,7 +1,7 @@
 import { useCallback, useState, useEffect, type ReactNode } from 'react'
 import { ToastContext } from '../../../contexts/ToastContext.ts'
 import './Toast.css'
-import WarningLogo from '../../icons/error-logo/WarningLogo'
+import WarningLogo from '../../icons/WarningLogo.tsx'
 
 export default function ToastProvider({ children }: { children: ReactNode }) {
   const TOAST_DURATION = 5000
