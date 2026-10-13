@@ -708,7 +708,7 @@ export interface components {
       id: string
       plan: components['schemas']['OrderPlan']
       /** Price */
-      price: string | null
+      price?: string | null
       /** Quantity */
       quantity: number
       /** Remaining */
@@ -726,8 +726,11 @@ export interface components {
         'open' | 'partial' | 'filled' | 'cancelled' | 'expired' | 'rejected'
       /** Submitted Tick */
       submitted_tick: number
-      /** Symbol */
-      symbol: string
+      /**
+       * Symbol
+       * @enum {string}
+       */
+      symbol: 'NORTH' | 'HARBOR' | 'PLAIN' | 'COVE'
       /** Triggered */
       triggered: boolean
       /**
@@ -753,19 +756,6 @@ export interface components {
     }
     /** OrderPlan */
     OrderPlan: {
-      /** Exit */
-      exit: string
-      /** Max Loss */
-      max_loss: string
-      /** Reason */
-      reason: string
-      /** Risk */
-      risk: string
-      /** Size Reason */
-      size_reason: string
-    }
-    /** PlanOrder */
-    PlanOrder: {
       /** Exit */
       exit: string
       /** Max Loss */
@@ -1066,26 +1056,7 @@ export interface components {
     SubmitOrder: {
       /** Idempotency Key */
       idempotency_key: string
-      plan: components['schemas']['PlanOrder']
-      /** Price */
-      price?: string | null
-      /** Quantity */
-      quantity: number
-      /**
-       * Side
-       * @enum {string}
-       */
-      side: 'buy' | 'sell'
-      /**
-       * Symbol
-       * @enum {string}
-       */
-      symbol: 'NORTH' | 'HARBOR' | 'PLAIN' | 'COVE'
-      /**
-       * Type
-       * @enum {string}
-       */
-      type: 'market' | 'limit' | 'stop'
+      order: components['schemas']['Order']
     }
     /** SubmitStep */
     SubmitStep: {
@@ -1113,26 +1084,7 @@ export interface components {
       expected_tick: number
       /** Idempotency Key */
       idempotency_key: string
-      plan: components['schemas']['PlanOrder']
-      /** Price */
-      price?: string | null
-      /** Quantity */
-      quantity: number
-      /**
-       * Side
-       * @enum {string}
-       */
-      side: 'buy' | 'sell'
-      /**
-       * Symbol
-       * @enum {string}
-       */
-      symbol: 'NORTH' | 'HARBOR' | 'PLAIN' | 'COVE'
-      /**
-       * Type
-       * @enum {string}
-       */
-      type: 'market' | 'limit' | 'stop'
+      order: components['schemas']['Order']
     }
     /** UserProfile */
     UserProfile: {

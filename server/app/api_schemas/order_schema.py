@@ -17,12 +17,12 @@ class OrderPlan(Payload):
 
 class Order(Payload):
     id: str
-    symbol: str
+    symbol: Literal['NORTH', 'HARBOR', 'PLAIN', 'COVE']
     side: Literal['buy', 'sell']
     type: Literal['market', 'limit', 'stop']
-    quantity: int
-    remaining: int
-    price: str | None
+    quantity: int = Field(ge=1, le=1000, strict=True)
+    remaining: int = Field(ge=0, le=1000, strict=True)
+    price: str | None = Field(default=None, max_length=20)
     plan: OrderPlan
     status: OrderStatus
     submitted_tick: int
@@ -52,12 +52,7 @@ class OrderAudit(Payload):
 
 
 class SubmitOrder(BaseCommand):
-    symbol: Literal['NORTH', 'HARBOR', 'PLAIN', 'COVE']
-    side: Literal['buy', 'sell']
-    type: Literal['market', 'limit', 'stop']
-    quantity: int = Field(ge=1, le=1000, strict=True)
-    price: str | None = Field(default=None, max_length=20)
-    plan: OrderPlan
+    order: Order
 
 
 class CancelOrder(BaseCommand):
