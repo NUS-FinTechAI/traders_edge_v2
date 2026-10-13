@@ -2,25 +2,19 @@ from copy import deepcopy
 import hashlib
 import json
 import secrets
-from typing import Literal
-
 from fastapi import APIRouter, HTTPException, Request
-from pydantic import Field
 from sqlalchemy import func, select
 
 from app.db import now, uid
 from app.simulation import engine
-from app.simulation.api import Advance, Command, DB, Debrief, Order, User, require_access
+from app.simulation.api import DB, User, require_access
 from app.challenges import core
 from app.challenges.models import ChallengeAttempt, ChallengeCommand
 
+from app.api_schemas.challenge_schema import CreateChallenge, CancelChallengeOrder, AbandonChallenge
+from app.api_schemas.simulation_schema import OrderSimulation, AdvanceSimulation, DebriefSimulation
+
 router = APIRouter(prefix='/api/challenges', tags=['challenges'])
-
-
-class Create(Command):
-    mode: Literal['practice', 'daily', 'chapter_entry', 'chapter_exit'] = 'practice'
-    module_id: str | None = Field(default=None, min_length=1, max_length=120)
-    opponent_count: int = Field(default=1, ge=1, le=3, strict=True)
 
 
 def response(attempt):
@@ -91,7 +85,7 @@ async def save_command(db, user, key, digest, attempt):
 
 
 @router.post('', status_code=201, operation_id='startChallenge')
-async def start(body: Create, request: Request, db: DB, user: User):
+async def start(body: CreateChallenge, request: Request, db: DB, user: User):
     digest = request_hash('start', None, body.model_dump(exclude={'idempotency_key'}))
     previous = await replay(db, user, body.idempotency_key, digest)
     if previous is not None:
@@ -189,25 +183,25 @@ async def execute(attempt_id, body, operation, request, db, user, order_id=None)
 
 
 @router.post('/{attempt_id}/orders', operation_id='submitChallengeOrder')
-async def order(attempt_id: str, body: Order, request: Request, db: DB, user: User):
+async def order(attempt_id: str, body: OrderSimulation, request: Request, db: DB, user: User):
     return await execute(attempt_id, body, 'order', request, db, user)
 
 
 @router.post('/{attempt_id}/orders/{order_id}/cancel', operation_id='cancelChallengeOrder')
-async def cancel(attempt_id: str, order_id: str, body: Command, request: Request, db: DB, user: User):
+async def cancel(attempt_id: str, order_id: str, body: CancelChallengeOrder, request: Request, db: DB, user: User):
     return await execute(attempt_id, body, 'cancel', request, db, user, order_id)
 
 
 @router.post('/{attempt_id}/advance', operation_id='advanceChallenge')
-async def advance(attempt_id: str, body: Advance, request: Request, db: DB, user: User):
+async def advance(attempt_id: str, body: AdvanceSimulation, request: Request, db: DB, user: User):
     return await execute(attempt_id, body, 'advance', request, db, user)
 
 
 @router.post('/{attempt_id}/complete', operation_id='completeChallenge')
-async def complete(attempt_id: str, body: Debrief, request: Request, db: DB, user: User):
+async def complete(attempt_id: str, body: DebriefSimulation, request: Request, db: DB, user: User):
     return await execute(attempt_id, body, 'complete', request, db, user)
 
 
 @router.post('/{attempt_id}/abandon', operation_id='abandonChallenge')
-async def abandon(attempt_id: str, body: Command, request: Request, db: DB, user: User):
+async def abandon(attempt_id: str, body: AbandonChallenge, request: Request, db: DB, user: User):
     return await execute(attempt_id, body, 'abandon', request, db, user)

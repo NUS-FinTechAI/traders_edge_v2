@@ -1514,7 +1514,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__challenges__api__Create']
+        'application/json': components['schemas']['CreateChallenge']
       }
     }
     responses: {
@@ -1580,7 +1580,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__api_schemas__shared_schema__Command']
+        'application/json': components['schemas']['AbandonChallenge']
       }
     }
     responses: {
@@ -1615,7 +1615,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['Advance']
+        'application/json': components['schemas']['AdvanceSimulation']
       }
     }
     responses: {
@@ -1650,7 +1650,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['Debrief']
+        'application/json': components['schemas']['DebriefSimulation']
       }
     }
     responses: {
@@ -1685,7 +1685,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['Order']
+        'application/json': components['schemas']['OrderSimulation']
       }
     }
     responses: {
@@ -1721,7 +1721,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__api_schemas__shared_schema__Command']
+        'application/json': components['schemas']['CancelChallengeOrder']
       }
     }
     responses: {
@@ -1971,7 +1971,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__api_schemas__shared_schema__Command']
+        'application/json': components['schemas']['BindLearningSimulation']
       }
     }
     responses: {
@@ -2006,7 +2006,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['Review']
+        'application/json': components['schemas']['ReviewSimulation']
       }
     }
     responses: {
@@ -2259,7 +2259,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__api_schemas__economy_schema__Command']
+        'application/json': components['schemas']['EconomyCommand']
       }
     }
     responses: {
@@ -2292,7 +2292,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__api_schemas__economy_schema__Command']
+        'application/json': components['schemas']['EconomyCommand']
       }
     }
     responses: {
@@ -2451,7 +2451,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['Consent']
+        'application/json': components['schemas']['ConsentResearch']
       }
     }
     responses: {
@@ -2518,7 +2518,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['Metadata']
+        'application/json': components['schemas']['ResearchMetadata']
       }
     }
     responses: {
@@ -2551,7 +2551,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__api_schemas__shared_schema__Command']
+        'application/json': components['schemas']['WithdrawResearchConsent']
       }
     }
     responses: {
@@ -2758,7 +2758,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__api_schemas__shared_schema__Command']
+        'application/json': components['schemas']['StartAssessmentRun']
       }
     }
     responses: {
@@ -2793,7 +2793,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__api_schemas__shared_schema__Command']
+        'application/json': components['schemas']['StartDiagnosticRun']
       }
     }
     responses: {
@@ -2890,7 +2890,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__api_schemas__shared_schema__Command']
+        'application/json': components['schemas']['AbandonMultiplayer']
       }
     }
     responses: {
@@ -2925,7 +2925,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['Debrief']
+        'application/json': components['schemas']['DebriefSimulation']
       }
     }
     responses: {
@@ -3066,7 +3066,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__api_schemas__shared_schema__Command']
+        'application/json': components['schemas']['StartMultiplayer']
       }
     }
     responses: {
@@ -3099,7 +3099,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__multiplayer__api__Join']
+        'application/json': components['schemas']['JoinMultiplayer']
       }
     }
     responses: {
@@ -3152,7 +3152,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__api_schemas__shared_schema__Command']
+        'application/json': components['schemas']['CreateMultiplayerLobby']
       }
     }
     responses: {
@@ -3205,7 +3205,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__api_schemas__shared_schema__Command']
+        'application/json': components['schemas']['JoinMultiplayerMatchMaking']
       }
     }
     responses: {
@@ -3258,7 +3258,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['Start']
+        'application/json': components['schemas']['StartQuizAttempt']
       }
     }
     responses: {
@@ -3324,7 +3324,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['Response']
+        'application/json': components['schemas']['QuizResponse']
       }
     }
     responses: {
@@ -3417,7 +3417,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['CreateRoom']
+        'application/json': components['schemas']['CreateQuiz']
       }
     }
     responses: {
@@ -3483,7 +3483,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__api_schemas__shared_schema__Command']
+        'application/json': components['schemas']['CloseQuizRoom']
       }
     }
     responses: {
@@ -3549,7 +3549,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__api_schemas__shared_schema__Command']
+        'application/json': components['schemas']['StartQuizRoom']
       }
     }
     responses: {
@@ -3582,7 +3582,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__api_schemas__quiz_schema__Join']
+        'application/json': components['schemas']['JoinQuiz']
       }
     }
     responses: {
@@ -3668,7 +3668,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__api_schemas__shared_schema__Command']
+        'application/json': components['schemas']['StartReviewRun']
       }
     }
     responses: {
@@ -3794,7 +3794,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__api_schemas__simulation_schema__Create']
+        'application/json': components['schemas']['CreateSimulation']
       }
     }
     responses: {
@@ -3860,7 +3860,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['Advance']
+        'application/json': components['schemas']['AdvanceSimulation']
       }
     }
     responses: {
@@ -3895,7 +3895,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['Debrief']
+        'application/json': components['schemas']['DebriefSimulation']
       }
     }
     responses: {
@@ -3930,7 +3930,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['Order']
+        'application/json': components['schemas']['OrderSimulation']
       }
     }
     responses: {
@@ -3966,7 +3966,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__api_schemas__shared_schema__Command']
+        'application/json': components['schemas']['CancelSimulation']
       }
     }
     responses: {

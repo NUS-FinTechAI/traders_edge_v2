@@ -12,8 +12,7 @@ from app.learning_runs import public_task
 from app.research_models import ResearchCommand, ResearchParticipant
 from app.simulation import engine
 
-from app.api_schemas.research_schema import Metadata, Consent, ExportKind
-from app.api_schemas.shared_schema import Command
+from app.api_schemas.research_schema import ResearchMetadata, ConsentResearch, WithdrawResearchConsent, ExportKind
 
 router = APIRouter(prefix='/api/me/research', tags=['owned research evidence'])
 
@@ -95,17 +94,17 @@ async def read_metadata(request: Request, db: DB, user: User):
 
 
 @router.post('/metadata', operation_id='setResearchMetadata')
-async def set_metadata(body: Metadata, request: Request, db: DB, user: User):
+async def set_metadata(body: ResearchMetadata, request: Request, db: DB, user: User):
     return await mutation(db, user, body, 'metadata', request.app.state.settings)
 
 
 @router.post('/consents', operation_id='submitResearchConsent')
-async def consent(body: Consent, request: Request, db: DB, user: User):
+async def consent(body: ConsentResearch, request: Request, db: DB, user: User):
     return await mutation(db, user, body, 'consent', request.app.state.settings)
 
 
 @router.post('/withdrawals', operation_id='withdrawResearchConsent')
-async def withdraw(body: Command, request: Request, db: DB, user: User):
+async def withdraw(body: WithdrawResearchConsent, request: Request, db: DB, user: User):
     return await mutation(db, user, body, 'withdrawal', request.app.state.settings)
 
 

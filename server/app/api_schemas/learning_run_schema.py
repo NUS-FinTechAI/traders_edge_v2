@@ -2,7 +2,7 @@ from typing import Annotated, Literal
 
 from pydantic import BaseModel, Field, JsonValue
 
-from app.api_schemas.shared_schema import Command, Payload
+from app.api_schemas.shared_schema import BaseCommand, Payload
 
 from app.api_schemas.auth_schema import UserProfile
 from app.api_schemas.simulation_schema import LessonSimulationPolicy, SimulationAuditObservation
@@ -103,7 +103,7 @@ class LearningRunResponse(BaseModel):
     review_id: str | None = None
     simulation: LearningSimulationLink | None = None
 
-class StartLevel(Command):
+class StartLevel(BaseCommand):
     purpose: Literal['practice', 'bonus'] = 'practice'
 
 
@@ -114,5 +114,17 @@ class StepAnswer(Payload):
     confidence: int | None = Field(default=None, ge=0, le=100, strict=True)
 
 
-class SubmitStep(Command):
+class SubmitStep(BaseCommand):
     answer: StepAnswer
+
+
+class StartDiagnosticRun(BaseCommand):
+    pass
+
+
+class StartAssessmentRun(BaseCommand):
+    pass
+
+
+class StartReviewRun(BaseCommand):
+    pass

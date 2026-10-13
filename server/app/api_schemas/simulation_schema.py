@@ -1,15 +1,15 @@
-from app.api_schemas.shared_schema import Payload, Command
+from app.api_schemas.shared_schema import Payload, BaseCommand
 from app.simulation import engine
 from pydantic import Field, field_validator
 from typing import Literal
 from pydantic import BaseModel
 
 
-class Create(Command):
+class CreateSimulation(BaseCommand):
     mode: Literal['guided', 'endless'] = 'guided'
 
 
-class Plan(Payload):
+class PlanSimulation(BaseCommand):
     reason: str = Field(min_length=12, max_length=1500)
     risk: str = Field(min_length=12, max_length=1500)
     exit: str = Field(min_length=12, max_length=1500)
@@ -17,23 +17,32 @@ class Plan(Payload):
     max_loss: str = Field(min_length=1, max_length=20)
 
 
-class Order(Command):
+class OrderSimulation(BaseCommand):
     symbol: Literal['NORTH', 'HARBOR', 'PLAIN', 'COVE']
     side: Literal['buy', 'sell']
     type: Literal['market', 'limit', 'stop']
     quantity: int = Field(ge=1, le=1000, strict=True)
     price: str | None = Field(default=None, max_length=20)
-    plan: Plan
+    plan: PlanSimulation
 
 
-class Advance(Command):
+class AdvanceSimulation(BaseCommand):
     steps: int = Field(default=1, ge=1, le=5, strict=True)
 
 
-class Debrief(Command):
+class CancelSimulation(BaseCommand):
+    pass
+
+
+class BindLearningSimulation(BaseCommand):
+    pass
+
+
+class DebriefSimulation(BaseCommand):
     reflection: str = Field(min_length=30, max_length=1500)
 
-class AuditOrder(Payload):
+
+class AuditSimulationOrder(Payload):
     order_id: str = Field(min_length=1, max_length=100, strict=True)
     status: Literal['open', 'partial', 'filled', 'cancelled', 'expired', 'rejected']
     filled_quantity: int = Field(ge=0, le=5, strict=True)
@@ -47,11 +56,11 @@ class AuditOrder(Payload):
         return value
 
 
-class Audit(Payload):
+class AuditSimulation(Payload):
     tick: int = Field(ge=0, strict=True)
     engine_version: int = Field(ge=1, strict=True)
     observation_token: str | None = Field(default=None, min_length=64, max_length=64, strict=True, pattern=r'^[0-9a-f]{64}$', exclude_if=lambda value: value is None)
-    orders: list[AuditOrder] = Field(max_length=2)
+    orders: list[AuditSimulationOrder] = Field(max_length=2)
     session_fees: str = Field(min_length=1, max_length=30, strict=True, pattern=r'^\d+(?:\.\d+)?$')
     price_limit_guarantees_fill: bool = Field(strict=True)
     no_order_reason: Literal['no_thesis_supplied', 'current_ask_above_cap'] | None
@@ -63,8 +72,8 @@ class Audit(Payload):
         return value
 
 
-class Review(Command):
-    audit: Audit
+class ReviewSimulation(BaseCommand):
+    audit: AuditSimulation
 
 
 class SimulationQuote(BaseModel):

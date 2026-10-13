@@ -1,0 +1,31 @@
+
+from app.api_schemas.shared_schema import BaseCommand
+from app.api_schemas.simulation_schema import SimulationOrder
+from pydantic import Field
+
+
+class TickCommand(BaseCommand):
+    expected_tick: int = Field(ge=0, le=29, strict=True)
+
+
+class TickOrder(SimulationOrder):
+    expected_tick: int = Field(ge=0, le=29, strict=True)
+
+
+class JoinMultiplayer(BaseCommand):
+    code: str = Field(min_length=16, max_length=16, pattern=r'^[A-F0-9]{16}$')
+
+
+class AbandonMultiplayer(BaseCommand):
+    pass
+
+
+class JoinMultiplayerMatchMaking(BaseCommand):
+    pass
+
+
+class CreateMultiplayerLobby(BaseCommand):
+    pass
+
+class StartMultiplayer(BaseCommand):
+    pass
