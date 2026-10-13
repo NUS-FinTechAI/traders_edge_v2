@@ -1,4 +1,4 @@
-name: Server Checks
+name: Server
 
 on:
   push:

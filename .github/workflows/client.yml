@@ -1,4 +1,4 @@
-name: Client Checks
+name: Client
 
 on:
   push:
