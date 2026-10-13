@@ -160,6 +160,10 @@ This is not a full v1 scenario-engine port. Modules 1–4 require no execution; 
 
 Core run start/step mutations return this envelope (bound simulation creation returns a public session; its review returns the run):
 
+These responses now declare `LearningRunResponse` in `app/api_schemas/learning_run_schema.py`; bound simulation creation/resume declare `BoundSimulationResponse` in `app/api_schemas/simulation_schema.py`. The generated client contracts cover every endpoint currently used by `client/services/`. Other unused API endpoints still have unspecified responses, listed in `client/api/api-coverage.json`.
+
+Response serialization excludes unset fields to preserve omitted review/simulation extensions and historical profile/audit fields in saved receipts. Historical simulation tokens and pre-economy profile fields are optional in response schemas; fresh audit requests still require the current token through the existing server gate. Shared commands contain only the idempotency key; the economy schema adds its own policy version, preserving the prior command hash payloads. Frontend view types derive from generated schemas, with runtime consistency checks retained for received JSON.
+
 ```json
 {
   "id": "<server-issued-run-id>",

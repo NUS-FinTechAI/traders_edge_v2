@@ -2,7 +2,7 @@ import httpService, { HttpError, type HttpService } from './httpService.ts'
 import { ApiClient } from '../api/apiClient.ts'
 import { apiEndpoints } from '../api/api-endpoints.ts'
 import type { components } from '../api/api-types.ts'
-import { waitForRequest } from './requestCancellation.ts'
+import { record } from '../utilities/typeUtils.ts'
 
 export type PublicConfig = components['schemas']['PublicConfig']
 
@@ -10,8 +10,27 @@ export interface ConfigRequestOptions {
   signal?: AbortSignal
 }
 
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null && !Array.isArray(value)
+function waitForRequest<T>(
+  request: Promise<T>,
+  signal?: AbortSignal,
+): Promise<T> {
+  if (!signal) return request
+  if (signal.aborted)
+    return Promise.reject(new HttpError('Request cancelled', 'aborted'))
+  return new Promise<T>((resolve, reject) => {
+    const abort = () => reject(new HttpError('Request cancelled', 'aborted'))
+    signal.addEventListener('abort', abort, { once: true })
+    void request.then(
+      (value) => {
+        signal.removeEventListener('abort', abort)
+        resolve(value)
+      },
+      (error: unknown) => {
+        signal.removeEventListener('abort', abort)
+        reject(error)
+      },
+    )
+  })
 }
 
 export class ConfigService {
@@ -43,19 +62,18 @@ export class ConfigService {
   }
 
   private async fetchConfig(): Promise<PublicConfig> {
-    const config = await this.api.call(apiEndpoints.getConfig)
-    if (isRecord(config) && isRecord(config.auth)) {
-      const { mode, firebase_project_id } = config.auth
-      if (mode === 'guest' && firebase_project_id === null) {
-        return this.cacheConfig({ auth: { mode, firebase_project_id } })
-      }
-      if (
-        mode === 'firebase' &&
-        typeof firebase_project_id === 'string' &&
-        firebase_project_id.trim().length > 0
-      ) {
-        return this.cacheConfig({ auth: { mode, firebase_project_id } })
-      }
+    const config = record(await this.api.call(apiEndpoints.getConfig))
+    const auth = record(config.auth)
+    const { mode, firebase_project_id } = auth
+    if (mode === 'guest' && firebase_project_id === null) {
+      return this.cacheConfig({ auth: { mode, firebase_project_id } })
+    }
+    if (
+      mode === 'firebase' &&
+      typeof firebase_project_id === 'string' &&
+      firebase_project_id.trim().length > 0
+    ) {
+      return this.cacheConfig({ auth: { mode, firebase_project_id } })
     }
     throw new HttpError(
       'The server returned invalid public configuration',

@@ -1580,7 +1580,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['Command']
+        'application/json': components['schemas']['app__api_schemas__shared_schema__Command']
       }
     }
     responses: {
@@ -1721,7 +1721,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['Command']
+        'application/json': components['schemas']['app__api_schemas__shared_schema__Command']
       }
     }
     responses: {
@@ -1971,7 +1971,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['Command']
+        'application/json': components['schemas']['app__api_schemas__shared_schema__Command']
       }
     }
     responses: {
@@ -2259,7 +2259,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['Command']
+        'application/json': components['schemas']['app__api_schemas__economy_schema__Command']
       }
     }
     responses: {
@@ -2292,7 +2292,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['Command']
+        'application/json': components['schemas']['app__api_schemas__economy_schema__Command']
       }
     }
     responses: {
@@ -2551,7 +2551,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['Command']
+        'application/json': components['schemas']['app__api_schemas__shared_schema__Command']
       }
     }
     responses: {
@@ -2758,7 +2758,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['Command']
+        'application/json': components['schemas']['app__api_schemas__shared_schema__Command']
       }
     }
     responses: {
@@ -2793,7 +2793,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['Command']
+        'application/json': components['schemas']['app__api_schemas__shared_schema__Command']
       }
     }
     responses: {
@@ -2890,7 +2890,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['Command']
+        'application/json': components['schemas']['app__api_schemas__shared_schema__Command']
       }
     }
     responses: {
@@ -3066,7 +3066,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['Command']
+        'application/json': components['schemas']['app__api_schemas__shared_schema__Command']
       }
     }
     responses: {
@@ -3152,7 +3152,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['Command']
+        'application/json': components['schemas']['app__api_schemas__shared_schema__Command']
       }
     }
     responses: {
@@ -3205,7 +3205,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['Command']
+        'application/json': components['schemas']['app__api_schemas__shared_schema__Command']
       }
     }
     responses: {
@@ -3483,7 +3483,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['Command']
+        'application/json': components['schemas']['app__api_schemas__shared_schema__Command']
       }
     }
     responses: {
@@ -3549,7 +3549,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['Command']
+        'application/json': components['schemas']['app__api_schemas__shared_schema__Command']
       }
     }
     responses: {
@@ -3668,7 +3668,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['Command']
+        'application/json': components['schemas']['app__api_schemas__shared_schema__Command']
       }
     }
     responses: {
@@ -3966,7 +3966,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['Command']
+        'application/json': components['schemas']['app__api_schemas__shared_schema__Command']
       }
     }
     responses: {

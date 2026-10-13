@@ -201,4 +201,4 @@ class SimulationResponse(BaseModel):
 class BoundSimulationResponse(SimulationResponse):
     bound_policy: BoundSimulationPolicy
     audited_observation: SimulationAuditObservation | None
-    observation_token: str
+    observation_token: str | None = None

@@ -18,11 +18,6 @@ export interface components {
       /** Idempotency Key */
       idempotency_key: string
       /**
-       * Policy Version
-       * @default 1
-       */
-      policy_version?: '1' | null
-      /**
        * Steps
        * @default 1
        */
@@ -75,17 +70,28 @@ export interface components {
       /** Question Id */
       question_id: string
     }
+    /** Command */
+    app__api_schemas__economy_schema__Command: {
+      /** Idempotency Key */
+      idempotency_key: string
+      /**
+       * Policy Version
+       * @default 1
+       * @constant
+       */
+      policy_version?: '1'
+    }
     /** Join */
     app__api_schemas__quiz_schema__Join: {
       /** Idempotency Key */
       idempotency_key: string
       /** Join Code */
       join_code: string
-      /**
-       * Policy Version
-       * @default 1
-       */
-      policy_version?: '1' | null
+    }
+    /** Command */
+    app__api_schemas__shared_schema__Command: {
+      /** Idempotency Key */
+      idempotency_key: string
     }
     /** Create */
     app__api_schemas__simulation_schema__Create: {
@@ -97,11 +103,6 @@ export interface components {
        * @enum {string}
        */
       mode?: 'guided' | 'endless'
-      /**
-       * Policy Version
-       * @default 1
-       */
-      policy_version?: '1' | null
     }
     /** Create */
     app__challenges__api__Create: {
@@ -120,11 +121,6 @@ export interface components {
        * @default 1
        */
       opponent_count?: number
-      /**
-       * Policy Version
-       * @default 1
-       */
-      policy_version?: '1' | null
     }
     /** Join */
     app__multiplayer__api__Join: {
@@ -132,11 +128,6 @@ export interface components {
       code: string
       /** Idempotency Key */
       idempotency_key: string
-      /**
-       * Policy Version
-       * @default 1
-       */
-      policy_version?: '1' | null
     }
     /** Audit */
     Audit: {
@@ -270,7 +261,7 @@ export interface components {
        */
       mode: 'guided' | 'endless'
       /** Observation Token */
-      observation_token: string
+      observation_token?: string | null
       /** Orders */
       orders: components['schemas']['SimulationOrder'][]
       /** Positions */
@@ -328,16 +319,6 @@ export interface components {
        */
       type: 'classification'
     }
-    /** Command */
-    Command: {
-      /** Idempotency Key */
-      idempotency_key: string
-      /**
-       * Policy Version
-       * @default 1
-       */
-      policy_version?: '1' | null
-    }
     /** Consent */
     Consent: {
       /** Accepted */
@@ -358,11 +339,6 @@ export interface components {
       attempt_limit?: number
       /** Idempotency Key */
       idempotency_key: string
-      /**
-       * Policy Version
-       * @default 1
-       */
-      policy_version?: '1' | null
       /** Question Ids */
       question_ids: string[]
       /** Title */
@@ -372,11 +348,6 @@ export interface components {
     Debrief: {
       /** Idempotency Key */
       idempotency_key: string
-      /**
-       * Policy Version
-       * @default 1
-       */
-      policy_version?: '1' | null
       /** Reflection */
       reflection: string
     }
@@ -699,11 +670,6 @@ export interface components {
       /** Idempotency Key */
       idempotency_key: string
       /**
-       * Policy Version
-       * @default 1
-       */
-      policy_version?: '1' | null
-      /**
        * Prior Knowledge
        * @enum {string}
        */
@@ -736,11 +702,6 @@ export interface components {
       /** Idempotency Key */
       idempotency_key: string
       plan: components['schemas']['Plan']
-      /**
-       * Policy Version
-       * @default 1
-       */
-      policy_version?: '1' | null
       /** Price */
       price?: string | null
       /** Quantity */
@@ -832,30 +793,21 @@ export interface components {
       /**
        * Policy Version
        * @default 1
+       * @constant
        */
-      policy_version?: '1' | null
+      policy_version?: '1'
     }
     /** Response */
     Response: {
       answer: components['schemas']['Answer']
       /** Idempotency Key */
       idempotency_key: string
-      /**
-       * Policy Version
-       * @default 1
-       */
-      policy_version?: '1' | null
     }
     /** Review */
     Review: {
       audit: components['schemas']['Audit']
       /** Idempotency Key */
       idempotency_key: string
-      /**
-       * Policy Version
-       * @default 1
-       */
-      policy_version?: '1' | null
     }
     /** SimulationAuditIssue */
     SimulationAuditIssue: {
@@ -1044,11 +996,6 @@ export interface components {
       idempotency_key: string
       /** Module Id */
       module_id?: string | null
-      /**
-       * Policy Version
-       * @default 1
-       */
-      policy_version?: '1' | null
       /** Room Id */
       room_id?: string | null
     }
@@ -1056,11 +1003,6 @@ export interface components {
     StartLevel: {
       /** Idempotency Key */
       idempotency_key: string
-      /**
-       * Policy Version
-       * @default 1
-       */
-      policy_version?: '1' | null
       /**
        * Purpose
        * @default practice
@@ -1095,11 +1037,6 @@ export interface components {
       answer: components['schemas']['StepAnswer']
       /** Idempotency Key */
       idempotency_key: string
-      /**
-       * Policy Version
-       * @default 1
-       */
-      policy_version?: '1' | null
     }
     /** TaskEntry */
     TaskEntry: {
@@ -1114,11 +1051,6 @@ export interface components {
       expected_tick: number
       /** Idempotency Key */
       idempotency_key: string
-      /**
-       * Policy Version
-       * @default 1
-       */
-      policy_version?: '1' | null
     }
     /** TickOrder */
     TickOrder: {
@@ -1127,11 +1059,6 @@ export interface components {
       /** Idempotency Key */
       idempotency_key: string
       plan: components['schemas']['Plan']
-      /**
-       * Policy Version
-       * @default 1
-       */
-      policy_version?: '1' | null
       /** Price */
       price?: string | null
       /** Quantity */

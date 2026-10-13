@@ -2,61 +2,47 @@ import { api } from '../api/apiClient.ts'
 import { apiEndpoints } from '../api/api-endpoints.ts'
 import type { components } from '../api/api-types.ts'
 import { HttpError } from './httpService.ts'
+import {
+  object,
+  text as string,
+  number,
+  boolean,
+} from '../utilities/typeUtils.ts'
 
-export type LearningPurpose = 'diagnostic' | 'practice' | 'bonus'
+type LearningRunResponse = components['schemas']['LearningRunResponse']
+export type LearningPurpose = Extract<
+  LearningRunResponse['purpose'],
+  'diagnostic' | 'practice' | 'bonus'
+>
 export type StepAnswer = components['schemas']['StepAnswer']
-type Entry = { id: string; text: string }
-export type LearningTask =
-  | { id: string; type: 'instruction'; prompt: string; text: string }
-  | { id: string; type: 'choice'; prompt: string; options: Entry[] }
-  | {
-      id: string
-      type: 'classification'
-      prompt: string
-      items: Entry[]
-      categories: Entry[]
-    }
-  | { id: string; type: 'simulation'; prompt: string }
-export type LearningRun = {
-  id: string
-  module_id: string
-  level_id: string | null
-  purpose: LearningPurpose | 'assessment' | 'review'
-  status: 'active' | 'completed'
-  current_step: LearningTask | null
-  progress: { completed_steps: number; total_steps: number }
-  feedback: { step_id: string; correct: boolean; explanation: string }[]
-  result: {
-    passed: boolean | null
-    score_percent: number
-    standard_star: boolean
-    bonus_star: boolean
-    xp_awarded: number
-  } | null
+type Entry = components['schemas']['TaskEntry']
+export type LearningTask = NonNullable<LearningRunResponse['current_step']>
+export type LearningRun = Pick<
+  LearningRunResponse,
+  | 'id'
+  | 'module_id'
+  | 'level_id'
+  | 'purpose'
+  | 'status'
+  | 'current_step'
+  | 'progress'
+> & {
+  feedback: Pick<
+    components['schemas']['LearningFeedback'],
+    'step_id' | 'correct' | 'explanation'
+  >[]
+  result: Pick<
+    components['schemas']['LearningResult'],
+    'passed' | 'score_percent' | 'standard_star' | 'bonus_star' | 'xp_awarded'
+  > | null
 }
 
-function invalid(): never {
-  throw new HttpError(
-    'The learning response could not be read.',
-    'invalid-response',
-  )
-}
-function object(value: unknown): Record<string, unknown> {
-  if (!value || typeof value !== 'object' || Array.isArray(value))
-    return invalid()
-  return value as Record<string, unknown>
-}
-function string(value: unknown): string {
-  return typeof value === 'string' && value.length > 0 ? value : invalid()
-}
-function number(value: unknown): number {
-  return typeof value === 'number' && Number.isFinite(value) ? value : invalid()
-}
-function boolean(value: unknown): boolean {
-  return typeof value === 'boolean' ? value : invalid()
-}
 function entries(value: unknown): Entry[] {
-  if (!Array.isArray(value) || !value.length) return invalid()
+  if (!Array.isArray(value) || !value.length)
+    throw new HttpError(
+      'Something went wrong while processing the learning run.',
+      'invalid-response',
+    )
   return value.map((item) => {
     const entry = object(item)
     return { id: string(entry.id), text: string(entry.text) }
@@ -72,14 +58,24 @@ export function parseLearningRun(value: unknown): LearningRun {
       String(data.purpose),
     )
   )
-    return invalid()
+    throw new HttpError(
+      'Something went wrong while processing the learning run.',
+      'invalid-response',
+    )
   let task: LearningTask | null = null
   if (data.current_step !== null) {
     const step = object(data.current_step)
-    const base = { id: string(step.id), prompt: string(step.prompt) }
+    const base = {
+      id: string(step.id),
+      prompt: string(step.prompt),
+    }
     switch (step.type) {
       case 'instruction':
-        task = { ...base, type: 'instruction', text: string(step.text) }
+        task = {
+          ...base,
+          type: 'instruction',
+          text: string(step.text),
+        }
         break
       case 'choice':
         task = { ...base, type: 'choice', options: entries(step.options) }
@@ -96,10 +92,17 @@ export function parseLearningRun(value: unknown): LearningRun {
         task = { ...base, type: 'simulation' }
         break
       default:
-        return invalid()
+        throw new HttpError(
+          'Something went wrong while processing the learning run.',
+          'invalid-response',
+        )
     }
   }
-  if (!Array.isArray(data.feedback)) return invalid()
+  if (!Array.isArray(data.feedback))
+    throw new HttpError(
+      'Something went wrong while processing the learning run.',
+      'invalid-response',
+    )
   const feedback = data.feedback.map((item) => {
     const entry = object(item)
     return {
@@ -131,7 +134,10 @@ export function parseLearningRun(value: unknown): LearningRun {
       ? !task || result !== null || completed === total
       : task !== null || !result || completed !== total)
   )
-    return invalid()
+    throw new HttpError(
+      'Something went wrong while processing the learning run.',
+      'invalid-response',
+    )
   return {
     id: string(data.id),
     module_id: string(data.module_id),
@@ -156,7 +162,11 @@ export async function getLearningRun(id: string, signal?: AbortSignal) {
       signal,
     }),
   )
-  if (run.id !== id) return invalid()
+  if (run.id !== id)
+    throw new HttpError(
+      'Something went wrong while processing the learning run.',
+      'invalid-response',
+    )
   return run
 }
 
@@ -196,7 +206,11 @@ export class LearningCommands {
   pending(runId: string): PendingAnswer | null {
     const saved = this.read(`run:${runId}`)
     if (!saved) return null
-    if (saved.run_id !== runId) return invalid()
+    if (saved.run_id !== runId)
+      throw new HttpError(
+        'Something went wrong while processing the pending command.',
+        'invalid-response',
+      )
     return {
       idempotency_key: string(saved.idempotency_key),
       run_id: runId,
@@ -235,7 +249,10 @@ export class LearningCommands {
       run.purpose !== purpose ||
       (purpose === 'diagnostic' ? run.module_id : run.level_id) !== target
     )
-      return invalid()
+      throw new HttpError(
+        'Something went wrong while processing the start response.',
+        'invalid-response',
+      )
     // Keep the start receipt until navigation commits; a reload of the start URL must resume it.
     return run
   }
@@ -271,7 +288,11 @@ export class LearningCommands {
         },
       }),
     )
-    if (updated.id !== run.id) return invalid()
+    if (updated.id !== run.id)
+      throw new HttpError(
+        'Something went wrong while processing the submit response.',
+        'invalid-response',
+      )
     this.clearAnswer(run.id)
     return updated
   }
