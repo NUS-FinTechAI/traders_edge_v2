@@ -46,6 +46,6 @@ jobs:
 
       - name: Test client
         run: npm test
-      
+
       - name: Check generated API contract
         run: npm run api:check
