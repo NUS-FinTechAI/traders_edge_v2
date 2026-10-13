@@ -1,0 +1,47 @@
+name: Server
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: Test, API and Curriculum Validation
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v7
+        with:
+          version: '0.12.23'
+          python-version: '3.12'
+          enable-cache: true
+
+      - name: Install test dependencies
+        run: uv sync --project server --extra test --locked
+
+      - name: Test server
+        run: uv run --project server --extra test --locked python -m unittest discover -s server/tests
+
+      - name: Validate curriculum and its contract
+        run: |
+          uv run --project server --extra test --locked python -m app.content.validate
+          uv run --project server --extra test --locked python -m unittest app.content.test_catalog
