@@ -8,7 +8,7 @@ import json
 from typing import Literal
 
 from fastapi import APIRouter, HTTPException
-from app.api_schemas.economy_schema import Purchase, Command
+from app.api_schemas.economy_schema import Purchase, EconomyCommand as Command
 from sqlalchemy import select
 from sqlalchemy.dialects.postgresql import insert as postgresql_insert
 from sqlalchemy.dialects.sqlite import insert as sqlite_insert

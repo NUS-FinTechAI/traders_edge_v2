@@ -2,7 +2,6 @@ import httpService, { HttpError, type HttpService } from './httpService.ts'
 import { ApiClient } from '../api/apiClient.ts'
 import { apiEndpoints } from '../api/api-endpoints.ts'
 import type { components } from '../api/api-types.ts'
-import { record } from '../utilities/typeUtils.ts'
 
 export type PublicConfig = components['schemas']['PublicConfig']
 
@@ -62,8 +61,14 @@ export class ConfigService {
   }
 
   private async fetchConfig(): Promise<PublicConfig> {
-    const config = record(await this.api.call(apiEndpoints.getConfig))
-    const auth = record(config.auth)
+    const config = await this.api.call(apiEndpoints.getConfig)
+    if (!config || !config.auth) {
+      throw new HttpError(
+        'The server returned invalid configuration',
+        'invalid-response',
+      )
+    }
+    const auth = config.auth
     const { mode, firebase_project_id } = auth
     if (mode === 'guest' && firebase_project_id === null) {
       return this.cacheConfig({ auth: { mode, firebase_project_id } })
@@ -78,7 +83,6 @@ export class ConfigService {
     throw new HttpError(
       'The server returned invalid public configuration',
       'invalid-response',
-      200,
     )
   }
 

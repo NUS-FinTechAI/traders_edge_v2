@@ -3,10 +3,9 @@ from datetime import datetime
 import hashlib
 import json
 import secrets
-from typing import Annotated, Literal
+from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, Request
-from pydantic import BaseModel, ConfigDict, Field
 from sqlalchemy import DateTime, ForeignKey, JSON, String, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import Mapped, mapped_column
@@ -16,8 +15,8 @@ from app.db import Base, LearningRun, Profile, SimulationSession, get_db, now, u
 from app.learning import catalog
 from app.progression import progress
 from app.simulation import engine
-from app.api_schemas.simulation_schema import Create, Order, Advance, Debrief
-from app.api_schemas.shared_schema import Command
+from app.api_schemas.simulation_schema import CreateSimulation, AdvanceSimulation, DebriefSimulation
+from app.api_schemas.order_schema import SubmitOrder, CancelOrder
 
 router = APIRouter(prefix='/api/simulations', tags=['simulation'])
 DB = Annotated[AsyncSession, Depends(get_db, scope='function')]
@@ -32,10 +31,6 @@ class SimulationCommand(Base):
     request_hash: Mapped[str] = mapped_column(String(64))
     response: Mapped[dict] = mapped_column(JSON)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
-
-
-class Payload(BaseModel):
-    model_config = ConfigDict(extra='forbid', str_strip_whitespace=True)
 
 
 async def require_access(request, db, user, mode):
@@ -97,7 +92,7 @@ async def list_sessions(db: DB, user: User):
 
 
 @router.post('', status_code=201, operation_id='startSimulation')
-async def start(body: Create, request: Request, db: DB, user: User):
+async def start(body: CreateSimulation, request: Request, db: DB, user: User):
     digest = hashlib.sha256(json.dumps({'operation': 'create', 'mode': body.mode}, sort_keys=True).encode()).hexdigest()
     previous = await db.get(SimulationCommand, (user.id, body.idempotency_key))
     if previous:
@@ -122,6 +117,9 @@ async def resume(session_id: str, request: Request, db: DB, user: User):
 
 async def execute(session_id, body, operation, db, user, order_id=None, request=None):
     payload = body.model_dump(exclude={'idempotency_key'})
+    if operation == 'order':
+        # Preserve the payload used by saved command hashes and the engine.
+        payload = payload['order']
     digest = hashlib.sha256(json.dumps({'session': session_id, 'operation': operation, 'order': order_id, 'payload': payload}, sort_keys=True).encode()).hexdigest()
     previous = await db.get(SimulationCommand, (user.id, body.idempotency_key))
     if previous:
@@ -155,21 +153,21 @@ async def execute(session_id, body, operation, db, user, order_id=None, request=
     return result
 
 
-@router.post('/{session_id}/orders', operation_id='submitSimulationOrder')
-async def order(session_id: str, body: Order, request: Request, db: DB, user: User):
+@router.post('/{session_id}/orders/submit', operation_id='submitSimulationOrder')
+async def order(session_id: str, body: SubmitOrder, request: Request, db: DB, user: User):
     return await execute(session_id, body, 'order', db, user, request=request)
 
 
 @router.post('/{session_id}/advance', operation_id='advanceSimulation')
-async def advance(session_id: str, body: Advance, request: Request, db: DB, user: User):
+async def advance(session_id: str, body: AdvanceSimulation, request: Request, db: DB, user: User):
     return await execute(session_id, body, 'advance', db, user, request=request)
 
 
 @router.post('/{session_id}/orders/{order_id}/cancel', operation_id='cancelSimulationOrder')
-async def cancel(session_id: str, order_id: str, body: Command, request: Request, db: DB, user: User):
+async def cancel(session_id: str, order_id: str, body: CancelOrder, request: Request, db: DB, user: User):
     return await execute(session_id, body, 'cancel', db, user, order_id, request=request)
 
 
 @router.post('/{session_id}/debrief', operation_id='debriefSimulation')
-async def debrief(session_id: str, body: Debrief, request: Request, db: DB, user: User):
+async def debrief(session_id: str, body: DebriefSimulation, request: Request, db: DB, user: User):
     return await execute(session_id, body, 'debrief', db, user, request=request)

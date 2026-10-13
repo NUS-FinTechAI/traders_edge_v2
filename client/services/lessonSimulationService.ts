@@ -2,14 +2,36 @@ import { api } from '../api/apiClient.ts'
 import { apiEndpoints } from '../api/api-endpoints.ts'
 import type { components } from '../api/api-types.ts'
 import { HttpError } from './httpService.ts'
-import {
-  text,
-  amount,
-  units,
-  list,
-  choice,
-  record,
-} from '../utilities/typeUtils.ts'
+import { amount, list } from '../utilities/typeUtils.ts'
+
+export type OrderSymbol = components['schemas']['OrderSymbol']
+export type OrderSide = components['schemas']['OrderSide']
+export type OrderType = components['schemas']['OrderType']
+export type OrderStatus = components['schemas']['OrderStatus']
+export type Quote = components['schemas']['SimulationQuote']
+export type Position = Pick<
+  components['schemas']['SimulationPosition'],
+  'symbol' | 'quantity' | 'value' | 'weight_percent'
+>
+export type Order = Pick<
+  components['schemas']['Order'],
+  | 'id'
+  | 'symbol'
+  | 'side'
+  | 'type'
+  | 'status'
+  | 'quantity'
+  | 'filled'
+  | 'remaining'
+  | 'price'
+>
+export type SimulationObservation = Pick<
+  components['schemas']['BoundSimulationResponse'],
+  'cash' | 'available_cash' | 'equity' | 'fees' | 'quotes' | 'history'
+> & {
+  positions: Position[]
+  orders: Order[]
+}
 
 type BoundSimulationResponse = components['schemas']['BoundSimulationResponse']
 export type LessonSimulation = SimulationObservation &
@@ -26,9 +48,11 @@ function invalid(): never {
   )
 }
 
-function parseSession(value: unknown, runId: string): LessonSimulation {
-  const session = record(value)
-  const policy = record(session.bound_policy)
+function parseSession(
+  session: BoundSimulationResponse,
+  runId: string,
+): LessonSimulation {
+  const policy = session.bound_policy
   if (
     typeof session.id !== 'string' ||
     !session.id ||
@@ -89,103 +113,45 @@ export async function openLessonSimulation(
   return current
 }
 
-export type Quote = components['schemas']['SimulationQuote']
-export type Position = Pick<
-  components['schemas']['SimulationPosition'],
-  'symbol' | 'quantity' | 'value' | 'weight_percent'
->
-export type SimulationOrder = Pick<
-  components['schemas']['SimulationOrder'],
-  | 'id'
-  | 'symbol'
-  | 'side'
-  | 'type'
-  | 'status'
-  | 'quantity'
-  | 'filled'
-  | 'remaining'
-  | 'price'
->
-export type SimulationObservation = Pick<
-  components['schemas']['BoundSimulationResponse'],
-  'cash' | 'available_cash' | 'equity' | 'fees' | 'quotes' | 'history'
-> & {
-  positions: Position[]
-  orders: SimulationOrder[]
-}
-
 export function parseSimulationObservation(
-  session: Record<string, unknown>,
+  session: BoundSimulationResponse,
   tick: number,
 ): SimulationObservation {
-  const quotes = list(session.quotes, (value) => {
-    const item = record(value)
-    return {
-      symbol: text(item.symbol),
-      bid: amount(item.bid),
-      ask: amount(item.ask),
-      mid: amount(item.mid),
-      available_units: units(item.available_units),
-    }
-  })
+  const quotes = session.quotes
   if (
     !quotes.length ||
     new Set(quotes.map((item) => item.symbol)).size !== quotes.length
-  )
+  ) {
     return invalid()
-  const history = record(session.history)
+  }
+
+  const history = session.history
   const observedHistory: Record<string, string[]> = Object.create(null)
   for (const quote of quotes) {
     const prices = list(history[quote.symbol], amount)
     if (prices.length !== tick + 1) return invalid()
     observedHistory[quote.symbol] = prices
   }
-  const positions = list(session.positions, (value) => {
-    const item = record(value)
-    return {
-      symbol: text(item.symbol),
-      quantity: units(item.quantity),
-      value: amount(item.value),
-      weight_percent: amount(item.weight_percent),
-    }
-  })
-  const orders = list(session.orders, (value) => {
-    const item = record(value)
-    const quantity = units(item.quantity)
-    const filled = units(item.filled)
-    const remaining = units(item.remaining)
-    if (filled + remaining !== quantity) return invalid()
-    return {
-      id: text(item.id),
-      symbol: text(item.symbol),
-      side: choice(item.side, ['buy', 'sell'] as const),
-      type: choice(item.type, ['market', 'limit', 'stop'] as const),
-      status: choice(item.status, [
-        'open',
-        'partial',
-        'filled',
-        'cancelled',
-        'expired',
-        'rejected',
-      ] as const),
-      quantity,
-      filled,
-      remaining,
-      price: item.price === null ? null : amount(item.price),
-    }
-  })
+
+  const positions: Position[] = session.positions
+  const orders: Order[] = session.orders
   if (
     new Set(orders.map((order) => order.id)).size !== orders.length ||
     new Set(positions.map((position) => position.symbol)).size !==
-      positions.length
-  )
+      positions.length ||
+    orders.some((order) => order.filled + order.remaining !== order.quantity)
+  ) {
     return invalid()
+  }
+
   if (
     [...positions, ...orders].some(
       (item) => !quotes.some((quote) => quote.symbol === item.symbol),
     )
-  )
+  ) {
     return invalid()
+  }
+
   return {
     cash: amount(session.cash),
     available_cash: amount(session.available_cash),

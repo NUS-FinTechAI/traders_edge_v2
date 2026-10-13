@@ -1,19 +1,19 @@
 from typing import Annotated, Literal
 
-from pydantic import BaseModel, Field, JsonValue
+from pydantic import Field, JsonValue
 
-from app.api_schemas.shared_schema import Command, Payload
+from app.api_schemas.shared_schema import BaseCommand, Payload
 
 from app.api_schemas.auth_schema import UserProfile
 from app.api_schemas.simulation_schema import LessonSimulationPolicy, SimulationAuditObservation
 
 
-class TaskEntry(BaseModel):
+class TaskEntry(Payload):
     id: str
     text: str
 
 
-class TaskBase(BaseModel):
+class TaskBase(Payload):
     id: str
     prompt: str
 
@@ -38,10 +38,10 @@ class SimulationTask(TaskBase):
     type: Literal['simulation']
 
 
-LearningTask = Annotated[InstructionTask | ChoiceTask | ClassificationTask | SimulationTask, Field(discriminator='type')]
+type LearningTask = Annotated[InstructionTask | ChoiceTask | ClassificationTask | SimulationTask, Field(discriminator='type')]
 
 
-class SimulationAuditIssue(BaseModel):
+class SimulationAuditIssue(Payload):
     code: str
     message: str
     order_id: str | None = None
@@ -49,7 +49,7 @@ class SimulationAuditIssue(BaseModel):
     observed: dict[str, JsonValue] | None = None
 
 
-class LearningFeedback(BaseModel):
+class LearningFeedback(Payload):
     step_id: str
     correct: bool
     explanation: str
@@ -58,7 +58,7 @@ class LearningFeedback(BaseModel):
     observation_phase: Literal['before_finish_cancellation'] | None = None
 
 
-class LearningProgress(BaseModel):
+class LearningProgress(Payload):
     completed_steps: int
     total_steps: int
 
@@ -72,7 +72,7 @@ class LearningProfileSnapshot(UserProfile):
     xp_basis: Literal['learning and game events'] | None = None
 
 
-class LearningResult(BaseModel):
+class LearningResult(Payload):
     attempt_id: str
     passed: bool | None
     score_percent: int
@@ -83,15 +83,17 @@ class LearningResult(BaseModel):
     profile: LearningProfileSnapshot
 
 
-class LearningSimulationLink(BaseModel):
+class LearningSimulationLink(Payload):
     session_id: str | None
     url: str
     policy: LessonSimulationPolicy
 
 
-class LearningRunResponse(BaseModel):
+type LearningRunPurpose = Literal['diagnostic', 'practice', 'bonus', 'assessment', 'review']
+
+class LearningRunResponse(Payload):
     id: str
-    purpose: Literal['diagnostic', 'practice', 'bonus', 'assessment', 'review']
+    purpose: LearningRunPurpose
     module_id: str
     level_id: str | None
     content_version: str
@@ -103,9 +105,13 @@ class LearningRunResponse(BaseModel):
     review_id: str | None = None
     simulation: LearningSimulationLink | None = None
 
-class StartLevel(Command):
-    purpose: Literal['practice', 'bonus'] = 'practice'
 
+type StartLevelPurpose = Literal['practice', 'bonus']
+
+
+class StartLevel(BaseCommand):
+    purpose: StartLevelPurpose = 'practice'
+    
 
 class StepAnswer(Payload):
     acknowledged: bool | None = Field(default=None, strict=True)
@@ -114,5 +120,17 @@ class StepAnswer(Payload):
     confidence: int | None = Field(default=None, ge=0, le=100, strict=True)
 
 
-class SubmitStep(Command):
+class SubmitStep(BaseCommand):
     answer: StepAnswer
+
+
+class StartDiagnosticRun(BaseCommand):
+    pass
+
+
+class StartAssessmentRun(BaseCommand):
+    pass
+
+
+class StartReviewRun(BaseCommand):
+    pass

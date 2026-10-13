@@ -1319,23 +1319,6 @@ export interface paths {
     patch?: never
     trace?: never
   }
-  '/api/simulations/{session_id}/orders': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /** Order */
-    post: operations['submitSimulationOrder']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
   '/api/simulations/{session_id}/orders/{order_id}/cancel': {
     parameters: {
       query?: never
@@ -1347,6 +1330,23 @@ export interface paths {
     put?: never
     /** Cancel */
     post: operations['cancelSimulationOrder']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/simulations/{session_id}/orders/submit': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /** Order */
+    post: operations['submitSimulationOrder']
     delete?: never
     options?: never
     head?: never
@@ -1514,7 +1514,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__challenges__api__Create']
+        'application/json': components['schemas']['CreateChallenge']
       }
     }
     responses: {
@@ -1580,7 +1580,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__api_schemas__shared_schema__Command']
+        'application/json': components['schemas']['AbandonChallenge']
       }
     }
     responses: {
@@ -1615,7 +1615,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['Advance']
+        'application/json': components['schemas']['AdvanceSimulation']
       }
     }
     responses: {
@@ -1650,7 +1650,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['Debrief']
+        'application/json': components['schemas']['DebriefSimulation']
       }
     }
     responses: {
@@ -1685,7 +1685,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['Order']
+        'application/json': components['schemas']['SubmitOrder']
       }
     }
     responses: {
@@ -1721,7 +1721,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__api_schemas__shared_schema__Command']
+        'application/json': components['schemas']['CancelOrder']
       }
     }
     responses: {
@@ -1971,7 +1971,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__api_schemas__shared_schema__Command']
+        'application/json': components['schemas']['BindLearningSimulation']
       }
     }
     responses: {
@@ -2006,7 +2006,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['Review']
+        'application/json': components['schemas']['ReviewSimulation']
       }
     }
     responses: {
@@ -2259,7 +2259,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__api_schemas__economy_schema__Command']
+        'application/json': components['schemas']['EconomyCommand']
       }
     }
     responses: {
@@ -2292,7 +2292,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__api_schemas__economy_schema__Command']
+        'application/json': components['schemas']['EconomyCommand']
       }
     }
     responses: {
@@ -2451,7 +2451,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['Consent']
+        'application/json': components['schemas']['ConsentResearch']
       }
     }
     responses: {
@@ -2518,7 +2518,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['Metadata']
+        'application/json': components['schemas']['ResearchMetadata']
       }
     }
     responses: {
@@ -2551,7 +2551,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__api_schemas__shared_schema__Command']
+        'application/json': components['schemas']['WithdrawResearchConsent']
       }
     }
     responses: {
@@ -2758,7 +2758,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__api_schemas__shared_schema__Command']
+        'application/json': components['schemas']['StartAssessmentRun']
       }
     }
     responses: {
@@ -2793,7 +2793,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__api_schemas__shared_schema__Command']
+        'application/json': components['schemas']['StartDiagnosticRun']
       }
     }
     responses: {
@@ -2890,7 +2890,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__api_schemas__shared_schema__Command']
+        'application/json': components['schemas']['AbandonMultiplayerMatch']
       }
     }
     responses: {
@@ -2925,7 +2925,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['Debrief']
+        'application/json': components['schemas']['DebriefSimulation']
       }
     }
     responses: {
@@ -3066,7 +3066,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__api_schemas__shared_schema__Command']
+        'application/json': components['schemas']['StartMultiplayerMatch']
       }
     }
     responses: {
@@ -3099,7 +3099,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__multiplayer__api__Join']
+        'application/json': components['schemas']['JoinMultiplayerLobby']
       }
     }
     responses: {
@@ -3152,7 +3152,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__api_schemas__shared_schema__Command']
+        'application/json': components['schemas']['CreateMultiplayerLobby']
       }
     }
     responses: {
@@ -3205,7 +3205,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__api_schemas__shared_schema__Command']
+        'application/json': components['schemas']['JoinMultiplayerMatchmaking']
       }
     }
     responses: {
@@ -3258,7 +3258,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['Start']
+        'application/json': components['schemas']['StartQuizAttempt']
       }
     }
     responses: {
@@ -3324,7 +3324,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['Response']
+        'application/json': components['schemas']['QuizResponse']
       }
     }
     responses: {
@@ -3417,7 +3417,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['CreateRoom']
+        'application/json': components['schemas']['CreateQuizRoom']
       }
     }
     responses: {
@@ -3483,7 +3483,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__api_schemas__shared_schema__Command']
+        'application/json': components['schemas']['CloseQuizRoom']
       }
     }
     responses: {
@@ -3549,7 +3549,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__api_schemas__shared_schema__Command']
+        'application/json': components['schemas']['StartQuizRoom']
       }
     }
     responses: {
@@ -3582,7 +3582,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__api_schemas__quiz_schema__Join']
+        'application/json': components['schemas']['JoinQuizRoom']
       }
     }
     responses: {
@@ -3668,7 +3668,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__api_schemas__shared_schema__Command']
+        'application/json': components['schemas']['StartReviewRun']
       }
     }
     responses: {
@@ -3794,7 +3794,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__api_schemas__simulation_schema__Create']
+        'application/json': components['schemas']['CreateSimulation']
       }
     }
     responses: {
@@ -3860,7 +3860,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['Advance']
+        'application/json': components['schemas']['AdvanceSimulation']
       }
     }
     responses: {
@@ -3895,42 +3895,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['Debrief']
-      }
-    }
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': unknown
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['HTTPValidationError']
-        }
-      }
-    }
-  }
-  submitSimulationOrder: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        session_id: string
-      }
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['Order']
+        'application/json': components['schemas']['DebriefSimulation']
       }
     }
     responses: {
@@ -3966,7 +3931,42 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['app__api_schemas__shared_schema__Command']
+        'application/json': components['schemas']['CancelOrder']
+      }
+    }
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': unknown
+        }
+      }
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['HTTPValidationError']
+        }
+      }
+    }
+  }
+  submitSimulationOrder: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        session_id: string
+      }
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['SubmitOrder']
       }
     }
     responses: {

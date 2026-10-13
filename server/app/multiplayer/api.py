@@ -1,12 +1,11 @@
 from copy import deepcopy
-from datetime import timedelta
 import hashlib
 import json
 import secrets
+from datetime import timedelta
 
 from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import JSONResponse
-from pydantic import Field
 from sqlalchemy import func, select
 from sqlalchemy.dialects.postgresql import insert as pg_insert
 from sqlalchemy.dialects.sqlite import insert as sqlite_insert
@@ -14,24 +13,16 @@ from sqlalchemy.dialects.sqlite import insert as sqlite_insert
 from app.db import Profile, aware, now, uid
 from app.learning import catalog
 from app.simulation import engine
-from app.simulation.api import Command, DB, Debrief, Order, User, require_access
+from app.simulation.api import DB, User, require_access
+
+from app.api_schemas.multiplayer_schema import StartMultiplayerMatch, TickCommand, TickOrder, JoinMultiplayerLobby, AbandonMultiplayerMatch, JoinMultiplayerMatchmaking, CreateMultiplayerLobby
+from app.api_schemas.simulation_schema import DebriefSimulation
+
 from app.multiplayer import core
 from app.multiplayer.models import (MultiplayerCommand, MultiplayerJoinThrottle, MultiplayerLobby,
                                     MultiplayerMember, MultiplayerQueue, MultiplayerRating)
 
 router = APIRouter(prefix='/api/multiplayer', tags=['multiplayer'])
-
-
-class TickCommand(Command):
-    expected_tick: int = Field(ge=0, le=29, strict=True)
-
-
-class TickOrder(Order):
-    expected_tick: int = Field(ge=0, le=29, strict=True)
-
-
-class Join(Command):
-    code: str = Field(min_length=16, max_length=16, pattern=r'^[A-F0-9]{16}$')
 
 
 def digest(operation, lobby_id, payload, order_id=None):
@@ -139,7 +130,7 @@ async def active_cap(db, user):
 
 
 @router.post('/lobbies', status_code=201, operation_id='createMultiplayerLobby')
-async def create(body: Command, request: Request, db: DB, user: User):
+async def create(body: CreateMultiplayerLobby, request: Request, db: DB, user: User):
     request_hash = digest('create_private', None, {})
     previous = await replay(db, user, body.idempotency_key, request_hash)
     if previous is not None:
@@ -152,7 +143,7 @@ async def create(body: Command, request: Request, db: DB, user: User):
 
 
 @router.post('/join', operation_id='joinMultiplayerLobby')
-async def join(body: Join, request: Request, db: DB, user: User):
+async def join(body: JoinMultiplayerLobby, request: Request, db: DB, user: User):
     request_hash = digest('join_private', None, {'code': body.code})
     previous = await replay(db, user, body.idempotency_key, request_hash)
     if previous is not None:
@@ -192,7 +183,7 @@ async def join(body: Join, request: Request, db: DB, user: User):
 
 
 @router.post('/matchmaking', operation_id='joinMultiplayerMatchmaking')
-async def matchmaking(body: Command, request: Request, db: DB, user: User):
+async def matchmaking(body: JoinMultiplayerMatchmaking, request: Request, db: DB, user: User):
     request_hash = digest('matchmaking', None, {})
     previous = await replay(db, user, body.idempotency_key, request_hash)
     if previous is not None:
@@ -272,6 +263,9 @@ async def settle_rating(db, lobby, result):
 
 async def execute(lobby_id, body, operation, request, db, user, order_id=None):
     payload = body.model_dump(exclude={'idempotency_key'})
+    if operation == 'order':
+        # Keep the observation tick in the historical command hash payload.
+        payload = {**payload['order'], 'expected_tick': payload['expected_tick']}
     request_hash = digest(operation, lobby_id, payload, order_id)
     previous = await replay(db, user, body.idempotency_key, request_hash)
     if previous is not None:
@@ -353,7 +347,7 @@ async def execute(lobby_id, body, operation, request, db, user, order_id=None):
 
 
 @router.post('/{lobby_id}/start', operation_id='startMultiplayerMatch')
-async def start(lobby_id: str, body: Command, request: Request, db: DB, user: User):
+async def start(lobby_id: str, body: StartMultiplayerMatch, request: Request, db: DB, user: User):
     return await execute(lobby_id, body, 'start', request, db, user)
 
 
@@ -373,10 +367,10 @@ async def ready(lobby_id: str, body: TickCommand, request: Request, db: DB, user
 
 
 @router.post('/{lobby_id}/complete', operation_id='completeMultiplayerMatch')
-async def complete(lobby_id: str, body: Debrief, request: Request, db: DB, user: User):
+async def complete(lobby_id: str, body: DebriefSimulation, request: Request, db: DB, user: User):
     return await execute(lobby_id, body, 'complete', request, db, user)
 
 
 @router.post('/{lobby_id}/abandon', operation_id='abandonMultiplayerMatch')
-async def abandon(lobby_id: str, body: Command, request: Request, db: DB, user: User):
+async def abandon(lobby_id: str, body: AbandonMultiplayerMatch, request: Request, db: DB, user: User):
     return await execute(lobby_id, body, 'abandon', request, db, user)

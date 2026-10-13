@@ -1,10 +1,11 @@
 from datetime import datetime
 from typing import Literal
 
-from pydantic import BaseModel, field_serializer
+from pydantic import field_serializer
+from app.api_schemas.shared_schema import Payload
 
 
-class GuestSession(BaseModel):
+class GuestSession(Payload):
     profile_id: str
     auth_mode: Literal['guest']
     expires_at: datetime
@@ -14,7 +15,7 @@ class GuestSession(BaseModel):
         return value.isoformat()
 
 
-class UserProfile(BaseModel):
+class UserProfile(Payload):
     id: str
     display_name: str
     leaderboard_opt_in: bool

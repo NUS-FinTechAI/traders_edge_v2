@@ -3,12 +3,11 @@ from datetime import timedelta
 import hashlib
 import json
 
-from app.api_schemas.shared_schema import Command
 from fastapi import APIRouter, HTTPException, Request
 from sqlalchemy import select
 
 from app.api_schemas.gameplay_schema import LevelResponse, ModuleMap
-from app.api_schemas.learning_run_schema import LearningRunResponse, StartLevel, SubmitStep
+from app.api_schemas.learning_run_schema import LearningRunResponse, StartLevel, SubmitStep, StartDiagnosticRun, StartAssessmentRun, StartReviewRun
 from app.db import Attempt, LearningRun, LearningRunCommand, MasteredModule, aware, now, uid
 from app.learning import DB, User, catalog, interactive_review, lesson_for, module_for, owned_review, practice_eligibility, profile_data, require_lesson
 from app.progression import progress, record_lesson, reward
@@ -189,12 +188,12 @@ async def start_run(request, db, user, body, purpose, target):
 
 
 @router.post('/modules/{module_id}/diagnostic-runs', operation_id='startDiagnosticRun', response_model=LearningRunResponse, response_model_exclude_unset=True)
-async def start_diagnostic(module_id: str, body: Command, request: Request, db: DB, user: User):
+async def start_diagnostic(module_id: str, body: StartDiagnosticRun, request: Request, db: DB, user: User):
     return await start_run(request, db, user, body, 'diagnostic', module_id)
 
 
 @router.post('/modules/{module_id}/assessment-runs', operation_id='startAssessmentRun', response_model=LearningRunResponse, response_model_exclude_unset=True)
-async def start_assessment(module_id: str, body: Command, request: Request, db: DB, user: User):
+async def start_assessment(module_id: str, body: StartAssessmentRun, request: Request, db: DB, user: User):
     return await start_run(request, db, user, body, 'assessment', module_id)
 
 
@@ -211,7 +210,7 @@ def require_due_review(item):
 
 
 @router.post('/reviews/{review_id}/runs', operation_id='startReviewRun', response_model=LearningRunResponse, response_model_exclude_unset=True)
-async def start_review(review_id: str, body: Command, request: Request, db: DB, user: User):
+async def start_review(review_id: str, body: StartReviewRun, request: Request, db: DB, user: User):
     digest, previous = await replay(db, user, body, 'start:review', review_id)
     if previous is not None:
         return previous

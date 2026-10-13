@@ -62,19 +62,19 @@ class SimulationAPITests(unittest.TestCase):
         self.assertEqual(results[0].json(), results[1].json())
         self.assertEqual(self.client.get('/api/simulations/' + sid).json()['tick'], 5)
         self.assertEqual(self.client.post(path, json={**body, 'steps': 1}).status_code, 409)
-        request = {**order(quantity=1), 'idempotency_key': body['idempotency_key']}
-        self.assertEqual(self.client.post(f'/api/simulations/{sid}/orders', json=request).status_code, 409)
+        request = {'order': order(quantity=1), 'idempotency_key': body['idempotency_key']}
+        self.assertEqual(self.client.post(f'/api/simulations/{sid}/orders/submit', json=request).status_code, 409)
 
     def test_plan_order_retry_cancel_and_reflection_do_not_award_trading_xp(self):
         self.unlock()
         xp = self.client.get('/api/me/profile').json()['xp']
         sid = self.start().json()['id']
         base = f'/api/simulations/{sid}'
-        body = {**order(type='limit', price='1', quantity=1), 'idempotency_key': 'planned-order-key'}
-        self.assertEqual(self.client.post(base + '/orders', json={**body, 'plan': {}}).status_code, 422)
-        accepted = self.client.post(base + '/orders', json=body)
+        body = {'order': order(type='limit', price='1', quantity=1), 'idempotency_key': 'planned-order-key'}
+        self.assertEqual(self.client.post(base + '/orders/submit', json={**body, 'order': {**body['order'], 'plan': {}}}).status_code, 422)
+        accepted = self.client.post(base + '/orders/submit', json=body)
         self.assertEqual(accepted.status_code, 200, accepted.text)
-        self.assertEqual(self.client.post(base + '/orders', json=body).json(), accepted.json())
+        self.assertEqual(self.client.post(base + '/orders/submit', json=body).json(), accepted.json())
         cancelled = self.client.post(base + '/orders/order-1/cancel', json={'idempotency_key': 'cancel-order-key'})
         self.assertEqual(cancelled.json()['orders'][0]['status'], 'cancelled')
         reflection = {'idempotency_key': 'finished-review-key', 'reflection': 'I chose to observe without executing a trade because I did not have enough information.'}
@@ -86,24 +86,24 @@ class SimulationAPITests(unittest.TestCase):
         self.assertEqual(finished.json(), self.client.post(base + '/debrief', json=reflection).json())
         self.assertEqual(finished.json()['fills'], [])
         self.assertEqual(self.client.get('/api/me/profile').json()['xp'], xp)
-        self.assertEqual(self.client.post(base + '/orders', json={**body, 'idempotency_key': 'another-order-key'}).status_code, 422)
+        self.assertEqual(self.client.post(base + '/orders/submit', json={**body, 'idempotency_key': 'another-order-key'}).status_code, 422)
 
     def test_extreme_amounts_return_validation_error_without_an_order(self):
         self.unlock()
         sid = self.start().json()['id']
-        path = f'/api/simulations/{sid}/orders'
-        payload = {**order(type='limit', price='1e1000', quantity=1), 'idempotency_key': 'extreme-price-key'}
+        path = f'/api/simulations/{sid}/orders/submit'
+        payload = {'order': order(type='limit', price='1e1000', quantity=1), 'idempotency_key': 'extreme-price-key'}
         self.assertEqual(self.client.post(path, json=payload).status_code, 422)
-        payload['price'] = '40'
-        payload['plan']['max_loss'] = '1e1000'
+        payload['order']['price'] = '40'
+        payload['order']['plan']['max_loss'] = '1e1000'
         self.assertEqual(self.client.post(path, json=payload).status_code, 422)
         self.assertEqual(self.client.get('/api/simulations/' + sid).json()['orders'], [])
 
     def test_saved_orders_and_command_replay_survive_restart(self):
         self.unlock()
         sid = self.start().json()['id']
-        path = f'/api/simulations/{sid}/orders'
-        body = {**order(quantity=1), 'idempotency_key': 'restart-order-key'}
+        path = f'/api/simulations/{sid}/orders/submit'
+        body = {'order': order(quantity=1), 'idempotency_key': 'restart-order-key'}
         before = self.client.post(path, json=body).json()
         token = self.client.cookies.get(self.settings.cookie_name)
         with TestClient(create_app(self.settings, self.content), headers={'Origin': 'http://localhost:5173'}) as restarted:

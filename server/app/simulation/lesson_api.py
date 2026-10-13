@@ -10,9 +10,8 @@ from app.learning import DB, User
 from app import learning_runs as runs
 from app.simulation import api, engine
 from app.simulation.bindings import public_binding
-from app.api_schemas.simulation_schema import BoundSimulationResponse
+from app.api_schemas.simulation_schema import BoundSimulationResponse, BindLearningSimulation, ReviewSimulation
 from app.api_schemas.learning_run_schema import LearningRunResponse
-from app.api_schemas.simulation_schema import Review
 
 router = APIRouter(prefix='/api/learning-runs', tags=['bound-simulation'])
 
@@ -122,7 +121,7 @@ async def linked_session(request, db, user, run, mutation=False):
 
 
 @router.post('/{run_id}/simulation', operation_id='bindLearningSimulation', response_model=BoundSimulationResponse, response_model_exclude_unset=True)
-async def bind(run_id: str, body: runs.Command, request: Request, db: DB, user: User):
+async def bind(run_id: str, body: BindLearningSimulation, request: Request, db: DB, user: User):
     digest, previous = await runs.replay(db, user, body, 'simulation:bind', run_id)
     if previous is not None:
         return previous
@@ -198,7 +197,7 @@ def audit_issues(audit, state):
 
 
 @router.post('/{run_id}/simulation/review', operation_id='reviewLearningSimulation', response_model=LearningRunResponse, response_model_exclude_unset=True)
-async def review(run_id: str, body: Review, request: Request, db: DB, user: User):
+async def review(run_id: str, body: ReviewSimulation, request: Request, db: DB, user: User):
     digest, previous = await runs.replay(db, user, body, 'simulation:review', run_id)
     if previous is not None:
         return previous

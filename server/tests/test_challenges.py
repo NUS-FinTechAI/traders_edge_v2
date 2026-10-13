@@ -147,8 +147,8 @@ class ChallengeAPITests(unittest.TestCase):
             calls.append(result)
             return {'xp': 5}
         self.app.state.challenge_result_handler = reward
-        body = {**order(type='limit', price='1', quantity=1), 'idempotency_key': 'challenge-order-key'}
-        self.assertEqual(self.client.post(path + '/orders', json={**body, 'plan': {}}).status_code, 422)
+        body = {'order': order(type='limit', price='1', quantity=1), 'idempotency_key': 'challenge-order-key'}
+        self.assertEqual(self.client.post(path + '/orders', json={**body, 'order': {**body['order'], 'plan': {}}}).status_code, 422)
         self.assertEqual(self.client.get(path).json()['player']['orders'], [])
         accepted = self.client.post(path + '/orders', json=body)
         self.assertEqual(accepted.status_code, 200, accepted.text)
@@ -199,7 +199,7 @@ class ChallengeAPITests(unittest.TestCase):
         self.unlock()
         identifier = self.start().json()['id']
         path = f'/api/challenges/{identifier}/orders'
-        body = {**order(quantity=1), 'idempotency_key': 'restart-challenge-key'}
+        body = {'order': order(quantity=1), 'idempotency_key': 'restart-challenge-key'}
         before = self.client.post(path, json=body).json()
         token = self.client.cookies.get(self.settings.cookie_name)
         restarted_app = create_app(self.settings, self.content)

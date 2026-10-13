@@ -4,14 +4,13 @@ import json
 import secrets
 
 from fastapi import APIRouter, HTTPException, Request
-from app.api_schemas.shared_schema import Command
 from sqlalchemy import func, or_, select
 from sqlalchemy.exc import IntegrityError
 
 from app.db import Profile, XPLedger, now, uid
 from app.learning import DB, User, catalog, grade, public_question
 from app.api_schemas.learning_schema import Answer
-from app.api_schemas.quiz_schema import Start, Response, CreateRoom, Join
+from app.api_schemas.quiz_schema import StartQuizAttempt, StartQuizRoom, CloseQuizRoom, QuizResponse, CreateQuizRoom, JoinQuizRoom
 
 from app.quizzes.models import QuizAttempt, QuizCommand, QuizMember, QuizRoom
 
@@ -123,7 +122,7 @@ async def question_bank(request: Request, user: User):
 
 
 @router.post('/rooms', status_code=201, operation_id='createQuizRoom')
-async def create_room(body: CreateRoom, request: Request, db: DB, user: User):
+async def create_room(body: CreateQuizRoom, request: Request, db: DB, user: User):
     digest, previous = await replay(db, user, body, 'create-room')
     if previous is not None:
         return previous
@@ -151,7 +150,7 @@ async def create_room(body: CreateRoom, request: Request, db: DB, user: User):
 
 
 @router.post('/rooms/join', operation_id='joinQuizRoom')
-async def join_room(body: Join, request: Request, db: DB, user: User):
+async def join_room(body: JoinQuizRoom, request: Request, db: DB, user: User):
     digest, previous = await replay(db, user, body, 'join-room')
     if previous is not None:
         return previous
@@ -217,12 +216,12 @@ async def change_room(room_id, body, request, db, user, operation):
 
 
 @router.post('/rooms/{room_id}/start', operation_id='startQuizRoom')
-async def start_room(room_id: str, body: Command, request: Request, db: DB, user: User):
+async def start_room(room_id: str, body: StartQuizRoom, request: Request, db: DB, user: User):
     return await change_room(room_id, body, request, db, user, 'start-room')
 
 
 @router.post('/rooms/{room_id}/close', operation_id='closeQuizRoom')
-async def close_room(room_id: str, body: Command, request: Request, db: DB, user: User):
+async def close_room(room_id: str, body: CloseQuizRoom, request: Request, db: DB, user: User):
     return await change_room(room_id, body, request, db, user, 'close-room')
 
 
@@ -247,7 +246,7 @@ async def room_results(room_id: str, request: Request, db: DB, user: User):
 
 
 @router.post('/attempts', status_code=201, operation_id='startQuizAttempt')
-async def start_attempt(body: Start, request: Request, db: DB, user: User):
+async def start_attempt(body: StartQuizAttempt, request: Request, db: DB, user: User):
     digest, previous = await replay(db, user, body, 'start-attempt')
     if previous is not None:
         return previous
@@ -314,7 +313,7 @@ async def get_attempt(attempt_id: str, request: Request, db: DB, user: User):
 
 
 @router.post('/attempts/{attempt_id}/answers', operation_id='submitQuizAnswer')
-async def answer(attempt_id: str, body: Response, request: Request, db: DB, user: User):
+async def answer(attempt_id: str, body: QuizResponse, request: Request, db: DB, user: User):
     digest, previous = await replay(db, user, body, 'answer', attempt_id)
     if previous is not None:
         return previous

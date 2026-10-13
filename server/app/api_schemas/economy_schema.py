@@ -1,10 +1,11 @@
 from pydantic import Field
-from app.api_schemas.shared_schema import Command as BaseCommand
+from app.api_schemas.shared_schema import BaseCommand
 from typing import Literal
 
 
-class Command(BaseCommand):
+class EconomyCommand(BaseCommand):
     policy_version: Literal['1'] = '1'
 
-class Purchase(Command):
+
+class Purchase(EconomyCommand):
     item_id: str = Field(min_length=1, max_length=120)
