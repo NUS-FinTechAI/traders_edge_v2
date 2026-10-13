@@ -20,7 +20,7 @@ class AbandonMultiplayerMatch(BaseCommand):
     pass
 
 
-class JoinMultiplayerMatchMaking(BaseCommand):
+class JoinMultiplayerMatchmaking(BaseCommand):
     pass
 
 

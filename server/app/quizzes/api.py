@@ -10,7 +10,7 @@ from sqlalchemy.exc import IntegrityError
 from app.db import Profile, XPLedger, now, uid
 from app.learning import DB, User, catalog, grade, public_question
 from app.api_schemas.learning_schema import Answer
-from app.api_schemas.quiz_schema import StartQuizAttempt, StartQuizRoom, CloseQuizRoom, QuizResponse, CreateQuiz, JoinQuiz
+from app.api_schemas.quiz_schema import StartQuizAttempt, StartQuizRoom, CloseQuizRoom, QuizResponse, CreateQuizRoom, JoinQuizRoom
 
 from app.quizzes.models import QuizAttempt, QuizCommand, QuizMember, QuizRoom
 
@@ -122,7 +122,7 @@ async def question_bank(request: Request, user: User):
 
 
 @router.post('/rooms', status_code=201, operation_id='createQuizRoom')
-async def create_room(body: CreateQuiz, request: Request, db: DB, user: User):
+async def create_room(body: CreateQuizRoom, request: Request, db: DB, user: User):
     digest, previous = await replay(db, user, body, 'create-room')
     if previous is not None:
         return previous
@@ -150,7 +150,7 @@ async def create_room(body: CreateQuiz, request: Request, db: DB, user: User):
 
 
 @router.post('/rooms/join', operation_id='joinQuizRoom')
-async def join_room(body: JoinQuiz, request: Request, db: DB, user: User):
+async def join_room(body: JoinQuizRoom, request: Request, db: DB, user: User):
     digest, previous = await replay(db, user, body, 'join-room')
     if previous is not None:
         return previous

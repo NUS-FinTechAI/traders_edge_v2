@@ -15,7 +15,7 @@ from app.learning import catalog
 from app.simulation import engine
 from app.simulation.api import DB, User, require_access
 
-from app.api_schemas.multiplayer_schema import StartMultiplayerMatch, TickCommand, TickOrder, JoinMultiplayerLobby, AbandonMultiplayerMatch, JoinMultiplayerMatchMaking, CreateMultiplayerLobby
+from app.api_schemas.multiplayer_schema import StartMultiplayerMatch, TickCommand, TickOrder, JoinMultiplayerLobby, AbandonMultiplayerMatch, JoinMultiplayerMatchmaking, CreateMultiplayerLobby
 from app.api_schemas.simulation_schema import DebriefSimulation
 
 from app.multiplayer import core
@@ -183,7 +183,7 @@ async def join(body: JoinMultiplayerLobby, request: Request, db: DB, user: User)
 
 
 @router.post('/matchmaking', operation_id='joinMultiplayerMatchmaking')
-async def matchmaking(body: JoinMultiplayerMatchMaking, request: Request, db: DB, user: User):
+async def matchmaking(body: JoinMultiplayerMatchmaking, request: Request, db: DB, user: User):
     request_hash = digest('matchmaking', None, {})
     previous = await replay(db, user, body.idempotency_key, request_hash)
     if previous is not None:

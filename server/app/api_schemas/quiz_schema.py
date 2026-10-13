@@ -21,11 +21,11 @@ class QuizResponse(BaseCommand):
     answer: Answer
 
 
-class CreateQuiz(BaseCommand):
+class CreateQuizRoom(BaseCommand):
     title: str = Field(min_length=2, max_length=80)
     question_ids: list[str] = Field(min_length=1, max_length=20)
     attempt_limit: int = Field(default=1, ge=1, le=3, strict=True)
 
 
-class JoinQuiz(BaseCommand):
+class JoinQuizRoom(BaseCommand):
     join_code: str = Field(pattern=r'^[A-Z2-9]{8}$')
