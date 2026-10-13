@@ -95,7 +95,7 @@ export type Position = Pick<
   'symbol' | 'quantity' | 'value' | 'weight_percent'
 >
 export type SimulationOrder = Pick<
-  components['schemas']['SimulationOrder'],
+  components['schemas']['Order'],
   | 'id'
   | 'symbol'
   | 'side'

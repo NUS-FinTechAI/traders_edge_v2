@@ -80,6 +80,21 @@ export interface components {
       /** Question Id */
       question_id: string
     }
+    /** AuditOrder */
+    AuditOrder: {
+      /** Filled Quantity */
+      filled_quantity: number
+      /** Limit Price */
+      limit_price: string
+      /** Order Id */
+      order_id: string
+      /**
+       * Status
+       * @enum {string}
+       */
+      status:
+        'open' | 'partial' | 'filled' | 'cancelled' | 'expired' | 'rejected'
+    }
     /** BindLearningSimulation */
     BindLearningSimulation: {
       /** Idempotency Key */
@@ -187,7 +202,7 @@ export interface components {
       /** Observation Token */
       observation_token?: string | null
       /** Orders */
-      orders: components['schemas']['SimulationOrder'][]
+      orders: components['schemas']['Order'][]
       /** Positions */
       positions: components['schemas']['SimulationPosition'][]
       /** Quotes */
@@ -206,13 +221,8 @@ export interface components {
       /** Version */
       version: number
     }
-    /** CancelChallengeOrder */
-    CancelChallengeOrder: {
-      /** Idempotency Key */
-      idempotency_key: string
-    }
-    /** CancelSimulation */
-    CancelSimulation: {
+    /** CancelOrder */
+    CancelOrder: {
       /** Idempotency Key */
       idempotency_key: string
     }
@@ -690,33 +700,72 @@ export interface components {
       /** Unlocked */
       unlocked: boolean
     }
-    /** OrderSimulation */
-    OrderSimulation: {
-      /** Idempotency Key */
-      idempotency_key: string
-      plan: components['schemas']['PlanSimulation']
+    /** Order */
+    Order: {
+      /** Filled */
+      filled: number
+      /** Id */
+      id: string
+      plan: components['schemas']['OrderPlan']
       /** Price */
-      price?: string | null
+      price: string | null
       /** Quantity */
       quantity: number
+      /** Remaining */
+      remaining: number
       /**
        * Side
        * @enum {string}
        */
       side: 'buy' | 'sell'
       /**
-       * Symbol
+       * Status
        * @enum {string}
        */
-      symbol: 'NORTH' | 'HARBOR' | 'PLAIN' | 'COVE'
+      status:
+        'open' | 'partial' | 'filled' | 'cancelled' | 'expired' | 'rejected'
+      /** Submitted Tick */
+      submitted_tick: number
+      /** Symbol */
+      symbol: string
+      /** Triggered */
+      triggered: boolean
       /**
        * Type
        * @enum {string}
        */
       type: 'market' | 'limit' | 'stop'
     }
-    /** PlanSimulation */
-    PlanSimulation: {
+    /** OrderAudit */
+    OrderAudit: {
+      /** Filled Quantity */
+      filled_quantity: number
+      /** Limit Price */
+      limit_price: string
+      /** Order Id */
+      order_id: string
+      /**
+       * Status
+       * @enum {string}
+       */
+      status:
+        'open' | 'partial' | 'filled' | 'cancelled' | 'expired' | 'rejected'
+    }
+    /** OrderPlan */
+    OrderPlan: {
+      /** Exit */
+      exit: string
+      /** Max Loss */
+      max_loss: string
+      /** Reason */
+      reason: string
+      /** Risk */
+      risk: string
+      /** Size Reason */
+      size_reason: string
+    }
+    /** PlanCommand */
+    PlanCommand: {
       /** Exit */
       exit: string
       /** Idempotency Key */
@@ -823,7 +872,7 @@ export interface components {
       /** Observation Token */
       observation_token?: string | null
       /** Orders */
-      orders: components['schemas']['SimulationOrderAudit'][]
+      orders: components['schemas']['OrderAudit'][]
       /** Price Limit Guarantees Fill */
       price_limit_guarantees_fill: boolean
       /** Session Fees */
@@ -854,28 +903,13 @@ export interface components {
       /** Observation Token */
       observation_token?: string | null
       /** Orders */
-      orders: components['schemas']['SimulationAuditOrder'][]
+      orders: components['schemas']['AuditOrder'][]
       /** Price Limit Guarantees Fill */
       price_limit_guarantees_fill: boolean
       /** Session Fees */
       session_fees: string
       /** Tick */
       tick: number
-    }
-    /** SimulationAuditOrder */
-    SimulationAuditOrder: {
-      /** Filled Quantity */
-      filled_quantity: number
-      /** Limit Price */
-      limit_price: string
-      /** Order Id */
-      order_id: string
-      /**
-       * Status
-       * @enum {string}
-       */
-      status:
-        'open' | 'partial' | 'filled' | 'cancelled' | 'expired' | 'rejected'
     }
     /** SimulationFill */
     SimulationFill: {
@@ -896,70 +930,6 @@ export interface components {
       symbol: string
       /** Tick */
       tick: number
-    }
-    /** SimulationOrder */
-    SimulationOrder: {
-      /** Filled */
-      filled: number
-      /** Id */
-      id: string
-      plan: components['schemas']['SimulationPlan']
-      /** Price */
-      price: string | null
-      /** Quantity */
-      quantity: number
-      /** Remaining */
-      remaining: number
-      /**
-       * Side
-       * @enum {string}
-       */
-      side: 'buy' | 'sell'
-      /**
-       * Status
-       * @enum {string}
-       */
-      status:
-        'open' | 'partial' | 'filled' | 'cancelled' | 'expired' | 'rejected'
-      /** Submitted Tick */
-      submitted_tick: number
-      /** Symbol */
-      symbol: string
-      /** Triggered */
-      triggered: boolean
-      /**
-       * Type
-       * @enum {string}
-       */
-      type: 'market' | 'limit' | 'stop'
-    }
-    /** SimulationOrderAudit */
-    SimulationOrderAudit: {
-      /** Filled Quantity */
-      filled_quantity: number
-      /** Limit Price */
-      limit_price: string
-      /** Order Id */
-      order_id: string
-      /**
-       * Status
-       * @enum {string}
-       */
-      status:
-        'open' | 'partial' | 'filled' | 'cancelled' | 'expired' | 'rejected'
-    }
-    /** SimulationPlan */
-    SimulationPlan: {
-      /** Exit */
-      exit: string
-      /** Max Loss */
-      max_loss: string
-      /** Reason */
-      reason: string
-      /** Risk */
-      risk: string
-      /** Size Reason */
-      size_reason: string
     }
     /** SimulationPosition */
     SimulationPosition: {
@@ -1094,6 +1064,31 @@ export interface components {
       /** Reflection */
       reflection: string
     }
+    /** SubmitOrder */
+    SubmitOrder: {
+      /** Idempotency Key */
+      idempotency_key: string
+      plan: components['schemas']['PlanCommand']
+      /** Price */
+      price?: string | null
+      /** Quantity */
+      quantity: number
+      /**
+       * Side
+       * @enum {string}
+       */
+      side: 'buy' | 'sell'
+      /**
+       * Symbol
+       * @enum {string}
+       */
+      symbol: 'NORTH' | 'HARBOR' | 'PLAIN' | 'COVE'
+      /**
+       * Type
+       * @enum {string}
+       */
+      type: 'market' | 'limit' | 'stop'
+    }
     /** SubmitStep */
     SubmitStep: {
       answer: components['schemas']['StepAnswer']
@@ -1122,7 +1117,7 @@ export interface components {
       filled: number
       /** Id */
       id: string
-      plan: components['schemas']['SimulationPlan']
+      plan: components['schemas']['OrderPlan']
       /** Price */
       price: string | null
       /** Quantity */

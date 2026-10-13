@@ -2,7 +2,6 @@ from pydantic import Field
 from typing import Literal
 from app.api_schemas.shared_schema import BaseCommand
 
-
 class CreateChallenge(BaseCommand):
     mode: Literal['practice', 'daily', 'chapter_entry', 'chapter_exit'] = 'practice'
     module_id: str | None = Field(default=None, min_length=1, max_length=120)
@@ -10,8 +9,4 @@ class CreateChallenge(BaseCommand):
 
 
 class AbandonChallenge(BaseCommand):
-    pass
-
-
-class CancelChallengeOrder(BaseCommand):
     pass

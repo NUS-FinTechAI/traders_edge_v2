@@ -1319,23 +1319,6 @@ export interface paths {
     patch?: never
     trace?: never
   }
-  '/api/simulations/{session_id}/orders': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /** Order */
-    post: operations['submitSimulationOrder']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
   '/api/simulations/{session_id}/orders/{order_id}/cancel': {
     parameters: {
       query?: never
@@ -1347,6 +1330,23 @@ export interface paths {
     put?: never
     /** Cancel */
     post: operations['cancelSimulationOrder']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/simulations/{session_id}/orders/submit': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /** Order */
+    post: operations['submitSimulationOrder']
     delete?: never
     options?: never
     head?: never
@@ -1685,7 +1685,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['OrderSimulation']
+        'application/json': components['schemas']['SubmitOrder']
       }
     }
     responses: {
@@ -1721,7 +1721,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['CancelChallengeOrder']
+        'application/json': components['schemas']['CancelOrder']
       }
     }
     responses: {
@@ -3919,18 +3919,19 @@ export interface operations {
       }
     }
   }
-  submitSimulationOrder: {
+  cancelSimulationOrder: {
     parameters: {
       query?: never
       header?: never
       path: {
+        order_id: string
         session_id: string
       }
       cookie?: never
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['OrderSimulation']
+        'application/json': components['schemas']['CancelOrder']
       }
     }
     responses: {
@@ -3954,19 +3955,18 @@ export interface operations {
       }
     }
   }
-  cancelSimulationOrder: {
+  submitSimulationOrder: {
     parameters: {
       query?: never
       header?: never
       path: {
-        order_id: string
         session_id: string
       }
       cookie?: never
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['CancelSimulation']
+        'application/json': components['schemas']['SubmitOrder']
       }
     }
     responses: {

@@ -1,6 +1,6 @@
 
 from app.api_schemas.shared_schema import BaseCommand
-from app.api_schemas.simulation_schema import SimulationOrder
+from app.api_schemas.simulation_schema import Order
 from pydantic import Field
 
 
@@ -8,7 +8,7 @@ class TickCommand(BaseCommand):
     expected_tick: int = Field(ge=0, le=29, strict=True)
 
 
-class TickOrder(SimulationOrder):
+class TickOrder(Order):
     expected_tick: int = Field(ge=0, le=29, strict=True)
 
 

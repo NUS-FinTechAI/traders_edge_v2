@@ -519,7 +519,7 @@ export const apiEndpoints = {
   submitSimulationOrder: {
     operationId: 'submitSimulationOrder',
     method: 'POST',
-    path: '/api/simulations/{session_id}/orders',
+    path: '/api/simulations/{session_id}/orders/submit',
     auth: 'required',
   },
   cancelSimulationOrder: {

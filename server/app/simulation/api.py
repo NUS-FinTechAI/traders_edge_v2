@@ -16,7 +16,8 @@ from app.db import Base, LearningRun, Profile, SimulationSession, get_db, now, u
 from app.learning import catalog
 from app.progression import progress
 from app.simulation import engine
-from app.api_schemas.simulation_schema import CancelSimulation, CreateSimulation, OrderSimulation, AdvanceSimulation, DebriefSimulation
+from app.api_schemas.simulation_schema import CreateSimulation, AdvanceSimulation, DebriefSimulation
+from app.api_schemas.order_schema import SubmitOrder, CancelOrder
 
 router = APIRouter(prefix='/api/simulations', tags=['simulation'])
 DB = Annotated[AsyncSession, Depends(get_db, scope='function')]
@@ -154,8 +155,8 @@ async def execute(session_id, body, operation, db, user, order_id=None, request=
     return result
 
 
-@router.post('/{session_id}/orders', operation_id='submitSimulationOrder')
-async def order(session_id: str, body: OrderSimulation, request: Request, db: DB, user: User):
+@router.post('/{session_id}/orders/submit', operation_id='submitSimulationOrder')
+async def order(session_id: str, body: SubmitOrder, request: Request, db: DB, user: User):
     return await execute(session_id, body, 'order', db, user, request=request)
 
 
@@ -165,7 +166,7 @@ async def advance(session_id: str, body: AdvanceSimulation, request: Request, db
 
 
 @router.post('/{session_id}/orders/{order_id}/cancel', operation_id='cancelSimulationOrder')
-async def cancel(session_id: str, order_id: str, body: CancelSimulation, request: Request, db: DB, user: User):
+async def cancel(session_id: str, order_id: str, body: CancelOrder, request: Request, db: DB, user: User):
     return await execute(session_id, body, 'cancel', db, user, order_id, request=request)
 
 

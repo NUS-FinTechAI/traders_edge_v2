@@ -11,8 +11,9 @@ from app.simulation.api import DB, User, require_access
 from app.challenges import core
 from app.challenges.models import ChallengeAttempt, ChallengeCommand
 
-from app.api_schemas.challenge_schema import CreateChallenge, CancelChallengeOrder, AbandonChallenge
-from app.api_schemas.simulation_schema import OrderSimulation, AdvanceSimulation, DebriefSimulation
+from app.api_schemas.challenge_schema import CreateChallenge, AbandonChallenge
+from app.api_schemas.simulation_schema import AdvanceSimulation, DebriefSimulation
+from app.api_schemas.order_schema import CancelOrder, SubmitOrder
 
 router = APIRouter(prefix='/api/challenges', tags=['challenges'])
 
@@ -183,12 +184,12 @@ async def execute(attempt_id, body, operation, request, db, user, order_id=None)
 
 
 @router.post('/{attempt_id}/orders', operation_id='submitChallengeOrder')
-async def order(attempt_id: str, body: OrderSimulation, request: Request, db: DB, user: User):
+async def order(attempt_id: str, body: SubmitOrder, request: Request, db: DB, user: User):
     return await execute(attempt_id, body, 'order', request, db, user)
 
 
 @router.post('/{attempt_id}/orders/{order_id}/cancel', operation_id='cancelChallengeOrder')
-async def cancel(attempt_id: str, order_id: str, body: CancelChallengeOrder, request: Request, db: DB, user: User):
+async def cancel(attempt_id: str, order_id: str, body: CancelOrder, request: Request, db: DB, user: User):
     return await execute(attempt_id, body, 'cancel', request, db, user, order_id)
 
 

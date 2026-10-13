@@ -406,7 +406,7 @@
     {
       "operationId": "submitSimulationOrder",
       "method": "POST",
-      "path": "/api/simulations/{session_id}/orders",
+      "path": "/api/simulations/{session_id}/orders/submit",
       "status": "200"
     },
     {
