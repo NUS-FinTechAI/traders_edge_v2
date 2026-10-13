@@ -1,15 +1,16 @@
 from typing import Annotated, Literal
-from pydantic import BaseModel, Field
+from app.api_schemas.shared_schema import Payload
+from pydantic import Field
 
-class GuestAuthConfig(BaseModel):
+class GuestAuthConfig(Payload):
     mode: Literal['guest']
     firebase_project_id: None
 
 
-class FirebaseAuthConfig(BaseModel):
+class FirebaseAuthConfig(Payload):
     mode: Literal['firebase']
     firebase_project_id: str = Field(min_length=1)
 
 
-class PublicConfig(BaseModel):
+class PublicConfig(Payload):
     auth: Annotated[GuestAuthConfig | FirebaseAuthConfig, Field(discriminator='mode')]

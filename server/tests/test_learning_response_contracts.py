@@ -6,8 +6,8 @@ from pydantic import ValidationError
 from app.export_openapi import export_schema
 from app.api_schemas.learning_run_schema import LearningRunResponse
 from app.api_schemas.simulation_schema import BoundSimulationResponse
-from app.api_schemas.shared_schema import Command
-from app.api_schemas.economy_schema import Command as EconomyCommand
+from app.api_schemas.shared_schema import BaseCommand
+from app.api_schemas.economy_schema import EconomyCommand
 from app.simulation import api, engine
 from app.simulation.bindings import BINDING, public_binding
 
@@ -34,7 +34,7 @@ def completed_run():
 
 class LearningResponseContractTests(unittest.TestCase):
     def test_shared_commands_do_not_add_fields_to_historical_hash_payloads(self):
-        command = Command(idempotency_key='saved-command')
+        command = BaseCommand(idempotency_key='saved-command')
 
         payload = command.model_dump(exclude={'idempotency_key'})
 

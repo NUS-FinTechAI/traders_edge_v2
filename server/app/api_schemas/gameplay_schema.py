@@ -1,7 +1,7 @@
-from pydantic import BaseModel
+from app.api_schemas.shared_schema import Payload
 from typing import Literal
 
-class PublicAdventureLevel(BaseModel):
+class PublicAdventureLevel(Payload):
     id: str
     title: str
     objective: str
@@ -9,7 +9,7 @@ class PublicAdventureLevel(BaseModel):
     bonus_steps: int
 
 
-class PublicAdventureChapter(BaseModel):
+class PublicAdventureChapter(Payload):
     module_id: str
     title: str
     order: int
@@ -18,11 +18,11 @@ class PublicAdventureChapter(BaseModel):
     levels: list[PublicAdventureLevel]
 
 
-class PublicAdventureResponse(BaseModel):
+class PublicAdventureResponse(Payload):
     chapters: list[PublicAdventureChapter]
 
 
-class LevelProgress(BaseModel):
+class LevelProgress(Payload):
     id: str
     title: str
     objective: str
@@ -35,13 +35,13 @@ class LevelProgress(BaseModel):
     active_run_id: str | None
 
 
-class DiagnosticProgress(BaseModel):
+class DiagnosticProgress(Payload):
     required: bool
     completed: bool
     run_id: str | None
 
 
-class ModuleMap(BaseModel):
+class ModuleMap(Payload):
     module_id: str
     title: str
     content_version: str | None
@@ -63,32 +63,32 @@ class LevelBriefing(LevelProgress):
     review_after_days: int
 
 
-class LevelResponse(BaseModel):
+class LevelResponse(Payload):
     module_id: str
     content_version: str | None
     interactive_available: bool
     level: LevelBriefing
 
 
-class StarProgress(BaseModel):
+class StarProgress(Payload):
     earned: int
     total: int
 
 
-class BossAvailability(BaseModel):
+class BossAvailability(Payload):
     available: bool
     reason: Literal['introductory_diagnostic', 'chapter_locked', 'required_levels_incomplete',
                     'diagnostic_incomplete', 'active_challenge_limit'] | None
     active_attempt_ids: list[str]
 
 
-class ActiveChapterRun(BaseModel):
+class ActiveChapterRun(Payload):
     run_id: str
     purpose: Literal['diagnostic', 'practice', 'bonus', 'assessment']
     level_id: str | None
 
 
-class AdventureChapter(BaseModel):
+class AdventureChapter(Payload):
     module_id: str
     title: str
     order: int
@@ -107,6 +107,6 @@ class AdventureChapter(BaseModel):
     active_learning_runs: list[ActiveChapterRun]
 
 
-class AdventureResponse(BaseModel):
+class AdventureResponse(Payload):
     policy_version: str
     chapters: list[AdventureChapter]

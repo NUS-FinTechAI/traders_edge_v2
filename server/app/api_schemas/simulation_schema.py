@@ -3,7 +3,6 @@ from app.api_schemas.shared_schema import Payload, BaseCommand
 from app.simulation import engine
 from pydantic import Field, field_validator
 from typing import Literal
-from pydantic import BaseModel
 
 
 class CreateSimulation(BaseCommand):
@@ -42,7 +41,7 @@ class ReviewSimulation(BaseCommand):
     audit: SimulationAudit
 
 
-class SimulationQuote(BaseModel):
+class SimulationQuote(Payload):
     symbol: str
     mid: str
     bid: str
@@ -50,7 +49,7 @@ class SimulationQuote(BaseModel):
     available_units: int
 
 
-class SimulationPosition(BaseModel):
+class SimulationPosition(Payload):
     symbol: str
     quantity: int
     cost: str
@@ -59,7 +58,7 @@ class SimulationPosition(BaseModel):
     weight_percent: str
 
 
-class SimulationFill(BaseModel):
+class SimulationFill(Payload):
     order_id: str
     tick: int
     symbol: str
@@ -69,7 +68,7 @@ class SimulationFill(BaseModel):
     fee: str
 
 
-class SimulationRules(BaseModel):
+class SimulationRules(Payload):
     max_asset_weight_percent: int
     shorting: bool
     leverage: int
@@ -80,7 +79,7 @@ class SimulationRules(BaseModel):
     benchmark: str
 
 
-class LessonSimulationPolicy(BaseModel):
+class LessonSimulationPolicy(Payload):
     id: str
     engine_version: int
     provenance: str
@@ -105,7 +104,7 @@ class BoundSimulationPolicy(LessonSimulationPolicy):
     unit_price_cap: str
 
 
-class SimulationAuditObservation(BaseModel):
+class SimulationAuditObservation(Payload):
     tick: int
     engine_version: int
     # Historical committed audits predate observation tokens.
@@ -116,7 +115,7 @@ class SimulationAuditObservation(BaseModel):
     no_order_reason: Literal['no_thesis_supplied', 'current_ask_above_cap'] | None
 
 
-class SimulationResponse(BaseModel):
+class SimulationResponse(Payload):
     id: str
     mode: Literal['guided', 'endless']
     updated_at: str | None

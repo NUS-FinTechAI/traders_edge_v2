@@ -1,5 +1,5 @@
 from typing import Literal
-from pydantic import BaseModel, Field, field_validator
+from pydantic import Field, field_validator
 from app.api_schemas.shared_schema import BaseCommand, Payload
 from app.simulation import engine
 
@@ -7,15 +7,15 @@ from app.simulation import engine
 OrderStatus = Literal['open', 'partial', 'filled', 'cancelled', 'expired', 'rejected']
 
 
-class OrderPlan(BaseModel):
-    reason: str
-    risk: str
-    exit: str
-    size_reason: str
-    max_loss: str
+class OrderPlan(Payload):
+    reason: str = Field(min_length=12, max_length=1500)
+    risk: str = Field(min_length=12, max_length=1500)
+    exit: str = Field(min_length=12, max_length=1500)
+    size_reason: str = Field(min_length=12, max_length=1500)
+    max_loss: str = Field(min_length=1, max_length=20)
 
 
-class Order(BaseModel):
+class Order(Payload):
     id: str
     symbol: str
     side: Literal['buy', 'sell']
@@ -30,7 +30,7 @@ class Order(BaseModel):
     filled: int
 
 
-class AuditOrder(BaseModel):
+class AuditOrder(Payload):
     order_id: str
     status: OrderStatus
     filled_quantity: int
@@ -51,21 +51,13 @@ class OrderAudit(Payload):
         return value
 
 
-class PlanOrder(BaseCommand):
-    reason: str = Field(min_length=12, max_length=1500)
-    risk: str = Field(min_length=12, max_length=1500)
-    exit: str = Field(min_length=12, max_length=1500)
-    size_reason: str = Field(min_length=12, max_length=1500)
-    max_loss: str = Field(min_length=1, max_length=20)
-
-
 class SubmitOrder(BaseCommand):
     symbol: Literal['NORTH', 'HARBOR', 'PLAIN', 'COVE']
     side: Literal['buy', 'sell']
     type: Literal['market', 'limit', 'stop']
     quantity: int = Field(ge=1, le=1000, strict=True)
     price: str | None = Field(default=None, max_length=20)
-    plan: PlanOrder
+    plan: OrderPlan
 
 
 class CancelOrder(BaseCommand):

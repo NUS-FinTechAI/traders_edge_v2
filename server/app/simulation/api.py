@@ -6,7 +6,6 @@ import secrets
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, Request
-from pydantic import BaseModel, ConfigDict
 from sqlalchemy import DateTime, ForeignKey, JSON, String, func, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import Mapped, mapped_column
@@ -32,10 +31,6 @@ class SimulationCommand(Base):
     request_hash: Mapped[str] = mapped_column(String(64))
     response: Mapped[dict] = mapped_column(JSON)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
-
-
-class Payload(BaseModel):
-    model_config = ConfigDict(extra='forbid', str_strip_whitespace=True)
 
 
 async def require_access(request, db, user, mode):

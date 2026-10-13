@@ -768,8 +768,6 @@ export interface components {
     PlanOrder: {
       /** Exit */
       exit: string
-      /** Idempotency Key */
-      idempotency_key: string
       /** Max Loss */
       max_loss: string
       /** Reason */
@@ -1113,34 +1111,23 @@ export interface components {
     TickOrder: {
       /** Expected Tick */
       expected_tick: number
-      /** Filled */
-      filled: number
-      /** Id */
-      id: string
-      plan: components['schemas']['OrderPlan']
+      /** Idempotency Key */
+      idempotency_key: string
+      plan: components['schemas']['PlanOrder']
       /** Price */
-      price: string | null
+      price?: string | null
       /** Quantity */
       quantity: number
-      /** Remaining */
-      remaining: number
       /**
        * Side
        * @enum {string}
        */
       side: 'buy' | 'sell'
       /**
-       * Status
+       * Symbol
        * @enum {string}
        */
-      status:
-        'open' | 'partial' | 'filled' | 'cancelled' | 'expired' | 'rejected'
-      /** Submitted Tick */
-      submitted_tick: number
-      /** Symbol */
-      symbol: string
-      /** Triggered */
-      triggered: boolean
+      symbol: 'NORTH' | 'HARBOR' | 'PLAIN' | 'COVE'
       /**
        * Type
        * @enum {string}
