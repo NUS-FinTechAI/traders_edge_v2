@@ -2,6 +2,7 @@ from copy import deepcopy
 import hashlib
 import json
 import secrets
+from datetime import timedelta
 
 from fastapi import APIRouter, HTTPException, Request
 from fastapi.responses import JSONResponse
@@ -14,7 +15,7 @@ from app.learning import catalog
 from app.simulation import engine
 from app.simulation.api import DB, User, require_access
 
-from app.api_schemas.multiplayer_schema import StartMultiplayer, TickCommand, TickOrder, JoinMultiplayer, AbandonMultiplayer, JoinMultiplayerMatchMaking, CreateMultiplayerLobby
+from app.api_schemas.multiplayer_schema import StartMultiplayerMatch, TickCommand, TickOrder, JoinMultiplayerLobby, AbandonMultiplayerMatch, JoinMultiplayerMatchMaking, CreateMultiplayerLobby
 from app.api_schemas.simulation_schema import DebriefSimulation
 
 from app.multiplayer import core
@@ -142,7 +143,7 @@ async def create(body: CreateMultiplayerLobby, request: Request, db: DB, user: U
 
 
 @router.post('/join', operation_id='joinMultiplayerLobby')
-async def join(body: JoinMultiplayer, request: Request, db: DB, user: User):
+async def join(body: JoinMultiplayerLobby, request: Request, db: DB, user: User):
     request_hash = digest('join_private', None, {'code': body.code})
     previous = await replay(db, user, body.idempotency_key, request_hash)
     if previous is not None:
@@ -343,7 +344,7 @@ async def execute(lobby_id, body, operation, request, db, user, order_id=None):
 
 
 @router.post('/{lobby_id}/start', operation_id='startMultiplayerMatch')
-async def start(lobby_id: str, body: StartMultiplayer, request: Request, db: DB, user: User):
+async def start(lobby_id: str, body: StartMultiplayerMatch, request: Request, db: DB, user: User):
     return await execute(lobby_id, body, 'start', request, db, user)
 
 
@@ -368,5 +369,5 @@ async def complete(lobby_id: str, body: DebriefSimulation, request: Request, db:
 
 
 @router.post('/{lobby_id}/abandon', operation_id='abandonMultiplayerMatch')
-async def abandon(lobby_id: str, body: AbandonMultiplayer, request: Request, db: DB, user: User):
+async def abandon(lobby_id: str, body: AbandonMultiplayerMatch, request: Request, db: DB, user: User):
     return await execute(lobby_id, body, 'abandon', request, db, user)

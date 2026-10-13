@@ -12,11 +12,11 @@ class TickOrder(SimulationOrder):
     expected_tick: int = Field(ge=0, le=29, strict=True)
 
 
-class JoinMultiplayer(BaseCommand):
+class JoinMultiplayerLobby(BaseCommand):
     code: str = Field(min_length=16, max_length=16, pattern=r'^[A-F0-9]{16}$')
 
 
-class AbandonMultiplayer(BaseCommand):
+class AbandonMultiplayerMatch(BaseCommand):
     pass
 
 
@@ -27,5 +27,5 @@ class JoinMultiplayerMatchMaking(BaseCommand):
 class CreateMultiplayerLobby(BaseCommand):
     pass
 
-class StartMultiplayer(BaseCommand):
+class StartMultiplayerMatch(BaseCommand):
     pass
