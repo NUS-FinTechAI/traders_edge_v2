@@ -2890,7 +2890,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['AbandonMultiplayer']
+        'application/json': components['schemas']['AbandonMultiplayerMatch']
       }
     }
     responses: {
@@ -3066,7 +3066,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['StartMultiplayer']
+        'application/json': components['schemas']['StartMultiplayerMatch']
       }
     }
     responses: {
@@ -3099,7 +3099,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['JoinMultiplayer']
+        'application/json': components['schemas']['JoinMultiplayerLobby']
       }
     }
     responses: {
@@ -3205,7 +3205,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['JoinMultiplayerMatchMaking']
+        'application/json': components['schemas']['JoinMultiplayerMatchmaking']
       }
     }
     responses: {
@@ -3417,7 +3417,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['CreateQuiz']
+        'application/json': components['schemas']['CreateQuizRoom']
       }
     }
     responses: {
@@ -3582,7 +3582,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['JoinQuiz']
+        'application/json': components['schemas']['JoinQuizRoom']
       }
     }
     responses: {

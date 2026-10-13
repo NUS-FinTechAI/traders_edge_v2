@@ -6,8 +6,8 @@ export interface components {
       /** Idempotency Key */
       idempotency_key: string
     }
-    /** AbandonMultiplayer */
-    AbandonMultiplayer: {
+    /** AbandonMultiplayerMatch */
+    AbandonMultiplayerMatch: {
       /** Idempotency Key */
       idempotency_key: string
     }
@@ -79,38 +79,6 @@ export interface components {
       option_id: string
       /** Question Id */
       question_id: string
-    }
-    /** AuditSimulation */
-    AuditSimulation: {
-      /** Engine Version */
-      engine_version: number
-      /** No Order Reason */
-      no_order_reason: ('no_thesis_supplied' | 'current_ask_above_cap') | null
-      /** Observation Token */
-      observation_token?: string | null
-      /** Orders */
-      orders: components['schemas']['AuditSimulationOrder'][]
-      /** Price Limit Guarantees Fill */
-      price_limit_guarantees_fill: boolean
-      /** Session Fees */
-      session_fees: string
-      /** Tick */
-      tick: number
-    }
-    /** AuditSimulationOrder */
-    AuditSimulationOrder: {
-      /** Filled Quantity */
-      filled_quantity: number
-      /** Limit Price */
-      limit_price: string
-      /** Order Id */
-      order_id: string
-      /**
-       * Status
-       * @enum {string}
-       */
-      status:
-        'open' | 'partial' | 'filled' | 'cancelled' | 'expired' | 'rejected'
     }
     /** BindLearningSimulation */
     BindLearningSimulation: {
@@ -324,8 +292,8 @@ export interface components {
       /** Idempotency Key */
       idempotency_key: string
     }
-    /** CreateQuiz */
-    CreateQuiz: {
+    /** CreateQuizRoom */
+    CreateQuizRoom: {
       /**
        * Attempt Limit
        * @default 1
@@ -436,20 +404,20 @@ export interface components {
        */
       type: 'instruction'
     }
-    /** JoinMultiplayer */
-    JoinMultiplayer: {
+    /** JoinMultiplayerLobby */
+    JoinMultiplayerLobby: {
       /** Code */
       code: string
       /** Idempotency Key */
       idempotency_key: string
     }
-    /** JoinMultiplayerMatchMaking */
-    JoinMultiplayerMatchMaking: {
+    /** JoinMultiplayerMatchmaking */
+    JoinMultiplayerMatchmaking: {
       /** Idempotency Key */
       idempotency_key: string
     }
-    /** JoinQuiz */
-    JoinQuiz: {
+    /** JoinQuizRoom */
+    JoinQuizRoom: {
       /** Idempotency Key */
       idempotency_key: string
       /** Join Code */
@@ -842,9 +810,26 @@ export interface components {
     }
     /** ReviewSimulation */
     ReviewSimulation: {
-      audit: components['schemas']['AuditSimulation']
+      audit: components['schemas']['SimulationAudit']
       /** Idempotency Key */
       idempotency_key: string
+    }
+    /** SimulationAudit */
+    SimulationAudit: {
+      /** Engine Version */
+      engine_version: number
+      /** No Order Reason */
+      no_order_reason: ('no_thesis_supplied' | 'current_ask_above_cap') | null
+      /** Observation Token */
+      observation_token?: string | null
+      /** Orders */
+      orders: components['schemas']['SimulationOrderAudit'][]
+      /** Price Limit Guarantees Fill */
+      price_limit_guarantees_fill: boolean
+      /** Session Fees */
+      session_fees: string
+      /** Tick */
+      tick: number
     }
     /** SimulationAuditIssue */
     SimulationAuditIssue: {
@@ -948,6 +933,21 @@ export interface components {
        */
       type: 'market' | 'limit' | 'stop'
     }
+    /** SimulationOrderAudit */
+    SimulationOrderAudit: {
+      /** Filled Quantity */
+      filled_quantity: number
+      /** Limit Price */
+      limit_price: string
+      /** Order Id */
+      order_id: string
+      /**
+       * Status
+       * @enum {string}
+       */
+      status:
+        'open' | 'partial' | 'filled' | 'cancelled' | 'expired' | 'rejected'
+    }
     /** SimulationPlan */
     SimulationPlan: {
       /** Exit */
@@ -1048,8 +1048,8 @@ export interface components {
        */
       purpose?: 'practice' | 'bonus'
     }
-    /** StartMultiplayer */
-    StartMultiplayer: {
+    /** StartMultiplayerMatch */
+    StartMultiplayerMatch: {
       /** Idempotency Key */
       idempotency_key: string
     }
