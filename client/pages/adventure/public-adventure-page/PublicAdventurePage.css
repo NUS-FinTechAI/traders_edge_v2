@@ -7,7 +7,7 @@
   color: var(--adventure-text);
 }
 .public-adventure-page h1 {
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: var(--font-heading);
   font-weight: 400;
   line-height: 1.15;
   text-wrap: balance;
@@ -31,7 +31,7 @@
   cursor: pointer;
 }
 .public-adventure-page :is(a, button, summary):focus-visible {
-  outline: 3px solid #f5d38c;
+  outline: 3px solid var(--color-focus);
   outline-offset: 4px;
 }
 .public-adventure-page h1:focus {
@@ -48,7 +48,7 @@
 }
 :where(.public-adventure-page) .adventure-eyebrow {
   font-size: 0.875rem;
-  color: #d8bf85;
+  color: var(--color-text-accent);
   margin: 0 0 0.5rem;
 }
 @media (max-width: 700px) {
@@ -77,9 +77,9 @@
 .public-adventure-page .adventure-rail-controls button {
   width: 48px;
   height: 48px;
-  border: 1px solid #83978a;
-  background: #1c302a;
-  color: #f2ecdb;
+  border: 1px solid var(--color-border-soft);
+  background: var(--color-surface);
+  color: var(--color-text);
   border-radius: 4px;
   font-size: 1.5rem;
 }
@@ -92,7 +92,7 @@
   padding: 0.5rem 0.25rem 1.25rem;
   margin: 0 -0.25rem;
   list-style: none;
-  scrollbar-color: #8ca589 #1c302a;
+  scrollbar-color: var(--color-scrollbar) var(--color-surface);
 }
 @media (prefers-reduced-motion: reduce) {
   .public-adventure-page .adventure-chapter-rail {
@@ -102,7 +102,7 @@
 }
 
 .public-entry {
-  border: 1px solid #718672;
+  border: 1px solid var(--color-border);
   padding: 1.5rem;
   margin: 1.5rem 0;
 }
@@ -114,9 +114,9 @@
   min-width: 44px;
   min-height: 44px;
   padding: 0.65rem 1rem;
-  background: #277354;
-  color: #fff;
-  border: 1px solid #9db997;
+  background: var(--color-primary);
+  color: var(--color-white);
+  border: 1px solid var(--color-border-strong);
   border-radius: 4px;
   text-decoration: none;
 }

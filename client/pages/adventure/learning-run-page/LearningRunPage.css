@@ -2,13 +2,10 @@
   max-width: 72rem;
   margin: 2rem auto;
   padding: 0 1.5rem 2rem;
-  color: #f2ecdb;
+  color: var(--color-text);
 }
 .learning-run-page h1 {
-  font:
-    400 clamp(1.8rem, 4vw, 2.6rem)/1.2 Georgia,
-    'Times New Roman',
-    serif;
+  font: 400 clamp(1.8rem, 4vw, 2.6rem)/1.2 var(--font-heading);
 }
 .learning-run-page h1:focus {
   outline: none;
@@ -19,7 +16,7 @@
 .learning-run-page progress {
   width: 100%;
   height: 0.6rem;
-  accent-color: #d1b571;
+  accent-color: var(--color-accent-strong);
 }
 .learning-run-page button,
 .learning-run-page .learning-action {
@@ -29,9 +26,9 @@
   min-height: 44px;
   min-width: 44px;
   padding: 0.65rem 1rem;
-  background: #277354;
-  color: #fff;
-  border: 1px solid #9db997;
+  background: var(--color-primary);
+  color: var(--color-white);
+  border: 1px solid var(--color-border-strong);
   border-radius: 4px;
   font: inherit;
   cursor: pointer;
@@ -42,7 +39,7 @@
   cursor: wait;
 }
 .learning-run-page :is(a, button, input, select):focus-visible {
-  outline: 3px solid #f5d38c;
+  outline: 3px solid var(--color-focus);
   outline-offset: 3px;
 }
 .learning-back {
@@ -55,7 +52,7 @@
 .learning-pending {
   margin: 1rem 0;
   padding: 1rem;
-  border: 1px solid #d1b571;
+  border: 1px solid var(--color-accent-strong);
 }
 @media (max-width: 700px) {
   .learning-run-page {

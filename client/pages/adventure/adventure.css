@@ -1,3 +1,6 @@
 :root {
-  --adventure-text: #f2ecdb;
+  --adventure-map-surface: #192e27;
+  --adventure-mission-text: #d5dfce;
+  --adventure-complete-accent: #e5c87e;
+  --adventure-text: var(--color-text);
 }

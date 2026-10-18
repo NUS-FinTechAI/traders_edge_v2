@@ -9,16 +9,16 @@
   align-items: center;
   min-height: 44px;
   padding: 0.65rem 1rem;
-  color: #f2ecdb;
+  color: var(--color-text);
 }
 .auth-guard-error button {
   font: inherit;
-  background: #277354;
-  border: 1px solid #9db997;
+  background: var(--color-primary);
+  border: 1px solid var(--color-border-strong);
   cursor: pointer;
 }
 .auth-guard-error :is(a, button):focus-visible {
-  outline: 3px solid #f5d38c;
+  outline: 3px solid var(--color-focus);
   outline-offset: 3px;
 }
 @media (max-width: 700px) {

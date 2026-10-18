@@ -9,6 +9,12 @@ Read [AGENTS.md](AGENTS.md) and the [source brief](docs/source/traders-edge-supe
 - Use explicit session handoffs when ignored coordination storage is unavailable in the checkout. Report blockers honestly; do not claim logs, tests, reviews or approvals that did not happen.
 - Preserve research, audits, stable content IDs, deployed migrations and learner history. Propose cleanup with KEEP/REFACTOR/REMOVE-CANDIDATE evidence, dependencies and consequences; deleting files requires specific confirmation.
 
+## Shared theme
+
+`client/theme.css` defines globally shared colors and font families and is imported once by `client/main.tsx`, before the base styles. Use generic semantic names such as `--color-background`, `--color-text`, `--color-primary` and `--color-border-strong`. Add a global token only when independent features share the visual role; do not put feature names or feature-only palettes in this file.
+
+Keep feature-specific colors and variables in the owning component or page stylesheet, scoped to its root selector. Colors shared within one feature belong in that feature's shared stylesheet, such as `client/pages/adventure/adventure.css`. Prefer existing global roles when appropriate, and keep layout rules local. Preserve provider logo artwork colors; they are not application theme colors. Verify contrast when changing the palette.
+
 ## Checks and review
 
 Run lint, type-check, build, HTTP-service tests, backend tests, catalog validation and catalog tests using the locked commands in README. For documentation-only changes, also verify relative links/source paths and `git diff --check`; do not reformat unrelated files. Report exact commands, results and any checks not run. Test counts alone do not establish product completeness.

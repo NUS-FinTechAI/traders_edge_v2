@@ -1,8 +1,8 @@
 .adventure-read-error {
-  border: 1px solid #8c9b83;
-  border-left: 4px solid #d6ba78;
+  border: 1px solid var(--color-border-muted);
+  border-left: 4px solid var(--color-border-warning);
   padding: 1.25rem;
-  background: #1c302a;
+  background: var(--color-surface);
   margin: 1rem 0;
 }
 .adventure-read-error p:first-child {
@@ -25,15 +25,15 @@
   min-width: 44px;
   min-height: 44px;
   padding: 0.65rem 1rem;
-  background: #277354;
-  color: #fff;
-  border: 1px solid #9db997;
+  background: var(--color-primary);
+  color: var(--color-white);
+  border: 1px solid var(--color-border-strong);
   border-radius: 4px;
   text-decoration: none;
 }
 :where(.adventure-read-error) .adventure-button-secondary {
-  background: #20372d;
-  color: #f2ecdb;
+  background: var(--color-surface-secondary);
+  color: var(--color-text);
 }
 .adventure-read-error .adventure-button {
   margin-top: 0.25rem;

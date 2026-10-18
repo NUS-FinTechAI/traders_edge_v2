@@ -7,13 +7,13 @@
 }
 
 .error-panel > svg {
-  color: #e2bfbf;
+  color: var(--color-danger-muted);
   width: 80px;
   height: 80px;
 }
 
 .error-message {
-  color: white;
+  color: var(--color-white);
   font-weight: bold;
   font-size: 1.2rem;
 }

@@ -1,0 +1,37 @@
+:root {
+  --color-background: #101c1b;
+  --color-surface-raised: #142321;
+  --color-surface: #1c302a;
+  --color-surface-card: #1b3029;
+  --color-surface-card-hover: #233d33;
+  --color-surface-secondary: #20372d;
+  --color-text: #f2ecdb;
+  --color-text-muted: #b4c3b8;
+  --color-white: #fff;
+  --color-primary: #277354;
+  --color-border-strong: #9db997;
+  --color-border-interactive: #88ad83;
+  --color-highlight: #65947b;
+  --color-accent: #e2c17d;
+  --color-text-accent: #d8bf85;
+  --color-accent-strong: #d1b571;
+  --color-accent-muted: #c1a56b;
+  --color-link: #f1d69a;
+  --color-focus: #f5d38c;
+  --color-focus-strong: #ecc878;
+  --color-danger: #b31f1f;
+  --color-danger-text: #ffb7a8;
+  --color-danger-muted: #e2bfbf;
+  --color-border: #718672;
+  --color-border-muted: #8c9b83;
+  --color-border-soft: #83978a;
+  --color-border-control: #91a184;
+  --color-border-accent: #82724b;
+  --color-border-warning: #d6ba78;
+  --color-shadow: #0b1514;
+  --color-shadow-overlay: #0006;
+  --color-scrollbar: #8ca589;
+
+  --font-body: 'Trebuchet MS', 'Segoe UI', sans-serif;
+  --font-heading: Georgia, 'Times New Roman', serif;
+}
