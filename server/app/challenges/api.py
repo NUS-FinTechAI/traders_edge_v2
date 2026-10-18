@@ -3,6 +3,7 @@ import hashlib
 import json
 import secrets
 from fastapi import APIRouter, HTTPException, Request
+from fastapi.responses import JSONResponse
 from sqlalchemy import func, select
 
 from app.db import now, uid
@@ -11,7 +12,9 @@ from app.simulation.api import DB, User, require_access
 from app.challenges import core
 from app.challenges.models import ChallengeAttempt, ChallengeCommand
 
-from app.api_schemas.challenge_schema import CreateChallenge, AbandonChallenge
+from app.api_schemas.challenge_schema import (
+    CreateChallenge, AbandonChallenge, ChallengeResponse, ChallengeListResponse,
+)
 from app.api_schemas.simulation_schema import AdvanceSimulation, DebriefSimulation
 from app.api_schemas.order_schema import CancelOrder, SubmitOrder
 
@@ -85,12 +88,13 @@ async def save_command(db, user, key, digest, attempt):
     return result
 
 
-@router.post('', status_code=201, operation_id='startChallenge')
+@router.post('', status_code=201, operation_id='startChallenge',
+             response_model=ChallengeResponse, response_model_exclude_unset=True)
 async def start(body: CreateChallenge, request: Request, db: DB, user: User):
     digest = request_hash('start', None, body.model_dump(exclude={'idempotency_key'}))
     previous = await replay(db, user, body.idempotency_key, digest)
     if previous is not None:
-        return previous
+        return JSONResponse(previous, status_code=201)
     handler = getattr(request.app.state, 'challenge_start_handler', None)
     if handler:
         config = await handler(request, db, user, body)
@@ -113,7 +117,7 @@ async def start(body: CreateChallenge, request: Request, db: DB, user: User):
     return await save_command(db, user, body.idempotency_key, digest, attempt)
 
 
-@router.get('', operation_id='listChallenges')
+@router.get('', operation_id='listChallenges', response_model=ChallengeListResponse)
 async def list_attempts(db: DB, user: User):
     rows = (await db.execute(select(ChallengeAttempt.id, ChallengeAttempt.challenge_id,
         ChallengeAttempt.mode, ChallengeAttempt.module_id, ChallengeAttempt.status,
@@ -122,7 +126,8 @@ async def list_attempts(db: DB, user: User):
     return {'attempts': [dict(row) for row in rows]}
 
 
-@router.get('/{attempt_id}', operation_id='getChallenge')
+@router.get('/{attempt_id}', operation_id='getChallenge',
+            response_model=ChallengeResponse, response_model_exclude_unset=True)
 async def resume(attempt_id: str, request: Request, db: DB, user: User):
     return response(await owned(db, user, attempt_id, request))
 
@@ -135,7 +140,8 @@ async def execute(attempt_id, body, operation, request, db, user, order_id=None)
     digest = request_hash(operation, attempt_id, payload, order_id)
     previous = await replay(db, user, body.idempotency_key, digest)
     if previous is not None:
-        return previous
+        # Committed receipts predate current schemas and must replay without normalization.
+        return JSONResponse(previous)
     attempt = await owned(db, user, attempt_id, request)
     if attempt.status != 'active':
         raise HTTPException(409, 'This challenge attempt has ended')
@@ -186,26 +192,31 @@ async def execute(attempt_id, body, operation, request, db, user, order_id=None)
     return await save_command(db, user, body.idempotency_key, digest, attempt)
 
 
-@router.post('/{attempt_id}/orders', operation_id='submitChallengeOrder')
+@router.post('/{attempt_id}/orders', operation_id='submitChallengeOrder',
+             response_model=ChallengeResponse, response_model_exclude_unset=True)
 async def order(attempt_id: str, body: SubmitOrder, request: Request, db: DB, user: User):
     return await execute(attempt_id, body, 'order', request, db, user)
 
 
-@router.post('/{attempt_id}/orders/{order_id}/cancel', operation_id='cancelChallengeOrder')
+@router.post('/{attempt_id}/orders/{order_id}/cancel', operation_id='cancelChallengeOrder',
+             response_model=ChallengeResponse, response_model_exclude_unset=True)
 async def cancel(attempt_id: str, order_id: str, body: CancelOrder, request: Request, db: DB, user: User):
     return await execute(attempt_id, body, 'cancel', request, db, user, order_id)
 
 
-@router.post('/{attempt_id}/advance', operation_id='advanceChallenge')
+@router.post('/{attempt_id}/advance', operation_id='advanceChallenge',
+             response_model=ChallengeResponse, response_model_exclude_unset=True)
 async def advance(attempt_id: str, body: AdvanceSimulation, request: Request, db: DB, user: User):
     return await execute(attempt_id, body, 'advance', request, db, user)
 
 
-@router.post('/{attempt_id}/complete', operation_id='completeChallenge')
+@router.post('/{attempt_id}/complete', operation_id='completeChallenge',
+             response_model=ChallengeResponse, response_model_exclude_unset=True)
 async def complete(attempt_id: str, body: DebriefSimulation, request: Request, db: DB, user: User):
     return await execute(attempt_id, body, 'complete', request, db, user)
 
 
-@router.post('/{attempt_id}/abandon', operation_id='abandonChallenge')
+@router.post('/{attempt_id}/abandon', operation_id='abandonChallenge',
+             response_model=ChallengeResponse, response_model_exclude_unset=True)
 async def abandon(attempt_id: str, body: AbandonChallenge, request: Request, db: DB, user: User):
     return await execute(attempt_id, body, 'abandon', request, db, user)
