@@ -16,17 +16,21 @@ export default function ChapterCard({
   chapter: AdventureChapter | PublicAdventureChapter
 }) {
   const preview = 'levels' in chapter
+  const locked = !preview && !chapter.unlocked
   const total = preview ? chapter.levels.length : chapter.total_required_levels
   return (
     <li className="adventure-chapter-card">
       <Link to={`/adventure/chapters/${encodeURIComponent(chapter.module_id)}`}>
         <div className="adventure-card-top">
           <span>Chapter {String(chapter.order).padStart(2, '0')}</span>
-          {!preview && !chapter.unlocked && (
-            <span className="adventure-status" role="img" aria-label="Locked">
-              <LockIcon className="adventure-card-lock" />
-            </span>
-          )}
+          <span
+            className="adventure-status"
+            role={locked ? 'img' : undefined}
+            aria-label={locked ? 'Locked' : undefined}
+            aria-hidden={locked ? undefined : true}
+          >
+            {locked && <LockIcon className="adventure-card-lock" />}
+          </span>
         </div>
         <h2>{chapter.title}</h2>
         <div className="adventure-card-route" aria-hidden="true">

@@ -40,6 +40,10 @@
 .adventure-status {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
+  min-width: calc(24px + 1rem);
+  min-height: calc(24px + 0.3rem);
+  flex-shrink: 0;
   color: var(--color-text);
   padding: 0.15rem 0.5rem;
 }
