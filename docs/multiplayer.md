@@ -1,5 +1,7 @@
 # Multiplayer backend contract
 
+Portfolio valuation and joint ranking reuse `server/app/competition.py` with AI challenges. Multiplayer explicitly selects forfeiture grouping, keeping every finisher above every forfeiter; winner selection, Elo and settlement remain multiplayer policies. Result fields, policy versions and saved command receipts retain their existing contracts.
+
 `shared-multiplayer-1` implements private code lobbies and public paired matchmaking. Private lobbies accept two to eight distinct players; only the host starts, and joining closes at start. Codes contain 64 random bits, are stored as hashes and are disclosed only in the creator's committed response. Joining allows twelve attempts per authenticated profile per ten-minute window, including unknown codes. A waiting host's departure closes the lobby. Other waiting players can leave and rejoin; retained departures count toward the eight distinct-player limit.
 
 Public matchmaking pairs two players automatically under a shared database queue lock. Joining the queue again resumes the player's existing waiting or active public match. Match state mutations lock the shared lobby row, in addition to authentication's existing owner lock. Participant ratings are created during their own joins; final settlement locks existing rating rows in identifier order and does not lock another player's profile. This avoids cross-player lock cycles, including implicit foreign-key locks from first-time rating creation.

@@ -2,6 +2,7 @@ from copy import deepcopy
 from datetime import datetime, timezone
 from decimal import Decimal
 
+from app.competition import portfolio_result, rank_entries
 from app.simulation import engine
 
 VERSION = 'shared-ai-1'
@@ -103,13 +104,9 @@ def leaderboard(snapshot):
     participants.extend((agent['id'], f"Opponent {index + 1}", agent['state'])
                         for index, agent in enumerate(snapshot['agents']))
     entries = [{'participant_id': identifier, 'display_name': name,
-                'profit': engine.money(engine.equity(state) - engine.amount(state['initial_cash'])),
-                'final_value': engine.money(engine.equity(state)), 'fees': state['fees']}
+                **portfolio_result(state)}
                for identifier, name, state in participants]
-    entries.sort(key=lambda entry: (-Decimal(entry['profit']), entry['participant_id']))
-    for entry in entries:
-        entry['rank'] = 1 + sum(Decimal(other['profit']) > Decimal(entry['profit']) for other in entries)
-    return entries
+    return rank_entries(entries, identifier_key='participant_id')
 
 
 def complete(snapshot, reflection):

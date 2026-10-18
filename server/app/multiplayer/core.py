@@ -1,6 +1,7 @@
 from copy import deepcopy
 from decimal import Decimal, ROUND_HALF_UP
 
+from app.competition import portfolio_result, rank_entries
 from app.db import now
 from app.simulation import engine
 
@@ -57,14 +58,9 @@ def result(snapshot):
     participants = [(identifier, p) for identifier, p in snapshot['participants'].items() if p['state']]
     entries = [{'user_id': identifier, 'display_name': participant['name'],
         'forfeit': participant['forfeit'],
-        'profit': engine.money(engine.equity(participant['state']) - engine.amount(participant['state']['initial_cash'])),
-        'final_value': engine.money(engine.equity(participant['state'])), 'fees': participant['state']['fees']}
+        **portfolio_result(participant['state'])}
         for identifier, participant in participants]
-    entries.sort(key=lambda entry: (entry['forfeit'], -Decimal(entry['profit']), entry['user_id']))
-    for entry in entries:
-        entry['rank'] = 1 + sum((not other['forfeit'] and entry['forfeit'])
-            or (other['forfeit'] == entry['forfeit'] and Decimal(other['profit']) > Decimal(entry['profit']))
-            for other in entries)
+    entries = rank_entries(entries, identifier_key='user_id', forfeit_key='forfeit')
     # Joint first place is a draw, not two wins.
     winners = [entry for entry in entries if not entry['forfeit'] and entry['rank'] == 1]
     for entry in entries:
