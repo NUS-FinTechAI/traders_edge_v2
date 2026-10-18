@@ -1,5 +1,6 @@
 import type { ChallengeCommand } from './challengeService.ts'
-import { object, text } from '../utilities/typeUtils.ts'
+import { object, text, units, isEnumValue } from '../utilities/typeUtils.ts'
+import { apiEnums } from '../api/api-enums.ts'
 
 export type ChallengeStorage = Pick<Storage, 'getItem' | 'setItem'>
 export type ChallengeJournalEntry = {
@@ -17,29 +18,25 @@ function parseCommand(value: unknown): ChallengeCommand {
       const input = object(command.input)
       if (
         input.mode !== undefined &&
-        !['practice', 'daily', 'chapter_entry', 'chapter_exit'].includes(
-          String(input.mode),
-        )
+        !isEnumValue(apiEnums.ChallengeType, input.mode)
       )
         throw new Error('Invalid challenge mode.')
       if (input.module_id !== undefined && input.module_id !== null)
         text(input.module_id)
-      if (
-        input.opponent_count !== undefined &&
-        ![1, 2, 3].includes(input.opponent_count as number)
-      )
-        throw new Error('Invalid opponent count.')
+      if (input.opponent_count !== undefined) {
+        const count = units(input.opponent_count)
+        if (count < 1 || count > 3) throw new Error('Invalid opponent count.')
+      }
       break
     }
     case 'order': {
       const order = object(command.order)
       const plan = object(order.plan)
       if (
-        !['NORTH', 'HARBOR', 'PLAIN', 'COVE'].includes(String(order.symbol)) ||
-        !['buy', 'sell'].includes(String(order.side)) ||
-        !['market', 'limit', 'stop'].includes(String(order.type)) ||
-        !Number.isSafeInteger(order.quantity) ||
-        Number(order.quantity) < 1
+        !isEnumValue(apiEnums.OrderSymbol, order.symbol) ||
+        !isEnumValue(apiEnums.OrderSide, order.side) ||
+        !isEnumValue(apiEnums.OrderType, order.type) ||
+        units(order.quantity) < 1
       )
         throw new Error('Invalid saved order.')
       if (order.price !== undefined && order.price !== null) text(order.price)
@@ -50,10 +47,11 @@ function parseCommand(value: unknown): ChallengeCommand {
     case 'cancel':
       text(command.orderId)
       break
-    case 'advance':
-      if (![1, 2, 3, 4, 5].includes(command.steps as number))
-        throw new Error('Invalid advance size.')
+    case 'advance': {
+      const steps = units(command.steps)
+      if (steps < 1 || steps > 5) throw new Error('Invalid advance size.')
       break
+    }
     case 'complete':
       text(command.reflection)
       break

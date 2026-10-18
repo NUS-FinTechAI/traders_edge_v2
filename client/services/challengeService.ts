@@ -1,6 +1,8 @@
 import { api, type ApiClient } from '../api/apiClient.ts'
 import { apiEndpoints } from '../api/api-endpoints.ts'
 import type { components } from '../api/api-types.ts'
+import { apiEnums } from '../api/api-enums.ts'
+import { isEnumValue, object } from '../utilities/typeUtils.ts'
 import { HttpError } from './httpService.ts'
 import { parseSimulationObservation } from './lessonSimulationService.ts'
 
@@ -26,8 +28,9 @@ function invalid(): never {
   )
 }
 
-export function parseChallenge(value: Challenge): Challenge {
+export function parseChallenge(data: unknown): Challenge {
   try {
+    const value = object(data) as Challenge
     const { player, result } = value
     if (
       typeof value.id !== 'string' ||
@@ -40,17 +43,14 @@ export function parseChallenge(value: Challenge): Challenge {
       value.attempt_number < 1 ||
       (value.module_id !== null &&
         (typeof value.module_id !== 'string' || !value.module_id)) ||
-      !['practice', 'daily', 'chapter_entry', 'chapter_exit'].includes(
-        value.mode,
-      ) ||
-      !['active', 'completed', 'abandoned'].includes(value.status) ||
+      !isEnumValue(apiEnums.ChallengeType, value.mode) ||
+      !isEnumValue(apiEnums.ChallengeStatus, value.status) ||
       !Number.isSafeInteger(player.tick) ||
       player.tick < 0 ||
       !Number.isSafeInteger(player.total_ticks) ||
       player.total_ticks < 2 ||
       player.tick >= player.total_ticks ||
       value.policy.ticks !== player.total_ticks ||
-      typeof player.finished !== 'boolean' ||
       player.finished !== (value.status !== 'active') ||
       !Array.isArray(value.opponents) ||
       !value.opponents.length ||
@@ -76,8 +76,6 @@ export function parseChallenge(value: Challenge): Challenge {
         result.final_tick !== player.total_ticks - 1 ||
         player.tick !== result.final_tick ||
         typeof result.win !== 'boolean' ||
-        typeof result.profit !== 'string' ||
-        !/^-?\d+(?:\.\d+)?$/.test(result.profit) ||
         !Array.isArray(result.leaderboard) ||
         result.leaderboard.length !== value.opponents.length + 1 ||
         new Set(result.leaderboard.map((entry) => entry.participant_id))
@@ -179,14 +177,15 @@ export class ChallengeService {
     const challenge = parseChallenge(result)
     const expectedStatus =
       command.kind === 'complete'
-        ? 'completed'
+        ? apiEnums.ChallengeStatus.completed
         : command.kind === 'abandon'
-          ? 'abandoned'
-          : 'active'
+          ? apiEnums.ChallengeStatus.abandoned
+          : apiEnums.ChallengeStatus.active
     if (challenge.status !== expectedStatus) return invalid()
     if (command.kind === 'start') {
       if (
-        challenge.mode !== (command.input.mode ?? 'practice') ||
+        challenge.mode !==
+          (command.input.mode ?? apiEnums.ChallengeType.practice) ||
         challenge.module_id !== (command.input.module_id ?? null)
       )
         return invalid()

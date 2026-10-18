@@ -37,3 +37,6 @@ jobs:
 
       - name: Check generated API contract
         run: npm run api:check
+
+      - name: Test API artifact generation
+        run: npm run api:test

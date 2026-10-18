@@ -153,6 +153,23 @@ test('completed ties and negative profits remain server-owned results', () => {
   assert.equal(parseChallenge(value).result!.win, false)
 })
 
+test('schema enum guards reject unknown response modes and statuses at the HTTP boundary', () => {
+  for (const value of [
+    { ...challenge(), mode: 'ranked' },
+    { ...challenge(), status: 'waiting' },
+  ])
+    assert.throws(() => parseChallenge(value), { kind: 'invalid-response' })
+})
+
+test('lifecycle consistency rejects a nonboolean finished flag without a separate type check', () => {
+  const value = challenge()
+  assert.throws(
+    () =>
+      parseChallenge({ ...value, player: { ...value.player, finished: 0 } }),
+    { kind: 'invalid-response' },
+  )
+})
+
 test('HTTP response loss recovers the exact persisted start body and then loads current state', async (t) => {
   const bodies: string[] = []
   t.mock.method(

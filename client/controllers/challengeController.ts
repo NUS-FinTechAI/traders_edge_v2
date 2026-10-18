@@ -247,7 +247,7 @@ export class ChallengeController {
         !this.state.challenge ||
         action.attemptId !== this.state.challenge.id ||
         this.state.challenge.status !== 'active' ||
-        !['active', 'reflection'].includes(this.state.phase)
+        (this.state.phase !== 'active' && this.state.phase !== 'reflection')
       ) {
         throw new Error('Load an active challenge before submitting an action.')
       }
