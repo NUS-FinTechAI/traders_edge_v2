@@ -12,7 +12,7 @@ import {
   challenge,
   completedChallenge,
   memoryStorage,
-} from './challengeFixtures.ts'
+} from './fixtures/challengeFixtures.ts'
 
 test('service sends each challenge command through its generated authenticated endpoint', async (t) => {
   const requests: { url: string; body: unknown; method?: string }[] = []

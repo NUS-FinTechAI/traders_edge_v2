@@ -12,7 +12,7 @@ import {
   challenge,
   completedChallenge,
   memoryStorage,
-} from './challengeFixtures.ts'
+} from './fixtures/challengeFixtures.ts'
 
 function setup(storage = memoryStorage()) {
   const world = {
