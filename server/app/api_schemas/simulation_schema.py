@@ -120,10 +120,7 @@ class SimulationAuditObservation(Payload):
     no_order_reason: SimulationNoOrderReason | None
 
 
-class SimulationResponse(Payload):
-    id: str
-    mode: SimulationMode
-    updated_at: str | None
+class SimulationObservation(Payload):
     version: int
     tick: int
     total_ticks: int
@@ -142,6 +139,12 @@ class SimulationResponse(Payload):
     max_drawdown_percent: str
     reflection: str | None
     rules: SimulationRules
+
+
+class SimulationResponse(SimulationObservation):
+    id: str
+    mode: SimulationMode
+    updated_at: str | None
 
 
 class BoundSimulationResponse(SimulationResponse):

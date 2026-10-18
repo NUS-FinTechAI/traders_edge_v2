@@ -211,8 +211,167 @@ export interface components {
       /** Idempotency Key */
       idempotency_key: string
     }
+    /** ChallengeAwardAmounts */
+    ChallengeAwardAmounts: {
+      /** Premium */
+      premium: number
+      /** Stocks */
+      stocks: number
+      /** Xp */
+      xp: number
+    }
+    /** ChallengeAwards */
+    ChallengeAwards: {
+      awarded?: components['schemas']['ChallengeAwardAmounts'] | null
+      /** Chapter Entry Unlocked */
+      chapter_entry_unlocked?: boolean | null
+      /** Chapter Exit Completed */
+      chapter_exit_completed?: boolean | null
+      wallet?: components['schemas']['ChallengeWallet'] | null
+    } & {
+      [key: string]: unknown
+    }
+    /** ChallengeLeaderboardEntry */
+    ChallengeLeaderboardEntry: {
+      /** Display Name */
+      display_name: string
+      /** Fees */
+      fees: string
+      /** Final Value */
+      final_value: string
+      /** Participant Id */
+      participant_id: string
+      /** Profit */
+      profit: string
+      /** Rank */
+      rank: number
+    }
+    /** ChallengeListResponse */
+    ChallengeListResponse: {
+      /** Attempts */
+      attempts: components['schemas']['ChallengeSummary'][]
+    }
+    /** ChallengeOpponent */
+    ChallengeOpponent: {
+      /** Display Name */
+      display_name: string
+      /** Id */
+      id: string
+      /** Tick */
+      tick: number
+    }
+    /** ChallengePolicy */
+    ChallengePolicy: {
+      /** Difficulty */
+      difficulty: string
+      /** Early Exit */
+      early_exit: string
+      /** Liquidity */
+      liquidity: string
+      /** Objective */
+      objective: string
+      /** Profit */
+      profit: string
+      /** Provenance */
+      provenance: string
+      /** Resume */
+      resume: string
+      /** Starting Value */
+      starting_value: string
+      /** Ticks */
+      ticks: number
+      /** Ties */
+      ties: string
+      /** Version */
+      version: string
+    }
+    /** ChallengeResponse */
+    ChallengeResponse: {
+      /** Attempt Number */
+      attempt_number: number
+      /** Challenge Id */
+      challenge_id: string
+      /** Id */
+      id: string
+      mode: components['schemas']['ChallengeType']
+      /** Module Id */
+      module_id: string | null
+      /** Opponents */
+      opponents: components['schemas']['ChallengeOpponent'][]
+      player: components['schemas']['SimulationObservation']
+      policy: components['schemas']['ChallengePolicy']
+      result: components['schemas']['ChallengeResult'] | null
+      status: components['schemas']['ChallengeStatus']
+      /** Version */
+      version: string
+    }
+    /** ChallengeResult */
+    ChallengeResult: {
+      /** Attempt Id */
+      attempt_id: string
+      /** Attempt Number */
+      attempt_number: number
+      awards?: components['schemas']['ChallengeAwards'] | null
+      /** Challenge Id */
+      challenge_id: string
+      /** Final Tick */
+      final_tick: number
+      /** Leaderboard */
+      leaderboard: components['schemas']['ChallengeLeaderboardEntry'][]
+      mode: components['schemas']['ChallengeType']
+      /** Module Id */
+      module_id: string | null
+      /** Policy Version */
+      policy_version: string
+      /** Profit */
+      profit: string
+      /** User Id */
+      user_id: string
+      /** Win */
+      win: boolean
+    }
+    /** @enum {string} */
+    ChallengeStatus: 'active' | 'completed' | 'abandoned'
+    /** ChallengeSummary */
+    ChallengeSummary: {
+      /** Challenge Id */
+      challenge_id: string
+      /** Created At */
+      created_at: string
+      /** Id */
+      id: string
+      mode: components['schemas']['ChallengeType']
+      /** Module Id */
+      module_id: string | null
+      status: components['schemas']['ChallengeStatus']
+      /** Updated At */
+      updated_at: string
+    }
     /** @enum {string} */
     ChallengeType: 'practice' | 'daily' | 'chapter_entry' | 'chapter_exit'
+    /** ChallengeWallet */
+    ChallengeWallet: {
+      /** Daily Cooldown Until */
+      daily_cooldown_until: string | null
+      /** Login Last Day */
+      login_last_day: string | null
+      /** Login Streak Days */
+      login_streak_days: number
+      /** Policy Version */
+      policy_version: string
+      /** Premium Balance */
+      premium_balance: number
+      /** Simulated Trading Funds */
+      simulated_trading_funds: string
+      /** Stocks Balance */
+      stocks_balance: number
+      /** Stocks Expires At */
+      stocks_expires_at: string
+      /** Stocks Week */
+      stocks_week: string
+      /** Timezone */
+      timezone: string
+    }
     /** @enum {string} */
     ChapterPurpose: 'diagnostic' | 'practice' | 'bonus' | 'assessment'
     /** ChoiceTask */
@@ -885,6 +1044,46 @@ export interface components {
     SimulationMode: 'guided' | 'endless'
     /** @enum {string} */
     SimulationNoOrderReason: 'no_thesis_supplied' | 'current_ask_above_cap'
+    /** SimulationObservation */
+    SimulationObservation: {
+      /** Available Cash */
+      available_cash: string
+      /** Benchmark Value */
+      benchmark_value: string
+      /** Cash */
+      cash: string
+      /** Equity */
+      equity: string
+      /** Fees */
+      fees: string
+      /** Fills */
+      fills: components['schemas']['SimulationFill'][]
+      /** Finished */
+      finished: boolean
+      /** History */
+      history: {
+        [key: string]: string[]
+      }
+      /** Max Drawdown Percent */
+      max_drawdown_percent: string
+      /** Orders */
+      orders: components['schemas']['Order'][]
+      /** Positions */
+      positions: components['schemas']['SimulationPosition'][]
+      /** Quotes */
+      quotes: components['schemas']['SimulationQuote'][]
+      /** Reflection */
+      reflection: string | null
+      rules: components['schemas']['SimulationRules']
+      /** Scenario */
+      scenario: string
+      /** Tick */
+      tick: number
+      /** Total Ticks */
+      total_ticks: number
+      /** Version */
+      version: number
+    }
     /** SimulationPosition */
     SimulationPosition: {
       /** Cost */

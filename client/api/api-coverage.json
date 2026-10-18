@@ -20,54 +20,6 @@
       "status": "200"
     },
     {
-      "operationId": "listChallenges",
-      "method": "GET",
-      "path": "/api/challenges",
-      "status": "200"
-    },
-    {
-      "operationId": "startChallenge",
-      "method": "POST",
-      "path": "/api/challenges",
-      "status": "201"
-    },
-    {
-      "operationId": "getChallenge",
-      "method": "GET",
-      "path": "/api/challenges/{attempt_id}",
-      "status": "200"
-    },
-    {
-      "operationId": "abandonChallenge",
-      "method": "POST",
-      "path": "/api/challenges/{attempt_id}/abandon",
-      "status": "200"
-    },
-    {
-      "operationId": "advanceChallenge",
-      "method": "POST",
-      "path": "/api/challenges/{attempt_id}/advance",
-      "status": "200"
-    },
-    {
-      "operationId": "completeChallenge",
-      "method": "POST",
-      "path": "/api/challenges/{attempt_id}/complete",
-      "status": "200"
-    },
-    {
-      "operationId": "submitChallengeOrder",
-      "method": "POST",
-      "path": "/api/challenges/{attempt_id}/orders",
-      "status": "200"
-    },
-    {
-      "operationId": "cancelChallengeOrder",
-      "method": "POST",
-      "path": "/api/challenges/{attempt_id}/orders/{order_id}/cancel",
-      "status": "200"
-    },
-    {
       "operationId": "getCurriculum",
       "method": "GET",
       "path": "/api/curriculum",
