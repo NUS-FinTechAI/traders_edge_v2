@@ -16,7 +16,7 @@ Attempts pin catalog publication approval. Production blocks fresh access to an 
 
 ## Client service and recovery controller
 
-`client/services/challengeService.ts` wraps all eight generated challenge endpoints. It checks attempt identity, lifecycle, observed history length, synchronized opponent ticks and final-result references before returning detail responses. Profit, ranking, wins, eligibility and rewards remain server-owned.
+`client/services/challengeService.ts` wraps all eight generated challenge endpoints and trusts the backend's generated `ChallengeResponse` contract for response shapes, primitive types and enum values. `parseChallenge` checks consistency between fields: attempt identity, lifecycle, observed history length, synchronized opponent ticks, portfolio/order references and final-result participants. HTTP errors propagate separately. Browser journal data still receives runtime validation before replay. Profit, ranking, wins, eligibility and rewards remain server-owned.
 
 `ChallengeController` in `client/controllers/challengeController.ts` supplies a React-independent state subscription and start, planned order, cancel, advance, complete, abandon and recover actions. It supports the existing practice, daily and chapter modes through the same transport. Its phases distinguish loading/submitting, active trading, final-observation reflection, completed/abandoned attempts, errors and uncertain-command recovery. This is an integration foundation; it does not add a playable screen or connect daily/boss navigation. Human multiplayer readiness and its response adapter remain separate integration work.
 

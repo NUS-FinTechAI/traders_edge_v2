@@ -62,31 +62,6 @@ export class ConfigService {
 
   private async fetchConfig(): Promise<PublicConfig> {
     const config = await this.api.call(apiEndpoints.getConfig)
-    if (!config || !config.auth) {
-      throw new HttpError(
-        'The server returned invalid configuration',
-        'invalid-response',
-      )
-    }
-    const auth = config.auth
-    const { mode, firebase_project_id } = auth
-    if (mode === 'guest' && firebase_project_id === null) {
-      return this.cacheConfig({ auth: { mode, firebase_project_id } })
-    }
-    if (
-      mode === 'firebase' &&
-      typeof firebase_project_id === 'string' &&
-      firebase_project_id.trim().length > 0
-    ) {
-      return this.cacheConfig({ auth: { mode, firebase_project_id } })
-    }
-    throw new HttpError(
-      'The server returned invalid public configuration',
-      'invalid-response',
-    )
-  }
-
-  private cacheConfig(config: PublicConfig): PublicConfig {
     this.cachedConfig = config
     return structuredClone(config)
   }

@@ -261,17 +261,6 @@ test('authentication checks propagate forbidden, server and network errors', asy
   })
 })
 
-test('authentication checks reject successful responses without a valid identity', async (t) => {
-  let body: unknown = {}
-  t.mock.method(globalThis, 'fetch', async () => Response.json(body))
-  for (body of [null, {}, { id: '' }, { id: 123 }]) {
-    await assert.rejects(authService.isAuthenticated(), {
-      kind: 'invalid-response',
-      status: 200,
-    })
-  }
-})
-
 test('logout deletes the session', async (t) => {
   const fetchMock = t.mock.method(
     globalThis,

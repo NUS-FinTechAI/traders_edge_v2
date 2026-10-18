@@ -2,7 +2,6 @@ import { api } from '../api/apiClient.ts'
 import { apiEndpoints } from '../api/api-endpoints.ts'
 import type { components } from '../api/api-types.ts'
 import { HttpError } from './httpService.ts'
-import { amount, list } from '../utilities/typeUtils.ts'
 
 export type OrderSymbol = components['schemas']['OrderSymbol']
 export type OrderSide = components['schemas']['OrderSide']
@@ -54,15 +53,9 @@ function parseSession(
 ): LessonSimulation {
   const policy = session.bound_policy
   if (
-    typeof session.id !== 'string' ||
-    !session.id ||
     policy.run_id !== runId ||
     policy.session_id !== session.id ||
-    session.mode !== 'guided' ||
-    typeof session.tick !== 'number' ||
-    !Number.isInteger(session.tick) ||
-    session.tick < 0 ||
-    typeof session.finished !== 'boolean'
+    session.mode !== 'guided'
   )
     return invalid()
   return {
@@ -128,19 +121,16 @@ export function parseSimulationObservation(
   tick: number,
 ): SimulationObservation {
   const quotes = session.quotes
-  if (
-    !quotes.length ||
-    new Set(quotes.map((item) => item.symbol)).size !== quotes.length
-  ) {
+  if (new Set(quotes.map((item) => item.symbol)).size !== quotes.length) {
     return invalid()
   }
 
   const history = session.history
   const observedHistory: Record<string, string[]> = Object.create(null)
   for (const quote of quotes) {
-    const prices = list(history[quote.symbol], amount)
-    if (prices.length !== tick + 1) return invalid()
-    observedHistory[quote.symbol] = prices
+    const prices = history[quote.symbol]
+    if (prices?.length !== tick + 1) return invalid()
+    observedHistory[quote.symbol] = [...prices]
   }
 
   const positions: Position[] = session.positions
@@ -163,10 +153,10 @@ export function parseSimulationObservation(
   }
 
   return {
-    cash: amount(session.cash),
-    available_cash: amount(session.available_cash),
-    equity: amount(session.equity),
-    fees: amount(session.fees),
+    cash: session.cash,
+    available_cash: session.available_cash,
+    equity: session.equity,
+    fees: session.fees,
     quotes,
     positions,
     orders,

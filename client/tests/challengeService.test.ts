@@ -7,7 +7,7 @@ import {
   parseChallenge,
   type ChallengeCommand,
 } from '../services/challengeService.ts'
-import { HttpError, HttpService } from '../services/httpService.ts'
+import { HttpService } from '../services/httpService.ts'
 import {
   challenge,
   completedChallenge,
@@ -130,18 +130,19 @@ test('service rejects a response belonging to a different requested attempt', as
   })
 })
 
-test('challenge parser rejects unseen history and inconsistent lifecycle state', () => {
+test('challenge consistency check rejects history beyond the observed tick', () => {
   const future = challenge()
   future.player.history.NORTH.push('45.00')
-  const invalidResult = challenge()
-  invalidResult.status = 'completed'
 
-  for (const value of [future, invalidResult, { ...challenge(), player: null }])
-    assert.throws(
-      () => parseChallenge(value as ReturnType<typeof challenge>),
-      (error) =>
-        error instanceof HttpError && error.kind === 'invalid-response',
-    )
+  assert.throws(() => parseChallenge(future), { kind: 'invalid-response' })
+})
+
+test('completed challenge without its result is rejected as inconsistent', () => {
+  const value = challenge(29)
+  value.status = 'completed'
+  value.player.finished = true
+
+  assert.throws(() => parseChallenge(value), { kind: 'invalid-response' })
 })
 
 test('completed ties and negative profits remain server-owned results', () => {
@@ -153,21 +154,32 @@ test('completed ties and negative profits remain server-owned results', () => {
   assert.equal(parseChallenge(value).result!.win, false)
 })
 
-test('schema enum guards reject unknown response modes and statuses at the HTTP boundary', () => {
-  for (const value of [
-    { ...challenge(), mode: 'ranked' },
-    { ...challenge(), status: 'waiting' },
-  ])
-    assert.throws(() => parseChallenge(value), { kind: 'invalid-response' })
+test('challenge consistency check rejects an opponent on a different tick', () => {
+  const value = challenge(5)
+  value.opponents[0].tick = 4
+
+  assert.throws(() => parseChallenge(value), { kind: 'invalid-response' })
 })
 
-test('lifecycle consistency rejects a nonboolean finished flag without a separate type check', () => {
+test('active challenge cannot have a finished player observation', () => {
   const value = challenge()
-  assert.throws(
-    () =>
-      parseChallenge({ ...value, player: { ...value.player, finished: 0 } }),
-    { kind: 'invalid-response' },
-  )
+  value.player.finished = true
+
+  assert.throws(() => parseChallenge(value), { kind: 'invalid-response' })
+})
+
+test('final result must reference the same challenge attempt', () => {
+  const value = completedChallenge()
+  value.result!.attempt_id = 'another-attempt'
+
+  assert.throws(() => parseChallenge(value), { kind: 'invalid-response' })
+})
+
+test('leaderboard must contain the same participants as the challenge', () => {
+  const value = completedChallenge()
+  value.result!.leaderboard[0].participant_id = 'another-opponent'
+
+  assert.throws(() => parseChallenge(value), { kind: 'invalid-response' })
 })
 
 test('HTTP response loss recovers the exact persisted start body and then loads current state', async (t) => {

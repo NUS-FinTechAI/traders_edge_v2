@@ -195,11 +195,11 @@ test('diagnostic start uses the module endpoint without a practice purpose', asy
   )
 })
 
-test('invalid response retains the pending answer for exact recovery', async (t) => {
+test('inconsistent progress retains the pending answer for exact recovery', async (t) => {
   t.mock.method(firebaseService, 'getAccessToken', async () => null)
-  t.mock.method(globalThis, 'fetch', async () =>
-    Response.json({ success: true }),
-  )
+  const inconsistent = run()
+  inconsistent.progress.completed_steps = inconsistent.progress.total_steps
+  t.mock.method(globalThis, 'fetch', async () => Response.json(inconsistent))
   const commands = new LearningCommands('owner', memoryStorage())
 
   await assert.rejects(commands.submit(run(), { option_id: 'protect' }))
@@ -238,17 +238,15 @@ test('saved run read rejects a mismatched identity', async (t) => {
 })
 
 test('parser retains classification content but excludes private task fields', () => {
-  const payload = {
-    ...run(),
-    current_step: {
-      id: 'sort',
-      type: 'classification',
-      prompt: 'Sort these needs',
-      items: [{ id: 'rent', text: 'Rent' }],
-      categories: [{ id: 'protect', text: 'Protect' }],
-      correct_assignments: { rent: 'protect' },
-    },
+  const current_step = {
+    id: 'sort',
+    type: 'classification' as const,
+    prompt: 'Sort these needs',
+    items: [{ id: 'rent', text: 'Rent' }],
+    categories: [{ id: 'protect', text: 'Protect' }],
+    correct_assignments: { rent: 'protect' },
   }
+  const payload: LearningRun = { ...run(), current_step }
 
   const result = parseLearningRun(payload)
 
@@ -257,7 +255,7 @@ test('parser retains classification content but excludes private task fields', (
 })
 
 test('completed diagnostic accepts a null pass result and server score', () => {
-  const payload = {
+  const payload: LearningRun = {
     ...run(),
     purpose: 'diagnostic',
     status: 'completed',

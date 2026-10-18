@@ -246,10 +246,21 @@ test('resume rejects history containing observations beyond the current tick', a
   })
 })
 
-test('resume rejects missing balances rather than displaying a fabricated zero', async (t) => {
+test('resume rejects an order referencing an asset absent from the observed market', async (t) => {
   t.mock.method(firebaseService, 'getAccessToken', async () => null)
   t.mock.method(globalThis, 'fetch', async () =>
-    Response.json({ ...session(), available_cash: null }),
+    Response.json({
+      ...session(),
+      orders: [
+        {
+          id: 'order-1',
+          symbol: 'HARBOR',
+          quantity: 1,
+          filled: 0,
+          remaining: 1,
+        },
+      ],
+    }),
   )
 
   await assert.rejects(resumeLessonSimulation('run-one'), {

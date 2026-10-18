@@ -2,9 +2,7 @@ import { api, type ApiClient } from '../api/apiClient.ts'
 import { apiEndpoints } from '../api/api-endpoints.ts'
 import type { components } from '../api/api-types.ts'
 import { apiEnums } from '../api/api-enums.ts'
-import { isEnumValue, object } from '../utilities/typeUtils.ts'
 import { HttpError } from './httpService.ts'
-import { parseSimulationObservation } from './lessonSimulationService.ts'
 
 export type Challenge = components['schemas']['ChallengeResponse']
 export type ChallengeStart = Omit<
@@ -28,77 +26,59 @@ function invalid(): never {
   )
 }
 
-export function parseChallenge(data: unknown): Challenge {
-  try {
-    const value = object(data) as Challenge
-    const { player, result } = value
-    if (
-      typeof value.id !== 'string' ||
-      !value.id ||
-      typeof value.challenge_id !== 'string' ||
-      !value.challenge_id ||
-      typeof value.version !== 'string' ||
-      !value.version ||
-      !Number.isSafeInteger(value.attempt_number) ||
-      value.attempt_number < 1 ||
-      (value.module_id !== null &&
-        (typeof value.module_id !== 'string' || !value.module_id)) ||
-      !isEnumValue(apiEnums.ChallengeType, value.mode) ||
-      !isEnumValue(apiEnums.ChallengeStatus, value.status) ||
-      !Number.isSafeInteger(player.tick) ||
-      player.tick < 0 ||
-      !Number.isSafeInteger(player.total_ticks) ||
-      player.total_ticks < 2 ||
-      player.tick >= player.total_ticks ||
-      value.policy.ticks !== player.total_ticks ||
-      player.finished !== (value.status !== 'active') ||
-      !Array.isArray(value.opponents) ||
-      !value.opponents.length ||
-      new Set(value.opponents.map((opponent) => opponent.id)).size !==
-        value.opponents.length ||
-      value.opponents.some(
-        (opponent) =>
-          typeof opponent.id !== 'string' ||
-          !opponent.id ||
-          opponent.tick !== player.tick,
-      ) ||
-      (value.status === 'completed' ? !result : result !== null)
+export function parseChallenge(data: Challenge): Challenge {
+  const { player, result } = data
+  const symbols = new Set(player.quotes.map((quote) => quote.symbol))
+  const participants = new Set([
+    'human',
+    ...data.opponents.map((opponent) => opponent.id),
+  ])
+  if (
+    player.tick >= player.total_ticks ||
+    data.policy.ticks !== player.total_ticks ||
+    player.finished !== (data.status !== 'active') ||
+    participants.size !== data.opponents.length + 1 ||
+    data.opponents.some((opponent) => opponent.tick !== player.tick) ||
+    (data.status === 'completed' ? result === null : result !== null) ||
+    symbols.size !== player.quotes.length ||
+    player.quotes.some(
+      (quote) => player.history[quote.symbol]?.length !== player.tick + 1,
+    ) ||
+    Object.values(player.history).some(
+      (prices) => prices.length !== player.tick + 1,
+    ) ||
+    new Set(player.orders.map((order) => order.id)).size !==
+      player.orders.length ||
+    new Set(player.positions.map((position) => position.symbol)).size !==
+      player.positions.length ||
+    player.orders.some(
+      (order) => order.filled + order.remaining !== order.quantity,
+    ) ||
+    [...player.positions, ...player.orders].some(
+      (item) => !symbols.has(item.symbol),
     )
-      return invalid()
-    parseSimulationObservation(player, player.tick)
-    if (
-      result &&
-      (result.attempt_id !== value.id ||
-        result.mode !== value.mode ||
-        result.module_id !== value.module_id ||
-        result.challenge_id !== value.challenge_id ||
-        result.attempt_number !== value.attempt_number ||
-        result.final_tick !== player.total_ticks - 1 ||
-        player.tick !== result.final_tick ||
-        typeof result.win !== 'boolean' ||
-        !Array.isArray(result.leaderboard) ||
-        result.leaderboard.length !== value.opponents.length + 1 ||
-        new Set(result.leaderboard.map((entry) => entry.participant_id))
-          .size !== result.leaderboard.length ||
-        result.leaderboard.some(
-          (entry) =>
-            ![
-              'human',
-              ...value.opponents.map((opponent) => opponent.id),
-            ].includes(entry.participant_id) ||
-            !Number.isSafeInteger(entry.rank) ||
-            entry.rank < 1 ||
-            typeof entry.profit !== 'string' ||
-            !/^-?\d+(?:\.\d+)?$/.test(entry.profit),
-        ) ||
-        result.leaderboard.find((entry) => entry.participant_id === 'human')
-          ?.profit !== result.profit)
-    )
-      return invalid()
-    return structuredClone(value)
-  } catch {
+  )
     return invalid()
-  }
+  if (
+    result &&
+    (result.attempt_id !== data.id ||
+      result.mode !== data.mode ||
+      result.module_id !== data.module_id ||
+      result.challenge_id !== data.challenge_id ||
+      result.attempt_number !== data.attempt_number ||
+      result.final_tick !== player.total_ticks - 1 ||
+      player.tick !== result.final_tick ||
+      result.leaderboard.length !== participants.size ||
+      new Set(result.leaderboard.map((entry) => entry.participant_id)).size !==
+        result.leaderboard.length ||
+      result.leaderboard.some(
+        (entry) => !participants.has(entry.participant_id),
+      ) ||
+      result.leaderboard.find((entry) => entry.participant_id === 'human')
+        ?.profit !== result.profit)
+  )
+    return invalid()
+  return structuredClone(data)
 }
 
 export class ChallengeService {
