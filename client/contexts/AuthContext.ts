@@ -1,5 +1,5 @@
 import { createContext } from 'react'
-import type { AuthSnapshot } from '../services/authController.ts'
+import type { AuthSnapshot } from '../controllers/authController.ts'
 import type { UserProfile } from '../services/authService.ts'
 
 export interface AuthContextValue extends AuthSnapshot {

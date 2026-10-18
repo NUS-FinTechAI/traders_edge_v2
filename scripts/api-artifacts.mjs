@@ -14,6 +14,11 @@ const methods = new Set([
   'trace',
 ])
 
+function enumKey(value) {
+  const key = JSON.stringify(String(value))
+  return value === '__proto__' ? `[${key}]` : key
+}
+
 export async function buildArtifacts(schema, root) {
   const endpoints = Object.create(null)
   const missingResponses = []
@@ -65,8 +70,27 @@ export async function buildArtifacts(schema, root) {
   const contractDeclarations = declarations.filter(
     (declaration) => declaration.name?.text !== 'components',
   )
+  const enumDeclarations = Object.entries(schema.components?.schemas ?? {})
+    .sort(([left], [right]) => left.localeCompare(right, 'en'))
+    .filter(([, definition]) => Array.isArray(definition.enum))
+    .map(([name, definition]) => {
+      const members = definition.enum.map((value) => {
+        if (
+          value !== null &&
+          !['string', 'number', 'boolean'].includes(typeof value)
+        )
+          throw new Error(`Unsupported enum value in ${name}`)
+        return `${enumKey(value)}: ${JSON.stringify(value)}`
+      })
+      if (new Set(definition.enum.map(String)).size !== members.length)
+        throw new Error(`Enum member names collide in ${name}`)
+      return `${enumKey(name)}: { ${members.join(',')} }`
+    })
   const outputs = {
     'client/api/api-types.ts': banner + astToString(componentDeclarations),
+    'client/api/api-enums.ts':
+      banner +
+      `export const apiEnums = { ${enumDeclarations.join(',')} } as const\n`,
     'client/api/api-contract.ts':
       banner +
       "import type { components } from './api-types.ts'\n" +

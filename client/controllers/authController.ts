@@ -1,6 +1,6 @@
-import authService, { type UserProfile } from './authService.ts'
-import configService, { type PublicConfig } from './configService.ts'
-import { HttpError } from './httpService.ts'
+import authService, { type UserProfile } from '../services/authService.ts'
+import configService, { type PublicConfig } from '../services/configService.ts'
+import { HttpError } from '../services/httpService.ts'
 
 export interface AuthSnapshot {
   user: UserProfile | null

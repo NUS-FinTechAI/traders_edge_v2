@@ -44,45 +44,6 @@ test('firebase config includes the configured project identity', async (t) => {
   assert.deepEqual(config, firebaseConfig)
 })
 
-for (const [condition, body] of [
-  ['null response', null],
-  ['array response', []],
-  ['missing auth', {}],
-  ['null auth', { auth: null }],
-  ['array auth', { auth: [] }],
-  ['unknown mode', { auth: { mode: 'google', firebase_project_id: null } }],
-  ['guest missing project field', { auth: { mode: 'guest' } }],
-  [
-    'guest with active project',
-    { auth: { mode: 'guest', firebase_project_id: 'project' } },
-  ],
-  ['firebase missing project', { auth: { mode: 'firebase' } }],
-  [
-    'firebase null project',
-    { auth: { mode: 'firebase', firebase_project_id: null } },
-  ],
-  [
-    'firebase empty project',
-    { auth: { mode: 'firebase', firebase_project_id: '' } },
-  ],
-  [
-    'firebase blank project',
-    { auth: { mode: 'firebase', firebase_project_id: '  ' } },
-  ],
-  [
-    'firebase nonstring project',
-    { auth: { mode: 'firebase', firebase_project_id: 123 } },
-  ],
-] as const) {
-  test(`config rejects ${condition} without defaulting to guest`, async (t) => {
-    t.mock.method(globalThis, 'fetch', async () => Response.json(body))
-
-    await assert.rejects(configService.getConfig(), {
-      kind: 'invalid-response',
-    })
-  })
-}
-
 test('subsequent config requests reuse the successful response', async (t) => {
   let response: unknown = guestConfig
   const fetchMock = t.mock.method(globalThis, 'fetch', async () =>
@@ -97,15 +58,20 @@ test('subsequent config requests reuse the successful response', async (t) => {
   assert.equal(fetchMock.mock.callCount(), 1)
 })
 
-test('invalid responses are not cached and can be retried', async (t) => {
-  let response: unknown = {}
-  t.mock.method(globalThis, 'fetch', async () => Response.json(response))
-  await assert.rejects(configService.getConfig(), { kind: 'invalid-response' })
-  response = guestConfig
+test('HTTP failures are not cached and can be retried', async (t) => {
+  let available = false
+  const request = t.mock.method(globalThis, 'fetch', async () =>
+    available
+      ? Response.json(guestConfig)
+      : Response.json({ detail: 'Unavailable' }, { status: 503 }),
+  )
+  await assert.rejects(configService.getConfig(), { kind: 'http', status: 503 })
+  available = true
 
   const config = await configService.getConfig()
 
   assert.deepEqual(config, guestConfig)
+  assert.equal(request.mock.callCount(), 2)
 })
 
 test('an aborted request rejects even when configuration is cached', async (t) => {

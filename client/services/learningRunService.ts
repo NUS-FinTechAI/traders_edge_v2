@@ -2,12 +2,7 @@ import { api } from '../api/apiClient.ts'
 import { apiEndpoints } from '../api/api-endpoints.ts'
 import type { components } from '../api/api-types.ts'
 import { HttpError } from './httpService.ts'
-import {
-  object,
-  text as string,
-  number,
-  boolean,
-} from '../utilities/typeUtils.ts'
+import { object, text as string } from '../utilities/typeUtils.ts'
 
 type LearningRunResponse = components['schemas']['LearningRunResponse']
 export type LearningPurpose = Extract<
@@ -37,44 +32,24 @@ export type LearningRun = Pick<
   > | null
 }
 
-function entries(value: unknown): Entry[] {
-  if (!Array.isArray(value) || !value.length)
-    throw new HttpError(
-      'Something went wrong while processing the learning run.',
-      'invalid-response',
-    )
-  return value.map((item) => {
-    const entry = object(item)
-    return { id: string(entry.id), text: string(entry.text) }
-  })
+function entries(value: Entry[]): Entry[] {
+  return value.map(({ id, text }) => ({ id, text }))
 }
 
-export function parseLearningRun(value: unknown): LearningRun {
-  const data = object(value)
-  const progress = object(data.progress)
-  if (
-    !['active', 'completed'].includes(String(data.status)) ||
-    !['diagnostic', 'practice', 'bonus', 'assessment', 'review'].includes(
-      String(data.purpose),
-    )
-  )
-    throw new HttpError(
-      'Something went wrong while processing the learning run.',
-      'invalid-response',
-    )
+export function parseLearningRun(data: LearningRun): LearningRun {
   let task: LearningTask | null = null
   if (data.current_step !== null) {
-    const step = object(data.current_step)
+    const step = data.current_step
     const base = {
-      id: string(step.id),
-      prompt: string(step.prompt),
+      id: step.id,
+      prompt: step.prompt,
     }
     switch (step.type) {
       case 'instruction':
         task = {
           ...base,
           type: 'instruction',
-          text: string(step.text),
+          text: step.text,
         }
         break
       case 'choice':
@@ -91,44 +66,29 @@ export function parseLearningRun(value: unknown): LearningRun {
       case 'simulation':
         task = { ...base, type: 'simulation' }
         break
-      default:
-        throw new HttpError(
-          'Something went wrong while processing the learning run.',
-          'invalid-response',
-        )
     }
   }
-  if (!Array.isArray(data.feedback))
-    throw new HttpError(
-      'Something went wrong while processing the learning run.',
-      'invalid-response',
-    )
   const feedback = data.feedback.map((item) => {
-    const entry = object(item)
     return {
-      step_id: string(entry.step_id),
-      correct: boolean(entry.correct),
-      explanation: string(entry.explanation),
+      step_id: item.step_id,
+      correct: item.correct,
+      explanation: item.explanation,
     }
   })
   let result: LearningRun['result'] = null
   if (data.result !== null) {
-    const outcome = object(data.result)
+    const outcome = data.result
     result = {
-      passed: outcome.passed === null ? null : boolean(outcome.passed),
-      score_percent: number(outcome.score_percent),
-      standard_star: boolean(outcome.standard_star),
-      bonus_star: boolean(outcome.bonus_star),
-      xp_awarded: number(outcome.xp_awarded),
+      passed: outcome.passed,
+      score_percent: outcome.score_percent,
+      standard_star: outcome.standard_star,
+      bonus_star: outcome.bonus_star,
+      xp_awarded: outcome.xp_awarded,
     }
   }
-  const completed = number(progress.completed_steps)
-  const total = number(progress.total_steps)
+  const completed = data.progress.completed_steps
+  const total = data.progress.total_steps
   if (
-    !Number.isInteger(completed) ||
-    !Number.isInteger(total) ||
-    total < 1 ||
-    completed < 0 ||
     completed > total ||
     (data.status === 'active'
       ? !task || result !== null || completed === total
@@ -139,11 +99,11 @@ export function parseLearningRun(value: unknown): LearningRun {
       'invalid-response',
     )
   return {
-    id: string(data.id),
-    module_id: string(data.module_id),
-    level_id: data.level_id === null ? null : string(data.level_id),
-    purpose: data.purpose as LearningRun['purpose'],
-    status: data.status as LearningRun['status'],
+    id: data.id,
+    module_id: data.module_id,
+    level_id: data.level_id,
+    purpose: data.purpose,
+    status: data.status,
     current_step: task,
     progress: { completed_steps: completed, total_steps: total },
     feedback,

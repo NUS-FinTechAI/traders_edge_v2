@@ -55,13 +55,6 @@ export class AuthService {
         this.setUser(null)
       throw error
     }
-    if (!profile || typeof profile.id !== 'string' || !profile.id) {
-      throw new HttpError(
-        'The server returned a profile without a valid identity',
-        'invalid-response',
-        200,
-      )
-    }
     if (revision === this.revision) this.setUser(profile)
     return profile
   }
