@@ -68,12 +68,30 @@ No filler comments, invented citations, marketing language, decorative emoji, de
 
 ## Testing
 
-Each test case should verify one behavior or scenario. Multiple assertions are acceptable when they support the same behavior. Use descriptive test names that state the condition and expected outcome.
-Follow the Arrange–Act–Assert structure: prepare the inputs, perform the action, and verify the result. Test observable behavior rather than internal implementation details.
+### Test Scope
 
-Cover normal behavior, relevant edge cases, and expected failure conditions. Keep tests independent and deterministic. They must not depend on execution order, shared mutable state, real network services, or arbitrary delays. Mock external dependencies when needed, but do not mock the behavior being tested. Keep test setup minimal. Reuse fixtures or helpers when they improve clarity. Follow the project's existing testing framework, conventions, and file structure.
+- Only create permanent tests for production code that affects application behavior, business logic, or user-facing functionality.
+- Do not create permanent tests for development-only code, including development scripts, debugging utilities, mock data generators, and temporary tooling.
+- Temporary tests for development-only code are allowed only when necessary to verify an implementation. Delete them immediately after verification.
+- Do not add development-only tests to the permanent test suite or include them in commits.
 
-Never weaken assertions, skip tests, or change expected results merely to make a failing test pass. Run the relevant tests after making changes. Report what was run, any failures, and any tests that could not be run.
+### Test Design
+
+- Each test case should verify one behavior or scenario. Multiple assertions are acceptable when they support the same behavior.
+- Use descriptive test names that state the condition and expected outcome.
+- Follow the Arrange–Act–Assert structure: prepare the inputs, perform the action, and verify the result.
+- Test observable behavior rather than internal implementation details.
+- Cover normal behavior, relevant edge cases, and expected failure conditions.
+- Keep tests independent and deterministic. Avoid dependencies on execution order, shared mutable state, real network services, or arbitrary delays.
+- Mock external dependencies when needed, but do not mock the behavior being tested.
+- Keep test setup minimal. Reuse fixtures or helpers when they improve clarity.
+- Follow the project's existing testing framework, conventions, and file structure.
+
+### Test Execution
+
+- Never weaken assertions, skip tests, or change expected results merely to make a failing test pass.
+- Run relevant tests after making changes.
+- Report which tests were run, any failures, and any tests that could not be executed.
 
 ## Definition of done
 

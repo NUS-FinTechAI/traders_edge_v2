@@ -53,7 +53,6 @@ From the repository root, after installing the locked Node and Python dependenci
 ```sh
 npm run api:generate
 npm run api:check
-npm run api:test
 ```
 
 `api:generate` exports FastAPI OpenAPI in a separate Python process with fixed development settings. It does not start the application lifespan, open a database or initialize Firebase, and does not need a running API. It generates `client/api/api-types.ts` (component object types only), `client/api/api-contract.ts` (operation and route types used by the API wrapper), `client/api/api-enums.ts` (runtime values for named component enums), `client/api/api-endpoints.ts` and `client/api/api-coverage.json`. Frontend scripts can import object types from `api-types.ts`; the wrapper uses `api-contract.ts` to check requests and infer response types. Commit these artifacts together with backend contract changes; do not edit them manually. `api:check` rebuilds the artifacts in memory and fails if committed output is missing or stale, without rewriting it. CI runs the check and generator tests using locked dependencies.
