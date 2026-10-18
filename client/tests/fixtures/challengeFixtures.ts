@@ -1,4 +1,4 @@
-import type { Challenge } from '../services/challengeService.ts'
+import type { Challenge } from '../../services/challengeService.ts'
 
 export function challenge(tick = 0): Challenge {
   return {
