@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { AuthController } from '../services/authController.ts'
+import { AuthController } from '../controllers/authController.ts'
 import { HttpError } from '../services/httpService.ts'
 import type { UserProfile } from '../services/authService.ts'
 import { AuthService } from '../services/authService.ts'

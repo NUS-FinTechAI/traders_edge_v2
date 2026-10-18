@@ -1,5 +1,5 @@
 import { useEffect, useSyncExternalStore, type ReactNode } from 'react'
-import { authController } from '../../../services/authController.ts'
+import { authController } from '../../../controllers/authController.ts'
 import { AuthContext } from '../../../contexts/AuthContext.ts'
 
 export default function AuthProvider({ children }: { children: ReactNode }) {

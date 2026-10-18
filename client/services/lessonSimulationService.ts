@@ -114,7 +114,17 @@ export async function openLessonSimulation(
 }
 
 export function parseSimulationObservation(
-  session: BoundSimulationResponse,
+  session: Pick<
+    BoundSimulationResponse,
+    | 'cash'
+    | 'available_cash'
+    | 'equity'
+    | 'fees'
+    | 'quotes'
+    | 'history'
+    | 'positions'
+    | 'orders'
+  >,
   tick: number,
 ): SimulationObservation {
   const quotes = session.quotes
