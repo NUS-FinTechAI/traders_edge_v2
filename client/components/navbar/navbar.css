@@ -12,7 +12,7 @@
   display: flex;
   align-items: center;
   gap: 1.5rem;
-  max-width: 72rem;
+  width: 100%;
   min-height: 72px;
   margin: 0 auto;
   padding: 0.75rem 1.5rem;
