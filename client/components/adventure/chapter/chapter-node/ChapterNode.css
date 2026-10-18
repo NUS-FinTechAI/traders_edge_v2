@@ -1,3 +1,5 @@
+@import '../../../../pages/adventure/adventure.css';
+
 .adventure-node-number {
   position: relative;
   display: grid;
@@ -5,24 +7,24 @@
   min-width: 64px;
   min-height: 64px;
   padding: 0.3rem;
-  border: 2px solid #d1b571;
+  border: 2px solid var(--color-accent-strong);
   border-radius: 50%;
-  background: #12251d;
+  background: var(--node-surface);
   font-size: 0.9rem;
   font-weight: bold;
 }
 .is-complete .adventure-node-number {
-  background: #486343;
+  background: var(--node-complete-surface);
 }
 .adventure-node-title {
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: var(--font-heading);
   font-size: 1.25rem;
   line-height: 1.3;
   padding: 0.2rem 0.3rem;
 }
 .adventure-node-status {
   font-size: 0.875rem;
-  color: #e0d4b2;
+  color: var(--node-status-text);
 }
 .adventure-node-missions {
   display: flex;
@@ -38,7 +40,7 @@
   gap: 0.4rem;
   align-items: center;
   font-size: 0.75rem;
-  color: #d5dfce;
+  color: var(--adventure-mission-text);
   padding: 0.2rem 0.3rem;
 }
 .adventure-node-title {
@@ -53,17 +55,17 @@
   height: 28px;
   padding: 3px;
   border-radius: 50%;
-  background: #303735;
+  background: var(--node-locked-surface);
   fill: none;
-  stroke: #d3d8d5;
+  stroke: var(--node-locked-text);
   stroke-width: 2;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 
 .adventure-map-stop.is-locked .adventure-node-number {
-  border-color: #858e89;
-  background: #303735;
+  border-color: var(--node-locked-border);
+  background: var(--node-locked-surface);
 }
 .adventure-map-stop:hover {
   transform: scale(1.15);
@@ -73,6 +75,14 @@
 }
 
 .adventure-map-row {
+  --node-connector: #9dad87;
+  --node-surface: #12251d;
+  --node-complete-surface: #486343;
+  --node-status-text: #e0d4b2;
+  --node-locked-surface: #303735;
+  --node-locked-text: #d3d8d5;
+  --node-locked-border: #858e89;
+  --node-unavailable-text: #b8bfbb;
   min-height: 15rem;
   position: relative;
   display: flex;
@@ -98,7 +108,7 @@
 }
 .adventure-connector path {
   fill: none;
-  stroke: #9dad87;
+  stroke: var(--node-connector);
   stroke-width: 2px;
   vector-effect: non-scaling-stroke;
   stroke-dasharray: 6 7;
@@ -117,7 +127,7 @@
   border: 1px solid transparent;
   border-radius: 6px;
   background: transparent;
-  color: #f2ecdb;
+  color: var(--color-text);
   text-align: center;
   transition: transform 0.2s ease;
 }
@@ -143,15 +153,15 @@
   .adventure-connector {
     left: 50%;
     width: 0;
-    border-left: 2px dashed #9dad87;
+    border-left: 2px dashed var(--node-connector);
   }
   .adventure-connector path {
     display: none;
   }
 }
 .adventure-map-stop.is-locked {
-  color: #b8bfbb;
+  color: var(--node-unavailable-text);
 }
 .adventure-map-stop.is-locked .adventure-star {
-  stroke: #b8bfbb;
+  stroke: var(--node-unavailable-text);
 }

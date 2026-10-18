@@ -1,7 +1,7 @@
 .learning-result {
   padding: 1.5rem;
-  border: 1px solid #718672;
-  background: #1b3029;
+  border: 1px solid var(--color-border);
+  background: var(--color-surface-card);
 }
 .learning-earned-star {
   display: flex;

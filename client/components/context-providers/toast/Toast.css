@@ -14,12 +14,12 @@
   gap: 1rem;
   padding: 1rem;
   border-radius: 4px;
-  background: #b31f1f;
+  background: var(--color-danger);
   animation: slide-in 0.3s ease-out forwards;
 }
 
 .error-toast > svg {
-  color: #ffffff;
+  color: var(--color-white);
   width: 24px;
   height: 24px;
 }
@@ -27,7 +27,7 @@
 .error-toast .error-message {
   margin: 0;
   font-weight: bold;
-  color: #ffffff;
+  color: var(--color-white);
   overflow-wrap: anywhere;
 }
 

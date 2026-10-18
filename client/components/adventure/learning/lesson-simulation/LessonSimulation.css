@@ -1,3 +1,5 @@
+@import '../../../../pages/adventure/adventure.css';
+
 .lesson-simulation {
   margin-top: 1.5rem;
   overflow-wrap: anywhere;
@@ -11,6 +13,6 @@
 }
 .lesson-simulation button:focus-visible,
 .lesson-simulation a:focus-visible {
-  outline: 3px solid #e5c87e;
+  outline: 3px solid var(--adventure-complete-accent);
   outline-offset: 3px;
 }

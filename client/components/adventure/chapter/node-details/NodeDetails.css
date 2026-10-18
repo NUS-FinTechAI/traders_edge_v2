@@ -1,21 +1,23 @@
+@import '../../../../pages/adventure/adventure.css';
+
 :where(.adventure-dialog) .adventure-eyebrow {
   font-size: 0.875rem;
-  color: #d8bf85;
+  color: var(--color-text-accent);
   margin: 0 0 0.5rem;
 }
 :where(.adventure-dialog) .adventure-muted,
 :where(.adventure-dialog) .adventure-footnote {
-  color: #b4c3b8;
+  color: var(--color-text-muted);
 }
 :where(.adventure-dialog) .adventure-footnote {
   font-size: 0.9rem;
   margin-top: 1.5rem;
 }
 :where(.adventure-dialog) .adventure-notice {
-  border: 1px solid #8c9b83;
-  border-left: 4px solid #d6ba78;
+  border: 1px solid var(--color-border-muted);
+  border-left: 4px solid var(--color-border-warning);
   padding: 1.25rem;
-  background: #1c302a;
+  background: var(--color-surface);
   margin: 1rem 0;
 }
 :where(.adventure-dialog) .adventure-notice p:first-child {
@@ -38,18 +40,18 @@
   min-width: 44px;
   min-height: 44px;
   padding: 0.65rem 1rem;
-  background: #277354;
-  color: #fff;
-  border: 1px solid #9db997;
+  background: var(--color-primary);
+  color: var(--color-white);
+  border: 1px solid var(--color-border-strong);
   border-radius: 4px;
   text-decoration: none;
 }
 :where(.adventure-dialog) .adventure-button-secondary {
-  background: #20372d;
-  color: #f2ecdb;
+  background: var(--color-surface-secondary);
+  color: var(--color-text);
 }
 .adventure-dialog h2 {
-  font-family: Georgia, 'Times New Roman', serif;
+  font-family: var(--font-heading);
   font-weight: 400;
   line-height: 1.15;
   text-wrap: balance;
@@ -62,21 +64,23 @@
   cursor: pointer;
 }
 .adventure-dialog :is(a, button):focus-visible {
-  outline: 3px solid #f5d38c;
+  outline: 3px solid var(--color-focus);
   outline-offset: 4px;
 }
 .adventure-dialog {
+  --dialog-action-surface: #203c30;
   width: min(36rem, calc(100% - 2rem));
   max-height: calc(100dvh - 2rem);
   overflow-y: auto;
   padding: 2rem;
-  color: #f2ecdb;
-  background: #192e27;
-  border: 1px solid #d1b571;
+  color: var(--color-text);
+  background: var(--adventure-map-surface);
+  border: 1px solid var(--color-accent-strong);
   border-radius: 6px;
 }
 .adventure-dialog::backdrop {
-  background: rgb(5 15 11 / 80%);
+  --dialog-backdrop: rgb(5 15 11 / 80%);
+  background: var(--dialog-backdrop);
 }
 .adventure-dialog h2 {
   font-size: 2rem;
@@ -98,10 +102,10 @@
   padding: 0;
   line-height: 1;
   margin: -0.75rem -0.75rem 0 0.5rem;
-  border: 1px solid #91a184;
+  border: 1px solid var(--color-border-control);
   border-radius: 4px;
-  background: #203c30;
-  color: #f2ecdb;
+  background: var(--dialog-action-surface);
+  color: var(--color-text);
   font-size: 1.75rem !important;
 }
 @media (max-width: 700px) {

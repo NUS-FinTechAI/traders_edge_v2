@@ -1,15 +1,18 @@
 .adventure-emblem {
+  --emblem-stroke: #dbc487;
+  --emblem-surface: #203d32;
+  --emblem-trail: #c9d9b8;
   width: 160px;
   max-width: 100%;
   flex-shrink: 0;
   fill: none;
-  stroke: #dbc487;
+  stroke: var(--emblem-stroke);
   stroke-width: 2;
 }
 .emblem-paper {
-  fill: #203d32;
+  fill: var(--emblem-surface);
 }
 .emblem-trail {
-  stroke: #c9d9b8;
+  stroke: var(--emblem-trail);
   stroke-dasharray: 5 5;
 }

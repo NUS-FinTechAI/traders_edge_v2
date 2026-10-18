@@ -1,17 +1,19 @@
 .adventure-star {
+  --star-color: #dfbd73;
+  --star-bonus-color: #d4b9df;
   display: inline-block;
   width: 20px;
   height: 20px;
   flex-shrink: 0;
-  fill: #dfbd73;
-  stroke: #dfbd73;
+  fill: var(--star-color);
+  stroke: var(--star-color);
   stroke-width: 2;
   stroke-linejoin: round;
   vertical-align: middle;
 }
 .adventure-star-special {
-  fill: #d4b9df;
-  stroke: #d4b9df;
+  fill: var(--star-bonus-color);
+  stroke: var(--star-bonus-color);
   stroke-width: 2;
   stroke-linejoin: round;
 }
@@ -19,13 +21,14 @@
   fill: none;
 }
 .adventure-legend {
+  --legend-border: #456052;
   display: flex;
   flex-wrap: wrap;
   gap: 1rem 2rem;
   padding: 1.25rem 0;
   margin: 0.5rem 0;
   list-style: none;
-  border-bottom: 1px solid #456052;
+  border-bottom: 1px solid var(--legend-border);
   font-size: 0.9rem;
 }
 .adventure-legend li {
