@@ -195,6 +195,67 @@ test('diagnostic start uses the module endpoint without a practice purpose', asy
   )
 })
 
+test('chapter check starts its assessment run and recovers a lost response with the same key', async (t) => {
+  t.mock.method(firebaseService, 'getAccessToken', async () => null)
+  const requests: { url: string; body: string }[] = []
+  t.mock.method(
+    globalThis,
+    'fetch',
+    async (input: Parameters<typeof fetch>[0], options?: RequestInit) => {
+      requests.push({ url: String(input), body: String(options?.body) })
+      if (requests.length === 1) throw new TypeError('Lost committed response')
+      return Response.json({ ...run(), purpose: 'assessment', level_id: null })
+    },
+  )
+  const storage = memoryStorage()
+
+  await assert.rejects(
+    new LearningCommands('owner', storage).start('assessment', 'm01'),
+  )
+  const result = await new LearningCommands('owner', storage).start(
+    'assessment',
+    'm01',
+  )
+
+  assert.equal(result.purpose, 'assessment')
+  assert.match(requests[1].url, /\/modules\/m01\/assessment-runs$/)
+  assert.equal(requests[0].body, requests[1].body)
+  assert.deepEqual(Object.keys(JSON.parse(requests[1].body)), [
+    'idempotency_key',
+  ])
+})
+
+test('delayed review starts the selected owned review rather than its lesson', async (t) => {
+  t.mock.method(firebaseService, 'getAccessToken', async () => null)
+  const request = t.mock.method(globalThis, 'fetch', async () =>
+    Response.json({ ...run(), purpose: 'review', review_id: 'review-one' }),
+  )
+
+  await new LearningCommands('owner', memoryStorage()).start(
+    'review',
+    'review-one',
+  )
+
+  assert.match(
+    String(request.mock.calls[0].arguments[0]),
+    /\/reviews\/review-one\/runs$/,
+  )
+})
+
+test('delayed review rejects a start response for another review', async (t) => {
+  t.mock.method(firebaseService, 'getAccessToken', async () => null)
+  t.mock.method(globalThis, 'fetch', async () =>
+    Response.json({ ...run(), purpose: 'review', review_id: 'another-review' }),
+  )
+
+  await assert.rejects(
+    new LearningCommands('owner', memoryStorage()).start(
+      'review',
+      'review-one',
+    ),
+  )
+})
+
 test('inconsistent progress retains the pending answer for exact recovery', async (t) => {
   t.mock.method(firebaseService, 'getAccessToken', async () => null)
   const inconsistent = run()

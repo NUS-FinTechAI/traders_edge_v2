@@ -5,10 +5,7 @@ import { HttpError } from './httpService.ts'
 import { object, text as string } from '../utilities/typeUtils.ts'
 
 type LearningRunResponse = components['schemas']['LearningRunResponse']
-export type LearningPurpose = Extract<
-  LearningRunResponse['purpose'],
-  'diagnostic' | 'practice' | 'bonus'
->
+export type LearningPurpose = LearningRunResponse['purpose']
 export type StepAnswer = components['schemas']['StepAnswer']
 type Entry = components['schemas']['TaskEntry']
 export type LearningTask = NonNullable<LearningRunResponse['current_step']>
@@ -112,7 +109,9 @@ export function parseLearningRun(data: LearningRun): LearningRun {
 }
 
 export function isLearningPurpose(value: string): value is LearningPurpose {
-  return value === 'diagnostic' || value === 'practice' || value === 'bonus'
+  return ['diagnostic', 'practice', 'bonus', 'assessment', 'review'].includes(
+    value,
+  )
 }
 
 export async function getLearningRun(id: string, signal?: AbortSignal) {
@@ -199,15 +198,31 @@ export class LearningCommands {
             body,
             signal,
           })
-        : await api.call(apiEndpoints.startLevelRun, {
-            path: { level_id: target },
-            body: { ...body, purpose },
-            signal,
-          })
+        : purpose === 'assessment'
+          ? await api.call(apiEndpoints.startAssessmentRun, {
+              path: { module_id: target },
+              body,
+              signal,
+            })
+          : purpose === 'review'
+            ? await api.call(apiEndpoints.startReviewRun, {
+                path: { review_id: target },
+                body,
+                signal,
+              })
+            : await api.call(apiEndpoints.startLevelRun, {
+                path: { level_id: target },
+                body: { ...body, purpose },
+                signal,
+              })
     const run = parseLearningRun(response)
     if (
       run.purpose !== purpose ||
-      (purpose === 'diagnostic' ? run.module_id : run.level_id) !== target
+      (purpose === 'review'
+        ? response.review_id !== target
+        : (purpose === 'diagnostic' || purpose === 'assessment'
+            ? run.module_id
+            : run.level_id) !== target)
     )
       throw new HttpError(
         'Something went wrong while processing the start response.',
