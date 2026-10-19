@@ -231,6 +231,25 @@ export interface components {
     } & {
       [key: string]: unknown
     }
+    /** ChallengeDecisionReview */
+    ChallengeDecisionReview: {
+      /** Basis */
+      basis: string
+      /** Cash Percent */
+      cash_percent: string
+      /** Fees */
+      fees: string
+      /** Filled Orders */
+      filled_orders: number
+      /** Largest Position Percent */
+      largest_position_percent: string
+      /** Max Drawdown Percent */
+      max_drawdown_percent: string
+      /** Review Prompts */
+      review_prompts: string[]
+      /** Submitted Orders */
+      submitted_orders: number
+    }
     /** ChallengeLeaderboardEntry */
     ChallengeLeaderboardEntry: {
       /** Display Name */
@@ -262,6 +281,10 @@ export interface components {
     }
     /** ChallengePolicy */
     ChallengePolicy: {
+      /** Assessment Basis */
+      assessment_basis?: string | null
+      /** Context */
+      context?: string | null
       /** Difficulty */
       difficulty: string
       /** Early Exit */
@@ -270,12 +293,18 @@ export interface components {
       liquidity: string
       /** Objective */
       objective: string
+      /** Profile Version */
+      profile_version?: string | null
       /** Profit */
       profit: string
       /** Provenance */
       provenance: string
+      /** Recorded Evidence */
+      recorded_evidence?: string[] | null
       /** Resume */
       resume: string
+      /** Review Prompts */
+      review_prompts?: string[] | null
       /** Starting Value */
       starting_value: string
       /** Ticks */
@@ -314,6 +343,7 @@ export interface components {
       awards?: components['schemas']['ChallengeAwards'] | null
       /** Challenge Id */
       challenge_id: string
+      decision_review?: components['schemas']['ChallengeDecisionReview'] | null
       /** Final Tick */
       final_tick: number
       /** Leaderboard */
