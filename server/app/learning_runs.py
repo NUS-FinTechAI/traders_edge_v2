@@ -4,10 +4,11 @@ import hashlib
 import json
 
 from fastapi import APIRouter, HTTPException, Request
-from sqlalchemy import select
+from sqlalchemy import func, literal, select, union_all
 
 from app.api_schemas.gameplay_schema import LevelResponse, ModuleMap
 from app.api_schemas.learning_run_schema import LearningRunResponse, StartLevel, SubmitStep, StartDiagnosticRun, StartAssessmentRun, StartReviewRun
+from app.api_schemas.workflow_schema import LearningWorkflowResponse
 from app.db import Attempt, LearningRun, LearningRunCommand, MasteredModule, aware, now, uid
 from app.learning import DB, User, catalog, interactive_review, lesson_for, module_for, owned_review, practice_eligibility, profile_data, require_lesson
 from app.progression import progress, record_lesson, reward
@@ -333,7 +334,7 @@ async def run_summaries(db, user, module_id=None):
     statement = select(LearningRun.id, LearningRun.module_id, LearningRun.level_id, LearningRun.purpose, LearningRun.status, LearningRun.state_json['result']['bonus_star'].as_boolean().label('bonus_star')).where(LearningRun.user_id == user.id)
     if module_id is not None:
         statement = statement.where(LearningRun.module_id == module_id)
-    return (await db.execute(statement.order_by(LearningRun.created_at))).all()
+    return (await db.execute(statement.order_by(LearningRun.created_at, LearningRun.id))).all()
 
 
 def map_data(content, module, progress_state, runs, chapter_access=None):
@@ -370,12 +371,79 @@ async def get_level(level_id: str, request: Request, db: DB, user: User):
     return {'module_id': module['id'], 'content_version': mapping['content_version'], 'interactive_available': mapping['interactive_available'], 'level': {**node, 'source_basis': lesson.get('source_basis', []), 'required_steps': len(lesson.get('tasks', [])), 'bonus_steps': len(lesson.get('bonus_tasks', [])), 'completion_rule': 'Complete each required task in order; retry incorrect practice decisions' if mapping['interactive_available'] else 'Pass the complete legacy lesson question set', 'bonus_rule': 'Optional verified decision; never required for the next level' if mapping['interactive_available'] else 'No interactive bonus is available for this level', 'review_after_days': lesson.get('review_after_days', 1)}}
 
 
-@router.get('/me/workflow', operation_id='getLearningWorkflow')
+async def game_journey_state(db, user):
+    from app.challenges.models import ChallengeAttempt
+    from app.gameplay import ChapterAccess, ChapterBossCompletion
+
+    attempts = select(ChallengeAttempt.id, ChallengeAttempt.module_id, ChallengeAttempt.mode,
+        ChallengeAttempt.status, ChallengeAttempt.created_at,
+        func.row_number().over(partition_by=(ChallengeAttempt.module_id, ChallengeAttempt.mode),
+            order_by=(ChallengeAttempt.created_at.desc(), ChallengeAttempt.id.desc())).label('latest')
+    ).where(ChallengeAttempt.user_id == user.id).subquery()
+    # One owner-scoped read replaces the prior access-only query; no market snapshots are loaded.
+    state = union_all(
+        select(literal('access').label('source'), ChapterAccess.module_id, literal(None).label('purpose'),
+            ChapterAccess.attempt_id.label('attempt_id'), literal(None).label('status'), ChapterAccess.created_at
+        ).where(ChapterAccess.user_id == user.id),
+        select(literal('completion'), ChapterBossCompletion.module_id, ChapterBossCompletion.purpose,
+            ChapterBossCompletion.attempt_id, literal(None), ChapterBossCompletion.created_at
+        ).where(ChapterBossCompletion.user_id == user.id),
+        select(literal('attempt'), attempts.c.module_id, attempts.c.mode, attempts.c.id,
+            attempts.c.status, attempts.c.created_at
+        ).where((attempts.c.status == 'active') | (
+            (attempts.c.latest == 1) & (attempts.c.mode == 'chapter_exit'))),
+    )
+    rows = (await db.execute(state)).mappings().all()
+    access = {row['module_id'] for row in rows if row['source'] == 'access'}
+    completed = {row['module_id'] for row in rows if row['source'] == 'completion' and row['purpose'] == 'chapter_exit'}
+    attempts = sorted((row for row in rows if row['source'] == 'attempt'),
+        key=lambda row: (row['created_at'], row['attempt_id']))
+    return access, completed, attempts
+
+
+def game_next_action(maps, summaries, completed_bosses, attempts):
+    module_ids = {mapping['module_id'] for mapping in maps}
+    active = next((run for run in reversed(summaries) if run.module_id in module_ids
+        and run.status == 'active' and run.purpose in {'diagnostic', 'practice', 'assessment'}), None)
+    if active:
+        return {'kind': 'resume_learning', 'run_id': active.id, 'module_id': active.module_id,
+            'level_id': active.level_id, 'purpose': active.purpose}
+    active_attempts = [attempt for attempt in attempts if attempt['status'] == 'active']
+    for mapping in maps:
+        if not mapping['unlocked']:
+            continue
+        module_id = mapping['module_id']
+        interactive = mapping['interactive_available']
+        if mapping['diagnostic']['required'] and not mapping['diagnostic']['completed']:
+            return {'kind': 'diagnostic', 'module_id': module_id}
+        level = next((level for level in mapping['levels'] if not level['standard_star']), None)
+        if level:
+            return {'kind': 'level' if interactive else 'legacy_lesson', 'module_id': module_id,
+                'level_id': level['id']}
+        if not mapping['mastered']:
+            return {'kind': 'assessment' if interactive else 'legacy_assessment', 'module_id': module_id}
+        if module_id in completed_bosses:
+            continue
+        own = [attempt for attempt in attempts if attempt['module_id'] == module_id
+            and attempt['purpose'] == 'chapter_exit']
+        resumable = next((attempt for attempt in own if attempt['status'] == 'active'), None)
+        previous = own[-1] if own else None
+        blocked = resumable is None and len(active_attempts) >= 3
+        return {'kind': 'chapter_exit_boss', 'module_id': module_id,
+            'action': 'resume' if resumable else 'retry' if previous else 'start',
+            'available': not blocked, 'reason': 'active_challenge_limit' if blocked else None,
+            'attempt_id': resumable['attempt_id'] if resumable else None,
+            'previous_attempt_id': previous['attempt_id'] if previous and not resumable else None,
+            'blocking_attempt_ids': [attempt['attempt_id'] for attempt in active_attempts] if blocked else []}
+    return None
+
+
+@router.get('/me/workflow', operation_id='getLearningWorkflow', response_model=LearningWorkflowResponse,
+    response_model_exclude_unset=True)
 async def workflow(request: Request, db: DB, user: User):
     content = catalog(request)
     progress_state = await progress(db, user.id, include_xp=False)
-    from app.gameplay import chapter_access_ids
-    chapter_access = await chapter_access_ids(db, user.id)
+    chapter_access, completed_bosses, challenge_attempts = await game_journey_state(db, user)
     summaries = await run_summaries(db, user)
     by_module = {}
     for summary in summaries:
@@ -398,4 +466,6 @@ async def workflow(request: Request, db: DB, user: User):
                 level = next((n for n in mapping['levels'] if n['unlocked'] and not n['standard_star']), None)
                 next_action = {'kind': 'level' if mapping['interactive_available'] else 'legacy_lesson', 'module_id': mapping['module_id'], 'level_id': level['id']} if level else {'kind': 'assessment' if mapping['interactive_available'] else 'legacy_assessment', 'module_id': mapping['module_id']}
             break
-    return {'profile': await profile_data(db, user, progress_state), 'resume': run_data(active) if active else None, 'next_action': next_action, 'modules': maps, 'practice_eligibility': practice_eligibility(ordered, progress_state[1])}
+    return {'profile': await profile_data(db, user, progress_state), 'resume': run_data(active) if active else None,
+        'next_action': next_action, 'modules': maps, 'practice_eligibility': practice_eligibility(ordered, progress_state[1]),
+        'game_next_action': game_next_action(maps, summaries, completed_bosses, challenge_attempts)}

@@ -23,6 +23,47 @@ Boss resume IDs include all owned active attempts for that chapter and purpose, 
 
 Star counts use the same saved progress and run summaries as the map. Boss wins do not create stars or learning mastery. The overview exposes no answer keys, scenario seeds, future observations or opponent portfolios. Production publication checks remain in force. These additions require no migration and do not change saved command responses or progression rules.
 
+## Game journey guidance
+
+`GET /api/me/workflow` retains its learning `next_action` and `resume` fields and
+adds the typed `game_next_action`. The game recommendation first resumes an owned
+active diagnostic, required practice or structured assessment run. Otherwise it
+follows accessible chapters in order: introductory diagnostic, required levels,
+structured module check, then the chapter's exit boss before recommending the
+next chapter. Each learning action identifies its module and, when applicable,
+level or run. A learning resume uses `kind: resume_learning` and includes the run's
+purpose. Existing learning progression and mode access gates are unchanged;
+guidance does not make an exit boss a prerequisite for an already available
+learning action.
+
+A `kind: chapter_exit_boss` action identifies the module and recommends `start`,
+`resume` or `retry`. `attempt_id` identifies an owned active attempt for resumption;
+`previous_attempt_id` identifies the latest ended attempt when retrying. A failed
+or abandoned boss stays in the journey. A recorded exit victory advances the
+recommendation after the chapter's structured learning requirements are also
+complete. When the three-active-challenge limit blocks a fresh start, `available`
+is false, `reason` is `active_challenge_limit`, and `blocking_attempt_ids` lists the
+owned active challenges. The cap never prevents recommending an existing boss's
+resumption. Daily and practice attempts count toward this cap.
+
+Optional bonus and delayed-review runs remain available through the existing
+learning workflow and review APIs; they do not replace the game's required
+chapter recommendation. In particular, `resume` may identify a bonus or review
+while `game_next_action` recommends the next required chapter activity. Due
+reviews also remain reflected in `profile.due_review_count`. A null game action
+means no unfinished accessible chapter activity was found in the current catalog,
+not that optional stars, reviews or all game modes have been completed. Retired
+catalog chapters are not recommended. Resume and mutation routes remain
+authoritative for saved-content compatibility and publication approval.
+
+The workflow and curriculum `practice_eligibility` retain `multiplayer` as the
+existing modules 1–9 eligibility flag. New `private_multiplayer` and `public_ranked`
+flags distinguish the actual private modules 1–4 and public modules 1–9 structured
+check gates. Each has `*_prerequisite_module_ids` and `*_missing_module_ids` lists.
+An incomplete catalog cannot unlock either mode. Boss-earned chapter access does
+not satisfy these checks. This read guidance supplies no additional XP, stars,
+currency, rating or mastery and requires no database migration.
+
 ## Boss and daily policies
 
 Start a boss with `POST /api/challenges`, `mode: chapter_entry` or `chapter_exit`, and `module_id`. Chapter 1 uses its existing introductory diagnostic instead of an entry boss. An entry victory unlocks that chapter without marking earlier modules mastered. Required lessons remain sequential and canonical diagnostics remain mandatory. An exit boss requires chapter access, its diagnostic and every required level. Victory unlocks the next chapter; the separate structured exit check still determines learning mastery. Completion, unlocks, rewards and the replay receipt commit together.
