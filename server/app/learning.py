@@ -91,7 +91,12 @@ def practice_eligibility(ordered, mastered):
     practice = len(required) == 9 and all(mid in mastered for mid in required)
     foundations = [m['id'] for m in ordered if m['order'] <= 4]
     simulation = len(foundations) == 4 and all(mid in mastered for mid in foundations)
-    return {'simulation': simulation, 'multiplayer': practice, 'endless': practice, 'prerequisite_module_ids': required}
+    return {'simulation': simulation, 'multiplayer': practice, 'endless': practice, 'prerequisite_module_ids': required,
+        'private_multiplayer': simulation, 'public_ranked': practice,
+        'private_multiplayer_prerequisite_module_ids': foundations,
+        'public_ranked_prerequisite_module_ids': required,
+        'private_multiplayer_missing_module_ids': [mid for mid in foundations if mid not in mastered],
+        'public_ranked_missing_module_ids': [mid for mid in required if mid not in mastered]}
 
 
 @router.get('/curriculum', operation_id='getCurriculum')
