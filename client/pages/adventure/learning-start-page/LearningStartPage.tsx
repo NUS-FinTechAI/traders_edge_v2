@@ -52,7 +52,11 @@ function StartActivity({
           ? 'Introductory assessment'
           : purpose === 'bonus'
             ? 'Bonus missions'
-            : 'Required missions'}
+            : purpose === 'assessment'
+              ? 'Chapter learning check'
+              : purpose === 'review'
+                ? 'Delayed review'
+                : 'Required missions'}
       </h1>
       <p role="status">Opening your saved activity…</p>
       <Link to="/adventure">Return to chapters</Link>

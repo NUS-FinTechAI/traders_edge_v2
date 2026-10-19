@@ -98,7 +98,11 @@ function RunContent({
       ? 'Introductory assessment'
       : run.purpose === 'bonus'
         ? 'Bonus missions'
-        : 'Required missions'
+        : run.purpose === 'assessment'
+          ? 'Chapter learning check'
+          : run.purpose === 'review'
+            ? 'Delayed review'
+            : 'Required missions'
   return (
     <main className="learning-run-page">
       <Link
@@ -127,6 +131,13 @@ function RunContent({
             do not block lessons.
           </p>
         )}
+        {(run.purpose === 'assessment' || run.purpose === 'review') &&
+          run.status === 'active' && (
+            <p>
+              Answers are final for this check. Feedback appears after the last
+              question.
+            </p>
+          )}
       </header>
       {pending && (
         <section className="learning-pending">
@@ -157,6 +168,10 @@ function RunContent({
           owner={owner}
           runId={run.id}
           prompt={run.current_step.prompt}
+          onComplete={(updated) => {
+            setRun(updated)
+            setShowFeedback(false)
+          }}
         />
       ) : (
         run.current_step && (

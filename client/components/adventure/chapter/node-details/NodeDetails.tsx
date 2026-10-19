@@ -114,12 +114,6 @@ function Briefing({
           {state.data.level.active_run_id && (
             <p>Your required mission is saved in progress.</p>
           )}
-          {level.id === 'm05-l01' && (
-            <p className="adventure-footnote">
-              The final simulation audit is not yet playable in this interface.
-              Earlier lesson steps can be saved and resumed.
-            </p>
-          )}
         </>
       )}
     </>
@@ -192,6 +186,22 @@ function CheckpointDetails({
           This check records learning progress separately from the profit-based
           boss result.
         </p>
+        <LearningLaunch
+          purpose="assessment"
+          target={map.module_id}
+          available={map.assessment_available}
+          runId={
+            chapter.active_learning_runs.find(
+              (run) => run.purpose === 'assessment',
+            )?.run_id
+          }
+          label={
+            map.mastered
+              ? 'Practise chapter check again'
+              : 'Start chapter learning check'
+          }
+          resumeLabel="Resume chapter learning check"
+        />
       </>
     )
   const entry = stop === 'entry'

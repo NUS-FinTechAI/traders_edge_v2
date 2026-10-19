@@ -3,16 +3,147 @@
 .lesson-simulation {
   margin-top: 1.5rem;
   overflow-wrap: anywhere;
+  min-width: 0;
 }
 .lesson-simulation button,
-.lesson-simulation a {
+.lesson-simulation a,
+.lesson-simulation summary {
   display: inline-flex;
   align-items: center;
   min-height: 44px;
   padding: 0.65rem 1rem;
+  font: inherit;
+}
+.lesson-simulation summary {
+  display: list-item;
+  cursor: pointer;
 }
 .lesson-simulation button:focus-visible,
-.lesson-simulation a:focus-visible {
+.lesson-simulation a:focus-visible,
+.lesson-simulation summary:focus-visible,
+.lesson-simulation input:focus-visible,
+.lesson-simulation select:focus-visible,
+.lesson-simulation textarea:focus-visible,
+.lesson-simulation [tabindex]:focus-visible {
   outline: 3px solid var(--adventure-complete-accent);
   outline-offset: 3px;
+}
+.lesson-simulation button {
+  color: var(--color-text);
+  background: var(--color-surface-secondary);
+  border: 1px solid var(--color-border-interactive);
+  cursor: pointer;
+}
+.lesson-simulation button:disabled {
+  color: var(--color-text-muted);
+  cursor: default;
+}
+.simulation-section {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border-muted);
+}
+.simulation-section h3 {
+  margin-top: 0;
+}
+.simulation-notice {
+  padding: 1rem;
+  margin: 1rem 0;
+  border-left: 3px solid var(--color-accent);
+  background: var(--color-surface-raised);
+}
+.simulation-observation-header,
+.simulation-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+.simulation-balances {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+.simulation-balances dt {
+  color: var(--color-text-muted);
+}
+.simulation-balances dd {
+  margin: 0.35rem 0 0;
+  font-weight: bold;
+  font-variant-numeric: tabular-nums;
+}
+.simulation-table-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+.simulation-table-scroll table {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+.simulation-table-scroll caption {
+  text-align: left;
+  padding-bottom: 0.75rem;
+  color: var(--color-text-muted);
+}
+.simulation-table-scroll td,
+.simulation-table-scroll th {
+  padding: 0.6rem;
+  text-align: left;
+  border-bottom: 1px solid var(--color-border-muted);
+  white-space: nowrap;
+}
+.simulation-history {
+  margin: 1.25rem 0;
+}
+.simulation-history svg {
+  display: block;
+  width: 100%;
+  color: var(--color-accent);
+}
+.simulation-chart-axis {
+  stroke: var(--color-border-muted);
+}
+.lesson-simulation fieldset {
+  min-width: 0;
+  padding: 0;
+  margin: 1.25rem 0;
+  border: 0;
+}
+.lesson-simulation legend {
+  font-weight: bold;
+  padding: 0;
+  margin-bottom: 0.75rem;
+}
+.lesson-simulation label {
+  display: block;
+  margin: 1rem 0 0.5rem;
+}
+.lesson-simulation input,
+.lesson-simulation select,
+.lesson-simulation textarea {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 0.65rem;
+  color: var(--color-text);
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border-control);
+  font: inherit;
+}
+.lesson-simulation textarea {
+  resize: vertical;
+}
+.lesson-simulation .simulation-order-audit {
+  padding: 1rem;
+  border: 1px solid var(--color-border-muted);
+}
+@media (min-width: 768px) {
+  .simulation-balances {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
 }
