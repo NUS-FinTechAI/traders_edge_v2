@@ -11,6 +11,7 @@ from sqlalchemy.orm import Mapped, mapped_column
 from app.api_schemas.gameplay_schema import AdventureResponse, PublicAdventureResponse
 from app.db import Base, now
 from app.challenges.models import ChallengeAttempt
+from app.challenges import profiles
 from app.economy import ServerChallengeResult, consume_daily_refresh, daily_can_start, settle_challenge
 from app.learning import DB, User, catalog, module_for
 from app.progression import progress
@@ -82,10 +83,10 @@ async def start_policy(request, db, user, body):
             ChallengeAttempt.mode == 'daily', ChallengeAttempt.status == 'active').limit(1))
         if active:
             raise HTTPException(409, {'message': 'Resume or abandon the current daily attempt', 'attempt_id': active})
-        identifier = 'daily:' + instant.date().isoformat()
+        identifier = f'daily:{profiles.VERSION}:{instant.date().isoformat()}'
         config = await definition(db, identifier, {'challenge_id': identifier, 'mode': 'daily',
             'seed': secrets.randbits(63), 'kind': secrets.choice(engine.KINDS), 'opponents': 1,
-            'policy': {'objective': 'Apply an execution plan in a common daily market', 'difficulty': 'daily-1'}})
+            'policy': profiles.daily_policy(instant.date())})
         return config
     if body.module_id is None:
         raise HTTPException(422, 'Select a chapter for its boss fight')
@@ -101,14 +102,13 @@ async def start_policy(request, db, user, body):
         if module.get('entry_tasks'):
             from app.learning_runs import require_diagnostic
             await require_diagnostic(db, user, module)
-    identifier = f"{VERSION}:{content.get('content_version', 'legacy')}:{module['id']}:{body.mode}"
+    identifier = f"{VERSION}:{profiles.VERSION}:{content.get('content_version', 'legacy')}:{module['id']}:{body.mode}"
     # Persist private parameters once so first attempts and retries use the same form.
     kinds = ('sideways', 'volatile', 'rising', 'falling')
     config = await definition(db, identifier, {'challenge_id': identifier, 'mode': body.mode,
         'module_id': module['id'], 'seed': secrets.randbits(63), 'kind': kinds[(module['order'] - 1) % 4],
         'opponents': min(3, 1 + (module['order'] - 1) // 3),
-        'policy': {'objective': f"Apply planned decisions and compare outcomes for {module['title']}",
-            'difficulty': f"chapter-{module['order']}"}})
+        'policy': profiles.chapter_policy(module['order'])})
     return config
 
 
@@ -120,7 +120,7 @@ async def created(request, db, user, attempt):
     if attempt.mode == 'daily':
         receipt = await consume_daily_refresh(db, user, attempt.id)
         attempt.snapshot_json = {**attempt.snapshot_json, 'research': {'premium_retry': receipt is not None,
-            'refresh_event_key': receipt, 'daily_date': attempt.challenge_id.removeprefix('daily:')}}
+            'refresh_event_key': receipt, 'daily_date': attempt.challenge_id.rsplit(':', 1)[-1]}}
 
 
 async def complete_policy(db, user, result):
