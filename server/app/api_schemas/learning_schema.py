@@ -1,5 +1,36 @@
 from app.api_schemas.shared_schema import Payload
 from pydantic import Field, field_validator
+from datetime import datetime
+from app.api_schemas.learning_run_schema import TaskEntry
+
+
+class ReviewQuestion(Payload):
+    id: str
+    prompt: str
+    options: list[TaskEntry]
+
+
+class ReviewSummary(Payload):
+    id: str
+    lesson_id: str
+    title: str
+    due_at: str
+    completed: bool
+    due: bool
+    questions: list[ReviewQuestion]
+    interactive_required: bool
+    reflection_required: bool
+    run_id: str | None
+    active_run_id: str | None
+
+    @field_validator('due_at', mode='before')
+    @classmethod
+    def timestamp(cls, value):
+        return value.isoformat() if isinstance(value, datetime) else value
+
+
+class ReviewList(Payload):
+    reviews: list[ReviewSummary]
 
 
 class Answer(Payload):

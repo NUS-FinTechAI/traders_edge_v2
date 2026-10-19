@@ -62,36 +62,6 @@
       "status": "200"
     },
     {
-      "operationId": "getEconomy",
-      "method": "GET",
-      "path": "/api/me/economy",
-      "status": "200"
-    },
-    {
-      "operationId": "refreshDailyChallenge",
-      "method": "POST",
-      "path": "/api/me/economy/daily-refresh",
-      "status": "200"
-    },
-    {
-      "operationId": "claimLoginReward",
-      "method": "POST",
-      "path": "/api/me/economy/login-claims",
-      "status": "200"
-    },
-    {
-      "operationId": "getShop",
-      "method": "GET",
-      "path": "/api/me/economy/shop",
-      "status": "200"
-    },
-    {
-      "operationId": "purchaseShopItem",
-      "method": "POST",
-      "path": "/api/me/economy/shop/purchases",
-      "status": "200"
-    },
-    {
       "operationId": "getResearchMetadata",
       "method": "GET",
       "path": "/api/me/research",
@@ -119,24 +89,6 @@
       "operationId": "withdrawResearchConsent",
       "method": "POST",
       "path": "/api/me/research/withdrawals",
-      "status": "200"
-    },
-    {
-      "operationId": "getRewardInventory",
-      "method": "GET",
-      "path": "/api/me/rewards",
-      "status": "200"
-    },
-    {
-      "operationId": "claimLearningReward",
-      "method": "POST",
-      "path": "/api/me/rewards/claims",
-      "status": "200"
-    },
-    {
-      "operationId": "updateRewardEquipment",
-      "method": "PATCH",
-      "path": "/api/me/rewards/equipment",
       "status": "200"
     },
     {
@@ -305,18 +257,6 @@
       "operationId": "startQuizRoom",
       "method": "POST",
       "path": "/api/quizzes/rooms/{room_id}/start",
-      "status": "200"
-    },
-    {
-      "operationId": "listReviews",
-      "method": "GET",
-      "path": "/api/reviews",
-      "status": "200"
-    },
-    {
-      "operationId": "getReview",
-      "method": "GET",
-      "path": "/api/reviews/{review_id}",
       "status": "200"
     },
     {

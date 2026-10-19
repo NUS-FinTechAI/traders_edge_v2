@@ -13,6 +13,7 @@ from app.db import LearningActivity, MasteredModule, RewardCommand, RewardGrant,
 from app.learning import DB, User, catalog
 
 from app.api_schemas.shared_schema import Payload
+from app.api_schemas.economy_schema import RewardInventory, RewardClaim, RewardEquipmentResponse
 
 router = APIRouter(prefix='/api/me')
 
@@ -113,7 +114,7 @@ async def remember(db, user, body, digest, response):
     return response
 
 
-@router.get('/rewards', operation_id='getRewardInventory')
+@router.get('/rewards', operation_id='getRewardInventory', response_model=RewardInventory, response_model_exclude_unset=True)
 async def inventory(db: DB, user: User):
     grants = {grant.item_id: grant for grant in (await db.scalars(select(RewardGrant).where(RewardGrant.user_id == user.id))).all()}
     events, mastery = await learning_evidence(db, user.id)
@@ -129,7 +130,7 @@ async def inventory(db: DB, user: User):
     return {'items': items, 'equipment': equipment_data(user)}
 
 
-@router.post('/rewards/claims', operation_id='claimLearningReward')
+@router.post('/rewards/claims', operation_id='claimLearningReward', response_model=RewardClaim, response_model_exclude_unset=True)
 async def claim(body: Claim, request: Request, db: DB, user: User):
     digest, previous = await replay(db, user, body, 'claim', body.item_id)
     if previous is not None:
@@ -149,7 +150,7 @@ async def claim(body: Claim, request: Request, db: DB, user: User):
     return await remember(db, user, body, digest, {'item': owned_item(grant)})
 
 
-@router.patch('/rewards/equipment', operation_id='updateRewardEquipment')
+@router.patch('/rewards/equipment', operation_id='updateRewardEquipment', response_model=RewardEquipmentResponse)
 async def equip(body: Equipment, db: DB, user: User):
     digest, previous = await replay(db, user, body, 'equip', 'profile-equipment')
     if previous is not None:
