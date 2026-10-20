@@ -91,6 +91,16 @@ export interface components {
       /** Idempotency Key */
       idempotency_key: string
     }
+    /** BindScenarioCase */
+    BindScenarioCase: {
+      /**
+       * Case Id
+       * @enum {string}
+       */
+      case_id: 'path-1' | 'path-2' | 'path-3' | 'path-4'
+      /** Idempotency Key */
+      idempotency_key: string
+    }
     /** BossAvailability */
     BossAvailability: {
       /** Active Attempt Ids */
@@ -848,12 +858,26 @@ export interface components {
       result: components['schemas']['LearningResult'] | null
       /** Review Id */
       review_id?: string | null
+      scenario_set?: components['schemas']['LearningScenarioSetLink'] | null
       simulation?: components['schemas']['LearningSimulationLink'] | null
       /**
        * Status
        * @enum {string}
        */
       status: 'active' | 'completed'
+    }
+    /** LearningScenarioSetLink */
+    LearningScenarioSetLink: {
+      /** Binding Id */
+      binding_id: string
+      /** Completed Case Ids */
+      completed_case_ids: string[]
+      /** Current Case Id */
+      current_case_id: string | null
+      /** Total Cases */
+      total_cases: number
+      /** Url */
+      url: string
     }
     /** LearningSimulationLink */
     LearningSimulationLink: {
@@ -1571,6 +1595,12 @@ export interface components {
       /** Prompt */
       prompt: string
     }
+    /** ReviewScenarioCase */
+    ReviewScenarioCase: {
+      audit: components['schemas']['ScenarioAudit']
+      /** Idempotency Key */
+      idempotency_key: string
+    }
     /** ReviewSimulation */
     ReviewSimulation: {
       audit: components['schemas']['SimulationAudit']
@@ -1662,6 +1692,206 @@ export interface components {
       week?: string | null
     } & {
       [key: string]: unknown
+    }
+    /** ScenarioAudit */
+    ScenarioAudit: {
+      /** Benchmark Is Gross */
+      benchmark_is_gross: boolean
+      /** Benchmark Value */
+      benchmark_value: string
+      /** Case Id */
+      case_id: string
+      /** Cash */
+      cash: string
+      /** Engine Version */
+      engine_version: number
+      /** No Order Reason */
+      no_order_reason: 'no_thesis_supplied' | null
+      /** Observation Token */
+      observation_token: string
+      /** Orders */
+      orders: components['schemas']['ScenarioOrderAudit'][]
+      /** Planned Loss Is Guaranteed */
+      planned_loss_is_guaranteed: boolean
+      /** Positions */
+      positions: components['schemas']['ScenarioPositionAudit'][]
+      /** Profit Proves Process */
+      profit_proves_process: boolean
+      /** Session Fees */
+      session_fees: string
+      /** Tick */
+      tick: number
+    }
+    /** ScenarioCaseSummary */
+    ScenarioCaseSummary: {
+      audit: components['schemas']['ScenarioAudit']
+      /** Benchmark Value */
+      benchmark_value: string
+      /** Case Id */
+      case_id: string
+      /** Cash */
+      cash: string
+      /** Equity */
+      equity: string
+      /** Fees */
+      fees: string
+      /**
+       * Generator Profile
+       * @enum {string}
+       */
+      generator_profile: 'rising' | 'falling' | 'sideways' | 'volatile'
+      /** Max Drawdown Percent */
+      max_drawdown_percent: string
+      /** Session Id */
+      session_id: string
+    }
+    /** ScenarioOrderAudit */
+    ScenarioOrderAudit: {
+      /** Filled Quantity */
+      filled_quantity: number
+      /** Order Id */
+      order_id: string
+      /** Remaining Quantity */
+      remaining_quantity: number
+      /** Requested Quantity */
+      requested_quantity: number
+      status: components['schemas']['OrderStatus']
+    }
+    /** ScenarioPositionAudit */
+    ScenarioPositionAudit: {
+      /** Quantity */
+      quantity: number
+      /** Symbol */
+      symbol: string
+    }
+    /** ScenarioSessionPolicy */
+    ScenarioSessionPolicy: {
+      /** Brief */
+      brief: string
+      /** Case Id */
+      case_id: string
+      /** Content Version */
+      content_version: string
+      /** Engine Version */
+      engine_version: number
+      /** Grade Basis */
+      grade_basis: string
+      /** Id */
+      id: string
+      /** Investment Thesis Supplied */
+      investment_thesis_supplied: boolean
+      /** Max Advance */
+      max_advance: number
+      /** Max Asset Units */
+      max_asset_units: number
+      /** Max Order Quantity */
+      max_order_quantity: number
+      /** Max Orders */
+      max_orders: number
+      /** Max Planned Loss */
+      max_planned_loss: string
+      /** Provenance */
+      provenance: string
+      /** Rubric Version */
+      rubric_version: string
+      /** Run Id */
+      run_id: string
+      /** Session Id */
+      session_id: string
+      /** Total Cases */
+      total_cases: number
+      /** Total Ticks */
+      total_ticks: number
+    }
+    /** ScenarioSessionResponse */
+    ScenarioSessionResponse: {
+      audited_observation: components['schemas']['ScenarioAudit'] | null
+      /** Available Cash */
+      available_cash: string
+      /** Benchmark Value */
+      benchmark_value: string
+      /** Cash */
+      cash: string
+      /** Equity */
+      equity: string
+      /** Fees */
+      fees: string
+      /** Fills */
+      fills: components['schemas']['SimulationFill'][]
+      /** Finished */
+      finished: boolean
+      /** History */
+      history: {
+        [key: string]: string[]
+      }
+      /** Id */
+      id: string
+      /** Max Drawdown Percent */
+      max_drawdown_percent: string
+      mode: components['schemas']['SimulationMode']
+      /** Observation Token */
+      observation_token: string
+      /** Orders */
+      orders: components['schemas']['Order'][]
+      /** Positions */
+      positions: components['schemas']['SimulationPosition'][]
+      /** Quotes */
+      quotes: components['schemas']['SimulationQuote'][]
+      /** Reflection */
+      reflection: string | null
+      rules: components['schemas']['SimulationRules']
+      /** Scenario */
+      scenario: string
+      scenario_set_policy: components['schemas']['ScenarioSessionPolicy']
+      /** Tick */
+      tick: number
+      /** Total Ticks */
+      total_ticks: number
+      /** Updated At */
+      updated_at: string | null
+      /** Version */
+      version: number
+    }
+    /** ScenarioSetPolicy */
+    ScenarioSetPolicy: {
+      /** Brief */
+      brief: string
+      /** Engine Version */
+      engine_version: number
+      /** Grade Basis */
+      grade_basis: string
+      /** Id */
+      id: string
+      /** Investment Thesis Supplied */
+      investment_thesis_supplied: boolean
+      /** Max Advance */
+      max_advance: number
+      /** Max Asset Units */
+      max_asset_units: number
+      /** Max Order Quantity */
+      max_order_quantity: number
+      /** Max Orders */
+      max_orders: number
+      /** Max Planned Loss */
+      max_planned_loss: string
+      /** Provenance */
+      provenance: string
+      /** Total Cases */
+      total_cases: number
+      /** Total Ticks */
+      total_ticks: number
+    }
+    /** ScenarioSetResponse */
+    ScenarioSetResponse: {
+      /** Completed Cases */
+      completed_cases: components['schemas']['ScenarioCaseSummary'][]
+      /** Current Case Id */
+      current_case_id: string | null
+      /** Issues */
+      issues: components['schemas']['SimulationAuditIssue'][]
+      policy: components['schemas']['ScenarioSetPolicy']
+      run: components['schemas']['LearningRunResponse']
+      session: components['schemas']['ScenarioSessionResponse'] | null
     }
     /** ShopResponse */
     ShopResponse: {

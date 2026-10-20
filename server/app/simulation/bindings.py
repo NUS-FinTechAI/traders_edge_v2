@@ -38,6 +38,7 @@ SCENARIO_SET_BINDING = {
     'ticks': 20,
     'max_advance': 5,
     'max_order_quantity': 5,
+    'max_orders': 8,
     'max_asset_units': 10,
     'max_planned_loss': '100.00',
     'case_ids': ['path-1', 'path-2', 'path-3', 'path-4'],

@@ -5,8 +5,7 @@ from pydantic import ValidationError
 from sqlalchemy import or_, select
 
 from app import learning_runs as runs
-from app.api_schemas.scenario_set_schema import ReviewScenarioCase, ScenarioCaseSummary, ScenarioSessionResponse, ScenarioSetResponse
-from app.api_schemas.simulation_schema import BindLearningSimulation
+from app.api_schemas.scenario_set_schema import BindScenarioCase, ReviewScenarioCase, ScenarioCaseSummary, ScenarioSessionResponse, ScenarioSetResponse
 from app.db import LearningRun, LearningRunCommand, SimulationSession, now
 from app.learning import DB, User, catalog
 from app.progression import progress
@@ -24,9 +23,10 @@ def reverse_links(session_id):
 def policy(binding):
     return {'id': binding['id'], 'engine_version': binding['engine_version'],
             'provenance': binding['provenance'], 'total_cases': len(binding['case_ids']),
-            'brief': 'This fictional account has no supplied investment thesis. Trading is optional. Each actual order needs a prior written plan, at most five units, a declared loss boundary no greater than 100 units, and at most ten held units plus pending buys per asset. These case constraints are not investment recommendations or guaranteed loss limits.',
+            'brief': 'This fictional account has no supplied investment thesis. Trading is optional. Each actual order needs a prior written plan, at most five units, a declared loss boundary no greater than 100 units, and at most ten held units plus pending buys per asset. At most eight orders may be recorded per path, including cancelled orders. These case constraints are not investment recommendations or guaranteed loss limits.',
             'total_ticks': binding['ticks'], 'max_advance': binding['max_advance'],
             'max_order_quantity': binding['max_order_quantity'], 'max_asset_units': binding['max_asset_units'],
+            'max_orders': binding['max_orders'],
             'max_planned_loss': binding['max_planned_loss'],
             'investment_thesis_supplied': binding['investment_thesis_supplied'],
             'grade_basis': 'Accurate observed records and compliance with this fictional case\'s size and declared-loss constraints; no profit, trade-count or free-text reasoning grade.'}
@@ -109,6 +109,8 @@ def restrict(state, operation, payload):
             or state['tick'] + payload['steps'] >= saved['total_ticks']):
         raise HTTPException(422, 'Advance within the current path and its final observation')
     if operation == 'order':
+        if len(state['orders']) >= saved['max_orders']:
+            raise HTTPException(422, 'This fictional path allows at most eight recorded orders, including cancelled orders; observe or audit the current record')
         if payload['quantity'] > saved['max_order_quantity']:
             raise HTTPException(422, 'This fictional brief allows at most five units per order')
         try:
@@ -173,13 +175,15 @@ async def remember(db, user, body, digest, run, result):
 
 
 @router.post('/{run_id}/scenario-set', operation_id='bindLearningScenarioSet', response_model=ScenarioSetResponse, response_model_exclude_unset=True)
-async def bind(run_id: str, body: BindLearningSimulation, request: Request, db: DB, user: User):
+async def bind(run_id: str, body: BindScenarioCase, request: Request, db: DB, user: User):
     digest, previous = await runs.replay(db, user, body, 'scenario-set:bind', run_id)
     if previous is not None:
         return previous
     run = await owned_run(request, db, user, run_id, active=True)
-    await require_foundations(request, db, user)
     identifier = current_case(run)
+    if body.case_id != identifier:
+        raise HTTPException(409, 'The requested path changed; inspect the current path before starting it')
+    await require_foundations(request, db, user)
     if identifier is None:
         raise HTTPException(409, 'All paths have already been reviewed')
     if identifier in run.state_json['scenario_sessions']:
@@ -211,6 +215,8 @@ async def resume(run_id: str, request: Request, db: DB, user: User):
 def audit_issues(audit, state):
     observed = engine.public_view(state)
     issues = []
+    if len(observed['orders']) > state['scenario_set_policy']['max_orders']:
+        issues.append({'code': 'order_count_policy', 'message': 'The recorded order count exceeds this fictional path\'s eight-order bound, including cancellations.'})
     def mismatch(code, expected, submitted, message, order_id=None):
         if expected != submitted:
             issues.append({'code': code, 'message': message, 'expected': expected, **({'order_id': order_id} if order_id else {})})
