@@ -23,6 +23,9 @@ from app.quizzes.api import router as quizzes_router
 from app.multiplayer.api import router as multiplayer_router
 from app.multiplayer import policy as multiplayer_policy
 from app.research import router as research_router
+from app.game.api import router as games_router
+from app.game import service as game_service
+from app.game.scenario import load_scenarios
 from app.simulation.api import router as simulation_router
 from app.simulation.lesson_api import router as lesson_simulation_router
 
@@ -39,6 +42,7 @@ def create_app(settings: Settings | None = None, content: dict | None = None) ->
             await database.migrate()
         else:
             await database.check_schema()
+        load_scenarios()
         if content is None:
             from app.content.catalog import load_catalog
             from app.content.validate import validate_catalog
@@ -68,6 +72,8 @@ def create_app(settings: Settings | None = None, content: dict | None = None) ->
     application.state.challenge_abandon_handler = gameplay.abandoned
     application.state.multiplayer_access_handler = multiplayer_policy.access
     application.state.multiplayer_result_handler = multiplayer_policy.complete
+    application.state.resolve_game = game_service.resolve_game
+    application.state.settle_game = game_service.settle_game
     locks = WeakValueDictionary()
     application.add_middleware(CORSMiddleware, allow_origins=list(settings.allowed_origins), allow_credentials=True, allow_methods=['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'], allow_headers=['Content-Type', 'Authorization'])
 
@@ -119,6 +125,7 @@ def create_app(settings: Settings | None = None, content: dict | None = None) ->
     application.include_router(research_router)
     application.include_router(simulation_router)
     application.include_router(lesson_simulation_router)
+    application.include_router(games_router)
     return application
 
 
