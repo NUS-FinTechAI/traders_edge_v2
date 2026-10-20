@@ -1,4 +1,9 @@
 import { useCallback, useEffect, useRef, type ReactNode } from 'react'
+import { Link } from 'react-router-dom'
+import {
+  challengePath,
+  challengeStartPath,
+} from '../../../../services/challengeReadService.ts'
 import useAdventureRead from '../../../../hooks/useAdventureRead.ts'
 import {
   loadLevel,
@@ -237,6 +242,26 @@ function CheckpointDetails({
           {boss.active_attempt_ids.length} saved{' '}
           {boss.active_attempt_ids.length === 1 ? 'attempt' : 'attempts'} in
           progress.
+        </p>
+      )}
+      {boss.active_attempt_ids.map((id) => (
+        <p key={id}>
+          <Link className="adventure-button" to={challengePath(id)}>
+            Resume saved boss attempt
+          </Link>
+        </p>
+      ))}
+      {boss.available && !boss.active_attempt_ids.length && (
+        <p>
+          <Link
+            className="adventure-button"
+            to={challengeStartPath(
+              entry ? 'chapter_entry' : 'chapter_exit',
+              chapter.module_id,
+            )}
+          >
+            Read boss briefing
+          </Link>
         </p>
       )}
       <p>
