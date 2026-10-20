@@ -1,0 +1,398 @@
+.panel {
+  min-width: 0;
+  padding: var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.bare {
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.panelHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin-bottom: var(--space-3);
+}
+
+.panelTitle {
+  font-size: var(--text-md);
+  font-weight: 800;
+  letter-spacing: 0.01em;
+}
+
+.panelNote {
+  color: var(--text-dim);
+  font-size: var(--text-xs);
+}
+
+.empty {
+  padding: var(--space-3) 0;
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
+
+/* Account */
+.stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+  margin: 0;
+}
+
+.stats div {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.stats dt {
+  color: var(--text-dim);
+  font-size: var(--text-xs);
+  font-weight: 700;
+}
+
+.stats dd {
+  margin: 0;
+  font-size: var(--text-md);
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.planLine {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-2);
+  margin-top: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
+
+.planLine > svg {
+  color: var(--gold);
+}
+
+.planOk,
+.planOver {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+}
+
+.planOk {
+  color: var(--text-muted);
+}
+
+.planOver {
+  color: var(--warning);
+}
+
+/* Rivals and standings */
+.rivals {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.rivals li {
+  display: grid;
+  grid-template-columns: 24px auto 1fr auto;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 48px;
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: var(--bg-elev);
+}
+
+.rivals li.rivalMe {
+  border-color: var(--gold);
+  background: var(--gold-soft);
+}
+
+.rank {
+  color: var(--text-muted);
+  font-weight: 800;
+  text-align: center;
+}
+
+.rivalName {
+  display: grid;
+  min-width: 0;
+  line-height: 1.25;
+}
+
+.rivalName strong {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.rivalName small {
+  color: var(--text-dim);
+  font-size: var(--text-xs);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.youTag {
+  padding: 0 6px;
+  border-radius: var(--radius-pill);
+  background: var(--gold);
+  color: #1a1405;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.podium li {
+  min-height: 60px;
+  padding: var(--space-2) var(--space-3);
+}
+
+.podium li[data-rank='1'] .rank {
+  color: var(--gold);
+  font-size: var(--text-lg);
+}
+
+/* Missions */
+.missions {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.missions li {
+  display: grid;
+  grid-template-columns: 22px 1fr auto;
+  align-items: start;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+}
+
+.missionText {
+  min-width: 0;
+}
+
+.missionDone .missionText {
+  color: var(--text-muted);
+}
+
+.tierBasic {
+  color: var(--gold);
+}
+
+.tierBonus {
+  color: var(--gem);
+}
+
+.missionState {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--text-dim);
+  font-size: var(--text-xs);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.missionDone .missionState {
+  color: var(--gain);
+}
+
+/* News */
+.news {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.newsItem {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-elev);
+  animation: slideIn 320ms var(--ease);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+.newsButton {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 4px var(--space-2);
+  align-items: center;
+  width: 100%;
+  min-height: 44px;
+  padding: var(--space-2) var(--space-3);
+  border: 0;
+  border-radius: inherit;
+  background: transparent;
+  text-align: left;
+}
+
+.newsButton:hover {
+  background: var(--surface-2);
+}
+
+.newsMeta {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--text-dim);
+  font-size: var(--text-xs);
+}
+
+.tone {
+  padding: 1px 8px;
+  border: 1px solid;
+  border-radius: var(--radius-pill);
+  font-weight: 700;
+}
+
+.tonePositive {
+  color: var(--gain);
+  border-color: #275a3f;
+}
+
+.toneNegative {
+  color: var(--loss);
+  border-color: #6a3029;
+}
+
+.toneNeutral {
+  color: var(--text-muted);
+  border-color: var(--border-strong);
+}
+
+.newsKind {
+  text-transform: capitalize;
+}
+
+.newsSymbols {
+  color: var(--text-muted);
+  font-family: var(--font-num);
+}
+
+.headline {
+  font-size: var(--text-sm);
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.chevron,
+.chevronOpen {
+  color: var(--text-dim);
+  transition: transform 160ms var(--ease);
+}
+
+.chevronOpen {
+  transform: rotate(90deg);
+}
+
+.newsBody {
+  padding: 0 var(--space-3) var(--space-3);
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
+
+/* Activity tables */
+.activity [role='tab'] {
+  min-height: 44px;
+}
+
+.activity {
+  display: grid;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.tableWrap {
+  min-width: 0;
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+}
+
+.table th,
+.table td {
+  padding: var(--space-2);
+  border-bottom: 1px solid var(--border);
+  text-align: right;
+  white-space: nowrap;
+}
+
+.table th:first-child,
+.table td:first-child {
+  text-align: left;
+}
+
+.table thead th {
+  color: var(--text-dim);
+  font-size: var(--text-xs);
+  font-weight: 700;
+}
+
+.table tbody th {
+  font-weight: 700;
+}
+
+@media (max-width: 479px) {
+  .wideOnly {
+    display: none;
+  }
+
+  .table th,
+  .table td {
+    padding: var(--space-2) 6px;
+  }
+}
+
+.actionCell {
+  width: 1%;
+}
+
+.cancelButton {
+  min-height: 44px;
+}
+
+.linkButton {
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--gold);
+  font-weight: 800;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
