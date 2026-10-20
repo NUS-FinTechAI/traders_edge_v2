@@ -3,7 +3,7 @@ from decimal import InvalidOperation
 import json
 
 from fastapi import APIRouter, HTTPException, Request
-from sqlalchemy import select
+from sqlalchemy import or_, select
 
 from app.db import LearningRun, LearningRunCommand, SimulationSession, now
 from app.learning import DB, User
@@ -56,8 +56,13 @@ def validate_market_data(state, binding):
 
 
 async def validate_session(request, db, user, session, mutation=False):
+    from app.simulation import scenario_sets
     policy = session.snapshot_json.get('bound_policy')
-    linked = await db.scalar(select(LearningRun).where(LearningRun.user_id == user.id, LearningRun.state_json['simulation_session_id'].as_string() == session.id))
+    linked = await db.scalar(select(LearningRun).where(LearningRun.user_id == user.id, or_(
+        LearningRun.state_json['simulation_session_id'].as_string() == session.id,
+        scenario_sets.reverse_links(session.id))))
+    if 'scenario_set_policy' in session.snapshot_json or (linked is not None and 'scenario_set_binding' in linked.snapshot_json):
+        return await scenario_sets.validate_session(request, db, user, session, linked, mutation)
     if policy is None and linked is None:
         return None
     if not isinstance(policy, dict) or linked is None or linked.id != policy.get('run_id') or linked.user_id != user.id or session.user_id != user.id:
@@ -82,6 +87,9 @@ async def validate_session(request, db, user, session, mutation=False):
 
 
 def restrict(state, operation, payload):
+    if 'scenario_set_policy' in state:
+        from app.simulation import scenario_sets
+        return scenario_sets.restrict(state, operation, payload)
     policy = state['bound_policy']
     if operation == 'debrief':
         raise HTTPException(409, 'Finish this bound session through its graded learning audit')
@@ -228,3 +236,7 @@ async def review(run_id: str, body: ReviewSimulation, request: Request, db: DB, 
     run.state_json = state
     await db.flush()
     return await runs.remember(db, user, body, digest, run)
+
+
+from app.simulation.scenario_sets import router as scenario_set_router
+router.include_router(scenario_set_router)

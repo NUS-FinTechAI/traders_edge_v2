@@ -36,7 +36,7 @@ class CatalogAPITests(unittest.TestCase):
         self.assertEqual(sum(len(m['entry_tasks']) for m in modules), 30)
         self.assertEqual(sum(len(l['questions']) for m in modules for l in m['lessons']), 60)
         self.assertEqual(sum(len(m['assessment']) for m in modules), 50)
-        self.assertEqual(sum(len(l['tasks']) for m in modules for l in m['lessons']), 97)
+        self.assertEqual(sum(len(l['tasks']) for m in modules for l in m['lessons']), 98)
         self.assertEqual(sum(len(l['bonus_tasks']) for m in modules for l in m['lessons']), 30)
         with tempfile.TemporaryDirectory() as directory:
             app = create_app(Settings(database_url=f'sqlite+aiosqlite:///{directory}/catalog.db'))
@@ -103,6 +103,20 @@ class CatalogAPITests(unittest.TestCase):
                             self.assertIsNone(run['result'])
                             attempted_retry = True
                         if task['type'] == 'simulation':
+                            if run.get('scenario_set'):
+                                path = run['scenario_set']['url']
+                                for case in range(4):
+                                    result = public(client.post(path, json={'idempotency_key': key()}))
+                                    view = result['session']
+                                    while view['tick'] < view['total_ticks'] - 1:
+                                        view = public(client.post(f"/api/simulations/{view['id']}/advance", json={'idempotency_key': key(), 'steps': min(5, view['total_ticks'] - 1 - view['tick'])}))
+                                    body = {'idempotency_key': key(), 'audit': {'case_id': result['current_case_id'], 'tick': view['tick'], 'engine_version': view['version'], 'observation_token': view['observation_token'], 'orders': [], 'positions': [], 'cash': view['cash'], 'session_fees': view['fees'], 'benchmark_value': view['benchmark_value'], 'benchmark_is_gross': True, 'profit_proves_process': False, 'planned_loss_is_guaranteed': False, 'no_order_reason': 'no_thesis_supplied'}}
+                                    result = public(client.post(path + '/review', json=body))
+                                    self.assertEqual(public(client.post(path + '/review', json=body)), result)
+                                    self.assertEqual(len(result['completed_cases']), case + 1)
+                                run = result['run']
+                                self.assertEqual(run['progress']['completed_steps'], index + 1)
+                                continue
                             path = f"/api/learning-runs/{run['id']}/simulation"
                             view = public(client.post(path, json={'idempotency_key': key()}))
                             while view['tick'] < view['bound_policy']['min_observe']:

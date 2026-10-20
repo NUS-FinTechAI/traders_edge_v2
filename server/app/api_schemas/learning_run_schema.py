@@ -89,6 +89,14 @@ class LearningSimulationLink(Payload):
     policy: LessonSimulationPolicy
 
 
+class LearningScenarioSetLink(Payload):
+    url: str
+    binding_id: str
+    current_case_id: str | None
+    completed_case_ids: list[str]
+    total_cases: int
+
+
 type LearningRunPurpose = Literal['diagnostic', 'practice', 'bonus', 'assessment', 'review']
 
 class LearningRunResponse(Payload):
@@ -104,6 +112,7 @@ class LearningRunResponse(Payload):
     result: LearningResult | None
     review_id: str | None = None
     simulation: LearningSimulationLink | None = None
+    scenario_set: LearningScenarioSetLink | None = None
 
 
 type StartLevelPurpose = Literal['practice', 'bonus']

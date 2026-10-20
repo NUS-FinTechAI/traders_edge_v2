@@ -13,7 +13,7 @@ from app.db import Attempt, LearningRun, LearningRunCommand, MasteredModule, awa
 from app.learning import DB, User, catalog, interactive_review, lesson_for, module_for, owned_review, practice_eligibility, profile_data, require_lesson
 from app.progression import progress, record_lesson, reward
 from app.content.validate import valid_choice_option_id
-from app.simulation.bindings import public_binding, valid_binding
+from app.simulation.bindings import public_binding, valid_binding, valid_scenario_set_binding, valid_scenario_forms, scenario_forms
 
 router = APIRouter(prefix='/api')
 
@@ -35,6 +35,13 @@ def run_data(run):
         response['review_id'] = run.snapshot_json['review_id']
     if 'simulation_binding' in run.snapshot_json:
         response['simulation'] = {'session_id': state.get('simulation_session_id'), 'url': f'/api/learning-runs/{run.id}/simulation', 'policy': public_binding(run.snapshot_json['simulation_binding'])}
+    if 'scenario_set_binding' in run.snapshot_json:
+        case_ids = run.snapshot_json['scenario_set_binding']['case_ids']
+        completed = [identifier for identifier in case_ids if identifier in state['scenario_reviews']]
+        response['scenario_set'] = {'url': f'/api/learning-runs/{run.id}/scenario-set',
+            'binding_id': run.snapshot_json['scenario_set_binding']['id'], 'total_cases': len(case_ids),
+            'current_case_id': case_ids[len(completed)] if len(completed) < len(case_ids) else None,
+            'completed_case_ids': completed}
     return response
 
 
@@ -55,12 +62,19 @@ def validate_pinned_content(run):
 
     snapshot = run.snapshot_json
     require(isinstance(snapshot, dict))
-    if snapshot.get('rubric_version') not in {'interactive-1', 'interactive-2'}:
+    if snapshot.get('rubric_version') not in {'interactive-1', 'interactive-2', 'interactive-3'}:
         raise HTTPException(409, 'Unsupported learning rubric version')
     bound = 'simulation_binding' in snapshot
+    scenario_set = 'scenario_set_binding' in snapshot
+    require(not (bound and scenario_set))
     require(bound == (snapshot['rubric_version'] == 'interactive-2'))
+    require(scenario_set == (snapshot['rubric_version'] == 'interactive-3'))
     if bound:
         require(run.purpose == 'practice' and run.level_id == 'm05-l01' and valid_binding(snapshot['simulation_binding']))
+    if scenario_set:
+        require(run.purpose == 'practice' and run.level_id == 'm09-l03'
+                and valid_scenario_set_binding(snapshot['scenario_set_binding'])
+                and valid_scenario_forms(snapshot.get('scenario_forms')))
     require(type(snapshot.get('approved')) is bool)
     require(run.purpose in {'diagnostic', 'practice', 'bonus', 'assessment', 'review'})
     if run.purpose in {'practice', 'review'}:
@@ -85,7 +99,7 @@ def validate_pinned_content(run):
         graded += 1
         require(text(task.get('explanation')) and type(task.get('critical')) is bool)
         if kind == 'simulation':
-            require(bound and task is tasks[-1] and task['critical'] and set(task) == {'id', 'type', 'prompt', 'explanation', 'critical'})
+            require((bound or scenario_set) and task is tasks[-1] and task['critical'] and set(task) == {'id', 'type', 'prompt', 'explanation', 'critical'})
             continue
         if kind == 'choice':
             options = entries(task.get('options'))
@@ -95,8 +109,8 @@ def validate_pinned_content(run):
             items, categories = entries(task.get('items')), entries(task.get('categories'))
             assignments = task.get('correct_assignments')
             require(isinstance(assignments, dict) and set(assignments) == items and all(text(value) and value in categories for value in assignments.values()))
-    require(sum(t['type'] == 'simulation' for t in tasks) == int(bound))
-    require(graded > int(bound))
+    require(sum(t['type'] == 'simulation' for t in tasks) == int(bound or scenario_set))
+    require(graded > int(bound or scenario_set))
 
 
 def pinned_publication(request, run):
@@ -182,6 +196,10 @@ async def start_run(request, db, user, body, purpose, target):
     run = LearningRun(id=uid(), user_id=user.id, purpose=purpose, module_id=module['id'], level_id=lesson['id'] if lesson else None, content_version=content['content_version'], status='active', snapshot_json={'tasks': deepcopy(tasks), 'review_after_days': lesson.get('review_after_days', 1) if lesson else None, 'approved': content.get('review_status') == 'approved' and module.get('review_status') == 'approved' and all(l.get('review_status') == 'approved' for l in module['lessons']), 'rubric_version': 'interactive-1'}, state_json={'position': 0, 'first_responses': {}, 'responses': [], 'feedback': [], 'result': None})
     if purpose == 'practice' and 'simulation_binding' in lesson:
         run.snapshot_json = {**run.snapshot_json, 'rubric_version': 'interactive-2', 'simulation_binding': deepcopy(lesson['simulation_binding'])}
+    if purpose == 'practice' and 'scenario_set_binding' in lesson:
+        run.snapshot_json = {**run.snapshot_json, 'rubric_version': 'interactive-3',
+            'scenario_set_binding': deepcopy(lesson['scenario_set_binding']), 'scenario_forms': scenario_forms()}
+        run.state_json = {**run.state_json, 'scenario_sessions': {}, 'scenario_reviews': {}}
     pinned_publication(request, run)
     db.add(run)
     await db.flush()

@@ -48,7 +48,7 @@ class CatalogTests(unittest.TestCase):
 
     def test_new_edition_remains_pending_independent_review(self):
         self.assertEqual(self.catalog['schema_version'], 1)
-        self.assertEqual(self.catalog['content_version'], '2026-10-04.4')
+        self.assertEqual(self.catalog['content_version'], '2026-10-20.1')
         pending = 'authored_requires_independent_review'
         self.assertEqual(self.catalog['review_status'], pending)
         for module in self.catalog['modules']:
@@ -181,11 +181,11 @@ class CatalogTests(unittest.TestCase):
                     bonus.extend(lesson['bonus_tasks'])
                 self.assertTrue(module['bonus_mission']['optional'])
                 self.assertEqual(module['bonus_mission']['implementation_status'], 'content_only')
-        self.assertEqual(Counter(t['type'] for t in required), {'instruction': 33, 'choice': 36, 'classification': 27, 'simulation': 1})
+        self.assertEqual(Counter(t['type'] for t in required), {'instruction': 33, 'choice': 36, 'classification': 27, 'simulation': 2})
         self.assertEqual(Counter(t['type'] for t in bonus), {'choice': 28, 'classification': 2})
         identifiers = [t['id'] for m in modules for t in m['entry_tasks']] + [t['id'] for t in required + bonus]
-        self.assertEqual(len(identifiers), 157)
-        self.assertEqual(len(set(identifiers)), 157)
+        self.assertEqual(len(identifiers), 158)
+        self.assertEqual(len(set(identifiers)), 158)
         validate_catalog(self.catalog)
 
     def test_entry_bank_is_unhinted_distinct_and_allows_uncertainty(self):
@@ -226,6 +226,27 @@ class CatalogTests(unittest.TestCase):
             with self.assertRaises(ContentValidationError):
                 validate_catalog(content)
         self.catalog['modules'][0]['lessons'][0]['simulation_binding'] = deepcopy(bound['simulation_binding'])
+        with self.assertRaisesRegex(ContentValidationError, 'binding'):
+            validate_catalog(self.catalog)
+
+    def test_four_path_binding_rejects_changed_limits_missing_task_and_wrong_lesson(self):
+        from copy import deepcopy
+        lesson = self.catalog['modules'][8]['lessons'][2]
+        self.assertEqual(lesson['tasks'][-1]['id'], 'm09-l03-task-scenario-set')
+        self.assertFalse(lesson['scenario_set_binding']['investment_thesis_supplied'])
+        mutations = (
+            lambda item: item.pop('scenario_set_binding'),
+            lambda item: item['scenario_set_binding'].update(engine_version=True),
+            lambda item: item['scenario_set_binding'].update(max_order_quantity=1000),
+            lambda item: item['scenario_set_binding'].update(case_ids=['path-1']),
+            lambda item: item['tasks'].pop(),
+        )
+        for mutate in mutations:
+            content = deepcopy(self.catalog)
+            mutate(content['modules'][8]['lessons'][2])
+            with self.assertRaises(ContentValidationError):
+                validate_catalog(content)
+        self.catalog['modules'][8]['lessons'][0]['scenario_set_binding'] = deepcopy(lesson['scenario_set_binding'])
         with self.assertRaisesRegex(ContentValidationError, 'binding'):
             validate_catalog(self.catalog)
 
