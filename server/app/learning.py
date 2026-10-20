@@ -9,7 +9,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.auth import current_profile
 from app.api_schemas.auth_schema import UserProfile
-from app.api_schemas.learning_schema import Submission, ProfileUpdate, JournalCreate
+from app.api_schemas.learning_schema import Submission, ProfileUpdate, JournalCreate, ReviewList, ReviewSummary
 from app.db import Attempt, JournalEntry, LearningActivity, LearningRun, MasteredModule, Profile, ReviewItem, XPLedger, aware, get_db, now, uid
 from app.progression import progress, record_lesson, reward
 
@@ -283,13 +283,13 @@ async def review_data(request, db, user, items):
     return result
 
 
-@router.get('/reviews', operation_id='listReviews')
+@router.get('/reviews', operation_id='listReviews', response_model=ReviewList)
 async def reviews(request: Request, db: DB, user: User):
     items = (await db.scalars(select(ReviewItem).where(ReviewItem.user_id == user.id).order_by(ReviewItem.due_at))).all()
     return {'reviews': await review_data(request, db, user, items)}
 
 
-@router.get('/reviews/{review_id}', operation_id='getReview')
+@router.get('/reviews/{review_id}', operation_id='getReview', response_model=ReviewSummary)
 async def get_review(review_id: str, request: Request, db: DB, user: User):
     item = await owned_review(db, user, review_id)
     return (await review_data(request, db, user, [item]))[0]

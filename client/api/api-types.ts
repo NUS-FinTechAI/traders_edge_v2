@@ -513,6 +513,11 @@ export interface components {
       /** Run Id */
       run_id: string | null
     }
+    /** EconomyAward */
+    EconomyAward: {
+      awarded: components['schemas']['ChallengeAwardAmounts']
+      wallet: components['schemas']['ChallengeWallet']
+    }
     /** EconomyCommand */
     EconomyCommand: {
       /** Idempotency Key */
@@ -523,6 +528,54 @@ export interface components {
        * @constant
        */
       policy_version?: '1'
+    }
+    /** EconomyRefresh */
+    EconomyRefresh: {
+      /** Spent */
+      spent: {
+        [key: string]: number
+      }
+      wallet: components['schemas']['ChallengeWallet']
+    }
+    /** EconomyRules */
+    EconomyRules: {
+      /** Daily Victory Stocks */
+      daily_victory_stocks: number
+      /** Login Stocks */
+      login_stocks: number
+      /** Login Xp */
+      login_xp: number
+      /**
+       * Real Money Purchases
+       * @constant
+       */
+      real_money_purchases: false
+      /** Refresh Premium Cost */
+      refresh_premium_cost: number
+    }
+    /** EconomyState */
+    EconomyState: {
+      /** Daily Cooldown Until */
+      daily_cooldown_until: string | null
+      /** Login Last Day */
+      login_last_day: string | null
+      /** Login Streak Days */
+      login_streak_days: number
+      /** Policy Version */
+      policy_version: string
+      /** Premium Balance */
+      premium_balance: number
+      rules: components['schemas']['EconomyRules']
+      /** Simulated Trading Funds */
+      simulated_trading_funds: string
+      /** Stocks Balance */
+      stocks_balance: number
+      /** Stocks Expires At */
+      stocks_expires_at: string
+      /** Stocks Week */
+      stocks_week: string
+      /** Timezone */
+      timezone: string
     }
     /** Equipment */
     Equipment: {
@@ -1107,6 +1160,15 @@ export interface components {
        */
       policy_version?: '1'
     }
+    /** PurchaseResponse */
+    PurchaseResponse: {
+      item: components['schemas']['RewardItem']
+      /** Spent */
+      spent: {
+        [key: string]: number
+      }
+      wallet: components['schemas']['ChallengeWallet']
+    }
     /** QuizResponse */
     QuizResponse: {
       answer: components['schemas']['Answer']
@@ -1119,11 +1181,118 @@ export interface components {
       idempotency_key: string
       prior_knowledge: components['schemas']['PriorKnowledge']
     }
+    /** ReviewList */
+    ReviewList: {
+      /** Reviews */
+      reviews: components['schemas']['ReviewSummary'][]
+    }
+    /** ReviewQuestion */
+    ReviewQuestion: {
+      /** Id */
+      id: string
+      /** Options */
+      options: components['schemas']['TaskEntry'][]
+      /** Prompt */
+      prompt: string
+    }
     /** ReviewSimulation */
     ReviewSimulation: {
       audit: components['schemas']['SimulationAudit']
       /** Idempotency Key */
       idempotency_key: string
+    }
+    /** ReviewSummary */
+    ReviewSummary: {
+      /** Active Run Id */
+      active_run_id: string | null
+      /** Completed */
+      completed: boolean
+      /** Due */
+      due: boolean
+      /** Due At */
+      due_at: string
+      /** Id */
+      id: string
+      /** Interactive Required */
+      interactive_required: boolean
+      /** Lesson Id */
+      lesson_id: string
+      /** Questions */
+      questions: components['schemas']['ReviewQuestion'][]
+      /** Reflection Required */
+      reflection_required: boolean
+      /** Run Id */
+      run_id: string | null
+      /** Title */
+      title: string
+    }
+    /** RewardClaim */
+    RewardClaim: {
+      item: components['schemas']['RewardItem']
+    }
+    /** RewardEquipment */
+    RewardEquipment: {
+      /** Avatar Id */
+      avatar_id: string | null
+      /** Title Id */
+      title_id: string | null
+    }
+    /** RewardEquipmentResponse */
+    RewardEquipmentResponse: {
+      equipment: components['schemas']['RewardEquipment']
+    }
+    /** RewardInventory */
+    RewardInventory: {
+      equipment: components['schemas']['RewardEquipment']
+      /** Items */
+      items: components['schemas']['RewardItem'][]
+    }
+    /** RewardItem */
+    RewardItem: {
+      /** Created At */
+      created_at?: string | null
+      /** Criteria */
+      criteria: {
+        [key: string]: components['schemas']['JsonValue']
+      }
+      /** Currency */
+      currency?: ('stocks' | 'premium') | null
+      /** Evidence */
+      evidence?:
+        | {
+            [key: string]: components['schemas']['JsonValue']
+          }[]
+        | null
+      /** Id */
+      id: string
+      /**
+       * Kind
+       * @enum {string}
+       */
+      kind: 'avatar' | 'title' | 'badge'
+      /** Name */
+      name: string
+      /** Price */
+      price?: number | null
+      /** Rule Version */
+      rule_version: string
+      /** Shop Id */
+      shop_id?: string | null
+      /** Status */
+      status?: ('owned' | 'eligible' | 'locked' | 'available') | null
+      /** Visual Key */
+      visual_key: string
+      /** Week */
+      week?: string | null
+    } & {
+      [key: string]: unknown
+    }
+    /** ShopResponse */
+    ShopResponse: {
+      /** Items */
+      items: components['schemas']['RewardItem'][]
+      /** Policy Version */
+      policy_version: string
     }
     /** SimulationAudit */
     SimulationAudit: {
