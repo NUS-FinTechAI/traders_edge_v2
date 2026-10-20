@@ -3,6 +3,7 @@ import useUser from '../../hooks/useUser.ts'
 import AdventureModeCard from '../../components/adventure/adventure-mode-card/AdventureModeCard.tsx'
 import './HomePage.css'
 import { Link } from 'react-router-dom'
+import NextJourney from '../../components/adventure/next-journey/NextJourney.tsx'
 
 export default function HomePage() {
   const user = useUser()
@@ -14,6 +15,7 @@ export default function HomePage() {
       ) : (
         <h1>Welcome, {user.display_name}!</h1>
       )}
+      {user && <NextJourney key={user.id} owner={user.id} />}
       <section
         className="adventure-home-section"
         aria-labelledby="adventure-home-title"

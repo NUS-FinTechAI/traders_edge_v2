@@ -7,9 +7,10 @@ import ReadError from '../../../components/adventure/read-error/ReadError.tsx'
 import ChapterCard from '../../../components/adventure/chapter/chapter-card/ChapterCard.tsx'
 import RouteEmblem from '../../../components/icons/route-emblem/RouteEmblem.tsx'
 import { StarLegend } from '../../../components/icons/mission-stars/MissionStars.tsx'
+import NextJourney from '../../../components/adventure/next-journey/NextJourney.tsx'
 import './AdventurePage.css'
 
-function ChapterSelection() {
+function ChapterSelection({ owner }: { owner: string }) {
   const { state } = useAdventureRead(loadAdventure)
   const rail = useRef<HTMLUListElement>(null)
   const [edges, setEdges] = useState({ start: true, end: false })
@@ -59,6 +60,7 @@ function ChapterSelection() {
         </div>
         <RouteEmblem />
       </header>
+      <NextJourney owner={owner} />
       <div className="adventure-section-heading">
         <h2>Your chapters</h2>
         {state.status === 'ready' && state.data.chapters.length > 1 && (
@@ -116,7 +118,7 @@ function ChapterSelection() {
 export default function AdventurePage() {
   return (
     <AdventureGate>
-      {(userId) => <ChapterSelection key={userId} />}
+      {(userId) => <ChapterSelection key={userId} owner={userId} />}
     </AdventureGate>
   )
 }
