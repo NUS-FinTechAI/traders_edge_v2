@@ -2865,7 +2865,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['MultiplayerResponse']
         }
       }
       /** @description Validation Error */
@@ -2900,7 +2900,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['MultiplayerResponse']
         }
       }
       /** @description Validation Error */
@@ -2935,7 +2935,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['MultiplayerResponse']
         }
       }
       /** @description Validation Error */
@@ -2970,7 +2970,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['MultiplayerResponse']
         }
       }
       /** @description Validation Error */
@@ -3006,7 +3006,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['MultiplayerResponse']
         }
       }
       /** @description Validation Error */
@@ -3041,7 +3041,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['MultiplayerResponse']
         }
       }
       /** @description Validation Error */
@@ -3076,7 +3076,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['MultiplayerResponse']
         }
       }
       /** @description Validation Error */
@@ -3109,7 +3109,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['MultiplayerResponse']
         }
       }
       /** @description Validation Error */
@@ -3138,7 +3138,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['MultiplayerLeaderboardResponse']
         }
       }
     }
@@ -3162,7 +3162,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['MultiplayerResponse']
         }
       }
       /** @description Validation Error */
@@ -3191,7 +3191,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['MultiplayerListResponse']
         }
       }
     }
@@ -3215,7 +3215,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['MultiplayerResponse']
         }
       }
       /** @description Validation Error */

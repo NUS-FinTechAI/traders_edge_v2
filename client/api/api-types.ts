@@ -830,6 +830,143 @@ export interface components {
       /** Unlocked */
       unlocked: boolean
     }
+    /** MultiplayerLeaderboardResponse */
+    MultiplayerLeaderboardResponse: {
+      /** Players */
+      players: components['schemas']['MultiplayerRatingEntry'][]
+      /** Policy Version */
+      policy_version: string
+      /** Your Matches */
+      your_matches: number
+      /** Your Rating */
+      your_rating: number
+    }
+    /** MultiplayerListResponse */
+    MultiplayerListResponse: {
+      /** Matches */
+      matches: components['schemas']['MultiplayerSummary'][]
+    }
+    /** @enum {string} */
+    MultiplayerMode: 'private' | 'public_ranked'
+    /** MultiplayerParticipant */
+    MultiplayerParticipant: {
+      /** Completed */
+      completed: boolean
+      /** Departed */
+      departed: boolean
+      /** Display Name */
+      display_name: string
+      /** Forfeit */
+      forfeit: boolean
+      /** Ready */
+      ready: boolean
+      /** User Id */
+      user_id: string
+    }
+    /** MultiplayerPolicy */
+    MultiplayerPolicy: {
+      /** Advance */
+      advance: string
+      /** Disconnect */
+      disconnect: string
+      /** Forfeit */
+      forfeit: string
+      /** Liquidity */
+      liquidity: string
+      /** Profit */
+      profit: string
+      /** Provenance */
+      provenance: string
+      /** Rating */
+      rating: string
+      /** Starting Value */
+      starting_value: string
+      /** Ticks */
+      ticks: number
+      /** Ties */
+      ties: string
+      /** Version */
+      version: string
+    }
+    /** MultiplayerRatingEntry */
+    MultiplayerRatingEntry: {
+      /** Display Name */
+      display_name: string
+      /** Matches */
+      matches: number
+      /** Rating */
+      rating: number
+      /** User Id */
+      user_id: string
+    }
+    /** MultiplayerResponse */
+    MultiplayerResponse: {
+      /** Attempt Number */
+      attempt_number: number
+      awards: components['schemas']['ChallengeAwards'] | null
+      /** Host Id */
+      host_id: string
+      /** Id */
+      id: string
+      /** Join Code */
+      join_code?: string | null
+      mode: components['schemas']['MultiplayerMode']
+      /** Participants */
+      participants: components['schemas']['MultiplayerParticipant'][]
+      player: components['schemas']['SimulationObservation'] | null
+      policy: components['schemas']['MultiplayerPolicy']
+      result: components['schemas']['MultiplayerResult'] | null
+      status: components['schemas']['MultiplayerStatus']
+      /** Version */
+      version: string
+    }
+    /** MultiplayerResult */
+    MultiplayerResult: {
+      /** Final Tick */
+      final_tick: number
+      /** Leaderboard */
+      leaderboard: components['schemas']['MultiplayerResultEntry'][]
+      /** Policy Version */
+      policy_version: string
+    }
+    /** MultiplayerResultEntry */
+    MultiplayerResultEntry: {
+      /** Display Name */
+      display_name: string
+      /** Fees */
+      fees: string
+      /** Final Value */
+      final_value: string
+      /** Forfeit */
+      forfeit: boolean
+      /** Profit */
+      profit: string
+      /** Rank */
+      rank: number
+      /** Rating After */
+      rating_after?: number | null
+      /** Rating Before */
+      rating_before?: number | null
+      /** Rating Delta */
+      rating_delta?: number | null
+      /** User Id */
+      user_id: string
+      /** Win */
+      win: boolean
+    }
+    /** @enum {string} */
+    MultiplayerStatus: 'waiting' | 'active' | 'finished' | 'cancelled'
+    /** MultiplayerSummary */
+    MultiplayerSummary: {
+      /** Created At */
+      created_at: string
+      /** Id */
+      id: string
+      mode: components['schemas']['MultiplayerMode']
+      status: components['schemas']['MultiplayerStatus']
+      /** Updated At */
+      updated_at: string
+    }
     /** Order */
     Order: {
       /** Filled */
