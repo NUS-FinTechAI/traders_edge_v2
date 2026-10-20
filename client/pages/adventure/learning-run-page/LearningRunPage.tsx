@@ -8,6 +8,7 @@ import LearningTaskForm from '../../../components/adventure/learning/learning-ta
 import LearningFeedback from '../../../components/adventure/learning/learning-feedback/LearningFeedback.tsx'
 import LearningResult from '../../../components/adventure/learning/learning-result/LearningResult.tsx'
 import LessonSimulation from '../../../components/adventure/learning/lesson-simulation/LessonSimulation.tsx'
+import ScenarioSetSimulation from '../../../components/adventure/learning/scenario-set-simulation/ScenarioSetSimulation.tsx'
 import {
   getLearningRun,
   LearningCommands,
@@ -152,7 +153,16 @@ function RunContent({
         </section>
       )}
       {run.status === 'completed' ? (
-        <LearningResult run={run} />
+        <>
+          <LearningResult run={run} />
+          {run.scenario_set && (
+            <ScenarioSetSimulation
+              owner={owner}
+              runId={run.id}
+              prompt="Review the saved observations and audits from the four completed paths."
+            />
+          )}
+        </>
       ) : showFeedback ? (
         <>
           <LearningFeedback feedback={run.feedback} />
@@ -163,16 +173,29 @@ function RunContent({
           </button>
         </>
       ) : run.current_step?.type === 'simulation' ? (
-        <LessonSimulation
-          key={`${owner}:${run.id}`}
-          owner={owner}
-          runId={run.id}
-          prompt={run.current_step.prompt}
-          onComplete={(updated) => {
-            setRun(updated)
-            setShowFeedback(false)
-          }}
-        />
+        run.scenario_set ? (
+          <ScenarioSetSimulation
+            key={`${owner}:${run.id}`}
+            owner={owner}
+            runId={run.id}
+            prompt={run.current_step.prompt}
+            onComplete={(updated) => {
+              setRun(updated)
+              setShowFeedback(false)
+            }}
+          />
+        ) : (
+          <LessonSimulation
+            key={`${owner}:${run.id}`}
+            owner={owner}
+            runId={run.id}
+            prompt={run.current_step.prompt}
+            onComplete={(updated) => {
+              setRun(updated)
+              setShowFeedback(false)
+            }}
+          />
+        )
       ) : (
         run.current_step && (
           <LearningTaskForm
