@@ -32,6 +32,27 @@ export default function HomePage() {
             Open game challenges
           </Link>
         </section>
+        <section className="home-game-challenges">
+          <h3>Play with other learners</h3>
+          <p>
+            Create a private code lobby after the foundation checks, or enter
+            public ranked matches after all core chapter checks. Both players
+            share the same market observations.
+          </p>
+          <Link className="home-game-link" to="/multiplayer">
+            Multiplayer and public rankings
+          </Link>
+        </section>
+        <section className="home-game-challenges">
+          <h3>Check your understanding</h3>
+          <p>
+            Take a standalone quiz or join an instructor’s private classroom.
+            Submitted answers stay saved; feedback appears after the full quiz.
+          </p>
+          <Link className="home-game-link" to="/quizzes">
+            Quizzes and classrooms
+          </Link>
+        </section>
         {user && (
           <p>
             <Link className="adventure-button" to="/player">

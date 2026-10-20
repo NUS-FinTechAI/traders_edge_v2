@@ -19,6 +19,7 @@ export function QuizFrame({
   return (
     <main className="quiz-page">
       <nav aria-label="Quiz navigation">
+        <Link to="/">Home</Link>
         <Link to="/quizzes">Quiz home</Link>
         <Link to="/adventure">Adventure</Link>
       </nav>
