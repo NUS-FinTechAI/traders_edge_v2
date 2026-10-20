@@ -1,27 +1,18 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom'
 import HomePage from './pages/home-page/HomePage.tsx'
-import LoginPage from './pages/login-page/LoginPage.tsx'
 import AppLayout from './layouts/AppLayout.tsx'
-import AdventurePage from './pages/adventure/adventure-page/AdventurePage.tsx'
-import ChapterPage from './pages/adventure/chapter-page/ChapterPage.tsx'
-import LearningStartPage from './pages/adventure/learning-start-page/LearningStartPage.tsx'
-import LearningRunPage from './pages/adventure/learning-run-page/LearningRunPage.tsx'
-import MultiplayerHubPage from './pages/multiplayer/MultiplayerHubPage.tsx'
-import MultiplayerPage from './pages/multiplayer/MultiplayerPage.tsx'
-import QuizHubPage from './pages/quizzes/QuizHubPage.tsx'
-import QuizAttemptPage from './pages/quizzes/QuizAttemptPage.tsx'
-import QuizRoomPage from './pages/quizzes/QuizRoomPage.tsx'
 import authGuard from './auth-guards/authGuard.ts'
 import AuthGuardError from './auth-guards/AuthGuardError.tsx'
 import RouteError from './components/error-panel/RouteError.tsx'
-import ChallengeHubPage from './pages/challenges/ChallengeHubPage.tsx'
-import ChallengeStartPage from './pages/challenges/ChallengeStartPage.tsx'
-import ChallengePage from './pages/challenges/ChallengePage.tsx'
-import PlayerPage from './pages/player/PlayerPage.tsx'
 
 export const router = createBrowserRouter([
   {
     Component: AppLayout,
+    HydrateFallback: () => (
+      <main className="route-loading">
+        <p role="status">Loading Trader’s Edge…</p>
+      </main>
+    ),
     children: [
       {
         ErrorBoundary: RouteError,
@@ -30,77 +21,139 @@ export const router = createBrowserRouter([
             path: '/quizzes',
             loader: authGuard.loader,
             ErrorBoundary: AuthGuardError,
-            Component: QuizHubPage,
+            lazy: async () => ({
+              Component: (await import('./pages/quizzes/QuizHubPage.tsx'))
+                .default,
+            }),
           },
           {
             path: '/quizzes/attempts/:attemptId',
             loader: authGuard.loader,
             ErrorBoundary: AuthGuardError,
-            Component: QuizAttemptPage,
+            lazy: async () => ({
+              Component: (await import('./pages/quizzes/QuizAttemptPage.tsx'))
+                .default,
+            }),
           },
           {
             path: '/quizzes/rooms/:roomId',
             loader: authGuard.loader,
             ErrorBoundary: AuthGuardError,
-            Component: QuizRoomPage,
+            lazy: async () => ({
+              Component: (await import('./pages/quizzes/QuizRoomPage.tsx'))
+                .default,
+            }),
           },
           { path: '/', Component: HomePage },
-          { path: '/login', Component: LoginPage },
+          {
+            path: '/login',
+            lazy: async () => ({
+              Component: (await import('./pages/login-page/LoginPage.tsx'))
+                .default,
+            }),
+          },
           {
             path: '/player',
             loader: authGuard.loader,
             ErrorBoundary: AuthGuardError,
-            Component: PlayerPage,
+            lazy: async () => ({
+              Component: (await import('./pages/player/PlayerPage.tsx'))
+                .default,
+            }),
           },
-          { path: '/adventure', Component: AdventurePage },
-          { path: '/adventure/chapters/:moduleId', Component: ChapterPage },
+          {
+            path: '/adventure',
+            lazy: async () => ({
+              Component: (
+                await import('./pages/adventure/adventure-page/AdventurePage.tsx')
+              ).default,
+            }),
+          },
+          {
+            path: '/adventure/chapters/:moduleId',
+            lazy: async () => ({
+              Component: (
+                await import('./pages/adventure/chapter-page/ChapterPage.tsx')
+              ).default,
+            }),
+          },
           {
             path: '/multiplayer',
             loader: authGuard.loader,
             ErrorBoundary: AuthGuardError,
-            Component: MultiplayerHubPage,
+            lazy: async () => ({
+              Component: (
+                await import('./pages/multiplayer/MultiplayerHubPage.tsx')
+              ).default,
+            }),
           },
           {
             path: '/multiplayer/:lobbyId',
             loader: authGuard.loader,
             ErrorBoundary: AuthGuardError,
-            Component: MultiplayerPage,
+            lazy: async () => ({
+              Component: (
+                await import('./pages/multiplayer/MultiplayerPage.tsx')
+              ).default,
+            }),
           },
           {
             path: '/challenges',
             loader: authGuard.loader,
             ErrorBoundary: AuthGuardError,
-            Component: ChallengeHubPage,
+            lazy: async () => ({
+              Component: (
+                await import('./pages/challenges/ChallengeHubPage.tsx')
+              ).default,
+            }),
           },
           {
             path: '/challenges/start/:mode',
             loader: authGuard.loader,
             ErrorBoundary: AuthGuardError,
-            Component: ChallengeStartPage,
+            lazy: async () => ({
+              Component: (
+                await import('./pages/challenges/ChallengeStartPage.tsx')
+              ).default,
+            }),
           },
           {
             path: '/challenges/play/:attemptId',
             loader: authGuard.loader,
             ErrorBoundary: AuthGuardError,
-            Component: ChallengePage,
+            lazy: async () => ({
+              Component: (await import('./pages/challenges/ChallengePage.tsx'))
+                .default,
+            }),
           },
           {
             path: '/challenges/resume',
             loader: authGuard.loader,
             ErrorBoundary: AuthGuardError,
-            Component: ChallengePage,
+            lazy: async () => ({
+              Component: (await import('./pages/challenges/ChallengePage.tsx'))
+                .default,
+            }),
           },
           {
             path: '/adventure/start/:purpose/:target',
             loader: authGuard.loader,
             ErrorBoundary: AuthGuardError,
-            Component: LearningStartPage,
+            lazy: async () => ({
+              Component: (
+                await import('./pages/adventure/learning-start-page/LearningStartPage.tsx')
+              ).default,
+            }),
           },
           {
             path: '/adventure/runs/:runId',
             loader: authGuard.loader,
             ErrorBoundary: AuthGuardError,
-            Component: LearningRunPage,
+            lazy: async () => ({
+              Component: (
+                await import('./pages/adventure/learning-run-page/LearningRunPage.tsx')
+              ).default,
+            }),
           },
           {
             path: '*',

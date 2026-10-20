@@ -2,6 +2,11 @@
 
 A mobile-first financial decision-making academy with simulated game challenges.
 
+The connected app includes chapter maps and saved learning checks, planned trading
+challenges against AI or other players, daily challenges, player rewards and
+standalone/private classroom quizzes. See [live-app readiness](docs/readiness.md)
+for the demonstrated flows, v1 comparison and remaining gameplay/deployment gaps.
+
 ## Run
 
 From the repository root, use Node.js 24+, Python 3.12+ and uv 0.12.23 (the CI version):

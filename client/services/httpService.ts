@@ -1,4 +1,5 @@
 import firebaseService from './firebaseService.ts'
+import { backendOrigin } from './backendOrigin.ts'
 
 export type HttpErrorKind = 'http' | 'network' | 'aborted' | 'invalid-response'
 
@@ -233,7 +234,11 @@ export class HttpService {
 }
 
 export const httpService = new HttpService({
-  baseUrl: import.meta.env?.VITE_BACKEND_URL || 'http://localhost:8000',
+  baseUrl: backendOrigin(
+    import.meta.env?.VITE_BACKEND_URL,
+    !!import.meta.env?.DEV,
+    typeof window === 'undefined' ? undefined : window.location.origin,
+  ),
   getAccessToken: async () => {
     return firebaseService.getAccessToken()
   },

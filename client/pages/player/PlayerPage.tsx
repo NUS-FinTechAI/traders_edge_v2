@@ -649,14 +649,9 @@ export default function PlayerPage() {
           The signed-in player changed. Saved actions remain with their original
           profile.
         </p>
-        <Link
-          className="player-button"
-          to={auth.user ? '/' : '/login?returnTo=%2Fplayer'}
-        >
-          {auth.user
-            ? 'Return to current player’s home'
-            : 'Sign in to continue'}
-        </Link>
+        <a className="player-button" href="/player">
+          Open current player record
+        </a>
       </main>
     )
   return <PlayerRecord key={user.id} initial={user} />

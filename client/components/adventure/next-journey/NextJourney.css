@@ -1,0 +1,43 @@
+.next-journey {
+  border: 1px solid var(--color-border-muted);
+  border-left: 4px solid var(--color-accent);
+  background: var(--color-surface-raised);
+  padding: 1.25rem;
+  margin: 1.5rem 0;
+  text-align: left;
+}
+.next-journey-kicker {
+  color: var(--color-text-accent);
+  margin: 0;
+}
+.next-journey h2 {
+  font: 400 1.6rem / 1.25 var(--font-heading);
+  margin: 0.5rem 0;
+}
+.next-journey p {
+  max-width: 65ch;
+}
+.next-journey a {
+  color: var(--color-link);
+}
+.next-journey :is(a, button) {
+  display: inline-flex;
+  align-items: center;
+  min-width: 44px;
+  min-height: 44px;
+}
+.next-journey .next-journey-action,
+.next-journey button {
+  border: 1px solid var(--color-border-interactive);
+  border-radius: 4px;
+  padding: 0.65rem 1rem;
+  background: var(--color-primary);
+  color: var(--color-white);
+  text-decoration: none;
+  font: inherit;
+  cursor: pointer;
+}
+.next-journey :is(a, button):focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 4px;
+}

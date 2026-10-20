@@ -6,7 +6,7 @@ This is v2. The sibling `traders_edge` repository is read-only discovery materia
 
 ## Map and current boundary
 
-- [client/](client/): React, TypeScript and Vite. [App.tsx](client/App.tsx) remains a setup screen; [services/httpService.ts](client/services/httpService.ts) is tested but not connected to it. The connected client is separate, open work in PR #22; preserve its dirty worktree and the teammate’s visual design.
+- [client/](client/): connected React, TypeScript and Vite app with public chapter maps and authenticated check/mission/review routes, the bound `m05-l01` simulation, AI/daily/boss challenges, player rewards, quizzes/classrooms and human multiplayer. [router.tsx](client/router.tsx) loads activity pages on demand; The API client and service layer use generated contracts through the generic [HTTP transport](client/services/httpService.ts). Preserve the teammate’s existing visual design and the separate historical PR #22 worktree; do not overwrite its dirty files. See [live-app readiness](docs/readiness.md) and the scoped [QA evidence](docs/qa/).
 - [server/app/](server/app/): one FastAPI backend with guest/Firebase authentication, SQLAlchemy persistence, ordered migrations, learning/progression and saved simulation commands. Local development uses SQLite; production configuration requires verified Firebase identity and rejects SQLite.
 - [server/app/content/](server/app/content/): the canonical private ten-module catalog, loader, validator and tests. Every module has `entry_tasks`; all 30 levels have instruction/choice/classification `tasks` and verified optional `bonus_tasks`; `m05-l01` also has a simulation audit. These are decision exercises, not execution of the full v1 scenarios.
 - [server/app/learning_runs.py](server/app/learning_runs.py): owned, version-pinned learning/review runs, grading, maps/workflow and exact replay. Migration 3 adds only run/command tables. [simulation/lesson_api.py](server/app/simulation/lesson_api.py) and [bindings.py](server/app/simulation/bindings.py) constrain `m05-l01` and its dedicated audit; ordinary routes enforce that same policy.
@@ -26,7 +26,7 @@ Merged backend PRs #24–30 add reviewed diagnostic, required/optional, exit and
 
 ## Commands
 
-Use Node.js 24+, Python 3.12+ and uv 0.12.23. Run from the repository root; [README.md](README.md) lists the exact install, two-terminal run and CI check commands. `npm test` runs the HTTP-service tests; backend discovery and catalog tests are separate commands. `npm run lint` runs Oxlint and formatting checks, despite the internal `lint:eslint` script name. Use locked Python dependencies. See [Server README](server/README.md) for configuration, authentication and deployment limits.
+Use Node.js 24+, Python 3.12+ and uv 0.12.23. Run from the repository root; [README.md](README.md) lists the exact install, two-terminal run and CI check commands. `npm test` runs the client service, command, authentication and controller tests; backend discovery and catalog tests are separate commands. `npm run lint` runs Oxlint and formatting checks, despite the internal `lint:eslint` script name. Use locked Python dependencies. See [Server README](server/README.md) for configuration, authentication and deployment limits.
 
 For scoped documentation changes, invoke the installed root formatter explicitly, for example `node node_modules/prettier/bin/prettier.cjs --check README.md AGENTS.md`, listing only authorized changed files. `npm run format` rewrites the repository; do not use it to fix unrelated formatting during a narrow task.
 
