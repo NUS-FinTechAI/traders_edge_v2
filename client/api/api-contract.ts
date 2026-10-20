@@ -2245,7 +2245,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['EconomyState']
         }
       }
     }
@@ -2269,7 +2269,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['EconomyRefresh']
         }
       }
       /** @description Validation Error */
@@ -2302,7 +2302,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['EconomyAward']
         }
       }
       /** @description Validation Error */
@@ -2331,7 +2331,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['ShopResponse']
         }
       }
     }
@@ -2355,7 +2355,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['PurchaseResponse']
         }
       }
       /** @description Validation Error */
@@ -2590,7 +2590,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['RewardInventory']
         }
       }
     }
@@ -2614,7 +2614,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['RewardClaim']
         }
       }
       /** @description Validation Error */
@@ -2647,7 +2647,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['RewardEquipmentResponse']
         }
       }
       /** @description Validation Error */
@@ -3621,7 +3621,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['ReviewList']
         }
       }
     }
@@ -3643,7 +3643,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['ReviewSummary']
         }
       }
       /** @description Validation Error */
