@@ -7,6 +7,7 @@ from fastapi.testclient import TestClient
 from sqlalchemy import event, select
 
 from app.db import Attempt, LearningRun, LearningRunCommand, MasteredModule, Profile, SimulationSession, XPLedger, uid
+from app.gameplay import ChapterAccess
 from app.main import create_app
 import test_interactive as fixtures
 from test_simulation import order
@@ -304,6 +305,70 @@ class BoundSimulationTests(unittest.TestCase):
         self.client.portal.call(revoke)
         self.assertEqual(self.client.post(self.path, json={'idempotency_key': self.key()}).status_code, 403)
         self.assertEqual(self.saved()['sessions'], [])
+
+    def grant_chapter_access(self):
+        attempt = self.client.post('/api/challenges', json={
+            'idempotency_key': self.key(), 'mode': 'chapter_entry',
+            'module_id': self.mid, 'opponent_count': 1})
+        self.assertEqual(attempt.status_code, 201, attempt.text)
+        async def grant():
+            async with self.app.state.db.sessions.begin() as db:
+                db.add(ChapterAccess(user_id=self.user_id, module_id=self.mid, attempt_id=attempt.json()['id']))
+        self.client.portal.call(grant)
+
+    def revoke_foundation_mastery(self):
+        async def revoke():
+            async with self.app.state.db.sessions.begin() as db:
+                row = await db.get(MasteredModule, (self.user_id, self.content['modules'][0]['id']))
+                await db.delete(row)
+        self.client.portal.call(revoke)
+
+    def test_owned_chapter_access_cannot_bypass_missing_foundation_mastery(self):
+        self.ready()
+        self.grant_chapter_access()
+        self.revoke_foundation_mastery()
+        before = self.saved()
+
+        generic = self.client.post('/api/simulations', json={'idempotency_key': self.key()})
+        bound = self.client.post(self.path, json={'idempotency_key': self.key()})
+
+        self.assertEqual(generic.status_code, 403, generic.text)
+        self.assertEqual(bound.status_code, 403, bound.text)
+        self.assertEqual(bound.json()['detail'], generic.json()['detail'])
+        self.assertEqual(self.saved(), before)
+
+    def test_owned_chapter_access_with_foundation_mastery_can_bind(self):
+        self.ready()
+        self.grant_chapter_access()
+
+        response = self.client.post(self.path, json={'idempotency_key': self.key()})
+
+        self.assertEqual(response.status_code, 200, response.text)
+        saved = self.saved()
+        self.assertEqual(saved['run']['simulation_session_id'], response.json()['id'])
+        self.assertEqual(len(saved['sessions']), 1)
+
+    def test_committed_bind_replays_after_foundation_mastery_is_revoked(self):
+        self.ready()
+        self.grant_chapter_access()
+        body = {'idempotency_key': self.key()}
+        first = self.client.post(self.path, json=body)
+        self.assertEqual(first.status_code, 200, first.text)
+        saved_view = self.client.get(self.path)
+        self.assertEqual(saved_view.status_code, 200, saved_view.text)
+        self.revoke_foundation_mastery()
+        before = self.saved()
+
+        replay = self.client.post(self.path, json=body)
+        resume = self.client.get(self.path)
+        fresh = self.client.post(self.path, json={'idempotency_key': self.key()})
+
+        self.assertEqual(replay.status_code, 200, replay.text)
+        self.assertEqual(replay.json(), first.json())
+        self.assertEqual(resume.status_code, 200, resume.text)
+        self.assertEqual(resume.json(), saved_view.json())
+        self.assertEqual(fresh.status_code, 403, fresh.text)
+        self.assertEqual(self.saved(), before)
 
     def test_restart_owner_and_reciprocal_link_checks(self):
         self.ready()
