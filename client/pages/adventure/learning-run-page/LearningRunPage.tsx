@@ -244,6 +244,22 @@ export default function LearningRunPage() {
   const auth = useAuth()
   if (auth.status === 'loading' || auth.signingOut)
     return <p role="status">Checking the account for this saved activity…</p>
+  if (auth.status === 'unavailable')
+    return (
+      <main className="learning-run-page">
+        <h1>Unable to verify this account</h1>
+        <p role="alert">
+          The account check could not finish. Your saved activity and pending
+          actions are retained.
+        </p>
+        <a
+          className="learning-back"
+          href={'/adventure/runs/' + encodeURIComponent(runId)}
+        >
+          Reload this saved activity
+        </a>
+      </main>
+    )
   if (auth.status !== 'signed-in' || auth.user?.id !== user.id)
     return (
       <main className="learning-run-page">
