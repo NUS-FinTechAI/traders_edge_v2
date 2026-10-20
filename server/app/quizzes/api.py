@@ -11,6 +11,7 @@ from app.db import Profile, XPLedger, now, uid
 from app.learning import DB, User, catalog, grade, public_question
 from app.api_schemas.learning_schema import Answer
 from app.api_schemas.quiz_schema import StartQuizAttempt, StartQuizRoom, CloseQuizRoom, QuizResponse, CreateQuizRoom, JoinQuizRoom
+from app.api_schemas.quiz_schema import QuizFormsResponse, QuizBankResponse, QuizAttemptResponse, QuizAttemptList, QuizRoomResponse, QuizRoomList, QuizRoomReport
 
 from app.quizzes.models import QuizAttempt, QuizCommand, QuizMember, QuizRoom
 
@@ -78,11 +79,16 @@ async def remember(db, user, body, digest, response):
 def attempt_view(attempt):
     questions = attempt.snapshot_json['questions']
     position = len(attempt.state_json['first_answers'])
-    return {'id': attempt.id, 'quiz_id': attempt.quiz_id, 'room_id': attempt.room_id,
+    result = {'id': attempt.id, 'quiz_id': attempt.quiz_id, 'room_id': attempt.room_id,
             'content_version': attempt.content_version, 'policy_version': VERSION,
             'attempt_number': attempt.attempt_number, 'status': attempt.status,
             'current_question': public_question(questions[position]) if position < len(questions) else None,
             'progress': {'answered': position, 'total': len(questions)}, 'result': deepcopy(attempt.result_json)}
+    if 'title' in attempt.snapshot_json:
+        result['title'] = attempt.snapshot_json['title']
+    if attempt.status == 'completed':
+        result['completed_questions'] = [public_question(question) for question in questions]
+    return result
 
 
 async def room_view(db, room):
@@ -104,16 +110,17 @@ async def locked_room(db, room_id, request):
     return room
 
 
-@router.get('/forms', operation_id='listQuizForms')
+@router.get('/forms', operation_id='listQuizForms', response_model=QuizFormsResponse)
 async def forms(request: Request, user: User):
     content = catalog(request)
     return {'content_version': content['content_version'], 'policy_version': VERSION,
+            'instructor_authorized': instructor(request.app.state.settings, user),
             'forms': [{'module_id': module['id'], 'title': module['title'], 'question_count': len(form(module)),
                        'attempt_limit': STANDALONE_ATTEMPT_LIMIT, 'pass_rule': '80% correct and all critical risk items correct',
                        'passing_xp': 20, 'source_basis': module.get('source_basis', [])} for module in content['modules']]}
 
 
-@router.get('/question-bank', operation_id='getQuizQuestionBank')
+@router.get('/question-bank', operation_id='getQuizQuestionBank', response_model=QuizBankResponse)
 async def question_bank(request: Request, user: User):
     require_instructor(request, user)
     content = catalog(request)
@@ -121,7 +128,7 @@ async def question_bank(request: Request, user: User):
         {'module_id': entry['module_id'], **public_question(entry['question'])} for entry in bank(content).values()]}
 
 
-@router.post('/rooms', status_code=201, operation_id='createQuizRoom')
+@router.post('/rooms', status_code=201, operation_id='createQuizRoom', response_model=QuizRoomResponse, response_model_exclude_unset=True)
 async def create_room(body: CreateQuizRoom, request: Request, db: DB, user: User):
     digest, previous = await replay(db, user, body, 'create-room')
     if previous is not None:
@@ -149,7 +156,7 @@ async def create_room(body: CreateQuizRoom, request: Request, db: DB, user: User
     return await remember(db, user, body, digest, await room_view(db, room))
 
 
-@router.post('/rooms/join', operation_id='joinQuizRoom')
+@router.post('/rooms/join', operation_id='joinQuizRoom', response_model=QuizRoomResponse, response_model_exclude_unset=True)
 async def join_room(body: JoinQuizRoom, request: Request, db: DB, user: User):
     digest, previous = await replay(db, user, body, 'join-room')
     if previous is not None:
@@ -175,7 +182,7 @@ async def join_room(body: JoinQuizRoom, request: Request, db: DB, user: User):
     return await remember(db, user, body, digest, await room_view(db, room))
 
 
-@router.get('/rooms', operation_id='listQuizRooms')
+@router.get('/rooms', operation_id='listQuizRooms', response_model=QuizRoomList, response_model_exclude_unset=True)
 async def list_rooms(db: DB, user: User):
     joined = select(QuizMember.room_id).where(QuizMember.user_id == user.id)
     rooms = (await db.scalars(select(QuizRoom).where(or_(QuizRoom.host_id == user.id, QuizRoom.id.in_(joined)))
@@ -183,7 +190,7 @@ async def list_rooms(db: DB, user: User):
     return {'rooms': [await room_view(db, room) for room in rooms]}
 
 
-@router.get('/rooms/{room_id}', operation_id='getQuizRoom')
+@router.get('/rooms/{room_id}', operation_id='getQuizRoom', response_model=QuizRoomResponse, response_model_exclude_unset=True)
 async def get_room(room_id: str, request: Request, db: DB, user: User):
     room = await db.get(QuizRoom, room_id)
     if room is None or (room.host_id != user.id and not await db.get(QuizMember, (room.id, user.id))):
@@ -191,7 +198,7 @@ async def get_room(room_id: str, request: Request, db: DB, user: User):
     if room.snapshot_json.get('version') != VERSION:
         raise HTTPException(409, 'This saved quiz room needs a version migration')
     require_publication(request, room.snapshot_json)
-    return await room_view(db, room)
+    return {**await room_view(db, room), 'can_manage': room.host_id == user.id and instructor(request.app.state.settings, user)}
 
 
 async def change_room(room_id, body, request, db, user, operation):
@@ -215,17 +222,17 @@ async def change_room(room_id, body, request, db, user, operation):
     return await remember(db, user, body, digest, await room_view(db, room))
 
 
-@router.post('/rooms/{room_id}/start', operation_id='startQuizRoom')
+@router.post('/rooms/{room_id}/start', operation_id='startQuizRoom', response_model=QuizRoomResponse, response_model_exclude_unset=True)
 async def start_room(room_id: str, body: StartQuizRoom, request: Request, db: DB, user: User):
     return await change_room(room_id, body, request, db, user, 'start-room')
 
 
-@router.post('/rooms/{room_id}/close', operation_id='closeQuizRoom')
+@router.post('/rooms/{room_id}/close', operation_id='closeQuizRoom', response_model=QuizRoomResponse, response_model_exclude_unset=True)
 async def close_room(room_id: str, body: CloseQuizRoom, request: Request, db: DB, user: User):
     return await change_room(room_id, body, request, db, user, 'close-room')
 
 
-@router.get('/rooms/{room_id}/results', operation_id='getQuizRoomResults')
+@router.get('/rooms/{room_id}/results', operation_id='getQuizRoomResults', response_model=QuizRoomReport, response_model_exclude_unset=True)
 async def room_results(room_id: str, request: Request, db: DB, user: User):
     require_instructor(request, user)
     room = await db.get(QuizRoom, room_id)
@@ -238,14 +245,15 @@ async def room_results(room_id: str, request: Request, db: DB, user: User):
                              .where(QuizMember.room_id == room_id))).all()
     attempts = (await db.scalars(select(QuizAttempt).where(QuizAttempt.room_id == room_id)
                                 .order_by(QuizAttempt.user_id, QuizAttempt.attempt_number))).all()
-    return {'room': await room_view(db, room), 'students': [
+    return {'room': await room_view(db, room),
+        'questions': [public_question(question) for question in room.snapshot_json['questions']], 'students': [
         {'user_id': identifier, 'display_name': name, 'attempts': [
             {'id': attempt.id, 'attempt_number': attempt.attempt_number, 'status': attempt.status,
              'result': deepcopy(attempt.result_json) if attempt.status == 'completed' else None}
             for attempt in attempts if attempt.user_id == identifier]} for identifier, name in rows]}
 
 
-@router.post('/attempts', status_code=201, operation_id='startQuizAttempt')
+@router.post('/attempts', status_code=201, operation_id='startQuizAttempt', response_model=QuizAttemptResponse, response_model_exclude_unset=True)
 async def start_attempt(body: StartQuizAttempt, request: Request, db: DB, user: User):
     digest, previous = await replay(db, user, body, 'start-attempt')
     if previous is not None:
@@ -259,6 +267,7 @@ async def start_attempt(body: StartQuizAttempt, request: Request, db: DB, user: 
         if room.status != 'started':
             raise HTTPException(409, 'The instructor must start an open quiz room first')
         questions, content_version, limit = deepcopy(room.snapshot_json['questions']), room.content_version, room.attempt_limit
+        title = room.title
         publication_approved = room.snapshot_json.get('approved') is True
         quiz_id = 'room:' + room.id
     else:
@@ -267,6 +276,7 @@ async def start_attempt(body: StartQuizAttempt, request: Request, db: DB, user: 
         if module is None:
             raise HTTPException(404, 'Quiz module not found')
         questions, content_version, limit = deepcopy(form(module)), content['content_version'], STANDALONE_ATTEMPT_LIMIT
+        title = module['title']
         publication_approved = approved(content)
         form_hash = hashlib.sha256(json.dumps(questions, sort_keys=True).encode()).hexdigest()
         quiz_id = 'standalone:' + form_hash
@@ -281,7 +291,7 @@ async def start_attempt(body: StartQuizAttempt, request: Request, db: DB, user: 
     attempt = QuizAttempt(id=uid(), user_id=user.id, room_id=body.room_id, quiz_id=quiz_id,
                           content_version=content_version, attempt_number=count + 1, status='active',
                           snapshot_json={'version': VERSION, 'questions': questions, 'attempt_limit': limit,
-                                         'approved': publication_approved},
+                                         'approved': publication_approved, 'title': title},
                           state_json={'first_answers': []}, result_json=None)
     db.add(attempt)
     await db.flush()
@@ -299,20 +309,21 @@ async def owned_attempt(db, user, attempt_id, request):
     return attempt
 
 
-@router.get('/attempts', operation_id='listQuizAttempts')
+@router.get('/attempts', operation_id='listQuizAttempts', response_model=QuizAttemptList, response_model_exclude_unset=True)
 async def list_attempts(db: DB, user: User):
     rows = (await db.execute(select(QuizAttempt.id, QuizAttempt.room_id, QuizAttempt.quiz_id,
-        QuizAttempt.content_version, QuizAttempt.attempt_number, QuizAttempt.status, QuizAttempt.created_at)
+        QuizAttempt.content_version, QuizAttempt.attempt_number, QuizAttempt.status, QuizAttempt.created_at,
+        QuizAttempt.snapshot_json['title'].as_string().label('title'))
         .where(QuizAttempt.user_id == user.id).order_by(QuizAttempt.created_at.desc(), QuizAttempt.id).limit(50))).mappings().all()
     return {'attempts': [dict(row) for row in rows]}
 
 
-@router.get('/attempts/{attempt_id}', operation_id='getQuizAttempt')
+@router.get('/attempts/{attempt_id}', operation_id='getQuizAttempt', response_model=QuizAttemptResponse, response_model_exclude_unset=True)
 async def get_attempt(attempt_id: str, request: Request, db: DB, user: User):
     return attempt_view(await owned_attempt(db, user, attempt_id, request))
 
 
-@router.post('/attempts/{attempt_id}/answers', operation_id='submitQuizAnswer')
+@router.post('/attempts/{attempt_id}/answers', operation_id='submitQuizAnswer', response_model=QuizAttemptResponse, response_model_exclude_unset=True)
 async def answer(attempt_id: str, body: QuizResponse, request: Request, db: DB, user: User):
     digest, previous = await replay(db, user, body, 'answer', attempt_id)
     if previous is not None:

@@ -1169,11 +1169,250 @@ export interface components {
       }
       wallet: components['schemas']['ChallengeWallet']
     }
+    /** QuizAttemptList */
+    QuizAttemptList: {
+      /** Attempts */
+      attempts: components['schemas']['QuizAttemptSummary'][]
+    }
+    /** QuizAttemptResponse */
+    QuizAttemptResponse: {
+      /** Attempt Number */
+      attempt_number: number
+      /** Completed Questions */
+      completed_questions?: components['schemas']['QuizQuestion'][] | null
+      /** Content Version */
+      content_version: string
+      current_question: components['schemas']['QuizQuestion'] | null
+      /** Id */
+      id: string
+      /** Policy Version */
+      policy_version: string
+      progress: components['schemas']['QuizProgress']
+      /** Quiz Id */
+      quiz_id: string
+      result: components['schemas']['QuizResult'] | null
+      /** Room Id */
+      room_id: string | null
+      /**
+       * Status
+       * @enum {string}
+       */
+      status: 'active' | 'completed'
+      /** Title */
+      title?: string | null
+    }
+    /** QuizAttemptSummary */
+    QuizAttemptSummary: {
+      /** Attempt Number */
+      attempt_number: number
+      /** Content Version */
+      content_version: string
+      /** Created At */
+      created_at: string
+      /** Id */
+      id: string
+      /** Quiz Id */
+      quiz_id: string
+      /** Room Id */
+      room_id: string | null
+      /**
+       * Status
+       * @enum {string}
+       */
+      status: 'active' | 'completed'
+      /** Title */
+      title?: string | null
+    }
+    /** QuizBankQuestion */
+    QuizBankQuestion: {
+      /** Id */
+      id: string
+      /** Module Id */
+      module_id: string
+      /** Options */
+      options: components['schemas']['QuizOption'][]
+      /** Prompt */
+      prompt: string
+    }
+    /** QuizBankResponse */
+    QuizBankResponse: {
+      /** Content Version */
+      content_version: string
+      /** Questions */
+      questions: components['schemas']['QuizBankQuestion'][]
+    }
+    /** QuizFeedback */
+    QuizFeedback: {
+      /** Confidence */
+      confidence: number | null
+      /** Correct */
+      correct: boolean
+      /** Correct Option Id */
+      correct_option_id: string
+      /** Explanation */
+      explanation: string
+      /** Question Id */
+      question_id: string
+      /** Selected Option Id */
+      selected_option_id: string
+    }
+    /** QuizFirstAnswer */
+    QuizFirstAnswer: {
+      /** Confidence */
+      confidence?: number | null
+      /** Option Id */
+      option_id: string
+      /** Question Id */
+      question_id: string
+      /** Recorded At */
+      recorded_at: string
+    }
+    /** QuizForm */
+    QuizForm: {
+      /** Attempt Limit */
+      attempt_limit: number
+      /** Module Id */
+      module_id: string
+      /** Pass Rule */
+      pass_rule: string
+      /** Passing Xp */
+      passing_xp: number
+      /** Question Count */
+      question_count: number
+      /** Source Basis */
+      source_basis: string[]
+      /** Title */
+      title: string
+    }
+    /** QuizFormsResponse */
+    QuizFormsResponse: {
+      /** Content Version */
+      content_version: string
+      /** Forms */
+      forms: components['schemas']['QuizForm'][]
+      /** Instructor Authorized */
+      instructor_authorized: boolean
+      /** Policy Version */
+      policy_version: string
+    }
+    /** QuizOption */
+    QuizOption: {
+      /** Id */
+      id: string
+      /** Text */
+      text: string
+    }
+    /** QuizProgress */
+    QuizProgress: {
+      /** Answered */
+      answered: number
+      /** Total */
+      total: number
+    }
+    /** QuizQuestion */
+    QuizQuestion: {
+      /** Id */
+      id: string
+      /** Options */
+      options: components['schemas']['QuizOption'][]
+      /** Prompt */
+      prompt: string
+    }
+    /** QuizReportedAttempt */
+    QuizReportedAttempt: {
+      /** Attempt Number */
+      attempt_number: number
+      /** Id */
+      id: string
+      result: components['schemas']['QuizResult'] | null
+      /**
+       * Status
+       * @enum {string}
+       */
+      status: 'active' | 'completed'
+    }
+    /** QuizReportedStudent */
+    QuizReportedStudent: {
+      /** Attempts */
+      attempts: components['schemas']['QuizReportedAttempt'][]
+      /** Display Name */
+      display_name: string
+      /** User Id */
+      user_id: string
+    }
     /** QuizResponse */
     QuizResponse: {
       answer: components['schemas']['Answer']
       /** Idempotency Key */
       idempotency_key: string
+    }
+    /** QuizResult */
+    QuizResult: {
+      /** Critical Passed */
+      critical_passed: boolean
+      /** Feedback */
+      feedback: components['schemas']['QuizFeedback'][]
+      /** First Answers */
+      first_answers: components['schemas']['QuizFirstAnswer'][]
+      /** Passed */
+      passed: boolean
+      /** Score */
+      score: number
+      /** Xp Earned */
+      xp_earned: number
+    }
+    /** QuizRoomList */
+    QuizRoomList: {
+      /** Rooms */
+      rooms: components['schemas']['QuizRoomResponse'][]
+    }
+    /** QuizRoomReport */
+    QuizRoomReport: {
+      /** Questions */
+      questions: components['schemas']['QuizQuestion'][]
+      room: components['schemas']['QuizRoomResponse']
+      /** Students */
+      students: components['schemas']['QuizReportedStudent'][]
+    }
+    /** QuizRoomResponse */
+    QuizRoomResponse: {
+      /** Attempt Limit */
+      attempt_limit: number
+      /** Can Manage */
+      can_manage?: boolean | null
+      /** Capacity */
+      capacity: number
+      /** Content Version */
+      content_version: string
+      /** Host Id */
+      host_id: string
+      /** Id */
+      id: string
+      /** Join Code */
+      join_code: string
+      /** Member Count */
+      member_count: number
+      /** Policy Version */
+      policy_version: string
+      /**
+       * Private
+       * @constant
+       */
+      private: true
+      /** Question Count */
+      question_count: number
+      /**
+       * Status
+       * @enum {string}
+       */
+      status: 'waiting' | 'started' | 'closed'
+      /** Title */
+      title: string
+      /**
+       * Xp Rewards
+       * @constant
+       */
+      xp_rewards: false
     }
     /** ResearchMetadata */
     ResearchMetadata: {
