@@ -11,6 +11,9 @@ import MultiplayerPage from './pages/multiplayer/MultiplayerPage.tsx'
 import authGuard from './auth-guards/authGuard.ts'
 import AuthGuardError from './auth-guards/AuthGuardError.tsx'
 import RouteError from './components/error-panel/RouteError.tsx'
+import ChallengeHubPage from './pages/challenges/ChallengeHubPage.tsx'
+import ChallengeStartPage from './pages/challenges/ChallengeStartPage.tsx'
+import ChallengePage from './pages/challenges/ChallengePage.tsx'
 import PlayerPage from './pages/player/PlayerPage.tsx'
 
 export const router = createBrowserRouter([
@@ -41,6 +44,30 @@ export const router = createBrowserRouter([
             loader: authGuard.loader,
             ErrorBoundary: AuthGuardError,
             Component: MultiplayerPage,
+          },
+          {
+            path: '/challenges',
+            loader: authGuard.loader,
+            ErrorBoundary: AuthGuardError,
+            Component: ChallengeHubPage,
+          },
+          {
+            path: '/challenges/start/:mode',
+            loader: authGuard.loader,
+            ErrorBoundary: AuthGuardError,
+            Component: ChallengeStartPage,
+          },
+          {
+            path: '/challenges/play/:attemptId',
+            loader: authGuard.loader,
+            ErrorBoundary: AuthGuardError,
+            Component: ChallengePage,
+          },
+          {
+            path: '/challenges/resume',
+            loader: authGuard.loader,
+            ErrorBoundary: AuthGuardError,
+            Component: ChallengePage,
           },
           {
             path: '/adventure/start/:purpose/:target',

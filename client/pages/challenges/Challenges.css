@@ -1,0 +1,171 @@
+.challenge-page {
+  max-width: 72rem;
+  margin: 2rem auto;
+  padding: 0 1.5rem 2rem;
+  color: var(--color-text);
+  overflow-wrap: anywhere;
+}
+.challenge-page h1 {
+  font: 400 clamp(1.8rem, 4vw, 2.6rem)/1.2 var(--font-heading);
+}
+.challenge-page h2 {
+  font-size: 1.4rem;
+}
+.challenge-page a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  min-width: 44px;
+  color: var(--color-link);
+}
+.challenge-page .challenge-back,
+.challenge-page .challenge-button,
+.challenge-page button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 0.65rem 1rem;
+  font: inherit;
+}
+.challenge-page .challenge-back {
+  padding-left: 0;
+  color: var(--color-text);
+}
+.challenge-page .challenge-button,
+.challenge-page button {
+  background: var(--color-primary);
+  color: var(--color-white);
+  border: 1px solid var(--color-border-strong);
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+}
+.challenge-page button:disabled {
+  cursor: default;
+  opacity: 0.65;
+}
+.challenge-page summary {
+  min-height: 44px;
+  padding: 0.65rem 0;
+  cursor: pointer;
+}
+.challenge-page
+  :is(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 3px;
+}
+.challenge-page .challenge-section {
+  margin-top: 1.75rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--color-border-muted);
+}
+.challenge-page .challenge-notice {
+  margin: 1.25rem 0;
+  padding: 1rem;
+  background: var(--color-surface-raised);
+  border-left: 3px solid var(--color-accent);
+}
+.challenge-page .challenge-notice h2 {
+  margin-top: 0;
+}
+.challenge-page .challenge-actions,
+.challenge-page .challenge-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1rem 0;
+}
+.challenge-page .challenge-actions a:not(.challenge-button) {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0.5rem 0;
+  margin-right: 1rem;
+}
+.challenge-page .challenge-table {
+  max-width: 100%;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+.challenge-page table {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+.challenge-page caption {
+  text-align: left;
+  padding-bottom: 0.75rem;
+  color: var(--color-text-muted);
+}
+.challenge-page th,
+.challenge-page td {
+  text-align: left;
+  white-space: nowrap;
+  padding: 0.6rem;
+  border-bottom: 1px solid var(--color-border-muted);
+}
+.challenge-page .challenge-balances {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+.challenge-page dt {
+  color: var(--color-text-muted);
+}
+.challenge-page dd {
+  margin: 0.35rem 0 1rem;
+}
+.challenge-page .challenge-attempts {
+  list-style: none;
+  padding: 0;
+}
+.challenge-page .challenge-attempts li {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--color-border-muted);
+}
+.challenge-page .challenge-attempts a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+.challenge-page .challenge-attempts span {
+  display: block;
+  color: var(--color-text-muted);
+}
+.challenge-page fieldset {
+  min-width: 0;
+  padding: 0;
+  margin: 1rem 0;
+  border: 0;
+}
+.challenge-page label {
+  display: block;
+  margin: 1rem 0 0.5rem;
+}
+.challenge-page :is(input, select, textarea) {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 0.65rem;
+  font: inherit;
+  color: var(--color-text);
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border-control);
+}
+.challenge-page textarea {
+  resize: vertical;
+}
+.challenge-page .challenge-prose {
+  white-space: pre-wrap;
+}
+@media (max-width: 700px) {
+  .challenge-page {
+    padding: 0 1rem 1.5rem;
+    margin-top: 1rem;
+  }
+}
