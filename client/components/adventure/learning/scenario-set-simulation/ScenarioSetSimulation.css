@@ -1,0 +1,23 @@
+.scenario-set > progress {
+  width: 100%;
+}
+.scenario-set :is(button, a, summary) {
+  min-width: 44px;
+}
+.scenario-set .trading-workspace {
+  margin-top: 1.25rem;
+}
+.scenario-set-summary {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.scenario-set-summary dd {
+  margin: 0.35rem 0 0;
+  font-weight: bold;
+  font-variant-numeric: tabular-nums;
+}
+.scenario-set [tabindex='-1']:focus {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 4px;
+}

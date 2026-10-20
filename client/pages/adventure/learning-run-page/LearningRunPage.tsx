@@ -8,6 +8,7 @@ import LearningTaskForm from '../../../components/adventure/learning/learning-ta
 import LearningFeedback from '../../../components/adventure/learning/learning-feedback/LearningFeedback.tsx'
 import LearningResult from '../../../components/adventure/learning/learning-result/LearningResult.tsx'
 import LessonSimulation from '../../../components/adventure/learning/lesson-simulation/LessonSimulation.tsx'
+import ScenarioSetSimulation from '../../../components/adventure/learning/scenario-set-simulation/ScenarioSetSimulation.tsx'
 import {
   getLearningRun,
   LearningCommands,
@@ -152,7 +153,16 @@ function RunContent({
         </section>
       )}
       {run.status === 'completed' ? (
-        <LearningResult run={run} owner={owner} />
+        <>
+          <LearningResult run={run} owner={owner} />
+          {run.scenario_set && (
+            <ScenarioSetSimulation
+              owner={owner}
+              runId={run.id}
+              prompt="Review the saved observations and audits from the four completed paths."
+            />
+          )}
+        </>
       ) : showFeedback ? (
         <>
           <LearningFeedback feedback={run.feedback} />
@@ -163,16 +173,29 @@ function RunContent({
           </button>
         </>
       ) : run.current_step?.type === 'simulation' ? (
-        <LessonSimulation
-          key={`${owner}:${run.id}`}
-          owner={owner}
-          runId={run.id}
-          prompt={run.current_step.prompt}
-          onComplete={(updated) => {
-            setRun(updated)
-            setShowFeedback(false)
-          }}
-        />
+        run.scenario_set ? (
+          <ScenarioSetSimulation
+            key={`${owner}:${run.id}`}
+            owner={owner}
+            runId={run.id}
+            prompt={run.current_step.prompt}
+            onComplete={(updated) => {
+              setRun(updated)
+              setShowFeedback(false)
+            }}
+          />
+        ) : (
+          <LessonSimulation
+            key={`${owner}:${run.id}`}
+            owner={owner}
+            runId={run.id}
+            prompt={run.current_step.prompt}
+            onComplete={(updated) => {
+              setRun(updated)
+              setShowFeedback(false)
+            }}
+          />
+        )
       ) : (
         run.current_step && (
           <LearningTaskForm
@@ -218,5 +241,37 @@ function LoadRun({ runId, owner }: { runId: string; owner: string }) {
 export default function LearningRunPage() {
   const { runId = '' } = useParams()
   const user = useLoaderData<UserProfile>()
+  const auth = useAuth()
+  if (auth.status === 'loading' || auth.signingOut)
+    return <p role="status">Checking the account for this saved activity…</p>
+  if (auth.status === 'unavailable')
+    return (
+      <main className="learning-run-page">
+        <h1>Unable to verify this account</h1>
+        <p role="alert">
+          The account check could not finish. Your saved activity and pending
+          actions are retained.
+        </p>
+        <a
+          className="learning-back"
+          href={'/adventure/runs/' + encodeURIComponent(runId)}
+        >
+          Reload this saved activity
+        </a>
+      </main>
+    )
+  if (auth.status !== 'signed-in' || auth.user?.id !== user.id)
+    return (
+      <main className="learning-run-page">
+        <h1>Open the current player’s learning journey</h1>
+        <p role="alert">
+          The signed-in account changed. This activity and its saved actions
+          remain with their original owner.
+        </p>
+        <a className="learning-back" href="/adventure">
+          Open the current player’s chapters
+        </a>
+      </main>
+    )
   return <LoadRun key={`${user.id}:${runId}`} runId={runId} owner={user.id} />
 }

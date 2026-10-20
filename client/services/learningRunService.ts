@@ -18,6 +18,7 @@ export type LearningRun = Pick<
   | 'status'
   | 'current_step'
   | 'progress'
+  | 'scenario_set'
 > & {
   feedback: Pick<
     components['schemas']['LearningFeedback'],
@@ -105,6 +106,9 @@ export function parseLearningRun(data: LearningRun): LearningRun {
     progress: { completed_steps: completed, total_steps: total },
     feedback,
     result,
+    ...(data.scenario_set
+      ? { scenario_set: structuredClone(data.scenario_set) }
+      : {}),
   }
 }
 
