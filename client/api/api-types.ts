@@ -231,6 +231,25 @@ export interface components {
     } & {
       [key: string]: unknown
     }
+    /** ChallengeDecisionReview */
+    ChallengeDecisionReview: {
+      /** Basis */
+      basis: string
+      /** Cash Percent */
+      cash_percent: string
+      /** Fees */
+      fees: string
+      /** Filled Orders */
+      filled_orders: number
+      /** Largest Position Percent */
+      largest_position_percent: string
+      /** Max Drawdown Percent */
+      max_drawdown_percent: string
+      /** Review Prompts */
+      review_prompts: string[]
+      /** Submitted Orders */
+      submitted_orders: number
+    }
     /** ChallengeLeaderboardEntry */
     ChallengeLeaderboardEntry: {
       /** Display Name */
@@ -262,6 +281,10 @@ export interface components {
     }
     /** ChallengePolicy */
     ChallengePolicy: {
+      /** Assessment Basis */
+      assessment_basis?: string | null
+      /** Context */
+      context?: string | null
       /** Difficulty */
       difficulty: string
       /** Early Exit */
@@ -270,12 +293,18 @@ export interface components {
       liquidity: string
       /** Objective */
       objective: string
+      /** Profile Version */
+      profile_version?: string | null
       /** Profit */
       profit: string
       /** Provenance */
       provenance: string
+      /** Recorded Evidence */
+      recorded_evidence?: string[] | null
       /** Resume */
       resume: string
+      /** Review Prompts */
+      review_prompts?: string[] | null
       /** Starting Value */
       starting_value: string
       /** Ticks */
@@ -314,6 +343,7 @@ export interface components {
       awards?: components['schemas']['ChallengeAwards'] | null
       /** Challenge Id */
       challenge_id: string
+      decision_review?: components['schemas']['ChallengeDecisionReview'] | null
       /** Final Tick */
       final_tick: number
       /** Leaderboard */
@@ -513,6 +543,71 @@ export interface components {
        */
       mode: 'firebase'
     }
+    /** GameBossAction */
+    GameBossAction: {
+      /**
+       * Action
+       * @enum {string}
+       */
+      action: 'start' | 'resume' | 'retry'
+      /** Attempt Id */
+      attempt_id: string | null
+      /** Available */
+      available: boolean
+      /** Blocking Attempt Ids */
+      blocking_attempt_ids: string[]
+      /**
+       * @description discriminator enum property added by openapi-typescript
+       * @enum {string}
+       */
+      kind: 'chapter_exit_boss'
+      /** Module Id */
+      module_id: string
+      /** Previous Attempt Id */
+      previous_attempt_id: string | null
+      /** Reason */
+      reason: 'active_challenge_limit' | null
+    }
+    /** GameLearningAction */
+    GameLearningAction: {
+      /**
+       * @description discriminator enum property added by openapi-typescript
+       * @enum {string}
+       */
+      kind:
+        | 'assessment'
+        | 'diagnostic'
+        | 'legacy_assessment'
+        | 'legacy_lesson'
+        | 'level'
+      /** Level Id */
+      level_id?: string | null
+      /** Module Id */
+      module_id: string
+    }
+    GameNextAction:
+      | components['schemas']['GameLearningAction']
+      | components['schemas']['GameResumeAction']
+      | components['schemas']['GameBossAction']
+    /** GameResumeAction */
+    GameResumeAction: {
+      /**
+       * @description discriminator enum property added by openapi-typescript
+       * @enum {string}
+       */
+      kind: 'resume_learning'
+      /** Level Id */
+      level_id: string | null
+      /** Module Id */
+      module_id: string
+      /**
+       * Purpose
+       * @enum {string}
+       */
+      purpose: 'diagnostic' | 'practice' | 'assessment'
+      /** Run Id */
+      run_id: string
+    }
     /** GuestAuthConfig */
     GuestAuthConfig: {
       /** Firebase Project Id */
@@ -595,6 +690,26 @@ export interface components {
       observation_phase?: 'before_finish_cancellation' | null
       /** Step Id */
       step_id: string
+    }
+    /** LearningNextAction */
+    LearningNextAction: {
+      /**
+       * Kind
+       * @enum {string}
+       */
+      kind:
+        | 'resume'
+        | 'diagnostic'
+        | 'level'
+        | 'legacy_lesson'
+        | 'assessment'
+        | 'legacy_assessment'
+      /** Level Id */
+      level_id?: string | null
+      /** Module Id */
+      module_id: string
+      /** Run Id */
+      run_id?: string | null
     }
     /** LearningProfileSnapshot */
     LearningProfileSnapshot: {
@@ -700,6 +815,16 @@ export interface components {
       | components['schemas']['ChoiceTask']
       | components['schemas']['ClassificationTask']
       | components['schemas']['SimulationTask']
+    /** LearningWorkflowResponse */
+    LearningWorkflowResponse: {
+      game_next_action: components['schemas']['GameNextAction'] | null
+      /** Modules */
+      modules: components['schemas']['ModuleMap'][]
+      next_action: components['schemas']['LearningNextAction'] | null
+      practice_eligibility: components['schemas']['PracticeEligibility']
+      profile: components['schemas']['UserProfile']
+      resume: components['schemas']['LearningRunResponse'] | null
+    }
     /** LessonSimulationPolicy */
     LessonSimulationPolicy: {
       /** Engine Version */
@@ -895,6 +1020,29 @@ export interface components {
     OrderSymbol: 'NORTH' | 'HARBOR' | 'PLAIN' | 'COVE'
     /** @enum {string} */
     OrderType: 'market' | 'limit' | 'stop'
+    /** PracticeEligibility */
+    PracticeEligibility: {
+      /** Endless */
+      endless: boolean
+      /** Multiplayer */
+      multiplayer: boolean
+      /** Prerequisite Module Ids */
+      prerequisite_module_ids: string[]
+      /** Private Multiplayer */
+      private_multiplayer: boolean
+      /** Private Multiplayer Missing Module Ids */
+      private_multiplayer_missing_module_ids: string[]
+      /** Private Multiplayer Prerequisite Module Ids */
+      private_multiplayer_prerequisite_module_ids: string[]
+      /** Public Ranked */
+      public_ranked: boolean
+      /** Public Ranked Missing Module Ids */
+      public_ranked_missing_module_ids: string[]
+      /** Public Ranked Prerequisite Module Ids */
+      public_ranked_prerequisite_module_ids: string[]
+      /** Simulation */
+      simulation: boolean
+    }
     /** @enum {string} */
     PriorKnowledge: 'unknown' | 'none' | 'some' | 'experienced'
     /** ProfileUpdate */

@@ -35,6 +35,11 @@ class ChallengePolicy(ChallengePayload):
     objective: str
     provenance: str
     difficulty: str
+    profile_version: str | None = None
+    context: str | None = None
+    review_prompts: list[str] | None = None
+    recorded_evidence: list[str] | None = None
+    assessment_basis: str | None = None
 
 
 class ChallengeOpponent(ChallengePayload):
@@ -81,6 +86,17 @@ class ChallengeAwards(BaseModel):
     chapter_exit_completed: bool | None = None
 
 
+class ChallengeDecisionReview(ChallengePayload):
+    basis: str
+    cash_percent: str
+    largest_position_percent: str
+    max_drawdown_percent: str
+    fees: str
+    submitted_orders: int
+    filled_orders: int
+    review_prompts: list[str]
+
+
 class ChallengeResult(ChallengePayload):
     win: bool
     profit: str
@@ -94,6 +110,7 @@ class ChallengeResult(ChallengePayload):
     challenge_id: str
     attempt_number: int
     awards: ChallengeAwards | None = None
+    decision_review: ChallengeDecisionReview | None = None
 
 
 class ChallengeResponse(ChallengePayload):

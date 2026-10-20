@@ -140,12 +140,6 @@
       "status": "200"
     },
     {
-      "operationId": "getLearningWorkflow",
-      "method": "GET",
-      "path": "/api/me/workflow",
-      "status": "200"
-    },
-    {
       "operationId": "getModuleAssessment",
       "method": "GET",
       "path": "/api/modules/{module_id}/assessment",

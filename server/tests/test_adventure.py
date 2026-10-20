@@ -13,11 +13,11 @@ class AdventureTests(unittest.TestCase):
     body = fixtures.LearningTests.body
     complete_module = fixtures.LearningTests.complete_module
 
-    def start(self, mode, key, module=None):
+    def start(self, mode, key, module=None, seed=1):
         body = {'mode': mode, 'idempotency_key': key}
         if module:
             body['module_id'] = module
-        with patch('app.gameplay.secrets.randbits', return_value=1):
+        with patch('app.gameplay.secrets.randbits', return_value=seed):
             response = self.client.post('/api/challenges', json=body)
         self.assertEqual(response.status_code, 201, response.text)
         return response.json()
@@ -176,7 +176,8 @@ class AdventureTests(unittest.TestCase):
         from test_interactive import InteractiveTests
         self.app.state.catalog = load_catalog()
         module = self.app.state.catalog['modules'][4]
-        boss = self.finish(self.start('chapter_entry', 'early-bound-entry', module['id']))
+        # This access/binding case needs a known winning cash decision under the pinned opponents.
+        boss = self.finish(self.start('chapter_entry', 'early-bound-entry', module['id'], seed=0))
         self.assertTrue(boss['result']['win'])
 
         def answer_tasks(run, tasks, prefix):
