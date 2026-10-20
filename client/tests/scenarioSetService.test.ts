@@ -183,7 +183,9 @@ function audit(caseId = 'path-1'): ScenarioAudit {
   }
 }
 function commands(journal = storage(), getOwner = () => owner) {
-  return new ScenarioSetCommands(owner, runId, journal, getOwner)
+  return new ScenarioSetCommands(owner, runId, journal, getOwner, async () =>
+    getOwner(),
+  )
 }
 
 test('loading a Module 9 simulation preserves the four-path link for lesson dispatch', async (t) => {
@@ -208,7 +210,13 @@ test('opening a four-path lesson reads saved state without binding any new path'
       return Response.json(raw(0, 0, false))
     },
   )
-  const current = await readScenarioSet(owner, runId, undefined, () => owner)
+  const current = await readScenarioSet(
+    owner,
+    runId,
+    undefined,
+    () => owner,
+    async () => owner,
+  )
   assert.equal(current.session, null)
   assert.deepEqual(
     requests.map((request) => request.method),
@@ -290,7 +298,13 @@ test('retrying an uncommitted bind preserves its original case after another tab
   await assert.rejects(
     client.submit(parseScenarioSet(raw(0, 0, false), runId), { kind: 'bind' }),
   )
-  const progressed = await readScenarioSet(owner, runId, undefined, () => owner)
+  const progressed = await readScenarioSet(
+    owner,
+    runId,
+    undefined,
+    () => owner,
+    async () => owner,
+  )
 
   await assert.rejects(client.retry(), { status: 409 })
   assert.deepEqual(posts[0], posts[1])
@@ -390,7 +404,13 @@ test('a lost fourth-audit response remains explicitly confirmable after reading 
     }),
   )
 
-  const completed = await readScenarioSet(owner, runId, undefined, () => owner)
+  const completed = await readScenarioSet(
+    owner,
+    runId,
+    undefined,
+    () => owner,
+    async () => owner,
+  )
   const restored = commands(journal)
   assert.equal(completed.run.status, 'completed')
   assert.equal(restored.pending()?.caseId, 'path-4')
@@ -446,7 +466,13 @@ test('a stale audit rejection releases its key and a corrected retry uses the fr
     { status: 409 },
   )
   assert.equal(client.pending(), null)
-  const current = await readScenarioSet(owner, runId, undefined, () => owner)
+  const current = await readScenarioSet(
+    owner,
+    runId,
+    undefined,
+    () => owner,
+    async () => owner,
+  )
   await client.submit(current, {
     kind: 'review',
     audit: {
@@ -546,8 +572,10 @@ test('cancelled orders count toward the eight-order limit while observation rema
   const fetch = t.mock.method(
     globalThis,
     'fetch',
-    async (_input: Parameters<typeof globalThis.fetch>[0], init?: RequestInit) =>
-      Response.json(init?.method === 'POST' ? next.session : next),
+    async (
+      _input: Parameters<typeof globalThis.fetch>[0],
+      init?: RequestInit,
+    ) => Response.json(init?.method === 'POST' ? next.session : next),
   )
   const current = parseScenarioSet(raw(), runId)
   current.session!.orders = recorded
@@ -654,7 +682,13 @@ test('an account change while a read is in flight withholds its saved market', a
     return Response.json(raw())
   })
   await assert.rejects(
-    readScenarioSet(owner, runId, undefined, () => currentOwner),
+    readScenarioSet(
+      owner,
+      runId,
+      undefined,
+      () => currentOwner,
+      async () => currentOwner,
+    ),
     /signed-in player changed/,
   )
 })
@@ -709,4 +743,78 @@ test('a malformed saved case action is retained and never sent', async (t) => {
   await assert.rejects(client.retry(), /saved path action could not be read/)
   assert.equal(fetch.mock.callCount(), 0)
   assert.equal(removed, false)
+})
+
+test('a different server-verified owner blocks a command despite the cached owner matching', async (t) => {
+  const fetch = t.mock.method(globalThis, 'fetch')
+  const client = new ScenarioSetCommands(
+    owner,
+    runId,
+    storage(),
+    () => owner,
+    async () => 'other',
+  )
+
+  await assert.rejects(
+    client.submit(parseScenarioSet(raw(), runId), {
+      kind: 'advance',
+      steps: 1,
+    }),
+    /signed-in player changed/,
+  )
+
+  assert.equal(fetch.mock.callCount(), 0)
+  assert.equal(client.pending()?.caseId, 'path-1')
+})
+
+test('an account switch during a definite server rejection preserves the original pending command', async (t) => {
+  t.mock.method(firebaseService, 'getAccessToken', async () => null)
+  let actualOwner = owner
+  const fetch = t.mock.method(globalThis, 'fetch', async () => {
+    actualOwner = 'other'
+    return Response.json(
+      { detail: 'The run belongs to another player' },
+      { status: 403 },
+    )
+  })
+  const client = new ScenarioSetCommands(
+    owner,
+    runId,
+    storage(),
+    () => owner,
+    async () => actualOwner,
+  )
+
+  await assert.rejects(
+    client.submit(parseScenarioSet(raw(), runId), {
+      kind: 'advance',
+      steps: 1,
+    }),
+    /signed-in player changed/,
+  )
+  const saved = client.pending()
+  await assert.rejects(client.retry(), /signed-in player changed/)
+
+  assert.equal(fetch.mock.callCount(), 1)
+  assert.deepEqual(client.pending(), saved)
+})
+
+test('an actual owner switch during a read withholds the original market despite stale cached identity', async (t) => {
+  t.mock.method(firebaseService, 'getAccessToken', async () => null)
+  let actualOwner = owner
+  t.mock.method(globalThis, 'fetch', async () => {
+    actualOwner = 'other'
+    return Response.json(raw())
+  })
+
+  await assert.rejects(
+    readScenarioSet(
+      owner,
+      runId,
+      undefined,
+      () => owner,
+      async () => actualOwner,
+    ),
+    /signed-in player changed/,
+  )
 })

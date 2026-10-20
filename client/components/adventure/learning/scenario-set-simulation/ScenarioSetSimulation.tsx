@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import useAuth from '../../../../hooks/useAuth.ts'
 import authService from '../../../../services/authService.ts'
 import type { LearningRun } from '../../../../services/learningRunService.ts'
@@ -75,6 +75,11 @@ function ScenarioActivity({
   prompt: string
   onComplete?: (run: LearningRun) => void
 }) {
+  const { refreshUser } = useAuth()
+  const verify = useCallback(
+    async () => (await refreshUser())?.id ?? null,
+    [refreshUser],
+  )
   const [setup] = useState(() => {
     try {
       const commands = new ScenarioSetCommands(
@@ -82,6 +87,7 @@ function ScenarioActivity({
         runId,
         sessionStorage,
         () => authService.getUser()?.id ?? null,
+        verify,
       )
       return { commands, pending: !!commands.pending(), error: null as unknown }
     } catch {
@@ -106,7 +112,7 @@ function ScenarioActivity({
   useEffect(() => {
     mounted.current = true
     const controller = new AbortController()
-    void readScenarioSet(owner, runId, controller.signal)
+    void readScenarioSet(owner, runId, controller.signal, undefined, verify)
       .then(
         (next) => {
           if (!controller.signal.aborted) {
@@ -125,7 +131,7 @@ function ScenarioActivity({
       mounted.current = false
       controller.abort()
     }
-  }, [owner, runId, setup.commands])
+  }, [owner, runId, setup.commands, verify])
   useEffect(() => {
     if (
       value?.run.status === 'completed' &&
@@ -147,7 +153,13 @@ function ScenarioActivity({
     inFlight.current = true
     setBusy(true)
     try {
-      const next = await readScenarioSet(owner, runId)
+      const next = await readScenarioSet(
+        owner,
+        runId,
+        undefined,
+        undefined,
+        verify,
+      )
       if (!mounted.current) return
       setValue(next)
       if (setup.commands) {

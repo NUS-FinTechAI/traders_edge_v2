@@ -49,6 +49,17 @@ function ownerCheck(owner: string, current: () => string | null) {
       'The signed-in player changed. Reload this activity with the account that owns its saved actions.',
     )
 }
+const verifiedOwner = async () => (await authService.getProfile()).id
+async function verifyOwner(
+  owner: string,
+  current: () => string | null,
+  verify: () => Promise<string | null>,
+) {
+  ownerCheck(owner, current)
+  const actual = await verify()
+  ownerCheck(owner, () => actual)
+  ownerCheck(owner, current)
+}
 function policyValid(policy: ScenarioSet['policy']) {
   return (
     !!policy &&
@@ -306,8 +317,9 @@ export async function readScenarioSet(
   runId: string,
   signal?: AbortSignal,
   getOwnerId: () => string | null = () => authService.getUser()?.id ?? null,
+  verify: () => Promise<string | null> = verifiedOwner,
 ): Promise<ScenarioSet> {
-  ownerCheck(owner, getOwnerId)
+  await verifyOwner(owner, getOwnerId, verify)
   try {
     const result = parseScenarioSet(
       await api.call(apiEndpoints.resumeLearningScenarioSet, {
@@ -317,7 +329,7 @@ export async function readScenarioSet(
       runId,
     )
     signal?.throwIfAborted()
-    ownerCheck(owner, getOwnerId)
+    await verifyOwner(owner, getOwnerId, verify)
     return result
   } catch (error) {
     ownerCheck(owner, getOwnerId)
@@ -415,17 +427,20 @@ export class ScenarioSetCommands {
   private readonly runId: string
   private readonly storage: Storage
   private readonly getOwnerId: () => string | null
+  private readonly verify: () => Promise<string | null>
   private readonly storageKey: string
   constructor(
     owner: string,
     runId: string,
     storage: Storage,
     getOwnerId: () => string | null = () => authService.getUser()?.id ?? null,
+    verify: () => Promise<string | null> = verifiedOwner,
   ) {
     this.owner = owner
     this.runId = runId
     this.storage = storage
     this.getOwnerId = getOwnerId
+    this.verify = verify
     this.storageKey =
       'scenario-set:1:' +
       encodeURIComponent(owner) +
@@ -551,7 +566,7 @@ export class ScenarioSetCommands {
   private async send(saved: ScenarioCommand): Promise<ScenarioSet> {
     let confirmed = false
     try {
-      ownerCheck(this.owner, this.getOwnerId)
+      await verifyOwner(this.owner, this.getOwnerId, this.verify)
       const body = { idempotency_key: saved.key }
       let minimumCompleted = 0
       if (saved.action.kind === 'bind' || saved.action.kind === 'review') {
@@ -614,6 +629,7 @@ export class ScenarioSetCommands {
         this.runId,
         undefined,
         this.getOwnerId,
+        this.verify,
       )
       if (current.completed_cases.length < minimumCompleted) return invalid()
       ownerCheck(this.owner, this.getOwnerId)
@@ -627,8 +643,10 @@ export class ScenarioSetCommands {
         error.kind === 'http' &&
         error.status !== null &&
         [400, 403, 404, 409, 422].includes(error.status)
-      )
+      ) {
+        await verifyOwner(this.owner, this.getOwnerId, this.verify)
         this.storage.removeItem(this.storageKey)
+      }
       throw error
     }
   }
