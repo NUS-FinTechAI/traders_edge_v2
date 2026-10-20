@@ -171,7 +171,7 @@ class AdventureTests(unittest.TestCase):
         self.assertEqual(diagnostic.status_code, 200, diagnostic.text)
         self.assertEqual(self.client.post('/api/levels/' + module['lessons'][1]['id'] + '/runs', json={'idempotency_key': 'canonical-level-skip'}).status_code, 403)
 
-    def test_early_chapter_five_can_finish_bound_lesson_without_generic_practice_access(self):
+    def test_early_chapter_five_opens_teaching_but_bound_simulation_requires_foundations(self):
         from app.content.catalog import load_catalog
         from test_interactive import InteractiveTests
         self.app.state.catalog = load_catalog()
@@ -198,27 +198,19 @@ class AdventureTests(unittest.TestCase):
         self.assertEqual(response.status_code, 200, response.text)
         run = answer_tasks(response.json(), lesson['tasks'][:-1], 'early-bound-practice-answer')
         self.assertEqual(run['current_step']['type'], 'simulation')
+        run_path = '/api/learning-runs/' + run['id']
+        before = self.client.get(run_path).json()
         path = '/api/learning-runs/' + run['id'] + '/simulation'
         bind_body = {'idempotency_key': 'early-bound-bind'}
         bound = self.client.post(path, json=bind_body)
-        self.assertEqual(bound.status_code, 200, bound.text)
-        view = bound.json()
-        for index in range(5):
-            response = self.client.post('/api/simulations/' + view['id'] + '/advance', json={
-                'steps': 2, 'idempotency_key': f'early-bound-observation-{index}'})
-            self.assertEqual(response.status_code, 200, response.text)
-        view = self.client.get(path).json()
-        reviewed = self.client.post(path + '/review', json={'idempotency_key': 'early-bound-review', 'audit': {
-            'tick': view['tick'], 'engine_version': view['version'], 'observation_token': view['observation_token'],
-            'orders': [], 'session_fees': view['fees'], 'price_limit_guarantees_fill': False,
-            'no_order_reason': 'no_thesis_supplied'}})
-        self.assertEqual(reviewed.status_code, 200, reviewed.text)
-        self.assertEqual(reviewed.json()['status'], 'completed')
-        self.assertTrue(reviewed.json()['result']['standard_star'])
-        self.assertEqual(self.client.post(path, json=bind_body).json(), bound.json())
+        self.assertEqual(bound.status_code, 403, bound.text)
+        self.assertEqual(self.client.post(path, json=bind_body).status_code, 403)
+        self.assertEqual(self.client.get(path).status_code, 409)
+        self.assertEqual(self.client.get(run_path).json(), before)
+        self.assertEqual(self.client.get('/api/simulations').json()['sessions'], [])
         profile = self.client.get('/api/me/profile').json()
         self.assertEqual(profile['mastered_module_ids'], [])
-        self.assertEqual(profile['completed_lesson_ids'], [lesson['id']])
-        self.assertEqual((profile['learning_xp'], profile['game_xp']), (20, 20))
+        self.assertEqual(profile['completed_lesson_ids'], [])
+        self.assertEqual((profile['learning_xp'], profile['game_xp']), (0, 20))
         self.assertEqual(self.client.post('/api/simulations', json={
             'idempotency_key': 'early-bound-generic-practice'}).status_code, 403)
