@@ -24,6 +24,12 @@ learning efficacy or a particular presentation grade.
 | Quizzes/classrooms   | Standalone forms, saved first answers, whole-form feedback, once-only passing XP, server-authorized instructor rooms and private class reports. Active student answers stay withheld.                                                                                                                  | [Quiz walkthrough](qa/playable-quizzes/). Private rooms grant no XP; quiz success does not complete adventure levels.                                                                                                                                                            |
 | Persistence          | Owned/version-pinned learning and simulation state, exact command replay, ordered migrations and transactional shared-match/reward settlement.                                                                                                                                                         | Backend tests and the guarded live PostgreSQL suite cover persistence/concurrency and populated upgrades. This is distinct from real Firebase sign-in and hosted deployment.                                                                                                     |
 
+At this source baseline, local checks passed 261 client tests and 23 catalog
+tests, type checking, lint/formatting, the production build and the generated API
+check. The reviewed backend passed 382 tests including 71 live PostgreSQL cases.
+The linked walkthroughs disclose their fixtures and separate browser observations
+from automated contract checks; they do not represent a participant study.
+
 ## V1 comparison and next work
 
 V2 improves on audited v1 behavior in durable resume, deterministic private future
