@@ -113,24 +113,43 @@ def fields(value, keys):
 
 
 def answer(value):
-    result = fields(value, ('acknowledged', 'option_id', 'confidence'))
+    result = fields(value, ('acknowledged', 'option_id', 'confidence', 'case_id'))
     if isinstance(value, dict) and isinstance(value.get('assignments'), dict):
         result['assignments'] = {key: item for key, item in value['assignments'].items() if isinstance(key, str) and isinstance(item, str)}
     if isinstance(value, dict) and isinstance(value.get('audit'), dict):
         audit = value['audit']
-        result['audit'] = fields(audit, ('tick', 'engine_version', 'observation_token', 'session_fees', 'price_limit_guarantees_fill', 'no_order_reason'))
-        result['audit']['orders'] = [fields(order, ('order_id', 'filled_quantity', 'limit_price', 'status')) for order in audit.get('orders', []) if isinstance(order, dict)]
+        result['audit'] = fields(audit, ('case_id', 'tick', 'engine_version', 'observation_token', 'cash', 'session_fees', 'benchmark_value', 'benchmark_is_gross', 'profit_proves_process', 'planned_loss_is_guaranteed', 'price_limit_guarantees_fill', 'no_order_reason'))
+        result['audit']['orders'] = [fields(order, ('order_id', 'requested_quantity', 'filled_quantity', 'remaining_quantity', 'limit_price', 'status')) for order in audit.get('orders', []) if isinstance(order, dict)]
+        if isinstance(audit.get('positions'), list):
+            result['audit']['positions'] = [fields(position, ('symbol', 'quantity')) for position in audit['positions'] if isinstance(position, dict)]
     return result
+
+
+def case_metadata(projected, step, counts):
+    identifier = projected.get('case_id') or projected.get('audit', {}).get('case_id')
+    if not isinstance(identifier, str):
+        return {}
+    key = (step, identifier)
+    counts[key] = counts.get(key, 0) + 1
+    return {'case_id': identifier, 'case_response_number': counts[key], 'case_first_response': counts[key] == 1}
+
+
+def command_progress(receipt):
+    nested = receipt.get('run')
+    return fields(receipt.get('progress', nested.get('progress') if isinstance(nested, dict) else None), ('completed_steps', 'total_steps'))
 
 
 def learning_run_data(run, commands):
     state = run.state_json
     counts = {}
     responses = []
+    case_counts = {}
     for value in state.get('responses', []):
         step = value.get('step_id')
         counts[step] = counts.get(step, 0) + 1
-        responses.append({'step_id': step, 'response_number': counts[step], 'first_response': counts[step] == 1, 'answer': answer(value.get('answer', {}))})
+        projected = answer(value.get('answer', {}))
+        responses.append({'step_id': step, 'response_number': counts[step], 'first_response': counts[step] == 1, 'answer': projected,
+                          **case_metadata(projected, step, case_counts)})
     observed_ids = {response['step_id'] for response in responses}
     tasks = run.snapshot_json.get('tasks', [])
     position = state.get('position', 0)
@@ -142,11 +161,15 @@ def learning_run_data(run, commands):
             public = public_task(task)
             observed.append({**fields(public, ('id', 'type', 'prompt', 'text')), **{group: [fields(item, ('id', 'text')) for item in public[group]] for group in ('options', 'items', 'categories') if group in public}})
     result = fields(state.get('result'), ('attempt_id', 'passed', 'score_percent', 'critical_items_passed', 'xp_awarded')) if run.status == 'completed' else None
-    return {'id': run.id, 'purpose': run.purpose, 'module_id': run.module_id, 'level_id': run.level_id, 'content_version': run.content_version, 'status': run.status,
+    result_data = {'id': run.id, 'purpose': run.purpose, 'module_id': run.module_id, 'level_id': run.level_id, 'content_version': run.content_version, 'status': run.status,
             'created_at': aware(run.created_at).isoformat(), 'updated_at': aware(run.updated_at).isoformat(),
             'observed_tasks': observed, 'first_responses': {key: {'step_id': key, 'answer': answer(value.get('answer', {}))} for key, value in state.get('first_responses', {}).items()},
             'responses': responses, 'result': result,
-            'command_timestamps': [{'recorded_at': aware(command.created_at).isoformat(), 'progress': fields(command.response.get('progress'), ('completed_steps', 'total_steps'))} for command in commands]}
+            'command_timestamps': [{'recorded_at': aware(command.created_at).isoformat(), 'progress': command_progress(command.response)} for command in commands]}
+    if 'scenario_first_responses' in state:
+        result_data['scenario_first_responses'] = {key: {'case_id': key, 'step_id': value.get('step_id'), 'answer': answer(value.get('answer', {}))}
+            for key, value in state['scenario_first_responses'].items() if isinstance(key, str) and isinstance(value, dict)}
+    return result_data
 
 
 def observation(value):
@@ -220,7 +243,15 @@ async def export(kind: ExportKind, request: Request, response: Response, db: DB,
         elif kind == 'ai-challenges':
             records.append(challenge_data(row))
         else:
-            responses = [{'question_id': value.get('question_id'), **fields(value, ('option_id', 'confidence'))} if 'question_id' in value else {'step_id': value.get('step_id'), 'answer': answer(value.get('answer', {}))} for value in row.answers]
+            responses = []
+            case_counts = {}
+            for value in row.answers:
+                if 'question_id' in value:
+                    responses.append({'question_id': value.get('question_id'), **fields(value, ('option_id', 'confidence'))})
+                else:
+                    projected = answer(value.get('answer', {}))
+                    step = value.get('step_id')
+                    responses.append({'step_id': step, 'answer': projected, **case_metadata(projected, step, case_counts)})
             records.append({'id': row.id, 'kind': row.kind, 'target_id': row.target_id, 'created_at': aware(row.created_at).isoformat(), 'answers': responses, 'reflection': row.reflection, 'score_percent': row.score, 'passed': row.result.get('passed', row.passed), 'run_id': row.result.get('run_id')})
     response.headers['Content-Disposition'] = f'attachment; filename="traders-edge-{kind}.json"'
     return {'format_version': 1, 'scope': 'your_operational_records', 'kind': kind, 'records': records,

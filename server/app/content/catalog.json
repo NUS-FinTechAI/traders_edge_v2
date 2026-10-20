@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "content_version": "2026-10-04.4",
+  "content_version": "2026-10-20.1",
   "review_status": "authored_requires_independent_review",
   "sources": [
     {
@@ -3363,10 +3363,12 @@
         },
         {
           "id": "m09-l03",
+          "scenario_set_binding": {"id": "m09-l03-four-path-review-v1", "engine_version": 1, "provenance": "Four controlled synthetic generator profiles; not historical data or investment recommendations.", "ticks": 20, "max_advance": 5, "max_order_quantity": 5, "max_orders": 8, "max_asset_units": 10, "max_planned_loss": "100.00", "case_ids": ["path-1", "path-2", "path-3", "path-4"], "investment_thesis_supplied": false},
           "tasks": [
             {"id": "m09-l03-task-brief", "type": "instruction", "prompt": "One process, different paths", "text": "A sound constraint-respecting decision can lose; a reckless one can win. Example: a supplied exposure ceiling of 25% is breached by a deliberate 35% holding even if it gains. The following rising, falling, sideways and volatile cards are fictional summaries, not historical replay or completed scenario missions. We check explicit records only, not plan quality."},
             {"id": "m09-l03-task-regimes", "type": "classification", "prompt": "Every plan specifies a 25% exposure ceiling. Classify only recorded ceiling adherence across these four fictional paths.", "items": [{"id": "rising", "text": "Rising path: knowingly raised exposure to 35%; ended with a gain."}, {"id": "falling", "text": "Falling path: exposure stayed at 20%; ended with a loss."}, {"id": "sideways", "text": "Sideways path: held 0% while required evidence was missing."}, {"id": "volatile", "text": "Volatile path: knowingly reached 30% before a final recovery."}], "categories": [{"id": "within", "text": "Recorded exposure stayed within ceiling"}, {"id": "breach", "text": "Recorded deliberate ceiling breach"}], "correct_assignments": {"rising": "breach", "falling": "within", "sideways": "within", "volatile": "breach"}, "critical": true, "explanation": "35% and 30% breach 25%; 20% and 0% do not. A zero exposure record alone does not prove good reasoning, but this card also states the missing evidence."},
-            {"id": "m09-l03-task-benchmark", "type": "choice", "prompt": "A fictional falling-path portfolio returned −4% net. A relevant same-period passive benchmark returned −3% on comparable cost assumptions. Which review is accurate?", "options": [{"id": "proof", "text": "The portfolio loss proves its plan was reckless."}, {"id": "difference", "text": "It lagged by 1 percentage point; inspect adherence separately."}, {"id": "beat", "text": "It beat the benchmark by 1 percentage point."}], "correct_option_id": "difference", "critical": false, "explanation": "−4% minus −3% is −1 percentage point. Relative outcome and process adherence are different evidence."}
+            {"id": "m09-l03-task-benchmark", "type": "choice", "prompt": "A fictional falling-path portfolio returned −4% net. A relevant same-period passive benchmark returned −3% on comparable cost assumptions. Which review is accurate?", "options": [{"id": "proof", "text": "The portfolio loss proves its plan was reckless."}, {"id": "difference", "text": "It lagged by 1 percentage point; inspect adherence separately."}, {"id": "beat", "text": "It beat the benchmark by 1 percentage point."}], "correct_option_id": "difference", "critical": false, "explanation": "−4% minus −3% is −1 percentage point. Relative outcome and process adherence are different evidence."},
+            {"id": "m09-l03-task-scenario-set", "type": "simulation", "prompt": "Observe and reconcile four controlled paths", "critical": true, "explanation": "Complete four sequential synthetic paths and reconcile recorded orders, holdings, cash, fees and the gross passive comparison. The fictional brief allows at most eight recorded orders including cancellations, five units per order, ten held units plus pending buys per asset, and a declared loss boundary no greater than 100 units. Every actual order needs its prior written plan; no investment thesis is supplied, so a supported no-order audit is valid. A planned loss boundary is not guaranteed. Completion verifies observed facts and stated limitations, not profit or written reasoning quality."}
           ],
           "bonus_tasks": [
             {"id": "m09-l03-bonus-adverse", "type": "choice", "prompt": "An extra shock-rebound-shock trace follows the written size and order constraints, but a gap causes a worse fill than the estimated exit. Which correction preserves the evidence?", "options": [{"id": "rewrite", "text": "Rewrite the original estimate to match the fill."}, {"id": "breach", "text": "Call every adverse outcome a deliberate breach."}, {"id": "stress", "text": "Record the execution surprise and review the stress assumptions without rewriting the original plan."}], "correct_option_id": "stress", "critical": true, "explanation": "Distinguish an execution surprise from deliberate deviation. Review whether stress assumptions were adequate while retaining the original evidence."}
@@ -3375,7 +3377,10 @@
           "objective": "Separate plan adherence from return and test learning in unfamiliar conditions.",
           "source_basis": [
             "finra-risk",
-            "finra-sentiment"
+            "finra-sentiment",
+            "sec-orders",
+            "sec-execution",
+            "sec-fees"
           ],
           "review_status": "authored_requires_independent_review",
           "prerequisite_lesson_ids": [

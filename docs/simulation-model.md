@@ -32,7 +32,19 @@ Success requires an accurate audit of every recorded order's status, filled quan
 
 Ordinary order/advance/cancel routes validate the reciprocal binding and restrictions. Raw debrief and fresh post-finish mutations return 409. Success preserves `audited_observation` and feedback phase `before_finish_cancellation`, then finishes/cancels pending remainders: the audited pre-cancel state is not the finished order state. GET resumes either through the run or ordinary session route; session lists add nullable `learning_run_id`. Same-key bind/review and ordinary commands replay before fresh gates or retired-version checks. Seed, source kind and futures remain private.
 
-Other lesson bindings, Module 9 multi-scenario assessment, news/tutorials and advanced execution remain pending. This slice is not a full v1 scenario port, semantic plan assessment, real-market validation or learning-efficacy evidence.
+## Implemented four-path practice: m09-l03
+
+Edition `2026-10-20.1` adds one final `simulation` task after the existing Module 9 record cards. A new run pins `interactive-3` and `m09-l03-four-path-review-v1`. Four sequential 20-observation sessions reuse engine version 1 and existing run/session/command storage. Each has a distinct generator profile, with privately shuffled scheduling and pinned private seeds. Public labels remain Path 1–4 until each path closes. A closed summary may disclose its configured profile; positive drift does not guarantee an observed gain.
+
+Every fresh bind requires structured mastery of the first eight modules, including with boss-earned access. The fictional brief caps each path at eight recorded orders including cancellations, each order at five units, held units plus pending buys at ten per asset and a declared loss boundary at 100 units. The ordinary order route enforces these alongside the unchanged engine's cash, exposure, fees, plan and long-only checks. They are case facts, not personal risk advice. The case supplies no investment thesis, so no-order practice is valid with that supported reason. No order, fill or positive return is necessary for completion.
+
+At observation 19, a dedicated audit checks actual order statuses and requested/filled/remaining quantities, held units, cash, fees and the labelled gross passive basket. It verifies the stated limitations on interpreting profit and a declared loss boundary. It also rejects recorded quantity, declared-loss, missing-plan and held-unit breaches even when a path made a profit. It does not interpret free-text quality, validate suitability or certify a complete risk process. The learner supplies the audit; the product must not silently copy answers from observations.
+
+Each passing audit closes one path. The fourth completes the existing lesson once through its normal award; intermediate paths add no XP. Failed audits preserve first responses and permit specific correction. Latest observed-state tokens, reciprocal links, ordinary-route policy, raw-debrief rejection, exact replay, restart and the active-session cap remain enforced. The separate `scenario_set` projection and audit payload preserve the old `m05-l01` wire contract and `StepAnswer` hashes. See the [server contract](../server/README.md#bound-m09-l03-four-path-practice).
+
+New bind commands include the observed `case_id` as well as their key. An uncommitted earlier-path retry cannot create the next path after another tab finishes; committed commands still replay their original response first. The eight-order bound includes cancellations and limits the manual record workload, while the unchanged generic transport still permits at most 100 orders and `m05-l01` permits two.
+
+Other lesson bindings, held-out Module 9 exit/review scenarios, news/tutorials and advanced execution remain pending. This is not a full v1 scenario port, semantic plan assessment, real-market validation or learning-efficacy evidence. Content publication remains blocked pending independent approval.
 
 ## Verification
 

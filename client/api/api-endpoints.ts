@@ -120,6 +120,24 @@ export const apiEndpoints = {
     path: '/api/learning-runs/{run_id}',
     auth: 'required',
   },
+  resumeLearningScenarioSet: {
+    operationId: 'resumeLearningScenarioSet',
+    method: 'GET',
+    path: '/api/learning-runs/{run_id}/scenario-set',
+    auth: 'required',
+  },
+  bindLearningScenarioSet: {
+    operationId: 'bindLearningScenarioSet',
+    method: 'POST',
+    path: '/api/learning-runs/{run_id}/scenario-set',
+    auth: 'required',
+  },
+  reviewLearningScenarioCase: {
+    operationId: 'reviewLearningScenarioCase',
+    method: 'POST',
+    path: '/api/learning-runs/{run_id}/scenario-set/review',
+    auth: 'required',
+  },
   resumeLearningSimulation: {
     operationId: 'resumeLearningSimulation',
     method: 'GET',
