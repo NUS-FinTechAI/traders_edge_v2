@@ -346,6 +346,249 @@ and news are never sent.
 | `POST /api/lobbies` `{scenario_id?, bots: 0–3}`; `POST /api/lobbies/join` `{code}`; `GET /api/lobbies/{id}`; `POST /api/lobbies/{id}/start`; `POST /api/lobbies/{id}/leave` | Private lobbies. Starting creates a game; members read `game_id` from the lobby.                                                                                        |
 | `POST /api/matchmaking`, `GET /api/matchmaking`, `DELETE /api/matchmaking`                                                                                                  | Ranked queue: join, poll, leave. Two humans make a match.                                                                                                               |
 
+### Response shapes (campaign, player, quizzes, multiplayer)
+
+Field names are exact. The server returns these as Pydantic models.
+
+```ts
+type NodeState = 'locked' | 'open' | 'done'
+interface Reward {
+  kind: 'avatar' | 'title' | 'badge'
+  id: string
+  name: string
+}
+
+// GET /api/campaign
+interface Campaign {
+  chapters: ChapterCard[]
+  next: { chapter_id: string; node_id: string; label: string } | null // "Continue" target
+}
+interface ChapterCard {
+  id: string
+  number: number
+  title: string
+  region: string
+  tagline: string
+  icon: string
+  state: 'locked' | 'open' | 'complete' // complete = boss won
+  unlocked_by: 'start' | 'boss' | 'gate' | null
+  stars: number
+  stars_total: number // 12 per chapter
+  levels_done: number
+  levels_total: number
+  gate: { scenario_id: string; won: boolean; attempts: number } | null // offered while locked (chapter 2+)
+}
+
+// GET /api/campaign/chapters/{id}
+interface ChapterMap {
+  chapter: ChapterCard
+  nodes: MapNode[] // in path order: preview, level×5 (+ reward nodes after their level), boss
+}
+interface MapNode {
+  id: string // 'ch1-preview' | 'ch1-l1' | 'ch1-l3-reward' | 'ch1-boss'
+  kind: 'preview' | 'level' | 'reward' | 'boss'
+  title: string
+  summary: string
+  state: NodeState
+  stars: { normal: boolean; special: boolean } | null // levels and boss
+  objectives: string[] // levels: "In this lesson you will learn"
+  xp: number // XP available on first completion
+  reward: Reward | null // reward nodes and boss reward
+  scenario_id: string | null // preview / boss
+  best_profit: number | null
+  attempts: number
+  locked_reason: string | null // e.g. "Finish Level 2 first"
+}
+
+// GET /api/campaign/levels/{id}
+interface Level {
+  id: string
+  chapter_id: string
+  number: number
+  title: string
+  summary: string
+  objectives: string[]
+  terms: { term: string; definition: string }[]
+  cards: { title: string; body: string; visual: string | null }[]
+  check: {
+    id: string
+    kind: 'mc' | 'true_false'
+    prompt: string
+    options: { id: string; text: string }[]
+  }[]
+  practice: {
+    scenario_id: string
+    title: string
+    briefing: string
+    missions: { tier: 'basic' | 'bonus'; text: string }[]
+  }
+  progress: {
+    check_done: boolean
+    check_best: number | null
+    normal_star: boolean
+    special_star: boolean
+    plays: number
+  }
+}
+// POST /api/campaign/levels/{id}/check  {question_id, option_id}
+interface CheckAnswer {
+  correct: boolean
+  correct_option_id: string
+  explanation: string
+  first_try: boolean
+}
+// POST /api/campaign/levels/{id}/check/complete  {}
+interface CheckComplete {
+  first_try_correct: number
+  total: number
+  xp: number
+  practice_unlocked: boolean
+}
+
+// GET /api/me → Player (see client/services/playerService.ts); PATCH /api/me {display_name?, avatar_id?, title_id?, leaderboard_opt_in?} → Player
+// POST /api/me/daily-login → { day: number; doubloons: number; xp: number; already_claimed: boolean; player: Player }
+// GET /api/me/activity → { days: { date: string; count: number }[]; streak_days: number; week: { date: string; claimed: boolean; xp: number; doubloons: number }[] } // week = current 7-day cycle
+// GET /api/me/collection
+interface Collection {
+  badges: {
+    id: string
+    name: string
+    description: string
+    earned: boolean
+    earned_at: string | null
+    progress: string | null
+  }[]
+  avatars: {
+    id: string
+    name: string
+    owned: boolean
+    equipped: boolean
+    how: string
+  }[]
+  titles: {
+    id: string
+    name: string
+    owned: boolean
+    equipped: boolean
+    how: string
+  }[]
+  stats: {
+    levels_done: number
+    stars: number
+    bosses_won: number
+    quizzes_passed: number
+    matches_played: number
+    best_profit: number | null
+  }
+}
+// GET /api/shop → { items: { id: string; kind: 'avatar' | 'title' | 'theme'; name: string; description: string; currency: 'stocks' | 'gems'; price: number; owned: boolean; weekly: boolean }[] }
+// POST /api/shop/purchase {item_id} → { item_id: string; player: Player }
+// GET /api/daily
+interface Daily {
+  date: string
+  unlocked: boolean
+  locked_reason: string | null
+  scenario: { id: string; title: string; briefing: string; ticks: number }
+  opponent: {
+    bot_id: string
+    name: string
+    avatar: string
+    tier: string
+    style: string
+  }
+  won_today: boolean
+  attempts_today: number
+  cooldown_until: string | null
+  refresh_cost_gems: number
+  week: {
+    doubloons: number
+    target: number
+    resets_at: string
+    wins_this_week: number
+  }
+}
+// POST /api/daily/refresh → Daily
+// GET /api/leaderboards/xp | /ranked → { entries: { rank: number; name: string; avatar_id: string; level: number; value: number; tier?: string; is_me: boolean }[]; me: { rank: number | null; value: number } }
+// GET /api/practice → { scenarios: { id: string; title: string; briefing: string; difficulty: number; bots: { bot_id: string; name: string; avatar: string; tier: string }[] }[] }
+// GET /api/bosses → { bosses: { chapter_id: string; kind: 'boss' | 'gate'; scenario_id: string; title: string; state: NodeState; won: boolean }[] } // play-hub list
+
+// Quizzes
+// GET /api/quizzes → { topics: { id: string; kind: 'chapter' | 'review' | 'mixed'; title: string; questions: number; best: number | null; passed: boolean; locked: boolean }[]; rooms: QuizRoomSummary[] }
+// POST /api/quizzes/attempts {topic_id?, room_code?} → QuizAttempt
+interface QuizAttempt {
+  id: string
+  title: string
+  room_id: string | null
+  status: 'active' | 'complete'
+  questions: {
+    id: string
+    prompt: string
+    options: { id: string; text: string }[]
+    answered: null | {
+      option_id: string
+      correct: boolean
+      correct_option_id: string
+      explanation: string
+    }
+  }[]
+  score: number
+  total: number
+  passed: boolean | null
+  xp: number
+}
+// POST /api/quizzes/attempts/{id}/answers {question_id, option_id, confidence?: 'sure'|'think'|'guess'} → QuizAttempt
+// GET /api/quizzes/attempts/{id} → QuizAttempt
+// POST /api/quizzes/rooms {topic_id, title} → QuizRoom ; GET /api/quizzes/rooms/{id} → QuizRoom
+interface QuizRoomSummary {
+  id: string
+  title: string
+  code: string
+  is_host: boolean
+  members: number
+}
+interface QuizRoom extends QuizRoomSummary {
+  topic_title: string
+  results: {
+    name: string
+    score: number | null
+    total: number
+    finished: boolean
+  }[] // host sees all; members see only their own row
+  my_attempt_id: string | null
+}
+
+// Multiplayer
+interface Lobby {
+  id: string
+  code: string
+  host_id: string
+  is_host: boolean
+  status: 'open' | 'started' | 'closed'
+  scenario: { id: string; title: string; ticks: number }
+  members: {
+    user_id: string
+    name: string
+    avatar_id: string
+    is_host: boolean
+  }[]
+  bots: number
+  game_id: string | null
+  max_members: number
+}
+// POST /api/lobbies {scenario_id?, bots} → Lobby; POST /api/lobbies/join {code} → Lobby; GET /api/lobbies/{id} → Lobby
+// POST /api/lobbies/{id}/start → Lobby (game_id set); POST /api/lobbies/{id}/leave → 204
+// GET /api/lobbies/scenarios → { scenarios: { id: string; title: string; briefing: string; ticks: number }[] }
+// POST /api/matchmaking → Match; GET /api/matchmaking → Match; DELETE /api/matchmaking → 204
+interface Match {
+  status: 'idle' | 'searching' | 'matched'
+  game_id: string | null
+  rating: number
+  tier: string
+  waiting_since: string | null
+  locked_reason: string | null
+}
+```
+
 ## Content formats
 
 ### Scenario (`content/scenarios/<id>.json`)
