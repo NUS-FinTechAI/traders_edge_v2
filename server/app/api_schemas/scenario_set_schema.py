@@ -27,7 +27,7 @@ class ScenarioAudit(Payload):
     tick: int = Field(ge=0, strict=True)
     engine_version: int = Field(ge=1, strict=True)
     observation_token: str = Field(min_length=64, max_length=64, pattern=r'^[0-9a-f]{64}$')
-    orders: list[ScenarioOrderAudit] = Field(max_length=100)
+    orders: list[ScenarioOrderAudit] = Field(max_length=8)
     positions: list[ScenarioPositionAudit] = Field(max_length=4)
     cash: str = Field(min_length=1, max_length=30, pattern=r'^\d+(?:\.\d+)?$')
     session_fees: str = Field(min_length=1, max_length=30, pattern=r'^\d+(?:\.\d+)?$')
@@ -48,6 +48,10 @@ class ReviewScenarioCase(BaseCommand):
     audit: ScenarioAudit
 
 
+class BindScenarioCase(BaseCommand):
+    case_id: Literal['path-1', 'path-2', 'path-3', 'path-4']
+
+
 class ScenarioSetPolicy(Payload):
     id: str
     engine_version: int
@@ -57,6 +61,7 @@ class ScenarioSetPolicy(Payload):
     total_ticks: int
     max_advance: int
     max_order_quantity: int
+    max_orders: int
     max_asset_units: int
     max_planned_loss: str
     investment_thesis_supplied: bool

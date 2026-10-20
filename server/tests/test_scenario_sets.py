@@ -79,7 +79,8 @@ class ScenarioSetTests(unittest.TestCase):
             self.run = self.submit(self.run, task)
 
     def bind(self, key=None):
-        body = {'idempotency_key': key or self.key()}
+        identifier = self.view['current_case_id'] if hasattr(self, 'view') else 'path-1'
+        body = {'idempotency_key': key or self.key(), 'case_id': identifier}
         result = self.client.post(self.path, json=body)
         self.assertEqual(result.status_code, 200, result.text)
         self.view = result.json()
@@ -159,7 +160,7 @@ class ScenarioSetTests(unittest.TestCase):
         self.assertTrue(all(row['learning_run_id'] == self.run['id'] for row in self.client.get('/api/simulations').json()['sessions']))
 
     def test_bind_withholds_private_profile_schedule_seed_and_future_path(self):
-        before = self.client.post(self.path, json={'idempotency_key': self.key()})
+        before = self.client.post(self.path, json={'idempotency_key': self.key(), 'case_id': 'path-1'})
         self.assertEqual(before.status_code, 409)
         self.ready()
         view = self.bind()
@@ -183,7 +184,7 @@ class ScenarioSetTests(unittest.TestCase):
         self.client.portal.call(revoke)
         before = self.saved()
 
-        denied = self.client.post(self.path, json={'idempotency_key': self.key()})
+        denied = self.client.post(self.path, json={'idempotency_key': self.key(), 'case_id': 'path-1'})
 
         self.assertEqual(denied.status_code, 403)
         self.assertEqual(len(denied.json()['detail']['prerequisite_module_ids']), 8)
@@ -204,6 +205,26 @@ class ScenarioSetTests(unittest.TestCase):
         capped = self.client.post(self.base + '/orders/submit', json={'idempotency_key': self.key(), 'order': order(quantity=1)})
         self.assertEqual(capped.status_code, 422, capped.text)
         self.assertEqual(self.client.post(self.base + '/debrief', json={'idempotency_key': self.key(), 'reflection': 'A raw reflection must not complete this integrated lesson.'}).status_code, 409)
+
+    def test_eight_cancelled_orders_reach_the_case_cap_and_still_allow_observation_and_audit(self):
+        self.ready()
+        self.bind()
+        self.assertEqual(self.view['policy']['max_orders'], 8)
+        for number in range(1, 9):
+            placed = self.client.post(self.base + '/orders/submit', json={'idempotency_key': self.key(), 'order': order(quantity=1, type='limit', price='1.00')})
+            self.assertEqual(placed.status_code, 200, placed.text)
+            cancelled = self.client.post(self.base + f'/orders/order-{number}/cancel', json={'idempotency_key': self.key()})
+            self.assertEqual(cancelled.status_code, 200, cancelled.text)
+        before = self.saved()
+
+        denied = self.client.post(self.base + '/orders/submit', json={'idempotency_key': self.key(), 'order': order(quantity=1)})
+
+        self.assertEqual(denied.status_code, 422, denied.text)
+        self.assertEqual(self.saved(), before)
+        self.final()
+        reviewed = self.review()
+        self.assertEqual(reviewed['issues'], [])
+        self.assertEqual(len(reviewed['completed_cases'][0]['audit']['orders']), 8)
 
     def test_accurate_audit_of_real_fills_and_expired_remainders_passes_without_a_profit_grade(self):
         self.ready()
@@ -275,7 +296,7 @@ class ScenarioSetTests(unittest.TestCase):
         reviewed = self.client.post(self.path + '/review', json=body)
         self.assertEqual(reviewed.status_code, 200, reviewed.text)
         with patch('app.simulation.engine.VERSION', 999), patch('app.simulation.scenario_sets.runs.pinned_publication', side_effect=AssertionError('Fresh gate reached')):
-            self.assertEqual(self.client.post(self.path, json={'idempotency_key': key}).json(), first)
+            self.assertEqual(self.client.post(self.path, json={'idempotency_key': key, 'case_id': 'path-1'}).json(), first)
             self.assertEqual(self.client.post(self.path + '/review', json=body).json(), reviewed.json())
 
     def test_restart_resumes_the_same_market_and_owned_reads_reject_another_guest(self):
@@ -305,7 +326,7 @@ class ScenarioSetTests(unittest.TestCase):
         before = self.saved()
 
         self.assertEqual(self.client.get(self.base).status_code, 409)
-        self.assertEqual(self.client.post(self.path, json={'idempotency_key': self.key()}).status_code, 409)
+        self.assertEqual(self.client.post(self.path, json={'idempotency_key': self.key(), 'case_id': 'path-1'}).status_code, 409)
 
         self.assertEqual(self.saved(), before)
 
@@ -316,7 +337,7 @@ class ScenarioSetTests(unittest.TestCase):
             self.assertEqual(created.status_code, 201, created.text)
         before = self.saved()
 
-        denied = self.client.post(self.path, json={'idempotency_key': self.key()})
+        denied = self.client.post(self.path, json={'idempotency_key': self.key(), 'case_id': 'path-1'})
 
         self.assertEqual(denied.status_code, 409)
         self.assertEqual(self.saved(), before)
@@ -345,7 +366,7 @@ class ScenarioSetTests(unittest.TestCase):
         self.assertEqual(self.client.get(self.path).status_code, 503)
         self.assertEqual(self.client.get(self.base).status_code, 503)
         self.assertEqual(self.client.post(self.base + '/advance', json={'idempotency_key': self.key(), 'steps': 1}).status_code, 503)
-        self.assertEqual(self.client.post(self.path, json={'idempotency_key': key}).json(), first)
+        self.assertEqual(self.client.post(self.path, json={'idempotency_key': key, 'case_id': 'path-1'}).json(), first)
 
         self.assertEqual(self.saved(), before)
 
@@ -383,7 +404,7 @@ class ScenarioSetTests(unittest.TestCase):
             self.review()
         with TestClient(create_app(replace(self.settings, auto_migrate=False), self.content), headers={'Origin': 'http://localhost:5173'}) as worker:
             worker.cookies.update(self.client.cookies)
-            bodies = [{'idempotency_key': self.key()} for _ in range(2)]
+            bodies = [{'idempotency_key': self.key(), 'case_id': 'path-4'} for _ in range(2)]
             with ThreadPoolExecutor(max_workers=2) as pool:
                 bound = list(pool.map(lambda pair: pair[0].post(self.path, json=pair[1]), zip((self.client, worker), bodies)))
             self.assertEqual([result.status_code for result in bound], [200, 200])
@@ -399,6 +420,56 @@ class ScenarioSetTests(unittest.TestCase):
             self.assertEqual(results[0].json()['run']['result']['xp_awarded'], 20)
             self.assertEqual(len(self.saved()['sessions']), 4)
             self.assertEqual(self.saved()['rewards'], 1)
+
+    def test_uncommitted_bind_retry_cannot_start_the_next_case_after_another_tab_reviews(self):
+        self.ready()
+        pending = {'idempotency_key': self.key(), 'case_id': 'path-1'}
+        with TestClient(create_app(replace(self.settings, auto_migrate=False), self.content), headers={'Origin': 'http://localhost:5173'}) as other_tab:
+            other_tab.cookies.update(self.client.cookies)
+            self.bind()
+            self.final()
+            self.review()
+            before = self.saved()
+
+            stale = other_tab.post(self.path, json=pending)
+
+        self.assertEqual(stale.status_code, 409, stale.text)
+        self.assertEqual(self.saved(), before)
+        self.assertEqual(list(before['run']['scenario_sessions']), ['path-1'])
+
+    def test_evidence_exports_preserve_each_case_first_audit_and_observed_reconciliation(self):
+        self.ready()
+        self.bind()
+        self.final()
+        self.review(cash='9999.00')
+        self.review()
+        for _ in range(3):
+            self.bind()
+            self.final()
+            self.review()
+
+        run_response = self.client.get('/api/me/research/export/learning-runs')
+        attempt_response = self.client.get('/api/me/research/export/learning-attempts')
+
+        self.assertEqual(run_response.status_code, 200, run_response.text)
+        run = next(row for row in run_response.json()['records'] if row['id'] == self.run['id'])
+        case_rows = [row for row in run['responses'] if 'case_id' in row]
+        self.assertEqual([row['case_id'] for row in case_rows], ['path-1', 'path-1', 'path-2', 'path-3', 'path-4'])
+        self.assertEqual([row['case_response_number'] for row in case_rows], [1, 2, 1, 1, 1])
+        self.assertEqual([row['case_first_response'] for row in case_rows], [True, False, True, True, True])
+        self.assertEqual([row['answer']['audit']['cash'] for row in case_rows[:2]], ['9999.00', '10000.00'])
+        self.assertEqual(run['scenario_first_responses']['path-1']['answer']['audit']['cash'], '9999.00')
+        self.assertEqual(run['scenario_first_responses']['path-2']['answer']['audit']['cash'], '10000.00')
+        self.assertTrue(all(row['progress'] for row in run['command_timestamps']))
+        self.assertEqual(attempt_response.status_code, 200, attempt_response.text)
+        attempt = next(row for row in attempt_response.json()['records'] if row['run_id'] == self.run['id'])
+        audits = [row for row in attempt['answers'] if 'case_id' in row]
+        self.assertEqual([row['case_response_number'] for row in audits], [1, 2, 1, 1, 1])
+        self.assertEqual(audits[2]['answer']['audit']['positions'], [])
+        self.assertTrue(audits[2]['answer']['audit']['benchmark_is_gross'])
+        for response in (run_response, attempt_response):
+            for hidden in ('"seed"', 'scenario_forms', 'scenario_set_binding', '"prices"', '"liquidity"', '"generator_profile"'):
+                self.assertNotIn(hidden, response.text)
 
 
 @unittest.skipUnless(os.getenv('TRADERS_EDGE_TEST_POSTGRES_URL'), 'Disposable PostgreSQL test URL not configured')

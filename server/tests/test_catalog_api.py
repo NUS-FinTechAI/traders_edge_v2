@@ -106,7 +106,7 @@ class CatalogAPITests(unittest.TestCase):
                             if run.get('scenario_set'):
                                 path = run['scenario_set']['url']
                                 for case in range(4):
-                                    result = public(client.post(path, json={'idempotency_key': key()}))
+                                    result = public(client.post(path, json={'idempotency_key': key(), 'case_id': f'path-{case + 1}'}))
                                     view = result['session']
                                     while view['tick'] < view['total_ticks'] - 1:
                                         view = public(client.post(f"/api/simulations/{view['id']}/advance", json={'idempotency_key': key(), 'steps': min(5, view['total_ticks'] - 1 - view['tick'])}))
