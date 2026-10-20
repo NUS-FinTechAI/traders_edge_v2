@@ -154,7 +154,7 @@ function RunContent({
       )}
       {run.status === 'completed' ? (
         <>
-          <LearningResult run={run} />
+          <LearningResult run={run} owner={owner} />
           {run.scenario_set && (
             <ScenarioSetSimulation
               owner={owner}

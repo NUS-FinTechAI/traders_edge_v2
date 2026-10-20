@@ -14,7 +14,10 @@ export default function LearningFeedback({
     >
       {feedback.map((item, index) => (
         <div key={`${item.step_id}:${index}`}>
-          <h2>{item.correct ? 'Correct!' : 'Incorrect'}</h2>
+          <h2>
+            {feedback.length > 1 && `Question ${index + 1} · `}
+            {item.correct ? 'Correct!' : 'Incorrect'}
+          </h2>
           <p>{item.explanation}</p>
         </div>
       ))}
