@@ -289,6 +289,8 @@ Only `m05-l01` currently adds a final required `simulation` step after its instr
 
 Binding returns the ordinary public simulation response plus `bound_policy` and nullable `audited_observation`. It uses the real four-symbol engine (`NORTH`, `HARBOR`, `PLAIN`, `COVE`), not a single-symbol toy engine. The private path has 30 observations, final tick 29. Orders are optional and limited to **NORTH buy limits**, at or below the **opening NORTH ask** unit-price cap, **excluding fees**; quantity at most five, at most two orders including cancelled ones. Advance at most two observations per command; observe at least ten before review. The case supplies **no investment thesis** and is controlled synthetic education, not a recommendation to buy.
 
+Every fresh bind command requires the first four module mastery checks, including when a boss victory has granted chapter access or a session is already linked to the run. Missing mastery returns 403 without creating a session, reciprocal link or command receipt. An exact committed bind command replays before this eligibility check; owned saved-session reads remain available if eligibility later changes.
+
 Ordinary `/api/simulations/{session_id}` order, advance and cancel routes enforce the reciprocal run/session binding and the same policy. Every actual order still requires its full prior written plan. Raw debrief returns 409; fresh mutations after finish return 409. Ordinary session-list summaries add nullable `learning_run_id` (null for unbound sessions). Source kind, seed and future prices/liquidity remain private; only observed history and public policy are returned.
 
 The dedicated `audit` requires:
