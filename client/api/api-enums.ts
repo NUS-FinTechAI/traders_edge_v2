@@ -38,6 +38,13 @@ export const apiEnums = {
     available: 'available',
     locked: 'locked',
   },
+  MultiplayerMode: { private: 'private', public_ranked: 'public_ranked' },
+  MultiplayerStatus: {
+    waiting: 'waiting',
+    active: 'active',
+    finished: 'finished',
+    cancelled: 'cancelled',
+  },
   OrderSide: { buy: 'buy', sell: 'sell' },
   OrderStatus: {
     open: 'open',
