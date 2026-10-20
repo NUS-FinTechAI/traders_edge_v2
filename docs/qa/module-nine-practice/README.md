@@ -66,6 +66,9 @@ to the browser. Audit input fields were checked empty before being filled.
   was then deliberately aborted before reaching the API. After a real new guest
   signed in through a separate tab, Confirm saved action preserved the original
   journal byte for byte and sent zero mutations as the new player.
+- An independently injected profile-check 503 hid the owned activity and showed
+  the separate unavailable-account state. Removing the fault and using its normal
+  reload link restored the same fresh guest diagnostic question.
 - A real separate-tab sign-out and new guest sign-in hid the whole prior owned
   activity, including its result, and offered a normal anchor to the current
   player's chapters. Fresh guest introductory assessment and full reload still
@@ -115,6 +118,7 @@ and deliberate stale/rejected requests are not unexpected application errors.
 | `pending-owner-guard-390.png`    | Old pending bind retained after a real guest switch; no new-owner mutation |
 | `text-200-390.png`               | Independent 200% text-size stress, not native zoom                         |
 | `owner-recovery-390.png`         | Whole prior owned activity hidden after a real account switch              |
+| `profile-unavailable-390.png`    | Temporary profile 503, distinct from an account switch                     |
 | `fresh-diagnostic-390.png`       | New guest's owned introductory assessment after reload                     |
 
 ## Checks and limits
