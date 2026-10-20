@@ -1008,6 +1008,143 @@ export interface components {
       /** Unlocked */
       unlocked: boolean
     }
+    /** MultiplayerLeaderboardResponse */
+    MultiplayerLeaderboardResponse: {
+      /** Players */
+      players: components['schemas']['MultiplayerRatingEntry'][]
+      /** Policy Version */
+      policy_version: string
+      /** Your Matches */
+      your_matches: number
+      /** Your Rating */
+      your_rating: number
+    }
+    /** MultiplayerListResponse */
+    MultiplayerListResponse: {
+      /** Matches */
+      matches: components['schemas']['MultiplayerSummary'][]
+    }
+    /** @enum {string} */
+    MultiplayerMode: 'private' | 'public_ranked'
+    /** MultiplayerParticipant */
+    MultiplayerParticipant: {
+      /** Completed */
+      completed: boolean
+      /** Departed */
+      departed: boolean
+      /** Display Name */
+      display_name: string
+      /** Forfeit */
+      forfeit: boolean
+      /** Ready */
+      ready: boolean
+      /** User Id */
+      user_id: string
+    }
+    /** MultiplayerPolicy */
+    MultiplayerPolicy: {
+      /** Advance */
+      advance: string
+      /** Disconnect */
+      disconnect: string
+      /** Forfeit */
+      forfeit: string
+      /** Liquidity */
+      liquidity: string
+      /** Profit */
+      profit: string
+      /** Provenance */
+      provenance: string
+      /** Rating */
+      rating: string
+      /** Starting Value */
+      starting_value: string
+      /** Ticks */
+      ticks: number
+      /** Ties */
+      ties: string
+      /** Version */
+      version: string
+    }
+    /** MultiplayerRatingEntry */
+    MultiplayerRatingEntry: {
+      /** Display Name */
+      display_name: string
+      /** Matches */
+      matches: number
+      /** Rating */
+      rating: number
+      /** User Id */
+      user_id: string
+    }
+    /** MultiplayerResponse */
+    MultiplayerResponse: {
+      /** Attempt Number */
+      attempt_number: number
+      awards: components['schemas']['ChallengeAwards'] | null
+      /** Host Id */
+      host_id: string
+      /** Id */
+      id: string
+      /** Join Code */
+      join_code?: string | null
+      mode: components['schemas']['MultiplayerMode']
+      /** Participants */
+      participants: components['schemas']['MultiplayerParticipant'][]
+      player: components['schemas']['SimulationObservation'] | null
+      policy: components['schemas']['MultiplayerPolicy']
+      result: components['schemas']['MultiplayerResult'] | null
+      status: components['schemas']['MultiplayerStatus']
+      /** Version */
+      version: string
+    }
+    /** MultiplayerResult */
+    MultiplayerResult: {
+      /** Final Tick */
+      final_tick: number
+      /** Leaderboard */
+      leaderboard: components['schemas']['MultiplayerResultEntry'][]
+      /** Policy Version */
+      policy_version: string
+    }
+    /** MultiplayerResultEntry */
+    MultiplayerResultEntry: {
+      /** Display Name */
+      display_name: string
+      /** Fees */
+      fees: string
+      /** Final Value */
+      final_value: string
+      /** Forfeit */
+      forfeit: boolean
+      /** Profit */
+      profit: string
+      /** Rank */
+      rank: number
+      /** Rating After */
+      rating_after?: number | null
+      /** Rating Before */
+      rating_before?: number | null
+      /** Rating Delta */
+      rating_delta?: number | null
+      /** User Id */
+      user_id: string
+      /** Win */
+      win: boolean
+    }
+    /** @enum {string} */
+    MultiplayerStatus: 'waiting' | 'active' | 'finished' | 'cancelled'
+    /** MultiplayerSummary */
+    MultiplayerSummary: {
+      /** Created At */
+      created_at: string
+      /** Id */
+      id: string
+      mode: components['schemas']['MultiplayerMode']
+      status: components['schemas']['MultiplayerStatus']
+      /** Updated At */
+      updated_at: string
+    }
     /** Order */
     Order: {
       /** Filled */
@@ -1169,11 +1306,250 @@ export interface components {
       }
       wallet: components['schemas']['ChallengeWallet']
     }
+    /** QuizAttemptList */
+    QuizAttemptList: {
+      /** Attempts */
+      attempts: components['schemas']['QuizAttemptSummary'][]
+    }
+    /** QuizAttemptResponse */
+    QuizAttemptResponse: {
+      /** Attempt Number */
+      attempt_number: number
+      /** Completed Questions */
+      completed_questions?: components['schemas']['QuizQuestion'][] | null
+      /** Content Version */
+      content_version: string
+      current_question: components['schemas']['QuizQuestion'] | null
+      /** Id */
+      id: string
+      /** Policy Version */
+      policy_version: string
+      progress: components['schemas']['QuizProgress']
+      /** Quiz Id */
+      quiz_id: string
+      result: components['schemas']['QuizResult'] | null
+      /** Room Id */
+      room_id: string | null
+      /**
+       * Status
+       * @enum {string}
+       */
+      status: 'active' | 'completed'
+      /** Title */
+      title?: string | null
+    }
+    /** QuizAttemptSummary */
+    QuizAttemptSummary: {
+      /** Attempt Number */
+      attempt_number: number
+      /** Content Version */
+      content_version: string
+      /** Created At */
+      created_at: string
+      /** Id */
+      id: string
+      /** Quiz Id */
+      quiz_id: string
+      /** Room Id */
+      room_id: string | null
+      /**
+       * Status
+       * @enum {string}
+       */
+      status: 'active' | 'completed'
+      /** Title */
+      title?: string | null
+    }
+    /** QuizBankQuestion */
+    QuizBankQuestion: {
+      /** Id */
+      id: string
+      /** Module Id */
+      module_id: string
+      /** Options */
+      options: components['schemas']['QuizOption'][]
+      /** Prompt */
+      prompt: string
+    }
+    /** QuizBankResponse */
+    QuizBankResponse: {
+      /** Content Version */
+      content_version: string
+      /** Questions */
+      questions: components['schemas']['QuizBankQuestion'][]
+    }
+    /** QuizFeedback */
+    QuizFeedback: {
+      /** Confidence */
+      confidence: number | null
+      /** Correct */
+      correct: boolean
+      /** Correct Option Id */
+      correct_option_id: string
+      /** Explanation */
+      explanation: string
+      /** Question Id */
+      question_id: string
+      /** Selected Option Id */
+      selected_option_id: string
+    }
+    /** QuizFirstAnswer */
+    QuizFirstAnswer: {
+      /** Confidence */
+      confidence?: number | null
+      /** Option Id */
+      option_id: string
+      /** Question Id */
+      question_id: string
+      /** Recorded At */
+      recorded_at: string
+    }
+    /** QuizForm */
+    QuizForm: {
+      /** Attempt Limit */
+      attempt_limit: number
+      /** Module Id */
+      module_id: string
+      /** Pass Rule */
+      pass_rule: string
+      /** Passing Xp */
+      passing_xp: number
+      /** Question Count */
+      question_count: number
+      /** Source Basis */
+      source_basis: string[]
+      /** Title */
+      title: string
+    }
+    /** QuizFormsResponse */
+    QuizFormsResponse: {
+      /** Content Version */
+      content_version: string
+      /** Forms */
+      forms: components['schemas']['QuizForm'][]
+      /** Instructor Authorized */
+      instructor_authorized: boolean
+      /** Policy Version */
+      policy_version: string
+    }
+    /** QuizOption */
+    QuizOption: {
+      /** Id */
+      id: string
+      /** Text */
+      text: string
+    }
+    /** QuizProgress */
+    QuizProgress: {
+      /** Answered */
+      answered: number
+      /** Total */
+      total: number
+    }
+    /** QuizQuestion */
+    QuizQuestion: {
+      /** Id */
+      id: string
+      /** Options */
+      options: components['schemas']['QuizOption'][]
+      /** Prompt */
+      prompt: string
+    }
+    /** QuizReportedAttempt */
+    QuizReportedAttempt: {
+      /** Attempt Number */
+      attempt_number: number
+      /** Id */
+      id: string
+      result: components['schemas']['QuizResult'] | null
+      /**
+       * Status
+       * @enum {string}
+       */
+      status: 'active' | 'completed'
+    }
+    /** QuizReportedStudent */
+    QuizReportedStudent: {
+      /** Attempts */
+      attempts: components['schemas']['QuizReportedAttempt'][]
+      /** Display Name */
+      display_name: string
+      /** User Id */
+      user_id: string
+    }
     /** QuizResponse */
     QuizResponse: {
       answer: components['schemas']['Answer']
       /** Idempotency Key */
       idempotency_key: string
+    }
+    /** QuizResult */
+    QuizResult: {
+      /** Critical Passed */
+      critical_passed: boolean
+      /** Feedback */
+      feedback: components['schemas']['QuizFeedback'][]
+      /** First Answers */
+      first_answers: components['schemas']['QuizFirstAnswer'][]
+      /** Passed */
+      passed: boolean
+      /** Score */
+      score: number
+      /** Xp Earned */
+      xp_earned: number
+    }
+    /** QuizRoomList */
+    QuizRoomList: {
+      /** Rooms */
+      rooms: components['schemas']['QuizRoomResponse'][]
+    }
+    /** QuizRoomReport */
+    QuizRoomReport: {
+      /** Questions */
+      questions: components['schemas']['QuizQuestion'][]
+      room: components['schemas']['QuizRoomResponse']
+      /** Students */
+      students: components['schemas']['QuizReportedStudent'][]
+    }
+    /** QuizRoomResponse */
+    QuizRoomResponse: {
+      /** Attempt Limit */
+      attempt_limit: number
+      /** Can Manage */
+      can_manage?: boolean | null
+      /** Capacity */
+      capacity: number
+      /** Content Version */
+      content_version: string
+      /** Host Id */
+      host_id: string
+      /** Id */
+      id: string
+      /** Join Code */
+      join_code: string
+      /** Member Count */
+      member_count: number
+      /** Policy Version */
+      policy_version: string
+      /**
+       * Private
+       * @constant
+       */
+      private: true
+      /** Question Count */
+      question_count: number
+      /**
+       * Status
+       * @enum {string}
+       */
+      status: 'waiting' | 'started' | 'closed'
+      /** Title */
+      title: string
+      /**
+       * Xp Rewards
+       * @constant
+       */
+      xp_rewards: false
     }
     /** ResearchMetadata */
     ResearchMetadata: {

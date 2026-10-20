@@ -2865,7 +2865,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['MultiplayerResponse']
         }
       }
       /** @description Validation Error */
@@ -2900,7 +2900,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['MultiplayerResponse']
         }
       }
       /** @description Validation Error */
@@ -2935,7 +2935,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['MultiplayerResponse']
         }
       }
       /** @description Validation Error */
@@ -2970,7 +2970,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['MultiplayerResponse']
         }
       }
       /** @description Validation Error */
@@ -3006,7 +3006,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['MultiplayerResponse']
         }
       }
       /** @description Validation Error */
@@ -3041,7 +3041,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['MultiplayerResponse']
         }
       }
       /** @description Validation Error */
@@ -3076,7 +3076,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['MultiplayerResponse']
         }
       }
       /** @description Validation Error */
@@ -3109,7 +3109,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['MultiplayerResponse']
         }
       }
       /** @description Validation Error */
@@ -3138,7 +3138,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['MultiplayerLeaderboardResponse']
         }
       }
     }
@@ -3162,7 +3162,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['MultiplayerResponse']
         }
       }
       /** @description Validation Error */
@@ -3191,7 +3191,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['MultiplayerListResponse']
         }
       }
     }
@@ -3215,7 +3215,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['MultiplayerResponse']
         }
       }
       /** @description Validation Error */
@@ -3244,7 +3244,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['QuizAttemptList']
         }
       }
     }
@@ -3268,7 +3268,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['QuizAttemptResponse']
         }
       }
       /** @description Validation Error */
@@ -3299,7 +3299,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['QuizAttemptResponse']
         }
       }
       /** @description Validation Error */
@@ -3334,7 +3334,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['QuizAttemptResponse']
         }
       }
       /** @description Validation Error */
@@ -3363,7 +3363,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['QuizFormsResponse']
         }
       }
     }
@@ -3383,7 +3383,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['QuizBankResponse']
         }
       }
     }
@@ -3403,7 +3403,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['QuizRoomList']
         }
       }
     }
@@ -3427,7 +3427,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['QuizRoomResponse']
         }
       }
       /** @description Validation Error */
@@ -3458,7 +3458,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['QuizRoomResponse']
         }
       }
       /** @description Validation Error */
@@ -3493,7 +3493,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['QuizRoomResponse']
         }
       }
       /** @description Validation Error */
@@ -3524,7 +3524,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['QuizRoomReport']
         }
       }
       /** @description Validation Error */
@@ -3559,7 +3559,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['QuizRoomResponse']
         }
       }
       /** @description Validation Error */
@@ -3592,7 +3592,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['QuizRoomResponse']
         }
       }
       /** @description Validation Error */
