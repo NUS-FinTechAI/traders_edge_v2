@@ -7,41 +7,53 @@ questions (§12).
 
 ## Core loop
 
-1. **Learn**: a level opens with 3–6 short lesson cards.
-2. **Check**: 3–5 questions with instant feedback and an explanation.
-3. **Practise**: a short trading mission (30–60 market days) in a scripted
-   market with mission objectives that apply the level's concept.
-4. **Earn**: the normal star for the basic missions, the special star for the
-   bonus mission, XP, and map rewards.
-5. **Prove it**: each chapter ends with a boss: a trading match against AI
-   opponents, ranked by total profit. Chapters 2+ also have a gate boss that
-   lets experienced players skip ahead.
+1. **Learn**: a level opens with 4–5 short lesson cards.
+2. **Check**: 4–5 questions with instant feedback and an explanation. A
+   question answered wrongly comes back at the end of the set until it is
+   right. First-try accuracy is recorded.
+3. **Practise**: a short trading mission (20–40 market days) in the trading
+   arena. A scripted market and mission objectives apply the level's concept.
+4. **Earn**: the normal star for finishing the check and the basic missions,
+   the special star for the bonus missions, XP, and map rewards.
+5. **Prove it**: each chapter ends with a boss, a trading match against named
+   AI opponents ranked by total profit.
+
+The chapter map is `Preview Battle → L1 … L5 → Chapter Boss`. The Preview
+Battle runs the boss scenario with a fresh seed before the lessons. It cannot
+be failed. It is the research pre-measure, and the boss is the post-measure.
+Level 1 opens once the Preview has been played. Each locked chapter card offers
+a **Gate Boss**, a parallel form of the previous chapter's boss: winning it
+unlocks the chapter early, after a friendly "we recommend playing in order"
+message. Each chapter holds 12 stars: 5 levels × 2 plus the boss × 2. The boss
+special star needs a win with every boss bonus mission met.
 
 Daily challenges, practice matches, quizzes and multiplayer reuse the same
-trading engine.
+trading engine. The full curriculum and AI personalities are in the
+[curriculum spec](curriculum/game-spec.md).
 
 ## Decisions for open design questions
 
-| Question (GDD §)     | Decision                                                                                                                                                                                        |
-| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Profit (§3.3)        | `profit = final equity − starting cash`. Equity = cash + holdings × final close. Fees and spread are included.                                                                                  |
-| Ties (§3.3)          | Equal profit (to the cent) shares a rank. A shared first place is not a win against AI.                                                                                                         |
-| Early exit (§3.3)    | Leaving a running match forfeits it: the player ranks last and receives no win rewards.                                                                                                         |
-| Disconnects (§8.2)   | Matches run on the server clock. A disconnected player keeps their positions and is ranked normally.                                                                                            |
-| Duration (§3.3)      | Lessons 30–60 market days, bosses and dailies 60–90. One market day = one candle. Solo speed: 1× = 2 s per day, 2× and 4× available, pause allowed. Multiplayer: fixed 1.5 s per day, no pause. |
-| Starting conditions  | $10,000 simulated cash unless a scenario says otherwise. Long-only. No leverage.                                                                                                                |
-| Fees                 | 0.1 % of order value, minimum $1, plus the bid/ask spread (default 0.10 %). This makes random clicking lose money.                                                                              |
-| Plan before trading  | One game plan per match, chosen in the briefing: a strategy and a maximum loss. Results compare the plan with what happened. Orders are one click.                                              |
-| AI difficulty (§5.2) | Chapter bosses rise in difficulty through bot strategy mix, parameters and reaction speed. A Monte-Carlo balance test asserts that idle and random players lose bosses.                         |
-| Daily form (§6)      | One scenario per UTC day, the same for everyone. Each attempt gets a fresh random seed, so retries cannot be memorised.                                                                         |
-| Daily reset          | 00:00 UTC. A cooldown that crosses the reset still applies.                                                                                                                                     |
-| Currencies (§7)      | **Cash** (simulated trading money, `$`), **Stocks** (weekly reward currency, expires each Monday 00:00 UTC), **Gems** (premium currency from ranked play).                                      |
-| Premium refresh      | 10 Gems skips the daily cooldown. Ranked win +10 Gems, ranked loss +3 Gems.                                                                                                                     |
-| Ranked rating (§9)   | Elo, start 1000, K = 32, pairwise against every other human in the match. Private lobbies never change rating.                                                                                  |
-| Lobby size (§8)      | 2–8 humans. The host may add up to 3 AI opponents.                                                                                                                                              |
-| XP                   | See [Progression](#progression). Private lobbies give no XP.                                                                                                                                    |
-| Unlocks (§4.3)       | Chapter 1 is open. Chapter _n_ unlocks by winning chapter _n−1_'s final boss **or** chapter _n_'s gate boss. The final boss unlocks when every level in its chapter has a normal star.          |
-| Multiplayer access   | Private lobbies have no prerequisite (classroom use). Ranked matchmaking unlocks after winning the Chapter 2 final boss.                                                                        |
+| Question (GDD §)     | Decision                                                                                                                                                                                                                                             |
+| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Profit (§3.3)        | `profit = final equity − starting cash`. Equity = cash + holdings × final close. Fees and spread are included.                                                                                                                                       |
+| Ties (§3.3)          | Equal profit (to the cent) shares a rank. A shared first place is not a win against AI.                                                                                                                                                              |
+| Early exit (§3.3)    | Leaving a running match forfeits it: the player ranks last and receives no win rewards.                                                                                                                                                              |
+| Disconnects (§8.2)   | Matches run on the server clock. A disconnected player keeps their positions and is ranked normally.                                                                                                                                                 |
+| Duration (§3.3)      | Lessons 20–40 market days, bosses 30–45, dailies 30. One market day = one candle. Solo: 1× = 2 s per day, 2× and 4× available, plus pause and "next day" stepping. Multiplayer: fixed 3 s per day, no pause.                                         |
+| Starting conditions  | $10,000 simulated cash unless a scenario says otherwise. Long-only. No leverage.                                                                                                                                                                     |
+| Fees                 | 0.1 % of order value, minimum $1, plus the bid/ask spread (default 0.10 %). This makes random clicking lose money.                                                                                                                                   |
+| Plan before trading  | One game plan per match, chosen in the briefing: a strategy chip and a maximum loss. The order ticket offers an optional stop-loss and shows "risk if stopped: $X (Y %)". Results compare the plan with what happened. Orders are one click.         |
+| Order types          | Unlocked as taught. Market from the start, limit after Ch2 L3, stop-loss after Ch2 L4. Each scenario's `allow` field enforces this.                                                                                                                  |
+| AI difficulty (§5.2) | Chapter bosses rise in difficulty through bot strategy mix, parameters and reaction speed. A Monte-Carlo balance test asserts that idle and random players lose bosses.                                                                              |
+| Daily form (§6)      | Weekday rotation of seven daily scenarios against one AI. The first attempt of the day uses the day's shared seed; retries use fresh seeds, so a retry cannot be memorised. Unlocks after the Chapter 1 boss.                                        |
+| Daily reset          | 00:00 UTC. The reset clears any cooldown from the previous day.                                                                                                                                                                                      |
+| Currencies (§7)      | **Sim cash** (`$`, green banknote, exists only inside a match), **Doubloons** (the GDD's "Stocks"; gold coin; weekly, expire Monday 00:00 UTC; internal key `stocks`), **Gems** (purple; premium, from ranked play only; never sold for real money). |
+| Premium refresh      | 20 Gems skips the daily cooldown. Ranked: win +15 Gems, loss +5 (if the player placed an order), first ranked win of the day +10.                                                                                                                    |
+| Ranked rating (§9)   | Elo, start 1000, K = 32, pairwise against every other human in the match. Equal profit is a draw. Tiers: Bronze < 1100, Silver < 1300, Gold < 1500, Platinum < 1700, Diamond. Private lobbies never change rating.                                   |
+| Lobby size (§8)      | 2–30 humans (classes). The host picks the scenario and may add up to 3 AI opponents.                                                                                                                                                                 |
+| XP                   | See [Progression](#progression). Private lobbies and classroom quizzes give no XP.                                                                                                                                                                   |
+| Unlocks (§4.3)       | Chapter 1 is open. Chapter _n_ unlocks by winning chapter _n−1_'s boss **or** chapter _n_'s gate boss. The boss unlocks when every level in its chapter has a normal star. Retries are unlimited and re-seeded.                                      |
+| Multiplayer access   | Private lobbies have no prerequisite (classroom use). Ranked matchmaking unlocks after winning the Chapter 3 boss.                                                                                                                                   |
 
 ## Backend
 
@@ -65,7 +77,7 @@ server/app/
   quiz/             # quiz bank, attempts, classroom rooms
   multiplayer/      # lobbies, matchmaking, Elo (games run on app/game)
   content/
-    campaign.json   # chapters → levels → cards, checks, practice missions
+    campaign/ch1.json … ch8.json   # one chapter each: levels → cards, checks, practice
     scenarios/*.json
     bots.json
     quiz_bank.json
@@ -124,7 +136,7 @@ Pause, resume, speed and step re-anchor. Status: `briefing` (created) →
 ### Settlement
 
 `POST /api/games/{id}/finish` settles once per participant: final rank, profit,
-missions, stars (campaign), XP, Stocks/Gems, Elo, badges. All writes use
+missions, stars (campaign), XP, Doubloons/Gems, Elo, badges. All writes use
 natural unique keys (e.g. `xp_ledger(user, "game:<id>")`), so repeats return
 the stored result.
 
@@ -310,29 +322,29 @@ and news are never sent.
 
 ### Campaign, player, quizzes, multiplayer
 
-| Method & path                                                                                                                                                               | Purpose                                                                                                                                  |
-| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
-| `GET /api/campaign`                                                                                                                                                         | Chapters with lock state, stars earned/available, boss states, next level. Public (signed-out users see chapter 1 open, nothing earned). |
-| `GET /api/campaign/chapters/{id}`                                                                                                                                           | Map: ordered nodes (`gate`, `level`, `reward`, `final`) with state `locked\|open\|done` and stars.                                       |
-| `GET /api/campaign/levels/{id}`                                                                                                                                             | Level content: cards, check questions (no answers), practice mission summary.                                                            |
-| `POST /api/campaign/levels/{id}/check` `{question_id, option_id}`                                                                                                           | Grade one check answer: `{correct, correct_option_id, explanation}`. The first answer per question per level attempt counts.             |
-| `POST /api/campaign/levels/{id}/check/complete`                                                                                                                             | Close the check: score and whether it passed (≥ 2/3 correct).                                                                            |
-| `GET /api/me`                                                                                                                                                               | Profile, level, XP to next, title, avatar, wallet, streak, today's claim state, unlock flags.                                            |
-| `PATCH /api/me` `{display_name?, avatar_id?, title_id?, leaderboard_opt_in?}`                                                                                               | Update profile.                                                                                                                          |
-| `POST /api/me/daily-login`                                                                                                                                                  | Claim today's login reward.                                                                                                              |
-| `GET /api/me/activity`                                                                                                                                                      | Last 365 days of activity counts (heatmap) and streak days.                                                                              |
-| `GET /api/me/collection`                                                                                                                                                    | Badges, avatars and titles with earned/locked and how to unlock.                                                                         |
-| `GET /api/shop`, `POST /api/shop/purchase` `{item_id}`                                                                                                                      | Shop.                                                                                                                                    |
-| `POST /api/daily/refresh`                                                                                                                                                   | Spend Gems to skip the daily cooldown.                                                                                                   |
-| `GET /api/daily`                                                                                                                                                            | Today's daily: scenario summary, opponent, cooldown, won today, weekly Stocks progress.                                                  |
-| `GET /api/leaderboards/xp`, `GET /api/leaderboards/ranked`                                                                                                                  | Global leaderboards (opted-in players).                                                                                                  |
-| `GET /api/quizzes`                                                                                                                                                          | Quiz topics (per chapter + mixed) with best scores.                                                                                      |
-| `POST /api/quizzes/attempts` `{topic_id, room_code?}`                                                                                                                       | Start a 5-question quiz.                                                                                                                 |
-| `POST /api/quizzes/attempts/{id}/answers` `{question_id, option_id}`                                                                                                        | Instant feedback; first answer is final.                                                                                                 |
-| `GET /api/quizzes/attempts/{id}`                                                                                                                                            | Attempt state / result.                                                                                                                  |
-| `POST /api/quizzes/rooms` `{topic_id, title}`; `GET /api/quizzes/rooms/{id}`                                                                                                | Classroom quiz room with join code; the host sees every member's results.                                                                |
-| `POST /api/lobbies` `{scenario_id?, bots: 0–3}`; `POST /api/lobbies/join` `{code}`; `GET /api/lobbies/{id}`; `POST /api/lobbies/{id}/start`; `POST /api/lobbies/{id}/leave` | Private lobbies. Starting creates a game; members read `game_id` from the lobby.                                                         |
-| `POST /api/matchmaking`, `GET /api/matchmaking`, `DELETE /api/matchmaking`                                                                                                  | Ranked queue: join, poll, leave. Two humans make a match.                                                                                |
+| Method & path                                                                                                                                                               | Purpose                                                                                                                                                                 |
+| --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `GET /api/campaign`                                                                                                                                                         | Chapters with lock state, stars earned/available, boss states, next level. Public (signed-out users see chapter 1 open, nothing earned).                                |
+| `GET /api/campaign/chapters/{id}`                                                                                                                                           | Map: ordered nodes (`preview`, `level`, `reward`, `boss`) with state `locked\|open\|done`, stars and reward items; plus the gate boss state for skipping ahead.         |
+| `GET /api/campaign/levels/{id}`                                                                                                                                             | Level content: cards, check questions (no answers), practice mission summary.                                                                                           |
+| `POST /api/campaign/levels/{id}/check` `{question_id, option_id}`                                                                                                           | Grade one check answer: `{correct, correct_option_id, explanation}`. A wrong answer re-queues the question; the first answer per question counts as first-try accuracy. |
+| `POST /api/campaign/levels/{id}/check/complete`                                                                                                                             | Close the check once every question has a correct answer: first-try score, check XP, and whether the practice mission is open.                                          |
+| `GET /api/me`                                                                                                                                                               | Profile, level, XP to next, title, avatar, wallet, streak, today's claim state, unlock flags.                                                                           |
+| `PATCH /api/me` `{display_name?, avatar_id?, title_id?, leaderboard_opt_in?}`                                                                                               | Update profile.                                                                                                                                                         |
+| `POST /api/me/daily-login`                                                                                                                                                  | Claim today's login reward.                                                                                                                                             |
+| `GET /api/me/activity`                                                                                                                                                      | Last 365 days of activity counts (heatmap) and streak days.                                                                                                             |
+| `GET /api/me/collection`                                                                                                                                                    | Badges, avatars and titles with earned/locked and how to unlock.                                                                                                        |
+| `GET /api/shop`, `POST /api/shop/purchase` `{item_id}`                                                                                                                      | Shop.                                                                                                                                                                   |
+| `POST /api/daily/refresh`                                                                                                                                                   | Spend Gems to skip the daily cooldown.                                                                                                                                  |
+| `GET /api/daily`                                                                                                                                                            | Today's daily: scenario summary, opponent, cooldown, won today, weekly Doubloon progress.                                                                               |
+| `GET /api/leaderboards/xp`, `GET /api/leaderboards/ranked`                                                                                                                  | Global leaderboards (opted-in players).                                                                                                                                 |
+| `GET /api/quizzes`                                                                                                                                                          | Quiz topics (per chapter + mixed) with best scores.                                                                                                                     |
+| `POST /api/quizzes/attempts` `{topic_id, room_code?}`                                                                                                                       | Start a quiz: chapter quiz (10 items, pass ≥ 80 %), daily review (5 items) or mixed mastery (20 items). Options are shuffled.                                           |
+| `POST /api/quizzes/attempts/{id}/answers` `{question_id, option_id}`                                                                                                        | Instant feedback with explanation; first answer is final. Optional confidence: `sure\|think\|guess`.                                                                    |
+| `GET /api/quizzes/attempts/{id}`                                                                                                                                            | Attempt state / result.                                                                                                                                                 |
+| `POST /api/quizzes/rooms` `{topic_id, title}`; `GET /api/quizzes/rooms/{id}`                                                                                                | Classroom quiz room with join code; the host sees every member's results.                                                                                               |
+| `POST /api/lobbies` `{scenario_id?, bots: 0–3}`; `POST /api/lobbies/join` `{code}`; `GET /api/lobbies/{id}`; `POST /api/lobbies/{id}/start`; `POST /api/lobbies/{id}/leave` | Private lobbies. Starting creates a game; members read `game_id` from the lobby.                                                                                        |
+| `POST /api/matchmaking`, `GET /api/matchmaking`, `DELETE /api/matchmaking`                                                                                                  | Ranked queue: join, poll, leave. Two humans make a match.                                                                                                               |
 
 ## Content formats
 
@@ -412,7 +424,11 @@ Fictional companies only. Tickers are 3–5 capital letters.
 `beat_bot{bot_id}`, `max_drawdown{pct}`, `max_position{pct}`,
 `min_holdings{n}` (distinct symbols held at once), `sold_after_news{news_id,
 within}`, `bought_after_news{news_id, within}`, `no_buy_between{from, to}`,
-`beat_buy_hold{symbol}`, `stop_loss_set`, `kept_plan`.
+`beat_buy_hold{symbol}`, `stop_loss_set`, `kept_plan`,
+`max_position_before{tick, pct, symbol?}` (no position above `pct` of equity
+at any tick before `tick`), `held_between{symbol, from, to}`,
+`exited_by{symbol, tick}` (no shares of `symbol` held from `tick` on).
+Boss bonus missions are the chapter's concept checks.
 
 ### Bots (`content/bots.json`)
 
@@ -433,78 +449,100 @@ Strategies: `buy_hold{weight, at}`, `dca{every, amount}`,
 `panic{drawdown, rebuy_after}`, `fomo{streak, weight, stop}`,
 `noise{p, weight}`. Bots trade every symbol unless `symbols` is given.
 
-### Campaign (`content/campaign.json`)
+### Campaign (`content/campaign/ch<N>.json`, one file per chapter)
 
 ```jsonc
 {
-  "version": "2026-10-20.2",
-  "chapters": [
+  "id": "ch1",
+  "number": 1,
+  "title": "Market Basics",
+  "region": "Harbor of Basics",
+  "tagline": "What a stock is, how prices move, and your first trades.",
+  "icon": "compass",
+  "boss": "ch1-boss", // scenario id; also used for this chapter's Preview Battle
+  "gate": null, // scenario id of the gate boss (chapter 2+: the previous chapter's boss form)
+  "boss_reward": { "kind": "avatar", "id": "avatar-guide-harbor" },
+  "levels": [
     {
-      "id": "ch1",
-      "number": 1,
-      "title": "Market Basics",
-      "tagline": "…",
-      "icon": "compass",
-      "gate_boss": null,
-      "final_boss": "ch1-final",
-      "levels": [
+      "id": "ch1-l1",
+      "title": "What Is a Stock?",
+      "summary": "One sentence shown on the map popup.",
+      "objectives": ["…", "…", "…"], // "In this lesson you will learn"
+      "terms": [{ "term": "Share", "definition": "…" }], // Trading Archive
+      "cards": [
         {
-          "id": "ch1-l1",
-          "title": "What Is a Stock?",
-          "summary": "…",
-          "objectives": ["…", "…"],
-          "xp": 30,
-          "cards": [
-            {
-              "kind": "concept|example|tip|interactive",
-              "title": "…",
-              "body": "Markdown-lite text",
-              "visual": "candle-anatomy|order-book|…|null",
-            },
-          ],
-          "check": [
-            {
-              "id": "q1",
-              "prompt": "…",
-              "options": [{ "id": "a", "text": "…" }],
-              "answer": "b",
-              "explanation": "…",
-            },
-          ],
-          "practice": "ch1-l1-practice",
-          "reward": { "kind": "avatar|title|badge", "id": "avatar-compass" },
+          "title": "A slice of the company",
+          "body": "Plain text. **bold** allowed.",
+          "visual": "ownership-slider", // optional interactive/visual key, see below
         },
       ],
+      "check": [
+        {
+          "id": "q1",
+          "kind": "mc|true_false",
+          "prompt": "…",
+          "options": [{ "id": "a", "text": "…" }],
+          "answer": "b",
+          "explanation": "One line shown after answering.",
+        },
+      ],
+      "practice": "ch1-l1-practice", // scenario id
+      "reward": { "kind": "avatar|title", "id": "…" }, // optional map reward node after this level
     },
   ],
 }
 ```
 
+Card `visual` keys the client renders: `ownership-slider`, `market-cap-compare`,
+`supply-demand`, `gap-chart`, `candle-anatomy`, `candle-patterns`,
+`trend-lines`, `support-resistance`, `volume-bars`, `order-book`,
+`bid-ask-spread`, `order-types`, `limit-vs-market`, `stop-loss`,
+`position-size`, `risk-reward`, `diversification`, `drawdown-recovery`,
+`moving-average`, `rsi`, `macd`, `earnings`, `pe-ratio`, `news-impact`,
+`bubble-cycle`, `emotion-cycle`. A missing or unknown key renders text only.
+
 ### Quiz bank (`content/quiz_bank.json`)
 
-Topics map to chapters plus a mixed topic. Questions use the check format.
-Quizzes draw 5 questions with shuffled options.
+`{"questions": [...]}`, each in the check format plus `chapter` (1–8),
+`concepts` and `difficulty` (1–3). Write at least 15 per chapter, and spread the
+correct answers evenly across option positions. Quizzes shuffle options.
+Lesson check questions are never reused as quiz items.
 
 ## Progression
 
-| Source                                     | XP                                              |
-| ------------------------------------------ | ----------------------------------------------- |
-| Level check passed (first time)            | 10                                              |
-| Level normal star (first time)             | 20                                              |
-| Level special star (first time)            | 15                                              |
-| Boss win (first time) / any finished boss  | 60 / 10                                         |
-| Daily: finished / first win of the day     | 10 / 20                                         |
-| Practice match finished (max 5 per day)    | 10                                              |
-| Ranked match: win / loss                   | 25 / 10                                         |
-| Quiz passed (first pass per topic per day) | 15                                              |
-| Daily login                                | 10 (days 1–5 of the streak week), 20 (days 6–7) |
+| Source                                    | XP                   |
+| ----------------------------------------- | -------------------- |
+| Level check finished (first time)         | 10                   |
+| Level normal star (first time)            | 20                   |
+| Level special star (first time)           | 10                   |
+| Preview Battle (first play)               | 10                   |
+| Boss or gate win (first win)              | 50                   |
+| Daily: finished / won (each once per day) | 15 / 15              |
+| Practice match finished (max 3 per day)   | 10                   |
+| Ranked match: loss / win                  | 10 / 20              |
+| Chapter quiz ≥ 80 % (first pass)          | 20                   |
+| Daily review (once per day)               | 10                   |
+| Mixed mastery ≥ 80 % (first pass)         | 50                   |
+| Daily login (streak day 1–7)              | 10,10,10,10,20,20,20 |
 
-XP needed to go from level _L_ to _L_+1 is `100 + 25·(L−1)`. Titles by level:
-Deckhand (1), Rookie Trader (2), Market Explorer (5), Chart Navigator (10),
-Risk Captain (15), Market Legend (20).
+No XP is ever paid per order, trade count or volume.
 
-Login reward: 20 Stocks plus the XP above. Daily win: 200 Stocks (first win of
-the UTC day). Weekly shop item: "Colossal Challenger" title for 1,000 Stocks.
+XP needed to go from level _L_ to _L_+1 is `100 + 25·(L−1)`. Ranks by level:
+Rookie Trader (1–4), Market Explorer (5–9), Chart Reader (10–14), Risk Manager
+(15–19), Strategist (20–29), Seasoned Trader (30–39), Market Veteran (40–49),
+Captain of the Ledger (50).
+
+Login Doubloons by streak day: 20, 20, 20, 30, 30, 30, 50 (a full week = 200),
+repeating after day 7. A missed day resets the streak to day 1. Daily win: 200
+Doubloons (first win of the UTC day). Weekly track: 1,000 Doubloons buys the
+weekly title "Colossal Challenger". Gem shop: cosmetic avatars (120), titles
+(300), candle colour themes (100). Accessibility palettes are free.
+
+Badges are earned only, never sold. Each is based on process, not profit size:
+First Steps, First Plan, Quick Learner, Chart Reader, Risk Manager, Sniper, Fee
+Fighter, Cool Head, Patient Trader, Explorer, Gatecrasher, Boss Slayer, Streak
+Master, Quiz Master, Ranked Debut, Calibrated. Conditions are in the
+[curriculum spec](curriculum/game-spec.md) §B6.
 
 ### Module boundaries
 
