@@ -6,7 +6,7 @@ import secrets
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, Request
-from sqlalchemy import DateTime, ForeignKey, JSON, String, func, select
+from sqlalchemy import DateTime, ForeignKey, JSON, String, func, or_, select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -51,6 +51,10 @@ def response(session):
         result['bound_policy'] = deepcopy(session.snapshot_json['bound_policy'])
         result['audited_observation'] = deepcopy(session.snapshot_json.get('audited_observation'))
         result['observation_token'] = observation_token(observed)
+    if 'scenario_set_policy' in session.snapshot_json:
+        result['scenario_set_policy'] = deepcopy(session.snapshot_json['scenario_set_policy'])
+        result['audited_observation'] = deepcopy(session.snapshot_json.get('audited_observation'))
+        result['observation_token'] = observation_token(observed)
     return result
 
 
@@ -79,13 +83,17 @@ async def create_session(db, user, mode='guided', seed=None, kind=None, ticks=12
 
 @router.get('', operation_id='listSimulations')
 async def list_sessions(db: DB, user: User):
+    from app.simulation.scenario_sets import reverse_links
     statement = select(SimulationSession.id, SimulationSession.mode, SimulationSession.updated_at,
                        SimulationSession.snapshot_json['tick'].as_integer().label('tick'),
                        SimulationSession.snapshot_json['finished'].as_boolean().label('finished'),
                        LearningRun.id.label('learning_run_id')).outerjoin(LearningRun,
                            (LearningRun.user_id == user.id)
-                           & (LearningRun.id == SimulationSession.snapshot_json['bound_policy']['run_id'].as_string())
-                           & (LearningRun.state_json['simulation_session_id'].as_string() == SimulationSession.id)
+                           & or_(
+                               (LearningRun.id == SimulationSession.snapshot_json['bound_policy']['run_id'].as_string())
+                               & (LearningRun.state_json['simulation_session_id'].as_string() == SimulationSession.id),
+                               (LearningRun.id == SimulationSession.snapshot_json['scenario_set_policy']['run_id'].as_string())
+                               & reverse_links(SimulationSession.id))
                        ).where(SimulationSession.user_id == user.id).order_by(SimulationSession.updated_at.desc()).limit(50)
     sessions = (await db.execute(statement)).mappings().all()
     return {'sessions': [dict(session) for session in sessions]}

@@ -5,7 +5,7 @@ from typing import Any
 from urllib.parse import urlparse
 
 from .catalog import load_catalog
-from app.simulation.bindings import valid_binding
+from app.simulation.bindings import valid_binding, valid_scenario_set_binding
 
 MODULE_TITLES = (
     "Money Before Markets", "How Markets Work", "Investment Products",
@@ -174,10 +174,14 @@ def validate_catalog(catalog: dict[str, Any]) -> None:
             for item in questions:
                 question(item, f"{lesson['id']}-q")
             bound = 'simulation_binding' in lesson
+            scenario_set = 'scenario_set_binding' in lesson
+            require(not (bound and scenario_set), 'one simulation binding format per lesson')
             if bound:
                 require(interactive and lesson['id'] == 'm05-l01' and valid_binding(lesson['simulation_binding']), 'invalid simulation binding')
+            if scenario_set:
+                require(interactive and lesson['id'] == 'm09-l03' and valid_scenario_set_binding(lesson['scenario_set_binding']), 'invalid scenario-set binding')
             if interactive:
-                tasks(lesson.get('tasks'), f"{lesson['id']}-task-", teaching=True, bound=bound)
+                tasks(lesson.get('tasks'), f"{lesson['id']}-task-", teaching=True, bound=bound or scenario_set)
                 tasks(lesson.get('bonus_tasks'), f"{lesson['id']}-bonus-")
             else:
                 require('tasks' not in lesson and 'bonus_tasks' not in lesson, 'interactive tasks require a module diagnostic')
