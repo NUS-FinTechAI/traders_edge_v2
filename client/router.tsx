@@ -8,6 +8,9 @@ import LearningStartPage from './pages/adventure/learning-start-page/LearningSta
 import LearningRunPage from './pages/adventure/learning-run-page/LearningRunPage.tsx'
 import MultiplayerHubPage from './pages/multiplayer/MultiplayerHubPage.tsx'
 import MultiplayerPage from './pages/multiplayer/MultiplayerPage.tsx'
+import QuizHubPage from './pages/quizzes/QuizHubPage.tsx'
+import QuizAttemptPage from './pages/quizzes/QuizAttemptPage.tsx'
+import QuizRoomPage from './pages/quizzes/QuizRoomPage.tsx'
 import authGuard from './auth-guards/authGuard.ts'
 import AuthGuardError from './auth-guards/AuthGuardError.tsx'
 import RouteError from './components/error-panel/RouteError.tsx'
@@ -23,6 +26,24 @@ export const router = createBrowserRouter([
       {
         ErrorBoundary: RouteError,
         children: [
+          {
+            path: '/quizzes',
+            loader: authGuard.loader,
+            ErrorBoundary: AuthGuardError,
+            Component: QuizHubPage,
+          },
+          {
+            path: '/quizzes/attempts/:attemptId',
+            loader: authGuard.loader,
+            ErrorBoundary: AuthGuardError,
+            Component: QuizAttemptPage,
+          },
+          {
+            path: '/quizzes/rooms/:roomId',
+            loader: authGuard.loader,
+            ErrorBoundary: AuthGuardError,
+            Component: QuizRoomPage,
+          },
           { path: '/', Component: HomePage },
           { path: '/login', Component: LoginPage },
           {
