@@ -6,6 +6,8 @@ import AdventurePage from './pages/adventure/adventure-page/AdventurePage.tsx'
 import ChapterPage from './pages/adventure/chapter-page/ChapterPage.tsx'
 import LearningStartPage from './pages/adventure/learning-start-page/LearningStartPage.tsx'
 import LearningRunPage from './pages/adventure/learning-run-page/LearningRunPage.tsx'
+import MultiplayerHubPage from './pages/multiplayer/MultiplayerHubPage.tsx'
+import MultiplayerPage from './pages/multiplayer/MultiplayerPage.tsx'
 import authGuard from './auth-guards/authGuard.ts'
 import AuthGuardError from './auth-guards/AuthGuardError.tsx'
 import RouteError from './components/error-panel/RouteError.tsx'
@@ -21,6 +23,18 @@ export const router = createBrowserRouter([
           { path: '/login', Component: LoginPage },
           { path: '/adventure', Component: AdventurePage },
           { path: '/adventure/chapters/:moduleId', Component: ChapterPage },
+          {
+            path: '/multiplayer',
+            loader: authGuard.loader,
+            ErrorBoundary: AuthGuardError,
+            Component: MultiplayerHubPage,
+          },
+          {
+            path: '/multiplayer/:lobbyId',
+            loader: authGuard.loader,
+            ErrorBoundary: AuthGuardError,
+            Component: MultiplayerPage,
+          },
           {
             path: '/adventure/start/:purpose/:target',
             loader: authGuard.loader,

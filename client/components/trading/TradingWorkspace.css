@@ -1,0 +1,124 @@
+.trading-workspace {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.trading-workspace .trading-section {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--color-border-muted);
+}
+.trading-workspace .trading-section h2 {
+  margin-top: 0;
+  font-size: 1.4rem;
+}
+.trading-workspace button,
+.trading-workspace summary {
+  min-height: 44px;
+  padding: 0.65rem 1rem;
+  font: inherit;
+  cursor: pointer;
+}
+.trading-workspace button {
+  min-width: 44px;
+  color: var(--color-text);
+  background: var(--color-surface-secondary);
+  border: 1px solid var(--color-border-interactive);
+}
+.trading-workspace button:disabled {
+  cursor: default;
+  color: var(--color-text-muted);
+}
+.trading-workspace summary {
+  display: list-item;
+}
+.trading-workspace
+  :is(button, summary, input, select, textarea, [tabindex]):focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 3px;
+}
+.trading-workspace .trading-balances {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+.trading-workspace dt {
+  color: var(--color-text-muted);
+}
+.trading-workspace dd {
+  margin: 0.35rem 0 1rem;
+  font-variant-numeric: tabular-nums;
+}
+.trading-workspace .trading-balances dd {
+  font-weight: bold;
+}
+.trading-workspace .trading-table {
+  max-width: 100%;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+.trading-workspace table {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+}
+.trading-workspace caption {
+  text-align: left;
+  padding-bottom: 0.75rem;
+  color: var(--color-text-muted);
+}
+.trading-workspace th,
+.trading-workspace td {
+  text-align: left;
+  padding: 0.6rem;
+  border-bottom: 1px solid var(--color-border-muted);
+  white-space: nowrap;
+}
+.trading-workspace .trading-chart {
+  margin: 1.25rem 0;
+}
+.trading-workspace .trading-chart svg {
+  display: block;
+  width: 100%;
+  color: var(--color-accent);
+}
+.trading-workspace .trading-chart-axis {
+  stroke: var(--color-border-muted);
+}
+.trading-workspace fieldset {
+  min-width: 0;
+  padding: 0;
+  margin: 1rem 0;
+  border: 0;
+}
+.trading-workspace legend {
+  margin-bottom: 0.75rem;
+  font-weight: bold;
+}
+.trading-workspace label {
+  display: block;
+  margin: 1rem 0 0.5rem;
+}
+.trading-workspace :is(input, select, textarea) {
+  box-sizing: border-box;
+  display: block;
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 0.65rem;
+  font: inherit;
+  color: var(--color-text);
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-border-control);
+}
+.trading-workspace textarea {
+  resize: vertical;
+}
+.trading-workspace .trading-saved-plan {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--color-border-muted);
+}
+@media (min-width: 768px) {
+  .trading-workspace .trading-balances {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
