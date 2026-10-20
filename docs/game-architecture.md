@@ -104,7 +104,16 @@ volume   = base_volume · (1 + 4·|r|/asset.vol) · lognormal(0, 0.25)
 A news effect `{symbol, move, ticks, gap}` spreads a total fractional move
 over `ticks` days, front-loaded with weights proportional to
 `ticks, ticks-1, …, 1`. `gap: true` applies the first share as an opening gap.
-`random.Random(seed)` is the only randomness source.
+`random.Random(seed)` is the only randomness source. `asset.price` is the close
+before the first history bar. Bar prices are rounded to cents; cash and fees
+use `Decimal` cents.
+
+**Ticks.** While `0 ≤ tick < ticks`, bar `tick` is the current day: bars
+`0..tick` are processed and its close is the price the player sees and trades
+at. At `tick == ticks` the match has ended: no bar is added, no order or cancel
+is accepted, and equity is valued at the close of bar `ticks − 1`. The
+briefing processes no bars and shows only the history. A cancel at tick `c`
+happens after bar `c`, so the order could still fill on bar `c`.
 
 **Execution** (`engine.py`). Each tick is processed in order:
 
@@ -115,7 +124,13 @@ over `ticks` days, front-loaded with weights proportional to
 2. Human market orders placed at this tick fill at `close × (1 ± spread/2)`.
    This is the price the player saw.
 3. Bots decide on information up to this tick (closes, news published at or
-   before it) and trade with market orders under the same rules.
+   before it) and trade with market orders under the same rules. A bot with
+   `delay: d` decides from the market as it was at tick `t − d` and trades at
+   tick `t`'s price.
+
+Within a tick, cancels are applied before new orders, then new orders in
+placement order (`game_orders.seq`). Freeing cash or shares earlier never
+invalidates a later order, so a replay always reproduces the validated state.
 
 Every fill pays `max(min_fee, fee_rate × value)`. Buy limits reserve cash and
 sells reserve shares when placed, so a fill never fails. An order that breaks
@@ -125,11 +140,14 @@ match) is rejected with 422 and a plain-language reason.
 ### Clock
 
 ```
-games.clock = {anchor_tick, anchor_at (ms epoch), tick_ms, paused}
+games.clock = {anchor_tick, anchor_at (ms epoch), tick_ms, paused, speed}
 current_tick = paused ? anchor_tick : min(ticks, anchor_tick + floor((now − anchor_at) / tick_ms))
 ```
 
-Pause, resume, speed and step re-anchor. Status: `briefing` (created) →
+Solo: `tick_ms = 2000 / speed` for speed 1, 2 or 4. `step` advances exactly
+one tick and is accepted only while paused. Multiplayer (`private`, `ranked`):
+fixed `tick_ms = 3000`; clock actions return 403. Pause, resume, speed and step
+re-anchor. Status: `briefing` (created) →
 `running` (started) → `ended` (tick == ticks) → `settled` (finish called).
 `ended` is derived; `settled` is stored.
 
@@ -150,12 +168,13 @@ refresh enabled the attempt. This covers GDD §10.2.
 ### Tables (migration 11)
 
 - `games`: id, mode, scenario_id, scenario_version, seed, status, clock (JSON),
-  host_user_id, lobby_id, chapter_id, level_id, created_at, settled_at.
+  context (JSON, from `GameSpec`), host_user_id, lobby_id, chapter_id,
+  level_id, boss (`gate`|`final`|null), created_at, settled_at.
 - `game_participants`: id, game_id, user_id (null for bots), bot_id,
   display_name, plan (JSON), result (JSON), forfeited.
 - `game_orders`: id, game_id, participant_id, client_order_id (unique per
-  participant), tick, symbol, side, type, qty, limit_price, stop_price,
-  cancelled_tick, created_at.
+  participant), seq (placement order per participant), tick, symbol, side,
+  type, qty, limit_price, stop_price, cancelled_tick, created_at.
 - `game_events`: id, game_id, participant_id, tick, kind, payload (JSON), created_at.
 - `campaign_progress`: user_id, level_id, check_best, check_passed,
   normal_star, special_star, best_profit, plays, updated_at.
@@ -316,9 +335,29 @@ and news are never sent.
                "badges": [{"id": "first-profit", "name": "In the green"}] },
   "plan_review": { "strategy": "trend", "max_loss_pct": 10, "worst_drawdown_pct": 4.2, "kept_loss_limit": true },
   "stats": { "trades": 6, "fees": 18.4, "biggest_position_pct": 38, "max_drawdown_pct": 4.2, "buy_hold_profit": 310.0 },
+  "decision_score": 72,
+  "key_moments": ["Day 18: Leafy Greens wins a contract (+8.0%). You held 40 LEAF and gained $160.00."],
+  "forfeited": false,
   "debrief": "What happened in this market and the lesson it teaches (scenario-authored).",
   "unlocked": { "chapter_id": "ch3" } }
 ```
+
+`won` needs rank 1 unshared and no forfeit. A forfeit marks every mission not
+done. `buy_hold_profit` is an equal-weight buy of every asset at tick 0's ask.
+
+`decision_score` (0–100) is an **unvalidated** process score that never decides
+a win: 40 × share of bonus missions met (basic missions when there are no
+bonus missions) + 25 × plan kept (worst drawdown ≤ `max_loss_pct`) + 25 × risk
+discipline (share of buy fills with a stop on that symbol resting within one
+tick after the fill; 0.5 when the scenario disables stops) + 10 × (1 −
+min(1, fees / max(1, |profit|))). `key_moments` holds up to five generated
+sentences from news, fills, stop-loss exits and the deepest drawdown.
+
+The game state also carries `me.available_cash` (cash minus reserved cash),
+each order's `client_order_id` and `stop_price`, news `kind`, and leaderboard
+`style`, `tier` and `forfeited`. Plan strategies are `trend`, `dip`,
+`breakout`, `news`, `hold` and `cautious`; `max_loss_pct` is 1–50. A rejected
+order returns 422 `{detail}` and is logged as a `rejected` event.
 
 ### Campaign, player, quizzes, multiplayer
 
@@ -391,10 +430,12 @@ and news are never sent.
       "body": "…",
       "tone": "positive",
       "symbols": ["LEAF"],
+      "kind": "company", // optional: earnings|macro|rumor|company|hype (default company)
       "effects": [{ "symbol": "LEAF", "move": 0.08, "ticks": 4, "gap": true }],
     },
   ],
   "bots": ["hodl-hannah"],
+  "balance": "lesson", // optional: "boss" | "lesson" | null
   "missions": {
     "basic": [
       {
@@ -416,7 +457,19 @@ and news are never sent.
 }
 ```
 
-Fictional companies only. Tickers are 3–5 capital letters.
+Fictional companies only. Tickers are 3–5 capital letters. The validator
+(`app/game/scenario.py`) rejects unknown fields and enforces: `ticks` 15–150,
+`history` 5–120, 1–5 assets, regimes covering ticks `0..ticks` without gaps,
+news ticks inside the match with effects ending by the last tick, effects and
+missions that name known symbols, news and bots, 0–7 bots, 1–5 basic and 0–5
+bonus missions, and unique ids. `tools` come from `candles`, `line`, `volume`,
+`sma`, `ema`, `rsi`, `bollinger`. A `use_order` or `stop_loss_set` mission
+needs that order type enabled in `allow`.
+
+`balance: "boss"` puts the scenario in the Monte-Carlo gauntlet
+(`app/game/balance.py`, `gauntlet(scenario, seeds)`): over 50 seeds an idle
+player may win at most 5 % and a random clicker at most 10 %. A boss needs at
+least one bot. `"lesson"` and `null` are not gated.
 
 **Mission types**: `trades_min{n}`, `trades_max{n}`, `use_order{type, n}`,
 `hold_at_end{symbol?}`, `end_in_cash`, `profit_min{amount}`,
@@ -434,20 +487,44 @@ Boss bonus missions are the chapter's concept checks.
 
 ```jsonc
 {
-  "id": "momentum-max",
+  "id": "momentum-max-pro",
   "name": "Momentum Max",
+  "tier": "pro", // optional: rookie|pro|elite
   "avatar": "bull",
   "style": "Buys strength, sells weakness.",
   "strategy": "momentum",
-  "params": { "fast": 5, "slow": 20, "weight": 0.6 },
+  "params": {
+    "sma": 10,
+    "exit_sma": 10,
+    "rising": true,
+    "high_window": 0,
+    "weight": 0.5,
+    "delay": 1,
+  },
 }
 ```
 
-Strategies: `buy_hold{weight, at}`, `dca{every, amount}`,
-`momentum{fast, slow, weight}`, `mean_reversion{window, band, weight}`,
-`breakout{window, weight, trail}`, `news_reactor{delay, weight, overreact}`,
-`panic{drawdown, rebuy_after}`, `fomo{streak, weight, stop}`,
-`noise{p, weight}`. Bots trade every symbol unless `symbols` is given.
+Every strategy accepts optional `delay` (0–5 ticks of reaction delay) and
+`symbols`; bots trade every symbol unless `symbols` is given. `weight` is the
+share of equity spread equally across the traded symbols.
+
+| Strategy         | Parameters                                                                                                                       | Rule                                                                                                                                                                                                                                                 |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `buy_hold`       | `weight, at`                                                                                                                     | Buys at tick `at`; never sells.                                                                                                                                                                                                                      |
+| `momentum`       | `sma, exit_sma, rising, high_window, weight`                                                                                     | Buys when close > SMA (and the SMA is rising if `rising`, and close is the `high_window`-day high if non-zero); sells when close < `exit_sma`.                                                                                                       |
+| `mean_reversion` | `entry` (`red_candles` or `rsi`), `red_candles` or `rsi_window` + `rsi_below`, `exit_sma, take_profit, trend_sma, trail, weight` | Buys after N red candles or RSI below the level (only above `trend_sma` if non-zero); sells at `exit_sma`, `+take_profit` or a `trail` drop from the peak (0 = no stop).                                                                             |
+| `emotional`      | `streak, drop, weight`                                                                                                           | Buys after `streak` up closes or a positive headline on the symbol; sells everything on any negative headline or a day down by `drop`.                                                                                                               |
+| `scalper`        | `min_move, weight`                                                                                                               | Buys a green close larger than `min_move`; sells it at the next tick.                                                                                                                                                                                |
+| `breakout`       | `window, volume_mult, volume_window, buffer, weight`                                                                             | Buys a close above the prior `window` high with volume ≥ `volume_mult` × average (0 = ignore volume); sells below the breakout level × (1 − `buffer`).                                                                                               |
+| `news_reactor`   | `weight, ignore, fade_gap`                                                                                                       | Buys after positive headlines, sells after negative ones, skips kinds in `ignore`; with `fade_gap`, fades rumor/hype gaps larger than it (sells up-gaps, buys down-gaps).                                                                            |
+| `risk_manager`   | `trend_sma, risk, stop_window, take_half_r, max_exposure, momentum_filter, avoid_hype, climax_volume`                            | Above `trend_sma`, risks `risk` of equity with a stop under the `stop_window` low, caps exposure, sells half at `take_half_r` × R and moves the stop to entry. Optional SMA10 trend filter, rumor/hype filter (last 2 ticks) and volume-climax exit. |
+
+The roster follows the [curriculum spec](curriculum/game-spec.md) §B3: HODL
+Hannah, Momentum Max, Value Vera, Panic Pete, Breakout Bea, Newsy Nina and
+Steady Stella in rookie/pro/elite tiers (`<name>-rookie`, `-pro`, `-elite`;
+Hannah's pro id is `hodl-hannah`), Scalper Sam in rookie/pro, and Ironhand Iris
+(elite only). Bots trade only at market and see only bars and news up to their
+observed tick.
 
 ### Campaign (`content/campaign/ch<N>.json`, one file per chapter)
 
@@ -553,7 +630,8 @@ calls two hooks registered on `app.state`:
 # Resolve what a POST /api/games request may play. Raises HTTPException(403/409) when not allowed.
 async def resolve_game(db, profile, request: CreateGame) -> GameSpec
 #   GameSpec(scenario_id: str, mode: str, chapter_id: str | None, level_id: str | None,
-#            boss: str | None, context: dict)   # context is stored on the game (e.g. daily day, refresh key)
+#            boss: str | None, context: dict,   # stored on the game (e.g. daily day, refresh key); an int "seed" replaces the random seed
+#            bot_ids: list[str] | None)         # None = the scenario's bots
 
 # Settle one human participant after the engine computed `result` (dict, see Result above,
 # without "rewards", "stars" and "unlocked"). Returns those three keys. Must be idempotent.
