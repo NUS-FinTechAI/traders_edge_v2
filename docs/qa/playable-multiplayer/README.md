@@ -54,3 +54,9 @@ PYTHONPATH="$PWD/server:$PWD/server/tests" /Users/maahirgarg/Downloads/traders_e
 ```
 
 The checked interpreter loaded this worktree explicitly without changing the shared environment. API generation used `app.export_openapi` from that interpreter and the existing `buildArtifacts`/`writeArtifacts` pipeline: 89 operations, no stale artifacts. Integration must regenerate the combined API contract after other branches merge. The shared trading workspace was copied unchanged from the separately reviewed challenge-client slice; final integration must preserve that common source and add the intended navigation. This branch's local `/multiplayer` routes are functional, but home/adventure entry links remain the integration owner's work. Hosted CI and final integration checks remain required before merge.
+
+## Integration checkpoint
+
+Merge `3851a76` integrates master `56b57b0`, including the reviewed Player and AI challenge pages. The route conflict retained Player, all challenge routes, both multiplayer routes and the existing learning routes. The shared trading workspace is identical to master. Regenerating the combined API produced no changes or stale artifacts.
+
+At this checkpoint, all 204 client tests, type checks, lint and production build passed. Full backend discovery ran 334 tests: 283 passed and 51 live PostgreSQL tests skipped because this worker had no live test URL. The separate 22 catalog tests and catalog validator passed. The combined build additionally reports a chunk above 500 kB; it retains the earlier mixed-import warning. Hosted CI, live PostgreSQL verification and the remaining home/adventure multiplayer entry links are still integration checks.
