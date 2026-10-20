@@ -64,7 +64,17 @@ function Match({ owner, lobbyId }: { owner: UserProfile; lobbyId: string }) {
     state.pending,
     waitingPhase,
   ])
-  if (user?.id !== owner.id) return <p>Sign in to view your match.</p>
+  if (user?.id !== owner.id)
+    return (
+      <main className="multiplayer-page">
+        <h1>Check your current player</h1>
+        <p role="alert">
+          This match belongs to the previous signed-in account. Its saved
+          actions remain with that player.
+        </p>
+        <a href="/multiplayer">Open current player’s matches</a>
+      </main>
+    )
   const disabled = state.busy || state.pending
   const act = (task: Promise<void>) => {
     void task

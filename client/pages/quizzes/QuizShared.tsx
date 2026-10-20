@@ -50,7 +50,7 @@ export function QuizOwnerGate({
           The signed-in account changed. This account’s previous quiz view has
           been hidden. Sign in again to open your own quizzes.
         </p>
-        <Link to="/login?returnTo=%2Fquizzes">Check sign-in</Link>
+        <a href="/login?returnTo=%2Fquizzes">Check sign-in</a>
       </QuizFrame>
     )
   return children

@@ -62,7 +62,17 @@ function Hub({ owner }: { owner: UserProfile }) {
       })
     return () => abort.abort()
   }, [owner, revision])
-  if (user?.id !== owner.id) return <p>Sign in to view your matches.</p>
+  if (user?.id !== owner.id)
+    return (
+      <main className="multiplayer-page">
+        <h1>Check your current player</h1>
+        <p role="alert">
+          The signed-in player changed. Open the current account’s matches to
+          continue.
+        </p>
+        <a href="/multiplayer">Open current player’s matches</a>
+      </main>
+    )
   const disabled = state.busy || state.pending
   async function open(task: Promise<void>) {
     try {

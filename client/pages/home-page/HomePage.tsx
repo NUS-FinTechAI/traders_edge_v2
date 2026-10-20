@@ -55,7 +55,7 @@ export default function HomePage() {
         </section>
         {user && (
           <p>
-            <Link className="adventure-button" to="/player">
+            <Link className="home-game-link" to="/player">
               Player record, rewards and reviews
             </Link>
           </p>
