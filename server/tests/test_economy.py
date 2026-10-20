@@ -80,6 +80,13 @@ class EconomyTests(unittest.TestCase):
         self.assertEqual(self.client.post('/api/me/economy/settle', json={'won': True}).status_code, 404)
         self.assertEqual(self.counts(), (0, 0, 0, 0, 0, 0))
 
+    def test_wallet_discloses_current_game_reward_and_refresh_rules_without_granting_them(self):
+        with patch('app.economy.REFRESH_PREMIUM', 17):
+            response = self.wallet()
+
+        self.assertEqual(response['rules'], {'login_stocks': 20, 'login_xp': 5,
+            'daily_victory_stocks': 200, 'refresh_premium_cost': 17, 'real_money_purchases': False})
+        self.assertEqual(self.counts(), (0, 0, 0, 0, 0, 0))
     def test_login_exact_replay_daily_cap_streak_gap_and_learning_separation(self):
         first = self.post('login-claims')
         self.assertEqual(first.status_code, 200, first.text)

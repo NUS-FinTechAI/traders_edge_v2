@@ -11,6 +11,7 @@ import MultiplayerPage from './pages/multiplayer/MultiplayerPage.tsx'
 import authGuard from './auth-guards/authGuard.ts'
 import AuthGuardError from './auth-guards/AuthGuardError.tsx'
 import RouteError from './components/error-panel/RouteError.tsx'
+import PlayerPage from './pages/player/PlayerPage.tsx'
 
 export const router = createBrowserRouter([
   {
@@ -21,6 +22,12 @@ export const router = createBrowserRouter([
         children: [
           { path: '/', Component: HomePage },
           { path: '/login', Component: LoginPage },
+          {
+            path: '/player',
+            loader: authGuard.loader,
+            ErrorBoundary: AuthGuardError,
+            Component: PlayerPage,
+          },
           { path: '/adventure', Component: AdventurePage },
           { path: '/adventure/chapters/:moduleId', Component: ChapterPage },
           {
