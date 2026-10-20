@@ -874,31 +874,32 @@
       "chapter": 2,
       "concepts": [
         "partial_fills",
-        "volume"
+        "liquidity",
+        "slippage"
       ],
       "difficulty": 2,
       "kind": "mc",
-      "prompt": "In this game, an order fills no more than 10% of each day's volume. Pebble Games (PBGM) trades 8,000 shares a day. You place a valid buy for 2,000 shares. If volume holds steady, how many trading days does it take to fill completely?",
+      "prompt": "Pebble Games (PBGM) is thinly traded. The order book shows 300 shares offered at $20.00 and the next 500 shares at $20.10. You send a market buy for 600 shares. What is your average fill price?",
       "options": [
         {
           "id": "a",
-          "text": "1 day"
+          "text": "$19.95"
         },
         {
           "id": "b",
-          "text": "2 days"
+          "text": "$20.00"
         },
         {
           "id": "c",
-          "text": "3 days"
+          "text": "$20.05"
         },
         {
           "id": "d",
-          "text": "10 days"
+          "text": "$20.10"
         }
       ],
       "answer": "c",
-      "explanation": "10% of 8,000 is 800 shares a day: 800 + 800 + 400 = 2,000, so it completes on day 3."
+      "explanation": "300 shares fill at $20.00 and the other 300 at $20.10: $12,030 ÷ 600 = $20.05. Thin books make large market orders walk up the price."
     },
     {
       "id": "qb-ch2-12",
