@@ -241,5 +241,21 @@ function LoadRun({ runId, owner }: { runId: string; owner: string }) {
 export default function LearningRunPage() {
   const { runId = '' } = useParams()
   const user = useLoaderData<UserProfile>()
+  const auth = useAuth()
+  if (auth.status === 'loading' || auth.signingOut)
+    return <p role="status">Checking the account for this saved activity…</p>
+  if (auth.status !== 'signed-in' || auth.user?.id !== user.id)
+    return (
+      <main className="learning-run-page">
+        <h1>Open the current player’s learning journey</h1>
+        <p role="alert">
+          The signed-in account changed. This activity and its saved actions
+          remain with their original owner.
+        </p>
+        <a className="learning-back" href="/adventure">
+          Open the current player’s chapters
+        </a>
+      </main>
+    )
   return <LoadRun key={`${user.id}:${runId}`} runId={runId} owner={user.id} />
 }
