@@ -1,11 +1,11 @@
 # Live-app readiness
 
-Assessment date: 20 October 2026. Scope: the connected app integrating PRs #69–75
-and the journey/navigation source checkpoint `11de915` on
-`feat/game-journey-integration`. The canonical
-curriculum is still edition `2026-10-04.4`. This is a current implementation
-assessment; the preserved [v1 audits](v1-audit/summary.md) retain their historical
-commit boundaries.
+Assessment date: 20 October 2026. Scope: the connected app and its final
+four-path practice integration at source checkpoint `39c3934` (backend PR #78,
+client PR #80 and completion guidance PR #79). The canonical curriculum is edition
+`2026-10-20.1`; earlier saved runs retain their pinned tasks and receipts.
+This is a current implementation assessment; the preserved
+[v1 audits](v1-audit/summary.md) retain their historical commit boundaries.
 
 The backend and browser now support a substantial playable game loop. Full v1
 mechanics parity and the complete intended curriculum experience remain
@@ -14,15 +14,21 @@ learning efficacy or a particular presentation grade.
 
 ## What can be demonstrated
 
-| Flow                 | Implemented behavior                                                                                                                                                                                               | Evidence and limits                                                                                                                                                          |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Learning journey     | Introductory assessment, sequential required tasks, optional bonuses, stars, chapter checks, delayed reviews and resumable saved answers. Home/map recommend a saved learning activity or the next chapter boss.   | [Playable learning](qa/playable-learning/). Thirty levels have 97 required steps: 33 instruction, 36 choice, 27 classification and one actual simulation.                    |
-| Lesson trading       | `m05-l01` binds a saved synthetic limit-order session; learners can observe, plan, place/cancel, reconcile fees/fills and submit the current audit. A supported no-order decision can pass.                        | [Simulation walkthrough](qa/playable-learning/) and [server contract](../server/README.md). Only this lesson currently executes a bound simulation.                          |
-| AI and chapter games | Daily/practice challenges and chapter entry/exit bosses share a synthetic market with opponents. Ten chapter profiles vary allocation, decisions and checkpoints. Net portfolio profit determines the game result. | [Challenge walkthrough](qa/playable-challenges/). Boss access and game rewards do not establish module mastery or validated concept application.                             |
-| Player record        | Separate learning/game XP, player levels, login rewards, finite currency shop, eligible claims, equipment and due reviews. Costs require confirmation; uncertain actions recover their original key and choice.    | [Player walkthrough](qa/player-record/). Purchase/refresh QA used an explicitly labelled disposable balance fixture; it does not prove that balance was earned through play. |
-| Human competition    | Private code lobbies, public paired matches, shared observation barriers, planned orders, reload/recovery, frozen results, public Elo and versioned game rewards.                                                  | [Two-browser walkthrough](qa/playable-multiplayer/). Private requires foundation checks; public requires all nine core checks. Private games grant no public rewards/rating. |
-| Quizzes/classrooms   | Standalone forms, saved first answers, whole-form feedback, once-only passing XP, server-authorized instructor rooms and private class reports. Active student answers stay withheld.                              | [Quiz walkthrough](qa/playable-quizzes/). Private rooms grant no XP; quiz success does not complete adventure levels.                                                        |
-| Persistence          | Owned/version-pinned learning and simulation state, exact command replay, ordered migrations and transactional shared-match/reward settlement.                                                                     | Backend tests and the guarded live PostgreSQL suite cover persistence/concurrency and populated upgrades. This is distinct from real Firebase sign-in and hosted deployment. |
+| Flow                 | Implemented behavior                                                                                                                                                                                                                                                                                   | Evidence and limits                                                                                                                                                                                                                                                              |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Learning journey     | Introductory assessment, sequential required tasks, optional bonuses, stars, chapter checks, delayed reviews and resumable saved answers. Home/map and completion results recommend a saved learning activity or the next chapter boss.                                                                | [Playable learning](qa/playable-learning/) and [completion guidance](qa/completion-guidance/). Thirty levels have 98 required steps: 33 instruction, 36 choice, 27 classification and two bound simulation steps.                                                                |
+| Lesson trading       | `m05-l01` binds a saved limit-order session; `m09-l03` executes four sequential synthetic paths covering rising, falling, sideways and volatile generators. Learners plan orders, observe actual fills/costs, reconcile records and compare a gross benchmark. A supported no-order decision can pass. | [Single-case walkthrough](qa/playable-learning/), [four-path walkthrough](qa/module-nine-practice/) and [server contract](../server/README.md). Two lessons bind the engine. Module 9 checks observed facts and fictional constraints; it does not grade free-text plan quality. |
+| AI and chapter games | Daily/practice challenges and chapter entry/exit bosses share a synthetic market with opponents. Ten chapter profiles vary allocation, decisions and checkpoints. Net portfolio profit determines the game result.                                                                                     | [Challenge walkthrough](qa/playable-challenges/). Boss access and game rewards do not establish module mastery or validated concept application.                                                                                                                                 |
+| Player record        | Separate learning/game XP, player levels, login rewards, finite currency shop, eligible claims, equipment and due reviews. Costs require confirmation; uncertain actions recover their original key and choice.                                                                                        | [Player walkthrough](qa/player-record/). Purchase/refresh QA used an explicitly labelled disposable balance fixture; it does not prove that balance was earned through play.                                                                                                     |
+| Human competition    | Private code lobbies, public paired matches, shared observation barriers, planned orders, reload/recovery, frozen results, public Elo and versioned game rewards.                                                                                                                                      | [Two-browser walkthrough](qa/playable-multiplayer/). Private requires foundation checks; public requires all nine core checks. Private games grant no public rewards/rating.                                                                                                     |
+| Quizzes/classrooms   | Standalone forms, saved first answers, whole-form feedback, once-only passing XP, server-authorized instructor rooms and private class reports. Active student answers stay withheld.                                                                                                                  | [Quiz walkthrough](qa/playable-quizzes/). Private rooms grant no XP; quiz success does not complete adventure levels.                                                                                                                                                            |
+| Persistence          | Owned/version-pinned learning and simulation state, exact command replay, ordered migrations and transactional shared-match/reward settlement.                                                                                                                                                         | Backend tests and the guarded live PostgreSQL suite cover persistence/concurrency and populated upgrades. This is distinct from real Firebase sign-in and hosted deployment.                                                                                                     |
+
+At this source baseline, local checks passed 261 client tests and 23 catalog
+tests, type checking, lint/formatting, the production build and the generated API
+check. The reviewed backend passed 382 tests including 71 live PostgreSQL cases.
+The linked walkthroughs disclose their fixtures and separate browser observations
+from automated contract checks; they do not represent a participant study.
 
 ## V1 comparison and next work
 
@@ -33,9 +39,11 @@ achievement awarding are not evidence of working features that v2 lost.
 
 The material remaining gameplay work is:
 
-1. Execute Module 9 across actual rising, falling, sideways and volatile paths.
-   Its present cards explicitly describe fictional summaries. A new scenario-set
-   binding is being developed separately; it is not part of the flows above.
+1. Extend Module 9 beyond the four-path record reconciliation with independently
+   reviewed reasoning rubrics, unfamiliar exit scenarios and delayed applications.
+   The four executed paths complement the supplied-record cards; their generator
+   labels are revealed only after each path closes. They are synthetic education,
+   not historical market evidence or a validated assessment of suitability.
 2. Add further lesson-specific simulation bindings, observed news/evidence
    interactions and progressive instructional tools. Preserve prior plans,
    private future state, cost/exposure reconciliation and legitimate abstention.
@@ -78,3 +86,11 @@ participant retention/deletion procedures and approved study operation remain
 release dependencies. Existing owner-scoped exports and default-off consent
 contracts do not establish researcher access or an approved evaluation. Do not
 claim that game profit proves learning or that the app makes learners profitable.
+
+A production-dependency audit on 20 October reported four high-severity entries
+through Firebase's unused Firestore/Node gRPC dependency chain. This client imports
+Firebase App/Auth, and no gRPC server or Firestore use was found in its source.
+That inspection does not clear the dependency findings or establish a full
+security assessment. Changing the transitive transport outside Firestore's
+declared range needs a separate compatibility check; no forced dependency
+downgrade or unverified override was applied here.
