@@ -1,0 +1,117 @@
+{
+  "id": "ch2-l4-practice",
+  "version": 1,
+  "title": "Tripwire",
+  "briefing": "Meadow Pharma is waiting for results from a big drug trial. Stop-loss orders are now unlocked. Decide where you would get out before you buy.",
+  "objective": "A stop-loss is a tripwire that limits a losing trade. Place it before you need it.",
+  "debrief": "Meadow Pharma rose into its trial result. On day 18 the heart drug missed its goal: the stock gapped down and slid for another week. A stop-loss placed in advance sold automatically, near the stop if it was hit during the day, or at the open if the gap jumped past it. HODL Hannah had no stop and rode the whole slide. A smaller position or a raised stop kept the worst drop small.",
+  "difficulty": 2,
+  "ticks": 30,
+  "history": 20,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": true,
+    "stop": true
+  },
+  "max_position_pct": null,
+  "tools": [
+    "candles"
+  ],
+  "market": {
+    "vol": 0.005
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 30,
+      "market_drift": 0.0008,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "MDWP",
+      "name": "Meadow Pharma",
+      "sector": "Health care",
+      "blurb": "Develops medicines for heart and lung conditions.",
+      "price": 64,
+      "drift": 0.003,
+      "beta": 0.8,
+      "vol": 0.012,
+      "base_volume": 35000
+    }
+  ],
+  "news": [
+    {
+      "id": "mdwp-trial",
+      "tick": 18,
+      "headline": "Meadow Pharma's heart drug misses its trial goal",
+      "body": "Meadow Pharma says its new heart drug did not beat the existing treatment in a large trial. The drug was expected to be a major source of future sales.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "MDWP"
+      ],
+      "effects": [
+        {
+          "symbol": "MDWP",
+          "move": -0.08,
+          "ticks": 1,
+          "gap": true
+        },
+        {
+          "symbol": "MDWP",
+          "move": -0.1,
+          "ticks": 8,
+          "gap": false
+        }
+      ]
+    }
+  ],
+  "bots": [
+    "hodl-hannah-rookie"
+  ],
+  "missions": {
+    "basic": [
+      {
+        "id": "m1",
+        "type": "trades_min",
+        "params": {
+          "n": 1
+        },
+        "text": "Buy Meadow Pharma shares"
+      },
+      {
+        "id": "m2",
+        "type": "stop_loss_set",
+        "params": {},
+        "text": "Place a stop-loss order"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "b1",
+        "type": "max_drawdown",
+        "params": {
+          "pct": 8
+        },
+        "text": "Keep your worst drop under 8%"
+      },
+      {
+        "id": "b2",
+        "type": "beat_bot",
+        "params": {
+          "bot_id": "hodl-hannah-rookie"
+        },
+        "text": "Finish ahead of HODL Hannah"
+      }
+    ]
+  },
+  "balance": "lesson"
+}

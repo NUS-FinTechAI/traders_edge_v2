@@ -1,0 +1,121 @@
+{
+  "id": "ch2-l5-practice",
+  "version": 1,
+  "title": "Busy Docks",
+  "briefing": "Harborline Shipping trades thinly, with a 0.6% spread. Watch the volume bars: when they jump, something important is happening.",
+  "objective": "Volume shows participation. In a thin market, trade rarely and let big-volume news guide you.",
+  "debrief": "Harborline drifted quietly on low volume until day 12, when a record freight contract brought a gap up on the biggest volume of the match, followed by a steady climb. Buying soon after that high-volume news caught the move; Newsy Nina reacted two days late. Because the spread was wide, players who traded only once or twice kept far more of their gains.",
+  "difficulty": 2,
+  "ticks": 28,
+  "history": 20,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.006,
+  "allow": {
+    "limit": true,
+    "stop": true
+  },
+  "max_position_pct": null,
+  "tools": [
+    "candles",
+    "volume"
+  ],
+  "market": {
+    "vol": 0.005
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 28,
+      "market_drift": 0.0005,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "HRBL",
+      "name": "Harborline Shipping",
+      "sector": "Industrials",
+      "blurb": "Moves shipping containers between the region's ports.",
+      "price": 22,
+      "drift": 0.001,
+      "beta": 1.0,
+      "vol": 0.013,
+      "base_volume": 20000
+    }
+  ],
+  "news": [
+    {
+      "id": "hrbl-contract",
+      "tick": 12,
+      "headline": "Harborline signs a record freight contract",
+      "body": "Harborline Shipping will carry all container traffic for a major electronics maker for five years.",
+      "tone": "positive",
+      "kind": "company",
+      "symbols": [
+        "HRBL"
+      ],
+      "effects": [
+        {
+          "symbol": "HRBL",
+          "move": 0.06,
+          "ticks": 1,
+          "gap": true
+        },
+        {
+          "symbol": "HRBL",
+          "move": 0.06,
+          "ticks": 6,
+          "gap": false
+        }
+      ]
+    }
+  ],
+  "bots": [
+    "newsy-nina-rookie"
+  ],
+  "missions": {
+    "basic": [
+      {
+        "id": "m1",
+        "type": "bought_after_news",
+        "params": {
+          "news_id": "hrbl-contract",
+          "within": 2
+        },
+        "text": "Buy within 2 days of the high-volume contract news"
+      },
+      {
+        "id": "m2",
+        "type": "trades_max",
+        "params": {
+          "n": 3
+        },
+        "text": "Make no more than 3 trades in this thin market"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "b1",
+        "type": "profit_min",
+        "params": {
+          "amount": 1
+        },
+        "text": "Finish with a profit"
+      },
+      {
+        "id": "b2",
+        "type": "beat_bot",
+        "params": {
+          "bot_id": "newsy-nina-rookie"
+        },
+        "text": "Finish ahead of Newsy Nina"
+      }
+    ]
+  },
+  "balance": "lesson"
+}

@@ -1,0 +1,158 @@
+{
+  "id": "ch4-l3-practice",
+  "version": 1,
+  "title": "Worth the Risk",
+  "briefing": "Nimbus Cloud is pulling back in an uptrend. Pebble Games has run up a long way. Compare reward with risk before you pick a trade.",
+  "objective": "Measure trades in R. Take setups with at least 2:1 reward-to-risk; skip the rest.",
+  "debrief": "Nimbus Cloud dipped for five days inside its uptrend, giving a nearby stop and a distant target: a good reward-to-risk setup. It resumed climbing, helped by new clients on day 14. Pebble Games had already run far, so the nearest sensible stop was a long way below and the upside was small. On day 10 it gapped down on a game delay. Picking the better ratio mattered.",
+  "difficulty": 2,
+  "ticks": 30,
+  "history": 20,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": true,
+    "stop": true
+  },
+  "max_position_pct": null,
+  "tools": [
+    "candles"
+  ],
+  "market": {
+    "vol": 0.005
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 1,
+      "market_drift": 0.0,
+      "vol_mult": 1.0
+    },
+    {
+      "from": 1,
+      "to": 6,
+      "market_drift": -0.006,
+      "vol_mult": 1.0
+    },
+    {
+      "from": 6,
+      "to": 30,
+      "market_drift": 0.002,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "NMBC",
+      "name": "Nimbus Cloud",
+      "sector": "Technology",
+      "blurb": "Rents computing power and data storage to businesses.",
+      "price": 55,
+      "drift": 0.003,
+      "beta": 1.1,
+      "vol": 0.013,
+      "base_volume": 70000
+    },
+    {
+      "symbol": "PBGM",
+      "name": "Pebble Games",
+      "sector": "Communication services",
+      "blurb": "Makes puzzle and adventure games for phones and consoles.",
+      "price": 30,
+      "drift": 0.006,
+      "beta": 0.8,
+      "vol": 0.016,
+      "base_volume": 50000
+    }
+  ],
+  "news": [
+    {
+      "id": "pbgm-delay",
+      "tick": 10,
+      "headline": "Pebble Games delays its flagship game by a year",
+      "body": "Pebble Games says its biggest release of the year will now arrive twelve months late.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "PBGM"
+      ],
+      "effects": [
+        {
+          "symbol": "PBGM",
+          "move": -0.12,
+          "ticks": 1,
+          "gap": true
+        },
+        {
+          "symbol": "PBGM",
+          "move": -0.06,
+          "ticks": 6,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "nmbc-clients",
+      "tick": 14,
+      "headline": "Nimbus Cloud signs three new enterprise clients",
+      "body": "Three large banks have moved their data to Nimbus Cloud on multi-year contracts.",
+      "tone": "positive",
+      "kind": "company",
+      "symbols": [
+        "NMBC"
+      ],
+      "effects": [
+        {
+          "symbol": "NMBC",
+          "move": 0.04,
+          "ticks": 3,
+          "gap": false
+        }
+      ]
+    }
+  ],
+  "bots": [],
+  "missions": {
+    "basic": [
+      {
+        "id": "m1",
+        "type": "stop_loss_set",
+        "params": {},
+        "text": "Place a stop-loss before you aim for a target"
+      },
+      {
+        "id": "m2",
+        "type": "use_order",
+        "params": {
+          "type": "limit",
+          "n": 1
+        },
+        "text": "Place a limit order (use a sell limit as your take-profit)"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "b1",
+        "type": "profit_min",
+        "params": {
+          "amount": 1
+        },
+        "text": "Finish with a profit"
+      },
+      {
+        "id": "b2",
+        "type": "max_drawdown",
+        "params": {
+          "pct": 5
+        },
+        "text": "Keep your worst drop under 5%"
+      }
+    ]
+  },
+  "balance": "lesson"
+}

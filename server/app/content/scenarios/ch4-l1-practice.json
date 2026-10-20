@@ -1,0 +1,124 @@
+{
+  "id": "ch4-l1-practice",
+  "version": 1,
+  "title": "Size It Right",
+  "briefing": "Steady Orchard Foods and jumpy Kestrel Air. Use the ticket's \"risk if stopped\" figure to size every trade at about 1% of your portfolio.",
+  "objective": "Size each position from your stop: shares = (portfolio × risk %) ÷ (entry − stop).",
+  "debrief": "Orchard Foods climbed calmly. Kestrel Air swung hard, and on day 16 it gapped down about 10% when part of its fleet was grounded. Players who sized Kestrel from their stop held only a small position, so even the gap past their stop cost little. Anyone who put most of their cash into Kestrel took a large drawdown in a single day.",
+  "difficulty": 2,
+  "ticks": 30,
+  "history": 20,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": true,
+    "stop": true
+  },
+  "max_position_pct": null,
+  "tools": [
+    "candles"
+  ],
+  "market": {
+    "vol": 0.005
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 30,
+      "market_drift": 0.001,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "ORCF",
+      "name": "Orchard Foods",
+      "sector": "Consumer staples",
+      "blurb": "Runs a chain of neighbourhood grocery stores.",
+      "price": 40,
+      "drift": 0.0015,
+      "beta": 0.6,
+      "vol": 0.008,
+      "base_volume": 60000
+    },
+    {
+      "symbol": "KSTR",
+      "name": "Kestrel Air",
+      "sector": "Industrials",
+      "blurb": "Flies short routes between the region's island cities.",
+      "price": 35,
+      "drift": 0.002,
+      "beta": 1.3,
+      "vol": 0.022,
+      "base_volume": 45000
+    }
+  ],
+  "news": [
+    {
+      "id": "kstr-grounded",
+      "tick": 16,
+      "headline": "Kestrel Air grounds part of its fleet for inspections",
+      "body": "Kestrel Air has grounded a third of its planes for safety inspections and cancelled many flights.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "KSTR"
+      ],
+      "effects": [
+        {
+          "symbol": "KSTR",
+          "move": -0.1,
+          "ticks": 1,
+          "gap": true
+        },
+        {
+          "symbol": "KSTR",
+          "move": -0.04,
+          "ticks": 4,
+          "gap": false
+        }
+      ]
+    }
+  ],
+  "bots": [],
+  "missions": {
+    "basic": [
+      {
+        "id": "m1",
+        "type": "stop_loss_set",
+        "params": {},
+        "text": "Place a stop-loss with your first trade"
+      },
+      {
+        "id": "m2",
+        "type": "max_drawdown",
+        "params": {
+          "pct": 4
+        },
+        "text": "Keep your worst drop under 4%"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "b1",
+        "type": "profit_min",
+        "params": {
+          "amount": 1
+        },
+        "text": "Finish with a profit"
+      },
+      {
+        "id": "b2",
+        "type": "kept_plan",
+        "params": {},
+        "text": "Keep your worst drop within your plan's maximum loss"
+      }
+    ]
+  },
+  "balance": "lesson"
+}

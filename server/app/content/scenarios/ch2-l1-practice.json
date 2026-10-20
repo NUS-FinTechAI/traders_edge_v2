@@ -1,0 +1,93 @@
+{
+  "id": "ch2-l1-practice",
+  "version": 1,
+  "title": "Mind the Spread",
+  "briefing": "Pebble Games trades thinly here: the gap between bid and ask is a full 1%. Scalper Sam trades it every day anyway.",
+  "objective": "Every round trip pays the spread. In a wide-spread stock, trade less.",
+  "debrief": "Pebble Games drifted gently higher, but every buy paid half of the 1% spread above the close and every sell paid half below it. Scalper Sam bought and sold most days, losing about 1% plus fees on each round trip. Players who bought once and held paid the spread only once, and their shares were valued at the final close.",
+  "difficulty": 1,
+  "ticks": 25,
+  "history": 20,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.01,
+  "allow": {
+    "limit": false,
+    "stop": false
+  },
+  "max_position_pct": null,
+  "tools": [
+    "candles"
+  ],
+  "market": {
+    "vol": 0.005
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 25,
+      "market_drift": 0.0005,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "PBGM",
+      "name": "Pebble Games",
+      "sector": "Communication services",
+      "blurb": "Makes puzzle games for phones. Its shares trade thinly.",
+      "price": 10.2,
+      "drift": 0.003,
+      "beta": 0.8,
+      "vol": 0.012,
+      "base_volume": 8000
+    }
+  ],
+  "news": [],
+  "bots": [
+    "scalper-sam-rookie"
+  ],
+  "missions": {
+    "basic": [
+      {
+        "id": "m1",
+        "type": "trades_min",
+        "params": {
+          "n": 1
+        },
+        "text": "Buy Pebble Games shares"
+      },
+      {
+        "id": "m2",
+        "type": "trades_max",
+        "params": {
+          "n": 3
+        },
+        "text": "Make no more than 3 trades: each round trip pays the spread"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "b1",
+        "type": "beat_bot",
+        "params": {
+          "bot_id": "scalper-sam-rookie"
+        },
+        "text": "Finish ahead of Scalper Sam"
+      },
+      {
+        "id": "b2",
+        "type": "profit_min",
+        "params": {
+          "amount": 1
+        },
+        "text": "Finish with a profit"
+      }
+    ]
+  },
+  "balance": "lesson"
+}

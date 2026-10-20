@@ -1,0 +1,129 @@
+{
+  "id": "ch2-l3-practice",
+  "version": 1,
+  "title": "Name Your Price",
+  "briefing": "Kestrel Air is swinging between about $95 and $99. Limit orders are now unlocked: name the price you want and let the market come to you.",
+  "objective": "A buy limit buys only at your price or lower. A sell limit sells only at your price or higher.",
+  "debrief": "Kestrel Air swung up and down in a range all match. A buy limit placed near the bottom of the range filled on a dip at your price or better, with no spread to pay, and a sell limit near the top took profit on the next swing up. Limits set too far away never filled, which is the trade-off: price control in exchange for no guarantee of a fill.",
+  "difficulty": 2,
+  "ticks": 30,
+  "history": 20,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": true,
+    "stop": false
+  },
+  "max_position_pct": null,
+  "tools": [
+    "candles"
+  ],
+  "market": {
+    "vol": 0.002
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 2,
+      "market_drift": 0.0,
+      "vol_mult": 1.0
+    },
+    {
+      "from": 2,
+      "to": 7,
+      "market_drift": -0.008,
+      "vol_mult": 1.0
+    },
+    {
+      "from": 7,
+      "to": 12,
+      "market_drift": 0.008,
+      "vol_mult": 1.0
+    },
+    {
+      "from": 12,
+      "to": 17,
+      "market_drift": -0.008,
+      "vol_mult": 1.0
+    },
+    {
+      "from": 17,
+      "to": 22,
+      "market_drift": 0.008,
+      "vol_mult": 1.0
+    },
+    {
+      "from": 22,
+      "to": 27,
+      "market_drift": -0.008,
+      "vol_mult": 1.0
+    },
+    {
+      "from": 27,
+      "to": 30,
+      "market_drift": 0.008,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "KSTR",
+      "name": "Kestrel Air",
+      "sector": "Industrials",
+      "blurb": "Flies short routes between the region's island cities.",
+      "price": 98,
+      "drift": 0.0,
+      "beta": 1.0,
+      "vol": 0.008,
+      "base_volume": 45000
+    }
+  ],
+  "news": [],
+  "bots": [],
+  "missions": {
+    "basic": [
+      {
+        "id": "m1",
+        "type": "use_order",
+        "params": {
+          "type": "limit",
+          "n": 1
+        },
+        "text": "Place a buy limit order below the market price"
+      },
+      {
+        "id": "m2",
+        "type": "trades_min",
+        "params": {
+          "n": 1
+        },
+        "text": "Get at least one order filled"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "b1",
+        "type": "use_order",
+        "params": {
+          "type": "limit",
+          "n": 2
+        },
+        "text": "Place at least 2 limit orders: an entry and a take-profit"
+      },
+      {
+        "id": "b2",
+        "type": "profit_min",
+        "params": {
+          "amount": 1
+        },
+        "text": "Finish with a profit"
+      }
+    ]
+  },
+  "balance": "lesson"
+}

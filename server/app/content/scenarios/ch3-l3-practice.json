@@ -1,0 +1,123 @@
+{
+  "id": "ch3-l3-practice",
+  "version": 1,
+  "title": "Ride the Trend",
+  "briefing": "Nimbus Cloud is making higher highs and higher lows. Ride the trend, and get out when it breaks.",
+  "objective": "Trade with the trend while it lasts. A break of the trendline and a lower high is the warning to leave.",
+  "debrief": "Nimbus Cloud climbed in a clear uptrend for 24 days, with each dip stopping above the last. On day 24 a survey showing slower cloud spending broke the trend: the stock gapped down and made lower highs from then on. Players who held through the uptrend and left after the break kept most of the climb; buy-and-hold gave much of it back.",
+  "difficulty": 2,
+  "ticks": 36,
+  "history": 20,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": true,
+    "stop": true
+  },
+  "max_position_pct": null,
+  "tools": [
+    "candles",
+    "volume"
+  ],
+  "market": {
+    "vol": 0.005
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 24,
+      "market_drift": 0.004,
+      "vol_mult": 1.0
+    },
+    {
+      "from": 24,
+      "to": 36,
+      "market_drift": -0.007,
+      "vol_mult": 1.2
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "NMBC",
+      "name": "Nimbus Cloud",
+      "sector": "Technology",
+      "blurb": "Rents computing power and data storage to businesses.",
+      "price": 52,
+      "drift": 0.002,
+      "beta": 1.2,
+      "vol": 0.015,
+      "base_volume": 70000
+    }
+  ],
+  "news": [
+    {
+      "id": "cloud-survey",
+      "tick": 24,
+      "headline": "Cloud spending slows, says industry survey",
+      "body": "A survey of large companies finds they plan to spend less on cloud services next year.",
+      "tone": "negative",
+      "kind": "macro",
+      "symbols": [
+        "NMBC"
+      ],
+      "effects": [
+        {
+          "symbol": "NMBC",
+          "move": -0.06,
+          "ticks": 2,
+          "gap": true
+        }
+      ]
+    }
+  ],
+  "bots": [
+    "momentum-max-rookie"
+  ],
+  "missions": {
+    "basic": [
+      {
+        "id": "m1",
+        "type": "held_between",
+        "params": {
+          "symbol": "NMBC",
+          "from": 6,
+          "to": 20
+        },
+        "text": "Hold Nimbus Cloud from day 6 to day 20 while the trend rises"
+      },
+      {
+        "id": "m2",
+        "type": "exited_by",
+        "params": {
+          "symbol": "NMBC",
+          "tick": 29
+        },
+        "text": "Be out of Nimbus Cloud by day 29, after the trend breaks"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "b1",
+        "type": "beat_buy_hold",
+        "params": {
+          "symbol": "NMBC"
+        },
+        "text": "Beat buying and holding Nimbus Cloud from day 0"
+      },
+      {
+        "id": "b2",
+        "type": "beat_bot",
+        "params": {
+          "bot_id": "momentum-max-rookie"
+        },
+        "text": "Finish ahead of Momentum Max"
+      }
+    ]
+  },
+  "balance": "lesson"
+}

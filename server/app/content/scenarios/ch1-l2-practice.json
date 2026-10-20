@@ -1,0 +1,110 @@
+{
+  "id": "ch1-l2-practice",
+  "version": 1,
+  "title": "Overnight Gap",
+  "briefing": "Tidal Power trades quietly at about $31. Watch what happens to the price when big news arrives and buyers rush in.",
+  "objective": "Prices move when buyers and sellers change their minds. News overnight can make the price gap.",
+  "debrief": "On day 11 Tidal Power won a 20-year solar contract. Buyers suddenly outnumbered sellers, so the stock gapped up about 5% at the open and kept climbing for several days as more buyers arrived. Nobody could buy at the old price: the gap was already in the first price you could trade at. Buying soon after the news still caught the follow-through.",
+  "difficulty": 1,
+  "ticks": 25,
+  "history": 20,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": false,
+    "stop": false
+  },
+  "max_position_pct": null,
+  "tools": [
+    "candles"
+  ],
+  "market": {
+    "vol": 0.005
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 25,
+      "market_drift": 0.0005,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "TDLP",
+      "name": "Tidal Power",
+      "sector": "Utilities",
+      "blurb": "Runs wind and solar farms that sell power to the grid.",
+      "price": 31.2,
+      "drift": 0.0005,
+      "beta": 0.6,
+      "vol": 0.01,
+      "base_volume": 30000
+    }
+  ],
+  "news": [
+    {
+      "id": "tdlp-contract",
+      "tick": 11,
+      "headline": "Tidal Power wins a 20-year state solar contract",
+      "body": "The state has picked Tidal Power to supply solar energy for the next 20 years. It is the biggest contract in the company's history.",
+      "tone": "positive",
+      "kind": "company",
+      "symbols": [
+        "TDLP"
+      ],
+      "effects": [
+        {
+          "symbol": "TDLP",
+          "move": 0.05,
+          "ticks": 1,
+          "gap": true
+        },
+        {
+          "symbol": "TDLP",
+          "move": 0.05,
+          "ticks": 5,
+          "gap": false
+        }
+      ]
+    }
+  ],
+  "bots": [],
+  "missions": {
+    "basic": [
+      {
+        "id": "m1",
+        "type": "trades_min",
+        "params": {
+          "n": 1
+        },
+        "text": "Buy Tidal Power shares"
+      },
+      {
+        "id": "m2",
+        "type": "bought_after_news",
+        "params": {
+          "news_id": "tdlp-contract",
+          "within": 3
+        },
+        "text": "Buy within 3 days of the contract headline"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "b1",
+        "type": "profit_min",
+        "params": {
+          "amount": 1
+        },
+        "text": "Finish with a profit"
+      }
+    ]
+  },
+  "balance": "lesson"
+}

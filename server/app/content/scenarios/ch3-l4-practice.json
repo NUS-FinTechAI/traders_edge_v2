@@ -1,0 +1,127 @@
+{
+  "id": "ch3-l4-practice",
+  "version": 1,
+  "title": "Floors and Ceilings",
+  "briefing": "Orchard Foods is bouncing between a floor near $48.50 and a ceiling near $51.50. Buy near the floor, protect it, and aim for the ceiling.",
+  "objective": "Support is a floor, resistance a ceiling. Enter near support with a stop just below it, and target resistance.",
+  "debrief": "Orchard Foods spent the whole match in a range, turning up near $48.50 and down near $51.50 roughly every five days. A buy limit near the floor filled at a good price, a stop just below the zone protected the trade, and a sell limit near the ceiling took the profit. Buying in the middle of the range, or chasing near the ceiling, left little room to gain.",
+  "difficulty": 2,
+  "ticks": 30,
+  "history": 20,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": true,
+    "stop": true
+  },
+  "max_position_pct": null,
+  "tools": [
+    "candles",
+    "volume"
+  ],
+  "market": {
+    "vol": 0.002
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 1,
+      "market_drift": 0.0,
+      "vol_mult": 1.0
+    },
+    {
+      "from": 1,
+      "to": 4,
+      "market_drift": -0.006,
+      "vol_mult": 1.0
+    },
+    {
+      "from": 4,
+      "to": 9,
+      "market_drift": 0.0105,
+      "vol_mult": 1.0
+    },
+    {
+      "from": 9,
+      "to": 14,
+      "market_drift": -0.0105,
+      "vol_mult": 1.0
+    },
+    {
+      "from": 14,
+      "to": 19,
+      "market_drift": 0.0105,
+      "vol_mult": 1.0
+    },
+    {
+      "from": 19,
+      "to": 24,
+      "market_drift": -0.0105,
+      "vol_mult": 1.0
+    },
+    {
+      "from": 24,
+      "to": 30,
+      "market_drift": 0.0105,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "ORCF",
+      "name": "Orchard Foods",
+      "sector": "Consumer staples",
+      "blurb": "Runs a chain of neighbourhood grocery stores.",
+      "price": 49.5,
+      "drift": 0.0,
+      "beta": 1.0,
+      "vol": 0.008,
+      "base_volume": 50000
+    }
+  ],
+  "news": [],
+  "bots": [],
+  "missions": {
+    "basic": [
+      {
+        "id": "m1",
+        "type": "use_order",
+        "params": {
+          "type": "limit",
+          "n": 1
+        },
+        "text": "Place a buy limit near support"
+      },
+      {
+        "id": "m2",
+        "type": "stop_loss_set",
+        "params": {},
+        "text": "Set a stop-loss just below support"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "b1",
+        "type": "trades_min",
+        "params": {
+          "n": 2
+        },
+        "text": "Complete a buy and a sell"
+      },
+      {
+        "id": "b2",
+        "type": "profit_min",
+        "params": {
+          "amount": 1
+        },
+        "text": "Finish with a profit"
+      }
+    ]
+  },
+  "balance": "lesson"
+}
