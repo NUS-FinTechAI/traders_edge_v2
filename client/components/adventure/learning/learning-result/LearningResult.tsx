@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import type { LearningRun } from '../../../../services/learningRunService.ts'
+import NextJourney from '../../next-journey/NextJourney.tsx'
 import {
   NormalStar,
   SpecialStar,
@@ -7,7 +8,13 @@ import {
 import LearningFeedback from '../learning-feedback/LearningFeedback.tsx'
 import './LearningResult.css'
 
-export default function LearningResult({ run }: { run: LearningRun }) {
+export default function LearningResult({
+  run,
+  owner,
+}: {
+  run: LearningRun
+  owner: string
+}) {
   const result = run.result
   if (!result) return null
   return (
@@ -56,6 +63,7 @@ export default function LearningResult({ run }: { run: LearningRun }) {
         </p>
       )}
       <p>XP recorded for this run: {result.xp_awarded}.</p>
+      <NextJourney owner={owner} />
       <LearningFeedback feedback={run.feedback} />
       {run.purpose === 'assessment' && !result.passed && (
         <Link

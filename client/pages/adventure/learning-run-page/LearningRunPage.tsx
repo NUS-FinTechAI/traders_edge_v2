@@ -152,7 +152,7 @@ function RunContent({
         </section>
       )}
       {run.status === 'completed' ? (
-        <LearningResult run={run} />
+        <LearningResult run={run} owner={owner} />
       ) : showFeedback ? (
         <>
           <LearningFeedback feedback={run.feedback} />
