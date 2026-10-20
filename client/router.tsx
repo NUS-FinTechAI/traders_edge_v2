@@ -12,6 +12,7 @@ import RouteError from './components/error-panel/RouteError.tsx'
 import ChallengeHubPage from './pages/challenges/ChallengeHubPage.tsx'
 import ChallengeStartPage from './pages/challenges/ChallengeStartPage.tsx'
 import ChallengePage from './pages/challenges/ChallengePage.tsx'
+import PlayerPage from './pages/player/PlayerPage.tsx'
 
 export const router = createBrowserRouter([
   {
@@ -22,6 +23,12 @@ export const router = createBrowserRouter([
         children: [
           { path: '/', Component: HomePage },
           { path: '/login', Component: LoginPage },
+          {
+            path: '/player',
+            loader: authGuard.loader,
+            ErrorBoundary: AuthGuardError,
+            Component: PlayerPage,
+          },
           { path: '/adventure', Component: AdventurePage },
           { path: '/adventure/chapters/:moduleId', Component: ChapterPage },
           {

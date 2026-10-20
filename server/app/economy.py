@@ -8,7 +8,8 @@ import json
 from typing import Literal
 
 from fastapi import APIRouter, HTTPException
-from app.api_schemas.economy_schema import Purchase, EconomyCommand as Command
+from app.api_schemas.economy_schema import (Purchase, EconomyCommand as Command,
+    EconomyState, EconomyAward, EconomyRefresh, ShopResponse, PurchaseResponse)
 from sqlalchemy import select
 from sqlalchemy.dialects.postgresql import insert as postgresql_insert
 from sqlalchemy.dialects.sqlite import insert as sqlite_insert
@@ -223,12 +224,15 @@ async def settle_challenge(db, profile, result):
     return response
 
 
-@router.get('', operation_id='getEconomy')
+@router.get('', operation_id='getEconomy', response_model=EconomyState)
 async def read_wallet(db: DB, user: User):
-    return wallet(await db.get(EconomyAccount, user.id), utc(now()))
+    return {**wallet(await db.get(EconomyAccount, user.id), utc(now())),
+        'rules': {'login_stocks': LOGIN_STOCKS, 'login_xp': LOGIN_XP,
+            'daily_victory_stocks': DAILY_VICTORY_STOCKS,
+            'refresh_premium_cost': REFRESH_PREMIUM, 'real_money_purchases': False}}
 
 
-@router.post('/login-claims', operation_id='claimLoginReward')
+@router.post('/login-claims', operation_id='claimLoginReward', response_model=EconomyAward)
 async def login_claim(body: Command, db: DB, user: User):
     request_hash, previous = await replay(db, user.id, body, 'login')
     if previous is not None:
@@ -253,7 +257,7 @@ async def login_claim(body: Command, db: DB, user: User):
     return await remember(db, user.id, body, request_hash, response)
 
 
-@router.post('/daily-refresh', operation_id='refreshDailyChallenge')
+@router.post('/daily-refresh', operation_id='refreshDailyChallenge', response_model=EconomyRefresh)
 async def refresh_daily(body: Command, db: DB, user: User):
     request_hash, previous = await replay(db, user.id, body, 'daily-refresh')
     if previous is not None:
@@ -284,7 +288,7 @@ def shop_snapshot(item, current_week):
             'criteria': {'description': 'Purchased with earned game currency under economy policy 1'}}
 
 
-@router.get('/shop', operation_id='getShop')
+@router.get('/shop', operation_id='getShop', response_model=ShopResponse, response_model_exclude_unset=True)
 async def read_shop(db: DB, user: User):
     current_week = week(now())
     items = []
@@ -295,7 +299,7 @@ async def read_shop(db: DB, user: User):
     return {'policy_version': POLICY_VERSION, 'items': items}
 
 
-@router.post('/shop/purchases', operation_id='purchaseShopItem')
+@router.post('/shop/purchases', operation_id='purchaseShopItem', response_model=PurchaseResponse, response_model_exclude_unset=True)
 async def purchase(body: Purchase, db: DB, user: User):
     request_hash, previous = await replay(db, user.id, body, 'purchase')
     if previous is not None:

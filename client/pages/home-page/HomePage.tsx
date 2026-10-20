@@ -30,6 +30,13 @@ export default function HomePage() {
             Open game challenges
           </Link>
         </section>
+        {user && (
+          <p>
+            <Link className="adventure-button" to="/player">
+              Player record, rewards and reviews
+            </Link>
+          </p>
+        )}
       </section>
     </main>
   )

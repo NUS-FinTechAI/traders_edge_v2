@@ -1,0 +1,191 @@
+.player-page {
+  max-width: 68rem;
+  margin: 2rem auto;
+  padding: 0 1.5rem 3rem;
+  color: var(--color-text);
+}
+.player-page h1 {
+  font: 400 clamp(2.2rem, 5vw, 3.4rem) / 1.15 var(--font-heading);
+  margin: 0.5rem 0;
+  overflow-wrap: anywhere;
+}
+.player-page h2 {
+  font: 400 1.8rem / 1.25 var(--font-heading);
+}
+.player-page h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.12rem;
+}
+.player-page p {
+  max-width: 68ch;
+}
+.player-page a {
+  color: var(--color-link);
+}
+.player-page :is(button, .player-button) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0.65rem 1rem;
+  border: 1px solid var(--color-border-interactive);
+  border-radius: 4px;
+  color: var(--color-text);
+  background: var(--color-surface-secondary);
+  font: inherit;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+.player-page button:disabled {
+  cursor: default;
+  color: var(--color-text-muted);
+  background: var(--color-surface);
+  border-color: var(--color-border-soft);
+}
+.player-page :is(a, button, summary):focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 4px;
+}
+.player-page :is(h2, [role='alert']):focus {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 4px;
+}
+.player-page .player-back,
+.player-sections a {
+  display: inline-flex;
+  align-items: center;
+  min-width: 44px;
+  min-height: 44px;
+}
+.player-kicker {
+  color: var(--color-text-accent);
+  margin-bottom: 0.5rem;
+}
+.player-title {
+  font-size: 1.25rem;
+}
+.player-identity {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+.player-identity > div:last-child {
+  min-width: 0;
+}
+.player-avatar {
+  width: 80px;
+  height: 80px;
+  flex: 0 0 80px;
+  border: 1px solid var(--color-border-accent);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: var(--color-accent);
+  background: var(--color-surface);
+  font: 400 2.6rem / 1 var(--font-heading);
+}
+.player-avatar svg {
+  width: 64px;
+  height: 64px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.player-level {
+  display: grid;
+  gap: 0.6rem;
+  max-width: 32rem;
+  margin-top: 1.5rem;
+}
+.player-level strong {
+  font-size: 1.6rem;
+}
+.player-page progress {
+  display: block;
+  width: min(100%, 32rem);
+  height: 0.75rem;
+  accent-color: var(--color-accent);
+  margin: 0.75rem 0;
+}
+.player-totals {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.5rem;
+  margin: 1.75rem 0;
+}
+.player-page dt {
+  color: var(--color-text-muted);
+}
+.player-page dd {
+  margin: 0.25rem 0 1rem;
+  font-size: 1.25rem;
+  overflow-wrap: anywhere;
+}
+.player-sections {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  border-block: 1px solid var(--color-border);
+  padding: 0.5rem 0;
+  margin: 1.5rem 0;
+}
+.player-section {
+  border-top: 1px solid var(--color-border-soft);
+  margin: 2.5rem 0;
+  padding-top: 1rem;
+  scroll-margin-top: 5rem;
+}
+.player-notice {
+  border: 1px solid var(--color-border-warning);
+  padding: 1.25rem;
+  margin: 1rem 0;
+  background: var(--color-surface);
+}
+.player-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+.player-error {
+  color: var(--color-danger-text);
+}
+.player-items {
+  padding: 0;
+  list-style: none;
+}
+.player-items > li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  border-bottom: 1px solid var(--color-border-soft);
+  padding: 1.5rem 0;
+}
+.player-items > li > div {
+  min-width: 0;
+}
+.player-items p {
+  margin: 0.35rem 0;
+}
+.player-item-state {
+  color: var(--color-text-accent);
+}
+@media (max-width: 700px) {
+  .player-page {
+    padding-inline: 1rem;
+    margin-top: 1rem;
+  }
+  .player-totals {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+  .player-items > li {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+}
