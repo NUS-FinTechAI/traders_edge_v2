@@ -1,0 +1,154 @@
+{
+  "id": "practice-trend-rider",
+  "version": 1,
+  "title": "Trend Rider",
+  "briefing": "Two companies are in a steady uptrend, but a short pullback is coming. Decide how much to hold and what you will do when prices dip.",
+  "objective": "Following a trend and sizing positions so a pullback does not break your plan.",
+  "debrief": "Both stocks rose overall, with a pullback in the middle. Players who stayed invested and kept positions small enough to sit through the dip did best. Selling everything at the low locked in losses just before the trend resumed.",
+  "difficulty": 1,
+  "ticks": 40,
+  "history": 25,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": true,
+    "stop": true
+  },
+  "max_position_pct": null,
+  "tools": [
+    "candles",
+    "volume",
+    "sma"
+  ],
+  "market": {
+    "vol": 0.006
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 16,
+      "market_drift": 0.002,
+      "vol_mult": 1.0
+    },
+    {
+      "from": 16,
+      "to": 23,
+      "market_drift": -0.004,
+      "vol_mult": 1.3
+    },
+    {
+      "from": 23,
+      "to": 40,
+      "market_drift": 0.0025,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "SUNR",
+      "name": "Sunrise Panels Co.",
+      "sector": "Energy",
+      "blurb": "Makes rooftop solar panels for homes.",
+      "price": 42,
+      "drift": 0.0008,
+      "beta": 1.2,
+      "vol": 0.015,
+      "base_volume": 14000
+    },
+    {
+      "symbol": "TIDE",
+      "name": "Tidewater Freight",
+      "sector": "Industrials",
+      "blurb": "Runs container ships between coastal towns.",
+      "price": 68,
+      "drift": 0.0003,
+      "beta": 0.9,
+      "vol": 0.011,
+      "base_volume": 9000
+    }
+  ],
+  "news": [
+    {
+      "id": "solar-forecast-cut",
+      "tick": 18,
+      "headline": "Analysts trim solar demand forecasts for the quarter",
+      "body": "A research group expects fewer home solar installations this quarter after a wet spring.",
+      "tone": "negative",
+      "symbols": [
+        "SUNR"
+      ],
+      "effects": [
+        {
+          "symbol": "SUNR",
+          "move": -0.04,
+          "ticks": 3,
+          "gap": false
+        }
+      ],
+      "kind": "macro"
+    },
+    {
+      "id": "tidewater-routes",
+      "tick": 26,
+      "headline": "Tidewater Freight adds three coastal routes",
+      "body": "The company says the new routes are already booked for the next two months.",
+      "tone": "positive",
+      "symbols": [
+        "TIDE"
+      ],
+      "effects": [
+        {
+          "symbol": "TIDE",
+          "move": 0.05,
+          "ticks": 4,
+          "gap": false
+        }
+      ],
+      "kind": "company"
+    }
+  ],
+  "bots": [
+    "momentum-max-rookie",
+    "hodl-hannah-rookie",
+    "panic-pete-rookie"
+  ],
+  "missions": {
+    "basic": [
+      {
+        "id": "first-buy",
+        "type": "trades_min",
+        "params": {
+          "n": 1
+        },
+        "text": "Buy at least one share"
+      },
+      {
+        "id": "stay-invested",
+        "type": "hold_at_end",
+        "params": {},
+        "text": "Still hold shares on the last day"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "keep-plan",
+        "type": "kept_plan",
+        "params": {},
+        "text": "Never lose more than your plan allows"
+      },
+      {
+        "id": "top-spot",
+        "type": "rank_max",
+        "params": {
+          "rank": 1
+        },
+        "text": "Finish ahead of every bot"
+      }
+    ]
+  }
+}

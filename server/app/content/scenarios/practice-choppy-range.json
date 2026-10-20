@@ -1,0 +1,121 @@
+{
+  "id": "practice-choppy-range",
+  "version": 1,
+  "title": "Choppy Range",
+  "briefing": "Quarry Stone Supply keeps bouncing between the same highs and lows. Chasing every move costs you the spread and fees each time.",
+  "objective": "Using limit orders to buy near the bottom of a range and sell near the top.",
+  "debrief": "The price swung up and down without a lasting trend. Limit orders placed near the edges of the range filled at better prices and avoided the spread, while frequent market orders slowly lost money to costs.",
+  "difficulty": 2,
+  "ticks": 40,
+  "history": 30,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.002,
+  "allow": {
+    "limit": true,
+    "stop": false
+  },
+  "max_position_pct": null,
+  "tools": [
+    "candles",
+    "sma",
+    "bollinger"
+  ],
+  "market": {
+    "vol": 0.004
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 8,
+      "market_drift": 0.004,
+      "vol_mult": 1.0
+    },
+    {
+      "from": 8,
+      "to": 16,
+      "market_drift": -0.004,
+      "vol_mult": 1.0
+    },
+    {
+      "from": 16,
+      "to": 24,
+      "market_drift": 0.004,
+      "vol_mult": 1.0
+    },
+    {
+      "from": 24,
+      "to": 32,
+      "market_drift": -0.004,
+      "vol_mult": 1.0
+    },
+    {
+      "from": 32,
+      "to": 40,
+      "market_drift": 0.004,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "QRRY",
+      "name": "Quarry Stone Supply",
+      "sector": "Materials",
+      "blurb": "Sells gravel and paving stone to builders.",
+      "price": 24,
+      "drift": 0.0,
+      "beta": 1.0,
+      "vol": 0.008,
+      "base_volume": 11000
+    }
+  ],
+  "news": [],
+  "bots": [
+    "value-vera-rookie",
+    "momentum-max-rookie",
+    "scalper-sam-rookie"
+  ],
+  "missions": {
+    "basic": [
+      {
+        "id": "use-limit",
+        "type": "use_order",
+        "params": {
+          "type": "limit",
+          "n": 1
+        },
+        "text": "Place a limit order"
+      },
+      {
+        "id": "two-trades",
+        "type": "trades_min",
+        "params": {
+          "n": 2
+        },
+        "text": "Complete at least two trades"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "range-profit",
+        "type": "profit_min",
+        "params": {
+          "amount": 50
+        },
+        "text": "Finish at least $50 ahead"
+      },
+      {
+        "id": "few-trades",
+        "type": "trades_max",
+        "params": {
+          "n": 8
+        },
+        "text": "Make no more than 8 trades"
+      }
+    ]
+  }
+}
