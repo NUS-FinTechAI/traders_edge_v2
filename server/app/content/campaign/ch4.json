@@ -1,0 +1,543 @@
+{
+  "id": "ch4",
+  "number": 4,
+  "title": "Risk Management",
+  "region": "Risk Reef",
+  "tagline": "Size every trade, place stops with purpose, and survive the storms.",
+  "icon": "anchor",
+  "boss": "ch4-boss",
+  "gate": "ch3-boss",
+  "boss_reward": { "kind": "avatar", "id": "avatar-guide-4" },
+  "levels": [
+    {
+      "id": "ch4-l1",
+      "title": "Position Sizing & the 1% Rule",
+      "summary": "Decide what you can lose first, then let the stop distance tell you how many shares to buy.",
+      "objectives": [
+        "Calculate position size from account risk and stop distance.",
+        "Tell position size apart from risk.",
+        "Explain why a small fixed risk per trade survives losing streaks."
+      ],
+      "terms": [
+        { "term": "Position size", "definition": "How many shares you hold, or their total value." },
+        { "term": "Risk per trade", "definition": "What you lose if your stop is hit: shares × (entry − stop)." },
+        { "term": "1% rule", "definition": "A guideline to risk no more than about 1% of your account on any one trade." },
+        { "term": "Stop distance", "definition": "The gap between your entry price and your stop price." }
+      ],
+      "cards": [
+        {
+          "title": "Size from the stop",
+          "body": "Decide how much you are willing to lose first. **Shares = (account × risk %) ÷ (entry − stop).** $10,000 account, 1% risk = $100. Buy Orchard Foods at $40 with a stop at $38: $100 ÷ $2 = **50 shares**, a $2,000 position.",
+          "visual": "position-size"
+        },
+        {
+          "title": "Position size is not risk",
+          "body": "Those 50 shares are worth $2,000, which is 20% of the account. But if the stop works, you lose about $100, which is 1%. A tighter stop allows more shares for the same risk; a wider stop means fewer shares."
+        },
+        {
+          "title": "Why 1% survives",
+          "body": "Every trader hits losing streaks. Ten losses in a row at 1% risk each leave about **$9,040** of $10,000. At 10% risk each they leave about **$3,490**. Small, fixed risk keeps you in the game long enough for good trades to count."
+        },
+        {
+          "title": "Check the cash",
+          "body": "The formula can ask for more than you have. With a $0.25 stop on a $40 stock, 1% risk says 400 shares, which is $16,000, more than your $10,000. Cash caps your size. A stop that tight is also likely to be hit by normal wiggles."
+        },
+        {
+          "title": "Read the ticket",
+          "body": "When you add a stop-loss, the order ticket shows **risk if stopped** in dollars and as a percentage of your portfolio. Aim for about 1–2%. If it says 6%, buy fewer shares or rethink the stop. Remember that a gap can still skip past a stop."
+        }
+      ],
+      "check": [
+        {
+          "id": "q1",
+          "kind": "mc",
+          "prompt": "Your account is $10,000 and you risk 1% per trade. You buy at $50 with a stop at $48. How many shares?",
+          "options": [
+            { "id": "a", "text": "20" },
+            { "id": "b", "text": "100" },
+            { "id": "c", "text": "50" },
+            { "id": "d", "text": "200" }
+          ],
+          "answer": "c",
+          "explanation": "1% of $10,000 = $100; $100 ÷ $2 stop distance = 50 shares."
+        },
+        {
+          "id": "q2",
+          "kind": "mc",
+          "prompt": "Starting with $10,000, you lose ten trades in a row. Roughly what is left if each loss is 1% of your balance, compared with 10% each?",
+          "options": [
+            { "id": "a", "text": "About $9,040 compared with about $3,490" },
+            { "id": "b", "text": "$9,000 compared with $0" },
+            { "id": "c", "text": "$9,900 compared with $9,000" },
+            { "id": "d", "text": "The same amount either way" }
+          ],
+          "answer": "a",
+          "explanation": "$10,000 × 0.99¹⁰ ≈ $9,044; $10,000 × 0.90¹⁰ ≈ $3,487."
+        },
+        {
+          "id": "q3",
+          "kind": "true_false",
+          "prompt": "If you buy a $3,000 position with a stop-loss 5% below your entry, your planned risk is $3,000.",
+          "options": [
+            { "id": "t", "text": "True" },
+            { "id": "f", "text": "False" }
+          ],
+          "answer": "f",
+          "explanation": "Planned risk is about 5% of $3,000 = $150, though a gap could make it worse."
+        },
+        {
+          "id": "q4",
+          "kind": "mc",
+          "prompt": "You buy 200 Tidal Power shares at $30 with a stop at $28.50, in a $10,000 account. What is your risk if stopped, ignoring fees and gaps?",
+          "options": [
+            { "id": "a", "text": "$150, which is 1.5%" },
+            { "id": "b", "text": "$6,000, which is 60%" },
+            { "id": "c", "text": "$28.50" },
+            { "id": "d", "text": "$300, which is 3%" }
+          ],
+          "answer": "d",
+          "explanation": "200 × $1.50 = $300, which is 3% of $10,000."
+        },
+        {
+          "id": "q5",
+          "kind": "mc",
+          "prompt": "The 1% rule says to buy 400 shares of a $40 stock, but you have $10,000 in cash. What is the most you can buy, ignoring fees?",
+          "options": [
+            { "id": "a", "text": "400" },
+            { "id": "b", "text": "250" },
+            { "id": "c", "text": "100" },
+            { "id": "d", "text": "40" }
+          ],
+          "answer": "b",
+          "explanation": "$10,000 ÷ $40 = 250 shares; cash caps the size."
+        }
+      ],
+      "practice": "ch4-l1-practice"
+    },
+    {
+      "id": "ch4-l2",
+      "title": "Stop Placement",
+      "summary": "Put stops where your idea is proven wrong, give them room to breathe, and never widen them.",
+      "objectives": [
+        "Place stops at chart structure and outside the normal daily range.",
+        "Tell a stop that is too tight from one that is too wide.",
+        "Use trailing stops and never widen a stop."
+      ],
+      "terms": [
+        { "term": "Structure stop", "definition": "A stop placed just beyond a chart level, such as below support or the last swing low." },
+        { "term": "Average daily range", "definition": "How far a stock typically moves from low to high in one day." },
+        { "term": "Trailing stop", "definition": "A stop that you raise as the price rises, and never lower." },
+        { "term": "Breakeven stop", "definition": "A stop moved up to your entry price, so a normal exit loses about nothing." }
+      ],
+      "cards": [
+        {
+          "title": "Put stops where the idea is wrong",
+          "body": "A stop belongs at a level that proves your reason for the trade wrong, such as just below support or below the last swing low. It should not sit at a random round number or at whatever loss feels comfortable.",
+          "visual": "stop-loss"
+        },
+        {
+          "title": "Respect the daily range",
+          "body": "If Kestrel Air usually moves about $1.50 a day, a stop $0.40 away will be hit by ordinary noise. A common guide is to keep the stop at least one to two average daily ranges away, then buy fewer shares so the risk stays near 1%."
+        },
+        {
+          "title": "Too tight versus too wide",
+          "body": "Too tight: you get stopped out, then watch the price recover without you. Too wide: when it is hit, the loss is large. Set the **distance** from the chart, then set the **risk** with position size."
+        },
+        {
+          "title": "Trailing stops",
+          "body": "As a trade moves your way, raise the stop: to breakeven once you're well ahead, then below each new higher low. A trailing stop follows the price up and never moves down. In this game you trail by cancelling the old stop and placing a higher one.",
+          "visual": "trend-lines"
+        },
+        {
+          "title": "Never widen a stop",
+          "body": "Moving a stop further away as the price approaches it turns a planned small loss into an unplanned big one. Raising a stop is fine. Lowering it to \"give the trade more room\" breaks your plan."
+        }
+      ],
+      "check": [
+        {
+          "id": "q1",
+          "kind": "mc",
+          "prompt": "Lumen Bikes is at $50. It usually moves about $2 a day, and its last swing low was $47.20. Where is the best stop?",
+          "options": [
+            { "id": "a", "text": "$49.70" },
+            { "id": "b", "text": "$35.00" },
+            { "id": "c", "text": "About $46.90, just below the swing low" },
+            { "id": "d", "text": "No stop" }
+          ],
+          "answer": "c",
+          "explanation": "It sits beyond structure and outside one normal day's move."
+        },
+        {
+          "id": "q2",
+          "kind": "mc",
+          "prompt": "You bought Orchard Foods at $40 with a stop at $38. It is now $44. You raise the stop to $40. What does that do?",
+          "options": [
+            { "id": "a", "text": "Your worst case is now about breakeven, unless the price gaps through" },
+            { "id": "b", "text": "The trade can no longer lose money under any circumstances" },
+            { "id": "c", "text": "You have locked in $4 per share" },
+            { "id": "d", "text": "You have doubled your risk" }
+          ],
+          "answer": "a",
+          "explanation": "A stop at entry protects against loss in normal trading, but gaps and fees still apply."
+        },
+        {
+          "id": "q3",
+          "kind": "mc",
+          "prompt": "You use a trailing stop 8% below the highest close. The stock rises from $50 to $60, then falls. Where does the stop trigger?",
+          "options": [
+            { "id": "a", "text": "$46.00" },
+            { "id": "b", "text": "$52.00" },
+            { "id": "c", "text": "$60.00" },
+            { "id": "d", "text": "$55.20" }
+          ],
+          "answer": "d",
+          "explanation": "8% below $60 is $60 × 0.92 = $55.20."
+        },
+        {
+          "id": "q4",
+          "kind": "mc",
+          "prompt": "The price is falling and is now $0.30 above your stop. Which response follows the rules?",
+          "options": [
+            { "id": "a", "text": "Lower the stop to give the trade more room" },
+            { "id": "b", "text": "Leave the stop where it is" },
+            { "id": "c", "text": "Cancel the stop" },
+            { "id": "d", "text": "Buy more to lower your average price" }
+          ],
+          "answer": "b",
+          "explanation": "The stop was set where the idea is wrong; moving it away turns a small loss into a big one."
+        },
+        {
+          "id": "q5",
+          "kind": "true_false",
+          "prompt": "Once a trade moves in your favour, raising your stop is fine, but lowering it is not.",
+          "options": [
+            { "id": "t", "text": "True" },
+            { "id": "f", "text": "False" }
+          ],
+          "answer": "t",
+          "explanation": "Stops only move in the direction that reduces risk."
+        }
+      ],
+      "practice": "ch4-l2-practice"
+    },
+    {
+      "id": "ch4-l3",
+      "title": "Risk/Reward & Win Rate",
+      "summary": "Measure trades in R, know the win rate you need, and skip trades that don't pay.",
+      "objectives": [
+        "Express trades in R-multiples and reward-to-risk ratios.",
+        "Calculate the breakeven win rate, 1 ÷ (1 + R).",
+        "Compute expectancy and skip trades with poor reward-to-risk."
+      ],
+      "terms": [
+        { "term": "R", "definition": "Your planned risk per share: entry − stop. Results are measured in multiples of it." },
+        { "term": "Reward-to-risk", "definition": "Target distance ÷ stop distance, written like 2:1." },
+        { "term": "Win rate", "definition": "The share of trades that make money." },
+        { "term": "Expectancy", "definition": "The average result per trade: win rate × average win − loss rate × average loss." },
+        { "term": "Breakeven win rate", "definition": "The win rate at which a system neither makes nor loses money before costs." }
+      ],
+      "cards": [
+        {
+          "title": "Measure in R",
+          "body": "**R** is your planned risk per share: entry − stop. Buy Pebble Games at $20 with a stop at $19, and 1R = $1. Selling at $23 is **+3R**. Being stopped out is **−1R**. Using R lets you compare trades of any size.",
+          "visual": "risk-reward"
+        },
+        {
+          "title": "Reward-to-risk",
+          "body": "**Reward-to-risk = target distance ÷ stop distance.** Entry $20, stop $19, target $22: $2 ÷ $1 = **2:1**. Bigger targets pay more but need the price to travel further, so they are reached less often."
+        },
+        {
+          "title": "Breakeven win rate",
+          "body": "If each win pays R times what each loss costs, you break even, before costs, when you win **1 ÷ (1 + R)** of the time. At 1:1 you need 50%. At 2:1 you need 33.3%. At 3:1 you need 25%."
+        },
+        {
+          "title": "Expectancy",
+          "body": "**Expectancy = win rate × average win − loss rate × average loss.** Win 40% of trades at +2R and lose 60% at −1R: 0.4 × 2 − 0.6 × 1 = **+0.2R** per trade. Fees and spreads reduce it, so frequent trading needs an even bigger edge."
+        },
+        {
+          "title": "Skip weak setups",
+          "body": "If your target is closer than your stop, below 1:1, you must be right more than half the time just to break even. Passing on a trade is a decision too. The best traders skip many more setups than they take."
+        }
+      ],
+      "check": [
+        {
+          "id": "q1",
+          "kind": "mc",
+          "prompt": "Entry $40, stop $38, target $46. What is the reward-to-risk ratio?",
+          "options": [
+            { "id": "a", "text": "1:3" },
+            { "id": "b", "text": "2:1" },
+            { "id": "c", "text": "3:1" },
+            { "id": "d", "text": "6:1" }
+          ],
+          "answer": "c",
+          "explanation": "Reward $6 ÷ risk $2 = 3:1."
+        },
+        {
+          "id": "q2",
+          "kind": "mc",
+          "prompt": "Every trade in your system aims for 2:1. What win rate do you need to break even, before costs?",
+          "options": [
+            { "id": "a", "text": "50%" },
+            { "id": "b", "text": "33.3%" },
+            { "id": "c", "text": "66.7%" },
+            { "id": "d", "text": "20%" }
+          ],
+          "answer": "b",
+          "explanation": "1 ÷ (1 + 2) = 33.3%."
+        },
+        {
+          "id": "q3",
+          "kind": "mc",
+          "prompt": "You win 50% of trades with an average win of 1.5R and lose 50% with an average loss of 1R. What is your expectancy?",
+          "options": [
+            { "id": "a", "text": "+0.25R per trade" },
+            { "id": "b", "text": "+0.5R per trade" },
+            { "id": "c", "text": "−0.25R per trade" },
+            { "id": "d", "text": "+1.25R per trade" }
+          ],
+          "answer": "a",
+          "explanation": "0.5 × 1.5 − 0.5 × 1 = 0.75 − 0.5 = +0.25R."
+        },
+        {
+          "id": "q4",
+          "kind": "mc",
+          "prompt": "A setup has entry $30, stop $27 and target $31.50. What is the best response?",
+          "options": [
+            { "id": "a", "text": "Take it; any trade with a stop is fine" },
+            { "id": "b", "text": "Remove the stop to improve the ratio" },
+            { "id": "c", "text": "Double the size to make the reward bigger" },
+            { "id": "d", "text": "Skip it or find a better entry; at 0.5:1 it must win over 66.7% of the time to break even" }
+          ],
+          "answer": "d",
+          "explanation": "Reward $1.50 ÷ risk $3 = 0.5, and 1 ÷ 1.5 = 66.7%."
+        },
+        {
+          "id": "q5",
+          "kind": "true_false",
+          "prompt": "A strategy that wins only 35% of the time can still be profitable.",
+          "options": [
+            { "id": "t", "text": "True" },
+            { "id": "f", "text": "False" }
+          ],
+          "answer": "t",
+          "explanation": "If wins average 2.5R and losses 1R, expectancy is 0.35 × 2.5 − 0.65 = +0.225R."
+        }
+      ],
+      "practice": "ch4-l3-practice",
+      "reward": { "kind": "title", "id": "title-ch4-reef-navigator" }
+    },
+    {
+      "id": "ch4-l4",
+      "title": "Diversification & Correlation",
+      "summary": "Don't let one company decide your result, and watch out for holdings that move together.",
+      "objectives": [
+        "Explain how spreading across companies reduces single-company risk.",
+        "Recognize that correlated holdings act like one big bet.",
+        "Measure concentration as a percentage of the portfolio."
+      ],
+      "terms": [
+        { "term": "Diversification", "definition": "Spreading money across holdings so one bad result can't sink the portfolio." },
+        { "term": "Correlation", "definition": "How closely two prices tend to move together." },
+        { "term": "Concentration", "definition": "How much of the portfolio sits in one holding or one theme." },
+        { "term": "Market risk", "definition": "The risk that most stocks fall together. Diversifying across stocks does not remove it." }
+      ],
+      "cards": [
+        {
+          "title": "Don't let one company decide",
+          "body": "Put all $10,000 into Meadow Pharma and a failed drug trial knocks it down 30%: you lose $3,000. Split $2,500 across four unrelated companies and the same drop costs $750. Spreading out limits the damage from any single surprise.",
+          "visual": "diversification"
+        },
+        {
+          "title": "Correlation",
+          "body": "Stocks that move together are **correlated**. Kestrel Air and Harborline Shipping both burn huge amounts of fuel, so a jump in fuel prices hurts both at once. Owning both is closer to one large fuel bet than to two separate positions."
+        },
+        {
+          "title": "Market risk stays",
+          "body": "Diversifying across companies cuts **company-specific** risk, not **market** risk. In a broad sell-off, most stocks fall together, and owning ten of them won't stop that. Cash is the only position that doesn't fall."
+        },
+        {
+          "title": "Concentration %",
+          "body": "**Position % = position value ÷ portfolio value.** $4,000 of Lumen Bikes in a $10,000 portfolio is 40%. Many traders cap any single position at 20–25%. Watch winners too: a position that doubles can quietly become most of your portfolio.",
+          "visual": "position-size"
+        },
+        {
+          "title": "Different drivers",
+          "body": "Orchard Foods (groceries) and Tidal Power (a utility) tend to be steadier because people buy food and power in any economy. Pebble Games and Nimbus Cloud swing more. Mixing different drivers is the point; owning many names that depend on the same thing is not."
+        }
+      ],
+      "check": [
+        {
+          "id": "q1",
+          "kind": "mc",
+          "prompt": "Which pair is most likely to move together?",
+          "options": [
+            { "id": "a", "text": "Kestrel Air and Harborline Shipping (both burn lots of fuel)" },
+            { "id": "b", "text": "Orchard Foods and Pebble Games" },
+            { "id": "c", "text": "Tidal Power and Pebble Games" },
+            { "id": "d", "text": "Meadow Pharma and Lumen Bikes" }
+          ],
+          "answer": "a",
+          "explanation": "They share a big cost driver, so the same news hits both."
+        },
+        {
+          "id": "q2",
+          "kind": "mc",
+          "prompt": "Your $12,000 portfolio holds $6,000 of Nimbus Cloud, $3,000 of Orchard Foods and $3,000 in cash. What percentage is Nimbus Cloud?",
+          "options": [
+            { "id": "a", "text": "25%" },
+            { "id": "b", "text": "50%" },
+            { "id": "c", "text": "60%" },
+            { "id": "d", "text": "100%" }
+          ],
+          "answer": "b",
+          "explanation": "$6,000 ÷ $12,000 = 50%. Cash counts as part of the portfolio."
+        },
+        {
+          "id": "q3",
+          "kind": "mc",
+          "prompt": "You hold $2,500 in each of four stocks. One falls 40% and the others don't move. What happens to your $10,000 portfolio?",
+          "options": [
+            { "id": "a", "text": "It falls 40%" },
+            { "id": "b", "text": "It falls $4,000" },
+            { "id": "c", "text": "It falls $1,000, which is 10%" },
+            { "id": "d", "text": "It falls $400, which is 4%" }
+          ],
+          "answer": "c",
+          "explanation": "40% of $2,500 = $1,000, which is 10% of $10,000."
+        },
+        {
+          "id": "q4",
+          "kind": "true_false",
+          "prompt": "Owning five different stocks protects you from a market-wide crash.",
+          "options": [
+            { "id": "t", "text": "True" },
+            { "id": "f", "text": "False" }
+          ],
+          "answer": "f",
+          "explanation": "Diversifying cuts company risk, not market risk; in a crash most stocks fall together."
+        },
+        {
+          "id": "q5",
+          "kind": "mc",
+          "prompt": "Which choice reduces company-specific risk the most?",
+          "options": [
+            { "id": "a", "text": "Owning four different airlines" },
+            { "id": "b", "text": "Putting everything in the one company you know best" },
+            { "id": "c", "text": "Adding more to whichever stock has risen most" },
+            { "id": "d", "text": "Splitting across unrelated sectors, such as groceries, cloud software and a utility" }
+          ],
+          "answer": "d",
+          "explanation": "Unrelated businesses rarely get hit by the same company news at once."
+        }
+      ],
+      "practice": "ch4-l4-practice"
+    },
+    {
+      "id": "ch4-l5",
+      "title": "Drawdowns & Recovery",
+      "summary": "Why losses hurt more than gains help, and when to stop trading for the day.",
+      "objectives": [
+        "Compute drawdown from peak to trough.",
+        "Explain why a loss needs a bigger gain to recover.",
+        "Use a pause rule to stop a losing streak from growing."
+      ],
+      "terms": [
+        { "term": "Drawdown", "definition": "The fall from a portfolio's highest value to its lowest point after that peak." },
+        { "term": "Peak", "definition": "The highest portfolio value reached so far." },
+        { "term": "Recovery gain", "definition": "The percentage gain needed to climb back to the previous peak." },
+        { "term": "Pause rule", "definition": "A rule to stop trading after a set loss or number of losing trades." }
+      ],
+      "cards": [
+        {
+          "title": "Drawdown",
+          "body": "A **drawdown** is the fall from your portfolio's highest value to its lowest point after it. Your portfolio peaks at $12,000, then drops to $10,200: a drawdown of $1,800 ÷ $12,000 = **15%**, even though you're still above your $10,000 start.",
+          "visual": "drawdown-recovery"
+        },
+        {
+          "title": "The recovery trap",
+          "body": "To recover a loss of L%, you need a gain of **L ÷ (100 − L)**. Lose 10% and you need +11.1%. Lose 25% and you need +33.3%. Lose 50% and you need **+100%** just to get back to where you started.",
+          "visual": "drawdown-recovery"
+        },
+        {
+          "title": "Small losses are survivable",
+          "body": "This is why stops and small position sizes matter. They keep drawdowns in the range where recovery is realistic. A trader who loses 5% can recover with a few good trades. One who loses 50% needs to double what's left."
+        },
+        {
+          "title": "Pause rules",
+          "body": "Many traders stop for the day after losing 2–3% or after three losing trades in a row. Trading to \"win it back\" usually means bigger size and no plan, which is how a small drawdown becomes a large one."
+        },
+        {
+          "title": "Your maximum loss",
+          "body": "In every match you choose a **maximum loss** in your game plan. The results screen compares it with your worst drawdown. Keeping within it, even in a match you lose, shows the discipline that matters most over many matches."
+        }
+      ],
+      "check": [
+        {
+          "id": "q1",
+          "kind": "mc",
+          "prompt": "Your portfolio peaks at $11,000 and later falls to $8,800. What is the drawdown?",
+          "options": [
+            { "id": "a", "text": "2,200%" },
+            { "id": "b", "text": "25%" },
+            { "id": "c", "text": "12%" },
+            { "id": "d", "text": "20%" }
+          ],
+          "answer": "d",
+          "explanation": "$2,200 ÷ $11,000 = 20%. Drawdown is measured from the peak."
+        },
+        {
+          "id": "q2",
+          "kind": "mc",
+          "prompt": "After a 40% drawdown, what gain do you need to get back to the peak?",
+          "options": [
+            { "id": "a", "text": "About 66.7%" },
+            { "id": "b", "text": "40%" },
+            { "id": "c", "text": "60%" },
+            { "id": "d", "text": "100%" }
+          ],
+          "answer": "a",
+          "explanation": "40 ÷ (100 − 40) = 40 ÷ 60 ≈ 66.7%."
+        },
+        {
+          "id": "q3",
+          "kind": "mc",
+          "prompt": "$10,000 falls 50%, then gains 50%. Where are you now?",
+          "options": [
+            { "id": "a", "text": "Back at $10,000" },
+            { "id": "b", "text": "$7,500, still down 25%" },
+            { "id": "c", "text": "$5,000" },
+            { "id": "d", "text": "$12,500" }
+          ],
+          "answer": "b",
+          "explanation": "$10,000 → $5,000 → $5,000 × 1.5 = $7,500."
+        },
+        {
+          "id": "q4",
+          "kind": "mc",
+          "prompt": "You've had three losing trades today and you're down 2.5%. Your rule says stop after a 2% daily loss. What should you do?",
+          "options": [
+            { "id": "a", "text": "Double the next trade to win it back" },
+            { "id": "b", "text": "Remove your stops so you can't be stopped out again" },
+            { "id": "c", "text": "Stop trading for the day and review what happened" },
+            { "id": "d", "text": "Switch to a more volatile stock" }
+          ],
+          "answer": "c",
+          "explanation": "Your pause rule exists for exactly this moment."
+        },
+        {
+          "id": "q5",
+          "kind": "true_false",
+          "prompt": "A 20% loss followed by a 20% gain gets you back to where you started.",
+          "options": [
+            { "id": "t", "text": "True" },
+            { "id": "f", "text": "False" }
+          ],
+          "answer": "f",
+          "explanation": "0.8 × 1.2 = 0.96, so you are still down 4%."
+        }
+      ],
+      "practice": "ch4-l5-practice"
+    }
+  ]
+}
