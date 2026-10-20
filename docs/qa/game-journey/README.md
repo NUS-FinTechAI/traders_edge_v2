@@ -41,7 +41,14 @@ real HTTP routes; none of these fixtures are participant learning evidence.
 
 The Home-after and owner-guard captures precede the small recovery-link and
 Home-player-link corrections described below. They are observed intermediate
-states, not visual verification of those final corrections.
+states. The final captures below verify the corrected source at `a8b19c1`:
+
+- [Final matching-fixture Home, 390px](final-home-390.png): the same progressed
+  guest and boss retry, with the Player entry using the common Home button.
+- [Recovered quiz, 390px](quiz-owner-recovered-390.png): the account guard's
+  sign-in anchor verifies the current player and returns to the quiz hub.
+- [Recovered Player record, 390px](player-owner-recovered-390.png).
+- [Recovered multiplayer hub, 390px](multiplayer-owner-recovered-390.png).
 
 ## Observed checks
 
@@ -81,17 +88,24 @@ returned to the same guard because the old tab retained its signed-in context.
 The previous quiz data stayed hidden. The integration owner replaced this with
 a normal anchor to force fresh authentication, and applied equivalent recovery
 to the Player and multiplayer guards. Source inspection confirms these anchors;
-their final real cross-tab retest remains unavailable. A separate visual finding
+their final real cross-tab retest passed after the approval-service reset. A separate visual finding
 reported the plain blue Player-record Home link. The integration owner applied
 the existing Home button class and an explicit 44px minimum width; source
-inspection confirms the correction. Its final measurement and recapture remain
-pending.
+inspection confirms the correction. Its final target measured 288.02 × 46.78px,
+with white text on the existing green button background (`rgb(39, 115, 84)`). The
+matching-fixture final capture shows that corrected entry.
 
 Automatic approval review could not execute the next browser action because it
 reached an account usage limit. That action did not run, and no alternative path
 was used to bypass approval. Browser state and the earlier successful evidence
-were preserved. The account-recovery retest and final recapture must not be
-reported as passes from this evidence.
+were preserved. After the quoted 17:04 Singapore reset had elapsed, normal
+approval allowed the final retake. Real UI sign-out and guest sign-in in another
+test tab produced different player identities; the old tab then recovered
+through the quiz, Player and multiplayer account guards. Quiz and multiplayer
+reloads retained the current route, and no unexpected page errors occurred.
+The first retake script navigated before sign-out finished; its setup timed out
+and was corrected to await the signed-out state before continuing. That setup
+interruption was not counted as a product failure or a successful check.
 
 Browser work paused during the root route-conflict resolution and resumed after
 the stable-checkpoint signal. The quiz recovery/completion command already in
