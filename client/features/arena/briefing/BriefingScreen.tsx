@@ -60,7 +60,7 @@ export default function BriefingScreen({
       <article className={styles.card} aria-labelledby="briefing-title">
         <header className={styles.header}>
           <Chip tone="gold" icon={state.mode === 'boss' ? 'crown' : 'swords'}>
-            {modeLabel(state.mode)}
+            {modeLabel(state.mode, state.boss)}
           </Chip>
           <h1 id="briefing-title">{scenario.title}</h1>
           <p className={styles.briefing}>{scenario.briefing}</p>

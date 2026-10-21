@@ -180,7 +180,7 @@ export default function TradingScreen({
           <div className={styles.titleBlock}>
             <h1 className={styles.title}>{state.scenario.title}</h1>
             <Chip tone="gold" className={styles.modeChip}>
-              {modeLabel(state.mode)}
+              {modeLabel(state.mode, state.boss)}
             </Chip>
           </div>
         </div>

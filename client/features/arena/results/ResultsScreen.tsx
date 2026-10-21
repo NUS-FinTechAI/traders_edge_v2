@@ -114,7 +114,7 @@ export default function ResultsScreen({
         </span>
         <div>
           <p className={styles.eyebrow}>
-            {modeLabel(state.mode)} · {state.scenario.title}
+            {modeLabel(state.mode, state.boss)} · {state.scenario.title}
           </p>
           <h1 id="result-title">{rankHeadline(result)}</h1>
           <p className={styles.profitLine}>

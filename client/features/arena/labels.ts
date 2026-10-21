@@ -29,7 +29,14 @@ export const STRATEGIES: { id: StrategyId; label: string }[] = [
   { id: 'cautious', label: 'Play it safe' },
 ]
 
-export function modeLabel(mode: string): string {
+const BOSS_LABEL: Record<string, string> = {
+  preview: 'Preview battle',
+  gate: 'Gate boss',
+  final: 'Chapter boss',
+}
+
+export function modeLabel(mode: string, boss?: string | null): string {
+  if (mode === 'boss' && boss) return BOSS_LABEL[boss] ?? 'Boss'
   return MODE_LABEL[mode as GameMode] ?? 'Match'
 }
 

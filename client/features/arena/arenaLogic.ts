@@ -170,6 +170,7 @@ export function rankHeadline(result: GameResult): string {
       ? 'Tied for 1st — a tie isn’t a win against AI'
       : `Tied for 1st of ${of}`
   }
+  if (of === 1) return 'Mission complete'
   if (rank === 1) return `You finished 1st of ${of} — you beat every rival!`
   const leader = leaderboard.find((entry) => entry.rank === 1 && !entry.is_me)
   const gap = leader && me ? leader.profit - me.profit : null

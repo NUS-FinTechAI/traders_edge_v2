@@ -105,7 +105,7 @@ function BattleBody({ map, node }: { map: ChapterMap; node: MapNode }) {
         <div>
           <p className={styles.popupEyebrow}>
             {preview
-              ? 'Preview Battle · your starting point'
+              ? `Chapter ${map.chapter.number} · before the lessons`
               : `Chapter ${map.chapter.number} Boss`}
           </p>
           <p className={styles.battleTitle}>{node.title}</p>

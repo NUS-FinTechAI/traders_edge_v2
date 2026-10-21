@@ -132,6 +132,13 @@ test('a forfeit headline ranks the player last', () => {
   )
 })
 
+test('a solo mission headline does not mention rivals', () => {
+  assert.equal(
+    rankHeadline(result(1, [entry('You', 1, 120, true)])),
+    'Mission complete',
+  )
+})
+
 test('chapter and level ids fall back to the scenario id prefix', () => {
   const state = { scenario: { id: 'ch2-l3-practice' } }
 
