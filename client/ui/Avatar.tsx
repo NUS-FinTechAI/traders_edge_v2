@@ -1,3 +1,4 @@
+import { avatarArt } from './avatarArt.tsx'
 import styles from './Avatar.module.css'
 
 const PALETTE = [
@@ -22,8 +23,9 @@ interface AvatarProps {
   label?: string
 }
 
-/** Player or AI emblem. Artwork keys are added in features/profile/avatarArt. */
+/** Player or AI portrait; unknown ids fall back to a lettered disc. */
 export default function Avatar({ id, size = 40, level, label }: AvatarProps) {
+  const art = avatarArt(id)
   const name = id.replace(/^avatar-/, '').replace(/-/g, ' ')
   return (
     <span
@@ -31,14 +33,25 @@ export default function Avatar({ id, size = 40, level, label }: AvatarProps) {
       style={{
         width: size,
         height: size,
-        background: hue(id),
+        background: art ? art.bg : hue(id),
         fontSize: size * 0.42,
       }}
       role={label ? 'img' : undefined}
       aria-label={label}
       aria-hidden={label ? undefined : true}
     >
-      {name.charAt(0).toUpperCase()}
+      {art ? (
+        <svg
+          className={styles.art}
+          viewBox="0 0 64 64"
+          focusable="false"
+          aria-hidden="true"
+        >
+          {art.art}
+        </svg>
+      ) : (
+        name.charAt(0).toUpperCase()
+      )}
       {level !== undefined && <span className={styles.level}>{level}</span>}
     </span>
   )

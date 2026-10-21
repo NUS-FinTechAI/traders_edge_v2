@@ -1,0 +1,81 @@
+.emblem {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  border: 1px solid transparent;
+  --e-dark: var(--bg);
+  --e-light: var(--text);
+}
+
+.emblem svg {
+  width: 78%;
+  height: 78%;
+}
+
+.square {
+  border-radius: 28%;
+}
+
+.circle {
+  border-radius: 50%;
+}
+
+.none {
+  border: 0;
+  background: none !important;
+}
+
+.none svg {
+  width: 100%;
+  height: 100%;
+}
+
+.gold {
+  --e-main: var(--gold);
+  --e-accent: #b98a2f;
+  background: var(--gold-soft);
+  border-color: #5a4b28;
+}
+
+.green {
+  --e-main: var(--gain);
+  --e-accent: var(--gold);
+  background: var(--gain-soft);
+  border-color: #275a3f;
+}
+
+.gem {
+  --e-main: var(--gem);
+  --e-accent: var(--gold);
+  background: var(--gem-soft);
+  border-color: #4a3f73;
+}
+
+.info {
+  --e-main: var(--info);
+  --e-accent: var(--gold);
+  background: var(--info-soft);
+  border-color: #2a5466;
+}
+
+.flame {
+  --e-main: var(--warning);
+  --e-accent: var(--gold);
+  background: var(--warning-soft);
+  border-color: #5c3b1f;
+}
+
+.loss {
+  --e-main: var(--loss);
+  --e-accent: var(--gold);
+  background: var(--loss-soft);
+  border-color: #6a3029;
+}
+
+.neutral {
+  --e-main: var(--text-dim);
+  --e-accent: var(--text-muted);
+  --e-light: var(--text-muted);
+  background: var(--surface-2);
+  border-color: var(--border);
+}
