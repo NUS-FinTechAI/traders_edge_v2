@@ -474,10 +474,19 @@ const starters: Art[] = [
   },
 ]
 
+/** Map-reward avatars whose ids do not name their animal. */
+const REWARD_ANIMALS: Record<string, string> = {
+  'ch1-explorer': 'parrot',
+  'ch3-lookout': 'owl',
+  'ch5-signalist': 'fox',
+  'ch8-stoic': 'tortoise',
+}
+
 /** Artwork for an avatar id such as `bull`, `avatar-fox` or `avatar-guide-3`. */
 export function avatarArt(id: string): Art | null {
   const key = id.toLowerCase().replace(/^avatar-/, '')
   if (animals[key]) return animals[key]
+  if (REWARD_ANIMALS[key]) return animals[REWARD_ANIMALS[key]]
   const guide = /^guide-(\d+)$/.exec(key)
   if (guide) {
     const index = Number(guide[1]) - 1

@@ -1,4 +1,11 @@
-import { useEffect, useState, useSyncExternalStore } from 'react'
+import {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+  type FocusEvent,
+} from 'react'
 import type {
   ClockAction,
   GameState,
@@ -8,10 +15,11 @@ import type {
 } from '../../../services/gameService.ts'
 import Button from '../../../ui/Button.tsx'
 import Chip from '../../../ui/Chip.tsx'
+import Icon from '../../../ui/Icon.tsx'
 import Modal from '../../../ui/Modal.tsx'
 import ProgressBar from '../../../ui/ProgressBar.tsx'
 import Tabs from '../../../ui/Tabs.tsx'
-import { currentDay, isMultiplayer, isPaused } from '../arenaLogic.ts'
+import { currentDay, isMultiplayer } from '../arenaLogic.ts'
 import PriceChart from '../chart/PriceChart.tsx'
 import { modeLabel } from '../labels.ts'
 import AccountPanel from '../panels/AccountPanel.tsx'
@@ -39,19 +47,39 @@ function useDesktop(): boolean {
 }
 
 type MobileTab = 'account' | 'rivals' | 'missions' | 'news' | 'trades'
-const MOBILE_TABS = [
+const MOBILE_TABS: { id: MobileTab; label: string }[] = [
   { id: 'account', label: 'Account' },
   { id: 'rivals', label: 'Rivals' },
   { id: 'missions', label: 'Missions' },
   { id: 'news', label: 'News' },
   { id: 'trades', label: 'Trades' },
-] as const
+]
+
+const SHORTCUTS_KEY = 'traders-edge:arena-shortcuts'
+
+function readShortcuts(): boolean {
+  try {
+    return localStorage.getItem(SHORTCUTS_KEY) !== 'off'
+  } catch {
+    return true
+  }
+}
+
+function writeShortcuts(on: boolean): void {
+  try {
+    localStorage.setItem(SHORTCUTS_KEY, on ? 'on' : 'off')
+  } catch {
+    // The choice still applies until the page reloads.
+  }
+}
 
 interface TradingScreenProps {
   state: GameState
   reconnecting: boolean
   clockBusy: boolean
   cancelling: string | null
+  /** Stop-losses waiting for their buy order to fill. */
+  pendingStops: number
   onClock: (action: ClockAction, speed?: 1 | 2 | 4) => void
   onPlace: (order: OrderRequest, attachStop: number | null) => Promise<void>
   onCancel: (order: Order) => void
@@ -66,11 +94,23 @@ function isTyping(target: EventTarget | null): boolean {
   )
 }
 
+function StopNote({ count }: { count: number }) {
+  return (
+    <p className={styles.stopNote} role="status">
+      <Icon name="shield" size={16} />
+      {count === 1
+        ? 'A stop-loss will be placed when your buy fills.'
+        : `${count} stop-losses will be placed when your buys fill.`}
+    </p>
+  )
+}
+
 export default function TradingScreen({
   state,
   reconnecting,
   clockBusy,
   cancelling,
+  pendingStops,
   onClock,
   onPlace,
   onCancel,
@@ -84,44 +124,101 @@ export default function TradingScreen({
   const [mobileTab, setMobileTab] = useState<MobileTab>('account')
   const [confirmLeave, setConfirmLeave] = useState(false)
   const [leaving, setLeaving] = useState(false)
+  const [shortcuts, setShortcuts] = useState(readShortcuts)
+  const [autoPaused, setAutoPaused] = useState(false)
+  const root = useRef<HTMLDivElement>(null)
 
   const solo = !isMultiplayer(state)
-  const paused = isPaused(state)
+  const paused = state.paused
   const canTrade = state.status !== 'ended' && state.status !== 'settled'
   const asset = state.assets.find((a) => a.symbol === symbol) ?? state.assets[0]
   const day = currentDay(state)
+  const alone = state.leaderboard.length <= 1
+  const mobileTabs = alone
+    ? MOBILE_TABS.filter((tab) => tab.id !== 'rivals')
+    : MOBILE_TABS
+  const shownTab = mobileTabs.some((tab) => tab.id === mobileTab)
+    ? mobileTab
+    : 'account'
+
+  // Solo clocks pause while the order ticket is in use so there is no time
+  // pressure; the clock resumes afterwards only if this screen paused it.
+  const engageTicket = useCallback(() => {
+    if (!solo || paused || clockBusy || autoPaused) return
+    setAutoPaused(true)
+    onClock('pause')
+  }, [solo, paused, clockBusy, autoPaused, onClock])
+
+  const releaseTicket = useCallback(() => {
+    if (!autoPaused) return
+    setAutoPaused(false)
+    onClock('resume')
+  }, [autoPaused, onClock])
+
+  const clock = useCallback(
+    (action: ClockAction, speed?: 1 | 2 | 4) => {
+      if (action === 'resume' || action === 'pause') setAutoPaused(false)
+      onClock(action, speed)
+    },
+    [onClock],
+  )
 
   function openTicket(next: Side) {
     setSide(next)
     if (desktop) setFocusSignal((n) => n + 1)
-    else setSheetOpen(true)
+    else {
+      setSheetOpen(true)
+      engageTicket()
+    }
+  }
+
+  function closeSheet() {
+    setSheetOpen(false)
+    releaseTicket()
+  }
+
+  function onTicketBlur(event: FocusEvent<HTMLDivElement>) {
+    if (!event.currentTarget.contains(event.relatedTarget as Node | null))
+      releaseTicket()
   }
 
   useEffect(() => {
+    if (!shortcuts) return
     function onKey(event: KeyboardEvent) {
-      if (event.metaKey || event.ctrlKey || event.altKey) return
-      if (isTyping(event.target) || document.querySelector('dialog[open]'))
+      if (event.metaKey || event.ctrlKey || event.altKey || event.repeat) return
+      const { target } = event
+      const inArena =
+        target === document.body ||
+        (target instanceof Node && !!root.current?.contains(target))
+      if (!inArena || isTyping(target) || document.querySelector('dialog[open]'))
         return
       const key = event.key.toLowerCase()
       if (key === 'b' || key === 's') {
         event.preventDefault()
         setSide(key === 'b' ? 'buy' : 'sell')
         if (window.matchMedia(DESKTOP).matches) setFocusSignal((n) => n + 1)
-        else setSheetOpen(true)
-      } else if (key === ' ' && solo) {
-        const { target } = event
+        else {
+          setSheetOpen(true)
+          engageTicket()
+        }
+      } else if (key === ' ' && solo && !clockBusy) {
         if (
           target instanceof Element &&
-          target.closest('button, a, summary, [role="tab"]')
+          target.closest('button, a, summary, [role="tab"], label')
         )
           return
         event.preventDefault()
-        onClock(paused ? 'resume' : 'pause')
+        clock(paused ? 'resume' : 'pause')
       }
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [solo, paused, onClock])
+  }, [shortcuts, solo, paused, clockBusy, clock, engageTicket])
+
+  function toggleShortcuts() {
+    writeShortcuts(!shortcuts)
+    setShortcuts(!shortcuts)
+  }
 
   async function leave() {
     setLeaving(true)
@@ -144,7 +241,7 @@ export default function TradingScreen({
       canTrade={canTrade}
       onPlace={async (order, stop) => {
         await onPlace(order, stop)
-        setSheetOpen(false)
+        if (!desktop) closeSheet()
       }}
     />
   )
@@ -164,8 +261,11 @@ export default function TradingScreen({
     />
   )
 
+  const missions = <MissionsPanel missions={state.missions} />
+  const feed = <NewsFeed news={state.news} />
+
   return (
-    <div className={styles.screen}>
+    <div className={styles.screen} ref={root}>
       <header className={styles.topBar}>
         <div className={styles.topLeft}>
           <Button
@@ -188,7 +288,11 @@ export default function TradingScreen({
           <span className={styles.dayText}>
             {state.tick_label || 'Day'} <span className="num">{day}</span> of{' '}
             <span className="num">{state.ticks}</span>
-            {paused && <span className={styles.pausedTag}>Paused</span>}
+            {paused && (
+              <span className={styles.pausedTag}>
+                {autoPaused ? 'Paused while you trade' : 'Paused'}
+              </span>
+            )}
           </span>
           <ProgressBar
             value={day}
@@ -210,7 +314,7 @@ export default function TradingScreen({
               paused={paused}
               speed={state.speed}
               busy={clockBusy}
-              onClock={onClock}
+              onClock={clock}
             />
           )}
         </div>
@@ -239,6 +343,7 @@ export default function TradingScreen({
                 </div>
               </div>
               <PriceChart
+                key={asset.symbol}
                 symbol={asset.symbol}
                 bars={state.bars[asset.symbol] ?? []}
                 tools={state.scenario.tools}
@@ -250,30 +355,32 @@ export default function TradingScreen({
             </section>
           )}
           {desktop && <div className={styles.card}>{activity}</div>}
+          {desktop && missions}
+          {desktop && feed}
           {!desktop && (
             <div className={styles.mobileTabs}>
               <Tabs
                 label="Match details"
-                tabs={MOBILE_TABS}
-                value={mobileTab}
+                tabs={mobileTabs}
+                value={shownTab}
                 onChange={setMobileTab}
                 idPrefix="arena"
               />
               <div
                 role="tabpanel"
-                id={`arena-panel-${mobileTab}`}
-                aria-labelledby={`arena-tab-${mobileTab}`}
+                id={`arena-panel-${shownTab}`}
+                aria-labelledby={`arena-tab-${shownTab}`}
                 className={styles.card}
               >
-                {mobileTab === 'account' && <AccountPanel me={state.me} bare />}
-                {mobileTab === 'rivals' && (
+                {shownTab === 'account' && <AccountPanel me={state.me} bare />}
+                {shownTab === 'rivals' && (
                   <RivalsPanel entries={state.leaderboard} bare />
                 )}
-                {mobileTab === 'missions' && (
+                {shownTab === 'missions' && (
                   <MissionsPanel missions={state.missions} bare />
                 )}
-                {mobileTab === 'news' && <NewsFeed news={state.news} bare />}
-                {mobileTab === 'trades' && activity}
+                {shownTab === 'news' && <NewsFeed news={state.news} bare />}
+                {shownTab === 'trades' && activity}
               </div>
             </div>
           )}
@@ -281,13 +388,16 @@ export default function TradingScreen({
 
         {desktop && (
           <aside className={styles.side} aria-label="Trading tools">
-            <div className={`${styles.card} ${styles.ticketCard}`}>
+            <div
+              className={`${styles.card} ${styles.ticketCard}`}
+              onFocus={engageTicket}
+              onBlur={onTicketBlur}
+            >
               {ticket}
             </div>
+            {pendingStops > 0 && <StopNote count={pendingStops} />}
             <AccountPanel me={state.me} />
-            <RivalsPanel entries={state.leaderboard} />
-            <MissionsPanel missions={state.missions} />
-            <NewsFeed news={state.news} />
+            {!alone && <RivalsPanel entries={state.leaderboard} />}
           </aside>
         )}
       </div>
@@ -296,13 +406,25 @@ export default function TradingScreen({
         <span>Simulated money · fictional companies</span>
         {desktop && (
           <span className={styles.shortcuts}>
-            Shortcuts: <kbd>B</kbd> buy · <kbd>S</kbd> sell
-            {solo && (
-              <>
-                {' '}
-                · <kbd>Space</kbd> pause or play
-              </>
+            {shortcuts && (
+              <span>
+                Shortcuts: <kbd>B</kbd> buy · <kbd>S</kbd> sell
+                {solo && (
+                  <>
+                    {' '}
+                    · <kbd>Space</kbd> pause or play
+                  </>
+                )}
+              </span>
             )}
+            <button
+              type="button"
+              className={styles.shortcutToggle}
+              aria-pressed={shortcuts}
+              onClick={toggleShortcuts}
+            >
+              Keyboard shortcuts: {shortcuts ? 'on' : 'off'}
+            </button>
           </span>
         )}
       </footer>
@@ -329,11 +451,8 @@ export default function TradingScreen({
               ▼ Sell
             </Button>
           </div>
-          <BottomSheet
-            open={sheetOpen}
-            title="Order ticket"
-            onClose={() => setSheetOpen(false)}
-          >
+          {pendingStops > 0 && <StopNote count={pendingStops} />}
+          <BottomSheet open={sheetOpen} title="Order ticket" onClose={closeSheet}>
             {ticket}
           </BottomSheet>
         </>

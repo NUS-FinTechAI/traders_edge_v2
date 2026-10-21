@@ -17,7 +17,8 @@ import styles from './Briefing.module.css'
 interface BriefingScreenProps {
   state: GameState
   onStart: (plan: Plan) => Promise<void>
-  onBack: () => void
+  /** Omitted for a live multiplayer match that only needs a plan. */
+  onBack?: () => void
 }
 
 function trimZero(value: number): string {
@@ -37,6 +38,7 @@ export default function BriefingScreen({
   const rivals = state.leaderboard.filter((entry) => !entry.is_me)
   const startingCash = scenario.starting_cash
   const ready = strategy !== null && maxLoss !== null
+  const live = state.status !== 'briefing'
 
   async function start() {
     if (!ready || busy) return
@@ -52,11 +54,19 @@ export default function BriefingScreen({
 
   return (
     <div className={styles.page}>
-      <div className={styles.topRow}>
-        <Button variant="ghost" icon="chevron-left" onClick={onBack}>
-          Back
-        </Button>
-      </div>
+      {onBack && (
+        <div className={styles.topRow}>
+          <Button variant="ghost" icon="chevron-left" onClick={onBack}>
+            Back
+          </Button>
+        </div>
+      )}
+      {live && (
+        <p className={styles.liveNote} role="status">
+          <Icon name="clock" size={18} />
+          The market is already open. Choose your game plan to start trading.
+        </p>
+      )}
       <article className={styles.card} aria-labelledby="briefing-title">
         <header className={styles.header}>
           <Chip tone="gold" icon={state.mode === 'boss' ? 'crown' : 'swords'}>
@@ -113,10 +123,10 @@ export default function BriefingScreen({
             <MissionList missions={state.missions} showState={false} />
             <p className={styles.legend}>
               <span className={styles.legendBasic}>
-                <Icon name="star" size={14} filled /> Mission
+                <Icon name="star" size={14} filled /> Star
               </span>
               <span className={styles.legendBonus}>
-                <Icon name="sparkle" size={14} filled /> Bonus
+                <Icon name="sparkle" size={14} filled /> Bonus star
               </span>
             </p>
           </section>
@@ -186,7 +196,12 @@ export default function BriefingScreen({
                       size={16}
                       className={styles.choiceCheck}
                     />
-                    {option.label}
+                    <span className={styles.choiceText}>
+                      {option.label}
+                      <small className={styles.choiceHint}>
+                        {option.hint}
+                      </small>
+                    </span>
                   </span>
                 </label>
               ))}
@@ -230,7 +245,7 @@ export default function BriefingScreen({
             onClick={start}
             aria-describedby={ready ? undefined : 'plan-needed'}
           >
-            {busy ? 'Starting…' : 'Start trading'}
+            {busy ? 'Starting…' : live ? 'Lock in plan' : 'Start trading'}
           </Button>
           {!ready && (
             <p id="plan-needed" className={styles.planNeeded}>

@@ -14,7 +14,6 @@ import type {
   Order,
 } from '../../../services/gameService.ts'
 import { formatCount } from '../../../ui/format.ts'
-import { dayNumber } from '../arenaLogic.ts'
 import { ema, macd, niceTicks, rsi, sma, type Series } from './indicators.ts'
 import styles from './PriceChart.module.css'
 
@@ -88,6 +87,7 @@ export default function PriceChart({
   height,
 }: PriceChartProps) {
   const { ref, width } = useWidth()
+  /** Tick of the bar under the pointer or keyboard focus, so it stays on the same day as new bars arrive. */
   const [hover, setHover] = useState<number | null>(null)
   const [announce, setAnnounce] = useState('')
   const tableId = useId()
@@ -161,8 +161,9 @@ export default function PriceChart({
     ? `${symbol} last $${price(last.c)}, ${up ? 'up' : 'down'} ${Math.abs(dayChange).toFixed(1)}% today`
     : `${symbol}: no prices yet`
 
-  const index =
-    hover !== null ? Math.min(hover, visible.length - 1) : visible.length - 1
+  const hoverIndex =
+    hover === null ? -1 : visible.findIndex((bar) => bar.t === hover)
+  const index = hoverIndex >= 0 ? hoverIndex : visible.length - 1
   const focus = visible[index]
   const firstT = visible[0]?.t ?? 0
   const startIndex = visible.findIndex((bar) => bar.t === 0)
@@ -172,12 +173,12 @@ export default function PriceChart({
   function pick(event: PointerEvent<SVGSVGElement>) {
     const rect = event.currentTarget.getBoundingClientRect()
     const i = Math.floor((event.clientX - rect.left - PAD_L) / slot)
-    setHover(i >= 0 && i < visible.length ? i : null)
+    setHover(i >= 0 && i < visible.length ? visible[i].t : null)
   }
 
   function onKeyDown(event: KeyboardEvent<HTMLDivElement>) {
     if (!visible.length) return
-    const current = hover ?? visible.length - 1
+    const current = index
     let next: number | null = current
     if (event.key === 'ArrowLeft') next = Math.max(0, current - 1)
     else if (event.key === 'ArrowRight')
@@ -187,11 +188,11 @@ export default function PriceChart({
     else if (event.key === 'Escape') next = null
     else return
     event.preventDefault()
-    setHover(next)
     const bar = next === null ? null : visible[next]
+    setHover(bar ? bar.t : null)
     setAnnounce(
       bar
-        ? `${bar.t >= 0 ? `Day ${dayNumber(bar.t)}` : `${-bar.t} days before the start`}: open ${price(bar.o)}, high ${price(bar.h)}, low ${price(bar.l)}, close ${price(bar.c)}`
+        ? `${bar.t >= 0 ? `Day ${bar.t}` : `${-bar.t} days before the start`}: open ${price(bar.o)}, high ${price(bar.h)}, low ${price(bar.l)}, close ${price(bar.c)}`
         : '',
     )
   }
@@ -236,7 +237,7 @@ export default function PriceChart({
           <div className={styles.legend} aria-hidden="true">
             <span className={styles.legendDay}>
               {focus.t >= 0
-                ? `Day ${dayNumber(focus.t)}`
+                ? `Day ${focus.t}`
                 : `${-focus.t}d before`}
             </span>
             <span className="num">
@@ -245,9 +246,11 @@ export default function PriceChart({
                 C {price(focus.c)}
               </span>
             </span>
-            <span className={`num ${styles.legendVol}`}>
-              Vol {formatCount(focus.v)}
-            </span>
+            {showVolume && (
+              <span className={`num ${styles.legendVol}`}>
+                Vol {formatCount(focus.v)}
+              </span>
+            )}
             {indicators.sma && <span className={styles.keySma}>SMA 20</span>}
             {indicators.ema && <span className={styles.keyEma}>EMA 10</span>}
           </div>
@@ -462,7 +465,7 @@ export default function PriceChart({
                   y={main.top + main.height + 15}
                   textAnchor="middle"
                 >
-                  {dayNumber(bar.t)}
+                  {bar.t}
                 </text>
               ) : null,
             )}
@@ -620,7 +623,7 @@ export default function PriceChart({
               })()}
 
             {/* Crosshair */}
-            {hover !== null && focus && (
+            {hoverIndex >= 0 && focus && (
               <g className={styles.crosshair}>
                 <line
                   x1={x(index)}
@@ -652,7 +655,7 @@ export default function PriceChart({
         <tbody>
           {bars.slice(-10).map((bar) => (
             <tr key={bar.t}>
-              <th scope="row">{dayNumber(bar.t)}</th>
+              <th scope="row">{bar.t}</th>
               <td>{price(bar.o)}</td>
               <td>{price(bar.h)}</td>
               <td>{price(bar.l)}</td>

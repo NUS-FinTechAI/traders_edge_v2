@@ -195,7 +195,7 @@
 
 .speed {
   min-width: 44px;
-  min-height: 40px;
+  min-height: 44px;
   border: 0;
   border-radius: 6px;
   background: transparent;
@@ -384,6 +384,40 @@
   .footer {
     padding: 0 var(--space-5) var(--space-5);
   }
+}
+
+.shortcuts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.shortcutToggle {
+  min-height: 44px;
+  padding: 0 var(--space-3);
+  border: 1px solid var(--border-input);
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+  font-weight: 700;
+}
+
+.shortcutToggle[aria-pressed='false'] {
+  color: var(--text-dim);
+}
+
+.stopNote {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid #2a5466;
+  border-radius: var(--radius-sm);
+  background: var(--info-soft);
+  font-size: var(--text-sm);
 }
 
 .shortcuts kbd {

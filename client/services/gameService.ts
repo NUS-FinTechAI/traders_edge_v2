@@ -88,6 +88,8 @@ export interface CreateGameRequest {
 }
 
 export interface OrderRequest {
+  /** Idempotency key; a retry with the same key returns the original order. */
+  client_order_id?: string
   symbol: string
   side: Side
   type: OrderType
@@ -143,8 +145,13 @@ export function placeOrder(
 ): Promise<PlacedOrder> {
   return httpService.request<PlacedOrder>(`${base(id)}/orders`, {
     method: 'POST',
-    body: { client_order_id: crypto.randomUUID(), ...order },
+    body: { ...order, client_order_id: order.client_order_id ?? newOrderKey() },
   })
+}
+
+/** A fresh idempotency key in the server's allowed alphabet. */
+export function newOrderKey(): string {
+  return crypto.randomUUID().replace(/-/g, '')
 }
 
 export function cancelOrder(id: string, orderId: string): Promise<GameState> {
@@ -175,6 +182,39 @@ export function listGames(
     query: { status: 'active' },
     signal,
   })
+}
+
+/**
+ * An unstarted briefing for the same kind of match, so "Start" or "Try again"
+ * reopens it instead of creating a duplicate. `scenarioId` narrows the match
+ * when the caller knows which market it will get.
+ */
+export function findBriefing(
+  games: GameSummary[],
+  mode: GameMode,
+  scenarioId?: string | null,
+  exceptId?: string,
+): GameSummary | null {
+  return (
+    games.find(
+      (game) =>
+        game.status === 'briefing' &&
+        game.mode === mode &&
+        game.id !== exceptId &&
+        (!scenarioId || game.scenario_id === scenarioId),
+    ) ?? null
+  )
+}
+
+/**
+ * Whether `incoming` may replace `current`: a response generated before the
+ * state already shown (for example a slow command reply after a newer poll)
+ * would roll the market back.
+ */
+export function isNewer(current: GameState | null, incoming: GameState) {
+  if (!current || current.id !== incoming.id) return true
+  if (incoming.server_time < current.server_time) return false
+  return incoming.tick >= current.tick
 }
 
 function mergeBy<T>(

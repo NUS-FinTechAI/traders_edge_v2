@@ -1,11 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+import { usePlayer } from '../../app/PlayerContext.ts'
 import {
   cancelOrder,
   controlClock,
   createGame,
+  findBriefing,
   finishGame,
   getResult,
+  listGames,
   placeOrder,
   startGame,
   type ClockAction,
@@ -16,33 +19,36 @@ import {
   type OrderRequest,
   type Plan,
 } from '../../services/gameService.ts'
+import { ButtonLink } from '../../ui/Button.tsx'
 import { ErrorState, Loading } from '../../ui/States.tsx'
 import { formatMoney } from '../../ui/format.ts'
 import { useToast } from '../../ui/toastContext.ts'
 import { errorText } from '../../ui/useResource.ts'
-import { chapterOf, isEnded, levelOf } from './arenaLogic.ts'
+import { chapterOf, isEnded, isMultiplayer, levelOf } from './arenaLogic.ts'
 import BriefingScreen from './briefing/BriefingScreen.tsx'
+import {
+  loadPendingStops,
+  savePendingStops,
+  stopOrderKey,
+} from './pendingStops.ts'
 import ResultsScreen from './results/ResultsScreen.tsx'
+import { isRetryable } from './retry.ts'
 import TradingScreen from './trading/TradingScreen.tsx'
 import useGame from './useGame.ts'
-
-interface PendingStop {
-  symbol: string
-  qty: number
-  stop: number
-}
 
 function placedMessage(
   order: OrderRequest,
   state: GameState | null,
   orderId: string,
+  withStop: boolean,
 ) {
   const fill = state?.me.fills.find((item) => item.order_id === orderId)
   if (fill) {
     return `${fill.side === 'buy' ? 'Bought' : 'Sold'} ${fill.qty} ${fill.symbol} at ${formatMoney(fill.price)}`
   }
   if (order.type === 'limit') {
-    return `${order.side === 'buy' ? 'Buy' : 'Sell'} limit placed: ${order.qty} ${order.symbol} at ${formatMoney(order.limit_price ?? 0)}`
+    const note = withStop ? ' Your stop-loss is placed when it fills.' : ''
+    return `${order.side === 'buy' ? 'Buy' : 'Sell'} limit placed: ${order.qty} ${order.symbol} at ${formatMoney(order.limit_price ?? 0)}.${note}`
   }
   if (order.type === 'stop') {
     return `Stop-loss placed: ${order.qty} ${order.symbol} at ${formatMoney(order.stop_price ?? 0)}`
@@ -63,25 +69,45 @@ function replayRequest(state: GameState): CreateGameRequest {
   return request
 }
 
+/** Where "Back" from a briefing goes: the screen the match was opened from. */
+function exitPath(state: GameState): string {
+  const chapter = chapterOf(state)
+  if ((state.mode === 'level' || state.mode === 'boss') && chapter)
+    return `/adventure/${encodeURIComponent(chapter)}`
+  if (isMultiplayer(state)) return '/multiplayer'
+  return '/play'
+}
+
 function Arena({ gameId }: { gameId: string }) {
   const navigate = useNavigate()
   const notify = useToast()
-  const { state, loadError, reconnecting, refresh, accept, stop } =
+  const { refreshPlayer } = usePlayer()
+  const { state, loadError, failure, reconnecting, refresh, accept, stop } =
     useGame(gameId)
   const [result, setResult] = useState<GameResult | null>(null)
   const [finishError, setFinishError] = useState<string | null>(null)
   const [clockBusy, setClockBusy] = useState(false)
   const [cancelling, setCancelling] = useState<string | null>(null)
   const finishing = useRef(false)
-  const pendingStops = useRef(new Map<string, PendingStop>())
+  // A mutable map held for the component's lifetime; the count drives renders.
+  const [stops] = useState(() => loadPendingStops(gameId))
+  const placingStops = useRef(new Set<string>())
+  const [pendingStopCount, setPendingStopCount] = useState(stops.size)
 
   const shownResult = result ?? state?.result ?? null
   const ended = state ? isEnded(state) : false
+  const needsPlan =
+    !!state &&
+    isMultiplayer(state) &&
+    !state.me.plan &&
+    !shownResult &&
+    !ended &&
+    state.status !== 'briefing'
   const phase = !state
     ? 'loading'
     : shownResult
       ? 'results'
-      : state.status === 'briefing'
+      : state.status === 'briefing' || needsPlan
         ? 'briefing'
         : 'trading'
 
@@ -89,10 +115,19 @@ function Arena({ gameId }: { gameId: string }) {
     window.scrollTo(0, 0)
   }, [phase])
 
+  const forgetStop = useCallback(
+    (orderId: string) => {
+      stops.delete(orderId)
+      savePendingStops(gameId, stops)
+      setPendingStopCount(stops.size)
+    },
+    [gameId, stops],
+  )
+
   const settle = useCallback(
     (forfeit: boolean) => {
       finishing.current = true
-      setFinishError(null)
+      if (!forfeit) setFinishError(null)
       const request =
         state?.status === 'settled' && !forfeit
           ? getResult(gameId)
@@ -101,15 +136,17 @@ function Arena({ gameId }: { gameId: string }) {
         (value) => {
           stop()
           setResult(value)
+          void refreshPlayer()
         },
         (error: unknown) => {
           finishing.current = false
-          setFinishError(errorText(error))
+          // A failed forfeit must not block settling when the market closes.
+          if (!forfeit) setFinishError(errorText(error))
           throw error
         },
       )
     },
-    [gameId, state?.status, stop],
+    [gameId, state?.status, stop, refreshPlayer],
   )
 
   useEffect(() => {
@@ -122,36 +159,52 @@ function Arena({ gameId }: { gameId: string }) {
     if (shownResult) stop()
   }, [shownResult, stop])
 
-  // Place an attached stop-loss once the buy it protects has filled.
+  // Place an attached stop-loss once the buy it protects has filled. The
+  // stop's idempotency key comes from the buy, so a retry never doubles it.
   useEffect(() => {
     if (!state || ended) return
-    for (const [orderId, pending] of pendingStops.current) {
+    const settled: string[] = []
+    for (const [orderId, pending] of stops) {
+      const key = stopOrderKey(orderId)
       const order = state.me.orders.find((item) => item.id === orderId)
-      if (order?.status === 'cancelled') {
-        pendingStops.current.delete(orderId)
+      if (
+        order?.status === 'cancelled' ||
+        state.me.orders.some((item) => item.client_order_id === key)
+      ) {
+        settled.push(orderId)
         continue
       }
       if (!state.me.fills.some((fill) => fill.order_id === orderId)) continue
-      pendingStops.current.delete(orderId)
+      if (placingStops.current.has(orderId)) continue
+      placingStops.current.add(orderId)
       placeOrder(gameId, {
+        client_order_id: key,
         symbol: pending.symbol,
         side: 'sell',
         type: 'stop',
         qty: pending.qty,
         stop_price: pending.stop,
-      }).then(
-        (placed) => {
-          accept(placed.state)
-          notify(
-            `Stop-loss set: ${pending.qty} ${pending.symbol} at ${formatMoney(pending.stop)}`,
-            'success',
-          )
-        },
-        (error: unknown) =>
-          notify(`Stop-loss not placed: ${errorText(error)}`, 'error'),
-      )
+      })
+        .then(
+          (placed) => {
+            forgetStop(orderId)
+            accept(placed.state)
+            notify(
+              `Stop-loss set: ${pending.qty} ${pending.symbol} at ${formatMoney(pending.stop)}`,
+              'success',
+            )
+          },
+          (error: unknown) => {
+            if (isRetryable(error)) return
+            forgetStop(orderId)
+            notify(`Stop-loss not placed: ${errorText(error)}`, 'error')
+          },
+        )
+        .finally(() => placingStops.current.delete(orderId))
     }
-  }, [state, ended, gameId, notify, accept])
+    if (settled.length)
+      queueMicrotask(() => settled.forEach((orderId) => forgetStop(orderId)))
+  }, [state, ended, gameId, notify, accept, forgetStop, stops])
 
   const onClock = useCallback(
     (action: ClockAction, speed?: 1 | 2 | 4) => {
@@ -167,14 +220,19 @@ function Arena({ gameId }: { gameId: string }) {
   async function onPlace(order: OrderRequest, attachStop: number | null) {
     const placed = await placeOrder(gameId, order)
     if (attachStop !== null) {
-      pendingStops.current.set(placed.order.id, {
+      stops.set(placed.order.id, {
         symbol: order.symbol,
         qty: order.qty,
         stop: attachStop,
       })
+      savePendingStops(gameId, stops)
+      setPendingStopCount(stops.size)
     }
     const latest = accept(placed.state)
-    notify(placedMessage(order, latest, placed.order.id), 'success')
+    notify(
+      placedMessage(order, latest, placed.order.id, attachStop !== null),
+      'success',
+    )
   }
 
   function onCancel(order: Order) {
@@ -195,8 +253,15 @@ function Arena({ gameId }: { gameId: string }) {
   async function onTryAgain() {
     if (!state) return
     try {
-      const next = await createGame(replayRequest(state))
-      navigate(`/game/${encodeURIComponent(next.id)}`)
+      const { games } = await listGames().catch(() => ({ games: [] }))
+      const existing = findBriefing(
+        games,
+        state.mode,
+        state.scenario.id,
+        state.id,
+      )
+      const next = existing ?? (await createGame(replayRequest(state)))
+      void navigate(`/game/${encodeURIComponent(next.id)}`)
     } catch (error) {
       notify(errorText(error), 'error')
     }
@@ -205,6 +270,32 @@ function Arena({ gameId }: { gameId: string }) {
   async function onSaveReflection(text: string) {
     setResult(await finishGame(gameId, { reflection: text }))
     notify('Reflection saved', 'success')
+  }
+
+  if (failure) {
+    const signedOut = failure.status === 401
+    return (
+      <ErrorState
+        title={signedOut ? 'Your session has ended' : 'This match isn’t available'}
+        message={
+          signedOut ? 'Sign in again to get back to your match.' : failure.message
+        }
+        action={
+          signedOut ? (
+            <ButtonLink
+              to={`/login?returnTo=${encodeURIComponent(`/game/${gameId}`)}`}
+              icon="user"
+            >
+              Sign in
+            </ButtonLink>
+          ) : (
+            <ButtonLink to="/play" icon="swords">
+              Back to Play
+            </ButtonLink>
+          )
+        }
+      />
+    )
   }
 
   if (!state) {
@@ -237,13 +328,13 @@ function Arena({ gameId }: { gameId: string }) {
     )
   }
 
-  if (state.status === 'briefing') {
+  if (phase === 'briefing') {
     return (
       <BriefingScreen
         state={state}
         onStart={onStart}
-        onBack={() =>
-          window.history.length > 1 ? navigate(-1) : navigate('/play')
+        onBack={
+          needsPlan ? undefined : () => void navigate(exitPath(state))
         }
       />
     )
@@ -255,6 +346,7 @@ function Arena({ gameId }: { gameId: string }) {
       reconnecting={reconnecting}
       clockBusy={clockBusy}
       cancelling={cancelling}
+      pendingStops={pendingStopCount}
       onClock={onClock}
       onPlace={onPlace}
       onCancel={onCancel}

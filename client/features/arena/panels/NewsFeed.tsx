@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import type { NewsItem } from '../../../services/gameService.ts'
 import Icon from '../../../ui/Icon.tsx'
-import { dayNumber } from '../arenaLogic.ts'
 import { TONE_LABEL } from '../labels.ts'
 import Panel from './Panel.tsx'
 import styles from './panels.module.css'
@@ -46,7 +45,7 @@ export default function NewsFeed({
                     {item.kind && (
                       <span className={styles.newsKind}>{item.kind}</span>
                     )}
-                    <span className="num">Day {dayNumber(item.t)}</span>
+                    <span className="num">Day {item.t}</span>
                     {item.symbols.length > 0 && (
                       <span className={styles.newsSymbols}>
                         {item.symbols.join(' · ')}

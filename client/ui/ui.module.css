@@ -362,6 +362,24 @@
   color: var(--gold);
 }
 
+.inlineError {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid #7a352d;
+  border-radius: var(--radius-sm);
+  background: var(--loss-soft);
+  color: var(--text);
+  font-size: var(--text-sm);
+}
+
+.inlineError > svg {
+  color: var(--loss);
+}
+
 /* Toasts */
 .toastRegion {
   position: fixed;

@@ -13,10 +13,10 @@ import { formatMoney, formatPct } from '../../../ui/format.ts'
 import { errorText } from '../../../ui/useResource.ts'
 import {
   chapterOf,
-  dayNumber,
   equitySeries,
   isMultiplayer,
   keyMoments,
+  ordinal,
   rankHeadline,
 } from '../arenaLogic.ts'
 import { modeLabel, strategyLabel } from '../labels.ts'
@@ -49,8 +49,8 @@ export default function ResultsScreen({
   onSaveReflection,
   onTryAgain,
 }: ResultsScreenProps) {
+  const stored = result.reflection?.trim() || null
   const [reflection, setReflection] = useState('')
-  const [saved, setSaved] = useState(false)
   const [saving, setSaving] = useState(false)
   const [retrying, setRetrying] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -68,17 +68,28 @@ export default function ResultsScreen({
     : keyMoments(state.me.fills, state.news)
   const chapter = chapterOf(state)
   const review = result.plan_review
-  const won = result.won && !result.forfeited
+  const preview = state.mode === 'boss' && state.boss === 'preview'
+  const won = result.won && !result.forfeited && !preview
+  const rewards = result.rewards
+  const hasRewards =
+    rewards.xp > 0 ||
+    rewards.stocks > 0 ||
+    rewards.gems > 0 ||
+    rewards.items.length > 0 ||
+    rewards.badges.length > 0 ||
+    !!result.unlocked?.chapter_id
+  const headline = preview
+    ? 'Your starting point'
+    : rankHeadline(result)
 
   async function save(event: FormEvent) {
     event.preventDefault()
     const text = reflection.trim()
-    if (!text) return
+    if (!text || stored) return
     setSaving(true)
     setError(null)
     try {
       await onSaveReflection(text)
-      setSaved(true)
     } catch (caught) {
       setError(errorText(caught))
     } finally {
@@ -97,6 +108,44 @@ export default function ResultsScreen({
 
   const playAgainLabel = state.mode === 'level' ? 'Try again' : 'Play again'
 
+  const actions = (
+    <div className={styles.actions}>
+      {isMultiplayer(state) ? (
+        <ButtonLink to="/multiplayer" variant="gold" size="lg">
+          Back to multiplayer
+        </ButtonLink>
+      ) : (
+        <>
+          {chapter && (state.mode === 'level' || state.mode === 'boss') ? (
+            <ButtonLink
+              to={`/adventure/${chapter}`}
+              variant="gold"
+              size="lg"
+              icon="map"
+            >
+              Back to the map
+            </ButtonLink>
+          ) : (
+            <ButtonLink to="/play" variant="gold" size="lg" icon="swords">
+              Play hub
+            </ButtonLink>
+          )}
+          {state.mode !== 'daily' && (
+            <Button
+              variant="secondary"
+              size="lg"
+              icon="refresh"
+              onClick={retry}
+              disabled={retrying}
+            >
+              {retrying ? 'Setting up…' : playAgainLabel}
+            </Button>
+          )}
+        </>
+      )}
+    </div>
+  )
+
   return (
     <div className={styles.page}>
       <section
@@ -108,7 +157,15 @@ export default function ResultsScreen({
       >
         <span className={styles.bannerIcon}>
           <Icon
-            name={won ? 'trophy' : result.forfeited ? 'flag' : 'podium'}
+            name={
+              preview
+                ? 'compass'
+                : won
+                  ? 'trophy'
+                  : result.forfeited
+                    ? 'flag'
+                    : 'podium'
+            }
             size={30}
           />
         </span>
@@ -116,7 +173,13 @@ export default function ResultsScreen({
           <p className={styles.eyebrow}>
             {modeLabel(state.mode, state.boss)} · {state.scenario.title}
           </p>
-          <h1 id="result-title">{rankHeadline(result)}</h1>
+          <h1 id="result-title">{headline}</h1>
+          {preview && (
+            <p className={styles.profitLine}>
+              You finished {ordinal(result.rank)} of {result.of}. This battle
+              can’t be lost — it shows where you’re starting from.
+            </p>
+          )}
           <p className={styles.profitLine}>
             Your profit <Delta value={result.profit} pct={result.profit_pct} />
           </p>
@@ -134,12 +197,15 @@ export default function ResultsScreen({
       <p className={styles.caption}>
         Profit decides the match; your missions show what you learned.
       </p>
+      {actions}
 
       <div className={styles.grid}>
-        <section className={styles.card} aria-labelledby="final-title">
-          <h2 id="final-title">Final standings</h2>
-          <Standings entries={result.leaderboard} podium />
-        </section>
+        {result.leaderboard.length > 1 && (
+          <section className={styles.card} aria-labelledby="final-title">
+            <h2 id="final-title">Final standings</h2>
+            <Standings entries={result.leaderboard} podium />
+          </section>
+        )}
 
         <section
           className={styles.card}
@@ -149,29 +215,25 @@ export default function ResultsScreen({
           <MissionList missions={result.missions} />
         </section>
 
-        {
+        {hasRewards && (
           <section className={styles.card} aria-labelledby="rewards-title">
             <h2 id="rewards-title">Rewards</h2>
             <div className={styles.rewards}>
-              {result.rewards.xp > 0 && (
-                <CurrencyChip kind="xp" amount={result.rewards.xp} signed />
+              {rewards.xp > 0 && (
+                <CurrencyChip kind="xp" amount={rewards.xp} signed />
               )}
-              {result.rewards.stocks > 0 && (
-                <CurrencyChip
-                  kind="doubloons"
-                  amount={result.rewards.stocks}
-                  signed
-                />
+              {rewards.stocks > 0 && (
+                <CurrencyChip kind="doubloons" amount={rewards.stocks} signed />
               )}
-              {result.rewards.gems > 0 && (
-                <CurrencyChip kind="gems" amount={result.rewards.gems} signed />
+              {rewards.gems > 0 && (
+                <CurrencyChip kind="gems" amount={rewards.gems} signed />
               )}
-              {result.rewards.items.map((item) => (
+              {rewards.items.map((item) => (
                 <Chip key={item.id} tone="gold" icon="gift">
                   New {item.kind}: {item.name}
                 </Chip>
               ))}
-              {result.rewards.badges.map((badge) => (
+              {rewards.badges.map((badge) => (
                 <Chip key={badge.id} tone="info" icon="shield">
                   Badge: {badge.name}
                 </Chip>
@@ -181,17 +243,9 @@ export default function ResultsScreen({
                   New chapter unlocked
                 </Chip>
               )}
-              {!result.rewards.xp &&
-                !result.rewards.stocks &&
-                !result.rewards.gems &&
-                !result.rewards.items.length &&
-                !result.rewards.badges.length &&
-                !result.unlocked?.chapter_id && (
-                  <p className={styles.muted}>No rewards this time.</p>
-                )}
             </div>
           </section>
-        }
+        )}
 
         {review && (
           <section className={styles.card} aria-labelledby="plan-review-title">
@@ -218,8 +272,7 @@ export default function ResultsScreen({
                 — {review.kept_loss_limit ? 'plan kept' : 'over your limit'}
               </span>
             </p>
-            {
-              <dl className={styles.statList}>
+            <dl className={styles.statList}>
                 <div>
                   <dt>Trades</dt>
                   <dd className="num">{result.stats.trades}</dd>
@@ -240,8 +293,11 @@ export default function ResultsScreen({
                     <Delta value={result.stats.buy_hold_profit} />
                   </dd>
                 </div>
-              </dl>
-            }
+            </dl>
+            <p className={styles.muted}>
+              Buy and hold: what you would have made if you had put all your
+              cash in on day 0, split evenly across the stocks, and held.
+            </p>
           </section>
         )}
 
@@ -282,7 +338,7 @@ export default function ResultsScreen({
               <span>
                 Dashed line: starting cash {formatMoney(startingCash, true)}
               </span>
-              <span>Day {dayNumber(Math.min(state.tick, state.ticks))}</span>
+              <span>Day {Math.min(state.tick, state.ticks)}</span>
             </p>
           </section>
         )}
@@ -322,29 +378,36 @@ export default function ResultsScreen({
           aria-labelledby="reflection-title"
         >
           <h2 id="reflection-title">What would you do differently?</h2>
-          <form className={styles.reflection} onSubmit={save}>
-            <label htmlFor="reflection" className="visually-hidden">
-              One line about what you would change
-            </label>
-            <input
-              id="reflection"
-              className={styles.input}
-              maxLength={280}
-              value={reflection}
-              placeholder="One line is enough"
-              onChange={(event) => {
-                setReflection(event.target.value)
-                setSaved(false)
-              }}
-            />
-            <Button
-              type="submit"
-              variant="secondary"
-              disabled={saving || !reflection.trim() || saved}
-            >
-              {saved ? 'Saved' : saving ? 'Saving…' : 'Save reflection'}
-            </Button>
-          </form>
+          {stored ? (
+            <p className={styles.savedReflection}>
+              <Icon name="check" size={18} />
+              <span>
+                <span className="visually-hidden">Your saved reflection: </span>
+                “{stored}”
+              </span>
+            </p>
+          ) : (
+            <form className={styles.reflection} onSubmit={save}>
+              <label htmlFor="reflection" className="visually-hidden">
+                One line about what you would change
+              </label>
+              <input
+                id="reflection"
+                className={styles.input}
+                maxLength={280}
+                value={reflection}
+                placeholder="One line is enough"
+                onChange={(event) => setReflection(event.target.value)}
+              />
+              <Button
+                type="submit"
+                variant="secondary"
+                disabled={saving || !reflection.trim()}
+              >
+                {saving ? 'Saving…' : 'Save reflection'}
+              </Button>
+            </form>
+          )}
           {error && (
             <p className={styles.error} role="alert">
               {error}
@@ -353,44 +416,6 @@ export default function ResultsScreen({
         </section>
       </div>
 
-      <div className={styles.actions}>
-        {isMultiplayer(state) ? (
-          <ButtonLink to="/multiplayer" variant="gold" size="lg">
-            Back to multiplayer
-          </ButtonLink>
-        ) : (
-          <>
-            {chapter && (state.mode === 'level' || state.mode === 'boss') ? (
-              <ButtonLink
-                to={`/adventure/${chapter}`}
-                variant="gold"
-                size="lg"
-                icon="map"
-              >
-                Back to the map
-              </ButtonLink>
-            ) : (
-              <ButtonLink to="/play" variant="gold" size="lg" icon="swords">
-                Play hub
-              </ButtonLink>
-            )}
-            <Button
-              variant="secondary"
-              size="lg"
-              icon="refresh"
-              onClick={retry}
-              disabled={retrying}
-            >
-              {retrying ? 'Setting up…' : playAgainLabel}
-            </Button>
-            {state.mode === 'boss' && chapter && (
-              <ButtonLink to="/play" variant="ghost" size="lg">
-                Play hub
-              </ButtonLink>
-            )}
-          </>
-        )}
-      </div>
       <p className={styles.footer}>
         Sim results — real markets are harder, and nobody can guarantee profits.
       </p>

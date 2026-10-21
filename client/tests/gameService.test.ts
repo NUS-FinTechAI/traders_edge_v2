@@ -1,10 +1,14 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import {
+  findBriefing,
+  isNewer,
   lastBarTick,
   mergeGameState,
+  newOrderKey,
   type Bar,
   type GameState,
+  type GameSummary,
   type NewsItem,
 } from '../services/gameService.ts'
 
@@ -136,4 +140,50 @@ test('the next since value is the highest bar tick held', () => {
     lastBarTick(game({ bars: { LEAF: [bar(0), bar(3)], LUMB: [bar(4)] } })),
     4,
   )
+})
+
+test('a reply generated before the shown state is not newer', () => {
+  const shown = game({ tick: 5, server_time: 5000 })
+
+  assert.equal(isNewer(shown, game({ tick: 4, server_time: 4000 })), false)
+  assert.equal(isNewer(shown, game({ tick: 5, server_time: 4900 })), false)
+  assert.equal(isNewer(shown, game({ tick: 5, server_time: 5000 })), true)
+  assert.equal(isNewer(shown, game({ tick: 6, server_time: 6000 })), true)
+  assert.equal(isNewer(null, game()), true)
+})
+
+function summary(overrides: Partial<GameSummary>): GameSummary {
+  return {
+    id: 'g',
+    mode: 'level',
+    scenario_id: 'ch1-l1-practice',
+    status: 'briefing',
+    tick: 0,
+    ticks: 30,
+    title: 'Practice',
+    created_at: '2026-10-20T00:00:00Z',
+    ...overrides,
+  }
+}
+
+test('an unstarted briefing for the same market is reused', () => {
+  const games = [
+    summary({ id: 'running', status: 'running' }),
+    summary({ id: 'other', scenario_id: 'ch1-l2-practice' }),
+    summary({ id: 'match' }),
+  ]
+
+  assert.equal(findBriefing(games, 'level', 'ch1-l1-practice')?.id, 'match')
+  assert.equal(findBriefing(games, 'boss', 'ch1-l1-practice'), null)
+  assert.equal(
+    findBriefing(games, 'level', 'ch1-l1-practice', 'match'),
+    null,
+  )
+})
+
+test('order keys use only the characters the server accepts', () => {
+  const key = newOrderKey()
+
+  assert.match(key, /^[a-zA-Z0-9_-]{8,64}$/)
+  assert.notEqual(key, newOrderKey())
 })

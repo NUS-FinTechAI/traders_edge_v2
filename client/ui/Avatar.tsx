@@ -18,14 +18,22 @@ function hue(id: string): string {
 
 interface AvatarProps {
   id: string
+  /** Art key from the server (such as "parrot"); preferred over the id. */
+  image?: string | null
   size?: number
   level?: number
   label?: string
 }
 
 /** Player or AI portrait; unknown ids fall back to a lettered disc. */
-export default function Avatar({ id, size = 40, level, label }: AvatarProps) {
-  const art = avatarArt(id)
+export default function Avatar({
+  id,
+  image,
+  size = 40,
+  level,
+  label,
+}: AvatarProps) {
+  const art = (image ? avatarArt(image) : null) ?? avatarArt(id)
   const name = id.replace(/^avatar-/, '').replace(/-/g, ' ')
   return (
     <span

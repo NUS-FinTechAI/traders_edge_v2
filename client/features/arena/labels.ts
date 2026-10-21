@@ -20,13 +20,17 @@ export const TIER_LABEL: Record<BotTier, string> = {
   elite: 'Elite',
 }
 
-export const STRATEGIES: { id: StrategyId; label: string }[] = [
-  { id: 'trend', label: 'Ride the trend' },
-  { id: 'dip', label: 'Buy the dip' },
-  { id: 'breakout', label: 'Catch the breakout' },
-  { id: 'news', label: 'Trade the news' },
-  { id: 'hold', label: 'Hold steady' },
-  { id: 'cautious', label: 'Play it safe' },
+export const STRATEGIES: { id: StrategyId; label: string; hint: string }[] = [
+  { id: 'trend', label: 'Ride the trend', hint: 'Buy what keeps rising' },
+  { id: 'dip', label: 'Buy the dip', hint: 'Buy after a drop' },
+  {
+    id: 'breakout',
+    label: 'Catch the breakout',
+    hint: 'Buy when price breaks a level',
+  },
+  { id: 'news', label: 'Trade the news', hint: 'Act on headlines' },
+  { id: 'hold', label: 'Hold steady', hint: 'Buy early, trade little' },
+  { id: 'cautious', label: 'Play it safe', hint: 'Small positions, tight stops' },
 ]
 
 const BOSS_LABEL: Record<string, string> = {
