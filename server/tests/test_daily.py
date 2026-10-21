@@ -75,8 +75,7 @@ class DailyTests(AppCase):
 
         self.assertEqual(settled['rewards']['xp'], 15)
         self.assertEqual(blocked.status_code, 409)
-        self.assertEqual(blocked.json()['detail'], {'message': "You lost today's daily. Wait for the cooldown or skip it with Gems.",
-                                                   'retry_at': (self.now + timedelta(hours=2)).isoformat(), 'refresh_cost': 20})
+        self.assertEqual(blocked.json()['detail'], 'Next daily try at 14:00 UTC, or skip the wait for 20 Gems')
         self.assertEqual(view['cooldown_until'], (self.now + timedelta(hours=2)).isoformat())
         self.now += timedelta(hours=2, seconds=1)
         self.assertEqual(self.start_daily().status_code, 201)
@@ -93,10 +92,10 @@ class DailyTests(AppCase):
     def test_gems_skip_the_cooldown_and_mark_the_next_attempt(self):
         self.unlock()
         self.settle('daily', result(won=False), context={'day': '2026-10-19'})
-        poor = self.client.post('/api/daily/refresh')
+        poor = self.client.post('/api/daily/refresh', json={})
         self.give_gems(25)
-        refreshed = self.client.post('/api/daily/refresh')
-        again = self.client.post('/api/daily/refresh')
+        refreshed = self.client.post('/api/daily/refresh', json={})
+        again = self.client.post('/api/daily/refresh', json={})
         started = self.start_daily()
 
         async def gems(db):

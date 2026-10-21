@@ -54,12 +54,12 @@ class MultiplayerTests(AppCase):
     def test_lobby_join_by_code_and_host_starts_a_private_game(self):
         created = self.client.post('/api/lobbies', json={'scenario_id': 'practice-choppy-range', 'bots': 2})
         lobby = created.json()
-        too_few = self.client.post(f'/api/lobbies/{lobby["id"]}/start')
+        too_few = self.client.post(f'/api/lobbies/{lobby["id"]}/start', json={})
         self.add_user('guest')
         joined = self.client.post('/api/lobbies/join', json={'code': lobby['code'].lower()}).json()
-        not_host = self.client.post(f'/api/lobbies/{lobby["id"]}/start')
+        not_host = self.client.post(f'/api/lobbies/{lobby["id"]}/start', json={})
         self.act_as('host')
-        started = self.client.post(f'/api/lobbies/{lobby["id"]}/start').json()
+        started = self.client.post(f'/api/lobbies/{lobby["id"]}/start', json={}).json()
         self.act_as('guest')
         seen = self.client.get(f'/api/lobbies/{lobby["id"]}').json()
         game = self.client.get(f'/api/games/{seen["game_id"]}').json()
@@ -94,7 +94,7 @@ class MultiplayerTests(AppCase):
         self.add_user('guest')
         self.client.post('/api/lobbies/join', json={'code': lobby['code']})
         self.act_as('host')
-        left = self.client.post(f'/api/lobbies/{lobby["id"]}/leave')
+        left = self.client.post(f'/api/lobbies/{lobby["id"]}/leave', json={})
         self.act_as('guest')
         view = self.client.get(f'/api/lobbies/{lobby["id"]}').json()
         rejoin = self.client.post('/api/lobbies/join', json={'code': lobby['code']})
@@ -111,7 +111,7 @@ class MultiplayerTests(AppCase):
 
     def test_ranked_queue_is_locked_until_the_chapter_three_boss(self):
         status = self.client.get('/api/matchmaking').json()
-        rejected = self.client.post('/api/matchmaking')
+        rejected = self.client.post('/api/matchmaking', json={})
 
         self.assertEqual(status, {'status': 'idle', 'game_id': None, 'rating': 1000, 'tier': 'Bronze', 'waiting_since': None,
                                   'locked_reason': 'Win the Chapter 3 boss to unlock ranked matches'})
@@ -119,10 +119,10 @@ class MultiplayerTests(AppCase):
 
     def ranked_pair(self):
         self.win_boss('ch3')
-        waiting = self.client.post('/api/matchmaking').json()
+        waiting = self.client.post('/api/matchmaking', json={}).json()
         self.add_user('rival')
         self.win_boss('ch3')
-        matched = self.client.post('/api/matchmaking').json()
+        matched = self.client.post('/api/matchmaking', json={}).json()
         self.act_as('host')
         host_view = self.client.get('/api/matchmaking').json()
         return waiting, matched, host_view
@@ -182,7 +182,7 @@ class MultiplayerTests(AppCase):
         self.add_user('guest')
         self.client.post('/api/lobbies/join', json={'code': lobby['code']})
         self.act_as('host')
-        game_id = self.client.post(f'/api/lobbies/{lobby["id"]}/start').json()['game_id']
+        game_id = self.client.post(f'/api/lobbies/{lobby["id"]}/start', json={}).json()['game_id']
         self.ms += 200 * 3000
         settled = self.client.post(f'/api/games/{game_id}/finish', json={}).json()
 
@@ -197,7 +197,7 @@ class MultiplayerTests(AppCase):
         self.client.post(f'/api/games/{matched["game_id"]}/finish', json={})
 
         after = self.client.get('/api/matchmaking').json()
-        requeued = self.client.post('/api/matchmaking').json()
+        requeued = self.client.post('/api/matchmaking', json={}).json()
 
         async def games(db):
             return await db.scalar(select(func.count()).select_from(Game)), await db.scalar(select(func.count()).select_from(GameParticipant))

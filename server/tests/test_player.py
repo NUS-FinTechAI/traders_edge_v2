@@ -40,7 +40,7 @@ class PlayerTests(AppCase):
         self.run_db(change)
 
     def claim(self):
-        response = self.client.post('/api/me/daily-login')
+        response = self.client.post('/api/me/daily-login', json={})
         self.assertEqual(response.status_code, 200, response.text)
         return response.json()
 

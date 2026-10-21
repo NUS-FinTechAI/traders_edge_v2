@@ -12,7 +12,7 @@ class QuizTopic(BaseModel):
     kind: Literal['chapter', 'review', 'mixed']
     title: str
     questions: int
-    best: int | None = Field(description='Best score as a percentage')
+    best: int | None = Field(description='Most correct answers in one completed attempt')
     passed: bool
     locked: bool
 

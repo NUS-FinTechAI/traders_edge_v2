@@ -101,8 +101,7 @@ async def resolve(db, profile, progress, instant):
     wallet = await ledger.account(db, profile.id, instant)
     until = active_cooldown(wallet, instant)
     if until is not None:
-        raise HTTPException(409, {'message': 'You lost today\'s daily. Wait for the cooldown or skip it with Gems.',
-                                  'retry_at': until.isoformat(), 'refresh_cost': REFRESH_GEMS})
+        raise HTTPException(409, f'Next daily try at {until:%H:%M} UTC, or skip the wait for {REFRESH_GEMS} Gems')
     today = ledger.day(instant)
     attempt = await attempts_today(db, profile.id, instant) + 1
     context = {'day': today, 'attempt': attempt, 'refresh_event_key': wallet.pending_refresh_event_key}

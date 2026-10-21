@@ -134,7 +134,7 @@ async def topics(db, content, profile):
         passed = any(ledger.day(a.completed_at) == today for a in mine) if kind == 'review' else any(a.passed for a in mine)
         entries.append({'id': topic_id, 'kind': kind, 'title': topic_title(content.campaign, topic_id),
                         'questions': topic_size(content, topic_id, chapters), 'locked': locked, 'passed': passed,
-                        'best': max((round(100 * a.score / a.total) for a in mine if a.total), default=None)})
+                        'best': max((a.score for a in mine), default=None)})
     return {'topics': entries, 'rooms': await my_rooms(db, profile)}
 
 

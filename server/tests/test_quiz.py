@@ -70,7 +70,7 @@ class QuizTests(AppCase):
         self.assertEqual((failed['status'], failed['passed'], failed['xp']), ('complete', False, 0))
         self.assertEqual((passed['passed'], passed['xp']), (True, 20))
         self.assertEqual((repeat['passed'], repeat['xp']), (True, 0))
-        self.assertEqual((topic['best'], topic['passed']), (100, True))
+        self.assertEqual((topic['best'], topic['passed']), (10, True))
 
     def test_mixed_mastery_and_daily_review_rewards(self):
         mixed = self.finish(self.start(topic_id='mixed'), correct=16)

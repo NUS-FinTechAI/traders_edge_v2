@@ -89,7 +89,7 @@ class AppCase(unittest.TestCase):
         for question_id, option_id in (('q1', 'a'), ('q2', 'f')):
             response = self.client.post(f'/api/campaign/levels/{level_id}/check', json={'question_id': question_id, 'option_id': option_id})
             assert response.status_code == 200, response.text
-        response = self.client.post(f'/api/campaign/levels/{level_id}/check/complete')
+        response = self.client.post(f'/api/campaign/levels/{level_id}/check/complete', json={})
         assert response.status_code == 200, response.text
         return response.json()
 
