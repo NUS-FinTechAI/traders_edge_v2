@@ -1,48 +1,15 @@
 import httpService from './httpService.ts'
-import type { NodeState } from './campaignService.ts'
+import type { components } from '../api/api-types.ts'
 
-export interface Opponent {
-  bot_id: string
-  name: string
-  avatar: string
-  tier: string
-  style: string
-}
+type Schemas = components['schemas']
 
-export interface Daily {
-  date: string
-  unlocked: boolean
-  locked_reason: string | null
-  scenario: { id: string; title: string; briefing: string; ticks: number }
-  opponent: Opponent
-  won_today: boolean
-  attempts_today: number
-  cooldown_until: string | null
-  refresh_cost_gems: number
-  week: {
-    doubloons: number
-    target: number
-    resets_at: string
-    wins_this_week: number
-  }
-}
+export type Opponent = Schemas['Opponent']
 
-export interface PracticeScenario {
-  id: string
-  title: string
-  briefing: string
-  difficulty: number
-  bots: { bot_id: string; name: string; avatar: string; tier: string }[]
-}
+export type Daily = Schemas['Daily']
 
-export interface BossEntry {
-  chapter_id: string
-  kind: 'boss' | 'gate'
-  scenario_id: string
-  title: string
-  state: NodeState
-  won: boolean
-}
+export type PracticeScenario = Schemas['PracticeScenario']
+
+export type BossEntry = Schemas['BossEntry']
 
 export function getDaily(signal?: AbortSignal): Promise<Daily> {
   return httpService.request<Daily>('/api/daily', { signal })

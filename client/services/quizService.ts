@@ -1,34 +1,13 @@
 import httpService from './httpService.ts'
+import type { components } from '../api/api-types.ts'
 
-export interface QuizTopic {
-  id: string
-  kind: 'chapter' | 'review' | 'mixed'
-  title: string
-  questions: number
-  best: number | null
-  passed: boolean
-  locked: boolean
-}
+type Schemas = components['schemas']
 
-export interface QuizRoomSummary {
-  id: string
-  title: string
-  code: string
-  is_host: boolean
-  members: number
-}
+export type QuizTopic = Schemas['QuizTopic']
 
-export interface QuizRoom extends QuizRoomSummary {
-  topic_title: string
-  /** The host sees every member; members see only their own row. */
-  results: {
-    name: string
-    score: number | null
-    total: number
-    finished: boolean
-  }[]
-  my_attempt_id: string | null
-}
+export type QuizRoomSummary = Schemas['QuizRoomSummary']
+
+export type QuizRoom = Schemas['QuizRoom']
 
 export interface QuizAnswer {
   option_id: string
@@ -37,24 +16,9 @@ export interface QuizAnswer {
   explanation: string
 }
 
-export interface QuizQuestion {
-  id: string
-  prompt: string
-  options: { id: string; text: string }[]
-  answered: QuizAnswer | null
-}
+export type QuizQuestion = Schemas['QuizQuestion']
 
-export interface QuizAttempt {
-  id: string
-  title: string
-  room_id: string | null
-  status: 'active' | 'complete'
-  questions: QuizQuestion[]
-  score: number
-  total: number
-  passed: boolean | null
-  xp: number
-}
+export type QuizAttempt = Schemas['QuizAttempt']
 
 export type Confidence = 'sure' | 'think' | 'guess'
 

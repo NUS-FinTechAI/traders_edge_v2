@@ -1,4 +1,7 @@
 import httpService from './httpService.ts'
+import type { components } from '../api/api-types.ts'
+
+type Schemas = components['schemas']
 
 export type GameMode =
   'level' | 'boss' | 'daily' | 'practice' | 'private' | 'ranked'
@@ -34,64 +37,17 @@ export interface Scenario {
   spread: number
 }
 
-export interface Asset {
-  symbol: string
-  name: string
-  sector: string
-  blurb: string
-  price: number
-  change_pct: number
-}
+export type Asset = Schemas['Asset']
 
-export interface Bar {
-  t: number
-  o: number
-  h: number
-  l: number
-  c: number
-  v: number
-}
+export type Bar = Schemas['Bar']
 
-export interface NewsItem {
-  id: string
-  t: number
-  headline: string
-  body: string
-  symbols: string[]
-  tone: Tone
-  kind: NewsKind
-}
+export type NewsItem = Schemas['NewsItem']
 
-export interface Position {
-  symbol: string
-  qty: number
-  avg_price: number
-  value: number
-  unrealized: number
-}
+export type Position = Schemas['Position']
 
-export interface Order {
-  id: string
-  client_order_id: string
-  symbol: string
-  side: Side
-  type: OrderType
-  qty: number
-  limit_price?: number | null
-  stop_price?: number | null
-  status: 'open' | 'filled' | 'cancelled'
-  tick: number
-}
+export type Order = Schemas['Order']
 
-export interface Fill {
-  order_id: string
-  t: number
-  symbol: string
-  side: Side
-  qty: number
-  price: number
-  fee: number
-}
+export type Fill = Schemas['Fill']
 
 export interface Me {
   participant_id: string
@@ -108,111 +64,19 @@ export interface Me {
   plan: Plan | null
 }
 
-export interface LeaderboardEntry {
-  participant_id: string
-  name: string
-  kind: 'bot' | 'human'
-  bot_id: string | null
-  avatar: string | null
-  profit: number
-  rank: number
-  is_me: boolean
-  forfeited: boolean
-  /** Bot's one-line public style, e.g. "Buys strength". */
-  style: string | null
-  tier: BotTier | null
-}
+export type LeaderboardEntry = Schemas['Standing']
 
 export type MissionState = 'done' | 'pending' | 'on_track' | 'behind' | 'failed'
 
-export interface Mission {
-  id: string
-  tier: 'basic' | 'bonus'
-  text: string
-  done: boolean
-  /** Milestones finish during play; end-of-match missions stay on track, behind or failed until the end. */
-  state: MissionState
-  progress: string
-}
+export type Mission = Schemas['Mission']
 
-export interface RewardItem {
-  id: string
-  kind: string
-  name: string
-}
+export type RewardItem = Schemas['RewardItem']
 
-export interface DecisionBreakdown {
-  missions: number
-  plan: number
-  risk: number
-  overtrading: number
-}
+export type DecisionBreakdown = Schemas['DecisionBreakdown']
 
-export interface GameResult {
-  won: boolean
-  rank: number
-  of: number
-  profit: number
-  profit_pct: number
-  forfeited: boolean
-  leaderboard: LeaderboardEntry[]
-  missions: Mission[]
-  stars: { normal: boolean; special: boolean } | null
-  rewards: {
-    xp: number
-    stocks: number
-    gems: number
-    items: RewardItem[]
-    badges: { id: string; name: string }[]
-  }
-  plan_review: {
-    strategy: StrategyId
-    max_loss_pct: number
-    worst_drawdown_pct: number
-    kept_loss_limit: boolean
-  } | null
-  stats: {
-    trades: number
-    fees: number
-    biggest_position_pct: number
-    max_drawdown_pct: number
-    buy_hold_profit: number
-  }
-  debrief: string
-  unlocked: { chapter_id: string } | null
-  /** Unvalidated 0–100 process score; it never decides a win. */
-  decision_score: number
-  decision_breakdown: DecisionBreakdown
-  reflection?: string | null
-  /** Up to five generated sentences, e.g. "Day 18: … You held 40 LEAF." */
-  key_moments: string[]
-}
+export type GameResult = Schemas['GameResult']
 
-export interface GameState {
-  id: string
-  mode: GameMode
-  status: GameStatus
-  tick: number
-  ticks: number
-  tick_label: string
-  tick_ms: number
-  speed: number
-  paused: boolean
-  server_time: number
-  next_tick_at: number | null
-  /** Not in the current engine response; derived from the scenario id when absent. */
-  chapter_id?: string | null
-  level_id?: string | null
-  boss?: 'preview' | 'gate' | 'final' | null
-  scenario: Scenario
-  assets: Asset[]
-  bars: Record<string, Bar[]>
-  news: NewsItem[]
-  me: Me
-  leaderboard: LeaderboardEntry[]
-  missions: Mission[]
-  result: GameResult | null
-}
+export type GameState = Schemas['GameState']
 
 export interface CreateGameRequest {
   mode: GameMode
@@ -232,21 +96,9 @@ export interface OrderRequest {
   stop_price?: number
 }
 
-export interface PlacedOrder {
-  order: Order
-  state: GameState
-}
+export type PlacedOrder = Schemas['PlacedOrder']
 
-export interface GameSummary {
-  id: string
-  mode: GameMode
-  status: GameStatus
-  scenario_id: string
-  title: string
-  tick: number
-  ticks: number
-  created_at: string
-}
+export type GameSummary = Schemas['GameSummary']
 
 export type ClockAction = 'pause' | 'resume' | 'step' | 'speed'
 

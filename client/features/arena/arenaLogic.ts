@@ -178,7 +178,7 @@ export function rankHeadline(result: GameResult): string {
     : `${ordinal(rank)} of ${of}`
 }
 
-type Placement = Pick<GameState, 'chapter_id' | 'level_id'> & {
+type Placement = Partial<Pick<GameState, 'chapter_id' | 'level_id'>> & {
   scenario: Pick<Scenario, 'id'>
 }
 

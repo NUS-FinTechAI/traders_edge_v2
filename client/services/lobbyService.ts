@@ -1,38 +1,13 @@
 import httpService from './httpService.ts'
+import type { components } from '../api/api-types.ts'
 
-export interface LobbyScenario {
-  id: string
-  title: string
-  briefing: string
-  ticks: number
-}
+type Schemas = components['schemas']
 
-export interface Lobby {
-  id: string
-  code: string
-  host_id: string
-  is_host: boolean
-  status: 'open' | 'started' | 'closed'
-  scenario: { id: string; title: string; ticks: number }
-  members: {
-    user_id: string
-    name: string
-    avatar_id: string
-    is_host: boolean
-  }[]
-  bots: number
-  game_id: string | null
-  max_members: number
-}
+export type LobbyScenario = Schemas['LobbyScenarioDetail']
 
-export interface Match {
-  status: 'idle' | 'searching' | 'matched'
-  game_id: string | null
-  rating: number
-  tier: string
-  waiting_since: string | null
-  locked_reason: string | null
-}
+export type Lobby = Schemas['Lobby']
+
+export type Match = Schemas['Match']
 
 export function getLobbyScenarios(
   signal?: AbortSignal,

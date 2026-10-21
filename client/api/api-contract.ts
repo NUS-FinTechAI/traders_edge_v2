@@ -18,40 +18,6 @@ export interface paths {
     patch?: never
     trace?: never
   }
-  '/api/adventure': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Adventure */
-    get: operations['getAdventure']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/adventure/catalog': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Public Adventure */
-    get: operations['getPublicAdventure']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
   '/api/archive': {
     parameters: {
       query?: never
@@ -59,7 +25,7 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    /** Archive */
+    /** Get Archive */
     get: operations['getArchive']
     put?: never
     post?: never
@@ -69,15 +35,15 @@ export interface paths {
     patch?: never
     trace?: never
   }
-  '/api/attempts/{attempt_id}': {
+  '/api/bosses': {
     parameters: {
       query?: never
       header?: never
       path?: never
       cookie?: never
     }
-    /** Get Attempt */
-    get: operations['getLearningAttempt']
+    /** Get Bosses */
+    get: operations['getBosses']
     put?: never
     post?: never
     delete?: never
@@ -86,33 +52,15 @@ export interface paths {
     patch?: never
     trace?: never
   }
-  '/api/challenges': {
+  '/api/campaign': {
     parameters: {
       query?: never
       header?: never
       path?: never
       cookie?: never
     }
-    /** List Attempts */
-    get: operations['listChallenges']
-    put?: never
-    /** Start */
-    post: operations['startChallenge']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/challenges/{attempt_id}': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Resume */
-    get: operations['getChallenge']
+    /** Get Campaign */
+    get: operations['getCampaign']
     put?: never
     post?: never
     delete?: never
@@ -121,41 +69,41 @@ export interface paths {
     patch?: never
     trace?: never
   }
-  '/api/challenges/{attempt_id}/abandon': {
+  '/api/campaign/chapters/{chapter_id}': {
     parameters: {
       query?: never
       header?: never
       path?: never
       cookie?: never
     }
-    get?: never
+    /** Get Chapter */
+    get: operations['getChapterMap']
     put?: never
-    /** Abandon */
-    post: operations['abandonChallenge']
+    post?: never
     delete?: never
     options?: never
     head?: never
     patch?: never
     trace?: never
   }
-  '/api/challenges/{attempt_id}/advance': {
+  '/api/campaign/levels/{level_id}': {
     parameters: {
       query?: never
       header?: never
       path?: never
       cookie?: never
     }
-    get?: never
+    /** Get Level */
+    get: operations['getLevel']
     put?: never
-    /** Advance */
-    post: operations['advanceChallenge']
+    post?: never
     delete?: never
     options?: never
     head?: never
     patch?: never
     trace?: never
   }
-  '/api/challenges/{attempt_id}/complete': {
+  '/api/campaign/levels/{level_id}/check': {
     parameters: {
       query?: never
       header?: never
@@ -164,15 +112,15 @@ export interface paths {
     }
     get?: never
     put?: never
-    /** Complete */
-    post: operations['completeChallenge']
+    /** Answer Check */
+    post: operations['answerCheck']
     delete?: never
     options?: never
     head?: never
     patch?: never
     trace?: never
   }
-  '/api/challenges/{attempt_id}/orders': {
+  '/api/campaign/levels/{level_id}/check/complete': {
     parameters: {
       query?: never
       header?: never
@@ -181,25 +129,8 @@ export interface paths {
     }
     get?: never
     put?: never
-    /** Order */
-    post: operations['submitChallengeOrder']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/challenges/{attempt_id}/orders/{order_id}/cancel': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /** Cancel */
-    post: operations['cancelChallengeOrder']
+    /** Complete Check */
+    post: operations['completeCheck']
     delete?: never
     options?: never
     head?: never
@@ -223,15 +154,15 @@ export interface paths {
     patch?: never
     trace?: never
   }
-  '/api/curriculum': {
+  '/api/daily': {
     parameters: {
       query?: never
       header?: never
       path?: never
       cookie?: never
     }
-    /** Get Curriculum */
-    get: operations['getCurriculum']
+    /** Get Daily */
+    get: operations['getDaily']
     put?: never
     post?: never
     delete?: never
@@ -240,265 +171,7 @@ export interface paths {
     patch?: never
     trace?: never
   }
-  '/api/journal': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Journal */
-    get: operations['listJournal']
-    put?: never
-    /** Add Journal */
-    post: operations['createJournalEntry']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/journal/{entry_id}': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    post?: never
-    /** Delete Journal */
-    delete: operations['deleteJournalEntry']
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/leaderboard': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Leaderboard */
-    get: operations['getLearningLeaderboard']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/learning-runs/{run_id}': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Get Run */
-    get: operations['getLearningRun']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/learning-runs/{run_id}/scenario-set': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Resume */
-    get: operations['resumeLearningScenarioSet']
-    put?: never
-    /** Bind */
-    post: operations['bindLearningScenarioSet']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/learning-runs/{run_id}/scenario-set/review': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /** Review */
-    post: operations['reviewLearningScenarioCase']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/learning-runs/{run_id}/simulation': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Resume */
-    get: operations['resumeLearningSimulation']
-    put?: never
-    /** Bind */
-    post: operations['bindLearningSimulation']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/learning-runs/{run_id}/simulation/review': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /** Review */
-    post: operations['reviewLearningSimulation']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/learning-runs/{run_id}/steps/{step_id}/submit': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /** Submit Step */
-    post: operations['submitLearningStep']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/lessons/{lesson_id}': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Get Lesson */
-    get: operations['getLesson']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/lessons/{lesson_id}/complete': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /** Complete Lesson */
-    post: operations['completeLesson']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/levels/{level_id}': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Get Level */
-    get: operations['getLevel']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/levels/{level_id}/runs': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /** Start Level */
-    post: operations['startLevelRun']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/me/activity': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Activity */
-    get: operations['getLearningActivity']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/me/economy': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Read Wallet */
-    get: operations['getEconomy']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/me/economy/daily-refresh': {
+  '/api/daily/refresh': {
     parameters: {
       query?: never
       header?: never
@@ -508,14 +181,49 @@ export interface paths {
     get?: never
     put?: never
     /** Refresh Daily */
-    post: operations['refreshDailyChallenge']
+    post: operations['refreshDaily']
     delete?: never
     options?: never
     head?: never
     patch?: never
     trace?: never
   }
-  '/api/me/economy/login-claims': {
+  '/api/games': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /** List Games */
+    get: operations['listGames']
+    put?: never
+    /** Create Game */
+    post: operations['createGame']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/games/{game_id}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /** Get Game */
+    get: operations['getGame']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/games/{game_id}/clock': {
     parameters: {
       query?: never
       header?: never
@@ -524,32 +232,15 @@ export interface paths {
     }
     get?: never
     put?: never
-    /** Login Claim */
-    post: operations['claimLoginReward']
+    /** Control Clock */
+    post: operations['controlGameClock']
     delete?: never
     options?: never
     head?: never
     patch?: never
     trace?: never
   }
-  '/api/me/economy/shop': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Read Shop */
-    get: operations['getShop']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/me/economy/shop/purchases': {
+  '/api/games/{game_id}/finish': {
     parameters: {
       query?: never
       header?: never
@@ -558,30 +249,304 @@ export interface paths {
     }
     get?: never
     put?: never
-    /** Purchase */
-    post: operations['purchaseShopItem']
+    /** Finish Game */
+    post: operations['finishGame']
     delete?: never
     options?: never
     head?: never
     patch?: never
     trace?: never
   }
-  '/api/me/profile': {
+  '/api/games/{game_id}/orders': {
     parameters: {
       query?: never
       header?: never
       path?: never
       cookie?: never
     }
-    /** Get Profile */
-    get: operations['getProfile']
+    get?: never
+    put?: never
+    /** Place Order */
+    post: operations['placeGameOrder']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/games/{game_id}/orders/{order_id}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    post?: never
+    /** Cancel Order */
+    delete: operations['cancelGameOrder']
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/games/{game_id}/result': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /** Get Result */
+    get: operations['getGameResult']
     put?: never
     post?: never
     delete?: never
     options?: never
     head?: never
-    /** Patch Profile */
-    patch: operations['updateProfile']
+    patch?: never
+    trace?: never
+  }
+  '/api/games/{game_id}/start': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /** Start Game */
+    post: operations['startGame']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/leaderboards/ranked': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /** Ranked Leaderboard */
+    get: operations['getRankedLeaderboard']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/leaderboards/xp': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /** Xp Leaderboard */
+    get: operations['getXpLeaderboard']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/lobbies': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /** Create Lobby */
+    post: operations['createLobby']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/lobbies/{lobby_id}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /** Get Lobby */
+    get: operations['getLobby']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/lobbies/{lobby_id}/leave': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /** Leave Lobby */
+    post: operations['leaveLobby']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/lobbies/{lobby_id}/start': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /** Start Lobby */
+    post: operations['startLobby']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/lobbies/join': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /** Join Lobby */
+    post: operations['joinLobby']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/lobbies/scenarios': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /** Lobby Scenarios */
+    get: operations['getLobbyScenarios']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/matchmaking': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /** Get Matchmaking */
+    get: operations['getMatchmaking']
+    put?: never
+    /** Join Matchmaking */
+    post: operations['joinMatchmaking']
+    /** Leave Matchmaking */
+    delete: operations['leaveMatchmaking']
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/me': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /** Get Me */
+    get: operations['getMe']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    /** Update Me */
+    patch: operations['updateMe']
+    trace?: never
+  }
+  '/api/me/activity': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /** Get Activity */
+    get: operations['getActivity']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/me/collection': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /** Get Collection */
+    get: operations['getCollection']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/api/me/daily-login': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /** Claim Daily Login */
+    post: operations['claimDailyLogin']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
     trace?: never
   }
   '/api/me/research': {
@@ -669,15 +634,15 @@ export interface paths {
     patch?: never
     trace?: never
   }
-  '/api/me/rewards': {
+  '/api/practice': {
     parameters: {
       query?: never
       header?: never
       path?: never
       cookie?: never
     }
-    /** Inventory */
-    get: operations['getRewardInventory']
+    /** Get Practice */
+    get: operations['getPracticeScenarios']
     put?: never
     post?: never
     delete?: never
@@ -686,324 +651,17 @@ export interface paths {
     patch?: never
     trace?: never
   }
-  '/api/me/rewards/claims': {
+  '/api/quizzes': {
     parameters: {
       query?: never
       header?: never
       path?: never
       cookie?: never
     }
-    get?: never
-    put?: never
-    /** Claim */
-    post: operations['claimLearningReward']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/me/rewards/equipment': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
+    /** List Quizzes */
+    get: operations['listQuizzes']
     put?: never
     post?: never
-    delete?: never
-    options?: never
-    head?: never
-    /** Equip */
-    patch: operations['updateRewardEquipment']
-    trace?: never
-  }
-  '/api/me/workflow': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Workflow */
-    get: operations['getLearningWorkflow']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/modules/{module_id}/assessment': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Get Assessment */
-    get: operations['getModuleAssessment']
-    put?: never
-    /** Complete Assessment */
-    post: operations['completeModuleAssessment']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/modules/{module_id}/assessment-runs': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /** Start Assessment */
-    post: operations['startAssessmentRun']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/modules/{module_id}/diagnostic-runs': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /** Start Diagnostic */
-    post: operations['startDiagnosticRun']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/modules/{module_id}/map': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Get Map */
-    get: operations['getModuleMap']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/multiplayer/{lobby_id}': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Resume */
-    get: operations['getMultiplayerLobby']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/multiplayer/{lobby_id}/abandon': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /** Abandon */
-    post: operations['abandonMultiplayerMatch']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/multiplayer/{lobby_id}/complete': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /** Complete */
-    post: operations['completeMultiplayerMatch']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/multiplayer/{lobby_id}/orders': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /** Order */
-    post: operations['submitMultiplayerOrder']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/multiplayer/{lobby_id}/orders/{order_id}/cancel': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /** Cancel */
-    post: operations['cancelMultiplayerOrder']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/multiplayer/{lobby_id}/ready': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /** Ready */
-    post: operations['markMultiplayerReady']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/multiplayer/{lobby_id}/start': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /** Start */
-    post: operations['startMultiplayerMatch']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/multiplayer/join': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /** Join */
-    post: operations['joinMultiplayerLobby']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/multiplayer/leaderboard': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Leaderboard */
-    get: operations['getMultiplayerLeaderboard']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/multiplayer/lobbies': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /** Create */
-    post: operations['createMultiplayerLobby']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/multiplayer/matches': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Matches */
-    get: operations['listMultiplayerMatches']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/multiplayer/matchmaking': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /** Matchmaking */
-    post: operations['joinMultiplayerMatchmaking']
     delete?: never
     options?: never
     head?: never
@@ -1017,8 +675,7 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    /** List Attempts */
-    get: operations['listQuizAttempts']
+    get?: never
     put?: never
     /** Start Attempt */
     post: operations['startQuizAttempt']
@@ -1055,41 +712,7 @@ export interface paths {
     get?: never
     put?: never
     /** Answer */
-    post: operations['submitQuizAnswer']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/quizzes/forms': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Forms */
-    get: operations['listQuizForms']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/quizzes/question-bank': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Question Bank */
-    get: operations['getQuizQuestionBank']
-    put?: never
-    post?: never
+    post: operations['answerQuiz']
     delete?: never
     options?: never
     head?: never
@@ -1103,8 +726,7 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    /** List Rooms */
-    get: operations['listQuizRooms']
+    get?: never
     put?: never
     /** Create Room */
     post: operations['createQuizRoom']
@@ -1131,142 +753,6 @@ export interface paths {
     patch?: never
     trace?: never
   }
-  '/api/quizzes/rooms/{room_id}/close': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /** Close Room */
-    post: operations['closeQuizRoom']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/quizzes/rooms/{room_id}/results': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Room Results */
-    get: operations['getQuizRoomResults']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/quizzes/rooms/{room_id}/start': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /** Start Room */
-    post: operations['startQuizRoom']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/quizzes/rooms/join': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /** Join Room */
-    post: operations['joinQuizRoom']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/reviews': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Reviews */
-    get: operations['listReviews']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/reviews/{review_id}': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Get Review */
-    get: operations['getReview']
-    put?: never
-    post?: never
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/reviews/{review_id}/runs': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /** Start Review */
-    post: operations['startReviewRun']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/reviews/{review_id}/submit': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /** Submit Review */
-    post: operations['submitReview']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
   '/api/session': {
     parameters: {
       query?: never
@@ -1285,33 +771,15 @@ export interface paths {
     patch?: never
     trace?: never
   }
-  '/api/simulations': {
+  '/api/shop': {
     parameters: {
       query?: never
       header?: never
       path?: never
       cookie?: never
     }
-    /** List Sessions */
-    get: operations['listSimulations']
-    put?: never
-    /** Start */
-    post: operations['startSimulation']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/simulations/{session_id}': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** Resume */
-    get: operations['resumeSimulation']
+    /** Get Shop */
+    get: operations['getShop']
     put?: never
     post?: never
     delete?: never
@@ -1320,7 +788,7 @@ export interface paths {
     patch?: never
     trace?: never
   }
-  '/api/simulations/{session_id}/advance': {
+  '/api/shop/purchase': {
     parameters: {
       query?: never
       header?: never
@@ -1329,59 +797,8 @@ export interface paths {
     }
     get?: never
     put?: never
-    /** Advance */
-    post: operations['advanceSimulation']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/simulations/{session_id}/debrief': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /** Debrief */
-    post: operations['debriefSimulation']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/simulations/{session_id}/orders/{order_id}/cancel': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /** Cancel */
-    post: operations['cancelSimulationOrder']
-    delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/api/simulations/{session_id}/orders/submit': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    get?: never
-    put?: never
-    /** Order */
-    post: operations['submitSimulationOrder']
+    /** Purchase */
+    post: operations['purchaseShopItem']
     delete?: never
     options?: never
     head?: never
@@ -1429,46 +846,6 @@ export interface operations {
       }
     }
   }
-  getAdventure: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['AdventureResponse']
-        }
-      }
-    }
-  }
-  getPublicAdventure: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['PublicAdventureResponse']
-        }
-      }
-    }
-  }
   getArchive: {
     parameters: {
       query?: never
@@ -1484,43 +861,12 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['Archive']
         }
       }
     }
   }
-  getLearningAttempt: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        attempt_id: string
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': unknown
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['HTTPValidationError']
-        }
-      }
-    }
-  }
-  listChallenges: {
+  getBosses: {
     parameters: {
       query?: never
       header?: never
@@ -1535,50 +881,37 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': components['schemas']['ChallengeListResponse']
+          'application/json': components['schemas']['Bosses']
         }
       }
     }
   }
-  startChallenge: {
+  getCampaign: {
     parameters: {
       query?: never
       header?: never
       path?: never
       cookie?: never
     }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['CreateChallenge']
-      }
-    }
+    requestBody?: never
     responses: {
       /** @description Successful Response */
-      201: {
+      200: {
         headers: {
           [name: string]: unknown
         }
         content: {
-          'application/json': components['schemas']['ChallengeResponse']
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['HTTPValidationError']
+          'application/json': components['schemas']['Campaign']
         }
       }
     }
   }
-  getChallenge: {
+  getChapterMap: {
     parameters: {
       query?: never
       header?: never
       path: {
-        attempt_id: string
+        chapter_id: string
       }
       cookie?: never
     }
@@ -1590,7 +923,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': components['schemas']['ChallengeResponse']
+          'application/json': components['schemas']['ChapterMap']
         }
       }
       /** @description Validation Error */
@@ -1604,20 +937,16 @@ export interface operations {
       }
     }
   }
-  abandonChallenge: {
+  getLevel: {
     parameters: {
       query?: never
       header?: never
       path: {
-        attempt_id: string
+        level_id: string
       }
       cookie?: never
     }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['AbandonChallenge']
-      }
-    }
+    requestBody?: never
     responses: {
       /** @description Successful Response */
       200: {
@@ -1625,7 +954,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': components['schemas']['ChallengeResponse']
+          'application/json': components['schemas']['Level']
         }
       }
       /** @description Validation Error */
@@ -1639,18 +968,18 @@ export interface operations {
       }
     }
   }
-  advanceChallenge: {
+  answerCheck: {
     parameters: {
       query?: never
       header?: never
       path: {
-        attempt_id: string
+        level_id: string
       }
       cookie?: never
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['AdvanceSimulation']
+        'application/json': components['schemas']['CheckAnswerBody']
       }
     }
     responses: {
@@ -1660,7 +989,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': components['schemas']['ChallengeResponse']
+          'application/json': components['schemas']['CheckAnswer']
         }
       }
       /** @description Validation Error */
@@ -1674,20 +1003,16 @@ export interface operations {
       }
     }
   }
-  completeChallenge: {
+  completeCheck: {
     parameters: {
       query?: never
       header?: never
       path: {
-        attempt_id: string
+        level_id: string
       }
       cookie?: never
     }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['DebriefSimulation']
-      }
-    }
+    requestBody?: never
     responses: {
       /** @description Successful Response */
       200: {
@@ -1695,78 +1020,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': components['schemas']['ChallengeResponse']
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['HTTPValidationError']
-        }
-      }
-    }
-  }
-  submitChallengeOrder: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        attempt_id: string
-      }
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['SubmitOrder']
-      }
-    }
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ChallengeResponse']
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['HTTPValidationError']
-        }
-      }
-    }
-  }
-  cancelChallengeOrder: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        attempt_id: string
-        order_id: string
-      }
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['CancelOrder']
-      }
-    }
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ChallengeResponse']
+          'application/json': components['schemas']['CheckComplete']
         }
       }
       /** @description Validation Error */
@@ -1800,7 +1054,7 @@ export interface operations {
       }
     }
   }
-  getCurriculum: {
+  getDaily: {
     parameters: {
       query?: never
       header?: never
@@ -1815,15 +1069,35 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['Daily']
         }
       }
     }
   }
-  listJournal: {
+  refreshDaily: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['Daily']
+        }
+      }
+    }
+  }
+  listGames: {
     parameters: {
       query?: {
-        limit?: number
+        status?: 'active'
       }
       header?: never
       path?: never
@@ -1837,7 +1111,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['GameList']
         }
       }
       /** @description Validation Error */
@@ -1851,7 +1125,7 @@ export interface operations {
       }
     }
   }
-  createJournalEntry: {
+  createGame: {
     parameters: {
       query?: never
       header?: never
@@ -1860,7 +1134,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['JournalCreate']
+        'application/json': components['schemas']['CreateGame']
       }
     }
     responses: {
@@ -1870,7 +1144,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['GameState']
         }
       }
       /** @description Validation Error */
@@ -1884,12 +1158,352 @@ export interface operations {
       }
     }
   }
-  deleteJournalEntry: {
+  getGame: {
+    parameters: {
+      query?: {
+        since?: number | null
+      }
+      header?: never
+      path: {
+        game_id: string
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['GameState']
+        }
+      }
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['HTTPValidationError']
+        }
+      }
+    }
+  }
+  controlGameClock: {
     parameters: {
       query?: never
       header?: never
       path: {
-        entry_id: string
+        game_id: string
+      }
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['ClockCommand']
+      }
+    }
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['GameState']
+        }
+      }
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['HTTPValidationError']
+        }
+      }
+    }
+  }
+  finishGame: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        game_id: string
+      }
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['FinishGame']
+      }
+    }
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['GameResult']
+        }
+      }
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['HTTPValidationError']
+        }
+      }
+    }
+  }
+  placeGameOrder: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        game_id: string
+      }
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['PlaceOrder']
+      }
+    }
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['PlacedOrder']
+        }
+      }
+      /** @description The order breaks a rule; `detail` says why in plain language */
+      422: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['OrderRejection']
+        }
+      }
+    }
+  }
+  cancelGameOrder: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        game_id: string
+        order_id: string
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['GameState']
+        }
+      }
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['HTTPValidationError']
+        }
+      }
+    }
+  }
+  getGameResult: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        game_id: string
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['GameResult']
+        }
+      }
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['HTTPValidationError']
+        }
+      }
+    }
+  }
+  startGame: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        game_id: string
+      }
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['StartGame']
+      }
+    }
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['GameState']
+        }
+      }
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['HTTPValidationError']
+        }
+      }
+    }
+  }
+  getRankedLeaderboard: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['Leaderboard']
+        }
+      }
+    }
+  }
+  getXpLeaderboard: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['Leaderboard']
+        }
+      }
+    }
+  }
+  createLobby: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['CreateLobby']
+      }
+    }
+    responses: {
+      /** @description Successful Response */
+      201: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['Lobby']
+        }
+      }
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['HTTPValidationError']
+        }
+      }
+    }
+  }
+  getLobby: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        lobby_id: string
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['Lobby']
+        }
+      }
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['HTTPValidationError']
+        }
+      }
+    }
+  }
+  leaveLobby: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        lobby_id: string
       }
       cookie?: never
     }
@@ -1913,7 +1527,71 @@ export interface operations {
       }
     }
   }
-  getLearningLeaderboard: {
+  startLobby: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        lobby_id: string
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['Lobby']
+        }
+      }
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['HTTPValidationError']
+        }
+      }
+    }
+  }
+  joinLobby: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['JoinLobby']
+      }
+    }
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['Lobby']
+        }
+      }
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['HTTPValidationError']
+        }
+      }
+    }
+  }
+  getLobbyScenarios: {
     parameters: {
       query?: never
       header?: never
@@ -1928,445 +1606,12 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['LobbyScenarios']
         }
       }
     }
   }
-  getLearningRun: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        run_id: string
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['LearningRunResponse']
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['HTTPValidationError']
-        }
-      }
-    }
-  }
-  resumeLearningScenarioSet: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        run_id: string
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ScenarioSetResponse']
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['HTTPValidationError']
-        }
-      }
-    }
-  }
-  bindLearningScenarioSet: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        run_id: string
-      }
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['BindScenarioCase']
-      }
-    }
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ScenarioSetResponse']
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['HTTPValidationError']
-        }
-      }
-    }
-  }
-  reviewLearningScenarioCase: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        run_id: string
-      }
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['ReviewScenarioCase']
-      }
-    }
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ScenarioSetResponse']
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['HTTPValidationError']
-        }
-      }
-    }
-  }
-  resumeLearningSimulation: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        run_id: string
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['BoundSimulationResponse']
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['HTTPValidationError']
-        }
-      }
-    }
-  }
-  bindLearningSimulation: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        run_id: string
-      }
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['BindLearningSimulation']
-      }
-    }
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['BoundSimulationResponse']
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['HTTPValidationError']
-        }
-      }
-    }
-  }
-  reviewLearningSimulation: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        run_id: string
-      }
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['ReviewSimulation']
-      }
-    }
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['LearningRunResponse']
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['HTTPValidationError']
-        }
-      }
-    }
-  }
-  submitLearningStep: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        run_id: string
-        step_id: string
-      }
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['SubmitStep']
-      }
-    }
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['LearningRunResponse']
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['HTTPValidationError']
-        }
-      }
-    }
-  }
-  getLesson: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        lesson_id: string
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': unknown
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['HTTPValidationError']
-        }
-      }
-    }
-  }
-  completeLesson: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        lesson_id: string
-      }
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['Submission']
-      }
-    }
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': unknown
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['HTTPValidationError']
-        }
-      }
-    }
-  }
-  getLevel: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        level_id: string
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['LevelResponse']
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['HTTPValidationError']
-        }
-      }
-    }
-  }
-  startLevelRun: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        level_id: string
-      }
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['StartLevel']
-      }
-    }
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['LearningRunResponse']
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['HTTPValidationError']
-        }
-      }
-    }
-  }
-  getLearningActivity: {
-    parameters: {
-      query?: {
-        end_date?: string | null
-        start_date?: string | null
-      }
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': unknown
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['HTTPValidationError']
-        }
-      }
-    }
-  }
-  getEconomy: {
+  getMatchmaking: {
     parameters: {
       query?: never
       header?: never
@@ -2381,78 +1626,12 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': components['schemas']['EconomyState']
+          'application/json': components['schemas']['Match']
         }
       }
     }
   }
-  refreshDailyChallenge: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['EconomyCommand']
-      }
-    }
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['EconomyRefresh']
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['HTTPValidationError']
-        }
-      }
-    }
-  }
-  claimLoginReward: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['EconomyCommand']
-      }
-    }
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['EconomyAward']
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['HTTPValidationError']
-        }
-      }
-    }
-  }
-  getShop: {
+  joinMatchmaking: {
     parameters: {
       query?: never
       header?: never
@@ -2467,45 +1646,30 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': components['schemas']['ShopResponse']
+          'application/json': components['schemas']['Match']
         }
       }
     }
   }
-  purchaseShopItem: {
+  leaveMatchmaking: {
     parameters: {
       query?: never
       header?: never
       path?: never
       cookie?: never
     }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['Purchase']
-      }
-    }
+    requestBody?: never
     responses: {
       /** @description Successful Response */
-      200: {
+      204: {
         headers: {
           [name: string]: unknown
         }
-        content: {
-          'application/json': components['schemas']['PurchaseResponse']
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['HTTPValidationError']
-        }
+        content?: never
       }
     }
   }
-  getProfile: {
+  getMe: {
     parameters: {
       query?: never
       header?: never
@@ -2520,12 +1684,12 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': components['schemas']['UserProfile']
+          'application/json': components['schemas']['Player']
         }
       }
     }
   }
-  updateProfile: {
+  updateMe: {
     parameters: {
       query?: never
       header?: never
@@ -2534,7 +1698,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['ProfileUpdate']
+        'application/json': components['schemas']['PlayerUpdate']
       }
     }
     responses: {
@@ -2544,7 +1708,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': components['schemas']['UserProfile']
+          'application/json': components['schemas']['Player']
         }
       }
       /** @description Validation Error */
@@ -2554,6 +1718,66 @@ export interface operations {
         }
         content: {
           'application/json': components['schemas']['HTTPValidationError']
+        }
+      }
+    }
+  }
+  getActivity: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['Activity']
+        }
+      }
+    }
+  }
+  getCollection: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['Collection']
+        }
+      }
+    }
+  }
+  claimDailyLogin: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['DailyLogin']
         }
       }
     }
@@ -2573,7 +1797,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['ResearchMetadataView']
         }
       }
     }
@@ -2597,7 +1821,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['ResearchMetadataView']
         }
       }
       /** @description Validation Error */
@@ -2619,7 +1843,7 @@ export interface operations {
       }
       header?: never
       path: {
-        kind: 'learning-runs' | 'learning-attempts' | 'ai-challenges'
+        kind: 'game-events' | 'campaign-progress' | 'quiz-attempts'
       }
       cookie?: never
     }
@@ -2631,7 +1855,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['ResearchExport']
         }
       }
       /** @description Validation Error */
@@ -2664,7 +1888,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['ResearchMetadataView']
         }
       }
       /** @description Validation Error */
@@ -2697,7 +1921,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['ResearchMetadataView']
         }
       }
       /** @description Validation Error */
@@ -2711,7 +1935,7 @@ export interface operations {
       }
     }
   }
-  getRewardInventory: {
+  getPracticeScenarios: {
     parameters: {
       query?: never
       header?: never
@@ -2726,78 +1950,12 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': components['schemas']['RewardInventory']
+          'application/json': components['schemas']['PracticeScenarios']
         }
       }
     }
   }
-  claimLearningReward: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['Claim']
-      }
-    }
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['RewardClaim']
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['HTTPValidationError']
-        }
-      }
-    }
-  }
-  updateRewardEquipment: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['Equipment']
-      }
-    }
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['RewardEquipmentResponse']
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['HTTPValidationError']
-        }
-      }
-    }
-  }
-  getLearningWorkflow: {
+  listQuizzes: {
     parameters: {
       query?: never
       header?: never
@@ -2812,575 +1970,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': components['schemas']['LearningWorkflowResponse']
-        }
-      }
-    }
-  }
-  getModuleAssessment: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        module_id: string
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': unknown
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['HTTPValidationError']
-        }
-      }
-    }
-  }
-  completeModuleAssessment: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        module_id: string
-      }
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['Submission']
-      }
-    }
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': unknown
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['HTTPValidationError']
-        }
-      }
-    }
-  }
-  startAssessmentRun: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        module_id: string
-      }
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['StartAssessmentRun']
-      }
-    }
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['LearningRunResponse']
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['HTTPValidationError']
-        }
-      }
-    }
-  }
-  startDiagnosticRun: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        module_id: string
-      }
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['StartDiagnosticRun']
-      }
-    }
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['LearningRunResponse']
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['HTTPValidationError']
-        }
-      }
-    }
-  }
-  getModuleMap: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        module_id: string
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ModuleMap']
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['HTTPValidationError']
-        }
-      }
-    }
-  }
-  getMultiplayerLobby: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        lobby_id: string
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['MultiplayerResponse']
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['HTTPValidationError']
-        }
-      }
-    }
-  }
-  abandonMultiplayerMatch: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        lobby_id: string
-      }
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['AbandonMultiplayerMatch']
-      }
-    }
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['MultiplayerResponse']
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['HTTPValidationError']
-        }
-      }
-    }
-  }
-  completeMultiplayerMatch: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        lobby_id: string
-      }
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['DebriefSimulation']
-      }
-    }
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['MultiplayerResponse']
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['HTTPValidationError']
-        }
-      }
-    }
-  }
-  submitMultiplayerOrder: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        lobby_id: string
-      }
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['TickOrder']
-      }
-    }
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['MultiplayerResponse']
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['HTTPValidationError']
-        }
-      }
-    }
-  }
-  cancelMultiplayerOrder: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        lobby_id: string
-        order_id: string
-      }
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['TickCommand']
-      }
-    }
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['MultiplayerResponse']
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['HTTPValidationError']
-        }
-      }
-    }
-  }
-  markMultiplayerReady: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        lobby_id: string
-      }
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['TickCommand']
-      }
-    }
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['MultiplayerResponse']
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['HTTPValidationError']
-        }
-      }
-    }
-  }
-  startMultiplayerMatch: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        lobby_id: string
-      }
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['StartMultiplayerMatch']
-      }
-    }
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['MultiplayerResponse']
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['HTTPValidationError']
-        }
-      }
-    }
-  }
-  joinMultiplayerLobby: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['JoinMultiplayerLobby']
-      }
-    }
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['MultiplayerResponse']
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['HTTPValidationError']
-        }
-      }
-    }
-  }
-  getMultiplayerLeaderboard: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['MultiplayerLeaderboardResponse']
-        }
-      }
-    }
-  }
-  createMultiplayerLobby: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['CreateMultiplayerLobby']
-      }
-    }
-    responses: {
-      /** @description Successful Response */
-      201: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['MultiplayerResponse']
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['HTTPValidationError']
-        }
-      }
-    }
-  }
-  listMultiplayerMatches: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['MultiplayerListResponse']
-        }
-      }
-    }
-  }
-  joinMultiplayerMatchmaking: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['JoinMultiplayerMatchmaking']
-      }
-    }
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['MultiplayerResponse']
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['HTTPValidationError']
-        }
-      }
-    }
-  }
-  listQuizAttempts: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['QuizAttemptList']
+          'application/json': components['schemas']['QuizList']
         }
       }
     }
@@ -3394,7 +1984,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['StartQuizAttempt']
+        'application/json': components['schemas']['StartQuiz']
       }
     }
     responses: {
@@ -3404,7 +1994,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': components['schemas']['QuizAttemptResponse']
+          'application/json': components['schemas']['QuizAttempt']
         }
       }
       /** @description Validation Error */
@@ -3435,7 +2025,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': components['schemas']['QuizAttemptResponse']
+          'application/json': components['schemas']['QuizAttempt']
         }
       }
       /** @description Validation Error */
@@ -3449,7 +2039,7 @@ export interface operations {
       }
     }
   }
-  submitQuizAnswer: {
+  answerQuiz: {
     parameters: {
       query?: never
       header?: never
@@ -3460,7 +2050,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['QuizResponse']
+        'application/json': components['schemas']['QuizAnswer']
       }
     }
     responses: {
@@ -3470,7 +2060,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': components['schemas']['QuizAttemptResponse']
+          'application/json': components['schemas']['QuizAttempt']
         }
       }
       /** @description Validation Error */
@@ -3480,66 +2070,6 @@ export interface operations {
         }
         content: {
           'application/json': components['schemas']['HTTPValidationError']
-        }
-      }
-    }
-  }
-  listQuizForms: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['QuizFormsResponse']
-        }
-      }
-    }
-  }
-  getQuizQuestionBank: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['QuizBankResponse']
-        }
-      }
-    }
-  }
-  listQuizRooms: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['QuizRoomList']
         }
       }
     }
@@ -3563,7 +2093,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': components['schemas']['QuizRoomResponse']
+          'application/json': components['schemas']['QuizRoom']
         }
       }
       /** @description Validation Error */
@@ -3594,262 +2124,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': components['schemas']['QuizRoomResponse']
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['HTTPValidationError']
-        }
-      }
-    }
-  }
-  closeQuizRoom: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        room_id: string
-      }
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['CloseQuizRoom']
-      }
-    }
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['QuizRoomResponse']
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['HTTPValidationError']
-        }
-      }
-    }
-  }
-  getQuizRoomResults: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        room_id: string
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['QuizRoomReport']
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['HTTPValidationError']
-        }
-      }
-    }
-  }
-  startQuizRoom: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        room_id: string
-      }
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['StartQuizRoom']
-      }
-    }
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['QuizRoomResponse']
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['HTTPValidationError']
-        }
-      }
-    }
-  }
-  joinQuizRoom: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['JoinQuizRoom']
-      }
-    }
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['QuizRoomResponse']
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['HTTPValidationError']
-        }
-      }
-    }
-  }
-  listReviews: {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ReviewList']
-        }
-      }
-    }
-  }
-  getReview: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        review_id: string
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['ReviewSummary']
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['HTTPValidationError']
-        }
-      }
-    }
-  }
-  startReviewRun: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        review_id: string
-      }
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['StartReviewRun']
-      }
-    }
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['LearningRunResponse']
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['HTTPValidationError']
-        }
-      }
-    }
-  }
-  submitReview: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        review_id: string
-      }
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['Submission']
-      }
-    }
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': unknown
+          'application/json': components['schemas']['QuizRoom']
         }
       }
       /** @description Validation Error */
@@ -3901,7 +2176,7 @@ export interface operations {
       }
     }
   }
-  listSimulations: {
+  getShop: {
     parameters: {
       query?: never
       header?: never
@@ -3916,12 +2191,12 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
+          'application/json': components['schemas']['Shop']
         }
       }
     }
   }
-  startSimulation: {
+  purchaseShopItem: {
     parameters: {
       query?: never
       header?: never
@@ -3930,73 +2205,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['CreateSimulation']
-      }
-    }
-    responses: {
-      /** @description Successful Response */
-      201: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': unknown
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['HTTPValidationError']
-        }
-      }
-    }
-  }
-  resumeSimulation: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        session_id: string
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': unknown
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['HTTPValidationError']
-        }
-      }
-    }
-  }
-  advanceSimulation: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        session_id: string
-      }
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['AdvanceSimulation']
+        'application/json': components['schemas']['Purchase']
       }
     }
     responses: {
@@ -4006,113 +2215,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          'application/json': unknown
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['HTTPValidationError']
-        }
-      }
-    }
-  }
-  debriefSimulation: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        session_id: string
-      }
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['DebriefSimulation']
-      }
-    }
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': unknown
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['HTTPValidationError']
-        }
-      }
-    }
-  }
-  cancelSimulationOrder: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        order_id: string
-        session_id: string
-      }
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['CancelOrder']
-      }
-    }
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': unknown
-        }
-      }
-      /** @description Validation Error */
-      422: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': components['schemas']['HTTPValidationError']
-        }
-      }
-    }
-  }
-  submitSimulationOrder: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        session_id: string
-      }
-      cookie?: never
-    }
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['SubmitOrder']
-      }
-    }
-    responses: {
-      /** @description Successful Response */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          'application/json': unknown
+          'application/json': components['schemas']['PurchaseResult']
         }
       }
       /** @description Validation Error */

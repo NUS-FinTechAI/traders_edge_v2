@@ -11,20 +11,22 @@ const config = { auth: { mode: 'guest' as const, firebase_project_id: null } }
 const profile: UserProfile = {
   id: 'learner-id',
   display_name: 'Learner',
-  leaderboard_opt_in: false,
-  analytics_opt_in: false,
+  avatar_id: 'avatar-starter-1',
+  title: 'Rookie Trader',
+  title_id: null,
+  level: 1,
+  rank_name: 'Rookie Trader',
   xp: 0,
-  completed_lesson_ids: [],
-  mastered_module_ids: [],
-  activity_days: [],
-  activity_timezone: 'UTC',
-  due_review_count: 0,
-  learning_only: true,
-  learning_xp: 0,
-  game_xp: 0,
-  player_level: 1,
-  player_level_policy: '100-xp-per-level-1',
-  xp_basis: 'learning and game events',
+  xp_into_level: 0,
+  xp_for_next_level: 100,
+  wallet: {
+    doubloons: 0,
+    doubloons_week_ends_at: '2026-10-26T00:00:00+00:00',
+    gems: 0,
+  },
+  streak: { days: 0, claimed_today: false, cycle_day: 1 },
+  unlocks: { daily: false, ranked: false },
+  leaderboard_opt_in: false,
 }
 
 function deferred<T>() {
@@ -184,6 +186,6 @@ test('application startup fetches config once and profile once despite repeated 
   configuration = new ConfigService(http)
   const controller = new AuthController(new AuthService(http), configuration)
   await Promise.all([controller.initialize(), controller.initialize()])
-  assert.deepEqual(requests, ['/api/config', '/api/me/profile'])
+  assert.deepEqual(requests, ['/api/config', '/api/me'])
   assert.equal(controller.getSnapshot().status, 'signed-in')
 })

@@ -129,7 +129,7 @@ class PurchaseResult(BaseModel):
     player: Player
 
 
-class LeaderboardEntry(BaseModel):
+class RankingEntry(BaseModel):
     rank: int
     name: str
     avatar_id: str
@@ -145,5 +145,5 @@ class LeaderboardMe(BaseModel):
 
 
 class Leaderboard(BaseModel):
-    entries: list[LeaderboardEntry]
+    entries: list[RankingEntry]
     me: LeaderboardMe

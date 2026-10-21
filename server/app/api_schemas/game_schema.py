@@ -11,12 +11,16 @@ OrderType = Literal['market', 'limit', 'stop']
 Status = Literal['briefing', 'running', 'ended', 'settled']
 
 
+GameMode = Literal['level', 'boss', 'daily', 'practice', 'private', 'ranked']
+BossKind = Literal['preview', 'gate', 'final']
+
+
 class CreateGame(Payload):
     mode: Literal['level', 'boss', 'daily', 'practice']
     scenario_id: str | None = Field(default=None, max_length=120, pattern=r'^[a-z0-9]+(-[a-z0-9]+)*$')
     level_id: str | None = Field(default=None, max_length=120)
     chapter_id: str | None = Field(default=None, max_length=120)
-    boss: Literal['preview', 'gate', 'final'] | None = None
+    boss: BossKind | None = None
     bots: int | None = Field(default=None, ge=1, le=7)
 
 
@@ -162,7 +166,7 @@ class PlayerState(BaseModel):
     plan: GamePlan | None
 
 
-class LeaderboardEntry(BaseModel):
+class Standing(BaseModel):
     participant_id: str
     name: str
     kind: Literal['bot', 'human']
@@ -242,7 +246,7 @@ class GameResult(BaseModel):
     forfeited: bool
     profit: float
     profit_pct: float
-    leaderboard: list[LeaderboardEntry]
+    leaderboard: list[Standing]
     missions: list[Mission]
     stars: Stars | None
     rewards: GameRewards
@@ -258,10 +262,10 @@ class GameResult(BaseModel):
 
 class GameState(BaseModel):
     id: str
-    mode: str
+    mode: GameMode
     chapter_id: str | None
     level_id: str | None
-    boss: str | None
+    boss: BossKind | None
     status: Status
     tick: int
     ticks: int
@@ -276,7 +280,7 @@ class GameState(BaseModel):
     bars: dict[str, list[Bar]]
     news: list[NewsItem]
     me: PlayerState
-    leaderboard: list[LeaderboardEntry]
+    leaderboard: list[Standing]
     missions: list[Mission]
     result: GameResult | None
 
@@ -292,7 +296,7 @@ class PlacedOrder(BaseModel):
 
 class GameSummary(BaseModel):
     id: str
-    mode: str
+    mode: GameMode
     status: Status
     scenario_id: str
     title: str

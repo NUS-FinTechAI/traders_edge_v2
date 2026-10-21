@@ -28,6 +28,9 @@ function game(overrides: Partial<GameState> = {}): GameState {
   return {
     id: 'g1',
     mode: 'practice',
+    chapter_id: null,
+    level_id: null,
+    boss: null,
     status: 'running',
     tick: 1,
     ticks: 30,

@@ -1,33 +1,13 @@
 import httpService from './httpService.ts'
+import type { components } from '../api/api-types.ts'
 
-export interface Wallet {
-  doubloons: number
-  doubloons_week_ends_at: string
-  gems: number
-}
+type Schemas = components['schemas']
 
-export interface Streak {
-  days: number
-  claimed_today: boolean
-  /** Position in the current 7-day reward cycle, 1–7. */
-  cycle_day: number
-}
+export type Wallet = Schemas['Wallet']
 
-export interface Player {
-  id: string
-  display_name: string
-  avatar_id: string
-  title: string
-  level: number
-  rank_name: string
-  xp: number
-  xp_into_level: number
-  xp_for_next_level: number
-  wallet: Wallet
-  streak: Streak
-  unlocks: { daily: boolean; ranked: boolean }
-  leaderboard_opt_in: boolean
-}
+export type Streak = Schemas['Streak']
+
+export type Player = Schemas['Player']
 
 export interface PlayerUpdate {
   display_name?: string
@@ -51,20 +31,9 @@ export interface StreakDay {
   doubloons: number
 }
 
-export interface Activity {
-  days: { date: string; count: number }[]
-  streak_days: number
-  /** The current 7-day login cycle. */
-  week: StreakDay[]
-}
+export type Activity = Schemas['Activity']
 
-export interface CollectionItem {
-  id: string
-  name: string
-  owned: boolean
-  equipped: boolean
-  how: string
-}
+export type CollectionItem = Schemas['CollectionItem']
 
 export interface Badge {
   id: string
@@ -75,45 +44,13 @@ export interface Badge {
   progress: string | null
 }
 
-export interface Collection {
-  badges: Badge[]
-  avatars: CollectionItem[]
-  titles: CollectionItem[]
-  stats: {
-    levels_done: number
-    stars: number
-    bosses_won: number
-    quizzes_passed: number
-    matches_played: number
-    best_profit: number | null
-  }
-}
+export type Collection = Schemas['Collection']
 
-export interface ShopItem {
-  id: string
-  kind: 'avatar' | 'title' | 'theme'
-  name: string
-  description: string
-  currency: 'stocks' | 'gems'
-  price: number
-  owned: boolean
-  weekly: boolean
-}
+export type ShopItem = Schemas['ShopItem']
 
-export interface LeaderboardEntry {
-  rank: number
-  name: string
-  avatar_id: string
-  level: number
-  value: number
-  tier?: string
-  is_me: boolean
-}
+export type LeaderboardEntry = Schemas['RankingEntry']
 
-export interface Leaderboard {
-  entries: LeaderboardEntry[]
-  me: { rank: number | null; value: number }
-}
+export type Leaderboard = Schemas['Leaderboard']
 
 export function getMe(signal?: AbortSignal): Promise<Player> {
   return httpService.request<Player>('/api/me', { signal })
