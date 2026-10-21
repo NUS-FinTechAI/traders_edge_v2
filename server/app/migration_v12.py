@@ -105,8 +105,14 @@ ratings = Table(
     Column('wins', Integer, nullable=False),
     Column('updated_at', DateTime(timezone=True), nullable=False),
 )
+daily_seeds = Table(
+    'daily_seeds', metadata,
+    Column('day', String(10), primary_key=True),
+    Column('seed', Integer, nullable=False),
+    Column('created_at', DateTime(timezone=True), nullable=False),
+)
 TABLES = (campaign_progress, campaign_checks, boss_results, quiz_rooms, quiz_room_members, quiz_attempts, lobbies, lobby_members,
-          matchmaking_queue, ratings)
+          matchmaking_queue, ratings, daily_seeds)
 
 
 async def upgrade(connection):

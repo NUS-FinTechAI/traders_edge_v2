@@ -219,4 +219,5 @@ class Daily(BaseModel):
     attempts_today: int
     cooldown_until: str | None
     refresh_cost_gems: int
+    active_game_id: str | None = Field(description="Today's unfinished daily match to resume; a new daily is refused while it is open")
     week: DailyWeek

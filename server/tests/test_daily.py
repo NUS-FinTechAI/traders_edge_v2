@@ -4,6 +4,7 @@ from unittest.mock import patch
 from sqlalchemy import select
 
 from app.campaign import daily
+from app.campaign.models import DailySeed
 from app.economy_models import EconomyAccount
 from app.game.models import Game
 from app.player import ledger
@@ -52,9 +53,21 @@ class DailyTests(AppCase):
         self.assertEqual(self.client.get('/api/daily').json()['scenario']['id'], ROTATION[0])
         self.assertEqual(self.client.get('/api/daily').json()['opponent']['bot_id'], 'momentum-max-rookie')
 
-    def test_first_attempt_uses_the_shared_seed_and_retries_do_not(self):
+    def forfeit(self, game_id):
+        response = self.client.post(f'/api/games/{game_id}/finish', json={'forfeit': True})
+        self.assertEqual(response.status_code, 200, response.text)
+        return response.json()
+
+    def stored_seed(self, day):
+        async def read(db):
+            return await db.scalar(select(DailySeed.seed).where(DailySeed.day == day))
+        return self.run_db(read)
+
+    def test_first_attempt_uses_the_stored_shared_seed_and_retries_do_not(self):
         self.unlock()
         first = self.start_daily()
+        self.forfeit(first.json()['id'])
+        self.now += daily.COOLDOWN + timedelta(seconds=1)
         second = self.start_daily()
         self.switch_user()
         self.win_boss('ch1')
@@ -62,10 +75,69 @@ class DailyTests(AppCase):
 
         (seed_one, context_one), (seed_two, context_two), (seed_other, _) = self.seeds()
         self.assertEqual([first.status_code, second.status_code, other.status_code], [201, 201, 201])
-        self.assertEqual(seed_one, daily.shared_seed('2026-10-19'))
+        self.assertEqual(seed_one, self.stored_seed('2026-10-19'))
         self.assertEqual(seed_other, seed_one)
         self.assertEqual((context_one['attempt'], context_two['attempt']), (1, 2))
         self.assertNotIn('seed', context_two)
+
+    def test_shared_seed_is_drawn_once_per_day_and_not_derived_from_the_date(self):
+        with patch('app.campaign.daily.secrets.randbits', side_effect=[11, 22, 33]):
+            first, again, other_day = (self.run_db(daily.shared_seed, day) for day in ('2026-10-19', '2026-10-19', '2026-10-20'))
+
+        self.assertEqual((first, again, other_day), (11, 11, 33))
+
+    def test_a_new_daily_is_refused_while_todays_daily_is_open(self):
+        self.unlock()
+        first = self.start_daily().json()
+
+        second = self.start_daily()
+        view = self.client.get('/api/daily').json()
+
+        self.assertEqual((second.status_code, second.json()['detail']), (409, 'Finish your current daily challenge first'))
+        self.assertEqual(view['active_game_id'], first['id'])
+        self.assertEqual(len(self.seeds()), 1)
+
+    def test_a_daily_that_ended_unfinished_is_settled_on_the_next_request_and_a_loss_starts_the_cooldown(self):
+        self.unlock()
+        ms = [1_800_000_000_000]
+        with patch('app.game.clock.now_ms', side_effect=lambda: ms[0]), patch('app.campaign.daily.secrets.randbits', return_value=7):
+            game = self.start_daily().json()
+            self.client.post(f'/api/games/{game["id"]}/start', json={'plan': {'strategy': 'hold', 'max_loss_pct': 10}})
+            ms[0] += 1000 * 2000
+            retry = self.start_daily()
+            result = self.client.get(f'/api/games/{game["id"]}/result').json()
+            view = self.client.get('/api/daily').json()
+
+        self.assertFalse(result['won'])
+        self.assertEqual((retry.status_code, retry.json()['detail']), (409, 'Next daily try at 14:00 UTC, or skip the wait for 20 Gems'))
+        self.assertEqual((view['cooldown_until'], view['active_game_id']), ((self.now + daily.COOLDOWN).isoformat(), None))
+
+    def test_a_daily_created_yesterday_cannot_start_and_does_not_block_today(self):
+        self.unlock()
+        stale = self.start_daily().json()
+        self.now += timedelta(days=1)
+
+        started = self.client.post(f'/api/games/{stale["id"]}/start', json={'plan': {'strategy': 'hold', 'max_loss_pct': 10}})
+        today = self.start_daily()
+
+        self.assertEqual((started.status_code, started.json()['detail']), (409, 'This daily challenge has expired'))
+        self.assertEqual(today.status_code, 201)
+
+    def test_settling_yesterdays_daily_as_a_loss_does_not_block_today(self):
+        self.unlock()
+        self.settle('daily', result(won=False), context={'day': '2026-10-18'})
+
+        self.assertIsNone(self.client.get('/api/daily').json()['cooldown_until'])
+        self.assertEqual(self.start_daily().status_code, 201)
+
+    def test_a_daily_cannot_start_during_a_cooldown(self):
+        self.unlock()
+        game = self.start_daily().json()
+        self.settle('daily', result(won=False), context={'day': '2026-10-19'}, game_id='earlier-loss')
+
+        started = self.client.post(f'/api/games/{game["id"]}/start', json={'plan': {'strategy': 'hold', 'max_loss_pct': 10}})
+
+        self.assertEqual((started.status_code, started.json()['detail']), (409, 'Next daily try at 14:00 UTC, or skip the wait for 20 Gems'))
 
     def test_a_loss_starts_a_cooldown_that_blocks_with_retry_details(self):
         self.unlock()

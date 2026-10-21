@@ -1,10 +1,10 @@
-"""The resolve_game hook: which scenario a POST /api/games request may play."""
+"""The resolve_game and before_start hooks: which scenario a POST /api/games request may play, and when a briefing may start."""
 
 import secrets
 
 from fastapi import HTTPException
 
-from app.campaign import daily
+from app.campaign import daily, settlement
 from app.campaign.progress import load_progress
 from app.campaign.views import practice_pool
 from app.game.scenario import load_scenarios
@@ -36,6 +36,8 @@ def _boss(content, progress, body):
     if kind == 'gate':
         if not chapter['gate']:
             raise HTTPException(403, 'This chapter has no gate boss')
+        if progress.unlocked(chapter):
+            raise HTTPException(409, 'This chapter is already open')
         scenario_id = chapter['gate']
     else:
         reason = progress.boss_locked_reason(chapter) if kind == 'final' or not progress.unlocked(chapter) else None
@@ -65,5 +67,12 @@ async def resolve_game(content, db, profile, body):
         return _level(content, progress, body)
     if body.mode == 'boss':
         return _boss(content, progress, body)
-    scenario_id, context = await daily.resolve(db, profile, progress, ledger.current())
+    async def settle(db, profile, game, participant, result):
+        return await settlement.settle_game(content, db, profile, game, participant, result)
+    scenario_id, context = await daily.resolve(db, profile, progress, ledger.current(), settle)
     return GameSpec(scenario_id, 'daily', context=context)
+
+
+async def before_start(content, db, profile, game):
+    if game.mode == 'daily':
+        await daily.check_start(db, profile.id, game, ledger.current())

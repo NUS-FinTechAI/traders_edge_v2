@@ -31,6 +31,13 @@ class CampaignCheck(Base):
     solved: Mapped[bool] = mapped_column(Boolean)
 
 
+class DailySeed(Base):
+    __tablename__ = 'daily_seeds'
+    day: Mapped[str] = mapped_column(String(10), primary_key=True)
+    seed: Mapped[int] = mapped_column(Integer)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
+
+
 class BossResult(Base):
     __tablename__ = 'boss_results'
     user_id: Mapped[str] = mapped_column(ForeignKey('profiles.id'), primary_key=True)
