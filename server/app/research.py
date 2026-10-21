@@ -1,21 +1,26 @@
-"""Owned operational evidence export and separately gated study metadata."""
+"""Owned gameplay evidence export and separately gated study metadata."""
 from copy import deepcopy
 import hashlib
 import json
+from typing import Annotated
 
-from fastapi import APIRouter, HTTPException, Query, Request, Response
+from fastapi import APIRouter, Depends, HTTPException, Query, Request, Response
 from sqlalchemy import and_, or_, select
+from sqlalchemy.ext.asyncio import AsyncSession
 
-from app.db import Attempt, LearningRun, LearningRunCommand, aware, now
-from app.learning import DB, User
-from app.learning_runs import public_task
+from app.api_schemas.research_schema import (ConsentResearch, ExportKind, ResearchExport, ResearchMetadata, ResearchMetadataView,
+                                             WithdrawResearchConsent)
+from app.auth import current_profile
+from app.campaign.models import BossResult, CampaignCheck, CampaignProgress
+from app.db import Profile, aware, get_db, now
+from app.game.models import Game, GameEvent, GameParticipant
+from app.quiz.models import QuizAttempt
 from app.research_models import ResearchCommand, ResearchParticipant
-from app.simulation import engine
-
-from app.api_schemas.research_schema import ResearchMetadata, ConsentResearch, WithdrawResearchConsent, ExportKind
 
 router = APIRouter(prefix='/api/me/research', tags=['owned research evidence'])
-
+DB = Annotated[AsyncSession, Depends(get_db, scope='function')]
+User = Annotated[Profile, Depends(current_profile)]
+ASSESSMENT_LIMIT = 'Operational evidence and self-reported metadata are not a validated learning rubric or approved study enrollment.'
 
 def study_policy(settings):
     version = getattr(settings, 'research_policy_version', None)
@@ -88,172 +93,94 @@ async def mutation(db, user, body, operation, settings):
     return result
 
 
-@router.get('', operation_id='getResearchMetadata')
+@router.get('', response_model=ResearchMetadataView, operation_id='getResearchMetadata')
 async def read_metadata(request: Request, db: DB, user: User):
     return metadata_data(await db.get(ResearchParticipant, user.id), request.app.state.settings)
 
 
-@router.post('/metadata', operation_id='setResearchMetadata')
+@router.post('/metadata', response_model=ResearchMetadataView, operation_id='setResearchMetadata')
 async def set_metadata(body: ResearchMetadata, request: Request, db: DB, user: User):
     return await mutation(db, user, body, 'metadata', request.app.state.settings)
 
 
-@router.post('/consents', operation_id='submitResearchConsent')
+@router.post('/consents', response_model=ResearchMetadataView, operation_id='submitResearchConsent')
 async def consent(body: ConsentResearch, request: Request, db: DB, user: User):
     return await mutation(db, user, body, 'consent', request.app.state.settings)
 
 
-@router.post('/withdrawals', operation_id='withdrawResearchConsent')
+@router.post('/withdrawals', response_model=ResearchMetadataView, operation_id='withdrawResearchConsent')
 async def withdraw(body: WithdrawResearchConsent, request: Request, db: DB, user: User):
     return await mutation(db, user, body, 'withdrawal', request.app.state.settings)
 
 
-def fields(value, keys):
-    return {key: deepcopy(value[key]) for key in keys if key in value and (value[key] is None or isinstance(value[key], (str, int, float, bool)))} if isinstance(value, dict) else {}
+def stamp(value):
+    return aware(value).isoformat() if value else None
 
 
-def answer(value):
-    result = fields(value, ('acknowledged', 'option_id', 'confidence', 'case_id'))
-    if isinstance(value, dict) and isinstance(value.get('assignments'), dict):
-        result['assignments'] = {key: item for key, item in value['assignments'].items() if isinstance(key, str) and isinstance(item, str)}
-    if isinstance(value, dict) and isinstance(value.get('audit'), dict):
-        audit = value['audit']
-        result['audit'] = fields(audit, ('case_id', 'tick', 'engine_version', 'observation_token', 'cash', 'session_fees', 'benchmark_value', 'benchmark_is_gross', 'profit_proves_process', 'planned_loss_is_guaranteed', 'price_limit_guarantees_fill', 'no_order_reason'))
-        result['audit']['orders'] = [fields(order, ('order_id', 'requested_quantity', 'filled_quantity', 'remaining_quantity', 'limit_price', 'status')) for order in audit.get('orders', []) if isinstance(order, dict)]
-        if isinstance(audit.get('positions'), list):
-            result['audit']['positions'] = [fields(position, ('symbol', 'quantity')) for position in audit['positions'] if isinstance(position, dict)]
-    return result
+def money(value):
+    return None if value is None else float(value)
 
 
-def case_metadata(projected, step, counts):
-    identifier = projected.get('case_id') or projected.get('audit', {}).get('case_id')
-    if not isinstance(identifier, str):
-        return {}
-    key = (step, identifier)
-    counts[key] = counts.get(key, 0) + 1
-    return {'case_id': identifier, 'case_response_number': counts[key], 'case_first_response': counts[key] == 1}
+def public_payload(payload):
+    """The daily shared seed would reveal other players' first-attempt markets, so it never leaves the server."""
+    value = deepcopy(payload)
+    if isinstance(value.get('context'), dict):
+        value['context'].pop('seed', None)
+    return value
 
 
-def command_progress(receipt):
-    nested = receipt.get('run')
-    return fields(receipt.get('progress', nested.get('progress') if isinstance(nested, dict) else None), ('completed_steps', 'total_steps'))
+def event_record(event, game):
+    return {'id': event.id, 'game_id': game.id, 'mode': game.mode, 'scenario_id': game.scenario_id, 'scenario_version': game.scenario_version,
+            'chapter_id': game.chapter_id, 'level_id': game.level_id, 'boss': game.boss, 'tick': event.tick, 'kind': event.kind,
+            'payload': public_payload(event.payload), 'created_at': stamp(event.created_at)}
 
 
-def learning_run_data(run, commands):
-    state = run.state_json
-    counts = {}
-    responses = []
-    case_counts = {}
-    for value in state.get('responses', []):
-        step = value.get('step_id')
-        counts[step] = counts.get(step, 0) + 1
-        projected = answer(value.get('answer', {}))
-        responses.append({'step_id': step, 'response_number': counts[step], 'first_response': counts[step] == 1, 'answer': projected,
-                          **case_metadata(projected, step, case_counts)})
-    observed_ids = {response['step_id'] for response in responses}
-    tasks = run.snapshot_json.get('tasks', [])
-    position = state.get('position', 0)
-    if isinstance(position, int) and 0 <= position < len(tasks):
-        observed_ids.add(tasks[position]['id'])
-    observed = []
-    for task in tasks:
-        if task.get('id') in observed_ids:
-            public = public_task(task)
-            observed.append({**fields(public, ('id', 'type', 'prompt', 'text')), **{group: [fields(item, ('id', 'text')) for item in public[group]] for group in ('options', 'items', 'categories') if group in public}})
-    result = fields(state.get('result'), ('attempt_id', 'passed', 'score_percent', 'critical_items_passed', 'xp_awarded')) if run.status == 'completed' else None
-    result_data = {'id': run.id, 'purpose': run.purpose, 'module_id': run.module_id, 'level_id': run.level_id, 'content_version': run.content_version, 'status': run.status,
-            'created_at': aware(run.created_at).isoformat(), 'updated_at': aware(run.updated_at).isoformat(),
-            'observed_tasks': observed, 'first_responses': {key: {'step_id': key, 'answer': answer(value.get('answer', {}))} for key, value in state.get('first_responses', {}).items()},
-            'responses': responses, 'result': result,
-            'command_timestamps': [{'recorded_at': aware(command.created_at).isoformat(), 'progress': command_progress(command.response)} for command in commands]}
-    if 'scenario_first_responses' in state:
-        result_data['scenario_first_responses'] = {key: {'case_id': key, 'step_id': value.get('step_id'), 'answer': answer(value.get('answer', {}))}
-            for key, value in state['scenario_first_responses'].items() if isinstance(key, str) and isinstance(value, dict)}
-    return result_data
+def quiz_record(attempt):
+    return {'id': attempt.id, 'topic_id': attempt.topic_id, 'room_id': attempt.room_id, 'bank_version': attempt.bank_version,
+            'items': deepcopy(attempt.items), 'answers': deepcopy(attempt.answers), 'status': attempt.status, 'score': attempt.score,
+            'total': attempt.total, 'passed': attempt.passed, 'created_at': stamp(attempt.created_at), 'completed_at': stamp(attempt.completed_at)}
 
 
-def observation(value):
-    result = fields(value, ('version', 'tick', 'total_ticks', 'scenario', 'finished', 'cash', 'available_cash', 'equity', 'fees', 'benchmark_value', 'max_drawdown_percent', 'reflection'))
-    for group, keys in {
-        'quotes': ('symbol', 'mid', 'bid', 'ask', 'available_units'),
-        'positions': ('symbol', 'quantity', 'cost', 'realized', 'value', 'weight_percent'),
-        'fills': ('order_id', 'symbol', 'side', 'quantity', 'price', 'fee', 'tick'),
-        'orders': ('id', 'symbol', 'side', 'type', 'quantity', 'remaining', 'price', 'status', 'submitted_tick', 'triggered', 'filled', 'reason'),
-    }.items():
-        result[group] = []
-        for entry in value.get(group, []):
-            public = fields(entry, keys)
-            if group == 'positions' and 'value' in public and 'cost' in public:
-                public['unrealized_profit'] = engine.money(engine.amount(public['value']) - engine.amount(public['cost']))
-            if group == 'orders':
-                public['plan'] = fields(entry.get('plan'), ('reason', 'risk', 'exit', 'size_reason', 'max_loss'))
-            result[group].append(public)
-    tick = result.get('tick', -1)
-    result['history'] = {symbol: [item for item in prices[:max(0, tick + 1)] if isinstance(item, str)] for symbol, prices in value.get('history', {}).items() if symbol in engine.SYMBOLS and isinstance(prices, list)}
-    result['rules'] = fields(value.get('rules'), ('max_asset_weight_percent', 'shorting', 'leverage', 'fee_rate', 'first_fill_fee', 'spread_percent', 'settlement', 'benchmark'))
-    return result
+async def campaign_records(db, user_id):
+    levels = await db.scalars(select(CampaignProgress).where(CampaignProgress.user_id == user_id).order_by(CampaignProgress.level_id))
+    bosses = await db.scalars(select(BossResult).where(BossResult.user_id == user_id).order_by(BossResult.chapter_id, BossResult.kind))
+    checks = await db.scalars(select(CampaignCheck).where(CampaignCheck.user_id == user_id).order_by(CampaignCheck.level_id, CampaignCheck.question_id))
+    return ([{'id': f'level:{row.level_id}', 'record': 'level', 'level_id': row.level_id, 'check_done': row.check_done,
+              'check_first_try': row.check_first_try, 'check_total': row.check_total, 'normal_star': row.normal_star,
+              'special_star': row.special_star, 'best_profit': money(row.best_profit), 'plays': row.plays} for row in levels]
+            + [{'id': f'boss:{row.chapter_id}:{row.kind}', 'record': 'boss', 'chapter_id': row.chapter_id, 'kind': row.kind, 'won': row.won,
+                'best_profit': money(row.best_profit), 'attempts': row.attempts, 'first_won_at': stamp(row.first_won_at)} for row in bosses]
+            + [{'id': f'check:{row.level_id}:{row.question_id}', 'record': 'check', 'level_id': row.level_id, 'question_id': row.question_id,
+                'first_option_id': row.first_option_id, 'first_correct': row.first_correct, 'solved': row.solved} for row in checks])
 
 
-def decision_payload(payload):
-    result = fields(payload, ('symbol', 'side', 'type', 'quantity', 'price', 'steps', 'reflection', 'order_id', 'expected_tick'))
-    if isinstance(payload.get('plan'), dict):
-        result['plan'] = fields(payload['plan'], ('reason', 'risk', 'exit', 'size_reason', 'max_loss'))
-    return result
-
-
-def challenge_data(attempt):
-    snapshot = attempt.snapshot_json
-    result = None
-    if attempt.status == 'completed' and isinstance(attempt.result_json, dict):
-        result = fields(attempt.result_json, ('win', 'profit', 'final_tick', 'policy_version'))
-        result['leaderboard'] = [fields(item, ('participant_id', 'display_name', 'profit', 'final_value', 'fees', 'rank')) for item in attempt.result_json.get('leaderboard', [])]
-    return {'id': attempt.id, 'challenge_id': attempt.challenge_id, 'attempt_number': attempt.attempt_number, 'first_attempt': attempt.attempt_number == 1,
-            'mode': attempt.mode, 'module_id': attempt.module_id, 'version': attempt.version, 'status': attempt.status,
-            'created_at': aware(attempt.created_at).isoformat(), 'updated_at': aware(attempt.updated_at).isoformat(),
-            'policy': fields(snapshot.get('policy'), ('version', 'objective', 'difficulty', 'provenance', 'ticks', 'starting_value', 'profit', 'ties', 'liquidity', 'early_exit', 'resume')),
-            'retry_context': fields(snapshot.get('research'), ('premium_retry', 'refresh_event_key', 'daily_date')),
-            'events': [{'sequence': event.get('sequence'), 'attempt_number': event.get('attempt_number'), 'recorded_at': event.get('recorded_at'), 'operation': event.get('operation'),
-                        'payload': decision_payload(event.get('payload', {})), 'before': observation(event.get('before', {})), 'after': observation(event.get('after', {}))} for event in snapshot.get('events', [])],
-            'result': result}
-
-
-@router.get('/export/{kind}', operation_id='exportResearchEvidence')
-async def export(kind: ExportKind, request: Request, response: Response, db: DB, user: User, cursor: str | None = Query(default=None, max_length=36), limit: int = Query(default=50, ge=1, le=100)):
-    if kind == 'ai-challenges':
-        from app.challenges.models import ChallengeAttempt
-        model = ChallengeAttempt
-    else:
-        model = LearningRun if kind == 'learning-runs' else Attempt
-    statement = select(model).where(model.user_id == user.id)
+async def page(db, statement, model, user_filter, cursor, limit):
     if cursor:
-        previous = await db.scalar(select(model).where(model.id == cursor, model.user_id == user.id))
+        previous = await db.scalar(select(model).where(model.id == cursor, user_filter))
         if previous is None:
             raise HTTPException(404, 'Export cursor not found in your records')
         statement = statement.where(or_(model.created_at > previous.created_at, and_(model.created_at == previous.created_at, model.id > previous.id)))
-    rows = list(await db.scalars(statement.order_by(model.created_at, model.id).limit(limit + 1)))
-    selected = rows[:limit]
-    commands = {}
-    if kind == 'learning-runs' and selected:
-        for command in await db.scalars(select(LearningRunCommand).where(LearningRunCommand.user_id == user.id, LearningRunCommand.run_id.in_([row.id for row in selected])).order_by(LearningRunCommand.created_at, LearningRunCommand.key)):
-            commands.setdefault(command.run_id, []).append(command)
-    records = []
-    for row in selected:
-        if kind == 'learning-runs':
-            records.append(learning_run_data(row, commands.get(row.id, [])))
-        elif kind == 'ai-challenges':
-            records.append(challenge_data(row))
-        else:
-            responses = []
-            case_counts = {}
-            for value in row.answers:
-                if 'question_id' in value:
-                    responses.append({'question_id': value.get('question_id'), **fields(value, ('option_id', 'confidence'))})
-                else:
-                    projected = answer(value.get('answer', {}))
-                    step = value.get('step_id')
-                    responses.append({'step_id': step, 'answer': projected, **case_metadata(projected, step, case_counts)})
-            records.append({'id': row.id, 'kind': row.kind, 'target_id': row.target_id, 'created_at': aware(row.created_at).isoformat(), 'answers': responses, 'reflection': row.reflection, 'score_percent': row.score, 'passed': row.result.get('passed', row.passed), 'run_id': row.result.get('run_id')})
+    rows = (await db.execute(statement.order_by(model.created_at, model.id).limit(limit + 1))).all()
+    return rows[:limit], len(rows) > limit
+
+
+@router.get('/export/{kind}', response_model=ResearchExport, operation_id='exportResearchEvidence')
+async def export(kind: ExportKind, response: Response, db: DB, user: User, cursor: str | None = Query(default=None, max_length=120),
+                 limit: int = Query(default=50, ge=1, le=100)):
+    next_cursor = None
+    if kind == 'campaign-progress':
+        records = await campaign_records(db, user.id)
+    elif kind == 'game-events':
+        mine = GameEvent.participant_id.in_(select(GameParticipant.id).where(GameParticipant.user_id == user.id))
+        statement = select(GameEvent, Game).join(Game, Game.id == GameEvent.game_id).where(mine)
+        rows, more = await page(db, statement, GameEvent, mine, cursor, limit)
+        records = [event_record(event, game) for event, game in rows]
+        next_cursor = rows[-1][0].id if more else None
+    else:
+        mine = QuizAttempt.user_id == user.id
+        rows, more = await page(db, select(QuizAttempt).where(mine), QuizAttempt, mine, cursor, limit)
+        records = [quiz_record(attempt) for (attempt,) in rows]
+        next_cursor = rows[-1][0].id if more else None
     response.headers['Content-Disposition'] = f'attachment; filename="traders-edge-{kind}.json"'
-    return {'format_version': 1, 'scope': 'your_operational_records', 'kind': kind, 'records': records,
-            'next_cursor': selected[-1].id if len(rows) > limit else None,
-            'assessment_limit': 'Operational evidence and self-reported metadata are not a validated learning rubric or approved study enrollment.'}
+    return {'format_version': 2, 'scope': 'your_operational_records', 'kind': kind, 'records': records, 'next_cursor': next_cursor,
+            'assessment_limit': ASSESSMENT_LIMIT}
