@@ -11,6 +11,7 @@ class Reward(BaseModel):
     kind: Literal['avatar', 'title', 'badge']
     id: str
     name: str
+    image: str | None = Field(default=None, description='Art key for avatars (e.g. "parrot"); null when the item has no art')
 
 
 class Gate(BaseModel):

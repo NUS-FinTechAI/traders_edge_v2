@@ -5,7 +5,7 @@ import unittest
 from app.economy_models import EconomyAccount
 from app.player import badges, ledger
 from app.player.levels import level_for, rank_name
-from progression_fixtures import AppCase, result
+from progression_fixtures import AppCase, fixture_content, result
 
 
 class LevelCurveTests(unittest.TestCase):
@@ -24,8 +24,16 @@ class LevelCurveTests(unittest.TestCase):
 
     def test_rank_names_follow_level_bands(self):
         self.assertEqual([rank_name(level) for level in (1, 4, 5, 10, 15, 20, 29, 30, 40, 50)],
-                         ['Rookie Trader', 'Rookie Trader', 'Market Explorer', 'Chart Reader', 'Risk Manager', 'Strategist',
-                          'Strategist', 'Seasoned Trader', 'Market Veteran', 'Captain of the Ledger'])
+                         ['Deckhand', 'Deckhand', 'Able Seaman', 'Navigator', 'Quartermaster', 'First Mate', 'First Mate', 'Captain',
+                          'Commodore', 'Admiral'])
+
+    def test_rank_names_match_the_rank_titles_and_no_avatar_or_badge_name(self):
+        cosmetics = fixture_content().cosmetics
+        ranks = [(item['level'], item['name']) for item in cosmetics.rank_titles()]
+        others = {item['name'] for item in cosmetics.items.values() if item['kind'] in ('avatar', 'badge')}
+
+        self.assertEqual(ranks, [(level, rank_name(level)) for level, _ in ranks])
+        self.assertEqual({name for _, name in ranks} & others, set())
 
 
 class PlayerTests(AppCase):
@@ -48,9 +56,9 @@ class PlayerTests(AppCase):
     def test_new_player_profile_has_defaults_and_locked_modes(self):
         me = self.client.get('/api/me').json()
 
-        self.assertEqual(me['avatar_id'], 'avatar-starter-1')
+        self.assertEqual((me['avatar_id'], me['avatar_image']), ('avatar-starter-1', 'starter-1'))
         self.assertEqual((me['level'], me['xp'], me['xp_into_level'], me['xp_for_next_level']), (1, 0, 0, 100))
-        self.assertEqual((me['title'], me['title_id'], me['rank_name']), ('Rookie Trader', None, 'Rookie Trader'))
+        self.assertEqual((me['title'], me['title_id'], me['rank_name']), ('Deckhand', None, 'Deckhand'))
         self.assertEqual(me['wallet'], {'doubloons': 0, 'doubloons_week_ends_at': '2026-10-26T00:00:00+00:00', 'gems': 0})
         self.assertEqual(me['streak'], {'days': 0, 'claimed_today': False, 'cycle_day': 1})
         self.assertEqual(me['unlocks'], {'daily': False, 'ranked': False})
@@ -71,7 +79,7 @@ class PlayerTests(AppCase):
         renamed = self.client.patch('/api/me', json={'display_name': 'Captain', 'avatar_id': 'avatar-starter-3', 'leaderboard_opt_in': True})
         not_owned = self.client.patch('/api/me', json={'avatar_id': 'avatar-bull'})
         unknown = self.client.patch('/api/me', json={'title_id': 'avatar-starter-2'})
-        rank_title = self.client.patch('/api/me', json={'title_id': 'title-rank-rookie-trader'})
+        rank_title = self.client.patch('/api/me', json={'title_id': 'title-rank-deckhand'})
         cleared = self.client.patch('/api/me', json={'title_id': None})
         blank = self.client.patch('/api/me', json={'display_name': ''})
 
@@ -80,7 +88,7 @@ class PlayerTests(AppCase):
                          ('Captain', 'avatar-starter-3', True))
         self.assertEqual((not_owned.status_code, not_owned.json()['detail']), (403, 'You have not unlocked this avatar yet'))
         self.assertEqual(unknown.status_code, 422)
-        self.assertEqual(rank_title.json()['title'], 'Rookie Trader')
+        self.assertEqual(rank_title.json()['title'], 'Deckhand')
         self.assertIsNone(cleared.json()['title_id'])
         self.assertEqual(blank.status_code, 422)
 
@@ -178,7 +186,7 @@ class PlayerTests(AppCase):
         self.assertEqual(badges['badge-streak-master']['progress'], '0/30')
         self.assertEqual(len(badges), 16)
         self.assertTrue(avatars['avatar-guide-1']['owned'])
-        self.assertTrue(avatars['avatar-ch1-explorer']['owned'])
+        self.assertEqual((avatars['avatar-ch1-explorer']['owned'], avatars['avatar-ch1-explorer']['image']), (True, 'parrot'))
         self.assertTrue(avatars['avatar-starter-1']['equipped'])
         self.assertFalse(avatars['avatar-bull']['owned'])
         self.assertEqual(collection['stats'], {'levels_done': 5, 'stars': 6, 'bosses_won': 1, 'quizzes_passed': 0, 'matches_played': 0,

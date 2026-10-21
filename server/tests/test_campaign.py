@@ -116,7 +116,8 @@ class CampaignTests(AppCase):
         self.assertEqual(partial['ch1-l5']['state'], 'open')
         self.assertEqual(partial['ch1-boss']['state'], 'locked')
         self.assertEqual(partial['ch1-l3-reward']['state'], 'done')
-        self.assertEqual(partial['ch1-l3-reward']['reward'], {'kind': 'avatar', 'id': 'avatar-ch1-explorer', 'name': 'Explorer Parrot'})
+        self.assertEqual(partial['ch1-l3-reward']['reward'], {'kind': 'avatar', 'id': 'avatar-ch1-explorer', 'name': 'Explorer Parrot',
+                                                               'image': 'parrot'})
         self.assertEqual(full['ch1-boss']['state'], 'open')
         self.assertEqual(list(full)[:5], ['ch1-preview', 'ch1-l1', 'ch1-l2', 'ch1-l3', 'ch1-l3-reward'])
 
@@ -130,7 +131,7 @@ class CampaignTests(AppCase):
         self.assertEqual([chapter['state'] for chapter in campaign['chapters']], ['complete', 'open', 'locked'])
         self.assertEqual(campaign['chapters'][1]['unlocked_by'], 'boss')
         self.assertEqual(campaign['next']['node_id'], 'ch2-preview')
-        self.assertIn({'id': 'avatar-guide-1', 'kind': 'avatar', 'name': 'Harbor Guide'}, settled['rewards']['items'])
+        self.assertIn({'id': 'avatar-guide-1', 'kind': 'avatar', 'name': 'Harbor Guide', 'image': 'guide-1'}, settled['rewards']['items'])
 
     def test_gate_win_skips_ahead_without_marking_earlier_chapters(self):
         settled = self.win_boss('ch3', kind='gate')
@@ -232,7 +233,7 @@ class CampaignTests(AppCase):
         chapter = self.client.get('/api/campaign').json()['chapters'][0]
 
         self.assertEqual(settled['stars'], {'normal': True, 'special': True})
-        self.assertIn({'id': 'title-steady-hand', 'kind': 'title', 'name': 'Steady Hand'}, settled['rewards']['items'])
+        self.assertIn({'id': 'title-steady-hand', 'kind': 'title', 'name': 'Steady Hand', 'image': None}, settled['rewards']['items'])
         self.assertEqual(chapter['stars'], 12)
         self.assertIn('badge-explorer', [badge['id'] for badge in settled['rewards']['badges']])
 

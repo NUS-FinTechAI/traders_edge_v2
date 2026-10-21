@@ -1,8 +1,8 @@
 """Player level curve and rank names (game-architecture.md, Progression)."""
 
 MAX_LEVEL = 50
-RANKS = ((1, 'Rookie Trader'), (5, 'Market Explorer'), (10, 'Chart Reader'), (15, 'Risk Manager'), (20, 'Strategist'),
-         (30, 'Seasoned Trader'), (40, 'Market Veteran'), (50, 'Captain of the Ledger'))
+RANKS = ((1, 'Deckhand'), (5, 'Able Seaman'), (10, 'Navigator'), (15, 'Quartermaster'), (20, 'First Mate'), (30, 'Captain'),
+         (40, 'Commodore'), (50, 'Admiral'))
 
 
 def xp_to_next(level):

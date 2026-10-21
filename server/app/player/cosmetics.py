@@ -34,7 +34,11 @@ class Cosmetics:
 
     def reward(self, item_id):
         item = self.items[item_id]
-        return {'id': item_id, 'kind': item['kind'], 'name': item['name']}
+        return {'id': item_id, 'kind': item['kind'], 'name': item['name'], 'image': item.get('image')}
+
+    def image(self, item_id):
+        item = self.items.get(item_id)
+        return item.get('image') if item else None
 
 
 def _price(where, price, source):

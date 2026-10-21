@@ -3,14 +3,14 @@
   "avatars": [
     {
       "id": "avatar-starter-1",
-      "name": "Deckhand",
+      "name": "Shipwright",
       "image": "starter-1",
       "source": "starter",
       "how": "Yours from the start."
     },
     {
       "id": "avatar-starter-2",
-      "name": "Navigator",
+      "name": "Sailmaker",
       "image": "starter-2",
       "source": "starter",
       "how": "Yours from the start."
@@ -24,7 +24,7 @@
     },
     {
       "id": "avatar-starter-4",
-      "name": "Quartermaster",
+      "name": "Lamplighter",
       "image": "starter-4",
       "source": "starter",
       "how": "Yours from the start."
@@ -260,57 +260,57 @@
   ],
   "titles": [
     {
-      "id": "title-rank-rookie-trader",
-      "name": "Rookie Trader",
+      "id": "title-rank-deckhand",
+      "name": "Deckhand",
       "source": "rank",
       "level": 1,
       "how": "Reach player level 1."
     },
     {
-      "id": "title-rank-market-explorer",
-      "name": "Market Explorer",
+      "id": "title-rank-able-seaman",
+      "name": "Able Seaman",
       "source": "rank",
       "level": 5,
       "how": "Reach player level 5."
     },
     {
-      "id": "title-rank-chart-reader",
-      "name": "Chart Reader",
+      "id": "title-rank-navigator",
+      "name": "Navigator",
       "source": "rank",
       "level": 10,
       "how": "Reach player level 10."
     },
     {
-      "id": "title-rank-risk-manager",
-      "name": "Risk Manager",
+      "id": "title-rank-quartermaster",
+      "name": "Quartermaster",
       "source": "rank",
       "level": 15,
       "how": "Reach player level 15."
     },
     {
-      "id": "title-rank-strategist",
-      "name": "Strategist",
+      "id": "title-rank-first-mate",
+      "name": "First Mate",
       "source": "rank",
       "level": 20,
       "how": "Reach player level 20."
     },
     {
-      "id": "title-rank-seasoned-trader",
-      "name": "Seasoned Trader",
+      "id": "title-rank-captain",
+      "name": "Captain",
       "source": "rank",
       "level": 30,
       "how": "Reach player level 30."
     },
     {
-      "id": "title-rank-market-veteran",
-      "name": "Market Veteran",
+      "id": "title-rank-commodore",
+      "name": "Commodore",
       "source": "rank",
       "level": 40,
       "how": "Reach player level 40."
     },
     {
-      "id": "title-rank-captain-of-the-ledger",
-      "name": "Captain of the Ledger",
+      "id": "title-rank-admiral",
+      "name": "Admiral",
       "source": "rank",
       "level": 50,
       "how": "Reach player level 50."
@@ -509,7 +509,7 @@
     {
       "id": "badge-risk-manager",
       "name": "Risk Manager",
-      "description": "Finish a match with a stop-loss order on every stock you bought and a worst drawdown of 2% or less. (Proxy for \"no entry risking more than 2%\".)"
+      "description": "Finish a match with a stop-loss order on every stock you bought and a worst drawdown of 2% or less."
     },
     {
       "id": "badge-sniper",
@@ -519,17 +519,17 @@
     {
       "id": "badge-fee-fighter",
       "name": "Fee Fighter",
-      "description": "Win a choppy or range-bound market while paying under $30 in fees."
+      "description": "Finish a choppy or range-bound market with at least 3 trades and under $30 in fees."
     },
     {
       "id": "badge-cool-head",
       "name": "Cool Head",
-      "description": "Finish a match with at least 3 orders in which every buy after a sale is no larger than the buy before it. (Proxy for \"no bigger trade after a loss\".)"
+      "description": "Finish a match with at least 3 orders in which no buy after a sale is larger than the buy before it."
     },
     {
       "id": "badge-patient-trader",
       "name": "Patient Trader",
-      "description": "Win a match in which you placed no order before 40% of the days had passed. (Proxy for \"in cash on 40% of days\".)"
+      "description": "Finish a match within your loss limit with at least one order, placing none before 40% of the days had passed."
     },
     {
       "id": "badge-explorer",

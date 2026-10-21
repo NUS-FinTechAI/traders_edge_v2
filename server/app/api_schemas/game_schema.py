@@ -208,6 +208,7 @@ class RewardItem(BaseModel):
     id: str
     kind: str
     name: str
+    image: str | None = None
 
 
 class RewardBadge(BaseModel):
