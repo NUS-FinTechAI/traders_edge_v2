@@ -14,11 +14,25 @@ from sqlalchemy import text
 from app.config import Settings
 from app.content.bundle import load_content
 from app.db import Profile
+from app.game.scenario import load_scenarios
 from app.main import create_app
 
 CAMPAIGN = Path(__file__).resolve().parent / 'fixtures' / 'campaign'
+SCENARIOS = Path(__file__).resolve().parent / 'fixtures' / 'scenarios'
 MONDAY = datetime(2026, 10, 19, 12, tzinfo=timezone.utc)
 SCENARIO = 'practice-trend-rider'
+
+
+def use_fixture_scenarios(case):
+    """Serve the fixture scenario library for one test so shipped content changes cannot break it."""
+    load_scenarios.cache_clear()
+    patcher = patch('app.game.scenario.SCENARIO_DIR', SCENARIOS)
+    patcher.start()
+
+    def restore():
+        patcher.stop()
+        load_scenarios.cache_clear()
+    case.addCleanup(restore)
 
 
 @cache
@@ -38,6 +52,7 @@ class AppCase(unittest.TestCase):
     """A running app with one guest player and the progression clock fixed at MONDAY (adjust `self.now`)."""
 
     def setUp(self):
+        use_fixture_scenarios(self)
         self.temp = tempfile.TemporaryDirectory()
         self.settings = Settings(database_url=f'sqlite+aiosqlite:///{self.temp.name}/progression.db')
         self.app = create_app(self.settings, fixture_content())

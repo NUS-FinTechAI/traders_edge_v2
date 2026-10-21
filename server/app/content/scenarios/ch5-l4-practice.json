@@ -1,0 +1,131 @@
+{
+  "id": "ch5-l4-practice",
+  "version": 1,
+  "title": "Momentum Turns",
+  "briefing": "Kestrel Air has been flying higher for weeks. Watch the MACD histogram: it often shrinks before the price itself turns.",
+  "objective": "Read MACD momentum: building, fading and crossing below its signal line.",
+  "debrief": "Kestrel Air rallied for the first two weeks while the MACD histogram grew. From about day 15 the price stalled and the histogram shrank toward zero; MACD then crossed below its signal line before the fuel-price jump on day 22 pushed the stock into a slide. A disciplined player held the rally and sold when momentum turned, instead of waiting for the bad news.",
+  "difficulty": 2,
+  "ticks": 34,
+  "history": 30,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": true,
+    "stop": true
+  },
+  "max_position_pct": null,
+  "balance": "lesson",
+  "tools": [
+    "candles",
+    "volume",
+    "ema",
+    "macd"
+  ],
+  "market": {
+    "vol": 0.005
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 15,
+      "market_drift": 0.004,
+      "vol_mult": 1.0
+    },
+    {
+      "from": 15,
+      "to": 21,
+      "market_drift": 0.0,
+      "vol_mult": 1.0
+    },
+    {
+      "from": 21,
+      "to": 34,
+      "market_drift": -0.004,
+      "vol_mult": 1.2
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "KSTR",
+      "name": "Kestrel Air",
+      "sector": "Airlines",
+      "blurb": "Flies short routes between regional cities.",
+      "price": 40,
+      "drift": 0.0,
+      "beta": 1.2,
+      "vol": 0.012,
+      "base_volume": 26000
+    }
+  ],
+  "news": [
+    {
+      "id": "fuel-jump",
+      "tick": 22,
+      "headline": "Jet fuel prices jump 15% in a week",
+      "body": "Airlines face higher costs after a refinery outage.",
+      "tone": "negative",
+      "kind": "macro",
+      "symbols": [
+        "KSTR"
+      ],
+      "effects": [
+        {
+          "symbol": "KSTR",
+          "move": -0.04,
+          "ticks": 3,
+          "gap": false
+        }
+      ]
+    }
+  ],
+  "bots": [
+    "hodl-hannah-rookie"
+  ],
+  "missions": {
+    "basic": [
+      {
+        "id": "ride-rally",
+        "type": "held_between",
+        "params": {
+          "symbol": "KSTR",
+          "from": 3,
+          "to": 12
+        },
+        "text": "Hold Kestrel Air during the rally (days 3 to 12)"
+      },
+      {
+        "id": "exit-turn",
+        "type": "exited_by",
+        "params": {
+          "symbol": "KSTR",
+          "tick": 24
+        },
+        "text": "Be out of Kestrel Air by day 24, after momentum turns down"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "profit",
+        "type": "profit_min",
+        "params": {
+          "amount": 250
+        },
+        "text": "Finish at least $250 in profit"
+      },
+      {
+        "id": "beat-hannah",
+        "type": "beat_bot",
+        "params": {
+          "bot_id": "hodl-hannah-rookie"
+        },
+        "text": "Finish ahead of HODL Hannah"
+      }
+    ]
+  }
+}

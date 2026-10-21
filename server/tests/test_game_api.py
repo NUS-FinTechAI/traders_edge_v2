@@ -11,7 +11,7 @@ from app.game import service
 from app.game.models import GameEvent, GameOrder
 from app.main import create_app
 from app.migration_v11 import upgrade
-from progression_fixtures import fixture_content
+from progression_fixtures import fixture_content, use_fixture_scenarios
 
 T0 = 1_800_000_000_000
 SCENARIO = 'practice-trend-rider'
@@ -20,6 +20,7 @@ PLAN = {'strategy': 'trend', 'max_loss_pct': 10}
 
 class GameApiTests(unittest.TestCase):
     def setUp(self):
+        use_fixture_scenarios(self)
         self.temp = tempfile.TemporaryDirectory()
         self.app = create_app(Settings(database_url=f'sqlite+aiosqlite:///{self.temp.name}/games.db'), fixture_content())
         self.client = TestClient(self.app, headers={'Origin': 'http://localhost:5173'})

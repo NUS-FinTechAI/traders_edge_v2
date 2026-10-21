@@ -2,119 +2,260 @@
   "id": "practice-choppy-range",
   "version": 1,
   "title": "Choppy Range",
-  "briefing": "Quarry Stone Supply keeps bouncing between the same highs and lows. Chasing every move costs you the spread and fees each time.",
-  "objective": "Using limit orders to buy near the bottom of a range and sell near the top.",
-  "debrief": "The price swung up and down without a lasting trend. Limit orders placed near the edges of the range filled at better prices and avoided the spread, while frequent market orders slowly lost money to costs.",
+  "briefing": "Tidal Power and Harborline Shipping are going nowhere fast. Trend signals will keep firing and failing. Trade the edges or wait.",
+  "objective": "In a sideways market, buy near support with a stop, sell near resistance, and keep the trade count low.",
+  "debrief": "Both stocks spent the match bouncing between support and resistance on small news: weather and repairs for Tidal Power, freight rates for Harborline. Trend followers bought each pop and sold each dip, and frequent traders paid away their gains in fees. A disciplined player bought near the bottom of each range with a stop just below, sold near the top and made only a handful of trades.",
   "difficulty": 2,
-  "ticks": 40,
-  "history": 30,
+  "ticks": 32,
+  "history": 20,
   "tick_label": "Day",
   "starting_cash": 10000,
   "fee": {
     "rate": 0.001,
     "min": 1
   },
-  "spread": 0.002,
+  "spread": 0.001,
   "allow": {
     "limit": true,
-    "stop": false
+    "stop": true
   },
   "max_position_pct": null,
+  "balance": null,
   "tools": [
     "candles",
+    "volume",
     "sma",
-    "bollinger"
+    "ema",
+    "rsi"
   ],
   "market": {
-    "vol": 0.004
+    "vol": 0.005
   },
   "regimes": [
     {
       "from": 0,
-      "to": 8,
-      "market_drift": 0.004,
-      "vol_mult": 1.0
-    },
-    {
-      "from": 8,
-      "to": 16,
-      "market_drift": -0.004,
-      "vol_mult": 1.0
-    },
-    {
-      "from": 16,
-      "to": 24,
-      "market_drift": 0.004,
-      "vol_mult": 1.0
-    },
-    {
-      "from": 24,
       "to": 32,
-      "market_drift": -0.004,
-      "vol_mult": 1.0
-    },
-    {
-      "from": 32,
-      "to": 40,
-      "market_drift": 0.004,
+      "market_drift": 0.0,
       "vol_mult": 1.0
     }
   ],
   "assets": [
     {
-      "symbol": "QRRY",
-      "name": "Quarry Stone Supply",
-      "sector": "Materials",
-      "blurb": "Sells gravel and paving stone to builders.",
-      "price": 24,
+      "symbol": "TDLP",
+      "name": "Tidal Power",
+      "sector": "Utilities",
+      "blurb": "Generates renewable electricity from offshore wind and tidal farms.",
+      "price": 30,
       "drift": 0.0,
-      "beta": 1.0,
+      "beta": 0.2,
       "vol": 0.008,
-      "base_volume": 11000
+      "base_volume": 18000
+    },
+    {
+      "symbol": "HRBL",
+      "name": "Harborline Shipping",
+      "sector": "Shipping",
+      "blurb": "Moves containers between major ports.",
+      "price": 22,
+      "drift": 0.0,
+      "beta": 0.3,
+      "vol": 0.009,
+      "base_volume": 18000
     }
   ],
-  "news": [],
+  "news": [
+    {
+      "id": "tdlp-calm",
+      "tick": 4,
+      "headline": "Calm winds cut Tidal Power's output",
+      "body": "Wind farms ran well below capacity.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "TDLP"
+      ],
+      "effects": [
+        {
+          "symbol": "TDLP",
+          "move": -0.06,
+          "ticks": 2,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "hrbl-rates-dip",
+      "tick": 6,
+      "headline": "Container freight rates dip",
+      "body": "Fewer goods are being shipped this month.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "HRBL"
+      ],
+      "effects": [
+        {
+          "symbol": "HRBL",
+          "move": -0.06,
+          "ticks": 2,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "tdlp-winds-back",
+      "tick": 8,
+      "headline": "Winds return for Tidal Power",
+      "body": "Output is back to normal.",
+      "tone": "positive",
+      "kind": "company",
+      "symbols": [
+        "TDLP"
+      ],
+      "effects": [
+        {
+          "symbol": "TDLP",
+          "move": 0.06,
+          "ticks": 3,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "hrbl-rates-firm",
+      "tick": 11,
+      "headline": "Freight rates firm as holiday orders arrive",
+      "body": "Shipping lines report busier routes.",
+      "tone": "positive",
+      "kind": "company",
+      "symbols": [
+        "HRBL"
+      ],
+      "effects": [
+        {
+          "symbol": "HRBL",
+          "move": 0.06,
+          "ticks": 3,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "tdlp-repair",
+      "tick": 16,
+      "headline": "Turbine repairs idle part of a Tidal Power farm",
+      "body": "Repairs should take about a week.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "TDLP"
+      ],
+      "effects": [
+        {
+          "symbol": "TDLP",
+          "move": -0.06,
+          "ticks": 2,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "hrbl-port-delay",
+      "tick": 18,
+      "headline": "Port congestion slows Harborline's deliveries",
+      "body": "The delays are expected to clear within days.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "HRBL"
+      ],
+      "effects": [
+        {
+          "symbol": "HRBL",
+          "move": -0.06,
+          "ticks": 2,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "tdlp-repair-done",
+      "tick": 21,
+      "headline": "Tidal Power finishes repairs early",
+      "body": "The farm is back at full output.",
+      "tone": "positive",
+      "kind": "company",
+      "symbols": [
+        "TDLP"
+      ],
+      "effects": [
+        {
+          "symbol": "TDLP",
+          "move": 0.06,
+          "ticks": 3,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "hrbl-port-clear",
+      "tick": 23,
+      "headline": "Port congestion clears",
+      "body": "Harborline's ships are back on schedule.",
+      "tone": "positive",
+      "kind": "company",
+      "symbols": [
+        "HRBL"
+      ],
+      "effects": [
+        {
+          "symbol": "HRBL",
+          "move": 0.06,
+          "ticks": 3,
+          "gap": false
+        }
+      ]
+    }
+  ],
   "bots": [
-    "value-vera-rookie",
-    "momentum-max-rookie",
-    "scalper-sam-rookie"
+    "scalper-sam-pro",
+    "value-vera-pro",
+    "momentum-max-rookie"
   ],
   "missions": {
     "basic": [
       {
-        "id": "use-limit",
-        "type": "use_order",
+        "id": "win",
+        "type": "rank_max",
         "params": {
-          "type": "limit",
-          "n": 1
+          "rank": 1
         },
-        "text": "Place a limit order"
-      },
-      {
-        "id": "two-trades",
-        "type": "trades_min",
-        "params": {
-          "n": 2
-        },
-        "text": "Complete at least two trades"
+        "text": "Finish first"
       }
     ],
     "bonus": [
-      {
-        "id": "range-profit",
-        "type": "profit_min",
-        "params": {
-          "amount": 50
-        },
-        "text": "Finish at least $50 ahead"
-      },
       {
         "id": "few-trades",
         "type": "trades_max",
         "params": {
           "n": 8
         },
-        "text": "Make no more than 8 trades"
+        "text": "Make at most 8 trades"
+      },
+      {
+        "id": "buy-support",
+        "type": "bought_after_news",
+        "params": {
+          "news_id": "tdlp-repair",
+          "within": 3
+        },
+        "text": "Buy Tidal Power near support (within 3 days of the day-16 headline)"
+      },
+      {
+        "id": "stop",
+        "type": "stop_loss_set",
+        "params": {},
+        "text": "Place a stop just below a range"
       }
     ]
   }

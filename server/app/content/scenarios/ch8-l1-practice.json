@@ -1,0 +1,179 @@
+{
+  "id": "ch8-l1-practice",
+  "version": 1,
+  "title": "Don't Chase",
+  "briefing": "A viral trailer has Pebble Games climbing day after day, and the feed is full of people celebrating. Decide what your plan says before the excitement decides for you.",
+  "objective": "Recognize FOMO: measure how stretched a move is and wait for a planned entry.",
+  "debrief": "The trailer went viral on day 3 and Pebble Games rose almost every day. By the \"everyone is talking about it\" headline on day 11 it was far above its 20-day average, and buyers who chased it there watched it slide about 15% when early holders sold from day 13. The release-date news on day 20 restarted the move from a much better price. A disciplined player skipped the stretched run-up and bought the pullback with a stop.",
+  "difficulty": 3,
+  "ticks": 32,
+  "history": 20,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": true,
+    "stop": true
+  },
+  "max_position_pct": null,
+  "balance": "lesson",
+  "tools": [
+    "candles",
+    "volume",
+    "sma",
+    "rsi"
+  ],
+  "market": {
+    "vol": 0.005
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 32,
+      "market_drift": 0.0005,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "PBGM",
+      "name": "Pebble Games",
+      "sector": "Video games",
+      "blurb": "Makes console and mobile video games.",
+      "price": 28,
+      "drift": 0.0,
+      "beta": 0.8,
+      "vol": 0.013,
+      "base_volume": 25000
+    }
+  ],
+  "news": [
+    {
+      "id": "pbgm-trailer",
+      "tick": 3,
+      "headline": "Pebble Games' new trailer passes 50 million views",
+      "body": "The trailer for its next game became the most-watched in the studio's history.",
+      "tone": "positive",
+      "kind": "hype",
+      "symbols": [
+        "PBGM"
+      ],
+      "effects": [
+        {
+          "symbol": "PBGM",
+          "move": 0.2,
+          "ticks": 8,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "pbgm-everyone",
+      "tick": 11,
+      "headline": "\"Everyone is buying Pebble Games,\" say trading forums",
+      "body": "Posts celebrating gains on the stock have tripled this week.",
+      "tone": "positive",
+      "kind": "hype",
+      "symbols": [
+        "PBGM"
+      ],
+      "effects": [
+        {
+          "symbol": "PBGM",
+          "move": 0.03,
+          "ticks": 2,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "pbgm-slide",
+      "tick": 13,
+      "headline": "Pebble Games slides as early buyers take profits",
+      "body": "Some holders who bought before the trailer are selling.",
+      "tone": "neutral",
+      "kind": "company",
+      "symbols": [
+        "PBGM"
+      ],
+      "effects": [
+        {
+          "symbol": "PBGM",
+          "move": -0.07,
+          "ticks": 1,
+          "gap": true
+        },
+        {
+          "symbol": "PBGM",
+          "move": -0.1,
+          "ticks": 4,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "pbgm-release-date",
+      "tick": 20,
+      "headline": "Pebble Games confirms a release date for its new game",
+      "body": "The game will launch in time for the holiday season.",
+      "tone": "positive",
+      "kind": "company",
+      "symbols": [
+        "PBGM"
+      ],
+      "effects": [
+        {
+          "symbol": "PBGM",
+          "move": 0.08,
+          "ticks": 6,
+          "gap": false
+        }
+      ]
+    }
+  ],
+  "bots": [
+    "panic-pete-pro"
+  ],
+  "missions": {
+    "basic": [
+      {
+        "id": "no-chase",
+        "type": "no_buy_between",
+        "params": {
+          "from": 9,
+          "to": 13
+        },
+        "text": "Do not buy the stretched run-up (days 9 to 13)"
+      },
+      {
+        "id": "planned-entry",
+        "type": "bought_after_news",
+        "params": {
+          "news_id": "pbgm-slide",
+          "within": 7
+        },
+        "text": "Buy Pebble Games after the pullback (within 7 days of the day-13 headline)"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "stop",
+        "type": "stop_loss_set",
+        "params": {},
+        "text": "Protect your entry with a stop-loss"
+      },
+      {
+        "id": "beat-pete",
+        "type": "beat_bot",
+        "params": {
+          "bot_id": "panic-pete-pro"
+        },
+        "text": "Finish ahead of Panic Pete"
+      }
+    ]
+  }
+}

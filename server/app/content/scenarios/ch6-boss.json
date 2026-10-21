@@ -1,0 +1,298 @@
+{
+  "id": "ch6-boss",
+  "version": 1,
+  "title": "Earnings Season",
+  "briefing": "Three reports, one rate decision and a takeover rumor, all in five weeks. Newsy Nina, Panic Pete and HODL Hannah are all reading the same headlines. Read them better.",
+  "objective": "React to surprises against expectations, keep size small into scheduled reports, and ignore unconfirmed rumors.",
+  "debrief": "Orchard Foods beat and raised guidance on day 8 and drifted higher for two weeks. The surprise rate rise on day 12 hit Nimbus Cloud and Pebble Games hardest while the grocer barely moved. Nimbus beat on profit but cut guidance on day 16 and gapped down. The Pebble Games takeover rumor on day 19 had no source, and the denial on day 23 erased it and more. The grocery price war announced on day 28 then began to squeeze Orchard Foods. A disciplined player stayed small into each report, bought Orchard Foods after the confirmation, sold when the price war was announced and never touched the rumor.",
+  "difficulty": 4,
+  "ticks": 36,
+  "history": 20,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": true,
+    "stop": true
+  },
+  "max_position_pct": null,
+  "balance": "boss",
+  "tools": [
+    "candles",
+    "volume",
+    "sma"
+  ],
+  "market": {
+    "vol": 0.005
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 36,
+      "market_drift": 0.0005,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "ORCF",
+      "name": "Orchard Foods",
+      "sector": "Consumer staples",
+      "blurb": "Runs a chain of neighborhood grocery stores.",
+      "price": 40,
+      "drift": 0.0008,
+      "beta": 0.5,
+      "vol": 0.01,
+      "base_volume": 20000
+    },
+    {
+      "symbol": "NMBC",
+      "name": "Nimbus Cloud",
+      "sector": "Technology",
+      "blurb": "Rents cloud servers and storage to businesses.",
+      "price": 85,
+      "drift": 0.002,
+      "beta": 1.2,
+      "vol": 0.014,
+      "base_volume": 30000
+    },
+    {
+      "symbol": "PBGM",
+      "name": "Pebble Games",
+      "sector": "Video games",
+      "blurb": "Makes console and mobile video games.",
+      "price": 25,
+      "drift": -0.002,
+      "beta": 0.9,
+      "vol": 0.015,
+      "base_volume": 22000
+    }
+  ],
+  "news": [
+    {
+      "id": "earnings-calendar",
+      "tick": 1,
+      "headline": "Calendar: Orchard Foods reports on day 8, rate decision on day 12, Nimbus Cloud reports on day 16",
+      "body": "Analysts expect Orchard Foods to earn $0.48 a share and Nimbus Cloud $1.10. Most expect a 0.25% rate rise.",
+      "tone": "neutral",
+      "kind": "earnings",
+      "symbols": [
+        "ORCF",
+        "NMBC"
+      ],
+      "effects": []
+    },
+    {
+      "id": "orcf-earnings",
+      "tick": 8,
+      "headline": "Orchard Foods earns $0.55 vs $0.48 expected and raises guidance",
+      "body": "Strong own-brand sales lifted margins. Management raised its full-year profit forecast.",
+      "tone": "positive",
+      "kind": "earnings",
+      "symbols": [
+        "ORCF"
+      ],
+      "effects": [
+        {
+          "symbol": "ORCF",
+          "move": 0.03,
+          "ticks": 1,
+          "gap": true
+        },
+        {
+          "symbol": "ORCF",
+          "move": 0.28,
+          "ticks": 16,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "rate-surprise",
+      "tick": 12,
+      "headline": "Rates rise 0.50%, more than expected; growth shares hit hardest",
+      "body": "The central bank surprised markets with a larger rise. Technology and games shares led the fall.",
+      "tone": "negative",
+      "kind": "macro",
+      "symbols": [
+        "NMBC",
+        "PBGM"
+      ],
+      "effects": [
+        {
+          "symbol": "NMBC",
+          "move": -0.07,
+          "ticks": 1,
+          "gap": true
+        },
+        {
+          "symbol": "PBGM",
+          "move": -0.05,
+          "ticks": 1,
+          "gap": true
+        },
+        {
+          "symbol": "ORCF",
+          "move": -0.01,
+          "ticks": 1,
+          "gap": true
+        }
+      ]
+    },
+    {
+      "id": "nmbc-earnings",
+      "tick": 16,
+      "headline": "Nimbus Cloud beats on profit but cuts next year's guidance",
+      "body": "Profit of $1.18 beat the $1.10 estimate, but the company expects slower growth as customers cut budgets.",
+      "tone": "negative",
+      "kind": "earnings",
+      "symbols": [
+        "NMBC"
+      ],
+      "effects": [
+        {
+          "symbol": "NMBC",
+          "move": -0.14,
+          "ticks": 1,
+          "gap": true
+        },
+        {
+          "symbol": "NMBC",
+          "move": -0.18,
+          "ticks": 10,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "pbgm-rumor",
+      "tick": 19,
+      "headline": "Rumor: Pebble Games in takeover talks",
+      "body": "An unnamed online source claims a large studio wants to buy Pebble Games. Neither company has commented.",
+      "tone": "positive",
+      "kind": "rumor",
+      "symbols": [
+        "PBGM"
+      ],
+      "effects": [
+        {
+          "symbol": "PBGM",
+          "move": 0.1,
+          "ticks": 2,
+          "gap": true
+        }
+      ]
+    },
+    {
+      "id": "pbgm-denial",
+      "tick": 23,
+      "headline": "Pebble Games denies takeover talks",
+      "body": "The company says it has received no offer and is focused on its next release.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "PBGM"
+      ],
+      "effects": [
+        {
+          "symbol": "PBGM",
+          "move": -0.25,
+          "ticks": 2,
+          "gap": true
+        },
+        {
+          "symbol": "PBGM",
+          "move": -0.1,
+          "ticks": 8,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "orcf-price-war",
+      "tick": 28,
+      "headline": "Discount grocers start a price war; Orchard Foods to cut prices",
+      "body": "Orchard Foods says it will match rivals on 500 everyday items, which will squeeze its margins.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "ORCF"
+      ],
+      "effects": [
+        {
+          "symbol": "ORCF",
+          "move": -0.03,
+          "ticks": 1,
+          "gap": true
+        },
+        {
+          "symbol": "ORCF",
+          "move": -0.12,
+          "ticks": 6,
+          "gap": false
+        }
+      ]
+    }
+  ],
+  "bots": [
+    "newsy-nina-pro",
+    "panic-pete-pro",
+    "hodl-hannah"
+  ],
+  "missions": {
+    "basic": [
+      {
+        "id": "win",
+        "type": "rank_max",
+        "params": {
+          "rank": 1
+        },
+        "text": "Finish first, ahead of Newsy Nina, Panic Pete and HODL Hannah"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "small-orcf",
+        "type": "max_position_before",
+        "params": {
+          "tick": 8,
+          "pct": 15,
+          "symbol": "ORCF"
+        },
+        "text": "Keep Orchard Foods at 15% or less going into its day-8 report"
+      },
+      {
+        "id": "small-nmbc",
+        "type": "max_position_before",
+        "params": {
+          "tick": 16,
+          "pct": 15,
+          "symbol": "NMBC"
+        },
+        "text": "Keep Nimbus Cloud at 15% or less going into its day-16 report"
+      },
+      {
+        "id": "confirmed",
+        "type": "bought_after_news",
+        "params": {
+          "news_id": "orcf-earnings",
+          "within": 3
+        },
+        "text": "Buy Orchard Foods within 3 days of its beat-and-raise report"
+      },
+      {
+        "id": "no-rumor",
+        "type": "no_buy_between",
+        "params": {
+          "from": 19,
+          "to": 22
+        },
+        "text": "Make no buys while the Pebble Games rumor runs (days 19 to 22)"
+      }
+    ]
+  }
+}

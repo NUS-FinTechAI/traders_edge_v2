@@ -2,12 +2,12 @@
   "id": "practice-trend-rider",
   "version": 1,
   "title": "Trend Rider",
-  "briefing": "Two companies are in a steady uptrend, but a short pullback is coming. Decide how much to hold and what you will do when prices dip.",
-  "objective": "Following a trend and sizing positions so a pullback does not break your plan.",
-  "debrief": "Both stocks rose overall, with a pullback in the middle. Players who stayed invested and kept positions small enough to sit through the dip did best. Selling everything at the low locked in losses just before the trend resumed.",
-  "difficulty": 1,
-  "ticks": 40,
-  "history": 25,
+  "briefing": "Lumen Bikes is in a strong uptrend and Orchard Foods is creeping higher. Join the trend on a pullback and let it run.",
+  "objective": "Trend following: buy pullbacks in an uptrend, protect them with a stop and trail the exit.",
+  "debrief": "Lumen Bikes kept making higher highs and higher lows. The dips after the battery-supplier report (day 8) and the analyst downgrade (day 19) were the low-risk places to join, and both held above the rising average. The trend finally cracked when the company cut its forecast on day 29. A disciplined player bought a pullback with a stop, held through the noise and trailed out when the trend broke.",
+  "difficulty": 2,
+  "ticks": 36,
+  "history": 30,
   "tick_label": "Day",
   "starting_cash": 10000,
   "fee": {
@@ -20,134 +20,154 @@
     "stop": true
   },
   "max_position_pct": null,
+  "balance": null,
   "tools": [
     "candles",
     "volume",
-    "sma"
+    "sma",
+    "ema",
+    "rsi"
   ],
   "market": {
-    "vol": 0.006
+    "vol": 0.005
   },
   "regimes": [
     {
       "from": 0,
-      "to": 16,
-      "market_drift": 0.002,
-      "vol_mult": 1.0
-    },
-    {
-      "from": 16,
-      "to": 23,
-      "market_drift": -0.004,
-      "vol_mult": 1.3
-    },
-    {
-      "from": 23,
-      "to": 40,
-      "market_drift": 0.0025,
+      "to": 36,
+      "market_drift": 0.001,
       "vol_mult": 1.0
     }
   ],
   "assets": [
     {
-      "symbol": "SUNR",
-      "name": "Sunrise Panels Co.",
-      "sector": "Energy",
-      "blurb": "Makes rooftop solar panels for homes.",
-      "price": 42,
-      "drift": 0.0008,
-      "beta": 1.2,
-      "vol": 0.015,
-      "base_volume": 14000
+      "symbol": "LUMB",
+      "name": "Lumen Bikes",
+      "sector": "Consumer discretionary",
+      "blurb": "Designs and sells electric bikes and spare batteries.",
+      "price": 36,
+      "drift": 0.012,
+      "beta": 1.1,
+      "vol": 0.011,
+      "base_volume": 24000
     },
     {
-      "symbol": "TIDE",
-      "name": "Tidewater Freight",
-      "sector": "Industrials",
-      "blurb": "Runs container ships between coastal towns.",
-      "price": 68,
-      "drift": 0.0003,
-      "beta": 0.9,
-      "vol": 0.011,
-      "base_volume": 9000
+      "symbol": "ORCF",
+      "name": "Orchard Foods",
+      "sector": "Consumer staples",
+      "blurb": "Runs a chain of neighborhood grocery stores.",
+      "price": 40,
+      "drift": 0.002,
+      "beta": 0.4,
+      "vol": 0.008,
+      "base_volume": 20000
     }
   ],
   "news": [
     {
-      "id": "solar-forecast-cut",
-      "tick": 18,
-      "headline": "Analysts trim solar demand forecasts for the quarter",
-      "body": "A research group expects fewer home solar installations this quarter after a wet spring.",
+      "id": "lumb-supplier",
+      "tick": 8,
+      "headline": "Battery supplier warns of a short delay; Lumen Bikes dips",
+      "body": "Lumen says it has enough stock to cover the delay.",
       "tone": "negative",
+      "kind": "company",
       "symbols": [
-        "SUNR"
+        "LUMB"
       ],
       "effects": [
         {
-          "symbol": "SUNR",
-          "move": -0.04,
+          "symbol": "LUMB",
+          "move": -0.05,
           "ticks": 3,
           "gap": false
         }
-      ],
-      "kind": "macro"
+      ]
     },
     {
-      "id": "tidewater-routes",
-      "tick": 26,
-      "headline": "Tidewater Freight adds three coastal routes",
-      "body": "The company says the new routes are already booked for the next two months.",
-      "tone": "positive",
+      "id": "lumb-downgrade",
+      "tick": 19,
+      "headline": "Analyst downgrades Lumen Bikes on valuation",
+      "body": "The analyst likes the business but thinks the shares have run ahead.",
+      "tone": "negative",
+      "kind": "company",
       "symbols": [
-        "TIDE"
+        "LUMB"
       ],
       "effects": [
         {
-          "symbol": "TIDE",
-          "move": 0.05,
-          "ticks": 4,
+          "symbol": "LUMB",
+          "move": -0.05,
+          "ticks": 3,
           "gap": false
         }
+      ]
+    },
+    {
+      "id": "lumb-forecast-cut",
+      "tick": 29,
+      "headline": "Lumen Bikes trims its full-year sales forecast",
+      "body": "Cooler weather slowed spring sales in its biggest markets.",
+      "tone": "negative",
+      "kind": "earnings",
+      "symbols": [
+        "LUMB"
       ],
-      "kind": "company"
+      "effects": [
+        {
+          "symbol": "LUMB",
+          "move": -0.02,
+          "ticks": 1,
+          "gap": true
+        },
+        {
+          "symbol": "LUMB",
+          "move": -0.28,
+          "ticks": 6,
+          "gap": false
+        }
+      ]
     }
   ],
   "bots": [
-    "momentum-max-rookie",
-    "hodl-hannah-rookie",
-    "panic-pete-rookie"
+    "momentum-max-pro",
+    "hodl-hannah",
+    "panic-pete-pro"
   ],
   "missions": {
     "basic": [
       {
-        "id": "first-buy",
-        "type": "trades_min",
-        "params": {
-          "n": 1
-        },
-        "text": "Buy at least one share"
-      },
-      {
-        "id": "stay-invested",
-        "type": "hold_at_end",
-        "params": {},
-        "text": "Still hold shares on the last day"
-      }
-    ],
-    "bonus": [
-      {
-        "id": "keep-plan",
-        "type": "kept_plan",
-        "params": {},
-        "text": "Never lose more than your plan allows"
-      },
-      {
-        "id": "top-spot",
+        "id": "win",
         "type": "rank_max",
         "params": {
           "rank": 1
         },
-        "text": "Finish ahead of every bot"
+        "text": "Finish first"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "pullback",
+        "type": "bought_after_news",
+        "params": {
+          "news_id": "lumb-supplier",
+          "within": 4
+        },
+        "text": "Buy Lumen Bikes on a pullback (within 4 days of the day-8 headline)"
+      },
+      {
+        "id": "stop",
+        "type": "stop_loss_set",
+        "params": {},
+        "text": "Protect your trend trade with a stop-loss"
+      },
+      {
+        "id": "trend-exit",
+        "type": "exited_by",
+        "params": {
+          "symbol": "LUMB",
+          "tick": 32
+        },
+        "text": "Be out of Lumen Bikes by day 32, after the trend breaks"
       }
     ]
   }

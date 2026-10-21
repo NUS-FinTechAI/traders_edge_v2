@@ -1,0 +1,180 @@
+{
+  "id": "ch5-l2-practice",
+  "version": 1,
+  "title": "Crossover Chop",
+  "briefing": "Nimbus Cloud starts in a clean uptrend, then the news turns noisy. Watch the fast and slow averages and decide when crossing signals stop being worth taking.",
+  "objective": "Moving-average crossovers catch trends but whipsaw in sideways markets.",
+  "debrief": "The averages lined up during the first two weeks, and a crossover entry rode the trend. From day 16 the market went sideways: the downgrade on day 18, the product event on day 22, the price-war report on day 26 and the bank contract on day 30 sent price back and forth across the averages. Each cross came late and reversed. A disciplined player kept the trend trade, stepped aside once the slow average flattened, and kept the trade count low.",
+  "difficulty": 2,
+  "ticks": 36,
+  "history": 30,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": true,
+    "stop": true
+  },
+  "max_position_pct": null,
+  "balance": "lesson",
+  "tools": [
+    "candles",
+    "volume",
+    "sma"
+  ],
+  "market": {
+    "vol": 0.005
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 16,
+      "market_drift": 0.003,
+      "vol_mult": 1.0
+    },
+    {
+      "from": 16,
+      "to": 36,
+      "market_drift": 0.0,
+      "vol_mult": 1.3
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "NMBC",
+      "name": "Nimbus Cloud",
+      "sector": "Technology",
+      "blurb": "Rents cloud servers and storage to businesses.",
+      "price": 80,
+      "drift": 0.0,
+      "beta": 1.3,
+      "vol": 0.012,
+      "base_volume": 30000
+    }
+  ],
+  "news": [
+    {
+      "id": "nmbc-downgrade",
+      "tick": 18,
+      "headline": "Analyst downgrades Nimbus Cloud to \"hold\"",
+      "body": "The analyst says the shares already reflect this year's growth.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "NMBC"
+      ],
+      "effects": [
+        {
+          "symbol": "NMBC",
+          "move": -0.05,
+          "ticks": 2,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "nmbc-product",
+      "tick": 22,
+      "headline": "Nimbus Cloud shows off a faster storage service",
+      "body": "Early customers report quicker backups at the same price.",
+      "tone": "positive",
+      "kind": "company",
+      "symbols": [
+        "NMBC"
+      ],
+      "effects": [
+        {
+          "symbol": "NMBC",
+          "move": 0.05,
+          "ticks": 2,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "nmbc-price-war",
+      "tick": 26,
+      "headline": "Report: Nimbus Cloud cuts prices to match rivals",
+      "body": "A trade magazine says several cloud firms are lowering prices to win customers.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "NMBC"
+      ],
+      "effects": [
+        {
+          "symbol": "NMBC",
+          "move": -0.05,
+          "ticks": 2,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "nmbc-bank",
+      "tick": 30,
+      "headline": "Nimbus Cloud signs a regional bank as a customer",
+      "body": "The contract is small but adds a well-known name to the customer list.",
+      "tone": "positive",
+      "kind": "company",
+      "symbols": [
+        "NMBC"
+      ],
+      "effects": [
+        {
+          "symbol": "NMBC",
+          "move": 0.045,
+          "ticks": 2,
+          "gap": false
+        }
+      ]
+    }
+  ],
+  "bots": [
+    "momentum-max-rookie"
+  ],
+  "missions": {
+    "basic": [
+      {
+        "id": "ride-trend",
+        "type": "held_between",
+        "params": {
+          "symbol": "NMBC",
+          "from": 3,
+          "to": 12
+        },
+        "text": "Hold Nimbus Cloud during the early uptrend (days 3 to 12)"
+      },
+      {
+        "id": "few-trades",
+        "type": "trades_max",
+        "params": {
+          "n": 6
+        },
+        "text": "Make at most 6 trades"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "skip-whipsaw",
+        "type": "trades_max",
+        "params": {
+          "n": 3
+        },
+        "text": "Make at most 3 trades: skip the whipsaw crosses"
+      },
+      {
+        "id": "beat-max",
+        "type": "beat_bot",
+        "params": {
+          "bot_id": "momentum-max-rookie"
+        },
+        "text": "Finish ahead of Momentum Max"
+      }
+    ]
+  }
+}

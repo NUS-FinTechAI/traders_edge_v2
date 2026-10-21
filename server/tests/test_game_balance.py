@@ -5,7 +5,7 @@ from app.game.scenario import load_bots, load_scenarios, validate_scenario
 from game_fixtures import scenario
 
 SEEDS = range(50)
-IDLE_LIMIT, RANDOM_LIMIT = 0.05, 0.10
+LIMITS = {'boss': (0.05, 0.10), 'daily': (0.10, 0.25)}  # (idle, random) win-rate ceilings
 
 
 def boss_fixture():
@@ -17,21 +17,22 @@ def boss_fixture():
 
 
 class BalanceTests(unittest.TestCase):
-    def assertBossBalanced(self, data):
+    def assertBalanced(self, data, kind='boss'):
+        idle_limit, random_limit = LIMITS[kind]
         idle = balance.simulate_policy(data, 'idle', SEEDS)
         clicker = balance.simulate_policy(data, 'random', SEEDS)
 
-        self.assertLessEqual(idle['win_rate'], IDLE_LIMIT, data['id'])
-        self.assertLessEqual(clicker['win_rate'], RANDOM_LIMIT, data['id'])
+        self.assertLessEqual(idle['win_rate'], idle_limit, data['id'])
+        self.assertLessEqual(clicker['win_rate'], random_limit, data['id'])
 
     def test_idle_and_random_players_lose_the_boss_fixture(self):
-        self.assertBossBalanced(boss_fixture())
+        self.assertBalanced(boss_fixture())
 
-    def test_shipped_boss_scenarios_keep_idle_and_random_players_losing(self):
+    def test_shipped_boss_and_daily_scenarios_keep_idle_and_random_players_losing(self):
         for data in load_scenarios().values():
-            if data.get('balance') == 'boss':
+            if data.get('balance') in LIMITS:
                 with self.subTest(scenario=data['id']):
-                    self.assertBossBalanced(data)
+                    self.assertBalanced(data, data['balance'])
 
     def test_gauntlet_reports_every_policy(self):
         report = balance.gauntlet(boss_fixture(), range(3))

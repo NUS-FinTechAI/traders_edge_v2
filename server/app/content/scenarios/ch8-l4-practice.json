@@ -1,0 +1,106 @@
+{
+  "id": "ch8-l4-practice",
+  "version": 1,
+  "title": "Fee Drag",
+  "briefing": "Orchard Foods is creeping higher and Harborline is wobbling sideways. Scalper Sam will trade every wiggle. You do not have to.",
+  "objective": "Overtrading costs money: fewer, better trades keep more of the gains.",
+  "debrief": "Orchard Foods rose slowly for the whole match, and Harborline wobbled up and down without going anywhere. Scalper Sam traded almost every day and paid the spread and fees each time. A patient player bought Orchard Foods early, held it, and finished ahead with a handful of trades.",
+  "difficulty": 2,
+  "ticks": 30,
+  "history": 20,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": true,
+    "stop": true
+  },
+  "max_position_pct": null,
+  "balance": "lesson",
+  "tools": [
+    "candles",
+    "volume",
+    "sma"
+  ],
+  "market": {
+    "vol": 0.005
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 30,
+      "market_drift": 0.0005,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "ORCF",
+      "name": "Orchard Foods",
+      "sector": "Consumer staples",
+      "blurb": "Runs a chain of neighborhood grocery stores.",
+      "price": 40,
+      "drift": 0.0025,
+      "beta": 0.5,
+      "vol": 0.008,
+      "base_volume": 20000
+    },
+    {
+      "symbol": "HRBL",
+      "name": "Harborline Shipping",
+      "sector": "Shipping",
+      "blurb": "Moves containers between major ports.",
+      "price": 22,
+      "drift": 0.0,
+      "beta": 0.7,
+      "vol": 0.012,
+      "base_volume": 18000
+    }
+  ],
+  "news": [],
+  "bots": [
+    "scalper-sam-pro"
+  ],
+  "missions": {
+    "basic": [
+      {
+        "id": "few-trades",
+        "type": "trades_max",
+        "params": {
+          "n": 4
+        },
+        "text": "Make at most 4 trades"
+      },
+      {
+        "id": "profit",
+        "type": "profit_min",
+        "params": {
+          "amount": 100
+        },
+        "text": "Finish at least $100 in profit"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "very-few",
+        "type": "trades_max",
+        "params": {
+          "n": 2
+        },
+        "text": "Make at most 2 trades"
+      },
+      {
+        "id": "beat-sam",
+        "type": "beat_bot",
+        "params": {
+          "bot_id": "scalper-sam-pro"
+        },
+        "text": "Finish ahead of Scalper Sam"
+      }
+    ]
+  }
+}

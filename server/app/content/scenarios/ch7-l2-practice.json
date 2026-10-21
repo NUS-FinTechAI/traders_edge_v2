@@ -1,0 +1,192 @@
+{
+  "id": "ch7-l2-practice",
+  "version": 1,
+  "title": "Range Rider",
+  "briefing": "Tidal Power has bounced between about $28 and $31 for weeks. Buy near the floor, sell toward the ceiling, and know what to do if the floor gives way.",
+  "objective": "Mean reversion: trade the range with a stop, and quit when the range breaks.",
+  "debrief": "Tidal Power swung inside its range: the low-wind week (day 4) and the cable fault (day 15) dipped toward the floor, and each recovery headline lifted it back toward the ceiling. On day 26 the regulator cut guaranteed power prices and the floor broke for good. A disciplined player bought near support with a stop just below it, took profits toward the top, and was stopped out or sold quickly when the range broke, instead of buying the \"cheap\" price all the way down.",
+  "difficulty": 3,
+  "ticks": 34,
+  "history": 20,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": true,
+    "stop": true
+  },
+  "max_position_pct": null,
+  "balance": "lesson",
+  "tools": [
+    "candles",
+    "volume",
+    "sma",
+    "rsi"
+  ],
+  "market": {
+    "vol": 0.005
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 34,
+      "market_drift": 0.0,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "TDLP",
+      "name": "Tidal Power",
+      "sector": "Utilities",
+      "blurb": "Generates renewable electricity from offshore wind and tidal farms.",
+      "price": 30,
+      "drift": 0.0,
+      "beta": 0.2,
+      "vol": 0.008,
+      "base_volume": 18000
+    }
+  ],
+  "news": [
+    {
+      "id": "tdlp-low-wind",
+      "tick": 4,
+      "headline": "A calm week cuts Tidal Power's output",
+      "body": "Low winds left several wind farms idle.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "TDLP"
+      ],
+      "effects": [
+        {
+          "symbol": "TDLP",
+          "move": -0.06,
+          "ticks": 2,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "tdlp-winds-back",
+      "tick": 7,
+      "headline": "Winds return and Tidal Power output recovers",
+      "body": "Output is back to its seasonal average.",
+      "tone": "positive",
+      "kind": "company",
+      "symbols": [
+        "TDLP"
+      ],
+      "effects": [
+        {
+          "symbol": "TDLP",
+          "move": 0.07,
+          "ticks": 3,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "tdlp-cable",
+      "tick": 15,
+      "headline": "Cable fault cuts Tidal Power deliveries",
+      "body": "Engineers expect repairs to take about a week.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "TDLP"
+      ],
+      "effects": [
+        {
+          "symbol": "TDLP",
+          "move": -0.06,
+          "ticks": 2,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "tdlp-cable-fixed",
+      "tick": 18,
+      "headline": "Tidal Power repairs its cable early",
+      "body": "Deliveries are back to normal.",
+      "tone": "positive",
+      "kind": "company",
+      "symbols": [
+        "TDLP"
+      ],
+      "effects": [
+        {
+          "symbol": "TDLP",
+          "move": 0.07,
+          "ticks": 3,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "tdlp-price-cut",
+      "tick": 26,
+      "headline": "Regulator cuts guaranteed power prices for renewables",
+      "body": "From next quarter, producers will earn about 12% less per unit of power.",
+      "tone": "negative",
+      "kind": "macro",
+      "symbols": [
+        "TDLP"
+      ],
+      "effects": [
+        {
+          "symbol": "TDLP",
+          "move": -0.12,
+          "ticks": 4,
+          "gap": true
+        }
+      ]
+    }
+  ],
+  "bots": [
+    "value-vera-rookie"
+  ],
+  "missions": {
+    "basic": [
+      {
+        "id": "buy-floor",
+        "type": "bought_after_news",
+        "params": {
+          "news_id": "tdlp-low-wind",
+          "within": 3
+        },
+        "text": "Buy Tidal Power near the floor (within 3 days of the day-4 headline)"
+      },
+      {
+        "id": "stop",
+        "type": "stop_loss_set",
+        "params": {},
+        "text": "Place a stop-loss just below the range"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "exit-break",
+        "type": "exited_by",
+        "params": {
+          "symbol": "TDLP",
+          "tick": 29
+        },
+        "text": "Be out of Tidal Power by day 29, after the range breaks"
+      },
+      {
+        "id": "profit",
+        "type": "profit_min",
+        "params": {
+          "amount": 150
+        },
+        "text": "Finish at least $150 in profit"
+      }
+    ]
+  }
+}

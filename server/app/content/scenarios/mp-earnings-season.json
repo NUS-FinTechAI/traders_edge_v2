@@ -1,0 +1,193 @@
+{
+  "id": "mp-earnings-season",
+  "version": 1,
+  "title": "Earnings Season",
+  "briefing": "Two reports and a rate decision in thirty days. Every player sees the same calendar. The best reader of surprises wins.",
+  "objective": "React to surprises against expectations and keep size small into scheduled events.",
+  "debrief": "Orchard Foods beat and raised guidance on day 8 and drifted higher. The rate rise on day 13 was larger than expected and hit Nimbus Cloud hardest. Nimbus then cut its guidance on day 18 despite beating on profit, and fell again. A disciplined player kept positions small into each event, bought Orchard Foods after its report and avoided Nimbus Cloud.",
+  "difficulty": 2,
+  "ticks": 30,
+  "history": 20,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": true,
+    "stop": true
+  },
+  "max_position_pct": null,
+  "balance": null,
+  "tools": [
+    "candles",
+    "volume",
+    "sma",
+    "ema",
+    "rsi"
+  ],
+  "market": {
+    "vol": 0.005
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 30,
+      "market_drift": 0.0005,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "ORCF",
+      "name": "Orchard Foods",
+      "sector": "Consumer staples",
+      "blurb": "Runs a chain of neighborhood grocery stores.",
+      "price": 40,
+      "drift": 0.0008,
+      "beta": 0.5,
+      "vol": 0.009,
+      "base_volume": 20000
+    },
+    {
+      "symbol": "NMBC",
+      "name": "Nimbus Cloud",
+      "sector": "Technology",
+      "blurb": "Rents cloud servers and storage to businesses.",
+      "price": 85,
+      "drift": 0.002,
+      "beta": 1.2,
+      "vol": 0.014,
+      "base_volume": 30000
+    }
+  ],
+  "news": [
+    {
+      "id": "calendar",
+      "tick": 1,
+      "headline": "Calendar: Orchard Foods reports day 8, rate decision day 13, Nimbus Cloud reports day 18",
+      "body": "Analysts expect solid results from both; most expect a 0.25% rate rise.",
+      "tone": "neutral",
+      "kind": "earnings",
+      "symbols": [
+        "ORCF",
+        "NMBC"
+      ],
+      "effects": []
+    },
+    {
+      "id": "orcf-beat",
+      "tick": 8,
+      "headline": "Orchard Foods beats estimates and raises guidance",
+      "body": "Own-brand sales lifted profit above forecasts.",
+      "tone": "positive",
+      "kind": "earnings",
+      "symbols": [
+        "ORCF"
+      ],
+      "effects": [
+        {
+          "symbol": "ORCF",
+          "move": 0.05,
+          "ticks": 1,
+          "gap": true
+        },
+        {
+          "symbol": "ORCF",
+          "move": 0.1,
+          "ticks": 10,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "rate-rise",
+      "tick": 13,
+      "headline": "Rates rise 0.50%, more than expected",
+      "body": "Growth shares fell the most.",
+      "tone": "negative",
+      "kind": "macro",
+      "symbols": [
+        "ORCF",
+        "NMBC"
+      ],
+      "effects": [
+        {
+          "symbol": "NMBC",
+          "move": -0.06,
+          "ticks": 1,
+          "gap": true
+        },
+        {
+          "symbol": "ORCF",
+          "move": -0.01,
+          "ticks": 1,
+          "gap": true
+        }
+      ]
+    },
+    {
+      "id": "nmbc-cut",
+      "tick": 18,
+      "headline": "Nimbus Cloud beats on profit but cuts guidance",
+      "body": "The company expects customers to slow spending next year.",
+      "tone": "negative",
+      "kind": "earnings",
+      "symbols": [
+        "NMBC"
+      ],
+      "effects": [
+        {
+          "symbol": "NMBC",
+          "move": -0.1,
+          "ticks": 1,
+          "gap": true
+        },
+        {
+          "symbol": "NMBC",
+          "move": -0.06,
+          "ticks": 6,
+          "gap": false
+        }
+      ]
+    }
+  ],
+  "bots": [],
+  "missions": {
+    "basic": [
+      {
+        "id": "small-orcf",
+        "type": "max_position_before",
+        "params": {
+          "tick": 8,
+          "pct": 20,
+          "symbol": "ORCF"
+        },
+        "text": "Keep Orchard Foods at 20% or less going into its day-8 report"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "buy-beat",
+        "type": "bought_after_news",
+        "params": {
+          "news_id": "orcf-beat",
+          "within": 3
+        },
+        "text": "Buy Orchard Foods within 3 days of its beat-and-raise"
+      },
+      {
+        "id": "small-nmbc",
+        "type": "max_position_before",
+        "params": {
+          "tick": 18,
+          "pct": 20,
+          "symbol": "NMBC"
+        },
+        "text": "Keep Nimbus Cloud at 20% or less going into its day-18 report"
+      }
+    ]
+  }
+}

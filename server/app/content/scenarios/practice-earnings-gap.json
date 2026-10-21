@@ -2,11 +2,11 @@
   "id": "practice-earnings-gap",
   "version": 1,
   "title": "Earnings Gap",
-  "briefing": "Orbit Snacks reports results soon. Strong results can make a price jump overnight, and jumps do not always last.",
-  "objective": "Reacting to an earnings surprise and protecting gains when the excitement fades.",
-  "debrief": "Orbit Snacks opened sharply higher after beating expectations, then drifted lower as early buyers took profits. Holding before the news paid off, but buying after the jump without a stop-loss gave much of it back.",
+  "briefing": "Nimbus Cloud and Meadow Pharma both report this month. The calendar tells you when; the surprise will tell you which way.",
+  "objective": "Earnings: keep size small into the report, react to the surprise and guidance, and watch for the excitement fading.",
+  "debrief": "Nimbus Cloud beat and raised guidance on day 12 and gapped up, but much of the jump faded over the next two weeks as early buyers took profits after the analyst day on day 20. Meadow Pharma missed and cut its outlook on day 18 and kept sliding. A disciplined player went into each report small, bought the beat after it was confirmed, took profits when the move stalled and avoided the miss.",
   "difficulty": 2,
-  "ticks": 35,
+  "ticks": 34,
   "history": 20,
   "tick_label": "Day",
   "starting_cash": 10000,
@@ -20,9 +20,13 @@
     "stop": true
   },
   "max_position_pct": null,
+  "balance": null,
   "tools": [
     "candles",
-    "volume"
+    "volume",
+    "sma",
+    "ema",
+    "rsi"
   ],
   "market": {
     "vol": 0.005
@@ -30,120 +34,164 @@
   "regimes": [
     {
       "from": 0,
-      "to": 15,
-      "market_drift": 0.0008,
+      "to": 34,
+      "market_drift": 0.0005,
       "vol_mult": 1.0
-    },
-    {
-      "from": 15,
-      "to": 35,
-      "market_drift": 0.0,
-      "vol_mult": 1.1
     }
   ],
   "assets": [
     {
-      "symbol": "ORBT",
-      "name": "Orbit Snacks",
-      "sector": "Consumer staples",
-      "blurb": "Makes crunchy snacks shaped like planets.",
-      "price": 35,
-      "drift": 0.0005,
-      "beta": 0.8,
+      "symbol": "NMBC",
+      "name": "Nimbus Cloud",
+      "sector": "Technology",
+      "blurb": "Rents cloud servers and storage to businesses.",
+      "price": 75,
+      "drift": 0.001,
+      "beta": 1.1,
       "vol": 0.013,
-      "base_volume": 12000
+      "base_volume": 30000
     },
     {
-      "symbol": "KILN",
-      "name": "Kiln Ceramics",
-      "sector": "Consumer goods",
-      "blurb": "Sells handmade plates and mugs online.",
-      "price": 22,
-      "drift": 0.0002,
-      "beta": 1.0,
-      "vol": 0.012,
-      "base_volume": 8000
+      "symbol": "MDWP",
+      "name": "Meadow Pharma",
+      "sector": "Pharmaceuticals",
+      "blurb": "Develops and sells prescription medicines.",
+      "price": 60,
+      "drift": 0.0005,
+      "beta": 0.6,
+      "vol": 0.01,
+      "base_volume": 20000
     }
   ],
   "news": [
     {
-      "id": "orbit-earnings-beat",
-      "tick": 15,
-      "headline": "Orbit Snacks beats sales expectations",
-      "body": "Quarterly sales came in well above what analysts expected, helped by a popular new flavour.",
-      "tone": "positive",
+      "id": "report-dates",
+      "tick": 2,
+      "headline": "Nimbus Cloud reports on day 12, Meadow Pharma on day 18",
+      "body": "Analysts expect solid growth from Nimbus and flat sales from Meadow.",
+      "tone": "neutral",
+      "kind": "earnings",
       "symbols": [
-        "ORBT"
+        "NMBC",
+        "MDWP"
       ],
-      "effects": [
-        {
-          "symbol": "ORBT",
-          "move": 0.12,
-          "ticks": 2,
-          "gap": true
-        }
-      ],
-      "kind": "earnings"
+      "effects": []
     },
     {
-      "id": "orbit-profit-taking",
-      "tick": 22,
-      "headline": "Orbit Snacks shares cool after their jump",
-      "body": "Some investors who bought before the results are selling to lock in their gains.",
-      "tone": "neutral",
+      "id": "nmbc-beat",
+      "tick": 12,
+      "headline": "Nimbus Cloud beats estimates and raises guidance",
+      "body": "Sales grew 34% against 28% expected, and the company lifted its forecast.",
+      "tone": "positive",
+      "kind": "earnings",
       "symbols": [
-        "ORBT"
+        "NMBC"
       ],
       "effects": [
         {
-          "symbol": "ORBT",
+          "symbol": "NMBC",
+          "move": 0.1,
+          "ticks": 1,
+          "gap": true
+        },
+        {
+          "symbol": "NMBC",
+          "move": 0.04,
+          "ticks": 4,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "mdwp-miss",
+      "tick": 18,
+      "headline": "Meadow Pharma misses estimates and cuts its outlook",
+      "body": "A generic rival took more market share than expected.",
+      "tone": "negative",
+      "kind": "earnings",
+      "symbols": [
+        "MDWP"
+      ],
+      "effects": [
+        {
+          "symbol": "MDWP",
           "move": -0.08,
+          "ticks": 1,
+          "gap": true
+        },
+        {
+          "symbol": "MDWP",
+          "move": -0.06,
           "ticks": 8,
           "gap": false
         }
+      ]
+    },
+    {
+      "id": "nmbc-analyst-day",
+      "tick": 20,
+      "headline": "Nimbus Cloud analyst day brings no new targets",
+      "body": "Management repeated its forecast; some investors had hoped for more.",
+      "tone": "neutral",
+      "kind": "company",
+      "symbols": [
+        "NMBC"
       ],
-      "kind": "company"
+      "effects": [
+        {
+          "symbol": "NMBC",
+          "move": -0.09,
+          "ticks": 8,
+          "gap": false
+        }
+      ]
     }
   ],
   "bots": [
-    "newsy-nina-rookie",
+    "newsy-nina-pro",
     "panic-pete-rookie",
     "hodl-hannah-rookie"
   ],
   "missions": {
     "basic": [
       {
-        "id": "first-trade",
-        "type": "trades_min",
+        "id": "win",
+        "type": "rank_max",
         "params": {
-          "n": 1
+          "rank": 1
         },
-        "text": "Make at least one trade"
-      },
-      {
-        "id": "set-stop",
-        "type": "stop_loss_set",
-        "params": {},
-        "text": "Protect a position with a stop-loss"
+        "text": "Finish first"
       }
     ],
     "bonus": [
       {
+        "id": "small-into-report",
+        "type": "max_position_before",
+        "params": {
+          "tick": 12,
+          "pct": 20,
+          "symbol": "NMBC"
+        },
+        "text": "Keep Nimbus Cloud at 20% or less going into its day-12 report"
+      },
+      {
         "id": "take-profit",
         "type": "sold_after_news",
         "params": {
-          "news_id": "orbit-earnings-beat",
-          "within": 8
+          "news_id": "nmbc-beat",
+          "within": 9
         },
-        "text": "Sell Orbit Snacks within 8 days of the results"
+        "text": "Take profits on Nimbus Cloud within 9 days of its report"
       },
       {
-        "id": "in-profit",
-        "type": "profit_min",
+        "id": "avoid-miss",
+        "type": "max_position_before",
         "params": {
-          "amount": 1
+          "tick": 18,
+          "pct": 20,
+          "symbol": "MDWP"
         },
-        "text": "Finish with a profit"
+        "text": "Keep Meadow Pharma at 20% or less going into its day-18 report"
       }
     ]
   }

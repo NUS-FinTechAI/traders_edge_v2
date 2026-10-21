@@ -1,0 +1,875 @@
+{
+  "id": "ch7",
+  "number": 7,
+  "title": "Trading Strategies",
+  "region": "Strategy Summit",
+  "tagline": "Trend following, mean reversion and breakouts, and how to tell which market you are in.",
+  "icon": "flag",
+  "boss": "ch7-boss",
+  "gate": "ch6-boss",
+  "boss_reward": {
+    "kind": "avatar",
+    "id": "avatar-guide-7"
+  },
+  "levels": [
+    {
+      "id": "ch7-l1",
+      "title": "Trend Following",
+      "summary": "Buy pullbacks in a trend, trail your exit, and let the few big winners pay.",
+      "objectives": [
+        "Enter a trend on a pullback instead of chasing.",
+        "Use a trailing exit to let winners run.",
+        "Explain why trend following can profit with a low win rate."
+      ],
+      "terms": [
+        {
+          "term": "Trend following",
+          "definition": "Buying markets that are already rising and holding until the trend breaks."
+        },
+        {
+          "term": "Pullback",
+          "definition": "A temporary dip against the main trend."
+        },
+        {
+          "term": "Trailing stop",
+          "definition": "A stop that is raised as price rises and is never lowered."
+        },
+        {
+          "term": "Expectancy",
+          "definition": "The average result per trade: win rate × average win − loss rate × average loss."
+        }
+      ],
+      "cards": [
+        {
+          "title": "Ride the trend",
+          "visual": "trend-lines",
+          "body": "Trend followers buy markets that are already rising and hold until the trend breaks. They do not try to buy the bottom or sell the top. They aim for the middle of big moves and accept giving some back at the end."
+        },
+        {
+          "title": "Enter on a pullback",
+          "body": "Instead of buying after five green days, wait for a dip toward the rising 20-day MA or an old breakout level, then buy as price turns up. The stop goes under the pullback low, so the distance to the stop, and your risk, stays small."
+        },
+        {
+          "title": "Trailing exits",
+          "visual": "stop-loss",
+          "body": "A trailing stop follows price up and never moves down. With an 8% trail, a stock that peaks at $60 is sold near **$55.20**. Another common exit is a close below the 20-day MA. Both let a winner keep running until the trend actually turns."
+        },
+        {
+          "title": "Low win rate, big winners",
+          "visual": "risk-reward",
+          "body": "Many trend trades are stopped out for −1R (one unit of planned risk). A few run to +4R or +5R. With a 35% win rate, an average win of 3R and an average loss of 1R: expectancy = 0.35 × 3 − 0.65 × 1 = **+0.40R** per trade."
+        },
+        {
+          "title": "When it fails",
+          "body": "In sideways markets, trend followers are stopped out again and again. That is the normal cost of the strategy. Keeping every loss small is what lets it survive until the next real trend."
+        }
+      ],
+      "check": [
+        {
+          "id": "q1",
+          "kind": "mc",
+          "prompt": "You use an 8% trailing stop. Your stock peaked at $75. Where does the stop sit now?",
+          "options": [
+            {
+              "id": "a",
+              "text": "$67.00"
+            },
+            {
+              "id": "b",
+              "text": "$73.50"
+            },
+            {
+              "id": "c",
+              "text": "$69.00"
+            },
+            {
+              "id": "d",
+              "text": "$60.00"
+            }
+          ],
+          "answer": "c",
+          "explanation": "$75 × (1 − 0.08) = $69.00."
+        },
+        {
+          "id": "q2",
+          "kind": "mc",
+          "prompt": "A strategy wins 40% of trades, with an average win of 2.5R and an average loss of 1R. What is its expectancy?",
+          "options": [
+            {
+              "id": "a",
+              "text": "+0.40R per trade"
+            },
+            {
+              "id": "b",
+              "text": "+1.00R per trade"
+            },
+            {
+              "id": "c",
+              "text": "−0.20R per trade"
+            },
+            {
+              "id": "d",
+              "text": "+0.60R per trade"
+            }
+          ],
+          "answer": "a",
+          "explanation": "0.40 × 2.5 − 0.60 × 1 = 1.00 − 0.60 = +0.40R."
+        },
+        {
+          "id": "q3",
+          "kind": "mc",
+          "prompt": "Lumen Bikes is in an uptrend. Which entry fits trend following best?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Buy after the sixth green day in a row"
+            },
+            {
+              "id": "b",
+              "text": "Buy on the first red day of a downtrend"
+            },
+            {
+              "id": "c",
+              "text": "Buy at a random time"
+            },
+            {
+              "id": "d",
+              "text": "Buy as price turns up from a pullback to the rising 20-day MA, stop below the pullback low"
+            }
+          ],
+          "answer": "d",
+          "explanation": "A pullback entry joins the trend with a close, logical stop."
+        },
+        {
+          "id": "q4",
+          "kind": "true_false",
+          "prompt": "True or false: a trend follower must win more than half of their trades to make money.",
+          "options": [
+            {
+              "id": "t",
+              "text": "True"
+            },
+            {
+              "id": "f",
+              "text": "False"
+            }
+          ],
+          "answer": "f",
+          "explanation": "A few large winners can outweigh many small losses."
+        },
+        {
+          "id": "q5",
+          "kind": "mc",
+          "prompt": "Where does trend following struggle most?",
+          "options": [
+            {
+              "id": "a",
+              "text": "In long, steady trends"
+            },
+            {
+              "id": "b",
+              "text": "In choppy sideways markets"
+            },
+            {
+              "id": "c",
+              "text": "Right after a confirmed breakout"
+            },
+            {
+              "id": "d",
+              "text": "In strong bull markets"
+            }
+          ],
+          "answer": "b",
+          "explanation": "Ranges trigger entries that quickly reverse into stops."
+        }
+      ],
+      "practice": "ch7-l1-practice"
+    },
+    {
+      "id": "ch7-l2",
+      "title": "Mean Reversion",
+      "summary": "Buy near the floor of a range, sell toward the middle, and quit when the range breaks.",
+      "objectives": [
+        "Plan a range trade: buy near support, sell toward the middle or top.",
+        "Use oversold readings together with a stop.",
+        "Recognize when mean reversion fails because a trend has started."
+      ],
+      "terms": [
+        {
+          "term": "Mean reversion",
+          "definition": "A strategy that bets a stretched price will move back toward its average."
+        },
+        {
+          "term": "Range trading",
+          "definition": "Buying near support and selling near resistance while price moves sideways."
+        },
+        {
+          "term": "Falling knife",
+          "definition": "A stock in a sharp decline; buying it because it looks cheap often leads to bigger losses."
+        }
+      ],
+      "cards": [
+        {
+          "title": "Back to the middle",
+          "body": "Mean reversion bets that a stretched price returns toward its average. It suits ranges, such as Tidal Power bouncing between $28 and $32 for weeks while its moving average stays flat."
+        },
+        {
+          "title": "A range trade plan",
+          "visual": "support-resistance",
+          "body": "Buy near $28.40 support as RSI nears 30. Put the stop just below the range at $27.40. Take profit near the middle ($30) or the top ($31.60). Aiming for the top risks **$1.00** to make **$3.20**."
+        },
+        {
+          "title": "Many small wins",
+          "body": "Mean reversion often wins more than half of its trades, but each win is small. That makes the stop essential: one loss left to run can erase ten wins."
+        },
+        {
+          "title": "The falling knife",
+          "body": "In a downtrend, \"oversold\" keeps getting more oversold. Buying every dip in a falling stock is how range traders take big losses. A daily close below the range floor means the trade idea is wrong: exit."
+        },
+        {
+          "title": "Filter the trend",
+          "body": "Only buy dips when the bigger picture is flat or rising, for example a flat 20-day MA inside a clear range. When the range breaks, stop trading it and wait for a new one to form."
+        }
+      ],
+      "check": [
+        {
+          "id": "q1",
+          "kind": "mc",
+          "prompt": "Meadow Pharma ranges between $45 and $50. Which is the best mean-reversion entry?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Buy at $49.80 near the top"
+            },
+            {
+              "id": "b",
+              "text": "Buy near $45.40 with a stop at $44.40"
+            },
+            {
+              "id": "c",
+              "text": "Buy at $51 after it leaves the range"
+            },
+            {
+              "id": "d",
+              "text": "Buy at $47.50 with no stop"
+            }
+          ],
+          "answer": "b",
+          "explanation": "Buy near support with a stop just below the range."
+        },
+        {
+          "id": "q2",
+          "kind": "mc",
+          "prompt": "You buy at $45.40 with a stop at $44.40 and a target of $49.40. What is the reward-to-risk ratio?",
+          "options": [
+            {
+              "id": "a",
+              "text": "1:1"
+            },
+            {
+              "id": "b",
+              "text": "2:1"
+            },
+            {
+              "id": "c",
+              "text": "0.25:1"
+            },
+            {
+              "id": "d",
+              "text": "4:1"
+            }
+          ],
+          "answer": "d",
+          "explanation": "Reward $4.00 ÷ risk $1.00 = 4:1."
+        },
+        {
+          "id": "q3",
+          "kind": "true_false",
+          "prompt": "True or false: in a strong downtrend, buying every oversold reading is a safe mean-reversion strategy.",
+          "options": [
+            {
+              "id": "t",
+              "text": "True"
+            },
+            {
+              "id": "f",
+              "text": "False"
+            }
+          ],
+          "answer": "f",
+          "explanation": "Oversold can stay oversold in a downtrend; that is the falling knife."
+        },
+        {
+          "id": "q4",
+          "kind": "mc",
+          "prompt": "Your range stock closes below the range floor on heavy volume. What should a mean-reversion trader do?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Exit: the range idea is broken"
+            },
+            {
+              "id": "b",
+              "text": "Buy more at the lower price"
+            },
+            {
+              "id": "c",
+              "text": "Remove the stop and wait"
+            },
+            {
+              "id": "d",
+              "text": "Move the stop further down"
+            }
+          ],
+          "answer": "a",
+          "explanation": "The trade only made sense while the range held."
+        },
+        {
+          "id": "q5",
+          "kind": "mc",
+          "prompt": "Which profile best describes mean reversion?",
+          "options": [
+            {
+              "id": "a",
+              "text": "A low win rate with a few huge winners"
+            },
+            {
+              "id": "b",
+              "text": "It never loses"
+            },
+            {
+              "id": "c",
+              "text": "More frequent but smaller wins, with stops to prevent rare large losses"
+            },
+            {
+              "id": "d",
+              "text": "It only works in strong uptrends"
+            }
+          ],
+          "answer": "c",
+          "explanation": "Range trades take quick, modest profits; the danger is an unprotected loss."
+        }
+      ],
+      "practice": "ch7-l2-practice"
+    },
+    {
+      "id": "ch7-l3",
+      "title": "Breakout Trading",
+      "summary": "Find a tight base, wait for a confirmed break on volume, and plan for fakes.",
+      "objectives": [
+        "Identify a base worth trading.",
+        "Enter a breakout with a buy stop and volume confirmation.",
+        "Handle false breakouts with a stop back inside the base."
+      ],
+      "terms": [
+        {
+          "term": "Base",
+          "definition": "A tight sideways period that often comes before a breakout."
+        },
+        {
+          "term": "Buy stop",
+          "definition": "An order to buy only if price rises to a set level, used to enter breakouts."
+        },
+        {
+          "term": "False breakout",
+          "definition": "A move beyond a level that quickly falls back inside the range."
+        },
+        {
+          "term": "Measured move",
+          "definition": "A rough breakout target: the breakout level plus the height of the base."
+        }
+      ],
+      "cards": [
+        {
+          "title": "The base",
+          "visual": "support-resistance",
+          "body": "A breakout trade starts with a **base**: a tight sideways period, like Kestrel Air between $36 and $40 for four weeks. The longer and tighter the base, the more traders watch its edges."
+        },
+        {
+          "title": "The trigger",
+          "body": "Place a **buy stop** just above resistance, say $40.30. It only fills if price actually breaks out, so you are not guessing early. If you cannot use a buy stop, wait for a daily close above $40 and buy then."
+        },
+        {
+          "title": "Volume confirms",
+          "visual": "volume-bars",
+          "body": "A real breakout often comes with volume 1.5–2× its average. A break on light volume is more likely to fail. If the close falls back below $40, the breakout has not held."
+        },
+        {
+          "title": "Plan the failure",
+          "visual": "risk-reward",
+          "body": "Put the stop back inside the base, for example $38.70. If the breakout is false, you lose a small, known amount. Measured-move target: $40 + $4 base height = **$44**. Entry $40.30 to $44 is $3.70 of reward for $1.60 of risk, better than 2:1."
+        },
+        {
+          "title": "Expect some fakes",
+          "body": "Many breakouts fail. Breakout traders accept small losses on the fakes because the real ones can run far. Do not chase a breakout that is already 10% past the level; the stop would be too far away."
+        }
+      ],
+      "check": [
+        {
+          "id": "q1",
+          "kind": "mc",
+          "prompt": "Kestrel Air has a base between $36 and $40. Where would a breakout trader place a buy stop?",
+          "options": [
+            {
+              "id": "a",
+              "text": "$36.20"
+            },
+            {
+              "id": "b",
+              "text": "$38.00"
+            },
+            {
+              "id": "c",
+              "text": "$46.00"
+            },
+            {
+              "id": "d",
+              "text": "$40.30"
+            }
+          ],
+          "answer": "d",
+          "explanation": "Just above resistance, so it only fills on a real break."
+        },
+        {
+          "id": "q2",
+          "kind": "mc",
+          "prompt": "A stock breaks above $40 on 0.6× average volume and closes back at $39.40 the next day. What is this?",
+          "options": [
+            {
+              "id": "a",
+              "text": "A confirmed breakout"
+            },
+            {
+              "id": "b",
+              "text": "A likely false breakout; the stop inside the base limits the loss"
+            },
+            {
+              "id": "c",
+              "text": "A gap up"
+            },
+            {
+              "id": "d",
+              "text": "A reason to buy more"
+            }
+          ],
+          "answer": "b",
+          "explanation": "Light volume and a close back in the base are the marks of a failed break."
+        },
+        {
+          "id": "q3",
+          "kind": "mc",
+          "prompt": "A base runs from $36 to $40. What is the measured-move target after a breakout?",
+          "options": [
+            {
+              "id": "a",
+              "text": "$42"
+            },
+            {
+              "id": "b",
+              "text": "$48"
+            },
+            {
+              "id": "c",
+              "text": "$44"
+            },
+            {
+              "id": "d",
+              "text": "$40.40"
+            }
+          ],
+          "answer": "c",
+          "explanation": "Breakout level $40 + base height $4 = $44."
+        },
+        {
+          "id": "q4",
+          "kind": "true_false",
+          "prompt": "True or false: a buy stop placed above resistance fills only if price rises to that level.",
+          "options": [
+            {
+              "id": "t",
+              "text": "True"
+            },
+            {
+              "id": "f",
+              "text": "False"
+            }
+          ],
+          "answer": "t",
+          "explanation": "That is what makes it a breakout entry rather than a guess."
+        },
+        {
+          "id": "q5",
+          "kind": "mc",
+          "prompt": "A stock is already 12% above its breakout level after three big up days. What is the disciplined choice?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Wait for a pullback toward the breakout level, or skip the trade"
+            },
+            {
+              "id": "b",
+              "text": "Chase it now with full size"
+            },
+            {
+              "id": "c",
+              "text": "Remove all stops"
+            },
+            {
+              "id": "d",
+              "text": "Buy more each day it rises"
+            }
+          ],
+          "answer": "a",
+          "explanation": "Chasing puts the logical stop far away and the risk too high."
+        }
+      ],
+      "practice": "ch7-l3-practice",
+      "reward": {
+        "kind": "title",
+        "id": "title-ch7-strategist"
+      }
+    },
+    {
+      "id": "ch7-l4",
+      "title": "Match Strategy to Market",
+      "summary": "Name the regime first, then pick the tool, and remember cash is a position.",
+      "objectives": [
+        "Identify the regime: trend, range or breakdown.",
+        "Choose the strategy that fits the regime.",
+        "Treat sitting in cash as a valid strategy."
+      ],
+      "terms": [
+        {
+          "term": "Market regime",
+          "definition": "The current character of a market: trending, ranging or breaking down."
+        },
+        {
+          "term": "Chop",
+          "definition": "Choppy, directionless trading with frequent reversals."
+        },
+        {
+          "term": "Sitting out",
+          "definition": "Choosing to hold cash when no setup fits the current market."
+        }
+      ],
+      "cards": [
+        {
+          "title": "Three regimes",
+          "visual": "trend-lines",
+          "body": "**Trending:** higher highs and lows, a sloping MA. **Ranging:** a flat MA and repeated turns at the same levels. **Breakdown:** lower lows, big red days, often bad news. Each regime rewards a different approach."
+        },
+        {
+          "title": "Fit the tool",
+          "body": "Trend: trend following and breakouts. Range: mean reversion at the edges. Breakdown, when you can only buy: mostly cash, small size, quick exits. A range strategy used in a trend, or a trend strategy used in a range, is a common source of losses."
+        },
+        {
+          "title": "Regimes change",
+          "body": "A 14-day uptrend can turn into chop, then into a breakdown. Warning signs: the MA flattens, a breakout fails, a lower low appears. Check the regime every few days rather than assuming it will last."
+        },
+        {
+          "title": "Sitting out",
+          "body": "When no regime is clear, holding cash is a position. It earns $0 but avoids fees, whipsaw and drawdowns. Professional traders spend a lot of their time waiting for the right market."
+        },
+        {
+          "title": "Reduce, don't guess",
+          "visual": "position-size",
+          "body": "When the regime is unclear, trade smaller. Cutting position size from 50% to 20% of the account during chop keeps losses small and leaves you ready for the next clear move."
+        }
+      ],
+      "check": [
+        {
+          "id": "q1",
+          "kind": "mc",
+          "prompt": "Harborline's 20-day MA is flat and price has bounced between $60 and $65 for five weeks. Which regime and strategy fit?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Range: buy near $60 with a stop below, sell toward $65"
+            },
+            {
+              "id": "b",
+              "text": "Trend: trend following with a trailing stop"
+            },
+            {
+              "id": "c",
+              "text": "Breakdown: buy every dip"
+            },
+            {
+              "id": "d",
+              "text": "Bubble: chase the highs"
+            }
+          ],
+          "answer": "a",
+          "explanation": "A flat MA and repeated turns at the same levels define a range."
+        },
+        {
+          "id": "q2",
+          "kind": "mc",
+          "prompt": "Nimbus Cloud shows lower highs, lower lows, a falling MA and two big red days on bad news. What is the best choice when you can only buy?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Buy the most oversold day"
+            },
+            {
+              "id": "b",
+              "text": "Add a little more every day"
+            },
+            {
+              "id": "c",
+              "text": "Stay mostly in cash and wait for the trend to change"
+            },
+            {
+              "id": "d",
+              "text": "Scalp it with frequent market orders"
+            }
+          ],
+          "answer": "c",
+          "explanation": "In a breakdown, a long-only trader protects capital by waiting."
+        },
+        {
+          "id": "q3",
+          "kind": "true_false",
+          "prompt": "True or false: holding cash when the market is unclear is a valid strategy.",
+          "options": [
+            {
+              "id": "t",
+              "text": "True"
+            },
+            {
+              "id": "f",
+              "text": "False"
+            }
+          ],
+          "answer": "t",
+          "explanation": "Cash avoids fees, whipsaw and drawdowns until a setup appears."
+        },
+        {
+          "id": "q4",
+          "kind": "mc",
+          "prompt": "An uptrend's 20-day MA flattens and two breakouts fail in a row. What does this suggest?",
+          "options": [
+            {
+              "id": "a",
+              "text": "The trend is speeding up"
+            },
+            {
+              "id": "b",
+              "text": "The market may be turning into a range; reduce size"
+            },
+            {
+              "id": "c",
+              "text": "You should buy more"
+            },
+            {
+              "id": "d",
+              "text": "Nothing has changed"
+            }
+          ],
+          "answer": "b",
+          "explanation": "A flattening MA and failed breakouts are classic signs of a regime change."
+        },
+        {
+          "id": "q5",
+          "kind": "mc",
+          "prompt": "Lumen Bikes makes higher highs and higher lows above a rising MA. Which strategy fits?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Selling every time RSI passes 70"
+            },
+            {
+              "id": "b",
+              "text": "Fading each move at the range edges"
+            },
+            {
+              "id": "c",
+              "text": "Staying in cash forever"
+            },
+            {
+              "id": "d",
+              "text": "Trend following with a trailing stop"
+            }
+          ],
+          "answer": "d",
+          "explanation": "In a clear trend, trend tools lead."
+        }
+      ],
+      "practice": "ch7-l4-practice"
+    },
+    {
+      "id": "ch7-l5",
+      "title": "Testing & Journaling an Edge",
+      "summary": "Backtests, sample size, expectancy, overfitting and the trade journal.",
+      "objectives": [
+        "Explain backtesting and why sample size matters.",
+        "Compute expectancy from a set of trades.",
+        "Recognize overfitting and keep a useful trade journal."
+      ],
+      "terms": [
+        {
+          "term": "Edge",
+          "definition": "A repeatable approach with positive expectancy after costs."
+        },
+        {
+          "term": "Backtest",
+          "definition": "Testing exact trading rules on past data to see how they would have performed."
+        },
+        {
+          "term": "Sample size",
+          "definition": "The number of trades behind a result. Small samples are easily distorted by luck."
+        },
+        {
+          "term": "Overfitting",
+          "definition": "Tuning rules so closely to past data that they fail on new data."
+        },
+        {
+          "term": "Trade journal",
+          "definition": "A record of each trade's setup, plan, result and whether the plan was followed."
+        }
+      ],
+      "cards": [
+        {
+          "title": "What is an edge?",
+          "body": "An edge is a repeatable approach with positive expectancy **after costs**. Expectancy = win rate × average win − loss rate × average loss. Winning half the time, with $150 average wins and $100 average losses: 0.5 × $150 − 0.5 × $100 = **+$25** per trade."
+        },
+        {
+          "title": "Backtesting",
+          "body": "Testing exact rules on past data shows how they would have done. Write rules precise enough that two people would take the same trades, include fees and spread, and check the result on data you did not use to design the rules."
+        },
+        {
+          "title": "Sample size",
+          "body": "Eight winners out of ten trades can be luck. Results from 100 or more trades across different stocks and market conditions are far more trustworthy. A strategy that only worked in one month may simply have matched that month's trend."
+        },
+        {
+          "title": "Overfitting",
+          "body": "Tweaking rules until they fit the past perfectly (\"a 13-day MA, but only on Tuesdays\") usually fails on new data. Simple rules that work across many stocks and years are more believable than a perfect curve on one."
+        },
+        {
+          "title": "The journal",
+          "body": "Record every trade: setup, entry, stop, target, size, result, and whether you followed the plan. After 20 trades, review which setups actually earn money and which mistakes keep repeating."
+        }
+      ],
+      "check": [
+        {
+          "id": "q1",
+          "kind": "mc",
+          "prompt": "In 20 trades you had 8 winners averaging $200 and 12 losers averaging $100. What is your expectancy per trade?",
+          "options": [
+            {
+              "id": "a",
+              "text": "+$100"
+            },
+            {
+              "id": "b",
+              "text": "+$20"
+            },
+            {
+              "id": "c",
+              "text": "−$20"
+            },
+            {
+              "id": "d",
+              "text": "+$40"
+            }
+          ],
+          "answer": "b",
+          "explanation": "0.40 × $200 − 0.60 × $100 = $80 − $60 = +$20."
+        },
+        {
+          "id": "q2",
+          "kind": "mc",
+          "prompt": "A new strategy won 9 of its first 10 trades. What is the best conclusion?",
+          "options": [
+            {
+              "id": "a",
+              "text": "It is a proven edge"
+            },
+            {
+              "id": "b",
+              "text": "Increase size five times"
+            },
+            {
+              "id": "c",
+              "text": "Encouraging, but too small a sample; keep testing"
+            },
+            {
+              "id": "d",
+              "text": "Stop testing and trade it live with everything"
+            }
+          ],
+          "answer": "c",
+          "explanation": "Ten trades can easily be distorted by luck."
+        },
+        {
+          "id": "q3",
+          "kind": "true_false",
+          "prompt": "True or false: a backtest that ignores fees and spread can make a strategy look better than it really is.",
+          "options": [
+            {
+              "id": "t",
+              "text": "True"
+            },
+            {
+              "id": "f",
+              "text": "False"
+            }
+          ],
+          "answer": "t",
+          "explanation": "Costs are paid on every trade and add up quickly for active strategies."
+        },
+        {
+          "id": "q4",
+          "kind": "mc",
+          "prompt": "Which is a sign of overfitting?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Rules that work across many stocks and years"
+            },
+            {
+              "id": "b",
+              "text": "Including fees in the test"
+            },
+            {
+              "id": "c",
+              "text": "Keeping a trade journal"
+            },
+            {
+              "id": "d",
+              "text": "Very specific rules tuned to one stock's past that fail on new data"
+            }
+          ],
+          "answer": "d",
+          "explanation": "Rules that only fit the data they were built on rarely hold up."
+        },
+        {
+          "id": "q5",
+          "kind": "mc",
+          "prompt": "Which journal entry is most useful?",
+          "options": [
+            {
+              "id": "a",
+              "text": "\"Breakout setup, entry $40.30, stop $38.70, 60 shares, −1R, followed plan; volume was light.\""
+            },
+            {
+              "id": "b",
+              "text": "\"Lost money.\""
+            },
+            {
+              "id": "c",
+              "text": "\"The market is rigged.\""
+            },
+            {
+              "id": "d",
+              "text": "\"Should have bought more.\""
+            }
+          ],
+          "answer": "a",
+          "explanation": "It records the setup, plan, result and process, which is what you can learn from."
+        }
+      ],
+      "practice": "ch7-l5-practice"
+    }
+  ]
+}

@@ -12,11 +12,11 @@ BOTS_PATH = CONTENT / 'bots.json'
 ID = re.compile(r'^[a-z0-9]+(-[a-z0-9]+)*$')
 TICKER = re.compile(r'^[A-Z]{3,5}$')
 AVATARS = ('bull', 'bear', 'owl', 'fox', 'eagle', 'whale', 'tortoise', 'hare', 'shark', 'parrot', 'octopus', 'lion')
-TOOLS = ('candles', 'line', 'volume', 'sma', 'ema', 'rsi', 'bollinger')
+TOOLS = ('candles', 'line', 'volume', 'sma', 'ema', 'rsi', 'macd', 'bollinger')
 TONES = ('positive', 'negative', 'neutral')
 NEWS_KINDS = ('earnings', 'macro', 'rumor', 'company', 'hype')
 TIERS = ('rookie', 'pro', 'elite')
-BALANCE = ('boss', 'lesson')
+BALANCE = ('boss', 'daily', 'lesson')
 ORDER_TYPES = ('market', 'limit', 'stop')
 DIP_ENTRIES = ('red_candles', 'rsi')
 

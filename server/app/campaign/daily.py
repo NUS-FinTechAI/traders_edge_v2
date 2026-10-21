@@ -11,7 +11,7 @@ from app.game.models import Game
 from app.game.scenario import load_bots, load_scenarios
 from app.player import ledger
 
-ROTATION = ('daily-mon-steady-climb', 'daily-tue-range-chop', 'daily-wed-pullback-uptrend', 'daily-thu-earnings-gap',
+ROTATION = ('daily-mon-steady-climb', 'daily-tue-range-chop', 'daily-wed-pullback', 'daily-thu-earnings-gap',
             'daily-fri-breakout-fakeout', 'daily-sat-news-shock', 'daily-sun-bubble-crash')
 COOLDOWN = timedelta(hours=2)
 REFRESH_GEMS = 20

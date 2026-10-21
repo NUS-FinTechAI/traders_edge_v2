@@ -1,0 +1,128 @@
+{
+  "id": "ch8-l5-practice",
+  "version": 1,
+  "title": "Process Review",
+  "briefing": "Two stocks, one surprise you cannot predict. Size every position so that no single bad day can sink you, and use stops.",
+  "objective": "Judge decisions by process: sensible size and stops protect you from outcomes you cannot foresee.",
+  "debrief": "Lumen Bikes climbed steadily all match. On day 18, Meadow Pharma's drug trial failed without warning and the stock gapped down 15% overnight, straight through any stop. Nobody could have known. Players who had capped each position and used stops took a bruise; anyone with most of their money in Meadow took a serious loss. Good process could not prevent the bad news, but it decided how much it cost.",
+  "difficulty": 3,
+  "ticks": 30,
+  "history": 20,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": true,
+    "stop": true
+  },
+  "max_position_pct": null,
+  "balance": "lesson",
+  "tools": [
+    "candles",
+    "volume",
+    "sma"
+  ],
+  "market": {
+    "vol": 0.005
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 30,
+      "market_drift": 0.001,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "LUMB",
+      "name": "Lumen Bikes",
+      "sector": "Consumer discretionary",
+      "blurb": "Designs and sells electric bikes and spare batteries.",
+      "price": 50,
+      "drift": 0.003,
+      "beta": 0.9,
+      "vol": 0.011,
+      "base_volume": 24000
+    },
+    {
+      "symbol": "MDWP",
+      "name": "Meadow Pharma",
+      "sector": "Pharmaceuticals",
+      "blurb": "Develops and sells prescription medicines.",
+      "price": 60,
+      "drift": 0.003,
+      "beta": 0.7,
+      "vol": 0.01,
+      "base_volume": 20000
+    }
+  ],
+  "news": [
+    {
+      "id": "mdwp-trial-fail",
+      "tick": 18,
+      "headline": "Meadow Pharma's late-stage drug trial fails",
+      "body": "The medicine did not work better than a placebo. The company will stop the program.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "MDWP"
+      ],
+      "effects": [
+        {
+          "symbol": "MDWP",
+          "move": -0.15,
+          "ticks": 1,
+          "gap": true
+        },
+        {
+          "symbol": "MDWP",
+          "move": -0.05,
+          "ticks": 4,
+          "gap": false
+        }
+      ]
+    }
+  ],
+  "bots": [
+    "steady-stella-pro"
+  ],
+  "missions": {
+    "basic": [
+      {
+        "id": "stop",
+        "type": "stop_loss_set",
+        "params": {},
+        "text": "Protect a position with a stop-loss"
+      },
+      {
+        "id": "cap",
+        "type": "max_position",
+        "params": {
+          "pct": 50
+        },
+        "text": "Never put more than 50% of your portfolio in one stock"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "plan",
+        "type": "kept_plan",
+        "params": {},
+        "text": "Keep your worst drop within your plan's maximum loss"
+      },
+      {
+        "id": "small-drop",
+        "type": "max_drawdown",
+        "params": {
+          "pct": 6
+        },
+        "text": "Keep your worst drop under 6%"
+      }
+    ]
+  }
+}

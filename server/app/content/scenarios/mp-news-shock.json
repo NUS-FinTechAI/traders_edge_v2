@@ -1,0 +1,192 @@
+{
+  "id": "mp-news-shock",
+  "version": 1,
+  "title": "News Shock",
+  "briefing": "A shock is coming for the whole market. Some businesses will shrug it off; others will not. Everyone gets the same headlines at the same time.",
+  "objective": "After a market-wide shock, tell temporary damage from lasting damage and move toward the businesses that hold up.",
+  "debrief": "A sudden banking scare on day 9 knocked every stock down at the open. Orchard Foods recovered within days because people still buy groceries; Kestrel Air kept falling as travel bookings were cancelled. The central bank's support on day 15 lifted the market, but the airline recovered only part of its loss. A disciplined player avoided panic-selling the defensive stock, did not buy the airline's first bounce and kept size moderate.",
+  "difficulty": 2,
+  "ticks": 30,
+  "history": 20,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": true,
+    "stop": true
+  },
+  "max_position_pct": null,
+  "balance": null,
+  "tools": [
+    "candles",
+    "volume",
+    "sma",
+    "ema",
+    "rsi"
+  ],
+  "market": {
+    "vol": 0.005
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 9,
+      "market_drift": 0.001,
+      "vol_mult": 1.0
+    },
+    {
+      "from": 9,
+      "to": 15,
+      "market_drift": -0.004,
+      "vol_mult": 1.6
+    },
+    {
+      "from": 15,
+      "to": 30,
+      "market_drift": 0.002,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "ORCF",
+      "name": "Orchard Foods",
+      "sector": "Consumer staples",
+      "blurb": "Runs a chain of neighborhood grocery stores.",
+      "price": 40,
+      "drift": 0.002,
+      "beta": 0.5,
+      "vol": 0.008,
+      "base_volume": 20000
+    },
+    {
+      "symbol": "KSTR",
+      "name": "Kestrel Air",
+      "sector": "Airlines",
+      "blurb": "Flies short routes between regional cities.",
+      "price": 36,
+      "drift": 0.0,
+      "beta": 1.3,
+      "vol": 0.013,
+      "base_volume": 26000
+    }
+  ],
+  "news": [
+    {
+      "id": "bank-scare",
+      "tick": 9,
+      "headline": "Banking scare hits markets worldwide",
+      "body": "A large lender's losses have investors worried about the economy.",
+      "tone": "negative",
+      "kind": "macro",
+      "symbols": [
+        "ORCF",
+        "KSTR"
+      ],
+      "effects": [
+        {
+          "symbol": "ORCF",
+          "move": -0.04,
+          "ticks": 1,
+          "gap": true
+        },
+        {
+          "symbol": "KSTR",
+          "move": -0.08,
+          "ticks": 1,
+          "gap": true
+        },
+        {
+          "symbol": "KSTR",
+          "move": -0.06,
+          "ticks": 5,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "orcf-steady",
+      "tick": 11,
+      "headline": "Grocers report steady sales despite the scare",
+      "body": "Shoppers are still filling their baskets.",
+      "tone": "positive",
+      "kind": "company",
+      "symbols": [
+        "ORCF"
+      ],
+      "effects": [
+        {
+          "symbol": "ORCF",
+          "move": 0.04,
+          "ticks": 3,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "central-bank-support",
+      "tick": 15,
+      "headline": "Central bank promises support for lenders",
+      "body": "Markets steady after the announcement.",
+      "tone": "positive",
+      "kind": "macro",
+      "symbols": [
+        "ORCF",
+        "KSTR"
+      ],
+      "effects": [
+        {
+          "symbol": "KSTR",
+          "move": 0.05,
+          "ticks": 4,
+          "gap": false
+        },
+        {
+          "symbol": "ORCF",
+          "move": 0.01,
+          "ticks": 2,
+          "gap": false
+        }
+      ]
+    }
+  ],
+  "bots": [],
+  "missions": {
+    "basic": [
+      {
+        "id": "moderate",
+        "type": "max_position",
+        "params": {
+          "pct": 60
+        },
+        "text": "Never put more than 60% of your portfolio in one stock"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "hold-defensive",
+        "type": "held_between",
+        "params": {
+          "symbol": "ORCF",
+          "from": 8,
+          "to": 14
+        },
+        "text": "Hold Orchard Foods through the scare (days 8 to 14)"
+      },
+      {
+        "id": "no-early-bounce",
+        "type": "max_position_before",
+        "params": {
+          "tick": 15,
+          "pct": 15,
+          "symbol": "KSTR"
+        },
+        "text": "Keep Kestrel Air at 15% or less until the support news (day 15)"
+      }
+    ]
+  }
+}
