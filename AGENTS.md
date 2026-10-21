@@ -17,8 +17,7 @@ This is v2. The sibling `traders_edge` repository is read-only discovery materia
 - [server/app/content/](server/app/content/): authored JSON in `campaign/` (ch1–ch8), `scenarios/`, `bots.json`, `quiz_bank.json` and `cosmetics.json`, the bundle loader and [validate.py](server/app/content/validate.py).
 - [migrations](server/app/migrations.py) 1–12: 1–10 belong to the removed system and stay frozen (only profiles, sessions, XP ledger, activity days, economy accounts/events, reward grants and research tables are still used); 11 adds the game tables; 12 adds campaign progress, checks, boss results, quiz, lobby, queue and rating tables.
 - [docs/source/](docs/source/): preserved research brief and screen reference. Keep source files verbatim.
-- [docs/v1-audit/](docs/v1-audit/): source-backed inventories and migration evidence; preserve their historical scope.
-- [docs/design/](docs/design/): historical prototypes, design constraints and review evidence, not shipped UI.
+- [docs/archive/](docs/archive/): v1 audit and design history; preserve their historical scope.
 - [docs/decisions/](docs/decisions/): durable decisions and consequences. Distinguish proposals from implementation.
 - [.devin/skills/](.devin/skills/): the [content](.devin/skills/add-lesson/SKILL.md), [scenario](.devin/skills/add-scenario-pack/SKILL.md), [reward](.devin/skills/add-badge-or-reward/SKILL.md), [safety](.devin/skills/safety-review-checklist/SKILL.md), [design](.devin/skills/design-review/SKILL.md), [screenshot](.devin/skills/capture-screenshots/SKILL.md), [decision](.devin/skills/write-adr/SKILL.md) and [PR-review](.devin/skills/run-pr-review/SKILL.md) workflows. Follow the actual branch contracts and report unavailable checks.
 
