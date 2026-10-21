@@ -264,7 +264,5 @@ export function keyMoments(
       order: 1,
     })),
   ].sort((a, b) => a.t - b.t || a.order - b.order)
-  return moments
-    .slice(0, limit)
-    .map(({ t, text }) => `Day ${t}: ${text}`)
+  return moments.slice(0, limit).map(({ t, text }) => `Day ${t}: ${text}`)
 }

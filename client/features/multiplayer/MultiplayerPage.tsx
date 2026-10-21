@@ -287,9 +287,7 @@ function Ranked() {
                       </span>
                     </p>
                     {pollError && (
-                      <p className={styles.muted}>
-                        Reconnecting to the queue…
-                      </p>
+                      <p className={styles.muted}>Reconnecting to the queue…</p>
                     )}
                   </div>
                   <Button
@@ -341,8 +339,7 @@ function LobbyReturn() {
   const { user } = useAuth()
   const lobbyId = rememberedLobby()
   const lobby = useResource(
-    (signal) =>
-      lobbyId ? getLobby(lobbyId, signal) : Promise.resolve(null),
+    (signal) => (lobbyId ? getLobby(lobbyId, signal) : Promise.resolve(null)),
     [lobbyId],
   )
   const data = lobby.data

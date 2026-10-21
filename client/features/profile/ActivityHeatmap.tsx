@@ -17,7 +17,8 @@ export default function ActivityHeatmap({ activity }: { activity: Activity }) {
   const map = buildHeatmap(activity.days, weeks, utcDate())
   const width = LEFT + weeks * (CELL + GAP)
   const height = TOP + 7 * (CELL + GAP)
-  const yearActive = buildHeatmap(activity.days, 53, utcDate()).activeDays
+  const days = (count: number) =>
+    `${count} active ${count === 1 ? 'day' : 'days'}`
   // Drop month labels that would crowd the previous one.
   const months = map.months.reduce<typeof map.months>(
     (kept, month) =>
@@ -38,13 +39,13 @@ export default function ActivityHeatmap({ activity }: { activity: Activity }) {
         </Chip>
       </div>
       <p className={styles.muted}>
-        {yearActive} active {yearActive === 1 ? 'day' : 'days'} in the past year
+        {days(map.activeDays)} in the past {wide ? 'year' : `${weeks} weeks`}
       </p>
       <svg
         className={styles.heatmap}
         viewBox={`0 0 ${width} ${height}`}
         role="img"
-        aria-label={`Activity heatmap: ${map.activeDays} active days in the last ${weeks} weeks`}
+        aria-label={`Activity heatmap: ${days(map.activeDays)} in the past ${weeks} weeks`}
       >
         {months.map((month) => (
           <text

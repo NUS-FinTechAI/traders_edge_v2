@@ -23,7 +23,7 @@ export function Candles({
     <g>
       {data.map((candle, i) => {
         const up = candle.c >= candle.o
-        const color = up ? C.gain : C.loss
+        const color = up ? C.candleUp : C.candleDown
         const top = y(Math.max(candle.o, candle.c))
         const height = Math.max(1, y(Math.min(candle.o, candle.c)) - top)
         const cx = x(i)

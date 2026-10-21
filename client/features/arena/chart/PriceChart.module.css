@@ -56,7 +56,7 @@
 /* Rising candles are hollow, falling candles are filled, so shape carries the meaning too. */
 .up line,
 .up rect {
-  stroke: var(--gain);
+  stroke: var(--candle-up);
 }
 
 .up rect {
@@ -65,12 +65,12 @@
 }
 
 .down line {
-  stroke: var(--loss);
+  stroke: var(--candle-down);
 }
 
 .down rect {
-  fill: var(--loss);
-  stroke: var(--loss);
+  fill: var(--candle-down);
+  stroke: var(--candle-down);
 }
 
 .dim {
@@ -140,12 +140,12 @@
 }
 
 .volUp {
-  fill: var(--gain);
+  fill: var(--candle-up);
   opacity: 0.45;
 }
 
 .volDown {
-  fill: var(--loss);
+  fill: var(--candle-down);
   opacity: 0.45;
 }
 

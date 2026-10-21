@@ -72,7 +72,7 @@ export function CurrencyChip({
   const { icon, tone, label } = currency[kind]
   const value = `${signed && amount > 0 ? '+' : ''}${formatCount(amount)}`
   return (
-    <Chip tone={tone} icon={icon} aria-label={`${value} ${label}`}>
+    <Chip tone={tone} icon={icon} role="img" aria-label={`${value} ${label}`}>
       <span className="num" aria-hidden="true">
         {value}
       </span>

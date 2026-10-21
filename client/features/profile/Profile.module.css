@@ -474,3 +474,23 @@
   flex-wrap: wrap;
   gap: var(--space-2);
 }
+
+.swatch {
+  flex: none;
+  width: 44px;
+  height: 44px;
+}
+
+.swatch > rect:first-child {
+  fill: var(--bg-elev);
+  stroke: var(--border-strong);
+}
+
+.swatch line {
+  stroke-width: 2;
+}
+
+.swatch rect + line,
+.swatch line + rect {
+  stroke-width: 1.5;
+}

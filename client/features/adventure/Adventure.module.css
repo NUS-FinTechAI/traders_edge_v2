@@ -36,7 +36,7 @@
 }
 
 .gemIcon {
-  color: var(--gem);
+  color: var(--gem-text);
 }
 
 .preview {
@@ -57,6 +57,7 @@
 
 .grid {
   display: grid;
+  align-items: start;
   gap: var(--space-4);
   margin: 0;
   padding: 0;
@@ -116,18 +117,13 @@
   place-items: center;
   height: 124px;
   border-bottom: 1px solid var(--border);
+  border-top: 4px solid var(--accent);
+  background: color-mix(in srgb, var(--accent) 22%, var(--surface));
 }
 
-.gold {
-  background: var(--gold-soft);
-}
-
-.green {
-  background: var(--gain-soft);
-}
-
-.neutral {
-  background: var(--surface-2);
+.tileLocked .tileArt {
+  border-top-color: color-mix(in srgb, var(--accent) 55%, var(--surface));
+  background: color-mix(in srgb, var(--accent) 10%, var(--bg-elev));
 }
 
 .tileBadge {
@@ -163,7 +159,6 @@
 .tileFoot {
   display: grid;
   gap: var(--space-2);
-  margin-top: auto;
   padding: var(--space-2) var(--space-4) var(--space-4);
 }
 
@@ -196,10 +191,26 @@
   font-weight: 700;
 }
 
-.lockBox button {
-  white-space: normal;
-  line-height: 1.25;
-  text-align: center;
+.gateLink {
+  display: inline-flex;
+  align-items: center;
+  justify-self: start;
+  gap: var(--space-1);
+  min-height: 44px;
+  margin-left: calc(-1 * var(--space-2));
+  padding: 0 var(--space-2);
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: none;
+  color: var(--gold);
+  font-weight: 700;
+  font-size: var(--text-sm);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.gateLink:hover {
+  background: var(--surface-2);
 }
 
 .gate {

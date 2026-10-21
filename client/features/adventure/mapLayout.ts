@@ -19,7 +19,7 @@ export interface MapLayout<T> {
   branches: { d: string; to: number }[]
 }
 
-const VERTICAL = { width: 360, start: 70, step: 190, near: 110, far: 250 }
+const VERTICAL = { width: 360, start: 70, step: 200, near: 106, far: 254 }
 const HORIZONTAL = { height: 400, start: 90, step: 160, near: 110, far: 280 }
 
 /**
@@ -50,7 +50,7 @@ export function layoutMap<T extends { kind: string }>(
       const shifted = horizontal ? at : { ...at, x: rewardX(at.x) }
       placed.push({ node, ...shifted, branchFrom: previous })
       branches.push({
-        d: branch(previous, shifted, horizontal),
+        d: branch(previous, shifted),
         to: placed.length - 1,
       })
       continue
@@ -75,18 +75,13 @@ export function layoutMap<T extends { kind: string }>(
       }
 }
 
-/** Space under a node's centre taken by its stars and label. */
-const LABEL_CLEARANCE = 88
-const MEDALLION_CLEARANCE = 36
-
 /**
- * Branch to a reward. Vertically stacked nodes would cross the upper node's
- * label, so the line runs from below that label to the lower medallion.
+ * Connectors run centre to centre. They are drawn underneath the nodes, whose
+ * medallions and captions have solid backgrounds, so a line never shows
+ * through text.
  */
-function branch(from: Point, to: Point, horizontal: boolean): string {
-  if (!horizontal) return `M${from.x} ${from.y}L${to.x} ${to.y}`
-  const [upper, lower] = from.y < to.y ? [from, to] : [to, from]
-  return `M${upper.x} ${upper.y + LABEL_CLEARANCE}L${lower.x} ${lower.y - MEDALLION_CLEARANCE}`
+function branch(from: Point, to: Point): string {
+  return `M${from.x} ${from.y}L${to.x} ${to.y}`
 }
 
 /** Keep vertical reward nodes clear of the edge on narrow screens. */
@@ -99,9 +94,6 @@ function curve(from: Point, to: Point, horizontal: boolean): string {
     const mid = (to.x - from.x) / 2
     return `M${from.x} ${from.y}C${from.x + mid} ${from.y} ${to.x - mid} ${to.y} ${to.x} ${to.y}`
   }
-  // Leave from below the upper label so the trail never crosses text.
-  const start = from.y + LABEL_CLEARANCE
-  const end = to.y - MEDALLION_CLEARANCE - 6
-  const mid = (end - start) / 2
-  return `M${from.x} ${start}C${from.x} ${start + mid} ${to.x} ${end - mid} ${to.x} ${end}`
+  const mid = (to.y - from.y) / 2
+  return `M${from.x} ${from.y}C${from.x} ${from.y + mid} ${to.x} ${to.y - mid} ${to.x} ${to.y}`
 }

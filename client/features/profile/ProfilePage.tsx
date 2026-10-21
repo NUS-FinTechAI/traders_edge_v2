@@ -11,6 +11,7 @@ import {
   type Player,
 } from '../../services/playerService.ts'
 import Avatar from '../../ui/Avatar.tsx'
+import { playerAvatarImage } from '../../ui/avatarImage.ts'
 import Button, { ButtonLink } from '../../ui/Button.tsx'
 import Chip from '../../ui/Chip.tsx'
 import Icon from '../../ui/Icon.tsx'
@@ -41,7 +42,11 @@ function LevelRing({ player }: { player: Player }) {
         />
       </svg>
       <span className={styles.ringAvatar}>
-        <Avatar id={player.avatar_id} size={96} />
+        <Avatar
+          id={player.avatar_id}
+          image={playerAvatarImage(player)}
+          size={96}
+        />
       </span>
       <span className={styles.ringLevel}>Lv {player.level}</span>
     </div>
@@ -243,7 +248,7 @@ function Profile({ player }: { player: Player }) {
           <p className={styles.rank}>
             {player.rank_name} · Level {player.level}
           </p>
-          {player.title && (
+          {player.title && player.title !== player.rank_name && (
             <Chip tone="gem" icon="scroll">
               {player.title}
             </Chip>

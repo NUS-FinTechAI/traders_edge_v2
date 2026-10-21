@@ -1,12 +1,10 @@
-import { useState } from 'react'
+import { useState, type CSSProperties } from 'react'
 import { Link } from 'react-router-dom'
 import useAuth from '../../hooks/useAuth.ts'
 import {
   getCampaign,
-  type Campaign,
   type ChapterCard,
 } from '../../services/campaignService.ts'
-import { HttpError } from '../../services/httpService.ts'
 import Button from '../../ui/Button.tsx'
 import Chip from '../../ui/Chip.tsx'
 import { chapterEmblem } from '../../ui/chapterEmblem.ts'
@@ -22,47 +20,20 @@ import useStartGame from '../play/useStartGame.ts'
 import StarLegend from './StarLegend.tsx'
 import styles from './Adventure.module.css'
 
-/** Read-only chapter list shown when the campaign cannot be loaded signed out. */
-const PUBLIC_CHAPTERS: [string, string, string][] = [
-  ['Market Basics', 'Harbor of Basics', 'compass'],
-  ['Orders & the Order Book', 'Order Book Bay', 'scroll'],
-  ['Reading Charts', 'Chart Cliffs', 'telescope'],
-  ['Risk Management', 'Risk Reef', 'anchor'],
-  ['Indicators', 'Indicator Isles', 'lantern'],
-  ['News & Fundamentals', 'News Coast', 'quill'],
-  ['Trading Strategies', 'Strategy Summit', 'flag'],
-  ['Trader Psychology', 'Mindset Peak', 'crown'],
+/** One muted accent per chapter so each region reads apart, even locked. */
+const ACCENTS = [
+  '#3f8f6a',
+  '#c08a3e',
+  '#4f86a3',
+  '#b5523f',
+  '#8a6fc4',
+  '#5f9e8f',
+  '#b0884a',
+  '#9a5f7a',
 ]
 
-const publicCampaign: Campaign = {
-  next: null,
-  chapters: PUBLIC_CHAPTERS.map(([title, region, icon], index) => ({
-    id: `ch${index + 1}`,
-    number: index + 1,
-    title,
-    region,
-    tagline: '',
-    icon,
-    state: index === 0 ? 'open' : 'locked',
-    unlocked_by: index === 0 ? 'start' : null,
-    stars: 0,
-    stars_total: 12,
-    levels_done: 0,
-    levels_total: 5,
-    gate: null,
-  })),
-}
-
-async function loadCampaign(
-  signal: AbortSignal,
-): Promise<{ campaign: Campaign; preview: boolean }> {
-  try {
-    return { campaign: await getCampaign(signal), preview: false }
-  } catch (error) {
-    if (error instanceof HttpError && error.status === 401)
-      return { campaign: publicCampaign, preview: true }
-    throw error
-  }
+function accent(number: number): string {
+  return ACCENTS[(Math.max(1, number) - 1) % ACCENTS.length]
 }
 
 function StateBadge({ chapter }: { chapter: ChapterCard }) {
@@ -98,7 +69,10 @@ function ChapterTile({
   const titleId = `chapter-${chapter.id}`
   const body = (
     <>
-      <div className={`${styles.tileArt} ${styles[tone]}`}>
+      <div
+        className={styles.tileArt}
+        style={{ '--accent': accent(chapter.number) } as CSSProperties}
+      >
         <Emblem name={emblem} tone={tone} size={84} shape="none" />
         <span className={styles.tileBadge}>
           <StateBadge chapter={chapter} />
@@ -164,14 +138,15 @@ function ChapterTile({
               Win the Chapter {chapter.number - 1} boss to unlock
             </p>
             {chapter.gate && canGate && (
-              <Button
-                variant="secondary"
-                icon="shield"
-                block
+              <button
+                type="button"
+                className={styles.gateLink}
+                aria-label={`Beat the Chapter ${chapter.number} Gate Boss`}
                 onClick={() => onGate(chapter)}
               >
-                Already know this? Beat the Gate Boss
-              </Button>
+                <Icon name="shield" size={16} />
+                Skip ahead: Gate Boss
+              </button>
             )}
           </div>
         )}
@@ -182,7 +157,9 @@ function ChapterTile({
 
 export default function AdventurePage() {
   const { status } = useAuth()
-  const resource = useResource(loadCampaign, [status])
+  // The campaign is public: signed-out visitors see chapter 1 open.
+  const resource = useResource(getCampaign, [status])
+  const preview = status !== 'signed-in'
   const [gate, setGate] = useState<ChapterCard | null>(null)
   const { start, busy } = useStartGame()
   const { playNow, busy: joining } = usePlayNow()
@@ -195,9 +172,9 @@ export default function AdventurePage() {
         actions={<StarLegend />}
       />
       <ResourceView resource={resource} label="Unrolling the map…">
-        {({ campaign, preview }) => (
+        {(campaign) => (
           <>
-            {(preview || status === 'signed-out') && (
+            {preview && status !== 'loading' && (
               <div className={styles.preview}>
                 <Emblem name="compass" size={48} tone="green" shape="circle" />
                 <p>
@@ -219,7 +196,7 @@ export default function AdventurePage() {
                   key={chapter.id}
                   chapter={chapter}
                   readOnly={preview}
-                  canGate={!preview && status === 'signed-in'}
+                  canGate={!preview}
                   onGate={setGate}
                 />
               ))}
@@ -253,11 +230,10 @@ export default function AdventurePage() {
                 icon="swords"
                 disabled={!!busy}
                 onClick={() =>
-                  void start({
-                    mode: 'boss',
-                    chapter_id: gate.id,
-                    boss: 'gate',
-                  })
+                  void start(
+                    { mode: 'boss', chapter_id: gate.id, boss: 'gate' },
+                    { scenarioId: gate.gate?.scenario_id },
+                  )
                 }
               >
                 {busy ? 'Starting…' : 'Start Gate battle'}

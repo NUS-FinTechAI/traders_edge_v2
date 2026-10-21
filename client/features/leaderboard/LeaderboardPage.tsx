@@ -53,9 +53,7 @@ function Standings({ board, data }: { board: Board; data: Leaderboard }) {
           <Emblem name="podium" size={96} tone="gold" shape="circle" />
         )}
         <p
-          className={
-            data.me.rank ? `num ${styles.meRank}` : styles.meRankEmpty
-          }
+          className={data.me.rank ? `num ${styles.meRank}` : styles.meRankEmpty}
         >
           {data.me.rank ? `#${formatCount(data.me.rank)}` : 'Unranked'}
         </p>

@@ -190,7 +190,11 @@ export default function TradingScreen({
       const inArena =
         target === document.body ||
         (target instanceof Node && !!root.current?.contains(target))
-      if (!inArena || isTyping(target) || document.querySelector('dialog[open]'))
+      if (
+        !inArena ||
+        isTyping(target) ||
+        document.querySelector('dialog[open]')
+      )
         return
       const key = event.key.toLowerCase()
       if (key === 'b' || key === 's') {
@@ -452,7 +456,11 @@ export default function TradingScreen({
             </Button>
           </div>
           {pendingStops > 0 && <StopNote count={pendingStops} />}
-          <BottomSheet open={sheetOpen} title="Order ticket" onClose={closeSheet}>
+          <BottomSheet
+            open={sheetOpen}
+            title="Order ticket"
+            onClose={closeSheet}
+          >
             {ticket}
           </BottomSheet>
         </>

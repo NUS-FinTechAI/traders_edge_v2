@@ -255,7 +255,10 @@ test('a limit buy is costed at its limit price, not the ask', () => {
   assert.equal(executionPrice('buy', 'limit', 50, scenario, 48), 48)
   assert.equal(executionPrice('buy', 'limit', 50, scenario, 55), 55)
   assert.equal(executionPrice('buy', 'market', 50, scenario), 50.05)
-  assert.equal(executionPrice('sell', 'stop', 50, scenario, undefined, 45), 44.96)
+  assert.equal(
+    executionPrice('sell', 'stop', 50, scenario, undefined, 45),
+    44.96,
+  )
 })
 
 test('prices with more than two decimals are flagged', () => {

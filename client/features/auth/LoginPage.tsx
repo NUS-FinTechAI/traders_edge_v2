@@ -173,7 +173,9 @@ export default function LoginPage() {
               block
               icon="play"
               disabled={busy}
-              onClick={() => void signIn('guest', () => authService.startGuestSession())}
+              onClick={() =>
+                void signIn('guest', () => authService.startGuestSession())
+              }
             >
               {busy ? 'Setting up…' : 'Start playing'}
             </Button>

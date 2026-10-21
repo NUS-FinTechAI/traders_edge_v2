@@ -276,9 +276,13 @@ function Arena({ gameId }: { gameId: string }) {
     const signedOut = failure.status === 401
     return (
       <ErrorState
-        title={signedOut ? 'Your session has ended' : 'This match isn’t available'}
+        title={
+          signedOut ? 'Your session has ended' : 'This match isn’t available'
+        }
         message={
-          signedOut ? 'Sign in again to get back to your match.' : failure.message
+          signedOut
+            ? 'Sign in again to get back to your match.'
+            : failure.message
         }
         action={
           signedOut ? (
@@ -333,9 +337,7 @@ function Arena({ gameId }: { gameId: string }) {
       <BriefingScreen
         state={state}
         onStart={onStart}
-        onBack={
-          needsPlan ? undefined : () => void navigate(exitPath(state))
-        }
+        onBack={needsPlan ? undefined : () => void navigate(exitPath(state))}
       />
     )
   }

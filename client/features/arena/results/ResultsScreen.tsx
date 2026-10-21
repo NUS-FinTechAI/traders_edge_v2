@@ -78,9 +78,7 @@ export default function ResultsScreen({
     rewards.items.length > 0 ||
     rewards.badges.length > 0 ||
     !!result.unlocked?.chapter_id
-  const headline = preview
-    ? 'Your starting point'
-    : rankHeadline(result)
+  const headline = preview ? 'Your starting point' : rankHeadline(result)
 
   async function save(event: FormEvent) {
     event.preventDefault()
@@ -273,26 +271,26 @@ export default function ResultsScreen({
               </span>
             </p>
             <dl className={styles.statList}>
-                <div>
-                  <dt>Trades</dt>
-                  <dd className="num">{result.stats.trades}</dd>
-                </div>
-                <div>
-                  <dt>Fees paid</dt>
-                  <dd className="num">{formatMoney(result.stats.fees)}</dd>
-                </div>
-                <div>
-                  <dt>Biggest position</dt>
-                  <dd className="num">
-                    {formatPct(result.stats.biggest_position_pct, 0)}
-                  </dd>
-                </div>
-                <div>
-                  <dt>Buy and hold</dt>
-                  <dd>
-                    <Delta value={result.stats.buy_hold_profit} />
-                  </dd>
-                </div>
+              <div>
+                <dt>Trades</dt>
+                <dd className="num">{result.stats.trades}</dd>
+              </div>
+              <div>
+                <dt>Fees paid</dt>
+                <dd className="num">{formatMoney(result.stats.fees)}</dd>
+              </div>
+              <div>
+                <dt>Biggest position</dt>
+                <dd className="num">
+                  {formatPct(result.stats.biggest_position_pct, 0)}
+                </dd>
+              </div>
+              <div>
+                <dt>Buy and hold</dt>
+                <dd>
+                  <Delta value={result.stats.buy_hold_profit} />
+                </dd>
+              </div>
             </dl>
             <p className={styles.muted}>
               Buy and hold: what you would have made if you had put all your

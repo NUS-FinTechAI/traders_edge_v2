@@ -43,21 +43,39 @@
   fill: none;
   stroke-width: 4;
   stroke-linecap: round;
-  stroke-dasharray: 2 11;
+  stroke-dasharray: 10 9;
   vector-effect: non-scaling-stroke;
 }
 
 .trail .branch {
   stroke-width: 3;
-  stroke-dasharray: 1 8;
+  stroke-dasharray: 4 7;
 }
 
+/* Parchment-tone dashed trail, dimmer where the path is still locked. */
 .trailOn {
-  stroke: var(--gold);
+  stroke: #d9c39a;
 }
 
 .trailOff {
   stroke: var(--border-strong);
+}
+
+.xMark path {
+  fill: none;
+  stroke: #b5523f;
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-dasharray: none;
+  vector-effect: non-scaling-stroke;
+}
+
+.compass {
+  position: absolute;
+  top: 0;
+  right: 0;
+  opacity: 0.85;
+  pointer-events: none;
 }
 
 .nodes {
@@ -71,18 +89,18 @@
 .node {
   --half: 32px;
   position: absolute;
-  width: 124px;
+  width: 148px;
   transform: translate(-50%, calc(var(--half) * -1));
 }
 
 .boss {
   --half: 40px;
-  width: 140px;
+  width: 156px;
 }
 
 .reward {
   --half: 26px;
-  width: 112px;
+  width: 116px;
 }
 
 .nodeButton {
@@ -164,10 +182,21 @@
   color: var(--text-muted);
 }
 
+/* Solid background so the trail passes behind the caption, never through it. */
+.caption {
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  max-width: 100%;
+  padding: 2px var(--space-2) 4px;
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+}
+
 .nodeTitle {
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 3;
   overflow: hidden;
   font-size: var(--text-sm);
   font-weight: 800;
@@ -295,11 +324,6 @@
   display: flex;
   align-items: center;
   gap: var(--space-3);
-}
-
-.battleTitle {
-  font-size: var(--text-lg);
-  font-weight: 800;
 }
 
 .note {

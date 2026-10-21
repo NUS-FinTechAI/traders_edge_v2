@@ -198,9 +198,7 @@ export default function BriefingScreen({
                     />
                     <span className={styles.choiceText}>
                       {option.label}
-                      <small className={styles.choiceHint}>
-                        {option.hint}
-                      </small>
+                      <small className={styles.choiceHint}>{option.hint}</small>
                     </span>
                   </span>
                 </label>

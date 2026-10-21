@@ -125,8 +125,7 @@ function LevelFlow({ level }: { level: Level }) {
   // A level whose check has no questions (or whose last answer was saved
   // before a reload) still closes the check once, so practice unlocks.
   useEffect(() => {
-    if (phase !== 'check' || question || summary || autoFinished.current)
-      return
+    if (phase !== 'check' || question || summary || autoFinished.current) return
     autoFinished.current = true
     queueMicrotask(() => void finishCheck())
   })

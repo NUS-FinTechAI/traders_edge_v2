@@ -63,7 +63,9 @@ button:disabled {
 }
 
 :focus-visible {
-  outline: none;
+  /* Transparent outline stays visible in forced-colours mode. */
+  outline: 2px solid transparent;
+  outline-offset: 2px;
   box-shadow: var(--focus);
 }
 

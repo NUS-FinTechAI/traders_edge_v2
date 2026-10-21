@@ -30,6 +30,14 @@ const KIND: Record<
   mixed: { emblem: 'infinity', tone: 'gold', label: 'Mixed mastery' },
 }
 
+/** How a locked chapter quiz opens, from its "ch3"-style id. */
+function unlockHint(topic: QuizTopic): string {
+  const number = /(\d+)/.exec(topic.id)?.[1]
+  return number
+    ? `Opens when Chapter ${number} unlocks on the Adventure map.`
+    : 'Opens when its chapter unlocks on the Adventure map.'
+}
+
 function TopicCard({
   topic,
   busy,
@@ -75,7 +83,10 @@ function TopicCard({
       </div>
       <div className={styles.topicSide}>
         {topic.locked ? (
-          <Chip icon="lock">Locked</Chip>
+          <>
+            <Chip icon="lock">Locked</Chip>
+            <p className={styles.unlockHint}>{unlockHint(topic)}</p>
+          </>
         ) : (
           <>
             {topic.passed && (
@@ -158,16 +169,21 @@ export default function QuizHubPage() {
           return (
             <>
               {featured.length > 0 && (
-                <ul className={styles.featuredGrid}>
-                  {featured.map((topic) => (
-                    <TopicCard
-                      key={topic.id}
-                      topic={topic}
-                      busy={!!busy}
-                      onStart={() => void begin(topic.id)}
-                    />
-                  ))}
-                </ul>
+                <section aria-labelledby="featured-title">
+                  <h2 id="featured-title" className="visually-hidden">
+                    Review quizzes
+                  </h2>
+                  <ul className={styles.featuredGrid}>
+                    {featured.map((topic) => (
+                      <TopicCard
+                        key={topic.id}
+                        topic={topic}
+                        busy={!!busy}
+                        onStart={() => void begin(topic.id)}
+                      />
+                    ))}
+                  </ul>
+                </section>
               )}
               <section aria-label="Chapter quizzes">
                 <SectionHeader title="Chapter quizzes" eyebrow="Pass at 80%" />

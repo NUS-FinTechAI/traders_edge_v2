@@ -20,10 +20,9 @@ export default function CopyButton({
           fallback()
           return
         }
-        navigator.clipboard.writeText(text).then(
-          () => notify('Copied', 'success'),
-          fallback,
-        )
+        navigator.clipboard
+          .writeText(text)
+          .then(() => notify('Copied', 'success'), fallback)
       }}
     >
       {label}

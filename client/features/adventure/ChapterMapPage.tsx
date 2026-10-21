@@ -39,11 +39,20 @@ async function loadMap(
 
 const STATE_TEXT = { locked: 'Locked', open: 'Open', done: 'Done' } as const
 
+/** The caption under a node; its accessible name starts with the same words. */
+function nodeTitle(node: MapNode): string {
+  if (node.kind === 'preview') return 'Preview Battle'
+  if (node.kind === 'boss') return 'Chapter Boss'
+  if (node.kind === 'reward') return node.reward?.name ?? node.title
+  return node.title
+}
+
 function nodeLabel(node: MapNode, levelNumber: number | null): string {
-  const parts = [
-    node.kind === 'level' ? `Level ${levelNumber}: ${node.title}` : node.title,
-    STATE_TEXT[node.state],
-  ]
+  const parts = [nodeTitle(node)]
+  if (node.kind === 'boss') parts[0] = `Chapter Boss: ${node.title}`
+  if (node.kind === 'level' && levelNumber) parts.push(`level ${levelNumber}`)
+  if (node.kind === 'reward') parts.push('reward')
+  parts.push(STATE_TEXT[node.state].toLowerCase())
   if (node.stars)
     parts.push(
       `${Number(node.stars.normal) + Number(node.stars.special)} of 2 stars`,
@@ -78,7 +87,7 @@ function Medallion({
   if (node.kind === 'boss')
     return (
       <Emblem
-        name="crown"
+        name={node.state === 'done' ? 'chest-open' : 'chest'}
         size={80}
         shape="circle"
         tone={
@@ -134,6 +143,7 @@ function ChapterPath({
 
   const reached = (index: number) =>
     layout.placed[index].node.state !== 'locked'
+  const boss = layout.placed.find((place) => place.node.kind === 'boss')
 
   return (
     <div
@@ -160,7 +170,17 @@ function ChapterPath({
             className={`${styles.branch} ${reached(branch.to) ? styles.trailOn : styles.trailOff}`}
           />
         ))}
+        {boss && (
+          <g className={styles.xMark}>
+            <path
+              d={`M${boss.x - 58} ${boss.y - 58}L${boss.x + 58} ${boss.y + 58}M${boss.x + 58} ${boss.y - 58}L${boss.x - 58} ${boss.y + 58}`}
+            />
+          </g>
+        )}
       </svg>
+      <span className={styles.compass} aria-hidden="true">
+        <Emblem name="compass" size={56} tone="gold" shape="circle" />
+      </span>
       <ol className={styles.nodes} aria-label="Chapter path">
         {layout.placed.map((place, index) => {
           const node = place.node
@@ -207,36 +227,30 @@ function ChapterPath({
                     </span>
                   )}
                 </span>
-                {node.stars && (
-                  <Stars
-                    normal={node.stars.normal}
-                    special={node.stars.special}
-                    size={16}
-                  />
-                )}
-                <span className={styles.nodeTitle} aria-hidden="true">
-                  {node.kind === 'preview'
-                    ? 'Preview Battle'
-                    : node.kind === 'boss'
-                      ? 'Chapter Boss'
+                <span className={styles.caption} aria-hidden="true">
+                  {node.stars && (
+                    <Stars
+                      normal={node.stars.normal}
+                      special={node.stars.special}
+                      size={16}
+                    />
+                  )}
+                  <span className={styles.nodeTitle}>{nodeTitle(node)}</span>
+                  <span className={styles.nodeSub}>
+                    {node.kind === 'preview'
+                      ? 'Your starting point'
                       : node.kind === 'reward'
-                        ? (node.reward?.name ?? node.title)
-                        : node.title}
-                </span>
-                <span className={styles.nodeSub} aria-hidden="true">
-                  {node.kind === 'preview'
-                    ? 'Your starting point'
-                    : node.kind === 'reward'
-                      ? node.state === 'done'
-                        ? 'Claimed'
-                        : 'Reward'
-                      : node.state === 'locked'
-                        ? 'Locked'
-                        : node.state === 'done'
-                          ? 'Done'
-                          : node.kind === 'boss'
-                            ? node.title
-                            : 'Play'}
+                        ? node.state === 'done'
+                          ? 'Claimed'
+                          : 'Reward'
+                        : node.state === 'locked'
+                          ? 'Locked'
+                          : node.state === 'done'
+                            ? 'Done'
+                            : node.kind === 'boss'
+                              ? node.title
+                              : 'Play'}
+                  </span>
                 </span>
               </button>
             </li>

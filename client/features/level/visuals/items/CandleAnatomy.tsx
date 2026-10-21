@@ -35,7 +35,7 @@ export default function CandleAnatomy() {
   const bull = kind === 'bull'
   const open = bull ? 48.2 : 50.4
   const close = bull ? 50.4 : 48.2
-  const color = bull ? C.gain : C.loss
+  const color = bull ? C.candleUp : C.candleDown
   const on = (p: Part) => part === p
 
   return (

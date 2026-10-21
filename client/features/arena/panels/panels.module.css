@@ -201,7 +201,7 @@
 }
 
 .tierBonus {
-  color: var(--gem);
+  color: var(--gem-text);
 }
 
 .missionState {

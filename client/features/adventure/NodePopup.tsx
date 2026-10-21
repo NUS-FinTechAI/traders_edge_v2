@@ -52,7 +52,7 @@ function LevelBody({ map, node }: { map: ChapterMap; node: MapNode }) {
       <p className={styles.muted}>{node.summary}</p>
       {node.objectives.length > 0 && (
         <div className={styles.learn}>
-          <p className={styles.learnTitle}>In this lesson you will learn:</p>
+          <p className={styles.learnTitle}>You will learn to:</p>
           <ul className={styles.objectives}>
             {node.objectives.map((objective, index) => (
               <li key={objective}>
@@ -97,7 +97,7 @@ function BattleBody({ map, node }: { map: ChapterMap; node: MapNode }) {
     <div className={styles.popup}>
       <div className={styles.battleHead}>
         <Emblem
-          name={preview ? 'swords' : 'crown'}
+          name={preview ? 'swords' : 'chest'}
           size={72}
           shape="circle"
           tone={preview ? 'info' : 'gold'}
@@ -105,16 +105,15 @@ function BattleBody({ map, node }: { map: ChapterMap; node: MapNode }) {
         <div>
           <p className={styles.popupEyebrow}>
             {preview
-              ? `Chapter ${map.chapter.number} · before the lessons`
-              : `Chapter ${map.chapter.number} Boss`}
+              ? `Chapter ${map.chapter.number} · Preview battle`
+              : `Chapter ${map.chapter.number} · Chapter Boss`}
           </p>
-          <p className={styles.battleTitle}>{node.title}</p>
+          {!preview && <p className={styles.muted}>{node.summary}</p>}
         </div>
       </div>
-      <p className={styles.muted}>{node.summary}</p>
       <p className={styles.note}>
         {preview
-          ? 'You can’t lose this one. It shows where you’re starting from.'
+          ? 'You can’t lose this one — it shows where you’re starting from.'
           : 'Finish first in profit to win. Win to open the next chapter.'}
       </p>
       {node.attempts > 0 && (
@@ -122,10 +121,12 @@ function BattleBody({ map, node }: { map: ChapterMap; node: MapNode }) {
           <div>
             <dt>Best result</dt>
             <dd>
-              {node.best_profit !== null ? (
-                <Delta value={node.best_profit} whole />
-              ) : (
+              {node.best_profit === null ? (
                 '—'
+              ) : Math.abs(node.best_profit) < 0.005 ? (
+                'Broke even'
+              ) : (
+                <Delta value={node.best_profit} whole />
               )}
             </dd>
           </div>
@@ -162,11 +163,14 @@ function BattleBody({ map, node }: { map: ChapterMap; node: MapNode }) {
             className={styles.popupCta}
             disabled={!!busy}
             onClick={() =>
-              void start({
-                mode: 'boss',
-                chapter_id: map.chapter.id,
-                boss: preview ? 'preview' : 'final',
-              })
+              void start(
+                {
+                  mode: 'boss',
+                  chapter_id: map.chapter.id,
+                  boss: preview ? 'preview' : 'final',
+                },
+                { scenarioId: node.scenario_id },
+              )
             }
           >
             {busy
@@ -221,11 +225,7 @@ export default function NodePopup({
     ? ''
     : node.kind === 'reward'
       ? (node.reward?.name ?? node.title)
-      : node.kind === 'level'
-        ? node.title
-        : node.kind === 'preview'
-          ? 'Preview Battle'
-          : 'Chapter Boss'
+      : node.title
   return (
     <Modal open={!!node} title={title} onClose={onClose}>
       {node?.kind === 'level' && <LevelBody map={map} node={node} />}

@@ -175,10 +175,7 @@ test('an unstarted briefing for the same market is reused', () => {
 
   assert.equal(findBriefing(games, 'level', 'ch1-l1-practice')?.id, 'match')
   assert.equal(findBriefing(games, 'boss', 'ch1-l1-practice'), null)
-  assert.equal(
-    findBriefing(games, 'level', 'ch1-l1-practice', 'match'),
-    null,
-  )
+  assert.equal(findBriefing(games, 'level', 'ch1-l1-practice', 'match'), null)
 })
 
 test('order keys use only the characters the server accepts', () => {

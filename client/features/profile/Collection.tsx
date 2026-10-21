@@ -1,12 +1,20 @@
-import { useState } from 'react'
+import { useEffect, useState, useSyncExternalStore } from 'react'
 import { usePlayer } from '../../app/PlayerContext.ts'
 import {
+  THEMES,
+  currentTheme,
+  equipTheme,
+  subscribeTheme,
+} from '../../app/themes.ts'
+import {
+  getShop,
   updateMe,
   type Collection as CollectionData,
   type PlayerUpdate,
 } from '../../services/playerService.ts'
 import Avatar from '../../ui/Avatar.tsx'
-import Button from '../../ui/Button.tsx'
+import Button, { ButtonLink } from '../../ui/Button.tsx'
+import { itemImage } from '../../ui/avatarImage.ts'
 import Chip from '../../ui/Chip.tsx'
 import Emblem from '../../ui/Emblem.tsx'
 import type { EmblemName } from '../../ui/emblemArt.tsx'
@@ -14,15 +22,16 @@ import Icon from '../../ui/Icon.tsx'
 import ProgressBar from '../../ui/ProgressBar.tsx'
 import Tabs from '../../ui/Tabs.tsx'
 import { useToast } from '../../ui/toastContext.ts'
-import { errorText } from '../../ui/useResource.ts'
+import useResource, { errorText } from '../../ui/useResource.ts'
 import styles from './Profile.module.css'
 
-type Tab = 'badges' | 'avatars' | 'titles'
+type Tab = 'badges' | 'avatars' | 'titles' | 'themes'
 
 const TABS = [
   { id: 'badges', label: 'Badges' },
   { id: 'avatars', label: 'Avatars' },
   { id: 'titles', label: 'Titles' },
+  { id: 'themes', label: 'Themes' },
 ] as const
 
 const BADGE_ART: [RegExp, EmblemName][] = [
@@ -50,6 +59,21 @@ function badgeArt(id: string): EmblemName {
 
 const MILESTONES = [5, 10, 20, 30, 40]
 
+function EquippedChip({ id, name }: { id: string; name: string }) {
+  return (
+    <Chip
+      tone="gain"
+      icon="check"
+      id={`equipped-${id}`}
+      role="img"
+      tabIndex={-1}
+      aria-label={`${name} equipped`}
+    >
+      Equipped
+    </Chip>
+  )
+}
+
 export default function Collection({
   data,
   onChange,
@@ -58,17 +82,25 @@ export default function Collection({
   onChange: () => void
 }) {
   const [tab, setTab] = useState<Tab>('badges')
-  const { refreshPlayer } = usePlayer()
+  const { player, refreshPlayer } = usePlayer()
   const notify = useToast()
   const [busy, setBusy] = useState<string | null>(null)
+  const [justEquipped, setJustEquipped] = useState<string | null>(null)
 
-  async function equip(id: string, changes: PlayerUpdate, name: string) {
+  // Move focus to the new "Equipped" chip, which names the item, so the
+  // change is announced once and keyboard users keep their place.
+  useEffect(() => {
+    if (justEquipped)
+      document.getElementById(`equipped-${justEquipped}`)?.focus()
+  }, [justEquipped, data])
+
+  async function equip(id: string, changes: PlayerUpdate) {
     setBusy(id)
     try {
       await updateMe(changes)
-      notify(`${name} equipped`, 'success')
       await refreshPlayer()
       onChange()
+      setJustEquipped(id)
     } catch (error) {
       notify(errorText(error), 'error')
     } finally {
@@ -177,22 +209,16 @@ export default function Collection({
                   .filter(Boolean)
                   .join(' ')}
               >
-                <Avatar id={avatar.id} size={72} />
+                <Avatar id={avatar.id} image={itemImage(avatar)} size={72} />
                 <strong className={styles.badgeName}>{avatar.name}</strong>
                 {avatar.equipped ? (
-                  <Chip tone="gain" icon="check">
-                    Equipped
-                  </Chip>
+                  <EquippedChip id={avatar.id} name={avatar.name} />
                 ) : avatar.owned ? (
                   <Button
                     variant="secondary"
                     disabled={!!busy}
                     onClick={() =>
-                      void equip(
-                        avatar.id,
-                        { avatar_id: avatar.id },
-                        avatar.name,
-                      )
+                      void equip(avatar.id, { avatar_id: avatar.id })
                     }
                     aria-label={`Equip ${avatar.name}`}
                   >
@@ -235,16 +261,12 @@ export default function Collection({
                   </span>
                 </span>
                 {title.equipped ? (
-                  <Chip tone="gain" icon="check">
-                    Equipped
-                  </Chip>
+                  <EquippedChip id={title.id} name={title.name} />
                 ) : title.owned ? (
                   <Button
                     variant="secondary"
                     disabled={!!busy}
-                    onClick={() =>
-                      void equip(title.id, { title_id: title.id }, title.name)
-                    }
+                    onClick={() => void equip(title.id, { title_id: title.id })}
                     aria-label={`Equip ${title.name}`}
                   >
                     Equip
@@ -256,7 +278,112 @@ export default function Collection({
             ))}
           </ul>
         )}
+        {tab === 'themes' && player && <Themes playerId={player.id} />}
       </div>
     </section>
+  )
+}
+
+/** Equip a candle theme the player owns, or a free accessibility palette. */
+function Themes({ playerId }: { playerId: string }) {
+  const shop = useResource(getShop)
+  const equipped = useSyncExternalStore(
+    subscribeTheme,
+    () => currentTheme(playerId),
+    () => null,
+  )
+  const owned = new Set(
+    (shop.data?.items ?? [])
+      .filter((item) => item.kind === 'theme' && item.owned)
+      .map((item) => item.id),
+  )
+  const options = [
+    {
+      id: null,
+      name: 'Standard',
+      description: 'The default night-map colours.',
+      available: true,
+    },
+    ...THEMES.map((theme) => ({
+      id: theme.id,
+      name: theme.name,
+      description: theme.description,
+      available: theme.free || owned.has(theme.id),
+    })),
+  ]
+  return (
+    <>
+      <p className={styles.muted}>
+        Themes change colours on this device only. Palettes are free; candle
+        themes come from the shop.
+      </p>
+      <ul className={styles.titles}>
+        {options.map((option) => {
+          const on = equipped === option.id
+          return (
+            <li
+              key={option.id ?? 'standard'}
+              className={[
+                styles.titleItem,
+                on && styles.equipped,
+                !option.available && styles.badgeLocked,
+              ]
+                .filter(Boolean)
+                .join(' ')}
+            >
+              <ThemeSwatch themeId={option.id} />
+              <span className={styles.titleText}>
+                <strong>{option.name}</strong>
+                <span className={styles.badgeHow}>{option.description}</span>
+              </span>
+              {on ? (
+                <Chip tone="gain" icon="check">
+                  In use
+                </Chip>
+              ) : option.available ? (
+                <Button
+                  variant="secondary"
+                  onClick={() => equipTheme(playerId, option.id)}
+                  aria-label={`Use ${option.name}`}
+                >
+                  Use
+                </Button>
+              ) : shop.status === 'loading' ? null : (
+                <ButtonLink to="/shop" variant="ghost" icon="bag">
+                  Shop
+                </ButtonLink>
+              )}
+            </li>
+          )
+        })}
+      </ul>
+    </>
+  )
+}
+
+function ThemeSwatch({ themeId }: { themeId: string | null }) {
+  const vars = THEMES.find((theme) => theme.id === themeId)?.vars ?? {}
+  const up = vars['--candle-up'] ?? vars['--gain'] ?? 'var(--gain)'
+  const down = vars['--candle-down'] ?? vars['--loss'] ?? 'var(--loss)'
+  return (
+    <svg className={styles.swatch} viewBox="0 0 44 44" aria-hidden="true">
+      <rect x="0.5" y="0.5" width="43" height="43" rx="10" />
+      <line x1="15" y1="8" x2="15" y2="36" style={{ stroke: up }} />
+      <rect
+        x="10"
+        y="14"
+        width="10"
+        height="14"
+        style={{ fill: 'var(--bg)', stroke: up }}
+      />
+      <line x1="29" y1="10" x2="29" y2="36" style={{ stroke: down }} />
+      <rect
+        x="24"
+        y="18"
+        width="10"
+        height="12"
+        style={{ fill: down, stroke: down }}
+      />
+    </svg>
   )
 }

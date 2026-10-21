@@ -236,9 +236,7 @@ export default function PriceChart({
         {focus && (
           <div className={styles.legend} aria-hidden="true">
             <span className={styles.legendDay}>
-              {focus.t >= 0
-                ? `Day ${focus.t}`
-                : `${-focus.t}d before`}
+              {focus.t >= 0 ? `Day ${focus.t}` : `${-focus.t}d before`}
             </span>
             <span className="num">
               O {price(focus.o)} H {price(focus.h)} L {price(focus.l)}{' '}
