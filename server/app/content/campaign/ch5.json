@@ -1,0 +1,878 @@
+{
+  "id": "ch5",
+  "number": 5,
+  "title": "Indicators",
+  "region": "Indicator Isles",
+  "tagline": "Moving averages, RSI and MACD: what they measure, when they help and when they mislead.",
+  "icon": "lantern",
+  "boss": "ch5-boss",
+  "gate": "ch4-boss",
+  "boss_reward": {
+    "kind": "avatar",
+    "id": "avatar-guide-5"
+  },
+  "levels": [
+    {
+      "id": "ch5-l1",
+      "title": "Moving Averages",
+      "summary": "Smooth out daily noise and use the average as a trend filter.",
+      "objectives": [
+        "Calculate a simple moving average and explain how an EMA differs.",
+        "Use price above or below a rising or falling average as a trend filter.",
+        "Explain why every moving average lags price."
+      ],
+      "terms": [
+        {
+          "term": "Moving average (MA)",
+          "definition": "The average closing price over the last N days, recalculated every day."
+        },
+        {
+          "term": "Simple moving average (SMA)",
+          "definition": "A moving average that gives every day in the window the same weight."
+        },
+        {
+          "term": "Exponential moving average (EMA)",
+          "definition": "A moving average that gives recent closes more weight, so it turns faster than an SMA of the same length."
+        },
+        {
+          "term": "Lag",
+          "definition": "The delay between a change in price and the indicator showing it. Every average built from past prices lags."
+        }
+      ],
+      "cards": [
+        {
+          "title": "Smoothing the noise",
+          "visual": "moving-average",
+          "body": "A moving average (MA) is the average close over the last N days, recalculated daily. Closes of $20, $21, $22, $21 and $24 give a 5-day simple moving average (SMA) of $108 ÷ 5 = **$21.60**. Tomorrow the oldest close drops out and the newest one joins, so the line slides along with price."
+        },
+        {
+          "title": "SMA vs EMA",
+          "body": "An SMA weights every day equally. An exponential moving average (EMA) weights recent days more: a 10-day EMA puts about 18% of its weight on today's close. The EMA turns faster when price changes direction, which also means more false turns. Short-term traders often watch 10 or 20 days; long-term investors watch 50 or 200."
+        },
+        {
+          "title": "A trend filter",
+          "visual": "trend-lines",
+          "body": "When price holds above a **rising** 20-day MA, the trend is up. Below a **falling** one, it is down. Many traders only buy when price is above its MA. Lumen Bikes at $54 with a rising 20-day SMA at $50 passes this filter; Kestrel Air at $31 under a falling SMA at $34 does not."
+        },
+        {
+          "title": "Dynamic support",
+          "body": "In a steady uptrend, pullbacks often pause near a widely watched MA, which acts like a rising floor. Treat it as a zone, not a wall. A close well below the MA while the MA flattens is a warning that the trend may be ending."
+        },
+        {
+          "title": "Always late",
+          "body": "An MA is built from past prices, so it lags. After a sharp turn, price can move several percent before the average follows. A longer MA lags more but is steadier. Moving averages **describe** the trend; they do not predict where price goes next."
+        }
+      ],
+      "check": [
+        {
+          "id": "q1",
+          "kind": "mc",
+          "prompt": "The last five closes of Orchard Foods are $40, $42, $41, $43 and $44. What is the 5-day SMA?",
+          "options": [
+            {
+              "id": "a",
+              "text": "$44.00"
+            },
+            {
+              "id": "b",
+              "text": "$210.00"
+            },
+            {
+              "id": "c",
+              "text": "$42.00"
+            },
+            {
+              "id": "d",
+              "text": "$41.50"
+            }
+          ],
+          "answer": "c",
+          "explanation": "$40 + $42 + $41 + $43 + $44 = $210, and $210 ÷ 5 = $42.00."
+        },
+        {
+          "id": "q2",
+          "kind": "mc",
+          "prompt": "Which average reacts fastest to a sudden change in price?",
+          "options": [
+            {
+              "id": "a",
+              "text": "20-day EMA"
+            },
+            {
+              "id": "b",
+              "text": "20-day SMA"
+            },
+            {
+              "id": "c",
+              "text": "50-day SMA"
+            },
+            {
+              "id": "d",
+              "text": "200-day SMA"
+            }
+          ],
+          "answer": "a",
+          "explanation": "Shorter averages react faster, and an EMA weights recent closes more than an SMA of the same length."
+        },
+        {
+          "id": "q3",
+          "kind": "true_false",
+          "prompt": "True or false: a moving average tells you where the price will go next.",
+          "options": [
+            {
+              "id": "t",
+              "text": "True"
+            },
+            {
+              "id": "f",
+              "text": "False"
+            }
+          ],
+          "answer": "f",
+          "explanation": "An MA is calculated from past closes. It describes the trend so far; it does not forecast."
+        },
+        {
+          "id": "q4",
+          "kind": "mc",
+          "prompt": "Nimbus Cloud trades at $72 and has closed below its falling 20-day SMA ($78) for 8 days. What does a moving-average trend filter say?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Uptrend: buy now"
+            },
+            {
+              "id": "b",
+              "text": "Sideways range: buy the dip"
+            },
+            {
+              "id": "c",
+              "text": "The average is wrong and should be ignored"
+            },
+            {
+              "id": "d",
+              "text": "Downtrend: be cautious about buying"
+            }
+          ],
+          "answer": "d",
+          "explanation": "Price below a falling average is the textbook downtrend reading."
+        },
+        {
+          "id": "q5",
+          "kind": "mc",
+          "prompt": "Lumen Bikes is in a steady uptrend. Price pulls back to its rising 20-day MA and bounces. In this case the MA acted as:",
+          "options": [
+            {
+              "id": "a",
+              "text": "Resistance"
+            },
+            {
+              "id": "b",
+              "text": "Dynamic support"
+            },
+            {
+              "id": "c",
+              "text": "A guaranteed floor"
+            },
+            {
+              "id": "d",
+              "text": "A sell signal"
+            }
+          ],
+          "answer": "b",
+          "explanation": "A rising MA often behaves like a moving floor in a trend, but it can still break."
+        }
+      ],
+      "practice": "ch5-l1-practice"
+    },
+    {
+      "id": "ch5-l2",
+      "title": "MA Crossovers",
+      "summary": "Fast and slow averages crossing: useful in trends, costly in chop.",
+      "objectives": [
+        "Read bullish and bearish fast/slow crossover signals.",
+        "Identify a golden cross and a death cross.",
+        "Explain why crossovers whipsaw in sideways markets."
+      ],
+      "terms": [
+        {
+          "term": "Crossover",
+          "definition": "When a faster moving average crosses a slower one. Fast above slow is bullish; fast below slow is bearish."
+        },
+        {
+          "term": "Golden cross",
+          "definition": "The 50-day moving average crossing above the 200-day moving average."
+        },
+        {
+          "term": "Death cross",
+          "definition": "The 50-day moving average crossing below the 200-day moving average."
+        },
+        {
+          "term": "Whipsaw",
+          "definition": "A run of false signals in a sideways market, each one producing a small loss plus costs."
+        }
+      ],
+      "cards": [
+        {
+          "title": "Two lines",
+          "visual": "moving-average",
+          "body": "A crossover system uses a fast MA (say 10-day) and a slow MA (say 30-day). When the fast line crosses **above** the slow one, recent prices are higher than older ones: a bullish signal. When it crosses **below**, the signal is bearish."
+        },
+        {
+          "title": "Golden and death cross",
+          "body": "The best-known pair is the 50-day and 200-day. The 50 crossing above the 200 is a **golden cross**; crossing below is a **death cross**. The names sound dramatic, but by the time these slow lines cross, much of the move has usually already happened."
+        },
+        {
+          "title": "The cost of lag",
+          "body": "Lumen Bikes rallies from $40 to $50, then falls back. A 10/30 cross might buy near $46 and sell near $47 on the way down. Crossovers catch the **middle** of a trend, never the turn. In a long trend that is fine; in a short one, there is little left to catch."
+        },
+        {
+          "title": "Whipsaw",
+          "visual": "support-resistance",
+          "body": "In a sideways market the averages tangle and keep crossing. Each false signal costs a small loss plus fees and spread. Six crosses inside a $28–$32 range can mean six small losses in a row. This is called whipsaw."
+        },
+        {
+          "title": "Check the trend first",
+          "body": "Crossovers work best when the market is trending: highs and lows rising (or falling) and the slow MA clearly sloping. If the slow MA is flat and price keeps crossing it, the market is ranging. Trade less or step aside."
+        }
+      ],
+      "check": [
+        {
+          "id": "q1",
+          "kind": "mc",
+          "prompt": "The 10-day SMA of Kestrel Air crosses above its 30-day SMA. This is:",
+          "options": [
+            {
+              "id": "a",
+              "text": "A bearish crossover"
+            },
+            {
+              "id": "b",
+              "text": "A bullish crossover"
+            },
+            {
+              "id": "c",
+              "text": "A death cross"
+            },
+            {
+              "id": "d",
+              "text": "A volume signal"
+            }
+          ],
+          "answer": "b",
+          "explanation": "Fast crossing above slow means recent prices are higher than older ones."
+        },
+        {
+          "id": "q2",
+          "kind": "mc",
+          "prompt": "What is a golden cross?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Price reaching a record high"
+            },
+            {
+              "id": "b",
+              "text": "The 50-day MA crossing below the 200-day MA"
+            },
+            {
+              "id": "c",
+              "text": "RSI rising above 70"
+            },
+            {
+              "id": "d",
+              "text": "The 50-day MA crossing above the 200-day MA"
+            }
+          ],
+          "answer": "d",
+          "explanation": "Golden cross = 50 above 200; the opposite is a death cross."
+        },
+        {
+          "id": "q3",
+          "kind": "mc",
+          "prompt": "Tidal Power has moved sideways between $28 and $32 for two months, and its 10- and 30-day MAs have crossed six times. What usually happens to someone who trades every cross?",
+          "options": [
+            {
+              "id": "a",
+              "text": "A string of small losses from whipsaw, plus fees"
+            },
+            {
+              "id": "b",
+              "text": "Steady profits from each cross"
+            },
+            {
+              "id": "c",
+              "text": "No costs, because crosses are free signals"
+            },
+            {
+              "id": "d",
+              "text": "A guaranteed breakout on the seventh cross"
+            }
+          ],
+          "answer": "a",
+          "explanation": "In a range, crosses come late and reverse quickly, so each one tends to lose a little."
+        },
+        {
+          "id": "q4",
+          "kind": "true_false",
+          "prompt": "True or false: a crossover signal usually appears after a new trend has already started.",
+          "options": [
+            {
+              "id": "t",
+              "text": "True"
+            },
+            {
+              "id": "f",
+              "text": "False"
+            }
+          ],
+          "answer": "t",
+          "explanation": "Both averages are built from past prices, so the cross comes after the turn."
+        },
+        {
+          "id": "q5",
+          "kind": "mc",
+          "prompt": "In which market does a crossover system work best?",
+          "options": [
+            {
+              "id": "a",
+              "text": "A tight sideways range"
+            },
+            {
+              "id": "b",
+              "text": "The day of a big surprise headline"
+            },
+            {
+              "id": "c",
+              "text": "A steady trend with a clearly sloping slow MA"
+            },
+            {
+              "id": "d",
+              "text": "Every market works equally well"
+            }
+          ],
+          "answer": "c",
+          "explanation": "Crossovers need a trend long enough to pay for the late entry and exit."
+        }
+      ],
+      "practice": "ch5-l2-practice"
+    },
+    {
+      "id": "ch5-l3",
+      "title": "RSI",
+      "summary": "A 0–100 momentum gauge: useful at range edges, misleading in strong trends.",
+      "objectives": [
+        "Read RSI on its 0–100 scale with the 70 and 30 levels.",
+        "Explain why RSI can stay overbought in a strong uptrend.",
+        "Recognize a basic bearish or bullish divergence."
+      ],
+      "terms": [
+        {
+          "term": "RSI (Relative Strength Index)",
+          "definition": "A 0–100 momentum indicator: 100 − 100 ÷ (1 + average gain ÷ average loss), usually over 14 days."
+        },
+        {
+          "term": "Overbought",
+          "definition": "RSI above 70: price has risen quickly. It does not by itself mean price must fall."
+        },
+        {
+          "term": "Oversold",
+          "definition": "RSI below 30: price has fallen quickly. It does not by itself mean price must rise."
+        },
+        {
+          "term": "Divergence",
+          "definition": "Price and an indicator moving in different directions, such as a higher price high with a lower RSI high."
+        },
+        {
+          "term": "Momentum",
+          "definition": "How strongly and consistently price has been moving in one direction recently."
+        }
+      ],
+      "cards": [
+        {
+          "title": "A speedometer for price",
+          "visual": "rsi",
+          "body": "The Relative Strength Index (RSI) compares the size of recent up days with recent down days, usually over 14 days. RSI = 100 − 100 ÷ (1 + RS), where RS = average gain ÷ average loss. It always sits between 0 and 100. Mostly up days push it high; mostly down days push it low."
+        },
+        {
+          "title": "Reading the number",
+          "body": "If over 14 days the average gain is $0.60 and the average loss is $0.20, RS = 3 and RSI = 100 − 100 ÷ 4 = **75**. Equal average gains and losses give RS = 1 and RSI = **50**, the midpoint."
+        },
+        {
+          "title": "70 and 30",
+          "body": "Above 70 is called **overbought**: price has risen fast. Below 30 is **oversold**: price has fallen fast. In a sideways range, these extremes often line up with the top and bottom of the range, which is where RSI works best."
+        },
+        {
+          "title": "Overbought can stay overbought",
+          "body": "In a strong uptrend RSI can sit above 70 for weeks while price keeps climbing. Selling only because RSI reads 72 can mean missing most of the trend. A high RSI shows strong momentum; it does not prove the price is too high."
+        },
+        {
+          "title": "Divergence",
+          "body": "If price makes a higher high but RSI makes a lower high, upward momentum is fading: a **bearish divergence**. A lower price low with a higher RSI low is a **bullish divergence**. Treat divergence as a reason to tighten your stop, not as a sell order on its own."
+        }
+      ],
+      "check": [
+        {
+          "id": "q1",
+          "kind": "mc",
+          "prompt": "Lumen Bikes' 14-day RSI reads 25. What is the standard reading?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Overbought"
+            },
+            {
+              "id": "b",
+              "text": "Neutral"
+            },
+            {
+              "id": "c",
+              "text": "Impossible, since RSI starts at 50"
+            },
+            {
+              "id": "d",
+              "text": "Oversold"
+            }
+          ],
+          "answer": "d",
+          "explanation": "Below 30 is the conventional oversold zone."
+        },
+        {
+          "id": "q2",
+          "kind": "mc",
+          "prompt": "Over 14 days, Orchard Foods' average gain is $0.40 and its average loss is $0.40. What is its RSI?",
+          "options": [
+            {
+              "id": "a",
+              "text": "0"
+            },
+            {
+              "id": "b",
+              "text": "50"
+            },
+            {
+              "id": "c",
+              "text": "100"
+            },
+            {
+              "id": "d",
+              "text": "70"
+            }
+          ],
+          "answer": "b",
+          "explanation": "RS = 0.40 ÷ 0.40 = 1, so RSI = 100 − 100 ÷ 2 = 50."
+        },
+        {
+          "id": "q3",
+          "kind": "true_false",
+          "prompt": "True or false: in a strong uptrend, RSI can stay above 70 for many days while price keeps rising.",
+          "options": [
+            {
+              "id": "t",
+              "text": "True"
+            },
+            {
+              "id": "f",
+              "text": "False"
+            }
+          ],
+          "answer": "t",
+          "explanation": "Persistent buying keeps average gains far above average losses, so RSI stays high."
+        },
+        {
+          "id": "q4",
+          "kind": "mc",
+          "prompt": "Pebble Games makes a new high at $58 (previous high $55), but RSI peaks at 64 (previous peak 78). What is this?",
+          "options": [
+            {
+              "id": "a",
+              "text": "A bullish divergence"
+            },
+            {
+              "id": "b",
+              "text": "Confirmation that the trend is strengthening"
+            },
+            {
+              "id": "c",
+              "text": "A bearish divergence: upward momentum is fading"
+            },
+            {
+              "id": "d",
+              "text": "An oversold signal"
+            }
+          ],
+          "answer": "c",
+          "explanation": "Higher price high with a lower RSI high is the classic bearish divergence."
+        },
+        {
+          "id": "q5",
+          "kind": "mc",
+          "prompt": "Where does a simple \"buy near 30, sell near 70\" RSI rule tend to work best?",
+          "options": [
+            {
+              "id": "a",
+              "text": "In a sideways range"
+            },
+            {
+              "id": "b",
+              "text": "In a strong one-way trend"
+            },
+            {
+              "id": "c",
+              "text": "On the day of an earnings gap"
+            },
+            {
+              "id": "d",
+              "text": "It never works in any market"
+            }
+          ],
+          "answer": "a",
+          "explanation": "In ranges, momentum extremes tend to reverse; in trends they can persist."
+        }
+      ],
+      "practice": "ch5-l3-practice",
+      "reward": {
+        "kind": "avatar",
+        "id": "avatar-ch5-signalist"
+      }
+    },
+    {
+      "id": "ch5-l4",
+      "title": "MACD",
+      "summary": "Two EMAs turned into a momentum line, a signal line and a histogram.",
+      "objectives": [
+        "Define the MACD line, the signal line and the histogram.",
+        "Read signal-line crossovers and zero-line crosses.",
+        "Explain why MACD lags and whipsaws in ranges."
+      ],
+      "terms": [
+        {
+          "term": "MACD",
+          "definition": "Moving Average Convergence Divergence: the 12-day EMA minus the 26-day EMA."
+        },
+        {
+          "term": "Signal line",
+          "definition": "A 9-day EMA of the MACD line."
+        },
+        {
+          "term": "MACD histogram",
+          "definition": "The MACD line minus the signal line, drawn as bars above or below zero."
+        },
+        {
+          "term": "Zero line",
+          "definition": "MACD crossing zero means the 12-day EMA has crossed the 26-day EMA."
+        }
+      ],
+      "cards": [
+        {
+          "title": "Two EMAs, one line",
+          "visual": "macd",
+          "body": "MACD (Moving Average Convergence Divergence) = **12-day EMA − 26-day EMA**. If Kestrel Air's 12-day EMA is $51.20 and its 26-day EMA is $50.00, MACD = +1.20. Positive means recent prices are running above the longer average."
+        },
+        {
+          "title": "The signal line",
+          "body": "The signal line is a **9-day EMA of the MACD line**. MACD crossing above its signal line is a bullish signal; crossing below is bearish. It is a crossover system applied to momentum instead of price."
+        },
+        {
+          "title": "The histogram",
+          "body": "Histogram = MACD − signal. Bars growing above zero mean upward momentum is building. Bars shrinking toward zero mean momentum is fading, even if price is still rising. Example: MACD +0.80 and signal +1.10 give a histogram of −0.30."
+        },
+        {
+          "title": "The zero line",
+          "body": "MACD above zero means the 12-day EMA is above the 26-day EMA, an uptrend by this measure. A cross through zero is exactly the moment those two EMAs cross. Signal-line crosses come earlier but give more false alarms."
+        },
+        {
+          "title": "Still built from price",
+          "body": "MACD is made from averages of past closes, so it lags, and in sideways markets it whipsaws just like MA crossovers. It summarizes momentum in a picture. It contains no new information that the price chart does not already have."
+        }
+      ],
+      "check": [
+        {
+          "id": "q1",
+          "kind": "mc",
+          "prompt": "Nimbus Cloud's 12-day EMA is $84.50 and its 26-day EMA is $86.00. What is MACD?",
+          "options": [
+            {
+              "id": "a",
+              "text": "−1.50"
+            },
+            {
+              "id": "b",
+              "text": "+1.50"
+            },
+            {
+              "id": "c",
+              "text": "170.50"
+            },
+            {
+              "id": "d",
+              "text": "0"
+            }
+          ],
+          "answer": "a",
+          "explanation": "MACD = 12-day EMA − 26-day EMA = 84.50 − 86.00 = −1.50."
+        },
+        {
+          "id": "q2",
+          "kind": "mc",
+          "prompt": "What is the MACD signal line?",
+          "options": [
+            {
+              "id": "a",
+              "text": "The 26-day SMA of price"
+            },
+            {
+              "id": "b",
+              "text": "The 200-day moving average"
+            },
+            {
+              "id": "c",
+              "text": "A 9-day EMA of the MACD line"
+            },
+            {
+              "id": "d",
+              "text": "RSI divided by two"
+            }
+          ],
+          "answer": "c",
+          "explanation": "The signal line smooths MACD with a 9-day EMA."
+        },
+        {
+          "id": "q3",
+          "kind": "mc",
+          "prompt": "MACD is +0.80 and the signal line is +1.10. What does the histogram show?",
+          "options": [
+            {
+              "id": "a",
+              "text": "+1.90"
+            },
+            {
+              "id": "b",
+              "text": "−0.30"
+            },
+            {
+              "id": "c",
+              "text": "+0.30"
+            },
+            {
+              "id": "d",
+              "text": "−1.90"
+            }
+          ],
+          "answer": "b",
+          "explanation": "Histogram = MACD − signal = 0.80 − 1.10 = −0.30."
+        },
+        {
+          "id": "q4",
+          "kind": "true_false",
+          "prompt": "True or false: MACD uses future prices to predict the trend.",
+          "options": [
+            {
+              "id": "t",
+              "text": "True"
+            },
+            {
+              "id": "f",
+              "text": "False"
+            }
+          ],
+          "answer": "f",
+          "explanation": "MACD uses only past closes, which is why it lags."
+        },
+        {
+          "id": "q5",
+          "kind": "mc",
+          "prompt": "Meadow Pharma is still rising, but the MACD histogram bars have shrunk for five days in a row. What is the best reading?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Momentum is building fast"
+            },
+            {
+              "id": "b",
+              "text": "A crash is guaranteed tomorrow"
+            },
+            {
+              "id": "c",
+              "text": "Volume must be rising"
+            },
+            {
+              "id": "d",
+              "text": "Upward momentum is fading; watch for a turn"
+            }
+          ],
+          "answer": "d",
+          "explanation": "Shrinking positive bars mean MACD is closing in on its signal line: momentum is slowing."
+        }
+      ],
+      "practice": "ch5-l4-practice"
+    },
+    {
+      "id": "ch5-l5",
+      "title": "Combining Signals",
+      "summary": "Stack independent evidence, pick the tool for the market, and keep the plan.",
+      "objectives": [
+        "Build confluence from trend, price level and indicator.",
+        "Avoid indicator overload and counting the same information twice.",
+        "Explain that indicators are calculated from price and add no new information."
+      ],
+      "terms": [
+        {
+          "term": "Confluence",
+          "definition": "Several independent reasons pointing to the same trade, such as trend, a support level and volume."
+        },
+        {
+          "term": "Oscillator",
+          "definition": "An indicator that moves within a fixed band, such as RSI from 0 to 100. Most useful in ranges."
+        },
+        {
+          "term": "Indicator overload",
+          "definition": "Using so many indicators that they conflict and you can always find one that agrees with you."
+        }
+      ],
+      "cards": [
+        {
+          "title": "Confluence",
+          "visual": "support-resistance",
+          "body": "A stronger setup has several **independent** reasons pointing the same way: an uptrend (price above a rising 20-day MA), a pullback to old resistance that is now support, and RSI turning up from about 40. One signal alone is weak evidence."
+        },
+        {
+          "title": "Don't count it twice",
+          "body": "RSI, MACD and an MA crossover are all calculated from the same closing prices. Three momentum tools agreeing is closer to one reason than three. Mix different kinds of evidence instead: trend, a price level, volume and news."
+        },
+        {
+          "title": "Indicator overload",
+          "body": "Eight lines on one chart usually disagree, and it becomes easy to pick whichever one says what you want to hear. Choose two or three tools that answer different questions, and read them the same way every time."
+        },
+        {
+          "title": "Match the tool to the market",
+          "body": "Trend tools (moving averages, MACD) work in trends and whipsaw in ranges. Oscillators (RSI at 30/70) work in ranges and sell too early in strong trends. Decide which market you are in **before** you read the indicator."
+        },
+        {
+          "title": "Signals still need a plan",
+          "visual": "position-size",
+          "body": "Even a strong setup fails sometimes. Every entry still needs a stop at a chart level and a size from your risk rule. Risking 1% of $10,000 is $100; with a $2 gap between entry and stop, that is **50 shares**."
+        }
+      ],
+      "check": [
+        {
+          "id": "q1",
+          "kind": "mc",
+          "prompt": "Which setup shows the most independent confluence?",
+          "options": [
+            {
+              "id": "a",
+              "text": "RSI, MACD and a 10/30 crossover all turning bullish on the same day"
+            },
+            {
+              "id": "b",
+              "text": "An uptrend above a rising 20-day MA, a pullback to old resistance now acting as support, and rising volume on the bounce"
+            },
+            {
+              "id": "c",
+              "text": "A tip from a friend plus one green candle"
+            },
+            {
+              "id": "d",
+              "text": "Three different moving averages pointing up"
+            }
+          ],
+          "answer": "b",
+          "explanation": "Trend, a price level and volume are different kinds of evidence; three momentum tools mostly repeat each other."
+        },
+        {
+          "id": "q2",
+          "kind": "true_false",
+          "prompt": "True or false: RSI and MACD add new information that is not already in the price and volume data.",
+          "options": [
+            {
+              "id": "t",
+              "text": "True"
+            },
+            {
+              "id": "f",
+              "text": "False"
+            }
+          ],
+          "answer": "f",
+          "explanation": "Both are calculated from past prices, so they rearrange information you already have."
+        },
+        {
+          "id": "q3",
+          "kind": "mc",
+          "prompt": "Tidal Power chops sideways between $28 and $32. Which tool fits best?",
+          "options": [
+            {
+              "id": "a",
+              "text": "A 10/30 moving-average crossover"
+            },
+            {
+              "id": "b",
+              "text": "MACD zero-line crosses"
+            },
+            {
+              "id": "c",
+              "text": "RSI readings near 30 and 70 at the range edges"
+            },
+            {
+              "id": "d",
+              "text": "Waiting for a golden cross"
+            }
+          ],
+          "answer": "c",
+          "explanation": "Oscillators suit ranges; trend tools whipsaw there."
+        },
+        {
+          "id": "q4",
+          "kind": "mc",
+          "prompt": "You find a setup at $50 with a stop at $48. Your account is $10,000 and you risk 1% per trade. How many shares?",
+          "options": [
+            {
+              "id": "a",
+              "text": "20"
+            },
+            {
+              "id": "b",
+              "text": "100"
+            },
+            {
+              "id": "c",
+              "text": "200"
+            },
+            {
+              "id": "d",
+              "text": "50"
+            }
+          ],
+          "answer": "d",
+          "explanation": "1% of $10,000 = $100 risk; $100 ÷ $2 per share = 50 shares."
+        },
+        {
+          "id": "q5",
+          "kind": "mc",
+          "prompt": "A trader adds eight indicators and always finds one that agrees with the trade they already wanted. What is this?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Indicator overload feeding confirmation bias"
+            },
+            {
+              "id": "b",
+              "text": "Healthy confluence"
+            },
+            {
+              "id": "c",
+              "text": "A backtest"
+            },
+            {
+              "id": "d",
+              "text": "Good risk management"
+            }
+          ],
+          "answer": "a",
+          "explanation": "More lines make it easier to cherry-pick the one that agrees with you."
+        }
+      ],
+      "practice": "ch5-l5-practice"
+    }
+  ]
+}

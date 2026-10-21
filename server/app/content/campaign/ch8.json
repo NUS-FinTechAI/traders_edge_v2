@@ -1,0 +1,862 @@
+{
+  "id": "ch8",
+  "number": 8,
+  "title": "Trader Psychology",
+  "region": "Mindset Peak",
+  "tagline": "FOMO, loss aversion, tilt and overconfidence: trading your plan instead of your feelings.",
+  "icon": "crown",
+  "boss": "ch8-boss",
+  "gate": "ch7-boss",
+  "boss_reward": {
+    "kind": "avatar",
+    "id": "avatar-guide-8"
+  },
+  "levels": [
+    {
+      "id": "ch8-l1",
+      "title": "FOMO & Chasing",
+      "summary": "Measure how stretched a move is and let the plan, not the crowd, decide.",
+      "objectives": [
+        "Recognize FOMO and chasing an extended move.",
+        "Measure how far price has stretched from its average.",
+        "Put the plan, including the stop, before the entry."
+      ],
+      "terms": [
+        {
+          "term": "FOMO",
+          "definition": "Fear of missing out: the urge to buy because a price is rising fast and others seem to be profiting."
+        },
+        {
+          "term": "Chasing",
+          "definition": "Buying after a large move has already happened, usually without a planned stop."
+        },
+        {
+          "term": "Extended",
+          "definition": "Trading far above its moving average after a fast run, so a normal pullback would be large."
+        }
+      ],
+      "cards": [
+        {
+          "title": "Fear of missing out",
+          "visual": "emotion-cycle",
+          "body": "**FOMO** is the urge to buy because a price is rising fast and other people seem to be making money. It pushes traders to buy late, after most of the move, with no plan for getting out if they are wrong."
+        },
+        {
+          "title": "How extended is it?",
+          "visual": "moving-average",
+          "body": "Pebble Games is up 35% in 8 days and sits 20% above its 20-day MA. A normal pullback to the MA from here would cost about **17%** (from $120 to $100 if the MA is $100). Distance from the average is a quick check of how stretched a move is."
+        },
+        {
+          "title": "The plan comes first",
+          "visual": "position-size",
+          "body": "Before buying, decide: where is my stop, how much do I risk, where is my target? If the only honest stop is 15% away and you risk 1% of $10,000, the position can be at most about $667. Small, or skip it."
+        },
+        {
+          "title": "There is always another trade",
+          "body": "Missing a move costs nothing. Chasing a move that reverses costs money. Disciplined traders let some trades go and wait for a setup they planned in advance."
+        },
+        {
+          "title": "Know your triggers",
+          "body": "Headlines like \"everyone is buying\", a leaderboard full of green, or a friend's screenshot of gains are FOMO triggers. Pause, compare the chart with your rules, then decide calmly."
+        }
+      ],
+      "check": [
+        {
+          "id": "q1",
+          "kind": "mc",
+          "prompt": "A stock trades 25% above its 20-day MA after seven green days. A pullback to the MA would be a drop of about:",
+          "options": [
+            {
+              "id": "a",
+              "text": "25%"
+            },
+            {
+              "id": "b",
+              "text": "7%"
+            },
+            {
+              "id": "c",
+              "text": "20%"
+            },
+            {
+              "id": "d",
+              "text": "2.5%"
+            }
+          ],
+          "answer": "c",
+          "explanation": "If the MA is 100, price is 125; falling to 100 is 25 ÷ 125 = 20%."
+        },
+        {
+          "id": "q2",
+          "kind": "mc",
+          "prompt": "Which of these is FOMO?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Buying because a stock is up 40% this week and everyone online is posting gains"
+            },
+            {
+              "id": "b",
+              "text": "Buying a planned pullback with a stop"
+            },
+            {
+              "id": "c",
+              "text": "Skipping a trade that has no setup"
+            },
+            {
+              "id": "d",
+              "text": "Selling at a planned target"
+            }
+          ],
+          "answer": "a",
+          "explanation": "The reason for the trade is fear of missing out, not a plan."
+        },
+        {
+          "id": "q3",
+          "kind": "true_false",
+          "prompt": "True or false: missing a winning trade loses you money.",
+          "options": [
+            {
+              "id": "t",
+              "text": "True"
+            },
+            {
+              "id": "f",
+              "text": "False"
+            }
+          ],
+          "answer": "f",
+          "explanation": "Not trading costs nothing; chasing a reversal does."
+        },
+        {
+          "id": "q4",
+          "kind": "mc",
+          "prompt": "You want to buy a fast-rising stock, but the only logical stop is 15% below your entry. With a 1% risk rule on $10,000, what is the largest sensible position?",
+          "options": [
+            {
+              "id": "a",
+              "text": "$10,000"
+            },
+            {
+              "id": "b",
+              "text": "$1,500"
+            },
+            {
+              "id": "c",
+              "text": "$100"
+            },
+            {
+              "id": "d",
+              "text": "About $667"
+            }
+          ],
+          "answer": "d",
+          "explanation": "$100 of risk ÷ 0.15 = about $667."
+        },
+        {
+          "id": "q5",
+          "kind": "mc",
+          "prompt": "You feel a strong urge to buy a stock that has just jumped. What is the best first step?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Buy immediately before it rises more"
+            },
+            {
+              "id": "b",
+              "text": "Pause and check the setup against your written plan"
+            },
+            {
+              "id": "c",
+              "text": "Double your usual size"
+            },
+            {
+              "id": "d",
+              "text": "Ask a chat room what to do"
+            }
+          ],
+          "answer": "b",
+          "explanation": "A short pause lets the plan, not the feeling, make the decision."
+        }
+      ],
+      "practice": "ch8-l1-practice"
+    },
+    {
+      "id": "ch8-l2",
+      "title": "Loss Aversion",
+      "summary": "Why we cut winners early and hold losers too long, and how to stop.",
+      "objectives": [
+        "Explain loss aversion and the disposition effect.",
+        "Recognize holding losers and cutting winners early.",
+        "Use exits set before entry to counter both habits."
+      ],
+      "terms": [
+        {
+          "term": "Loss aversion",
+          "definition": "The tendency to feel a loss roughly twice as strongly as an equal gain."
+        },
+        {
+          "term": "Disposition effect",
+          "definition": "Selling winners too early and holding losers too long."
+        },
+        {
+          "term": "Averaging down",
+          "definition": "Buying more of a losing position to lower the average cost. Dangerous without a plan."
+        }
+      ],
+      "cards": [
+        {
+          "title": "Losses hurt more",
+          "visual": "emotion-cycle",
+          "body": "Behavioral finance research finds that a loss feels roughly **twice** as painful as an equal gain feels good. This is **loss aversion**, and it quietly shapes trading decisions, especially when a position is in the red."
+        },
+        {
+          "title": "The disposition effect",
+          "body": "Traders tend to sell winners too soon, to lock in a good feeling, and hold losers too long, to avoid admitting a mistake. Studies of real brokerage accounts find this pattern again and again. It is called the **disposition effect**."
+        },
+        {
+          "title": "Hope is not a stop",
+          "visual": "drawdown-recovery",
+          "body": "Kestrel Air, bought at $50, falls to $45. The plan said exit at $46 for −8%. Holding \"until it comes back\" can turn that into −20% at $40, and from $40 it needs a **25%** rise just to get back to $50."
+        },
+        {
+          "title": "Let winners work",
+          "body": "Selling every winner at +3% while letting losers run to −15% creates a losing system even with a high win rate. A trailing stop lets winners keep running without guessing the top."
+        },
+        {
+          "title": "Decide before you are in",
+          "body": "Set the stop and the target before entry, while you are calm. During the trade, the only decision left is to follow the plan you already made."
+        }
+      ],
+      "check": [
+        {
+          "id": "q1",
+          "kind": "mc",
+          "prompt": "What does the disposition effect describe?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Buying low and selling high"
+            },
+            {
+              "id": "b",
+              "text": "Selling winners too early and holding losers too long"
+            },
+            {
+              "id": "c",
+              "text": "Spreading money across sectors"
+            },
+            {
+              "id": "d",
+              "text": "Using limit orders instead of market orders"
+            }
+          ],
+          "answer": "b",
+          "explanation": "It is one of the best-documented habits of individual traders."
+        },
+        {
+          "id": "q2",
+          "kind": "mc",
+          "prompt": "A trader wins 70% of the time, with an average win of $50 and an average loss of $150. What is their expectancy per trade?",
+          "options": [
+            {
+              "id": "a",
+              "text": "+$35"
+            },
+            {
+              "id": "b",
+              "text": "+$10"
+            },
+            {
+              "id": "c",
+              "text": "−$45"
+            },
+            {
+              "id": "d",
+              "text": "−$10"
+            }
+          ],
+          "answer": "d",
+          "explanation": "0.70 × $50 − 0.30 × $150 = $35 − $45 = −$10."
+        },
+        {
+          "id": "q3",
+          "kind": "true_false",
+          "prompt": "True or false: holding a losing position with no stop because \"it will come back\" is a sound risk plan.",
+          "options": [
+            {
+              "id": "t",
+              "text": "True"
+            },
+            {
+              "id": "f",
+              "text": "False"
+            }
+          ],
+          "answer": "f",
+          "explanation": "Hope has no exit; losses can keep growing."
+        },
+        {
+          "id": "q4",
+          "kind": "mc",
+          "prompt": "Meadow Pharma, bought at $40, falls to $30. What rise is needed to get back to $40?",
+          "options": [
+            {
+              "id": "a",
+              "text": "33.3%"
+            },
+            {
+              "id": "b",
+              "text": "25%"
+            },
+            {
+              "id": "c",
+              "text": "10%"
+            },
+            {
+              "id": "d",
+              "text": "40%"
+            }
+          ],
+          "answer": "a",
+          "explanation": "$10 ÷ $30 = 33.3%; losses need bigger gains to recover."
+        },
+        {
+          "id": "q5",
+          "kind": "mc",
+          "prompt": "Which habit best protects you against loss aversion?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Moving your stop further away when price nears it"
+            },
+            {
+              "id": "b",
+              "text": "Averaging down on every drop"
+            },
+            {
+              "id": "c",
+              "text": "Setting exits before entry and following them"
+            },
+            {
+              "id": "d",
+              "text": "Not looking at your account"
+            }
+          ],
+          "answer": "c",
+          "explanation": "A decision made while calm is easier to follow than one made under pressure."
+        }
+      ],
+      "practice": "ch8-l2-practice"
+    },
+    {
+      "id": "ch8-l3",
+      "title": "Revenge Trading & Tilt",
+      "summary": "Spot tilt early, keep size constant, and use cool-off rules.",
+      "objectives": [
+        "Recognize revenge trading and tilt.",
+        "Explain why increasing size after a loss is dangerous.",
+        "Use cool-off rules and a daily loss limit."
+      ],
+      "terms": [
+        {
+          "term": "Revenge trading",
+          "definition": "Rushed or oversized trades made to win back a recent loss."
+        },
+        {
+          "term": "Tilt",
+          "definition": "A state where frustration overrides judgment, leading to bigger, looser trades."
+        },
+        {
+          "term": "Daily loss limit",
+          "definition": "A preset loss after which you stop trading for the day."
+        },
+        {
+          "term": "Cool-off rule",
+          "definition": "A preset pause, such as a break after two losses in a row."
+        }
+      ],
+      "cards": [
+        {
+          "title": "Revenge trading",
+          "body": "After a painful loss, the urge is to \"win it back\" fast with a bigger or rushed trade. A trade made to repair a feeling instead of to follow a plan is a **revenge trade**."
+        },
+        {
+          "title": "Tilt",
+          "body": "**Tilt** is a poker term for when frustration takes over judgment: bigger size, looser setups, no stops. Warning signs include trading more often, skipping the plan and feeling angry at the market."
+        },
+        {
+          "title": "The math of sizing up",
+          "body": "You lose $200 on 100 shares with a $2 stop. You double to 200 shares to win it back. With the same stop distance, the next loss is $400, and you are now $600 down. Losses grow fastest when size grows after losses."
+        },
+        {
+          "title": "Cool-off rules",
+          "visual": "drawdown-recovery",
+          "body": "Set rules in advance: after two losses in a row, take a break; after losing 3% in a day, stop for the day. A rule decided while calm is easier to follow than willpower when upset."
+        },
+        {
+          "title": "Keep size rule-based",
+          "visual": "position-size",
+          "body": "Size should come from your risk rule, not your mood. After a loss your account is smaller, so a 1% rule makes the next position slightly **smaller**. At $9,500 with a $2 stop, 1% risk is $95, or 47 shares."
+        }
+      ],
+      "check": [
+        {
+          "id": "q1",
+          "kind": "mc",
+          "prompt": "After losing $300, a trader immediately buys three times their usual size to \"get it back\". What is this?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Position sizing"
+            },
+            {
+              "id": "b",
+              "text": "Diversification"
+            },
+            {
+              "id": "c",
+              "text": "Mean reversion"
+            },
+            {
+              "id": "d",
+              "text": "Revenge trading"
+            }
+          ],
+          "answer": "d",
+          "explanation": "The trade is driven by the loss, not by a setup or a rule."
+        },
+        {
+          "id": "q2",
+          "kind": "mc",
+          "prompt": "Your account fell to $9,500. You risk 1% per trade and your stop is $2 below entry. How many shares do you buy?",
+          "options": [
+            {
+              "id": "a",
+              "text": "50"
+            },
+            {
+              "id": "b",
+              "text": "47"
+            },
+            {
+              "id": "c",
+              "text": "95"
+            },
+            {
+              "id": "d",
+              "text": "100"
+            }
+          ],
+          "answer": "b",
+          "explanation": "1% of $9,500 = $95; $95 ÷ $2 = 47.5, rounded down to 47."
+        },
+        {
+          "id": "q3",
+          "kind": "true_false",
+          "prompt": "True or false: a daily loss limit works best when it is set before the trading day starts.",
+          "options": [
+            {
+              "id": "t",
+              "text": "True"
+            },
+            {
+              "id": "f",
+              "text": "False"
+            }
+          ],
+          "answer": "t",
+          "explanation": "Decisions made in advance are not distorted by the losses of the day."
+        },
+        {
+          "id": "q4",
+          "kind": "mc",
+          "prompt": "Which is a warning sign of tilt?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Following the same checklist every trade"
+            },
+            {
+              "id": "b",
+              "text": "Taking a planned break"
+            },
+            {
+              "id": "c",
+              "text": "Trading more often, with bigger size and no stops, after losses"
+            },
+            {
+              "id": "d",
+              "text": "Writing in a trade journal"
+            }
+          ],
+          "answer": "c",
+          "explanation": "Tilt shows up as looser, larger, more frequent trading."
+        },
+        {
+          "id": "q5",
+          "kind": "mc",
+          "prompt": "Which cool-off rule is sensible?",
+          "options": [
+            {
+              "id": "a",
+              "text": "After two losses in a row, take a break before the next trade"
+            },
+            {
+              "id": "b",
+              "text": "After a loss, double your size"
+            },
+            {
+              "id": "c",
+              "text": "Never stop trading"
+            },
+            {
+              "id": "d",
+              "text": "Remove stops after a loss so you are not stopped again"
+            }
+          ],
+          "answer": "a",
+          "explanation": "A preset pause breaks the loss-chasing cycle."
+        }
+      ],
+      "practice": "ch8-l3-practice",
+      "reward": {
+        "kind": "avatar",
+        "id": "avatar-ch8-stoic"
+      }
+    },
+    {
+      "id": "ch8-l4",
+      "title": "Overconfidence & Overtrading",
+      "summary": "Luck versus skill, hot streaks, and the quiet cost of trading too much.",
+      "objectives": [
+        "Tell luck from skill over small samples.",
+        "Recognize overconfidence after a winning streak.",
+        "Calculate the fee and spread drag of overtrading."
+      ],
+      "terms": [
+        {
+          "term": "Overconfidence",
+          "definition": "Rating your own skill or knowledge higher than the evidence supports."
+        },
+        {
+          "term": "Overtrading",
+          "definition": "Trading more often than your setups justify, often from boredom or excitement."
+        },
+        {
+          "term": "Fee drag",
+          "definition": "The total cost of fees and spreads, which grows with every trade."
+        }
+      ],
+      "cards": [
+        {
+          "title": "Luck or skill?",
+          "body": "Over 5 trades, luck dominates: a fair coin lands heads 4 or 5 times out of 5 about **19%** of the time. Skill only shows up over many trades. A hot streak is a reason to review your trades, not to triple your size."
+        },
+        {
+          "title": "Overconfidence",
+          "body": "After a few wins, traders tend to overrate their skill, trade more and take bigger risks. A well-known study of individual investors found that the households that traded the most earned the lowest returns after costs."
+        },
+        {
+          "title": "Fee drag",
+          "visual": "bid-ask-spread",
+          "body": "In this game a round trip costs about 0.1% in spread plus 0.1% in fees each way: roughly **0.3%** of the trade. Forty round trips of $5,000 cost about $600 before a single losing trade."
+        },
+        {
+          "title": "Fewer, better trades",
+          "body": "A trade should exist because a setup appeared, not because you are bored or want action. Waiting is part of the job, and a quiet day with no trades can be a good day."
+        },
+        {
+          "title": "Check your numbers",
+          "body": "Track trades per week, fees paid and profit after costs. If costs eat a large share of your gross profit, the fix is usually to trade less, not to trade harder."
+        }
+      ],
+      "check": [
+        {
+          "id": "q1",
+          "kind": "mc",
+          "prompt": "Each round trip costs about 0.3% of the trade. What do 50 round trips of $4,000 each cost in total?",
+          "options": [
+            {
+              "id": "a",
+              "text": "About $600"
+            },
+            {
+              "id": "b",
+              "text": "About $60"
+            },
+            {
+              "id": "c",
+              "text": "About $120"
+            },
+            {
+              "id": "d",
+              "text": "About $6,000"
+            }
+          ],
+          "answer": "a",
+          "explanation": "0.3% of $4,000 = $12; 50 × $12 = $600."
+        },
+        {
+          "id": "q2",
+          "kind": "true_false",
+          "prompt": "True or false: winning 4 of your first 5 trades proves you have a reliable edge.",
+          "options": [
+            {
+              "id": "t",
+              "text": "True"
+            },
+            {
+              "id": "f",
+              "text": "False"
+            }
+          ],
+          "answer": "f",
+          "explanation": "Five trades is far too few; luck alone produces this result often."
+        },
+        {
+          "id": "q3",
+          "kind": "mc",
+          "prompt": "You have won five trades in a row. What is the disciplined response?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Triple your position size"
+            },
+            {
+              "id": "b",
+              "text": "Trade every day to keep the streak going"
+            },
+            {
+              "id": "c",
+              "text": "Keep the same risk rule and check whether the wins followed your plan"
+            },
+            {
+              "id": "d",
+              "text": "Stop using stops"
+            }
+          ],
+          "answer": "c",
+          "explanation": "Streaks are noisy; the process should not change because of them."
+        },
+        {
+          "id": "q4",
+          "kind": "mc",
+          "prompt": "Ana and Ben both make +$500 from price moves. Ana makes 4 round trips; Ben makes 60. Each round trip costs $12. What are their net results?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Ana +$500, Ben +$500"
+            },
+            {
+              "id": "b",
+              "text": "Ana +$452, Ben −$220"
+            },
+            {
+              "id": "c",
+              "text": "Ana +$488, Ben +$380"
+            },
+            {
+              "id": "d",
+              "text": "Ana +$452, Ben +$440"
+            }
+          ],
+          "answer": "b",
+          "explanation": "Ana: $500 − 4 × $12 = $452. Ben: $500 − 60 × $12 = −$220."
+        },
+        {
+          "id": "q5",
+          "kind": "mc",
+          "prompt": "What is the best reason to place a trade?",
+          "options": [
+            {
+              "id": "a",
+              "text": "You feel bored"
+            },
+            {
+              "id": "b",
+              "text": "You want to win back yesterday's loss"
+            },
+            {
+              "id": "c",
+              "text": "You are behind on the leaderboard"
+            },
+            {
+              "id": "d",
+              "text": "A setup from your plan appeared"
+            }
+          ],
+          "answer": "d",
+          "explanation": "Every trade should come from the plan."
+        }
+      ],
+      "practice": "ch8-l4-practice"
+    },
+    {
+      "id": "ch8-l5",
+      "title": "Process over Outcome",
+      "summary": "Judge decisions, not single results, and write your own trading plan.",
+      "objectives": [
+        "Judge trades by the quality of the decision, not one result.",
+        "Use a journal to review your process.",
+        "Write a personal trading plan."
+      ],
+      "terms": [
+        {
+          "term": "Process vs outcome",
+          "definition": "Separating how good a decision was from how one trade happened to turn out."
+        },
+        {
+          "term": "Trading plan",
+          "definition": "Your written rules: setups, risk per trade, loss limits and when to stop."
+        },
+        {
+          "term": "Trade review",
+          "definition": "Grading past trades on whether the plan was followed, separately from profit."
+        }
+      ],
+      "cards": [
+        {
+          "title": "Good decision, bad result",
+          "body": "A well-planned trade with a sensible stop can lose; a reckless trade can win. Over one trade, results are noisy. Over many trades, a good process is what shows up in the results."
+        },
+        {
+          "title": "Four boxes",
+          "body": "Good process, good result: earned. Good process, bad result: bad luck, keep going. Bad process, good result: **dangerous luck**. Bad process, bad result: a lesson. The third box is the one that builds bad habits, because it feels like skill."
+        },
+        {
+          "title": "Review like a pro",
+          "body": "In your journal, grade each trade on process: Was there a setup? A stop? The right size? Did you follow the exit? Grade this separately from the profit or loss."
+        },
+        {
+          "title": "Your trading plan",
+          "body": "One page: what you trade, the setups you take, risk per trade (for example 1%), your daily loss limit, rules for news and earnings, and when you take a break. Read it before every session."
+        },
+        {
+          "title": "The long game",
+          "body": "Skill builds slowly: losses kept small, rules followed and lessons written down matter more than any single winning trade. In this game, your missions measure the process; profit decides the match."
+        }
+      ],
+      "check": [
+        {
+          "id": "q1",
+          "kind": "mc",
+          "prompt": "A trader buys on a rumor with no stop and makes $400. How is this best described?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Good process, good result"
+            },
+            {
+              "id": "b",
+              "text": "Bad process, good result: luck that can build bad habits"
+            },
+            {
+              "id": "c",
+              "text": "Good process, bad result"
+            },
+            {
+              "id": "d",
+              "text": "Proof of skill"
+            }
+          ],
+          "answer": "b",
+          "explanation": "The profit came without a plan, so it teaches the wrong lesson."
+        },
+        {
+          "id": "q2",
+          "kind": "mc",
+          "prompt": "You follow your plan exactly, but the stop is hit for −1R. How should you see this trade?",
+          "options": [
+            {
+              "id": "a",
+              "text": "A bad decision that must never be repeated"
+            },
+            {
+              "id": "b",
+              "text": "A reason to change strategy immediately"
+            },
+            {
+              "id": "c",
+              "text": "Good process, bad result: likely fine to repeat"
+            },
+            {
+              "id": "d",
+              "text": "A reason to stop using stops"
+            }
+          ],
+          "answer": "c",
+          "explanation": "Planned losses are part of any strategy."
+        },
+        {
+          "id": "q3",
+          "kind": "true_false",
+          "prompt": "True or false: grading trades on process, separately from profit, helps you improve over time.",
+          "options": [
+            {
+              "id": "t",
+              "text": "True"
+            },
+            {
+              "id": "f",
+              "text": "False"
+            }
+          ],
+          "answer": "t",
+          "explanation": "It shows which habits to keep, regardless of short-term luck."
+        },
+        {
+          "id": "q4",
+          "kind": "mc",
+          "prompt": "Which item belongs in a personal trading plan?",
+          "options": [
+            {
+              "id": "a",
+              "text": "A promise of monthly profits"
+            },
+            {
+              "id": "b",
+              "text": "Tips from strangers"
+            },
+            {
+              "id": "c",
+              "text": "A list of this week's hot stocks"
+            },
+            {
+              "id": "d",
+              "text": "Maximum risk per trade and a daily loss limit"
+            }
+          ],
+          "answer": "d",
+          "explanation": "A plan sets rules you control, not results you cannot."
+        },
+        {
+          "id": "q5",
+          "kind": "mc",
+          "prompt": "Over 100 trades, what matters most?",
+          "options": [
+            {
+              "id": "a",
+              "text": "A consistent process with losses kept small"
+            },
+            {
+              "id": "b",
+              "text": "The single biggest winning trade"
+            },
+            {
+              "id": "c",
+              "text": "The number of trades placed"
+            },
+            {
+              "id": "d",
+              "text": "Luck"
+            }
+          ],
+          "answer": "a",
+          "explanation": "Over many trades, process decides the outcome."
+        }
+      ],
+      "practice": "ch8-l5-practice"
+    }
+  ]
+}
