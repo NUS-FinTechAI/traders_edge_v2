@@ -138,11 +138,12 @@ class CheckAnswer(BaseModel):
     correct: bool
     correct_option_id: str
     explanation: str
-    first_try: bool
+    first_try: bool = Field(description='The first answer to this question in the current run of the check')
 
 
 class CheckComplete(BaseModel):
-    first_try_correct: int
+    first_try_correct: int = Field(description='Questions answered right on the first try in this run')
+    first_ever_correct: int = Field(description="Questions answered right on the player's first-ever try (kept for research)")
     total: int
     xp: int
     practice_unlocked: bool

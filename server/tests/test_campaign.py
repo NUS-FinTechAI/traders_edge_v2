@@ -4,6 +4,7 @@ from unittest.mock import patch
 
 from sqlalchemy import func, select
 
+from app.campaign import views
 from app.campaign.content import validate_campaign, validate_chapter
 from app.campaign.models import CampaignProgress
 from app.content.checks import ContentError
@@ -14,6 +15,28 @@ from progression_fixtures import CAMPAIGN, AppCase, fixture_content, result
 
 def nodes(client, chapter_id):
     return {node['id']: node for node in client.get(f'/api/campaign/chapters/{chapter_id}').json()['nodes']}
+
+
+class CheckOptionOrderTests(unittest.TestCase):
+    question = {'id': 'q1', 'kind': 'mc', 'options': [{'id': key, 'text': key.upper()} for key in 'abcde']}
+
+    def order(self, user_id, level_id='ch1-l1', question=None):
+        return [option['id'] for option in views.shuffled_options(question or self.question, user_id, level_id)]
+
+    def test_order_is_stable_for_a_player_and_level(self):
+        self.assertEqual(self.order('player-1'), self.order('player-1'))
+        self.assertEqual(sorted(self.order('player-1')), list('abcde'))
+
+    def test_order_varies_between_players(self):
+        self.assertGreater(len({tuple(self.order(f'player-{n}')) for n in range(10)}), 1)
+
+    def test_signed_out_views_use_one_fixed_order(self):
+        self.assertEqual(self.order(None), self.order(None))
+
+    def test_true_false_keeps_its_authored_order(self):
+        question = {'id': 'q2', 'kind': 'true_false', 'options': [{'id': 't', 'text': 'True'}, {'id': 'f', 'text': 'False'}]}
+
+        self.assertEqual({tuple(self.order(f'player-{n}', question=question)) for n in range(10)}, {('t', 'f')})
 
 
 class CampaignContentTests(unittest.TestCase):
@@ -133,15 +156,29 @@ class CampaignTests(AppCase):
         retry = self.client.post('/api/campaign/levels/ch1-l1/check', json={'question_id': 'q1', 'option_id': 'a'}).json()
         self.client.post('/api/campaign/levels/ch1-l1/check', json={'question_id': 'q2', 'option_id': 'f'})
         completed = self.client.post('/api/campaign/levels/ch1-l1/check/complete').json()
-        repeated = self.client.post('/api/campaign/levels/ch1-l1/check/complete').json()
         level = self.client.get('/api/campaign/levels/ch1-l1').json()
 
         self.assertEqual(wrong, {'correct': False, 'correct_option_id': 'a', 'explanation': 'A is right.', 'first_try': True})
         self.assertEqual((retry['correct'], retry['first_try']), (True, False))
-        self.assertEqual(completed, {'first_try_correct': 1, 'total': 2, 'xp': 10, 'practice_unlocked': True})
-        self.assertEqual(repeated['xp'], 0)
+        self.assertEqual(completed, {'first_try_correct': 1, 'first_ever_correct': 1, 'total': 2, 'xp': 10, 'practice_unlocked': True})
         self.assertEqual(level['progress'], {'check_done': True, 'check_best': 1, 'normal_star': False, 'special_star': False, 'plays': 0})
         self.assertNotIn('answer', level['check'][0])
+
+    def test_replayed_check_reports_this_runs_first_try_accuracy(self):
+        self.play_preview('ch1')
+        for option in ('b', 'a'):
+            self.client.post('/api/campaign/levels/ch1-l1/check', json={'question_id': 'q1', 'option_id': option})
+        self.client.post('/api/campaign/levels/ch1-l1/check', json={'question_id': 'q2', 'option_id': 'f'})
+        self.client.post('/api/campaign/levels/ch1-l1/check/complete')
+        unanswered = self.client.post('/api/campaign/levels/ch1-l1/check/complete')
+
+        answers = [self.client.post('/api/campaign/levels/ch1-l1/check', json={'question_id': q, 'option_id': o}).json()
+                   for q, o in (('q1', 'a'), ('q2', 'f'))]
+        replay = self.client.post('/api/campaign/levels/ch1-l1/check/complete').json()
+
+        self.assertEqual(unanswered.status_code, 409)
+        self.assertEqual([answer['first_try'] for answer in answers], [True, True])
+        self.assertEqual((replay['first_try_correct'], replay['first_ever_correct'], replay['xp']), (2, 1, 0))
 
     def test_check_completion_requires_every_question_solved(self):
         self.play_preview('ch1')

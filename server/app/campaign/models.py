@@ -29,6 +29,8 @@ class CampaignCheck(Base):
     first_option_id: Mapped[str] = mapped_column(String(100))
     first_correct: Mapped[bool] = mapped_column(Boolean)
     solved: Mapped[bool] = mapped_column(Boolean)
+    run_first_correct: Mapped[bool | None] = mapped_column(Boolean)
+    run_solved: Mapped[bool] = mapped_column(Boolean, default=False)
 
 
 class DailySeed(Base):

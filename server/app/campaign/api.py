@@ -58,7 +58,7 @@ async def get_level(level_id: Id, request: Request, db: DB, user: Visitor):
     chapter = content(request).campaign.chapter_of(level_id)
     if not progress.unlocked(chapter):
         raise HTTPException(403, progress.level_locked_reason(level_id))
-    return views.level_view(progress, content(request).campaign, level_id)
+    return views.level_view(progress, content(request).campaign, level_id, user.id if user else None)
 
 
 async def open_level(request, db, user, level_id):
@@ -79,12 +79,15 @@ async def answer_check(level_id: Id, body: CheckAnswerBody, request: Request, db
         raise HTTPException(422, 'That option is not part of this question')
     correct = body.option_id == question['answer']
     row = await db.get(CampaignCheck, (user.id, level_id, question['id']))
-    first_try = row is None
+    if row is None:
+        row = CampaignCheck(user_id=user.id, level_id=level_id, question_id=question['id'], first_option_id=body.option_id,
+                            first_correct=correct, solved=False, run_first_correct=None, run_solved=False)
+        db.add(row)
+    first_try = row.run_first_correct is None
     if first_try:
-        db.add(CampaignCheck(user_id=user.id, level_id=level_id, question_id=question['id'], first_option_id=body.option_id,
-                             first_correct=correct, solved=correct))
-    elif correct:
-        row.solved = True
+        row.run_first_correct = correct
+    if correct:
+        row.solved = row.run_solved = True
     await db.flush()
     return {'correct': correct, 'correct_option_id': question['answer'], 'explanation': question['explanation'], 'first_try': first_try}
 
@@ -94,7 +97,7 @@ async def complete_check(level_id: Id, request: Request, db: DB, user: User):
     level = await open_level(request, db, user, level_id)
     rows = {row.question_id: row for row in await db.scalars(select(CampaignCheck).where(CampaignCheck.user_id == user.id,
                                                                                           CampaignCheck.level_id == level_id))}
-    missing = [q['id'] for q in level['check'] if not (q['id'] in rows and rows[q['id']].solved)]
+    missing = [q['id'] for q in level['check'] if not (q['id'] in rows and rows[q['id']].run_solved)]
     if missing:
         raise HTTPException(409, 'Answer every question correctly before finishing the check')
     instant = ledger.current()
@@ -103,11 +106,15 @@ async def complete_check(level_id: Id, request: Request, db: DB, user: User):
         progress.check_done = True
         progress.check_first_try = sum(rows[q['id']].first_correct for q in level['check'])
         progress.check_total = len(level['check'])
+    run_first_try = sum(bool(rows[q['id']].run_first_correct) for q in level['check'])
+    for row in rows.values():
+        row.run_first_correct, row.run_solved = None, False
     await db.flush()
     xp = await ledger.award_xp(db, user.id, f'level-check:{level_id}', LEVEL_XP['check'], 'Level check finished', instant)
     await ledger.record_activity(db, user.id, instant)
     await badges.award(db, content(request), user.id, instant)
-    return {'first_try_correct': progress.check_first_try, 'total': progress.check_total, 'xp': xp, 'practice_unlocked': True}
+    return {'first_try_correct': run_first_try, 'first_ever_correct': progress.check_first_try, 'total': len(level['check']), 'xp': xp,
+            'practice_unlocked': True}
 
 
 @router.get('/archive', response_model=Archive, operation_id='getArchive')

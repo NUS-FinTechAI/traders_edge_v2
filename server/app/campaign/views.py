@@ -1,5 +1,8 @@
 """Public response shapes for chapters, map nodes, levels, the archive and the play hub."""
 
+import hashlib
+import random
+
 from app.campaign.progress import BOSS_XP, LEVEL_XP, PREVIEW_XP, boss_key
 from app.game.scenario import load_bots, load_scenarios
 
@@ -82,7 +85,19 @@ def continue_target(progress, campaign):
     return None
 
 
-def level_view(progress, campaign, level_id):
+def shuffled_options(question, user_id, level_id):
+    """Multiple-choice options in a stable order per (player, level, question); signed-out views use one fixed order.
+
+    True/false items keep their authored order. Grading is by option id, so the order never changes an answer.
+    """
+    options = list(question['options'])
+    if question['kind'] == 'mc':
+        digest = hashlib.sha256(f'{user_id or "public"}:{level_id}:{question["id"]}'.encode()).hexdigest()
+        random.Random(int(digest[:16], 16)).shuffle(options)
+    return options
+
+
+def level_view(progress, campaign, level_id, user_id=None):
     chapter, number = campaign.levels[level_id]
     level = chapter['levels'][number - 1]
     scenario = load_scenarios()[level['practice']]
@@ -91,7 +106,8 @@ def level_view(progress, campaign, level_id):
         'id': level_id, 'chapter_id': chapter['id'], 'number': number, 'title': level['title'], 'summary': level['summary'],
         'objectives': level['objectives'], 'terms': level['terms'],
         'cards': [{'title': card['title'], 'body': card['body'], 'visual': card.get('visual')} for card in level['cards']],
-        'check': [{'id': q['id'], 'kind': q['kind'], 'prompt': q['prompt'], 'options': q['options']} for q in level['check']],
+        'check': [{'id': q['id'], 'kind': q['kind'], 'prompt': q['prompt'], 'options': shuffled_options(q, user_id, level_id)}
+                  for q in level['check']],
         'practice': {'scenario_id': scenario['id'], 'title': scenario['title'], 'briefing': scenario['briefing'],
                      'missions': [{'tier': tier, 'text': mission['text']} for tier in ('basic', 'bonus') for mission in scenario['missions'][tier]]},
         'progress': {'check_done': bool(row and row.check_done), 'check_best': row.check_first_try if row and row.check_done else None,

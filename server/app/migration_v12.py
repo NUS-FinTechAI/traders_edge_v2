@@ -25,6 +25,8 @@ campaign_checks = Table(
     Column('first_option_id', String(100), nullable=False),
     Column('first_correct', Boolean, nullable=False),
     Column('solved', Boolean, nullable=False),
+    Column('run_first_correct', Boolean, nullable=True),
+    Column('run_solved', Boolean, nullable=False),
 )
 boss_results = Table(
     'boss_results', metadata,
