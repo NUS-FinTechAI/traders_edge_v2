@@ -158,6 +158,30 @@ class ResultMissionTests(unittest.TestCase):
         self.assertEqual([(m['done'], m['progress']) for m in missions], [(False, 'Forfeited')])
 
 
+class LiveStateTests(unittest.TestCase):
+    def states(self, missions, final, trades):
+        data = scenario(missions={'basic': missions, 'bonus': []})
+        match = flat_match(data).advance(trades, [order(f'b{t}', 'buy', 1, tick=t) for t in range(trades)])
+        return [m['state'] for m in objectives.evaluate(match, 'me', PLAN, final=final)]
+
+    def test_end_of_match_missions_are_only_on_track_during_play(self):
+        hold = {'id': 'h', 'type': 'hold_at_end', 'params': {}, 'text': 'Hold'}
+
+        self.assertEqual(self.states([hold], final=False, trades=1), ['on_track'])
+        self.assertEqual(self.states([hold], final=True, trades=1), ['done'])
+
+    def test_milestones_complete_during_play(self):
+        trade = {'id': 't', 'type': 'trades_min', 'params': {'n': 1}, 'text': 'Trade'}
+
+        self.assertEqual(self.states([trade], final=False, trades=0), ['pending'])
+        self.assertEqual(self.states([trade], final=False, trades=1), ['done'])
+
+    def test_broken_rules_fail_before_the_end(self):
+        cap = {'id': 'c', 'type': 'trades_max', 'params': {'n': 1}, 'text': 'Few trades'}
+
+        self.assertEqual(self.states([cap], final=False, trades=3), ['failed'])
+
+
 class ReviewTests(unittest.TestCase):
     def test_stop_protected_buys_raise_the_decision_score(self):
         bare = flat_match().advance(1, [order('b1', 'buy', 5)])

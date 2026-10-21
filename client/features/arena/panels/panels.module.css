@@ -214,8 +214,32 @@
   white-space: nowrap;
 }
 
-.missionDone .missionState {
+.missionState {
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.missionProgress {
+  flex-basis: 100%;
+  text-align: right;
+  color: var(--text-dim);
+  font-weight: 500;
+}
+
+.stateDone {
   color: var(--gain);
+}
+
+.stateOnTrack {
+  color: var(--info);
+}
+
+.stateBehind {
+  color: var(--warning);
+}
+
+.stateFailed {
+  color: var(--loss);
 }
 
 /* News */

@@ -1,7 +1,38 @@
-import type { Mission } from '../../../services/gameService.ts'
-import Icon from '../../../ui/Icon.tsx'
+import type { Mission, MissionState } from '../../../services/gameService.ts'
+import Icon, { type IconName } from '../../../ui/Icon.tsx'
 import Panel from './Panel.tsx'
 import styles from './panels.module.css'
+
+const STATES: Record<
+  MissionState,
+  { label: string; icon?: IconName; className?: string }
+> = {
+  done: { label: 'Done', icon: 'check', className: styles.stateDone },
+  on_track: { label: 'On track', icon: 'eye', className: styles.stateOnTrack },
+  behind: { label: 'Behind', className: styles.stateBehind },
+  failed: { label: 'Missed', icon: 'close', className: styles.stateFailed },
+  pending: { label: 'To do' },
+}
+
+function MissionStatus({ mission }: { mission: Mission }) {
+  const state =
+    STATES[mission.state] ?? STATES[mission.done ? 'done' : 'pending']
+  return (
+    <span
+      className={[styles.missionState, state.className]
+        .filter(Boolean)
+        .join(' ')}
+    >
+      {state.icon && <Icon name={state.icon} size={14} />}
+      <span>{state.label}</span>
+      {mission.state !== 'done' && mission.progress && (
+        <span className={`num ${styles.missionProgress}`}>
+          {mission.progress}
+        </span>
+      )}
+    </span>
+  )
+}
 
 export function MissionList({
   missions,
@@ -31,18 +62,7 @@ export function MissionList({
             />
           </span>
           <span className={styles.missionText}>{mission.text}</span>
-          {showState && (
-            <span className={styles.missionState}>
-              {mission.done ? (
-                <>
-                  <Icon name="check" size={16} />
-                  <span>Done</span>
-                </>
-              ) : (
-                <span className="num">{mission.progress ?? 'To do'}</span>
-              )}
-            </span>
-          )}
+          {showState && <MissionStatus mission={mission} />}
         </li>
       ))}
     </ul>

@@ -1,5 +1,9 @@
 import { useState, type FormEvent } from 'react'
-import type { GameResult, GameState } from '../../../services/gameService.ts'
+import type {
+  DecisionBreakdown,
+  GameResult,
+  GameState,
+} from '../../../services/gameService.ts'
 import Button, { ButtonLink } from '../../../ui/Button.tsx'
 import Chip, { CurrencyChip, Delta } from '../../../ui/Chip.tsx'
 import Icon from '../../../ui/Icon.tsx'
@@ -27,6 +31,17 @@ interface ResultsScreenProps {
   onSaveReflection: (text: string) => Promise<void>
   onTryAgain: () => Promise<void>
 }
+
+const BREAKDOWN: {
+  key: keyof DecisionBreakdown
+  label: string
+  max: number
+}[] = [
+  { key: 'missions', label: 'Bonus missions met', max: 40 },
+  { key: 'plan', label: 'Stayed within your loss limit', max: 25 },
+  { key: 'risk', label: 'Protected buys with a stop-loss', max: 25 },
+  { key: 'overtrading', label: 'Kept fees small', max: 10 },
+]
 
 export default function ResultsScreen({
   state,
@@ -243,22 +258,14 @@ export default function ResultsScreen({
             tone="gold"
           />
           <ul className={styles.breakdown}>
-            <li>
-              <span>Bonus missions met</span>
-              <span className="num">up to 40</span>
-            </li>
-            <li>
-              <span>Stayed within your loss limit</span>
-              <span className="num">up to 25</span>
-            </li>
-            <li>
-              <span>Protected buys with a stop-loss</span>
-              <span className="num">up to 25</span>
-            </li>
-            <li>
-              <span>Kept fees small</span>
-              <span className="num">up to 10</span>
-            </li>
+            {BREAKDOWN.map(({ key, label, max }) => (
+              <li key={key}>
+                <span>{label}</span>
+                <span className="num">
+                  {result.decision_breakdown?.[key] ?? 0} / {max}
+                </span>
+              </li>
+            ))}
           </ul>
           <p className={styles.muted}>This score never decides who wins.</p>
         </section>

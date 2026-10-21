@@ -58,6 +58,7 @@ function result(
     rewards: { xp: 0, stocks: 0, gems: 0, items: [], badges: [] },
     plan_review: null,
     decision_score: 50,
+    decision_breakdown: { missions: 20, plan: 25, risk: 0, overtrading: 5 },
     key_moments: [],
     stats: {
       trades: 0,

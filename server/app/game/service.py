@@ -236,7 +236,7 @@ def public_state(loaded, match, tick, at, since=None):
         'news': [_news(n) for n in scenario['news'] if n['tick'] <= visible and newer(n['tick'])],
         'me': player(loaded, match),
         'leaderboard': leaderboard(loaded, match),
-        'missions': objectives.evaluate(match, loaded.me.id, loaded.me.plan),
+        'missions': objectives.evaluate(match, loaded.me.id, loaded.me.plan, final=status in ('ended', 'settled')),
         'result': loaded.me.result,
     }
 
@@ -400,7 +400,7 @@ def compute_result(loaded, match):
         'strategy': plan['strategy'], 'max_loss_pct': plan['max_loss_pct'], 'worst_drawdown_pct': f2(book.max_drawdown_pct),
         'kept_loss_limit': book.max_drawdown_pct <= Decimal(str(plan['max_loss_pct']))}
     profit = match.profit(pid)
-    missions = objectives.evaluate(match, pid, plan)
+    missions = objectives.evaluate(match, pid, plan, final=True)
     breakdown = review.decision_breakdown(match, pid, plan, missions)
     return {'won': won, 'rank': mine['rank'], 'of': len(board), 'forfeited': forfeited, 'profit': f2(profit),
             'profit_pct': f2(profit / match.rules.starting_cash * HUNDRED), 'leaderboard': board,

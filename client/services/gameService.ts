@@ -123,11 +123,15 @@ export interface LeaderboardEntry {
   tier: BotTier | null
 }
 
+export type MissionState = 'done' | 'pending' | 'on_track' | 'behind' | 'failed'
+
 export interface Mission {
   id: string
   tier: 'basic' | 'bonus'
   text: string
   done: boolean
+  /** Milestones finish during play; end-of-match missions stay on track, behind or failed until the end. */
+  state: MissionState
   progress: string
 }
 
@@ -135,6 +139,13 @@ export interface RewardItem {
   id: string
   kind: string
   name: string
+}
+
+export interface DecisionBreakdown {
+  missions: number
+  plan: number
+  risk: number
+  overtrading: number
 }
 
 export interface GameResult {
@@ -171,6 +182,8 @@ export interface GameResult {
   unlocked: { chapter_id: string } | null
   /** Unvalidated 0–100 process score; it never decides a win. */
   decision_score: number
+  decision_breakdown: DecisionBreakdown
+  reflection?: string | null
   /** Up to five generated sentences, e.g. "Day 18: … You held 40 LEAF." */
   key_moments: string[]
 }
@@ -190,7 +203,7 @@ export interface GameState {
   /** Not in the current engine response; derived from the scenario id when absent. */
   chapter_id?: string | null
   level_id?: string | null
-  boss?: 'gate' | 'final' | null
+  boss?: 'preview' | 'gate' | 'final' | null
   scenario: Scenario
   assets: Asset[]
   bars: Record<string, Bar[]>
@@ -206,7 +219,7 @@ export interface CreateGameRequest {
   scenario_id?: string
   level_id?: string
   chapter_id?: string
-  boss?: 'gate' | 'final'
+  boss?: 'preview' | 'gate' | 'final'
   bots?: number
 }
 

@@ -1,8 +1,16 @@
-"""Mission predicates on engine state. Live progress uses the same predicate as the final result."""
+"""Mission predicates on engine state. Live progress uses the same predicate as the final result.
+
+During play only milestone missions can be done; missions judged at the end report `on_track`,
+`behind` or (for rules that can no longer be met) `failed`.
+"""
 
 from decimal import Decimal
 
 from app.game.engine import HUNDRED, usd
+
+
+MILESTONES = {'trades_min', 'use_order', 'stop_loss_set', 'min_holdings', 'sold_after_news', 'bought_after_news', 'held_between'}
+RULES = {'trades_max', 'max_drawdown', 'max_position', 'no_buy_between', 'max_position_before', 'kept_plan'}
 
 
 def _pct(value):
@@ -104,11 +112,24 @@ def check(mission, match, pid, plan):
     raise ValueError(f'Unknown mission type {kind}')
 
 
-def evaluate(match, pid, plan):
+def _state(kind, met, final):
+    if final or kind in MILESTONES:
+        return 'done' if met else ('failed' if final else 'pending')
+    if met:
+        return 'on_track'
+    return 'failed' if kind in RULES else 'behind'
+
+
+def evaluate(match, pid, plan, final=False):
     forfeited = match.participants[pid].forfeited
     missions = []
     for tier in ('basic', 'bonus'):
         for mission in match.scenario['missions'][tier]:
-            done, progress = (False, 'Forfeited') if forfeited else check(mission, match, pid, plan)
-            missions.append({'id': mission['id'], 'tier': tier, 'text': mission['text'], 'done': done, 'progress': progress})
+            if forfeited:
+                met, progress, state = False, 'Forfeited', 'failed'
+            else:
+                met, progress = check(mission, match, pid, plan)
+                state = _state(mission['type'], met, final)
+            missions.append({'id': mission['id'], 'tier': tier, 'text': mission['text'], 'done': state == 'done',
+                             'state': state, 'progress': progress})
     return missions
