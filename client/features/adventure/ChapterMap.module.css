@@ -1,0 +1,354 @@
+.muted {
+  color: var(--text-muted);
+}
+
+.summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-5);
+}
+
+.summaryBar {
+  flex: 1 1 140px;
+  max-width: 320px;
+}
+
+/* Path */
+.pathTall,
+.pathWide {
+  position: relative;
+  width: 100%;
+  margin: 0 auto var(--space-6);
+}
+
+.pathTall {
+  max-width: 400px;
+}
+
+.pathWide {
+  max-width: 1160px;
+}
+
+.trail {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.trail path {
+  fill: none;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-dasharray: 2 11;
+  vector-effect: non-scaling-stroke;
+}
+
+.trail .branch {
+  stroke-width: 3;
+  stroke-dasharray: 1 8;
+}
+
+.trailOn {
+  stroke: var(--gold);
+}
+
+.trailOff {
+  stroke: var(--border-strong);
+}
+
+.nodes {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.node {
+  --half: 32px;
+  position: absolute;
+  width: 124px;
+  transform: translate(-50%, calc(var(--half) * -1));
+}
+
+.boss {
+  --half: 40px;
+  width: 140px;
+}
+
+.reward {
+  --half: 26px;
+  width: 112px;
+}
+
+.nodeButton {
+  display: grid;
+  justify-items: center;
+  gap: 4px;
+  width: 100%;
+  min-height: 44px;
+  padding: 0 0 var(--space-1);
+  border: 0;
+  border-radius: var(--radius);
+  background: none;
+  color: var(--text);
+  text-align: center;
+}
+
+.nodeButton:hover .medallion {
+  transform: translateY(-2px);
+}
+
+.medallion {
+  position: relative;
+  display: grid;
+  place-items: center;
+  transition: transform 160ms var(--ease);
+}
+
+.number {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 3px solid var(--gold);
+  background: var(--gold-soft);
+  color: var(--gold);
+  font-size: var(--text-2xl);
+  font-weight: 800;
+  font-family: var(--font-num);
+}
+
+.done .number {
+  border-color: var(--gain);
+  background: var(--primary);
+  color: var(--on-primary);
+}
+
+.locked .number {
+  border-color: var(--border-strong);
+  background: var(--surface-2);
+  color: var(--text-dim);
+}
+
+.open .medallion {
+  outline: 3px solid var(--gold-soft);
+  outline-offset: 3px;
+  border-radius: 50%;
+}
+
+.stateMark {
+  position: absolute;
+  right: -3px;
+  bottom: -3px;
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid var(--bg);
+}
+
+.done .stateMark {
+  background: var(--gain);
+  color: var(--bg);
+}
+
+.locked .stateMark {
+  background: var(--surface-3);
+  color: var(--text-muted);
+}
+
+.nodeTitle {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  font-size: var(--text-sm);
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.nodeSub {
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.locked .nodeTitle {
+  color: var(--text-muted);
+}
+
+.here {
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-pill);
+  background: var(--gold);
+  color: #1a1405;
+  font-size: var(--text-xs);
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+/* Popups */
+.popup {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.center {
+  justify-items: center;
+  text-align: center;
+}
+
+.popupEyebrow {
+  color: var(--gold);
+  font-size: var(--text-sm);
+  font-weight: 800;
+}
+
+.learn {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface-2);
+}
+
+.learnTitle {
+  font-weight: 800;
+}
+
+.objectives {
+  display: grid;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.objectives li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  line-height: 1.4;
+}
+
+.objectiveIcon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-elev);
+  border: 1px solid var(--border-strong);
+  color: var(--gain);
+}
+
+.starStatus {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.popupFoot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.popupCta {
+  flex: 1 1 200px;
+}
+
+.lockedLine {
+  display: flex;
+  flex: 1 1 200px;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  color: var(--text-muted);
+  font-weight: 700;
+}
+
+.battleHead {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.battleTitle {
+  font-size: var(--text-lg);
+  font-weight: 800;
+}
+
+.note {
+  padding: var(--space-3);
+  border-left: 3px solid var(--info);
+  border-radius: var(--radius-sm);
+  background: var(--info-soft);
+  font-size: var(--text-sm);
+}
+
+.best {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+  margin: 0;
+}
+
+.best div {
+  padding: var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.best dt {
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+  font-weight: 700;
+}
+
+.best dd {
+  margin: 0;
+  font-weight: 800;
+}
+
+.rewardRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.rewardRow > span:last-child {
+  display: grid;
+  font-size: var(--text-sm);
+}
+
+.claimed {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--gain);
+  font-weight: 700;
+}

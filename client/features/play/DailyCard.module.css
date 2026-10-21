@@ -1,0 +1,132 @@
+.card {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-4);
+  align-items: start;
+  padding: var(--space-4);
+  border: 1px solid #5a4b28;
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+}
+
+.locked {
+  border-color: var(--border);
+  align-items: center;
+}
+
+.rival {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-2);
+}
+
+.rivalText {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-1);
+  text-align: center;
+}
+
+.body {
+  display: grid;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.eyebrow {
+  color: var(--gold);
+  font-size: var(--text-xs);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.title {
+  font-size: var(--text-lg);
+}
+
+.versus,
+.briefing,
+.muted {
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
+
+.days {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.lockLine {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.reward {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-weight: 700;
+}
+
+.coin {
+  color: var(--gold);
+}
+
+.week {
+  display: grid;
+  gap: var(--space-1);
+  max-width: 420px;
+}
+
+.weekText {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+}
+
+.actions {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.actions > button {
+  flex: 1 1 auto;
+}
+
+.next {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-weight: 700;
+}
+
+@media (min-width: 720px) {
+  .card {
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+  }
+
+  .actions {
+    grid-column: auto;
+    flex-direction: column;
+    align-items: stretch;
+    min-width: 200px;
+  }
+
+  .actions > button {
+    flex: none;
+  }
+
+  .full {
+    padding: var(--space-5);
+  }
+}

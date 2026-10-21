@@ -1,4 +1,10 @@
-import { NavLink, Outlet, useLocation, useNavigation } from 'react-router-dom'
+import {
+  NavLink,
+  Outlet,
+  ScrollRestoration,
+  useLocation,
+  useNavigation,
+} from 'react-router-dom'
 import AuthProvider from '../components/AuthProvider.tsx'
 import useAuth from '../hooks/useAuth.ts'
 import { CurrencyChip } from '../ui/Chip.tsx'
@@ -107,15 +113,22 @@ export default function AppShell() {
   const navigation = useNavigation()
   const { pathname } = useLocation()
   const immersive = pathname.startsWith('/game/')
+  // Lessons and quizzes hide the HUD and navigation so one task fills the screen.
+  const focus = /^\/(level|quiz\/attempt)\//.test(pathname)
+  const chrome = !immersive && !focus
   return (
     <AuthProvider>
       <PlayerProvider>
         <ToastProvider>
-          <div className={immersive ? styles.immersive : styles.shell}>
+          <div
+            className={
+              immersive ? styles.immersive : focus ? styles.focus : styles.shell
+            }
+          >
             <a href="#main" className={styles.skip}>
               Skip to content
             </a>
-            {!immersive && <Hud />}
+            {chrome && <Hud />}
             <main
               id="main"
               className={styles.main}
@@ -123,7 +136,8 @@ export default function AppShell() {
             >
               <Outlet />
             </main>
-            {!immersive && <BottomNav />}
+            {chrome && <BottomNav />}
+            <ScrollRestoration />
           </div>
         </ToastProvider>
       </PlayerProvider>

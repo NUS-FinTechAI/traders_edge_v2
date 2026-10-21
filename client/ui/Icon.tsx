@@ -67,6 +67,10 @@ const paths = {
   eye: 'M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12ZM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z',
   bot: 'M5 9h14v10H5ZM12 9V5.5M12 4h.01M9 13.5h.01M15 13.5h.01M2.5 13v2M21.5 13v2M9.5 16.5h5',
   copy: 'M9 9h11v11H9ZM5 15H4V4h11v1',
+  edit: 'M4 20h4L19 9l-4-4L4 16ZM13.5 6.5l4 4',
+  search: 'M10.5 18a7.5 7.5 0 1 0 0-15 7.5 7.5 0 0 0 0 15ZM16 16l5 5',
+  clock: 'M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18ZM12 7v5l3.5 2',
+  bag: 'M5 8h14l-1 12H6ZM9 8V6.5a3 3 0 0 1 6 0V8',
 } as const
 
 export type IconName = keyof typeof paths

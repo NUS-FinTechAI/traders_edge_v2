@@ -1,0 +1,264 @@
+.muted {
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
+
+.grid {
+  display: grid;
+  gap: var(--space-4);
+  align-items: start;
+}
+
+@media (min-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.option {
+  display: grid;
+  gap: var(--space-4);
+  padding: var(--space-5);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+}
+
+.ranked {
+  border-color: #4a3f73;
+}
+
+.optionHead {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.optionTitle {
+  font-size: var(--text-xl);
+}
+
+.block {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.blockTitle {
+  font-size: var(--text-md);
+}
+
+.field {
+  display: grid;
+  gap: var(--space-1);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.field select {
+  min-height: 48px;
+  padding: 0 var(--space-3);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--bg-elev);
+  font-size: var(--text-md);
+  font-weight: 400;
+}
+
+.inlineLink {
+  min-height: 44px;
+  padding: 0 var(--space-1);
+  border: 0;
+  background: none;
+  color: var(--gold);
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+.segmentField {
+  display: grid;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.segmentField legend {
+  margin-bottom: var(--space-1);
+  padding: 0;
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.segment {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-1);
+  padding: var(--space-1);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-elev);
+}
+
+.segmentItem {
+  position: relative;
+}
+
+.segmentItem input {
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+  margin: 0;
+}
+
+.segmentItem span {
+  display: grid;
+  place-items: center;
+  min-height: 44px;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.segmentItem input:checked + span {
+  background: var(--surface-3);
+  color: var(--text);
+}
+
+.segmentItem input:focus-visible + span {
+  box-shadow: var(--focus);
+}
+
+.or {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--text-dim);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.or::before,
+.or::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.codeField {
+  display: block;
+}
+
+.codeInput {
+  width: 100%;
+  min-height: 64px;
+  border: 2px solid var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--bg-elev);
+  font-family: var(--font-num);
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: 0.3em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.codeInput::placeholder {
+  color: var(--text-dim);
+  opacity: 0.5;
+}
+
+.codeInput:focus-visible {
+  border-color: var(--gold);
+}
+
+.note {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
+
+.rating {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  border-radius: var(--radius);
+  background: var(--surface-2);
+}
+
+.rating > div {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-1);
+}
+
+.ratingLabel {
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.ratingValue {
+  font-size: 40px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.locked {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius);
+  background: var(--bg-elev);
+  border: 1px dashed var(--border-strong);
+  color: var(--text-muted);
+  font-weight: 700;
+}
+
+.searching {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  border: 1px solid #4a3f73;
+  border-radius: var(--radius);
+  background: var(--gem-soft);
+}
+
+.searching > div {
+  flex: 1 1 140px;
+}
+
+.searchTitle {
+  font-weight: 800;
+}
+
+.radar {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid var(--gem);
+}
+
+.radar::after {
+  content: '';
+  position: absolute;
+  inset: 8px;
+  border-radius: 50%;
+  background: var(--gem);
+  animation: breathe 2.4s ease-in-out infinite;
+}
+
+@keyframes breathe {
+  50% {
+    transform: scale(0.55);
+    opacity: 0.5;
+  }
+}

@@ -42,3 +42,31 @@ export function tone(value: number): 'gain' | 'loss' | 'flat' {
   if (value < -0.004) return 'loss'
   return 'flat'
 }
+
+/** Local clock time such as "14:30" (never a countdown). */
+export function formatClock(iso: string): string {
+  return new Date(iso).toLocaleTimeString([], {
+    hour: '2-digit',
+    minute: '2-digit',
+  })
+}
+
+/** Short local date such as "Mon 26 Oct". */
+export function formatShortDate(iso: string): string {
+  return new Date(iso).toLocaleDateString([], {
+    weekday: 'short',
+    day: 'numeric',
+    month: 'short',
+  })
+}
+
+/** Elapsed time as "m:ss". */
+export function formatElapsed(ms: number): string {
+  const seconds = Math.max(0, Math.floor(ms / 1000))
+  return `${Math.floor(seconds / 60)}:${String(seconds % 60).padStart(2, '0')}`
+}
+
+/** UTC calendar date (YYYY-MM-DD) for a timestamp. */
+export function utcDate(time = Date.now()): string {
+  return new Date(time).toISOString().slice(0, 10)
+}
