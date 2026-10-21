@@ -3,8 +3,7 @@
 The [sample UI](../source/Trader_s_Edge_Sample_UI.jpg) fixes the screens and
 their content, not their appearance. The owner selects the visual direction;
 replacement UI also needs a separate go-ahead after technical and safety
-review. Earlier directions and prototypes are in the
-[design archive](../archive/design-history/).
+review.
 
 ## Visual direction
 
@@ -46,10 +45,9 @@ Every screen must meet these:
 
 ## Copy
 
-One persistent line says "Simulated money · fictional companies". The tick
-counter reads "Day N of M". Results say "Profit decides the match; your
-missions show what you learned". Plain explanations of the next action and
-its outcome; no hype, urgency, undefined jargon or profitability claims.
+Plain explanations of the next action and its outcome; no hype, urgency,
+undefined jargon or profitability claims. The fixed safety lines are listed
+in [safety and wellbeing](safety-and-wellbeing.md).
 
 ## Review criteria
 

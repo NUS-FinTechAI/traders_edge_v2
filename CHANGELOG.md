@@ -2,65 +2,32 @@
 
 ## Unreleased
 
-### Documentation restructure (`chore/docs-restructure`)
+### Documentation restructure
 
 - Split the build contract (`docs/game-architecture.md`) and the overlapping topic docs into one reference doc per topic under `docs/reference/` (engine, matches, progression, multiplayer, quizzes, API, data model, research, design decisions), with an index at `docs/README.md`.
-- Group the rest by purpose: `docs/product/` (safety and wellbeing, design system), `docs/content/` (authoring guide, curriculum spec, sources) and `docs/operations/` (deployment, performance). Move the v1 audit and design explorations to `docs/archive/`.
-- Merge the economy page into progression, the evaluation plan into research, localization into safety, and the design review notes into the design system; fold the QA rule into `CONTRIBUTING.md`.
+- Group the rest by purpose: `docs/product/` (safety and wellbeing, design system), `docs/content/` (authoring guide, curriculum spec, sources) and `docs/operations/` (deployment, performance).
+- Merge the economy page into progression, the evaluation plan into research, localization into safety, and the design review notes into the design system.
+- Remove historical material that no longer describes the product: the v1 audit, design prototypes and studies, QA placeholders and the agent workflow files. Git history keeps them.
+- Make `CONTRIBUTING.md` the contributor guide and shorten `AGENTS.md` and the server guide.
 - Correct stale statements: production already refuses gameplay until `content/review.json` is approved, the client applies themes and palettes, lobbies add default AI opponents to `mp-*` markets, private lobbies have no prerequisite, and the quiz bank is version `2026-10-21.1`.
 
-### Playable game overhaul (`feat/game-overhaul`, `9db44ce`)
+### Playable game overhaul (`9db44ce`)
 
-- Replace the learning-run, observation and challenge backend and the old client with a real-time trading game. [ADR 0004](docs/decisions/0004-playable-game-overhaul.md) records the decision; the [game design document](docs/game-design.md) governs gameplay and the build contract (now the [reference docs](docs/README.md#reference)) records the implementation.
+- Replace the learning-run, observation and challenge backend and the old client with a real-time trading game. [ADR 0004](docs/decisions/0004-playable-game-overhaul.md) records the decision; the [game design document](docs/game-design.md) governs gameplay.
 - Add the trading engine (`server/app/game`): seeded markets with news, market/limit/stop-loss orders with fees and a spread, 24 AI opponents across 8 strategies, live missions, a server-owned clock with pause, next-day stepping and 1×/2×/4× speed, state rebuilt from the order log on each read, results with key moments and an unvalidated decision score, and a Monte-Carlo balance gauntlet for bosses and dailies.
 - Add the campaign (`server/app/campaign`): 8 chapters × 5 levels with lesson cards, checks and trading missions, Preview, Gate and Chapter bosses, stars, unlocks and the weekday daily challenge with a cooldown and Gem refresh.
 - Add the player economy (`server/app/player`): XP and levels, Doubloons and Gems, a 7-day login cycle, cosmetics, 16 process badges, a shop and opt-in leaderboards.
 - Add quizzes and classroom rooms (`server/app/quiz`), private lobbies, ranked matchmaking and Elo (`server/app/multiplayer`), and research exports of game events, campaign progress and quiz attempts.
 - Migration 11 adds the game tables and migration 12 the campaign, quiz, lobby and rating tables. Migrations 1–10 stay frozen; most of their tables are no longer used.
-- Author 64 scenarios, 160 quiz questions and 73 cosmetics. The content has not had independent financial or pedagogical review, and there is no production approval gate for it yet.
+- Author 64 scenarios, 160 quiz questions and 73 cosmetics, pending independent financial and pedagogical review.
 - Build a new React client: home, adventure map, lesson and check flow with interactive visuals, trading arena, play hub, quizzes, multiplayer, profile, shop, leaderboards and archive, with services bound to the generated API types.
-- Rewrite the documentation for the new system; remove the readiness, plan and assessment-model documents, the retired-interface QA evidence and three adventure increment records.
-- Local checks at `9db44ce`: 249 backend tests passed (15 PostgreSQL tests skipped without a database URL) and content validation passed. Real Firebase sign-in, hosted deployment and learning outcomes remain unverified.
+- Local checks at `9db44ce`: 249 backend tests passed (15 PostgreSQL tests skipped without a database URL) and content validation passed.
 
-### Historical foundations through `8098856`
+### Learning-run system (removed by the overhaul)
 
-- Establish the React/TypeScript setup client, FastAPI service and build/check workflow; the HTTP service is tested but the setup screen does not call it.
-- Add guest sessions, Firebase verification, SQLAlchemy persistence and ordered migrations.
-- Persist server-graded learning, prerequisites, once-only XP, delayed reviews, journals, consent and an opt-in learning leaderboard.
-- Add deterministic, owned, mastery-gated simulation with written order plans, friction, hidden futures and exact command replay.
-- Author the ten-module foundations-first catalog, pending independent content approval. Preserve the source brief, screen reference and v1 audit evidence; design references are not a shipped product.
-
-### Merged backend additions (#24–30)
-
-- Add diagnostic, required/optional, exit and delayed-review runs, workflow/maps and owned step resume. Edition `2026-10-04.4`, schema 1, has 30 entries, 97 required steps (one simulation), 30 bonuses and 50 exits; the 60 legacy practice questions remain familiar review material.
-- Freeze first diagnostic/exit/review answers and withhold feedback until completion. Remove generic essays from canonical review runs, block new whole-review bypasses, retain stored replay and unversioned fixture compatibility. Failed reviews reschedule using their pinned interval; passing awards `review:<lesson>` XP once.
-- Bind only `m05-l01` to a graded simulation audit after knowledge cards. Enforce constrained optional NORTH buy limits through ordinary routes; preserve per-order plans, reasoned no-order success, observed-state audit feedback and exact replay. Require the latest public observation token for new audits, including same-tick changes; preserve committed tokenless replay and historical `StepAnswer` hashes. Do not reward profit, fills or order count.
-- Add six finite, versioned code-policy reward items, owned/eligible/locked inventory, claims, avatar/title equipment and UTC activity calendar/streaks. Claims/equipment create no XP or activity; retired owned grants retain their snapshots.
-- Migration 3 adds only run/command tables. Migration 4 adds only reward grants/commands and two nullable profile equipment columns; migrations 1–3 remain unchanged. The upgrade regression seeds all 14 prior data tables and compares every original column and full rowset after upgrade and repeat migration.
-- Refresh mutation profiles at locked load with `populate_existing=True`. Regression coverage demonstrates ORM refresh semantics with SQLite and mocked Firebase, not live PostgreSQL locking.
-- Preserve command namespaces, ownership, hidden state, current/pinned publication gates and historical responses. Verification on 5 October 2026 passed 131 backend, 22 catalog and five frontend HTTP-service tests plus lint, typecheck and build. These checks do not certify deployment or learning outcomes.
-
-### Supplied gameplay brief and local database verification (#36–40)
-
-- Adopt the supplied gameplay brief through ADR 0003, preserving both source documents and separating game profit outcomes from learning evidence.
-- Add persistent shared synthetic challenges against simulated opponents, net-profit results, versioned private state and exact command replay.
-- Add separate game currency, UTC login rewards, weekly Stocks expiry, premium accounting, cooldown refresh and a finite cosmetic shop. Profiles expose learning/game XP and a derived player level.
-- Connect common daily forms, chapter entry/exit boss fights and earned chapter access without inventing earlier mastery or changing general guided/endless prerequisites.
-- Add guarded live PostgreSQL tests and a locked container build with explicit migrations. PostgreSQL 16 transactions and local production-configured startup passed on 6 October 2026; real Firebase sign-in and hosted deployment remain unverified.
-
-### Supplementary and classroom quizzes (#43)
-
-- Add finite standalone forms and private instructor rooms, server-configured instructor authority, sequential pinned attempts, frozen first answers and feedback withheld until completion.
-- Grant a once-only standalone quiz game-XP reward for each form/edition; private classroom quizzes grant no XP or currency. Migration 8 appends quiz rooms, members, attempts and command receipts.
-
-### Shared multiplayer and owned evidence (#44–45)
-
-- Add shared private code lobbies and public paired matchmaking, host controls, ready barriers, stale-tick rejection, frozen profit results and once-only Elo settlement. Private matches grant no XP/currency/rating; public finishers receive transactional game rewards. Migration 9 appends six multiplayer tables.
-- Add paginated owner-scoped learning-run, learning-attempt and AI-challenge exports without private keys/futures/peer plans. Study enrollment defaults off and requires configured policy/version, exact consent-text digest, recorded acceptance and withdrawal; analytics consent remains separate. Migration 10 appends metadata and receipts.
-- Runtime verification on 6 October 2026 passed 277 backend tests including 51 live PostgreSQL cases, 22 catalog tests and 14 frontend service tests. The rebuilt local production-configured API matches the tested application files, uses migrations 1–10 and runs as user 10001. This is local proof, not real Firebase/cloud release or learner-outcome evidence.
-
-### Documentation maintenance and limits
-
-- Update server/client workflow, assessment, rewards, simulation, persistence and authoring/review skills against the merged backend contracts. PR #31 merges the source-backed inventory and teaching documentation; mappings and proposals do not establish a complete port or independent financial/pedagogical approval.
-- Other lesson bindings, Module 9 multi-scenario assessment, news/tutorials, unfamiliar review forms, advanced execution, artwork, full account deletion/retention, researcher access and validated learning rubrics remain pending; this is not a full v1 port.
-- Frontend visual design belongs to the teammate; PR #22 remains open and its dirty work is preserved. Live PostgreSQL and local container evidence are recorded in `docs/operations/deployment.md`. Actual Firebase/cloud deployment, independent content approval and learning-efficacy evidence remain separate.
+- Foundations: React/TypeScript client, FastAPI service, guest sessions, Firebase verification, SQLAlchemy persistence and ordered migrations (1).
+- A ten-module catalog with diagnostic, lesson, exit and delayed-review runs, server grading, once-only XP and a bound simulation audit with written per-order plans and exact command replay (migrations 2–3).
+- Finite learning rewards, avatar and title equipment and a UTC activity calendar (migration 4).
+- Shared AI challenges, chapter boss fights, daily challenges and a separate game economy with weekly and premium currencies (migrations 5–7), following the supplied gameplay brief ([ADR 0003](docs/decisions/0003-gameplay-brief-authority.md)).
+- Standalone and classroom quizzes (migration 8), private lobbies and public matchmaking with Elo (migration 9), and owner-scoped evidence exports with default-off study consent (migration 10).
+- A locked container build and live PostgreSQL tests; PostgreSQL 16 and a local production-configured start passed on 6 October 2026.

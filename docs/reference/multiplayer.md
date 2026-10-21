@@ -7,14 +7,12 @@ the match runs on the [trading engine](engine.md) through
 
 ## Match rules
 
-- The match is created `running`; there is no briefing wait. Each player sets
-  a plan once with `POST /api/games/{id}/start` during ticks 0–2.
-- The clock is fixed at 3 s per day; pause, step and speed return 403.
-- Everyone sees the same seeded market and trades only their own book.
-  Players see each other's profit and rank, not their orders.
-- A disconnected player keeps their positions and is ranked normally.
-  `forfeit: true` ranks them last and cancels their open orders.
-- Each player calls `finish` after the last day to settle their own result.
+Multiplayer matches follow the [lifecycle](matches.md#lifecycle) with these
+differences: the match is created `running` with no briefing wait, each player
+sets a plan once during ticks 0–2, and the clock is fixed at 3 s per day
+(pause, step and speed return 403). Everyone trades their own book on the same
+seeded market and sees the others' profit and rank, not their orders. Each
+player calls `finish` after the last day to settle their own result.
 
 ## Private lobbies
 

@@ -42,7 +42,8 @@ the code wins and the doc needs fixing. Start with
 - [ADR 0003](decisions/0003-gameplay-brief-authority.md): gameplay brief authority (partly superseded).
 - [ADR 0004](decisions/0004-playable-game-overhaul.md): playable game overhaul (current).
 
-## Archive
+## Source documents
 
-- [Archive](archive/README.md): v1 audit and design history. Not current behaviour.
-- [Source documents](source/): preserved supervisor summary and sample UI, kept verbatim.
+- [Supervisor summary](source/traders-edge-supervisor-summary.md) and
+  [sample UI](source/Trader_s_Edge_Sample_UI.jpg): the owner's original
+  inputs, kept verbatim.

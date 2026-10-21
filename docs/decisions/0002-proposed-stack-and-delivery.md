@@ -26,4 +26,4 @@ Existing language/framework knowledge and useful tests remain relevant, but v1 r
 
 ## Evidence
 
-The [discovery summary](../archive/v1-audit/summary.md) documents code evidence. [Psycopg asynchronous operations](https://www.psycopg.org/psycopg3/docs/advanced/async.html) documents the async connection/cursor interface and concurrency considerations; read 4 October 2026. This is a proposed library boundary, not an installed dependency or verified migration.
+The v1 discovery summary (`docs/v1-audit/summary.md`, removed from the tree and kept in git history) documents code evidence. [Psycopg asynchronous operations](https://www.psycopg.org/psycopg3/docs/advanced/async.html) documents the async connection/cursor interface and concurrency considerations; read 4 October 2026. This is a proposed library boundary, not an installed dependency or verified migration.
