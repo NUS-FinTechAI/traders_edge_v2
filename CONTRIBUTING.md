@@ -1,6 +1,6 @@
 # Contributing
 
-Read [AGENTS.md](AGENTS.md), the [game design document](docs/game-design.md) and the [build contract](docs/game-architecture.md). Use [README.md](README.md) for exact install/run/check commands. Treat plans and historical design evidence as proposals or dated records, not proof of merged functionality.
+Read [AGENTS.md](AGENTS.md), the [game design document](docs/game-design.md) and the [build contract](docs/README.md#reference). Use [README.md](README.md) for exact install/run/check commands. Treat plans and historical design evidence as proposals or dated records, not proof of merged functionality.
 
 ## Scope and delivery
 
@@ -19,4 +19,4 @@ Keep feature-specific styles in the feature's CSS module (for example `client/fe
 
 Run lint, type-check, build, client tests, the API contract check, backend tests (including the balance gauntlet) and content validation using the locked commands in README. For documentation-only changes, also verify relative links/source paths and `git diff --check`; do not reformat unrelated files. Report exact commands, results and any checks not run. Test counts alone do not establish product completeness.
 
-The PR description should include the change, reason, acceptance evidence, baseline/branch dependencies and reviewer focus. Review affected ownership, unlocks, privacy, idempotent settlement and order ids, restart/migration behavior, balance and reward safety. Product UI needs 390px evidence and accessibility/design review; content publication needs independent financial/pedagogical approval. Merge only after findings are resolved and CI passes. Update documentation with behavior changes, without describing pending contracts as complete.
+The PR description should include the change, reason, acceptance evidence, baseline/branch dependencies and reviewer focus. Review affected ownership, unlocks, privacy, idempotent settlement and order ids, restart/migration behavior, balance and reward safety. Product UI needs 390px before/after screenshots of the changed screens, the states checked, keyboard and focus results and any checks not run, attached to the PR (see the [screenshot workflow](.devin/skills/capture-screenshots/SKILL.md)), plus accessibility/design review; content publication needs independent financial/pedagogical approval. Merge only after findings are resolved and CI passes. Update documentation with behavior changes, without describing pending contracts as complete.

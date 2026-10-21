@@ -1,7 +1,7 @@
 # Architecture
 
 Trader’s Edge is one FastAPI backend and one React client. The
-[build contract](docs/game-architecture.md) holds the exact formulas, payloads
+[build contract](docs/README.md#reference) holds the exact formulas, payloads
 and content formats; this page is the overview. The
 [game design document](docs/game-design.md) governs gameplay, and
 [ADR 0004](docs/decisions/0004-playable-game-overhaul.md) records why the game

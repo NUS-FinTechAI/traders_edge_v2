@@ -77,13 +77,13 @@ tested locally. Not yet established:
 ## Documentation
 
 - [Architecture overview](ARCHITECTURE.md) and the
-  [build contract](docs/game-architecture.md)
+  [build contract](docs/README.md#reference)
 - [Game design document](docs/game-design.md) (governs gameplay) and the
   [curriculum spec](docs/content/curriculum-spec.md)
 - [Server guide](server/README.md) and [API guide](docs/reference/api.md)
 - [Campaign and progression](docs/reference/progression.md),
   [trading matches](docs/reference/matches.md), [engine model](docs/reference/engine.md),
-  [economy](docs/economy.md), [quizzes](docs/reference/quizzes.md),
+  [economy](docs/reference/progression.md), [quizzes](docs/reference/quizzes.md),
   [multiplayer](docs/reference/multiplayer.md)
 - [Data model](docs/reference/data-model.md), [research evidence](docs/reference/research.md),
   [deployment](docs/operations/deployment.md), [safety](docs/product/safety-and-wellbeing.md)

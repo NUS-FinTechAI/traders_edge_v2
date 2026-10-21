@@ -2,7 +2,7 @@
 
 One FastAPI service for the game: trading matches, the campaign, the player
 economy, quizzes, multiplayer and research exports. Exact formulas, payload
-shapes and content formats are in the [build contract](../docs/game-architecture.md).
+shapes and content formats are in the [build contract](../docs/README.md).
 
 Local development stores data in SQLite at `server/data/learning.db`; closing
 the API does not erase it. Guest credentials are held in an HTTP-only cookie,
@@ -86,7 +86,7 @@ conflict from a concurrent request returns 409; retry it.
 ## Endpoints
 
 All routes are under `/api`. Payloads and responses are listed in the
-[build contract](../docs/game-architecture.md#api) and the
+[build contract](../docs/reference/api.md) and the
 [API guide](../docs/reference/api.md).
 
 | Group       | Routes                                                                                                                                                                                                                                                  |
@@ -130,7 +130,7 @@ Authored content lives in `app/content/`:
 | `quiz_bank.json`         | 160 quiz questions, 20 per chapter                                              |
 | `cosmetics.json`         | 28 avatars, 24 titles, 5 themes, 16 badges                                      |
 
-The formats are in the [build contract](../docs/game-architecture.md#content-formats)
+The formats are in the [build contract](../docs/content/authoring.md)
 and the [authoring guide](../docs/content/authoring.md). Content is loaded and
 validated at startup, so invalid content stops the server. Check it first:
 

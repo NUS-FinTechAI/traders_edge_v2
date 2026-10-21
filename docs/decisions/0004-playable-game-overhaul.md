@@ -42,8 +42,8 @@ every order a form and works against a one-click order ticket.
   [curriculum spec](../content/curriculum-spec.md): 8 chapters × 5 levels, each
   level with lesson cards, a check and a trading mission, plus a Preview
   Battle, a Gate Boss and a Chapter Boss per chapter. Where the spec and the
-  [architecture document](../game-architecture.md) differ, the architecture
-  document records what was built.
+  [reference docs](../README.md#reference) differ, the reference
+  docs record what was built.
 - One game plan per match, chosen in the briefing: a strategy and a maximum
   loss. Orders are one click. The ticket shows the risk if a stop-loss is hit.
   Results compare the plan with what happened.

@@ -4,7 +4,7 @@
 
 ### Playable game overhaul (`feat/game-overhaul`, `9db44ce`)
 
-- Replace the learning-run, observation and challenge backend and the old client with a real-time trading game. [ADR 0004](docs/decisions/0004-playable-game-overhaul.md) records the decision; the [game design document](docs/game-design.md) governs gameplay and the [build contract](docs/game-architecture.md) records the implementation.
+- Replace the learning-run, observation and challenge backend and the old client with a real-time trading game. [ADR 0004](docs/decisions/0004-playable-game-overhaul.md) records the decision; the [game design document](docs/game-design.md) governs gameplay and the [build contract](docs/README.md#reference) records the implementation.
 - Add the trading engine (`server/app/game`): seeded markets with news, market/limit/stop-loss orders with fees and a spread, 24 AI opponents across 8 strategies, live missions, a server-owned clock with pause, next-day stepping and 1×/2×/4× speed, state rebuilt from the order log on each read, results with key moments and an unvalidated decision score, and a Monte-Carlo balance gauntlet for bosses and dailies.
 - Add the campaign (`server/app/campaign`): 8 chapters × 5 levels with lesson cards, checks and trading missions, Preview, Gate and Chapter bosses, stars, unlocks and the weekday daily challenge with a cooldown and Gem refresh.
 - Add the player economy (`server/app/player`): XP and levels, Doubloons and Gems, a 7-day login cycle, cosmetics, 16 process badges, a shop and opt-in leaderboards.

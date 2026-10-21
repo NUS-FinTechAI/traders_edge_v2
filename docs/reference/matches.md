@@ -1,89 +1,116 @@
-# Trading matches
+# Matches
 
-Every mode plays the same match on the trading engine in `server/app/game/`.
-This page describes the modes and the match lifecycle. The engine rules are in
-the [engine model](engine.md); exact payloads are in the
-[build contract](../game-architecture.md#games).
+Every mode plays one match on the [trading engine](engine.md).
+`POST /api/games` asks the `resolve_game` hook (`campaign/games.py`) what the
+player may play; `finish` calls `settle_game` (`campaign/settlement.py`).
+Campaign unlocks and XP amounts are in [progression](progression.md);
+lobbies, ranked play and Elo are in [multiplayer](multiplayer.md).
 
 ## Modes
 
-| Mode       | Created by                         | Scenario                                                                 | Opponents                         | Clock             |
-| ---------- | ---------------------------------- | ------------------------------------------------------------------------ | --------------------------------- | ----------------- |
-| `level`    | `POST /api/games {mode, level_id}` | The level's `chN-lM-practice`                                            | The scenario's bots (0–1 shipped) | Solo              |
-| `boss`     | `{mode, chapter_id, boss}`         | Chapter or previous-chapter boss (see [campaign](progression.md#bosses)) | 1–3 bots                          | Solo              |
-| `daily`    | `{mode: "daily"}`                  | Today's weekday scenario                                                 | One bot                           | Solo              |
-| `practice` | `{mode, scenario_id?, bots?}`      | A `practice-*` market (random if omitted)                                | Up to 3 of the scenario's bots    | Solo              |
-| `private`  | Lobby start                        | The host's `mp-*` or `practice-*` choice                                 | 2–30 humans plus 0–3 bots         | Fixed 3 s per day |
-| `ranked`   | Matchmaking                        | A random `mp-*` market                                                   | Two humans, no bots               | Fixed 3 s per day |
+| Mode       | Created by                    | Scenario                                  | Opponents                         | Clock             |
+| ---------- | ----------------------------- | ----------------------------------------- | --------------------------------- | ----------------- |
+| `level`    | `{mode, level_id}`            | The level's `chN-lM-practice`             | The scenario's bots (0–1 shipped) | Solo              |
+| `boss`     | `{mode, chapter_id, boss}`    | See [bosses](#bosses)                     | The scenario's bots (1–3)         | Solo              |
+| `daily`    | `{mode: "daily"}`             | Today's weekday scenario                  | One bot                           | Solo              |
+| `practice` | `{mode, scenario_id?, bots?}` | A `practice-*` market (random if omitted) | Up to 3 of the scenario's bots    | Solo              |
+| `private`  | Lobby start                   | The host's `mp-*` or `practice-*` choice  | 2–30 humans plus 0–3 bots         | Fixed 3 s per day |
+| `ranked`   | Matchmaking                   | A random `mp-*` market                    | Two humans, no bots               | Fixed 3 s per day |
 
-Solo clock: 2 s per day at 1×, with 2× and 4×, pause and "next day" (only
-while paused). Multiplayer clock commands return 403.
+Solo clock: 2 s per day at 1×, with 2×, 4×, pause and "next day" while paused.
 
 ## Lifecycle
 
-1. **Briefing** (`status: briefing`). The match shows the scenario, the
-   history bars and the rivals. The player picks a plan: a strategy (`trend`,
-   `dip`, `breakout`, `news`, `hold` or `cautious`) and a maximum loss of
-   1–50 %.
-2. **Start** (`POST /start`). Solo: stores the plan and starts the clock.
-   Multiplayer matches are already running; `start` stores the plan once.
-3. **Trading** (`running`). Market orders fill at once at the close plus or
-   minus half the spread. Limit and stop-loss orders rest and are checked
-   against each later bar. Orders the scenario does not allow, or that break
-   cash, holdings or position-size rules, are rejected with a reason. Missions
-   update live (`pending`, `on_track`, `behind`, `done`, `failed`). Bots show
-   only their profit, rank and style.
-4. **Ended** (`ended`, derived) once the last day has passed.
-5. **Finish** (`POST /finish`). Allowed after the end, or at any time with
-   `forfeit: true`. A forfeit ranks the player last, fails every mission and
-   cancels open orders. The response is the result: rank, profit, missions,
-   stars, rewards, plan review, stats, decision score and breakdown, key
-   moments, the scenario debrief and an optional reflection. Calling it again
-   returns the stored result. `settled` is set once every human has finished.
+1. **Briefing** (`briefing`): scenario, history bars and rivals. The player
+   picks one game plan: a strategy (`trend`, `dip`, `breakout`, `news`, `hold`,
+   `cautious`) and a maximum loss of 1–50 %. Orders are one click; there is no
+   per-order plan.
+2. **Start** (`POST /start`): solo stores the plan and starts the clock. A
+   daily starts only on the UTC day it was created for and outside a cooldown
+   (409). Multiplayer matches are already running; each player sets the plan
+   once during ticks 0–2, after which `start` returns 409. An order without a
+   plan returns 422 "Choose your game plan before trading."
+3. **Trading** (`running`): orders, cancels and solo clock commands. Missions
+   update live. The ticket shows "risk if stopped: $X (Y %)".
+4. **Ended** (derived) once the last day has passed.
+5. **Finish** (`POST /finish`): allowed after the end, or at any time with
+   `forfeit: true`. Returns the [result](engine.md#results). Calling it again
+   returns the stored result.
 
-`GET /api/games?status=active` lists unfinished matches for resuming.
-Disconnecting does nothing to a match: the server clock keeps running and
-positions are ranked normally.
+`GET /api/games?status=active` lists unfinished matches to resume.
 
-## Winning
+| Situation     | Rule                                                                                                                                      |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| Win           | Rank 1 on profit, unshared, without forfeiting, against at least one opponent                                                             |
+| Tie           | Equal profit to the cent shares a rank; a shared first place is not a win                                                                 |
+| Early exit    | Leaving a running match forfeits it: last place, every mission failed, open orders cancelled, no win rewards                              |
+| After the end | Leaving after the last day finishes normally                                                                                              |
+| Disconnect    | Nothing happens; the server clock runs on and positions are ranked normally                                                               |
+| Stale match   | Scenario removed or `version` changed: hidden from the active list, unreadable (409), and `finish` closes it as a forfeit with no rewards |
 
-Profit is final equity (cash plus holdings at the last close) minus starting
-cash, after fees and spread. Ranks share equal profits to the cent. A win
-needs rank 1, unshared, without forfeiting. Profit decides the match; missions
-and the decision score show process and never decide a win.
+## Bosses
+
+| Kind    | `boss`    | Scenario                            | Playable when                                | Settlement                                                                                                                                                      |
+| ------- | --------- | ----------------------------------- | -------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Preview | `preview` | This chapter's boss, fresh seed     | The chapter is unlocked                      | Cannot be failed. Playing to the last day records it and opens Level 1; leaving early records an attempt only                                                   |
+| Gate    | `gate`    | Previous chapter's boss, fresh seed | Chapters 2–8 while locked (409 once open)    | A win unlocks the chapter                                                                                                                                       |
+| Chapter | `final`   | This chapter's boss                 | Every level in the chapter has a normal star | A win gives the normal boss star, the chapter's guide avatar and the next chapter; a win with every bonus mission adds the special star and the chapter's title |
+
+Retries are unlimited, each with a new random seed. Results are kept per kind
+in `boss_results` (`preview`, `gate`, `boss`). Gate bosses reuse the previous
+boss scenario rather than a separately authored parallel form. The Preview and
+the Chapter Boss form the research pre/post pair (see [research](research.md)).
 
 ## Daily challenge
 
-- Unlocks with the Chapter 1 boss.
+- Unlocks with the Chapter 1 boss (403 before).
 - Seven scenarios rotate by UTC weekday: `daily-mon-steady-climb`,
   `daily-tue-range-chop`, `daily-wed-pullback`, `daily-thu-earnings-gap`,
   `daily-fri-breakout-fakeout`, `daily-sat-news-shock`,
   `daily-sun-bubble-crash`, each against one bot.
-- The first attempt of the UTC day uses the day's shared seed, so everyone
-  plays the same market; retries use random seeds.
-- Rewards: 15 XP for the first finish of the day (not a forfeit), 15 XP for the
-  first win, 200 Doubloons for the first win.
-- A loss or forfeit starts a 2-hour cooldown. A cooldown started on an earlier
-  UTC day never blocks the new day. `POST /api/daily/refresh` spends 20 Gems
-  to clear an active cooldown; the next daily records the refresh key.
-- `GET /api/daily` shows the scenario, opponent, attempts today, cooldown,
-  win state and the weekly Doubloon track.
+- The first attempt of the UTC day uses the day's shared seed, drawn at random
+  on first use and stored in `daily_seeds`; retries use fresh seeds.
+- One daily at a time: while today's daily is in the briefing, running or
+  ended but unfinished, a new one returns 409 "Finish your current daily
+  challenge first" and `GET /api/daily` names it in `active_game_id`. A daily
+  that ended unfinished is settled on the next daily request.
+- A loss or forfeit starts a 2-hour cooldown. The day resets at 00:00 UTC; a
+  cooldown from an earlier day never blocks today. `POST /api/daily/refresh`
+  spends 20 Gems to clear an active cooldown and the next daily records the
+  refresh key.
+- Rewards: daily XP (finish and win, each once per UTC day) and 200 Doubloons
+  for the first win of the day.
 
 ## Practice arena
 
 `GET /api/practice` lists the five `practice-*` markets with their bots.
-Practice matches are open to every signed-in player. A finished practice match
-(not a forfeit) gives 10 XP, at most three times per UTC day.
+Practice is open to every signed-in player. A finished practice match (not a
+forfeit) gives practice XP at most three times per UTC day.
 
-## Balance
+## Settlement
 
-Boss and daily scenarios are checked by the Monte-Carlo gauntlet in
-`server/tests/test_game_balance.py`: over seeds 0–49 an idle player must win at
-most 5 % of boss matches and 10 % of dailies, and a random clicker at most
-10 % and 25 %. Lesson practice scenarios are not gated. The gauntlet uses
-synthetic players; it says nothing about how hard a match feels to a person.
+`finish` settles once per human participant. The engine result is stored on
+`game_participants.result`; a repeat call returns it and only adds a
+reflection if none was saved. The hook writes an `economy_events` marker
+`game:<id>` holding its response, and every reward has its own natural key, so
+nothing pays twice.
 
-## Limits
+| Mode       | Settlement writes                                                    |
+| ---------- | -------------------------------------------------------------------- |
+| `level`    | Plays, best profit, stars, level map reward, XP                      |
+| `boss`     | `boss_results`, boss stars, unlocks, guide avatar, chapter title, XP |
+| `daily`    | XP, Doubloons, cooldown                                              |
+| `practice` | XP (capped)                                                          |
+| `ranked`   | XP, Gems, Elo (see [multiplayer](multiplayer.md#ranked-rewards))     |
+| `private`  | Nothing: no rewards, activity day or badges                          |
+
+Every non-private settlement also records an activity day and checks badges.
+
+| Store            | Keys                                                                                                                                                                                                                                                                            |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `xp_ledger`      | `level-check:<level>`, `level-normal:<level>`, `level-special:<level>`, `preview:<chapter>`, `boss-win:<chapter>`, `gate-win:<chapter>`, `daily-finished:<day>`, `daily-won:<day>`, `practice:<game>`, `ranked:<game>`, `login:<day>`, `quiz-pass:<topic>`, `quiz-review:<day>` |
+| `economy_events` | `game:<game>` (settlement marker), `daily-win:<day>`, `ranked:<game>`, `ranked-first-win:<day>`, `login:<day>`, `purchase:<item>`, `daily-refresh:<cooldown end>`, `expiry:<week>`, `elo:<game>`                                                                                |
+| `reward_grants`  | One row per owned avatar, title, theme or badge id                                                                                                                                                                                                                              |
 
 Bot difficulty, scenario tuning and the decision score are product defaults,
 not validated measures. A win shows a better result in one synthetic market,

@@ -1,6 +1,6 @@
 # Curriculum and gameplay spec
 
-Design source for the overhauled content. Where this spec and [game-architecture.md](../game-architecture.md) differ, the architecture document records the implemented decision.
+Design source for the campaign content. Where it differs from the [reference docs](../README.md#reference), the reference docs record what was built. Notable differences: matches run on a real-time clock rather than turn by turn, and each level ends in a full trading mission rather than a Sim Drill; market orders fill at the current close, not the next open; fees are 0.1 % (minimum $1), not a $5 commission; there are no partial fills, stop-limit, bracket or trailing orders; there is no streak shield, weekly frame or banner; ranks are Deckhand to Admiral, not the names in B6; and badge conditions follow [progression](../reference/progression.md#badges).
 
 ## B0. Design pillars
 
