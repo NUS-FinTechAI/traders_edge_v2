@@ -27,11 +27,15 @@ neon, navy, glass gradients, glowing hexagons or fantasy-map textures.
 | Layout     | `--hud-height`, `--nav-height`, `--content-width`, `--shadow`, `--ease`                                         |
 
 Use the semantic names. Add a global token only when independent features
-share the role; keep feature styles in the feature's CSS module. Themes
+share the role, never for one feature's palette; keep feature styles in the
+feature's CSS module. Provider logo colours (for example on sign-in buttons)
+are artwork, not theme tokens. Themes
 (`client/app/themes.ts`) override `--gain`, `--loss`, text, border and candle
 tokens. Verify contrast when changing the palette.
 
 ## Accessibility
+
+Every screen must meet these:
 
 - Gains and losses carry `+`/`−` signs and ▲/▼ glyphs as well as colour.
 - Touch targets are at least 44px (stricter than WCAG 2.2 AA).

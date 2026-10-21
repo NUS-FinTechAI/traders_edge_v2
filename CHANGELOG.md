@@ -2,9 +2,16 @@
 
 ## Unreleased
 
+### Documentation restructure (`chore/docs-restructure`)
+
+- Split the build contract (`docs/game-architecture.md`) and the overlapping topic docs into one reference doc per topic under `docs/reference/` (engine, matches, progression, multiplayer, quizzes, API, data model, research, design decisions), with an index at `docs/README.md`.
+- Group the rest by purpose: `docs/product/` (safety and wellbeing, design system), `docs/content/` (authoring guide, curriculum spec, sources) and `docs/operations/` (deployment, performance). Move the v1 audit and design explorations to `docs/archive/`.
+- Merge the economy page into progression, the evaluation plan into research, localization into safety, and the design review notes into the design system; fold the QA rule into `CONTRIBUTING.md`.
+- Correct stale statements: production already refuses gameplay until `content/review.json` is approved, the client applies themes and palettes, lobbies add default AI opponents to `mp-*` markets, private lobbies have no prerequisite, and the quiz bank is version `2026-10-21.1`.
+
 ### Playable game overhaul (`feat/game-overhaul`, `9db44ce`)
 
-- Replace the learning-run, observation and challenge backend and the old client with a real-time trading game. [ADR 0004](docs/decisions/0004-playable-game-overhaul.md) records the decision; the [game design document](docs/game-design.md) governs gameplay and the [build contract](docs/README.md#reference) records the implementation.
+- Replace the learning-run, observation and challenge backend and the old client with a real-time trading game. [ADR 0004](docs/decisions/0004-playable-game-overhaul.md) records the decision; the [game design document](docs/game-design.md) governs gameplay and the build contract (now the [reference docs](docs/README.md#reference)) records the implementation.
 - Add the trading engine (`server/app/game`): seeded markets with news, market/limit/stop-loss orders with fees and a spread, 24 AI opponents across 8 strategies, live missions, a server-owned clock with pause, next-day stepping and 1×/2×/4× speed, state rebuilt from the order log on each read, results with key moments and an unvalidated decision score, and a Monte-Carlo balance gauntlet for bosses and dailies.
 - Add the campaign (`server/app/campaign`): 8 chapters × 5 levels with lesson cards, checks and trading missions, Preview, Gate and Chapter bosses, stars, unlocks and the weekday daily challenge with a cooldown and Gem refresh.
 - Add the player economy (`server/app/player`): XP and levels, Doubloons and Gems, a 7-day login cycle, cosmetics, 16 process badges, a shop and opt-in leaderboards.

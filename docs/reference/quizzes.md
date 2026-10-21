@@ -22,9 +22,9 @@ XP for each topic is in [progression](progression.md#xp-and-levels).
 
 - `POST /api/quizzes/attempts {topic_id}` starts an attempt. Question order and
   option order are shuffled and stored on the attempt.
-- `POST /api/quizzes/attempts/{id}/answers {question_id, option_id,
-confidence?}` grades one answer and returns the attempt with feedback for
-  answered questions. `confidence` is optional: `sure`, `think` or `guess`.
+- `POST /api/quizzes/attempts/{id}/answers` with
+  `{question_id, option_id, confidence?}` grades one answer and returns the
+  attempt with feedback for answered questions. `confidence` is optional: `sure`, `think` or `guess`.
 - The first answer is final: resending the same option returns the attempt; a
   different option returns 409.
 - The attempt completes when every question is answered; XP, the activity day
@@ -32,8 +32,9 @@ confidence?}` grades one answer and returns the attempt with feedback for
 
 ## Classroom rooms
 
-- Any signed-in player can create a room: `POST /api/quizzes/rooms {topic_id,
-title}` returns a six-character join code.
+- Any signed-in player can create a room:
+  `POST /api/quizzes/rooms {topic_id, title}` returns a six-character join
+  code.
 - A student joins by starting an attempt with `room_code`. Each member gets
   one attempt per room; starting again returns the same attempt.
 - Room attempts draw from every chapter, whatever the student has unlocked.

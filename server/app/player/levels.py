@@ -1,4 +1,4 @@
-"""Player level curve and rank names (game-architecture.md, Progression)."""
+"""Player level curve and rank names (docs/reference/progression.md, XP and levels)."""
 
 MAX_LEVEL = 50
 RANKS = ((1, 'Deckhand'), (5, 'Able Seaman'), (10, 'Navigator'), (15, 'Quartermaster'), (20, 'First Mate'), (30, 'Captain'),

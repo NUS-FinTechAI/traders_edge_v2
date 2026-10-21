@@ -1,4 +1,4 @@
-"""Pairwise Elo for ranked matches (game-architecture.md, Decisions)."""
+"""Pairwise Elo for ranked matches (docs/reference/multiplayer.md, Elo)."""
 
 from sqlalchemy import select
 from sqlalchemy.dialects.postgresql import insert as postgresql_insert

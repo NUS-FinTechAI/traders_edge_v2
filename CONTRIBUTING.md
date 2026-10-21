@@ -1,22 +1,46 @@
 # Contributing
 
-Read [AGENTS.md](AGENTS.md), the [game design document](docs/game-design.md) and the [build contract](docs/README.md#reference). Use [README.md](README.md) for exact install/run/check commands. Treat plans and historical design evidence as proposals or dated records, not proof of merged functionality.
+Read [AGENTS.md](AGENTS.md) (repository rules), the
+[game design document](docs/game-design.md) and the
+[docs index](docs/README.md). [README.md](README.md) has the exact install,
+run and check commands.
 
-## Scope and delivery
+## Scope
 
-- State the goal, observable done criteria, owned files and dependencies. Work in an isolated task branch/worktree and keep the PR narrow; never overwrite another branch's dirty changes. Frontend visual design remains a separate workstream.
-- Distinguish `master`, open branches and merged contracts. Routine decisions are delegated, but independent correctness, safety, content and design reviews still apply.
-- Use explicit session handoffs when ignored coordination storage is unavailable in the checkout. Report blockers honestly; do not claim logs, tests, reviews or approvals that did not happen.
-- Preserve research, audits, stable content IDs, deployed migrations and learner history. Propose cleanup with KEEP/REFACTOR/REMOVE-CANDIDATE evidence, dependencies and consequences; deleting files requires specific confirmation.
+- State the goal, observable done criteria, owned files and dependencies.
+  Work in an isolated branch or worktree and keep the PR narrow.
+- Distinguish `master`, open branches and merged behaviour. Report blockers
+  honestly; never claim logs, tests, reviews or approvals that did not happen.
+- Preserve research, audits, stable content ids, deployed migrations and
+  player history.
 
-## Shared theme
+## Styles
 
-`client/ui/tokens.css` defines the shared colors, spacing, radii, type sizes and fonts; `client/ui/global.css` holds base styles. Use the existing semantic names such as `--bg`, `--surface`, `--text`, `--primary`, `--gain`, `--loss` and `--border`. Add a global token only when independent features share the visual role; do not put feature names or feature-only palettes in this file.
+`client/ui/tokens.css` holds the shared tokens and `client/ui/global.css` the
+base styles; feature styles go in the feature's CSS module (for example
+`client/features/arena/trading/Trading.module.css`). The rules for adding
+tokens are in the [design system](docs/product/design-system.md#visual-direction).
 
-Keep feature-specific styles in the feature's CSS module (for example `client/features/arena/trading/Trading.module.css`). Prefer existing tokens, and keep layout rules local. Preserve provider logo artwork colors; they are not application theme colors. Verify contrast when changing the palette.
+## Checks
 
-## Checks and review
+Run the README checks: lint, type-check, build, client tests, the API contract
+check, backend tests (with the balance gauntlet) and content validation. For
+documentation changes, also check relative links and `git diff --check`, and
+format only the files you changed. Report exact commands, results and any
+checks not run.
 
-Run lint, type-check, build, client tests, the API contract check, backend tests (including the balance gauntlet) and content validation using the locked commands in README. For documentation-only changes, also verify relative links/source paths and `git diff --check`; do not reformat unrelated files. Report exact commands, results and any checks not run. Test counts alone do not establish product completeness.
+UI changes: attach 390px before/after screenshots of the changed screens, the
+states checked (loading, empty, error, locked, success), keyboard and focus
+results and any checks not run to the PR, following the
+[screenshot workflow](.devin/skills/capture-screenshots/SKILL.md). Commit a
+dated evidence folder only when a reviewer asks for a retained record.
 
-The PR description should include the change, reason, acceptance evidence, baseline/branch dependencies and reviewer focus. Review affected ownership, unlocks, privacy, idempotent settlement and order ids, restart/migration behavior, balance and reward safety. Product UI needs 390px before/after screenshots of the changed screens, the states checked, keyboard and focus results and any checks not run, attached to the PR (see the [screenshot workflow](.devin/skills/capture-screenshots/SKILL.md)), plus accessibility/design review; content publication needs independent financial/pedagogical approval. Merge only after findings are resolved and CI passes. Update documentation with behavior changes, without describing pending contracts as complete.
+## Pull requests
+
+Describe the change, the reason, acceptance evidence, baseline and branch
+dependencies, and where reviewers should focus. Review ownership, unlocks,
+privacy, idempotent settlement and order ids, restart and migration
+behaviour, balance and reward safety. Content needs independent financial and
+pedagogical approval; UI needs design and accessibility review. Merge only
+after findings are resolved and CI passes. Update docs with behaviour changes
+without describing pending work as complete.
