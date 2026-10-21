@@ -34,7 +34,7 @@ special star needs a win with every boss bonus mission met.
 
 Daily challenges, practice matches, quizzes and multiplayer reuse the same
 trading engine. The full curriculum and AI personalities are in the
-[curriculum spec](curriculum/game-spec.md).
+[curriculum spec](content/curriculum-spec.md).
 
 ## Decisions for open design questions
 
@@ -892,7 +892,7 @@ share of equity spread equally across the traded symbols.
 | `news_reactor`   | `weight, ignore, fade_gap`                                                                                                       | Buys after positive headlines, sells after negative ones, skips kinds in `ignore`; with `fade_gap`, fades rumor/hype gaps larger than it (sells up-gaps, buys down-gaps).                                                                            |
 | `risk_manager`   | `trend_sma, risk, stop_window, take_half_r, max_exposure, momentum_filter, avoid_hype, climax_volume`                            | Above `trend_sma`, risks `risk` of equity with a stop under the `stop_window` low, caps exposure, sells half at `take_half_r` × R and moves the stop to entry. Optional SMA10 trend filter, rumor/hype filter (last 2 ticks) and volume-climax exit. |
 
-The roster follows the [curriculum spec](curriculum/game-spec.md) §B3: HODL
+The roster follows the [curriculum spec](content/curriculum-spec.md) §B3: HODL
 Hannah, Momentum Max, Value Vera, Panic Pete, Breakout Bea, Newsy Nina and
 Steady Stella in rookie/pro/elite tiers (`<name>-rookie`, `-pro`, `-elite`;
 Hannah's pro id is `hodl-hannah`), Scalper Sam in rookie/pro, and Ironhand Iris
@@ -1026,7 +1026,7 @@ weekly title "Colossal Challenger". Gem shop: cosmetic avatars (120), titles
 (300), candle colour themes (100). Accessibility palettes are free.
 
 Badges are earned only, never sold. Each is based on process, not profit size.
-The spec's conditions are in the [curriculum spec](curriculum/game-spec.md)
+The spec's conditions are in the [curriculum spec](content/curriculum-spec.md)
 §B6; `app/player/badges.py` implements them as follows (some are proxies for
 data the engine does not keep). Match badges count any non-private match; no badge needs a
 profit-ranked win, and orders cancelled on the tick they were placed never count.

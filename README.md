@@ -62,7 +62,7 @@ uv run --project server --extra test --locked python -m app.content.validate
 
 The backend suite includes the balance gauntlet
 (`server/tests/test_game_balance.py`). Live PostgreSQL tests run only when
-`TRADERS_EDGE_TEST_POSTGRES_URL` is set; see [deployment](docs/deployment.md).
+`TRADERS_EDGE_TEST_POSTGRES_URL` is set; see [deployment](docs/operations/deployment.md).
 
 ## Status
 
@@ -79,13 +79,13 @@ tested locally. Not yet established:
 - [Architecture overview](ARCHITECTURE.md) and the
   [build contract](docs/game-architecture.md)
 - [Game design document](docs/game-design.md) (governs gameplay) and the
-  [curriculum spec](docs/curriculum/game-spec.md)
-- [Server guide](server/README.md) and [API guide](docs/api.md)
-- [Campaign and progression](docs/adventure.md),
-  [trading matches](docs/challenges.md), [engine model](docs/simulation-model.md),
-  [economy](docs/economy.md), [quizzes](docs/quizzes.md),
-  [multiplayer](docs/multiplayer.md)
-- [Data model](docs/data-model.md), [research evidence](docs/research.md),
-  [deployment](docs/deployment.md), [safety](docs/gamification-and-safety.md)
+  [curriculum spec](docs/content/curriculum-spec.md)
+- [Server guide](server/README.md) and [API guide](docs/reference/api.md)
+- [Campaign and progression](docs/reference/progression.md),
+  [trading matches](docs/reference/matches.md), [engine model](docs/reference/engine.md),
+  [economy](docs/economy.md), [quizzes](docs/reference/quizzes.md),
+  [multiplayer](docs/reference/multiplayer.md)
+- [Data model](docs/reference/data-model.md), [research evidence](docs/reference/research.md),
+  [deployment](docs/operations/deployment.md), [safety](docs/product/safety-and-wellbeing.md)
 - [Decisions](docs/decisions/), [repository conventions](AGENTS.md),
   [contributing](CONTRIBUTING.md), [changelog](CHANGELOG.md)

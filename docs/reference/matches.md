@@ -2,19 +2,19 @@
 
 Every mode plays the same match on the trading engine in `server/app/game/`.
 This page describes the modes and the match lifecycle. The engine rules are in
-the [engine model](simulation-model.md); exact payloads are in the
-[build contract](game-architecture.md#games).
+the [engine model](engine.md); exact payloads are in the
+[build contract](../game-architecture.md#games).
 
 ## Modes
 
-| Mode       | Created by                         | Scenario                                                               | Opponents                         | Clock             |
-| ---------- | ---------------------------------- | ---------------------------------------------------------------------- | --------------------------------- | ----------------- |
-| `level`    | `POST /api/games {mode, level_id}` | The level's `chN-lM-practice`                                          | The scenario's bots (0–1 shipped) | Solo              |
-| `boss`     | `{mode, chapter_id, boss}`         | Chapter or previous-chapter boss (see [campaign](adventure.md#bosses)) | 1–3 bots                          | Solo              |
-| `daily`    | `{mode: "daily"}`                  | Today's weekday scenario                                               | One bot                           | Solo              |
-| `practice` | `{mode, scenario_id?, bots?}`      | A `practice-*` market (random if omitted)                              | Up to 3 of the scenario's bots    | Solo              |
-| `private`  | Lobby start                        | The host's `mp-*` or `practice-*` choice                               | 2–30 humans plus 0–3 bots         | Fixed 3 s per day |
-| `ranked`   | Matchmaking                        | A random `mp-*` market                                                 | Two humans, no bots               | Fixed 3 s per day |
+| Mode       | Created by                         | Scenario                                                                 | Opponents                         | Clock             |
+| ---------- | ---------------------------------- | ------------------------------------------------------------------------ | --------------------------------- | ----------------- |
+| `level`    | `POST /api/games {mode, level_id}` | The level's `chN-lM-practice`                                            | The scenario's bots (0–1 shipped) | Solo              |
+| `boss`     | `{mode, chapter_id, boss}`         | Chapter or previous-chapter boss (see [campaign](progression.md#bosses)) | 1–3 bots                          | Solo              |
+| `daily`    | `{mode: "daily"}`                  | Today's weekday scenario                                                 | One bot                           | Solo              |
+| `practice` | `{mode, scenario_id?, bots?}`      | A `practice-*` market (random if omitted)                                | Up to 3 of the scenario's bots    | Solo              |
+| `private`  | Lobby start                        | The host's `mp-*` or `practice-*` choice                                 | 2–30 humans plus 0–3 bots         | Fixed 3 s per day |
+| `ranked`   | Matchmaking                        | A random `mp-*` market                                                   | Two humans, no bots               | Fixed 3 s per day |
 
 Solo clock: 2 s per day at 1×, with 2× and 4×, pause and "next day" (only
 while paused). Multiplayer clock commands return 403.

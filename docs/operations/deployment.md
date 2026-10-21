@@ -24,7 +24,7 @@ environment file:
 - `ALLOWED_ORIGINS`: comma-separated HTTPS browser origins.
 - `API_PORT`: an unused host port; defaults to 8000.
 - Optional: `RESEARCH_ENABLED`, `RESEARCH_POLICY_VERSION`,
-  `RESEARCH_POLICY_TEXT` (see [research](research.md)). Enable enrollment only
+  `RESEARCH_POLICY_TEXT` (see [research](../reference/research.md)). Enable enrollment only
   after the study and its consent text are approved.
 
 Optional settings default to disabled study enrollment. Any signed-in player may host a classroom quiz room, so there is no instructor setting:

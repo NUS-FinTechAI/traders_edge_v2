@@ -1,7 +1,7 @@
 # Curriculum authoring guide
 
 The curriculum is 8 chapters × 5 levels, designed in the
-[curriculum spec](game-spec.md) and stored as JSON in
+[curriculum spec](curriculum-spec.md) and stored as JSON in
 `server/app/content/`. The [build contract](../game-architecture.md#content-formats)
 defines every field; this guide explains how to author and check content.
 

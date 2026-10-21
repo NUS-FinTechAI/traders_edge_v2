@@ -87,7 +87,7 @@ conflict from a concurrent request returns 409; retry it.
 
 All routes are under `/api`. Payloads and responses are listed in the
 [build contract](../docs/game-architecture.md#api) and the
-[API guide](../docs/api.md).
+[API guide](../docs/reference/api.md).
 
 | Group       | Routes                                                                                                                                                                                                                                                  |
 | ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -115,8 +115,8 @@ currencies, Elo and badges. Match state is rebuilt from the scenario, seed and
 stored orders on every read. Settlement writes a `game:<id>` economy event and
 gives each reward a natural key, so repeating `finish` returns the stored result
 and pays nothing twice. Private lobby matches award nothing. See
-[trading matches](../docs/challenges.md) and the
-[engine model](../docs/simulation-model.md).
+[trading matches](../docs/reference/matches.md) and the
+[engine model](../docs/reference/engine.md).
 
 ## Content authoring and validation
 
@@ -131,7 +131,7 @@ Authored content lives in `app/content/`:
 | `cosmetics.json`         | 28 avatars, 24 titles, 5 themes, 16 badges                                      |
 
 The formats are in the [build contract](../docs/game-architecture.md#content-formats)
-and the [authoring guide](../docs/curriculum/README.md). Content is loaded and
+and the [authoring guide](../docs/content/authoring.md). Content is loaded and
 validated at startup, so invalid content stops the server. Check it first:
 
 ```sh
@@ -181,7 +181,7 @@ balance, game API, campaign, daily, player, quiz, multiplayer, research,
 migrations, auth and the API contract. At `9db44ce` the suite ran 249 tests
 with 15 skipped; the skipped tests are the live PostgreSQL cases, which run
 only when `TRADERS_EDGE_TEST_POSTGRES_URL` points to a disposable loopback
-database (see [deployment](../docs/deployment.md)).
+database (see [deployment](../docs/operations/deployment.md)).
 
 Production refuses guest auth, SQLite and non-HTTPS origins. Local checks do
 not establish real Firebase sign-in, a hosted deployment or learning outcomes.

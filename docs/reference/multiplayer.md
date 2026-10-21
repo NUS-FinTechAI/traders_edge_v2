@@ -44,7 +44,7 @@ ranked queue only gather players; the match itself runs on the trading engine
   AI. Otherwise the player waits (`searching`) and polls `GET /api/matchmaking`
   every 2 s. `DELETE` leaves the queue.
 - Rewards on settlement (no forfeit): XP for a win or a loss, and Gems as set
-  out in [economy](economy.md#ranked-gems). Private matches pay nothing.
+  out in [economy](../economy.md#ranked-gems). Private matches pay nothing.
 
 ## Elo
 

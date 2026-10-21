@@ -7,7 +7,7 @@ description: Add or revise campaign levels, lesson cards, check questions or qui
 
 Use when a level, its cards, its check or a quiz item needs authoring or correction. Paths are repository-relative; verify the target branch's code rather than a stale guide.
 
-1. Read `docs/curriculum/README.md`, `docs/curriculum/game-spec.md`, the content formats in `docs/game-architecture.md`, `server/app/campaign/content.py`, `server/app/quiz/bank.py`, `server/app/content/validate.py` and the affected `server/app/content/campaign/ch<N>.json` or `quiz_bank.json`.
+1. Read `docs/content/authoring.md`, `docs/content/curriculum-spec.md`, the content formats in `docs/game-architecture.md`, `server/app/campaign/content.py`, `server/app/quiz/bank.py`, `server/app/content/validate.py` and the affected `server/app/content/campaign/ch<N>.json` or `quiz_bank.json`.
 2. State the level's objective and the one concept its practice mission tests. Read a supporting primary source and record it in the handoff; keep regional rules out of the neutral core and v1 discovery material read-only.
 3. Extend the existing JSON only: chapter files hold exactly 5 levels, each with objectives, terms, cards (optional `visual` key from `client/features/level/visuals/`), check questions (`mc` or `true_false`, one `answer`, a one-line `explanation`) and a `practice` scenario id. Quiz items add `chapter`, `concepts` and `difficulty` and must not repeat a check prompt.
 4. Keep stable level, question and scenario ids for existing meanings; progress, first answers and stars are stored against them. Supply useful misconception-based distractors and spread correct answers across positions. Check arithmetic by hand.

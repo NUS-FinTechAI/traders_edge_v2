@@ -22,4 +22,4 @@ Use alternate forms and counterbalanced presentation to reduce familiarity. If c
 
 Have independent reviewers check content accuracy and rubric agreement before the study. Establish a stopping and correction process for misleading content, unexpected distress or increased pressure to speculate. Do not infer real-market competence from a simulated gain.
 
-Use voluntary participation, minimal event fields and a stated retention period. The owner-scoped [research exports](research.md) and default-off consent records are implementation support; study exports, researcher access and participant data management require a separate approved protocol. Report what was actually collected and tested, including null or negative results.
+Use voluntary participation, minimal event fields and a stated retention period. The owner-scoped [research exports](reference/research.md) and default-off consent records are implementation support; study exports, researcher access and participant data management require a separate approved protocol. Report what was actually collected and tested, including null or negative results.

@@ -2,8 +2,8 @@
 
 The Adventure campaign is implemented in `server/app/campaign/` from the
 chapter files in `server/app/content/campaign/`. Formulas and payloads are in
-the [build contract](game-architecture.md); the content design is in the
-[curriculum spec](curriculum/game-spec.md).
+the [build contract](../game-architecture.md); the content design is in the
+[curriculum spec](../content/curriculum-spec.md).
 
 ## Structure
 

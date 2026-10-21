@@ -40,7 +40,7 @@ row per owned item. Settlement stores the result on `game_participants.result`
 and a `game:<id>` event with the hook's response, so a repeated `finish`
 returns the same result. Orders are unique per (participant, `client_order_id`).
 The key formats are listed in the
-[build contract](game-architecture.md#settlement).
+[build contract](../game-architecture.md#settlement).
 
 ## Legacy tables
 

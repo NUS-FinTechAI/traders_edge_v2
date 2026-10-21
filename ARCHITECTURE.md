@@ -61,7 +61,7 @@ game tables and migration 12 the campaign, quiz, lobby and rating tables.
 Tables from migrations 1–10 that belonged to the removed system remain but are
 unused. Mutating requests lock the player's profile row (and, in SQLite, take
 a write lock) so one player's commands run one at a time. See the
-[data model](docs/data-model.md).
+[data model](docs/reference/data-model.md).
 
 ### Research events
 
@@ -69,7 +69,7 @@ a write lock) so one player's commands run one at a time. See the
 prices, cash, holdings, open orders, latest headline), the plan, the attempt
 number and any Gem refresh. Players can download their own events, campaign
 progress and quiz attempts. Study enrollment is off unless configured. See
-[research](docs/research.md).
+[research](docs/reference/research.md).
 
 ## Client
 

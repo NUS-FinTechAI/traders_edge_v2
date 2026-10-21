@@ -3,7 +3,7 @@
 The trading engine is `server/app/game/`. It models a synthetic, long-only
 market of fictional companies. It is not historical data or an exchange
 emulator. The exact formulas are in the
-[build contract](game-architecture.md#engine-model); this page summarises them
+[build contract](../game-architecture.md#engine-model); this page summarises them
 and states the limits.
 
 ## A match is a replay

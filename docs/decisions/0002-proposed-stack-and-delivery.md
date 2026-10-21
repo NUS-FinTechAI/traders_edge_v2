@@ -22,7 +22,7 @@ Simulation inputs are versioned controlled packs prepared before sessions. Futur
 
 ## Consequences
 
-Existing language/framework knowledge and useful tests remain relevant, but v1 runtime implementations are not copied wholesale. More explicit contracts, migration tests and privacy boundaries are necessary. An installable app does not imply offline trading or mastery. Performance must meet the proposed [budgets](../performance-and-usability.md) through measured loading/data work, not framework claims.
+Existing language/framework knowledge and useful tests remain relevant, but v1 runtime implementations are not copied wholesale. More explicit contracts, migration tests and privacy boundaries are necessary. An installable app does not imply offline trading or mastery. Performance must meet the proposed [budgets](../operations/performance.md) through measured loading/data work, not framework claims.
 
 ## Evidence
 

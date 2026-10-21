@@ -1,8 +1,8 @@
 # API guide
 
 Run the service and open `/docs` for the generated schemas. The
-[server guide](../server/README.md) lists every route and the configuration;
-the [build contract](game-architecture.md#api) has the payload shapes. This
+[server guide](../../server/README.md) lists every route and the configuration;
+the [build contract](../game-architecture.md#api) has the payload shapes. This
 page explains how the client uses them.
 
 ## Session and requests

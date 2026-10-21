@@ -1,9 +1,9 @@
 # Rewards and safety
 
 The game ranks every match by profit, as the
-[game design document](game-design.md) requires, and pays XP, Doubloons and
-Gems under the rules in the [economy](economy.md) page. This page lists the
-safety rules those rewards and screens follow. [ADR 0004](decisions/0004-playable-game-overhaul.md)
+[game design document](../game-design.md) requires, and pays XP, Doubloons and
+Gems under the rules in the [economy](../economy.md) page. This page lists the
+safety rules those rewards and screens follow. [ADR 0004](../decisions/0004-playable-game-overhaul.md)
 records the decisions behind them.
 
 ## Implemented rules
@@ -51,6 +51,6 @@ records the decisions behind them.
   Profit in a synthetic market does not show real-world skill, and the app
   must not claim to make players profitable.
 - The core is jurisdiction-neutral; tax, account and settlement rules are not
-  modelled (see [localization](localization-packs.md)).
+  modelled (see [localization](../localization-packs.md)).
 - The free accessibility palettes and paid candle themes are sold or granted
   but not yet applied by the client.
