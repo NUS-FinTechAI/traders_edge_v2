@@ -16,6 +16,8 @@ from app.game.scenario import get_scenario, load_bots, load_scenarios
 SOLO_MODES = ('level', 'boss', 'daily', 'practice')
 MULTIPLAYER_MODES = ('private', 'ranked')
 NO_REWARDS = {'xp': 0, 'stocks': 0, 'gems': 0, 'items': [], 'badges': []}
+PLAN_DAYS = 3
+STALE_DEBRIEF = 'This match used an older version of its market, so it was closed without a result.'
 
 
 @dataclass
@@ -35,13 +37,22 @@ class Rejected(Exception):
         self.reason = reason
 
 
+class Refused(Exception):
+    """A refusal sent as `status` + `detail` that keeps the writes made before it (an HTTPException rolls them back)."""
+
+    def __init__(self, status, detail):
+        super().__init__(detail)
+        self.status, self.detail = status, detail
+
+
 @dataclass
 class Loaded:
     game: Game
-    scenario: dict
+    scenario: dict | None
     me: GameParticipant
     participants: list
     orders: list
+    stale: bool = False
 
 
 async def resolve_game(db, profile, request):
@@ -62,11 +73,21 @@ async def settle_game(db, profile, game, participant, result):
     return {'rewards': dict(NO_REWARDS), 'stars': None, 'unlocked': None}
 
 
+async def before_start(db, profile, game):
+    """Default: every briefing may start. Raise HTTPException to refuse."""
+
+
 def scenario_for(scenario_id):
     try:
         return get_scenario(scenario_id)
     except KeyError:
         raise HTTPException(404, 'Scenario not found') from None
+
+
+def is_stale(game):
+    """A match whose scenario was removed or changed version can no longer be replayed."""
+    scenario = load_scenarios().get(game.scenario_id)
+    return scenario is None or scenario['version'] != game.scenario_version
 
 
 def _new_game(scenario, mode, status, game_clock, host_id, seed=None, **extra):
@@ -119,7 +140,8 @@ async def create_multiplayer_game(db, scenario_id, mode, human_profiles, bot_ids
     return game
 
 
-async def load(db, profile, game_id, lock=False):
+async def load(db, profile, game_id, lock=False, allow_stale=False):
+    """`allow_stale` returns a match whose scenario changed (`Loaded.stale`, no scenario) so it can still be closed."""
     member = select(GameParticipant.id).where(GameParticipant.game_id == Game.id, GameParticipant.user_id == profile.id).exists()
     query = select(Game).where(Game.id == game_id, member)
     if lock:
@@ -127,13 +149,14 @@ async def load(db, profile, game_id, lock=False):
     game = await db.scalar(query)
     if game is None:
         raise HTTPException(404, 'Match not found')
-    scenario = scenario_for(game.scenario_id)
-    if scenario['version'] != game.scenario_version:
+    stale = is_stale(game)
+    if stale and not allow_stale:
         raise HTTPException(409, 'This match uses an older version of its scenario and can no longer be loaded')
+    scenario = None if stale else scenario_for(game.scenario_id)
     participants = list(await db.scalars(select(GameParticipant).where(GameParticipant.game_id == game.id).order_by(GameParticipant.id)))
     orders = list(await db.scalars(select(GameOrder).where(GameOrder.game_id == game.id).order_by(GameOrder.participant_id, GameOrder.seq)))
     me = next(p for p in participants if p.user_id == profile.id)
-    return Loaded(game, scenario, me, participants, orders)
+    return Loaded(game, scenario, me, participants, orders, stale)
 
 
 def current_tick(loaded, at):
@@ -264,15 +287,29 @@ async def state(db, profile, game_id, since=None):
     return public_state(loaded, build(loaded, tick), tick, at, since)
 
 
-async def start(db, profile, game_id, plan):
+def _multiplayer_plan_problem(loaded, tick):
+    if loaded.me.forfeited or loaded.me.result is not None:
+        return 'You left this match, so you can no longer set a plan.'
+    if status_of(loaded, tick) != 'running' or tick >= PLAN_DAYS:
+        return f'The game plan must be set in the first {PLAN_DAYS} days of the match.'
+    return None
+
+
+async def start(db, profile, game_id, plan, check=before_start):
+    """Solo: leave the briefing (after the `check` hook). Multiplayer: set the plan once, during the first PLAN_DAYS days."""
     loaded = await load(db, profile, game_id, lock=True)
     at = clock.now_ms()
     game = loaded.game
     if game.mode in MULTIPLAYER_MODES:
-        if loaded.me.plan is None and loaded.me.result is None:
+        if loaded.me.plan is None:
+            tick = current_tick(loaded, at)
+            problem = _multiplayer_plan_problem(loaded, tick)
+            if problem:
+                raise HTTPException(409, problem)
             loaded.me.plan = plan
-            log(db, loaded, current_tick(loaded, at), 'plan', {'plan': plan})
+            log(db, loaded, tick, 'plan', {'plan': plan})
     elif game.status == 'briefing':
+        await check(db, profile, game)
         attempt = await db.scalar(select(func.count()).select_from(GameParticipant).join(Game, Game.id == GameParticipant.game_id)
                                   .where(GameParticipant.user_id == profile.id, Game.scenario_id == game.scenario_id, Game.status != 'briefing'))
         loaded.me.plan = plan
@@ -326,6 +363,8 @@ def _trading_problem(loaded, tick):
         return 'You left this match, so you can no longer trade.'
     if status_of(loaded, tick) != 'running':
         return 'This match has ended.'
+    if loaded.me.plan is None:
+        return 'Choose your game plan before trading.'
     return None
 
 
@@ -343,7 +382,8 @@ async def place_order(db, profile, game_id, body):
         return _order(match.books[loaded.me.id].orders[previous.id]), public_state(loaded, match, tick, at)
     request = body.model_dump()
     problem = _trading_problem(loaded, tick)
-    if problem is None and (limit, stop) != (None, None) and (limit or stop) <= 0:
+    price = limit if limit is not None else stop
+    if problem is None and price is not None and price <= 0:
         problem = 'Use a price of at least $0.01.'
     match = build(loaded, tick)
     context = observed(match, loaded.me.id, tick)
@@ -358,11 +398,14 @@ async def place_order(db, profile, game_id, body):
         log(db, loaded, tick, 'rejected', {'order': request, 'reason': problem, 'observed': context})
         raise Rejected(problem)
     seq = 1 + sum(1 for o in loaded.orders if o.participant_id == loaded.me.id)
-    db.add(GameOrder(id=order.id, game_id=loaded.game.id, participant_id=loaded.me.id, client_order_id=body.client_order_id, seq=seq,
-                     tick=tick, symbol=body.symbol, side=body.side, type=body.type, qty=body.qty, limit_price=limit, stop_price=stop))
+    row = GameOrder(id=order.id, game_id=loaded.game.id, participant_id=loaded.me.id, client_order_id=body.client_order_id, seq=seq,
+                    tick=tick, symbol=body.symbol, side=body.side, type=body.type, qty=body.qty, limit_price=limit, stop_price=stop)
+    db.add(row)
     log(db, loaded, tick, 'order', {'order_id': order.id, 'order': request, 'status': order.status, 'observed': context})
     await db.flush()
-    return _order(order), public_state(loaded, match, tick, at)
+    loaded.orders = sorted([*loaded.orders, row], key=lambda o: (o.participant_id, o.seq))
+    replayed = build(loaded, tick)
+    return _order(replayed.books[loaded.me.id].orders[order.id]), public_state(loaded, replayed, tick, at)
 
 
 async def cancel_order(db, profile, game_id, order_id):
@@ -395,35 +438,59 @@ def compute_result(loaded, match):
     board = leaderboard(loaded, match)
     mine = next(entry for entry in board if entry['is_me'])
     forfeited = match.participants[pid].forfeited
-    won = not forfeited and mine['rank'] == 1 and sum(1 for entry in board if entry['rank'] == 1) == 1
+    won = not forfeited and len(board) > 1 and mine['rank'] == 1 and sum(1 for entry in board if entry['rank'] == 1) == 1
     plan_review = None if not plan else {
         'strategy': plan['strategy'], 'max_loss_pct': plan['max_loss_pct'], 'worst_drawdown_pct': f2(book.max_drawdown_pct),
         'kept_loss_limit': book.max_drawdown_pct <= Decimal(str(plan['max_loss_pct']))}
     profit = match.profit(pid)
     missions = objectives.evaluate(match, pid, plan, final=True)
-    breakdown = review.decision_breakdown(match, pid, plan, missions)
+    breakdown, weights = review.decision_breakdown(match, pid, plan, missions)
     return {'won': won, 'rank': mine['rank'], 'of': len(board), 'forfeited': forfeited, 'profit': f2(profit),
             'profit_pct': f2(profit / match.rules.starting_cash * HUNDRED), 'leaderboard': board,
             'missions': missions, 'plan_review': plan_review,
-            'decision_score': sum(breakdown.values()), 'decision_breakdown': breakdown, 'key_moments': review.key_moments(match, pid),
+            'decision_score': sum(breakdown.values()), 'decision_breakdown': breakdown, 'decision_max': weights,
+            'key_moments': review.key_moments(match, pid),
             'stats': {'trades': len(book.fills), 'fees': f2(book.fees), 'biggest_position_pct': f2(book.biggest_position_pct),
                       'max_drawdown_pct': f2(book.max_drawdown_pct), 'buy_hold_profit': f2(match.buy_hold_profit())},
             'debrief': loaded.scenario['debrief'], 'reflection': None}
 
 
+def stale_result(loaded, reflection):
+    """A closed match whose scenario changed: no replay, no rewards, ranked last."""
+    count = len(loaded.participants)
+    zero = {key: 0 for key in review.PARTS}
+    return {'won': False, 'rank': count, 'of': count, 'forfeited': True, 'profit': 0.0, 'profit_pct': 0.0, 'leaderboard': [],
+            'missions': [], 'plan_review': None, 'decision_score': 0, 'decision_breakdown': zero, 'decision_max': zero,
+            'key_moments': [], 'stats': {'trades': 0, 'fees': 0.0, 'biggest_position_pct': 0.0, 'max_drawdown_pct': 0.0, 'buy_hold_profit': 0.0},
+            'debrief': STALE_DEBRIEF, 'reflection': reflection or None, 'rewards': dict(NO_REWARDS), 'stars': None, 'unlocked': None}
+
+
+def _settle_if_complete(loaded):
+    if all(p.result is not None for p in loaded.participants if p.user_id):
+        loaded.game.status, loaded.game.settled_at = 'settled', now()
+
+
 async def finish(db, profile, game_id, forfeit, reflection, settle):
-    loaded = await load(db, profile, game_id, lock=True)
+    loaded = await load(db, profile, game_id, lock=True, allow_stale=True)
     me, game = loaded.me, loaded.game
     if me.result is not None:
         if reflection and not me.result.get('reflection'):
             me.result = {**me.result, 'reflection': reflection}
-            log(db, loaded, loaded.scenario['ticks'], 'reflection', {'reflection': reflection})
+            log(db, loaded, loaded.scenario['ticks'] if loaded.scenario else 0, 'reflection', {'reflection': reflection})
             await db.flush()
+        return me.result
+    if loaded.stale:
+        me.forfeited, me.result = True, stale_result(loaded, reflection)
+        _settle_if_complete(loaded)
+        log(db, loaded, game.clock.get('anchor_tick', 0), 'finish', {'forfeit': True, 'stale': True, 'reflection': reflection})
+        await db.flush()
         return me.result
     at = clock.now_ms()
     tick = current_tick(loaded, at)
-    if not forfeit and status_of(loaded, tick) != 'ended':
+    ended = status_of(loaded, tick) == 'ended'
+    if not forfeit and not ended:
         raise HTTPException(409, 'The match is still running. Finish after the last day or forfeit.')
+    forfeit = forfeit and not ended
     match = build(loaded, tick)
     if forfeit:
         me.forfeited = True
@@ -437,8 +504,7 @@ async def finish(db, profile, game_id, forfeit, reflection, settle):
     result = {**compute_result(loaded, match), 'reflection': reflection or None}
     result = {**result, **await settle(db, profile, game, me, result)}
     me.result = result
-    if all(p.result is not None for p in loaded.participants if p.user_id):
-        game.status, game.settled_at = 'settled', now()
+    _settle_if_complete(loaded)
     log(db, loaded, tick, 'finish', {'forfeit': forfeit, 'reflection': reflection, 'rank': result['rank'], 'of': result['of'],
                                      'won': result['won'], 'profit': result['profit'], 'observed': observed(match, me.id, tick)})
     await db.flush()
@@ -446,24 +512,30 @@ async def finish(db, profile, game_id, forfeit, reflection, settle):
 
 
 async def stored_result(db, profile, game_id):
-    loaded = await load(db, profile, game_id)
+    loaded = await load(db, profile, game_id, allow_stale=True)
     if loaded.me.result is None:
         raise HTTPException(404, 'This match has not been settled yet')
     return loaded.me.result
 
 
+def game_status(game, scenario, at):
+    """(tick, status) of a stored match without replaying it."""
+    tick = 0 if game.status == 'briefing' else clock.current_tick(game.clock, scenario['ticks'], at)
+    return tick, 'ended' if game.status == 'running' and tick >= scenario['ticks'] else game.status
+
+
 async def active_games(db, profile):
+    """Unfinished matches the player can resume; matches whose scenario changed are left out."""
     rows = (await db.execute(select(Game, GameParticipant).join(GameParticipant, GameParticipant.game_id == Game.id)
                              .where(GameParticipant.user_id == profile.id, GameParticipant.result.is_(None), Game.status != 'settled')
                              .order_by(Game.created_at.desc()))).all()
     at = clock.now_ms()
     games = []
     for game, _ in rows:
-        scenario = load_scenarios().get(game.scenario_id)
-        if scenario is None:
+        if is_stale(game):
             continue
-        tick = 0 if game.status == 'briefing' else clock.current_tick(game.clock, scenario['ticks'], at)
-        status = 'ended' if game.status == 'running' and tick >= scenario['ticks'] else game.status
+        scenario = load_scenarios()[game.scenario_id]
+        tick, status = game_status(game, scenario, at)
         games.append({'id': game.id, 'mode': game.mode, 'status': status, 'scenario_id': game.scenario_id, 'title': scenario['title'],
                       'tick': tick, 'ticks': scenario['ticks'], 'created_at': game.created_at})
     return {'games': games}

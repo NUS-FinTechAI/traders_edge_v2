@@ -40,6 +40,22 @@ class CountMissionTests(unittest.TestCase):
         protected = flat_match().advance(0, [order('b1', 'buy', 5), order('s1', 'sell', 5, kind='stop', stop='45')])
         self.assertTrue(check(protected, 'stop_loss_set')[0])
 
+    def test_orders_cancelled_on_the_day_they_were_placed_do_not_count(self):
+        stored = flat_match().advance(1, [order('b1', 'buy', 5), order('s1', 'sell', 5, kind='stop', stop='45', cancelled=0),
+                                          order('l1', 'buy', 1, kind='limit', limit='40', cancelled=0)])
+        live = flat_match().advance(0, [order('b1', 'buy', 5)])
+        live.place(order('s1', 'sell', 5, kind='stop', stop='45'))
+        live.cancel('me', 's1', 0)
+
+        self.assertEqual(check(stored, 'stop_loss_set'), (False, '0/1'))
+        self.assertFalse(check(stored, 'use_order', {'type': 'limit', 'n': 1})[0])
+        self.assertEqual(check(live, 'stop_loss_set'), (False, '0/1'))
+
+    def test_an_order_cancelled_on_a_later_day_still_counts(self):
+        match = flat_match().advance(2, [order('b1', 'buy', 5), order('s1', 'sell', 5, kind='stop', stop='45', cancelled=1)])
+
+        self.assertEqual(check(match, 'stop_loss_set'), (True, '1/1'))
+
     def test_min_holdings_counts_distinct_symbols_held_at_once(self):
         match = flat_match().advance(1, [order('b1', 'buy', 1), order('b2', 'buy', 1, symbol='ROCK', tick=1)])
 
@@ -157,6 +173,15 @@ class ResultMissionTests(unittest.TestCase):
 
         self.assertEqual([(m['done'], m['progress']) for m in missions], [(False, 'Forfeited')])
 
+    def test_unmet_news_mission_says_missed_at_the_end_and_not_yet_during_play(self):
+        mission = {'id': 'n', 'type': 'sold_after_news', 'params': {'news_id': 'big-news', 'within': 2}, 'text': 'Sell the news'}
+        match = flat_match(scenario(news=[NEWS], missions={'basic': [mission], 'bonus': []})).advance(5)
+
+        live = objectives.evaluate(match, 'me', PLAN)
+        final = objectives.evaluate(match, 'me', PLAN, final=True)
+
+        self.assertEqual((live[0]['progress'], final[0]['progress']), ('Not yet', 'Missed'))
+
 
 class LiveStateTests(unittest.TestCase):
     def states(self, missions, final, trades):
@@ -186,16 +211,53 @@ class ReviewTests(unittest.TestCase):
     def test_stop_protected_buys_raise_the_decision_score(self):
         bare = flat_match().advance(1, [order('b1', 'buy', 5)])
         protected = flat_match().advance(1, [order('b1', 'buy', 5), order('s1', 'sell', 5, kind='stop', stop='45', tick=1)])
-        missions = [{'tier': 'basic', 'done': True}]
+        missions = [{'id': 'first-trade', 'tier': 'basic', 'done': True}]
 
-        self.assertEqual(review.decision_breakdown(protected, 'me', PLAN, missions)['risk']
-                         - review.decision_breakdown(bare, 'me', PLAN, missions)['risk'], 25)
+        self.assertEqual(review.decision_breakdown(protected, 'me', PLAN, missions)[0]['risk']
+                         - review.decision_breakdown(bare, 'me', PLAN, missions)[0]['risk'], 25)
+
+    def test_stop_cancelled_on_the_day_it_was_placed_does_not_protect_a_buy(self):
+        match = flat_match().advance(1, [order('b1', 'buy', 5), order('s1', 'sell', 5, kind='stop', stop='45', tick=1, cancelled=1)])
+
+        points, _ = review.decision_breakdown(match, 'me', PLAN, [{'id': 'first-trade', 'tier': 'basic', 'done': True}])
+
+        self.assertEqual(points['risk'], 0)
 
     def test_idle_player_scores_plan_and_overtrading_only(self):
         match = flat_match().advance(3)
 
-        self.assertEqual(review.decision_breakdown(match, 'me', PLAN, [{'tier': 'bonus', 'done': False}]),
-                         {'missions': 0, 'plan': 25, 'risk': 0, 'overtrading': 10})
+        points, maximum = review.decision_breakdown(match, 'me', PLAN, [{'id': 'first-trade', 'tier': 'basic', 'done': False}])
+
+        self.assertEqual(points, {'missions': 0, 'plan': 25, 'risk': 0, 'overtrading': 10})
+        self.assertEqual(maximum, {'missions': 40, 'plan': 25, 'risk': 25, 'overtrading': 10})
+
+    def test_disabled_stop_orders_leave_risk_out_and_rescale_to_one_hundred(self):
+        match = flat_match(scenario(allow={'limit': True, 'stop': False})).advance(3)
+
+        points, maximum = review.decision_breakdown(match, 'me', PLAN, [{'id': 'first-trade', 'tier': 'basic', 'done': True}])
+
+        self.assertEqual(maximum, {'missions': 54, 'plan': 33, 'risk': 0, 'overtrading': 13})
+        self.assertEqual(points, maximum)
+
+    def test_profit_and_rank_missions_never_count_toward_the_score(self):
+        missions = {'basic': [{'id': 'first-trade', 'type': 'trades_min', 'params': {'n': 1}, 'text': 'Trade'}],
+                    'bonus': [{'id': 'rich', 'type': 'profit_min', 'params': {'amount': 1}, 'text': 'Profit'},
+                              {'id': 'top', 'type': 'rank_max', 'params': {'rank': 1}, 'text': 'Win'}]}
+        match = flat_match(scenario(missions=missions)).advance(3)
+        results = [{'id': 'first-trade', 'tier': 'basic', 'done': False}, {'id': 'rich', 'tier': 'bonus', 'done': True},
+                   {'id': 'top', 'tier': 'bonus', 'done': True}]
+
+        points, _ = review.decision_breakdown(match, 'me', PLAN, results)
+
+        self.assertEqual(points['missions'], 0)
+
+    def test_a_scenario_with_only_outcome_missions_leaves_the_missions_part_out(self):
+        missions = {'basic': [{'id': 'rich', 'type': 'profit_min', 'params': {'amount': 1}, 'text': 'Profit'}], 'bonus': []}
+        match = flat_match(scenario(missions=missions)).advance(3)
+
+        _, maximum = review.decision_breakdown(match, 'me', PLAN, [{'id': 'rich', 'tier': 'basic', 'done': True}])
+
+        self.assertEqual(maximum, {'missions': 0, 'plan': 42, 'risk': 42, 'overtrading': 16})
 
     def test_key_moments_describe_news_with_the_players_holding(self):
         match = flat_match(scenario(news=[NEWS]))

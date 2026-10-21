@@ -1,7 +1,8 @@
 from datetime import datetime
+from decimal import Decimal
 from typing import Literal
 
-from pydantic import BaseModel, Field, model_validator
+from pydantic import BaseModel, Field, field_validator, model_validator
 
 from app.api_schemas.shared_schema import Payload
 
@@ -52,6 +53,15 @@ class PlaceOrder(Payload):
     qty: int = Field(ge=1, le=1_000_000)
     limit_price: float | None = Field(default=None, gt=0, le=1_000_000)
     stop_price: float | None = Field(default=None, gt=0, le=1_000_000)
+
+    @field_validator('limit_price', 'stop_price')
+    @classmethod
+    def whole_cents(cls, value):
+        if value is not None:
+            exact = Decimal(str(value))
+            if exact != exact.quantize(Decimal('0.01')):
+                raise ValueError('Use a price in whole cents, such as 12.34')
+        return value
 
     @model_validator(mode='after')
     def prices_match_type(self):
@@ -233,10 +243,10 @@ class Unlocked(BaseModel):
 
 
 class DecisionBreakdown(BaseModel):
-    missions: int = Field(ge=0, le=40)
-    plan: int = Field(ge=0, le=25)
-    risk: int = Field(ge=0, le=25)
-    overtrading: int = Field(ge=0, le=10)
+    missions: int = Field(ge=0, le=100)
+    plan: int = Field(ge=0, le=100)
+    risk: int = Field(ge=0, le=100)
+    overtrading: int = Field(ge=0, le=100)
 
 
 class GameResult(BaseModel):
@@ -253,6 +263,8 @@ class GameResult(BaseModel):
     plan_review: PlanReview | None
     decision_score: int = Field(ge=0, le=100, description='Unvalidated 0-100 process score; never decides a win')
     decision_breakdown: DecisionBreakdown
+    decision_max: DecisionBreakdown = Field(description='Points available per component; 0 marks a component left out because the '
+                                                        'player could not act on it (the others are rescaled to 100)')
     key_moments: list[str]
     stats: GameStats
     debrief: str

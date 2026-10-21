@@ -126,6 +126,15 @@ class ReservationAndRejectionTests(unittest.TestCase):
 
         self.assertEqual(self.rejection(match, order('s1', 'sell', 11)), 'Not enough shares: you can sell up to 10 LEAF.')
 
+    def test_resting_sells_need_cash_for_the_fee_like_market_sells(self):
+        match = flat_match(price='0.10').advance(0, [order('b1', 'buy', 99_900)])
+
+        reasons = [self.rejection(match, order(oid, 'sell', 1, kind=kind, limit=limit, stop=stop))
+                   for oid, kind, limit, stop in (('m1', 'market', None, None), ('l1', 'limit', '0.10', None), ('s1', 'stop', None, '0.09'))]
+
+        self.assertEqual(match.books['me'].cash, Decimal('0.01'))
+        self.assertEqual(reasons, ['Not enough cash to pay the $1.00 fee.'] * 3)
+
     def test_selling_without_shares_is_rejected(self):
         match = flat_match().advance(0)
 

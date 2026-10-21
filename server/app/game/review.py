@@ -12,26 +12,53 @@ def _pct(value):
     return ('+' if value >= 0 else '−') + f'{abs(value) * HUNDRED:.1f}%'
 
 
+PARTS = {'missions': 40, 'plan': 25, 'risk': 25, 'overtrading': 10}
+OUTCOME_MISSIONS = {'profit_min', 'profit_pct_min', 'rank_max', 'beat_bot', 'beat_buy_hold'}
+
+
 def _protected(book, fill):
     return any(o.type == 'stop' and o.symbol == fill.symbol and o.tick <= fill.t + 1
-               and (o.cancelled_tick is None or o.cancelled_tick >= fill.t) and (o.filled_tick is None or o.filled_tick >= fill.t)
+               and (o.cancelled_tick is None or (o.cancelled_tick > o.tick and o.cancelled_tick >= fill.t))
+               and (o.filled_tick is None or o.filled_tick >= fill.t)
                for o in book.orders.values())
 
 
+def process_missions(match, missions):
+    """Bonus process missions (basic ones when there are none); profit and rank missions never count."""
+    kinds = {mission['id']: mission['type'] for tier in ('basic', 'bonus') for mission in match.scenario['missions'][tier]}
+    process = [m for m in missions if kinds.get(m['id']) not in OUTCOME_MISSIONS]
+    return [m for m in process if m['tier'] == 'bonus'] or process
+
+
+def weights(available):
+    """Rescale the PARTS weights of the available components to whole points that sum to 100 (largest remainder)."""
+    total = sum(PARTS[key] for key in available)
+    exact = {key: Decimal(PARTS[key] * 100) / total if key in available else Decimal(0) for key in PARTS}
+    whole = {key: int(value) for key, value in exact.items()}
+    for key in sorted(available, key=lambda key: (whole[key] - exact[key], list(PARTS).index(key)))[:100 - sum(whole.values())]:
+        whole[key] += 1
+    return whole
+
+
 def decision_breakdown(match, pid, plan, missions):
-    """Points out of 40 bonus missions, 25 plan kept, 25 stop discipline, 10 low overtrading. Not a validated measure."""
+    """(points, maximum points) per component: process missions, plan kept, stop discipline and low overtrading.
+
+    A component the player could not act on (stop orders disabled, no process missions) is left out and the others are
+    rescaled to 100. Profit never adds points directly. Not a validated measure.
+    """
     book = match.books[pid]
-    bonus = [m for m in missions if m['tier'] == 'bonus'] or missions
-    missions_share = Decimal(sum(m['done'] for m in bonus)) / len(bonus)
-    kept = Decimal(bool(plan) and book.max_drawdown_pct <= Decimal(str(plan['max_loss_pct'])))
+    process = process_missions(match, missions)
     buys = [fill for fill in book.fills if fill.side == 'buy']
-    if not match.rules.allow['stop']:
-        discipline = Decimal('0.5')
-    else:
-        discipline = Decimal(sum(_protected(book, fill) for fill in buys)) / len(buys) if buys else Decimal(0)
-    overtrading = 1 - min(Decimal(1), book.fees / max(Decimal(1), abs(match.profit(pid))))
-    parts = {'missions': 40 * missions_share, 'plan': 25 * kept, 'risk': 25 * discipline, 'overtrading': 10 * overtrading}
-    return {key: int(value.to_integral_value()) for key, value in parts.items()}
+    shares = {
+        'missions': Decimal(sum(m['done'] for m in process)) / len(process) if process else None,
+        'plan': Decimal(bool(plan) and book.max_drawdown_pct <= Decimal(str(plan['max_loss_pct']))),
+        'risk': (Decimal(sum(_protected(book, fill) for fill in buys)) / len(buys) if buys else Decimal(0)) if match.rules.allow['stop'] else None,
+        'overtrading': 1 - min(Decimal(1), book.fees / max(Decimal(1), abs(match.profit(pid)))),
+    }
+    maximum = weights([key for key, share in shares.items() if share is not None])
+    points = {key: min(maximum[key], int((maximum[key] * share).to_integral_value())) if share is not None else 0
+              for key, share in shares.items()}
+    return points, maximum
 
 
 def _held(book, t, symbol):
