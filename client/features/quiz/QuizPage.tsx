@@ -222,7 +222,19 @@ function QuizRun({ initial }: { initial: QuizAttempt }) {
       setReviewId(question.id)
       if (updated.status === 'complete') void refreshPlayer()
     } catch (error) {
-      notify(errorText(error), 'error')
+      // The answer may have been saved even though the reply was lost (the
+      // first answer is final), so reload the attempt before asking again.
+      const saved = await getAttempt(attempt.id).catch(() => null)
+      const answered = saved?.questions.find(
+        (item) => item.id === question.id,
+      )?.answered
+      if (saved && answered) {
+        setAttempt(saved)
+        setReviewId(question.id)
+        if (saved.status === 'complete') void refreshPlayer()
+      } else {
+        notify(errorText(error), 'error')
+      }
     } finally {
       setBusy(false)
     }

@@ -1,8 +1,12 @@
 import { useCallback, useEffect, useRef, useSyncExternalStore } from 'react'
 
-/** Call `callback` every `intervalMs` while `active`. */
+/**
+ * Call `callback` about every `intervalMs` while `active`. A slow request is
+ * never overlapped by the next one, and polling pauses while the tab is
+ * hidden (with an immediate call when it becomes visible again).
+ */
 export function usePolling(
-  callback: () => void,
+  callback: () => Promise<unknown> | void,
   intervalMs: number,
   active = true,
 ): void {
@@ -12,8 +16,45 @@ export function usePolling(
   })
   useEffect(() => {
     if (!active) return
-    const timer = setInterval(() => saved.current(), intervalMs)
-    return () => clearInterval(timer)
+    let timer: ReturnType<typeof setTimeout> | null = null
+    let running = false
+    let stopped = false
+
+    function schedule() {
+      if (timer) clearTimeout(timer)
+      timer = stopped || document.hidden ? null : setTimeout(tick, intervalMs)
+    }
+
+    async function tick() {
+      timer = null
+      if (running || stopped || document.hidden) return
+      running = true
+      try {
+        await saved.current()
+      } catch {
+        // Callers surface their own errors; keep polling.
+      } finally {
+        running = false
+        schedule()
+      }
+    }
+
+    function onVisibility() {
+      if (document.hidden) {
+        if (timer) clearTimeout(timer)
+        timer = null
+      } else if (!running) {
+        void tick()
+      }
+    }
+
+    schedule()
+    document.addEventListener('visibilitychange', onVisibility)
+    return () => {
+      stopped = true
+      if (timer) clearTimeout(timer)
+      document.removeEventListener('visibilitychange', onVisibility)
+    }
   }, [intervalMs, active])
 }
 

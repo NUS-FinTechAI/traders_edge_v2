@@ -262,3 +262,25 @@
     opacity: 0.5;
   }
 }
+
+.rankedActions {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.returnBanner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid #2a5466;
+  border-radius: var(--radius-lg);
+  background: var(--info-soft);
+  font-weight: 700;
+}
+
+.returnBanner > span {
+  flex: 1 1 180px;
+}

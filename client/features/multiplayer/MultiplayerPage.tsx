@@ -1,7 +1,9 @@
-import { useEffect, useState, type FormEvent } from 'react'
+import { useRef, useState, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
+import useAuth from '../../hooks/useAuth.ts'
 import {
   createLobby,
+  getLobby,
   getLobbyScenarios,
   getMatchmaking,
   joinLobby,
@@ -10,7 +12,7 @@ import {
   normalizeCode,
   type Match,
 } from '../../services/lobbyService.ts'
-import Button from '../../ui/Button.tsx'
+import Button, { ButtonLink } from '../../ui/Button.tsx'
 import Emblem from '../../ui/Emblem.tsx'
 import Icon from '../../ui/Icon.tsx'
 import PageHeader from '../../ui/PageHeader.tsx'
@@ -20,6 +22,7 @@ import { formatElapsed } from '../../ui/format.ts'
 import { useNow, usePolling } from '../../ui/hooks.ts'
 import { useToast } from '../../ui/toastContext.ts'
 import useResource, { errorText } from '../../ui/useResource.ts'
+import { rememberedLobby } from './lobbyMemory.ts'
 import styles from './Multiplayer.module.css'
 
 const BOT_CHOICES = [0, 1, 2, 3]
@@ -172,27 +175,46 @@ function Ranked() {
   const resource = useResource(getMatchmaking)
   const [match, setMatch] = useState<Match | null>(null)
   const [busy, setBusy] = useState(false)
+  const [pollError, setPollError] = useState(false)
+  // Bumped by every join or cancel so a poll that was already in flight
+  // cannot put a cancelled search back on screen.
+  const generation = useRef(0)
   const current = match ?? resource.data ?? null
   const searching = current?.status === 'searching'
   const now = useNow(1000, searching)
 
-  useEffect(() => {
-    if (current?.status === 'matched' && current.game_id)
-      void navigate(`/game/${encodeURIComponent(current.game_id)}`)
-  }, [current, navigate])
+  /** Open a match found during this visit; replace keeps Back off this page. */
+  function follow(next: Match) {
+    if (next.status === 'matched' && next.game_id)
+      void navigate(`/game/${encodeURIComponent(next.game_id)}`, {
+        replace: true,
+      })
+  }
 
   usePolling(
-    () => {
-      getMatchmaking().then(setMatch, () => {})
+    async () => {
+      const ticket = generation.current
+      try {
+        const next = await getMatchmaking()
+        if (ticket !== generation.current) return
+        setPollError(false)
+        setMatch(next)
+        follow(next)
+      } catch {
+        if (ticket === generation.current) setPollError(true)
+      }
     },
     2000,
     searching,
   )
 
   async function find() {
+    generation.current += 1
     setBusy(true)
     try {
-      setMatch(await joinMatchmaking())
+      const next = await joinMatchmaking()
+      setMatch(next)
+      follow(next)
     } catch (error) {
       notify(errorText(error), 'error')
     } finally {
@@ -201,10 +223,12 @@ function Ranked() {
   }
 
   async function cancel() {
+    generation.current += 1
     setBusy(true)
     try {
       await leaveMatchmaking()
       if (current) setMatch({ ...current, status: 'idle', waiting_since: null })
+      setPollError(false)
     } catch (error) {
       notify(errorText(error), 'error')
     } finally {
@@ -262,6 +286,11 @@ function Ranked() {
                         )}
                       </span>
                     </p>
+                    {pollError && (
+                      <p className={styles.muted}>
+                        Reconnecting to the queue…
+                      </p>
+                    )}
                   </div>
                   <Button
                     variant="secondary"
@@ -272,21 +301,69 @@ function Ranked() {
                   </Button>
                 </div>
               ) : (
-                <Button
-                  size="lg"
-                  icon="swords"
-                  block
-                  disabled={busy}
-                  onClick={() => void find()}
-                >
-                  Find match
-                </Button>
+                <div className={styles.rankedActions}>
+                  {current.status === 'matched' && current.game_id && (
+                    <ButtonLink
+                      to={`/game/${encodeURIComponent(current.game_id)}`}
+                      size="lg"
+                      icon="play"
+                      block
+                    >
+                      Resume match
+                    </ButtonLink>
+                  )}
+                  <Button
+                    size="lg"
+                    icon="swords"
+                    block
+                    variant={
+                      current.status === 'matched' ? 'secondary' : 'primary'
+                    }
+                    disabled={busy}
+                    onClick={() => void find()}
+                  >
+                    {current.status === 'matched'
+                      ? 'Find a new match'
+                      : 'Find match'}
+                  </Button>
+                </div>
               )}
             </>
           )
         }
       </ResourceView>
     </section>
+  )
+}
+
+/** "Return to your lobby" while this player is still in an open lobby. */
+function LobbyReturn() {
+  const { user } = useAuth()
+  const lobbyId = rememberedLobby()
+  const lobby = useResource(
+    (signal) =>
+      lobbyId ? getLobby(lobbyId, signal) : Promise.resolve(null),
+    [lobbyId],
+  )
+  const data = lobby.data
+  if (!lobbyId || lobby.status === 'error') return null
+  if (!data) return null
+  const member = data.members.some((item) => item.user_id === user?.id)
+  if (data.status !== 'open' || !member) return null
+  return (
+    <div className={styles.returnBanner} role="status">
+      <Icon name="users" size={20} />
+      <span>
+        You’re still in lobby <span className="num">{data.code}</span>.
+      </span>
+      <ButtonLink
+        to={`/multiplayer/lobby/${encodeURIComponent(data.id)}`}
+        variant="secondary"
+        iconRight="chevron-right"
+      >
+        Return to your lobby
+      </ButtonLink>
+    </div>
   )
 }
 
@@ -298,6 +375,7 @@ export default function MultiplayerPage() {
         title="Multiplayer"
         subtitle="Trade the same market as real players. Highest profit wins."
       />
+      <LobbyReturn />
       <div className={styles.grid}>
         <PrivateLobby />
         <Ranked />

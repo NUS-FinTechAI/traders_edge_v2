@@ -6,6 +6,7 @@ import {
   type Leaderboard,
 } from '../../services/playerService.ts'
 import Avatar from '../../ui/Avatar.tsx'
+import { itemImage } from '../../ui/avatarImage.ts'
 import Chip from '../../ui/Chip.tsx'
 import Emblem from '../../ui/Emblem.tsx'
 import Icon from '../../ui/Icon.tsx'
@@ -21,8 +22,8 @@ import styles from './Leaderboard.module.css'
 type Board = 'ranked' | 'xp'
 
 const TABS = [
-  { id: 'ranked', label: 'Ranked' },
   { id: 'xp', label: 'XP' },
+  { id: 'ranked', label: 'Ranked' },
 ] as const
 
 const MEDALS = ['gold', 'neutral', 'loss'] as const
@@ -51,7 +52,11 @@ function Standings({ board, data }: { board: Board; data: Leaderboard }) {
         ) : (
           <Emblem name="podium" size={96} tone="gold" shape="circle" />
         )}
-        <p className={`num ${styles.meRank}`}>
+        <p
+          className={
+            data.me.rank ? `num ${styles.meRank}` : styles.meRankEmpty
+          }
+        >
           {data.me.rank ? `#${formatCount(data.me.rank)}` : 'Unranked'}
         </p>
         <p className={styles.meValue}>
@@ -81,9 +86,9 @@ function Standings({ board, data }: { board: Board; data: Leaderboard }) {
         </h2>
         {data.entries.length ? (
           <ol className={styles.rows}>
-            {data.entries.map((entry) => (
+            {data.entries.map((entry, index) => (
               <li
-                key={`${entry.rank}-${entry.name}`}
+                key={`${entry.rank}-${entry.name}-${index}`}
                 className={[styles.row, entry.is_me && styles.rowMe]
                   .filter(Boolean)
                   .join(' ')}
@@ -101,7 +106,11 @@ function Standings({ board, data }: { board: Board; data: Leaderboard }) {
                 ) : (
                   <span className={`num ${styles.rank}`}>{entry.rank}</span>
                 )}
-                <Avatar id={entry.avatar_id} size={40} />
+                <Avatar
+                  id={entry.avatar_id}
+                  image={itemImage(entry)}
+                  size={40}
+                />
                 <span className={styles.who}>
                   <span className={styles.name}>
                     {entry.name}
@@ -135,7 +144,7 @@ function Standings({ board, data }: { board: Board; data: Leaderboard }) {
 }
 
 export default function LeaderboardPage() {
-  const [board, setBoard] = useState<Board>('ranked')
+  const [board, setBoard] = useState<Board>('xp')
   const resource = useResource(
     (signal) => getLeaderboard(board, signal),
     [board],

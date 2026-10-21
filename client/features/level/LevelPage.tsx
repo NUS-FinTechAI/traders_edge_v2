@@ -1,4 +1,4 @@
-import { Fragment, useState, type ReactNode } from 'react'
+import { Fragment, useEffect, useRef, useState, type ReactNode } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { usePlayer } from '../../app/PlayerContext.ts'
 import {
@@ -13,7 +13,6 @@ import Button from '../../ui/Button.tsx'
 import Chip, { CurrencyChip } from '../../ui/Chip.tsx'
 import { Choices, Feedback } from '../../ui/Choices.tsx'
 import Emblem from '../../ui/Emblem.tsx'
-import Icon from '../../ui/Icon.tsx'
 import Modal from '../../ui/Modal.tsx'
 import ProgressBar from '../../ui/ProgressBar.tsx'
 import ResourceView from '../../ui/ResourceView.tsx'
@@ -25,6 +24,9 @@ import LessonVisual from './visuals/LessonVisual.tsx'
 import styles from './Level.module.css'
 
 type Phase = 'choose' | 'cards' | 'check' | 'done' | 'practice'
+
+/** Newer servers also report this run's first-try score. */
+type RunSummary = CheckComplete & { run_first_try_correct?: number }
 
 /** Plain text with **bold** spans; blank lines start new paragraphs. */
 function RichText({ text }: { text: string }) {
@@ -45,36 +47,17 @@ function RichText({ text }: { text: string }) {
     ))
 }
 
-function MissionList({ level }: { level: Level }) {
-  return (
-    <ul className={styles.missions}>
-      {level.practice.missions.map((mission) => (
-        <li key={mission.text}>
-          <Icon
-            name={mission.tier === 'bonus' ? 'sparkle' : 'star'}
-            size={20}
-            filled
-            className={mission.tier === 'bonus' ? styles.gem : styles.gold}
-          />
-          <span>
-            <span className="visually-hidden">
-              {mission.tier === 'bonus' ? 'Bonus mission: ' : 'Mission: '}
-            </span>
-            {mission.text}
-          </span>
-        </li>
-      ))}
-    </ul>
-  )
-}
-
 function LevelFlow({ level }: { level: Level }) {
   const navigate = useNavigate()
   const notify = useToast()
   const { refreshPlayer } = usePlayer()
   const { start, busy: starting } = useStartGame()
-  const [phase, setPhase] = useState<Phase>(
-    level.progress.check_done ? 'choose' : 'cards',
+  const [phase, setPhase] = useState<Phase>(() =>
+    level.progress.check_done
+      ? 'choose'
+      : level.cards.length
+        ? 'cards'
+        : 'check',
   )
   const [cardIndex, setCardIndex] = useState(0)
   const [queue, setQueue] = useState(() =>
@@ -86,6 +69,7 @@ function LevelFlow({ level }: { level: Level }) {
   const [summary, setSummary] = useState<CheckComplete | null>(null)
   const [leaving, setLeaving] = useState(false)
   const [glossary, setGlossary] = useState(false)
+  const autoFinished = useRef(false)
 
   const mapPath = `/adventure/${encodeURIComponent(level.chapter_id)}`
   const cards = level.cards
@@ -109,6 +93,7 @@ function LevelFlow({ level }: { level: Level }) {
     setSelected(null)
     setAnswer(null)
     setSummary(null)
+    autoFinished.current = false
     setPhase(cards.length ? 'cards' : 'check')
   }
 
@@ -136,6 +121,15 @@ function LevelFlow({ level }: { level: Level }) {
       setBusy(false)
     }
   }
+
+  // A level whose check has no questions (or whose last answer was saved
+  // before a reload) still closes the check once, so practice unlocks.
+  useEffect(() => {
+    if (phase !== 'check' || question || summary || autoFinished.current)
+      return
+    autoFinished.current = true
+    queueMicrotask(() => void finishCheck())
+  })
 
   function next() {
     if (!question || !answer) return
@@ -290,14 +284,25 @@ function LevelFlow({ level }: { level: Level }) {
       </div>
     )
   } else if (phase === 'done') {
+    const runScore =
+      (summary as RunSummary | null)?.run_first_try_correct ??
+      firstTryCount(queue)
+    const runTotal = summary?.total ?? questions.length
+    const strong = runTotal > 0 && runScore * 2 >= runTotal
     body = (
       <div className={styles.choose}>
-        <Emblem name="trophy" size={96} tone="gold" shape="circle" />
-        <h1 className={styles.title}>Check complete!</h1>
+        <Emblem
+          name={strong ? 'trophy' : 'book'}
+          size={96}
+          tone={strong ? 'gold' : 'gem'}
+          shape="circle"
+        />
+        <h1 className={styles.title}>
+          {strong ? 'Check complete!' : 'Check complete — keep practising'}
+        </h1>
         <p className={styles.score}>
           <span className="num">
-            {summary?.first_try_correct ?? firstTryCount(queue)}/
-            {summary?.total ?? questions.length}
+            {runScore}/{runTotal}
           </span>{' '}
           right first try
         </p>
@@ -331,49 +336,21 @@ function LevelFlow({ level }: { level: Level }) {
           </div>
         </div>
         <p className={styles.briefingText}>{level.practice.briefing}</p>
-        <div className={styles.missionBox}>
-          <p className={styles.missionHead}>Missions</p>
-          <MissionList level={level} />
-        </div>
-        <p className={styles.starsLine}>
-          <span>
-            <Icon
-              name="star"
-              size={18}
-              filled={level.progress.normal_star}
-              className={level.progress.normal_star ? styles.gold : styles.dim}
-            />
-            {level.progress.normal_star ? 'Star earned' : 'Star to win'}
-          </span>
-          <span>
-            <Icon
-              name="sparkle"
-              size={18}
-              filled={level.progress.special_star}
-              className={level.progress.special_star ? styles.gem : styles.dim}
-            />
-            {level.progress.special_star
-              ? 'Bonus star earned'
-              : 'Bonus star to win'}
-          </span>
-        </p>
       </section>
     )
     footer = (
       <div className={styles.practiceActions}>
         <Button
-          variant="ghost"
-          size="lg"
-          onClick={() => void navigate(mapPath)}
-        >
-          Back to map
-        </Button>
-        <Button
           size="lg"
           icon="play"
           className={styles.grow}
           disabled={!!starting}
-          onClick={() => void start({ mode: 'level', level_id: level.id })}
+          onClick={() =>
+            void start(
+              { mode: 'level', level_id: level.id },
+              { scenarioId: level.practice.scenario_id },
+            )
+          }
         >
           {starting ? 'Starting…' : 'Start trading mission'}
         </Button>

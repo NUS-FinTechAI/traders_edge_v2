@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import { usePlayer } from '../../app/PlayerContext.ts'
+import RequirePlayer from '../../app/RequirePlayer.tsx'
 import {
   getShop,
   purchase,
+  type Player,
   type ShopItem,
 } from '../../services/playerService.ts'
 import Avatar from '../../ui/Avatar.tsx'
@@ -14,7 +16,7 @@ import Modal from '../../ui/Modal.tsx'
 import PageHeader from '../../ui/PageHeader.tsx'
 import ProgressBar from '../../ui/ProgressBar.tsx'
 import ResourceView from '../../ui/ResourceView.tsx'
-import { EmptyState, Loading, SectionHeader } from '../../ui/States.tsx'
+import { EmptyState, SectionHeader } from '../../ui/States.tsx'
 import { formatCount, formatShortDate } from '../../ui/format.ts'
 import { useToast } from '../../ui/toastContext.ts'
 import useResource, { errorText } from '../../ui/useResource.ts'
@@ -44,13 +46,19 @@ function Price({ item }: { item: ShopItem }) {
 }
 
 export default function ShopPage() {
-  const { player, refreshPlayer } = usePlayer()
+  return (
+    <RequirePlayer label="Opening the shop…">
+      {(player) => <Shop player={player} />}
+    </RequirePlayer>
+  )
+}
+
+function Shop({ player }: { player: Player }) {
+  const { refreshPlayer } = usePlayer()
   const notify = useToast()
   const shop = useResource(getShop)
   const [confirm, setConfirm] = useState<ShopItem | null>(null)
   const [busy, setBusy] = useState(false)
-
-  if (!player) return <Loading label="Opening the shop…" />
 
   const balance = (item: ShopItem) =>
     item.currency === 'gems' ? player.wallet.gems : player.wallet.doubloons

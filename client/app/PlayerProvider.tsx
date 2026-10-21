@@ -1,32 +1,47 @@
-import { useCallback, useEffect, useState, type ReactNode } from 'react'
+import { useCallback, useState, type ReactNode } from 'react'
 import useAuth from '../hooks/useAuth.ts'
 import { getMe, type Player } from '../services/playerService.ts'
+import { errorText } from '../ui/useResource.ts'
 import { PlayerContext } from './PlayerContext.ts'
 
-/** Keeps the signed-in player's HUD data (level, wallet, streak) current. */
+/** A profile fetched here, tied to the auth profile it replaced. */
+interface Fetched {
+  base: Player | null
+  player: Player
+}
+
+/**
+ * Keeps the signed-in player's HUD data (level, wallet, streak) current. The
+ * profile verified at sign-in (GET /api/me) is shown at once; refreshes after
+ * rewards replace it, and a failed refresh keeps the last good profile and
+ * reports the error.
+ */
 export default function PlayerProvider({ children }: { children: ReactNode }) {
   const { status, user } = useAuth()
-  const [player, setPlayer] = useState<Player | null>(null)
+  const [fetched, setFetched] = useState<Fetched | null>(null)
+  const [error, setError] = useState<string | null>(null)
   const signedIn = status === 'signed-in'
 
   const refreshPlayer = useCallback(async () => {
     try {
-      setPlayer(await getMe())
-    } catch {
-      setPlayer(null)
+      const player = await getMe()
+      setFetched({ base: user, player })
+      setError(null)
+    } catch (caught) {
+      setError(errorText(caught))
     }
-  }, [])
+  }, [user])
 
-  useEffect(() => {
-    if (!signedIn) return
-    const controller = new AbortController()
-    getMe(controller.signal).then(setPlayer, () => {})
-    return () => controller.abort()
-  }, [signedIn, user?.id])
+  // A newer sign-in profile (another refresh) supersedes an older fetch.
+  const player = !signedIn
+    ? null
+    : fetched && fetched.base === user
+      ? fetched.player
+      : user
 
   return (
     <PlayerContext.Provider
-      value={{ player: signedIn ? player : null, refreshPlayer }}
+      value={{ player, error: signedIn ? error : null, refreshPlayer }}
     >
       {children}
     </PlayerContext.Provider>

@@ -17,6 +17,7 @@ import ResourceView from '../../ui/ResourceView.tsx'
 import { EmptyState, SectionHeader } from '../../ui/States.tsx'
 import useResource from '../../ui/useResource.ts'
 import DailyCard from './DailyCard.tsx'
+import ResumeMatches from './ResumeMatches.tsx'
 import useStartGame from './useStartGame.ts'
 import styles from './Play.module.css'
 
@@ -74,54 +75,77 @@ function PracticeCard({
   )
 }
 
-function BossRow({
-  boss,
+const BOSS_KIND = { boss: 'Chapter boss', gate: 'Gate boss' } as const
+
+function BossChapter({
+  chapterId,
+  bosses,
   busy,
   onStart,
 }: {
-  boss: BossEntry
+  chapterId: string
+  bosses: BossEntry[]
   busy: boolean
-  onStart: () => void
+  onStart: (boss: BossEntry) => void
 }) {
-  const number = Number(boss.chapter_id.replace(/\D/g, '')) || null
-  const locked = boss.state === 'locked'
+  const number = Number(chapterId.replace(/\D/g, '')) || null
+  const ordered = [...bosses].sort(
+    (a, b) => Number(a.kind === 'gate') - Number(b.kind === 'gate'),
+  )
   return (
-    <li className={styles.boss}>
-      <Emblem
-        name={boss.kind === 'gate' ? 'shield' : 'crown'}
-        size={48}
-        shape="circle"
-        tone={boss.won ? 'green' : locked ? 'neutral' : 'gold'}
-      />
-      <div className={styles.bossText}>
-        <span className={styles.bossKind}>
-          {boss.kind === 'gate' ? 'Gate boss' : 'Chapter boss'}
-          {number ? ` · Chapter ${number}` : ''}
-        </span>
-        <strong>{boss.title}</strong>
-      </div>
-      <div className={styles.bossActions}>
-        {boss.won ? (
-          <Chip tone="gain" icon="check">
-            Won
-          </Chip>
-        ) : locked ? (
-          <Chip icon="lock">Locked</Chip>
-        ) : null}
-        {!locked && (
-          <Button
-            variant={boss.won ? 'ghost' : 'primary'}
-            icon="swords"
-            disabled={busy}
-            onClick={onStart}
-            aria-label={`Battle ${boss.title}`}
-          >
-            Battle
-          </Button>
-        )}
-      </div>
+    <li className={styles.bossChapter}>
+      <h3 className={styles.bossChapterTitle}>
+        {number ? `Chapter ${number}` : chapterId}
+      </h3>
+      <ul className={styles.bossPair}>
+        {ordered.map((boss) => {
+          const locked = boss.state === 'locked'
+          const kind = BOSS_KIND[boss.kind]
+          return (
+            <li key={boss.kind} className={styles.boss}>
+              <Emblem
+                name={boss.kind === 'gate' ? 'shield' : 'crown'}
+                size={44}
+                shape="circle"
+                tone={boss.won ? 'green' : locked ? 'neutral' : 'gold'}
+              />
+              <div className={styles.bossText}>
+                <span className={styles.bossKind}>{kind}</span>
+                <strong>{boss.title}</strong>
+              </div>
+              <div className={styles.bossActions}>
+                {boss.won ? (
+                  <Chip tone="gain" icon="check">
+                    Won
+                  </Chip>
+                ) : locked ? (
+                  <Chip icon="lock">Locked</Chip>
+                ) : null}
+                {!locked && (
+                  <Button
+                    variant={boss.won ? 'ghost' : 'primary'}
+                    icon="swords"
+                    disabled={busy}
+                    onClick={() => onStart(boss)}
+                    aria-label={`${boss.won ? 'Rematch' : 'Battle'} ${kind}: ${boss.title}`}
+                  >
+                    {boss.won ? 'Rematch' : 'Battle'}
+                  </Button>
+                )}
+              </div>
+            </li>
+          )
+        })}
+      </ul>
     </li>
   )
+}
+
+function byChapter(bosses: BossEntry[]): [string, BossEntry[]][] {
+  const groups = new Map<string, BossEntry[]>()
+  for (const boss of bosses)
+    groups.set(boss.chapter_id, [...(groups.get(boss.chapter_id) ?? []), boss])
+  return [...groups]
 }
 
 export default function PlayPage() {
@@ -143,6 +167,8 @@ export default function PlayPage() {
         title="Play"
         subtitle="Pick a challenge. Profit decides the match; your missions show what you learned."
       />
+
+      <ResumeMatches />
 
       <section aria-label="Daily challenge">
         <ResourceView resource={daily} label="Loading the daily…">
@@ -190,7 +216,7 @@ export default function PlayPage() {
                     onStart={() =>
                       void start(
                         { mode: 'practice', scenario_id: scenario.id },
-                        { key: scenario.id },
+                        { key: scenario.id, scenarioId: scenario.id },
                       )
                     }
                   />
@@ -204,22 +230,26 @@ export default function PlayPage() {
       </section>
 
       <section aria-label="Boss battles">
-        <SectionHeader title="Boss battles" eyebrow="Rematch" />
+        <SectionHeader title="Boss battles" eyebrow="By chapter" />
         <ResourceView resource={bosses} label="Loading bosses…">
           {(data) =>
             data.bosses.length ? (
               <ul className={styles.bosses}>
-                {data.bosses.map((boss) => (
-                  <BossRow
-                    key={`${boss.chapter_id}-${boss.kind}`}
-                    boss={boss}
+                {byChapter(data.bosses).map(([chapterId, pair]) => (
+                  <BossChapter
+                    key={chapterId}
+                    chapterId={chapterId}
+                    bosses={pair}
                     busy={!!busy}
-                    onStart={() =>
-                      void start({
-                        mode: 'boss',
-                        chapter_id: boss.chapter_id,
-                        boss: boss.kind === 'gate' ? 'gate' : 'final',
-                      })
+                    onStart={(boss) =>
+                      void start(
+                        {
+                          mode: 'boss',
+                          chapter_id: boss.chapter_id,
+                          boss: boss.kind === 'gate' ? 'gate' : 'final',
+                        },
+                        { scenarioId: boss.scenario_id },
+                      )
                     }
                   />
                 ))}

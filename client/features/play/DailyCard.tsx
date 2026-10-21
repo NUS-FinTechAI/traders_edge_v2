@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { usePlayer } from '../../app/PlayerContext.ts'
 import {
   onCooldown,
@@ -21,8 +22,11 @@ import styles from './DailyCard.module.css'
 /** Weekly-track Doubloons for the first daily win of a UTC day (GDD §6.2). */
 const DAILY_WIN_DOUBLOONS = 200
 
+/** `active_game_id` names an unsettled daily to resume (newer servers). */
+type DailyView = Daily & { active_game_id?: string | null }
+
 interface DailyCardProps {
-  daily: Daily
+  daily: DailyView
   onChange: (daily: Daily) => void
   onReload: () => void
   full?: boolean
@@ -37,6 +41,7 @@ export default function DailyCard({
   const { player, refreshPlayer } = usePlayer()
   const notify = useToast()
   const { start, busy } = useStartGame()
+  const navigate = useNavigate()
   const [refreshing, setRefreshing] = useState(false)
   const now = useNow(15000, !!daily.cooldown_until)
   const cooling = onCooldown(daily, now)
@@ -151,7 +156,19 @@ export default function DailyCard({
         </div>
       </div>
       <div className={styles.actions}>
-        {cooling && daily.cooldown_until ? (
+        {daily.active_game_id ? (
+          <Button
+            size={full ? 'lg' : 'md'}
+            icon="play"
+            onClick={() =>
+              void navigate(
+                `/game/${encodeURIComponent(daily.active_game_id ?? '')}`,
+              )
+            }
+          >
+            Resume today’s daily
+          </Button>
+        ) : cooling && daily.cooldown_until ? (
           <>
             <p className={styles.next}>
               <Icon name="clock" size={16} />
@@ -175,7 +192,12 @@ export default function DailyCard({
             size={full ? 'lg' : 'md'}
             icon="play"
             disabled={!!busy}
-            onClick={() => void start({ mode: 'daily' }, { onError: onReload })}
+            onClick={() =>
+              void start(
+                { mode: 'daily' },
+                { onError: onReload, scenarioId: daily.scenario.id },
+              )
+            }
           >
             {busy ? 'Starting…' : daily.won_today ? 'Play again' : 'Play'}
           </Button>

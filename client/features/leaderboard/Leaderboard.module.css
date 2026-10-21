@@ -158,3 +158,9 @@
   font-weight: 800;
   white-space: nowrap;
 }
+
+.meRankEmpty {
+  font-size: var(--text-xl);
+  font-weight: 800;
+  line-height: 1.1;
+}
