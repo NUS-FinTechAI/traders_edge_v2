@@ -106,17 +106,28 @@ async def pick_questions(db, content, user_id, topic_id, chapters):
     return _weighted_sample(pool, weights, SIZES[kind])
 
 
+def available(content, attempt):
+    """The attempt's items whose question (and every option) is still in the bank; removed questions are skipped."""
+    entries = []
+    for entry in attempt.items:
+        item = content.quiz.questions.get(entry['question_id'])
+        if item and set(entry['options']) <= {option['id'] for option in item['options']}:
+            entries.append((entry, item))
+    return entries
+
+
 def attempt_view(content, attempt):
     questions = []
-    for entry in attempt.items:
-        item = content.quiz.questions[entry['question_id']]
+    entries = available(content, attempt)
+    for entry, item in entries:
         options = {option['id']: option for option in item['options']}
         answer = attempt.answers.get(item['id'])
         questions.append({'id': item['id'], 'prompt': item['prompt'], 'options': [options[key] for key in entry['options']],
                           'answered': None if answer is None else {'option_id': answer['option_id'], 'correct': answer['correct'],
                                                                    'correct_option_id': item['answer'], 'explanation': item['explanation']}})
+    total = attempt.total if attempt.status == 'complete' else len(entries)
     return {'id': attempt.id, 'title': topic_title(content.campaign, attempt.topic_id), 'room_id': attempt.room_id, 'status': attempt.status,
-            'questions': questions, 'score': attempt.score, 'total': attempt.total, 'passed': attempt.passed, 'xp': attempt.xp}
+            'questions': questions, 'score': attempt.score, 'total': total, 'passed': attempt.passed, 'xp': attempt.xp}
 
 
 async def topics(db, content, profile):
@@ -188,9 +199,12 @@ async def owned_attempt(db, profile, attempt_id, lock=False):
 
 async def answer(db, content, profile, attempt_id, body):
     attempt = await owned_attempt(db, profile, attempt_id, lock=True)
-    entry = next((entry for entry in attempt.items if entry['question_id'] == body.question_id), None)
-    if entry is None:
+    if not any(entry['question_id'] == body.question_id for entry in attempt.items):
         raise HTTPException(404, 'That question is not part of this quiz')
+    entries = available(content, attempt)
+    entry = next((entry for entry, _ in entries if entry['question_id'] == body.question_id), None)
+    if entry is None:
+        raise HTTPException(409, 'This question is no longer available')
     if body.option_id not in entry['options']:
         raise HTTPException(422, 'That option is not part of this question')
     previous = attempt.answers.get(body.question_id)
@@ -201,7 +215,8 @@ async def answer(db, content, profile, attempt_id, body):
     correct = body.option_id == content.quiz.questions[body.question_id]['answer']
     attempt.answers = {**attempt.answers, body.question_id: {'option_id': body.option_id, 'correct': correct, 'confidence': body.confidence}}
     attempt.score += int(correct)
-    if len(attempt.answers) == attempt.total:
+    if all(item['id'] in attempt.answers for _, item in entries):
+        attempt.total = len(entries)
         await complete(db, content, profile, attempt)
     await db.flush()
     return attempt

@@ -1,7 +1,24 @@
+from unittest.mock import patch
+
 from progression_fixtures import AppCase
 
 
 class QuizTests(AppCase):
+    def test_attempt_skips_a_question_removed_from_the_bank_and_completes_without_it(self):
+        attempt = self.start(topic_id='daily-review')
+        removed = attempt['questions'][0]
+        with patch.dict(self.content.quiz.questions):
+            del self.content.quiz.questions[removed['id']]
+            view = self.client.get(f'/api/quizzes/attempts/{attempt["id"]}')
+            answered = self.answer(attempt, removed, removed['options'][0]['id'])
+            rest = [question for question in attempt['questions'] if question['id'] != removed['id']]
+            final = self.finish({**attempt, 'questions': rest}, correct=len(rest))
+
+        self.assertEqual(view.status_code, 200, view.text)
+        self.assertNotIn(removed['id'], [question['id'] for question in view.json()['questions']])
+        self.assertEqual((answered.status_code, answered.json()['detail']), (409, 'This question is no longer available'))
+        self.assertEqual((final['status'], final['score'], final['total']), ('complete', len(rest), len(rest)))
+
     def start(self, **body):
         response = self.client.post('/api/quizzes/attempts', json=body)
         self.assertEqual(response.status_code, 201, response.text)
