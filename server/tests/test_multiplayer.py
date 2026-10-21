@@ -1,3 +1,4 @@
+from datetime import timedelta
 import unittest
 from unittest.mock import patch
 
@@ -5,8 +6,8 @@ from sqlalchemy import func, select
 
 from app.economy_models import EconomyEvent
 from app.game.models import Game, GameParticipant
-from app.multiplayer import elo
-from app.multiplayer.models import Rating
+from app.multiplayer import elo, service
+from app.multiplayer.models import QueueEntry, Rating
 from progression_fixtures import AppCase, result
 
 COOKIE = 'traders_edge_session'
@@ -136,8 +137,59 @@ class MultiplayerTests(AppCase):
         self.assertEqual(host_view['game_id'], matched['game_id'])
         game = self.client.get(f'/api/games/{matched["game_id"]}').json()
         self.assertEqual((game['mode'], [entry['kind'] for entry in game['leaderboard']]), ('ranked', ['human', 'human']))
-        self.assertEqual(self.client.delete('/api/matchmaking').status_code, 204)
+
+    def test_leaving_the_queue_after_a_match_started_is_refused(self):
+        _, matched, _ = self.ranked_pair()
+
+        left = self.client.delete('/api/matchmaking')
+
+        self.assertEqual((left.status_code, left.json()['detail']), (409, 'Your match has started'))
+        self.assertEqual(self.client.get('/api/matchmaking').json()['game_id'], matched['game_id'])
+
+    def test_leaving_while_searching_returns_to_idle(self):
+        self.win_boss('ch3')
+        self.client.post('/api/matchmaking', json={})
+
+        left = self.client.delete('/api/matchmaking')
+
+        self.assertEqual(left.status_code, 204)
         self.assertEqual(self.client.get('/api/matchmaking').json()['status'], 'idle')
+
+    def add_searching_entry(self, user_id, created_at):
+        async def add(db):
+            db.add(QueueEntry(user_id=user_id, status='searching', created_at=created_at))
+        self.run_db(add)
+
+    def test_polling_pairs_a_search_with_a_rival_who_joined_without_being_paired(self):
+        self.win_boss('ch3')
+        self.client.post('/api/matchmaking', json={})
+        rival = self.add_user('rival')
+        self.add_searching_entry(rival, self.now)
+        self.act_as('host')
+
+        polled = self.client.get('/api/matchmaking').json()
+
+        self.assertEqual(polled['status'], 'matched')
+        self.act_as('rival')
+        self.assertEqual(self.client.get('/api/matchmaking').json()['game_id'], polled['game_id'])
+
+    def test_searches_older_than_two_minutes_are_idle_and_never_paired(self):
+        stale = self.add_user('stale')
+        self.add_searching_entry(stale, self.now - timedelta(minutes=2, seconds=1))
+        stale_view = self.client.get('/api/matchmaking').json()
+        self.act_as('host')
+        self.win_boss('ch3')
+
+        joined = self.client.post('/api/matchmaking', json={}).json()
+
+        self.assertEqual(stale_view['status'], 'idle')
+        self.assertEqual((joined['status'], joined['game_id']), ('searching', None))
+
+    def test_lobby_bots_fill_from_the_default_roster_when_the_scenario_lists_too_few(self):
+        with patch('app.multiplayer.service.load_scenarios', return_value={'practice-trend-rider': {'bots': ['hodl-hannah']}}):
+            bots = service.lobby_bots('practice-trend-rider', 3)
+
+        self.assertEqual(bots, ['hodl-hannah', 'momentum-max-pro', 'value-vera-pro'])
 
     def finish_ranked(self, game_id, name, qty=0):
         self.act_as(name)
