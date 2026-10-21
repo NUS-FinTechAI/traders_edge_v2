@@ -133,7 +133,7 @@
         "id": "stop",
         "type": "stop_loss_set",
         "params": {},
-        "text": "Keep a stop-loss back inside the base"
+        "text": "Place a stop-loss order (aim back inside the base)"
       }
     ],
     "bonus": [

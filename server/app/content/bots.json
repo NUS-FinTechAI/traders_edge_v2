@@ -58,7 +58,7 @@
     "name": "Value Vera",
     "tier": "rookie",
     "avatar": "owl",
-    "style": "Buys dips and sells the bounce.",
+    "style": "Buys chart dips and sells the bounce; ignores earnings and P/E",
     "strategy": "mean_reversion",
     "params": {
       "entry": "red_candles",
@@ -76,7 +76,7 @@
     "name": "Value Vera",
     "tier": "pro",
     "avatar": "owl",
-    "style": "Buys dips and sells the bounce.",
+    "style": "Buys chart dips and sells the bounce; ignores earnings and P/E",
     "strategy": "mean_reversion",
     "params": {
       "entry": "rsi",
@@ -95,7 +95,7 @@
     "name": "Value Vera",
     "tier": "elite",
     "avatar": "owl",
-    "style": "Buys dips and sells the bounce.",
+    "style": "Buys chart dips and sells the bounce; ignores earnings and P/E",
     "strategy": "mean_reversion",
     "params": {
       "entry": "rsi",

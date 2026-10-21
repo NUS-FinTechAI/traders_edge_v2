@@ -560,7 +560,7 @@
         {
           "title": "Fee drag",
           "visual": "bid-ask-spread",
-          "body": "In this game a round trip costs about 0.1% in spread plus 0.1% in fees each way: roughly **0.3%** of the trade. Forty round trips of $5,000 cost about $600 before a single losing trade."
+          "body": "In this game a round trip pays the spread once (about 0.1% in total) plus a 0.1% fee on the buy and again on the sell: roughly **0.3%** of the trade. Forty round trips of $5,000 cost about $600 before a single losing trade."
         },
         {
           "title": "Fewer, better trades",

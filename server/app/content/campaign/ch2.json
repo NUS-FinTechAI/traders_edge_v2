@@ -316,7 +316,7 @@
         },
         {
           "title": "Buy stops and stop-limits",
-          "body": "Real brokers also offer a **buy stop** above the price, which buys when the price breaks upward, and a **stop-limit**, which becomes a limit once triggered: it protects your price but might not fill in a gap. In this game, stop orders are sell stop-losses."
+          "body": "Real brokers also offer a **buy stop** above the price, which buys when the price breaks upward, and a **stop-limit**, which becomes a limit once triggered: it protects your price but might not fill in a gap. In this game, stop orders are sell stop-losses only. A stop-loss and a sell limit cannot cover the same shares at once, so to use both, split your shares between them."
         },
         {
           "title": "Where to place it",
@@ -392,12 +392,12 @@
         { "term": "Depth", "definition": "How many shares wait at each price in the order book." },
         { "term": "Volume", "definition": "The number of shares traded in a period, shown as bars under the chart." },
         { "term": "Thin market", "definition": "A market with few shares waiting and little trading, so spreads are wide." },
-        { "term": "Partial fill", "definition": "When only part of an order executes and the rest waits or is cancelled." }
+        { "term": "Partial fill", "definition": "When only part of an order executes and the rest waits or is canceled." }
       ],
       "cards": [
         {
           "title": "The order book",
-          "body": "The **order book** lists waiting limit orders: bids (buyers) below, asks (sellers) above. The best bid and best ask sit at the top, and the gap between them is the spread. Each line shows a price and how many shares wait there.",
+          "body": "The **order book** lists waiting limit orders: bids (buyers) below, asks (sellers) above. The best bid and best ask sit at the top, and the gap between them is the spread. Each line shows a price and how many shares wait there. In this game you see only the best bid and ask, not the full book.",
           "visual": "order-book"
         },
         {

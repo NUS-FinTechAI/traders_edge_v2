@@ -198,7 +198,7 @@
         "id": "stop",
         "type": "stop_loss_set",
         "params": {},
-        "text": "Protect a position with a stop-loss"
+        "text": "Place a stop-loss order"
       }
     ],
     "bonus": [

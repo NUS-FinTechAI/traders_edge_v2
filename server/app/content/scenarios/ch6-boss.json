@@ -77,7 +77,7 @@
       "id": "earnings-calendar",
       "tick": 1,
       "headline": "Calendar: Orchard Foods reports on day 8, rate decision on day 12, Nimbus Cloud reports on day 16",
-      "body": "Analysts expect Orchard Foods to earn $0.48 a share and Nimbus Cloud $1.10. Most expect a 0.25% rate rise.",
+      "body": "Analysts expect Orchard Foods to earn $0.48 a share and Nimbus Cloud $1.10. Most expect a 0.25 percentage-point rate rise.",
       "tone": "neutral",
       "kind": "earnings",
       "symbols": [
@@ -114,7 +114,7 @@
     {
       "id": "rate-surprise",
       "tick": 12,
-      "headline": "Rates rise 0.50%, more than expected; growth shares hit hardest",
+      "headline": "Rates rise 0.50 percentage points, more than expected; growth shares hit hardest",
       "body": "The central bank surprised markets with a larger rise. Technology and games shares led the fall.",
       "tone": "negative",
       "kind": "macro",

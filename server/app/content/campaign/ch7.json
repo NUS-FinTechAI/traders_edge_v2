@@ -216,7 +216,7 @@
         {
           "title": "A range trade plan",
           "visual": "support-resistance",
-          "body": "Buy near $28.40 support as RSI nears 30. Put the stop just below the range at $27.40. Take profit near the middle ($30) or the top ($31.60). Aiming for the top risks **$1.00** to make **$3.20**."
+          "body": "Buy near $28.40 support as RSI nears 30. Put the stop just below the range at $27.40. Take profit near the middle ($30) or the top ($31.60). Aiming for the top risks **$1.00** to make **$3.20**. A stop-loss and a sell limit cannot cover the same shares here, so split the position (part covered by the stop, part by the sell limit) or keep the stop and sell by hand at the target."
         },
         {
           "title": "Many small wins",
@@ -358,7 +358,7 @@
       "summary": "Find a tight base, wait for a confirmed break on volume, and plan for fakes.",
       "objectives": [
         "Identify a base worth trading.",
-        "Enter a breakout with a buy stop and volume confirmation.",
+        "Enter a breakout after a daily close above the base on strong volume.",
         "Handle false breakouts with a stop back inside the base."
       ],
       "terms": [
@@ -368,7 +368,7 @@
         },
         {
           "term": "Buy stop",
-          "definition": "An order to buy only if price rises to a set level, used to enter breakouts."
+          "definition": "An order to buy only if price rises to a set level. Real brokers offer it for breakout entries; this game does not, so you buy after the close instead."
         },
         {
           "term": "False breakout",
@@ -387,7 +387,7 @@
         },
         {
           "title": "The trigger",
-          "body": "Place a **buy stop** just above resistance, say $40.30. It only fills if price actually breaks out, so you are not guessing early. If you cannot use a buy stop, wait for a daily close above $40 and buy then."
+          "body": "Real brokers let you place a **buy stop** just above resistance, say $40.30, so it fills only if price actually breaks out. This game has no buy stops, so wait for a daily close above $40 on strong volume and buy then."
         },
         {
           "title": "Volume confirms",

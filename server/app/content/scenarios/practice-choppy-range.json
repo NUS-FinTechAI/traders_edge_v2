@@ -255,7 +255,7 @@
         "id": "stop",
         "type": "stop_loss_set",
         "params": {},
-        "text": "Place a stop just below a range"
+        "text": "Place a stop-loss order (aim just below a range)"
       }
     ]
   }

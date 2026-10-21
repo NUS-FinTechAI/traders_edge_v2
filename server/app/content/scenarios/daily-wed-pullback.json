@@ -210,7 +210,7 @@
         "id": "stop",
         "type": "stop_loss_set",
         "params": {},
-        "text": "Protect a pullback entry with a stop-loss"
+        "text": "Place a stop-loss order (aim just below a pullback low)"
       },
       {
         "id": "out",

@@ -95,7 +95,7 @@
     {
       "id": "rate-preview",
       "tick": 4,
-      "headline": "Central bank decides on day 14; a 0.25% rise is expected",
+      "headline": "Central bank decides on day 14; a 0.25 percentage-point rise is expected",
       "body": "Economists are split on whether a larger move is possible.",
       "tone": "neutral",
       "kind": "macro",
@@ -110,7 +110,7 @@
     {
       "id": "rate-surprise",
       "tick": 14,
-      "headline": "Central bank raises rates by 0.75%, three times the expected rise",
+      "headline": "Central bank raises rates by 0.75 percentage points, three times the expected rise",
       "body": "Investors sold high-growth shares and bought steadier businesses.",
       "tone": "negative",
       "kind": "macro",
@@ -200,9 +200,9 @@
         "type": "max_position_before",
         "params": {
           "tick": 14,
-          "pct": 35
+          "pct": 25
         },
-        "text": "Keep each stock at 35% or less before the day-14 decision"
+        "text": "Keep each stock at or under 25% before the day-14 decision"
       },
       {
         "id": "rotate",

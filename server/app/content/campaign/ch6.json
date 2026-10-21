@@ -60,7 +60,7 @@
         {
           "title": "Gaps and drift",
           "visual": "gap-chart",
-          "body": "Reports usually come out outside trading hours, so the price **gaps** at the next open and market orders fill at the gapped price. After a real surprise, price can keep **drifting** the same way for days as investors adjust. Not every gap follows through."
+          "body": "Reports usually come out outside trading hours, so the price **gaps** at the next open. In real markets, orders sent overnight fill at that gapped price; in this game, the gap is already in the price by the time you can trade. After a real surprise, price can keep **drifting** the same way for days as investors adjust. Not every gap follows through."
         },
         {
           "title": "Earnings risk",
@@ -372,7 +372,7 @@
       "terms": [
         {
           "term": "Interest rate",
-          "definition": "The cost of borrowing money, set for the economy by the central bank."
+          "definition": "The cost of borrowing money. The central bank sets a key policy rate, which influences the rates banks charge across the economy."
         },
         {
           "term": "Inflation",
@@ -407,7 +407,7 @@
         },
         {
           "title": "Surprise vs expected",
-          "body": "As with earnings, the market reacts to the gap between the forecast and the result. A 0.25% rate rise that everyone expected may barely move prices. An unexpected 0.50% rise can knock the whole market down in one day."
+          "body": "As with earnings, the market reacts to the gap between the forecast and the result. A 0.25 percentage-point rate rise that everyone expected may barely move prices. An unexpected 0.50-point rise can knock the whole market down in one day."
         },
         {
           "title": "The calendar",
@@ -730,7 +730,7 @@
         },
         {
           "term": "Insider trading",
-          "definition": "Trading on important information that has not been made public. It is a crime in most countries."
+          "definition": "Trading on important (material) information that has not been made public. It is a crime in most countries."
         },
         {
           "term": "Rumor",

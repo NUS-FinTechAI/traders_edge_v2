@@ -1,5 +1,5 @@
 {
-  "version": "2026-10-20.1",
+  "version": "2026-10-21.1",
   "questions": [
     {
       "id": "qb-ch1-01",
@@ -802,7 +802,7 @@
         },
         {
           "id": "d",
-          "text": "The delay before a limit order is cancelled"
+          "text": "The delay before a limit order is canceled"
         }
       ],
       "answer": "a",
@@ -2403,7 +2403,7 @@
         }
       ],
       "answer": "t",
-      "explanation": "Every moving average summarises prices that have already happened."
+      "explanation": "Every moving average summarizes prices that have already happened."
     },
     {
       "id": "qb-ch5-04",
@@ -3378,7 +3378,7 @@
       ],
       "difficulty": 2,
       "kind": "mc",
-      "prompt": "You read a social-media rumour that Pebble Games (PBGM) will be bought by a larger company. What is the best first step?",
+      "prompt": "You read a social-media rumor that Pebble Games (PBGM) will be bought by a larger company. What is the best first step?",
       "options": [
         {
           "id": "a",
@@ -3386,7 +3386,7 @@
         },
         {
           "id": "b",
-          "text": "Look for an official company announcement or a reliable news source, and treat the rumour as unconfirmed"
+          "text": "Look for an official company announcement or a reliable news source, and treat the rumor as unconfirmed"
         },
         {
           "id": "c",
@@ -3398,7 +3398,7 @@
         }
       ],
       "answer": "b",
-      "explanation": "Rumours are often wrong or deliberate; check primary sources before acting."
+      "explanation": "Rumors are often wrong or deliberate; check primary sources before acting."
     },
     {
       "id": "qb-ch6-18",
@@ -3409,11 +3409,11 @@
       ],
       "difficulty": 3,
       "kind": "mc",
-      "prompt": "Pebble Games (PBGM) rises 10% on a takeover rumour. Four days later, the company denies it. What usually happens next?",
+      "prompt": "Pebble Games (PBGM) rises 10% on a takeover rumor. Four days later, the company denies it. What usually happens next?",
       "options": [
         {
           "id": "a",
-          "text": "It keeps rising because rumours are usually true"
+          "text": "It keeps rising because rumors are usually true"
         },
         {
           "id": "b",
@@ -3425,11 +3425,11 @@
         },
         {
           "id": "d",
-          "text": "The price tends to give back the rumour gain, sometimes more"
+          "text": "The price tends to give back the rumor gain, sometimes more"
         }
       ],
       "answer": "d",
-      "explanation": "Buyers who paid for the rumour sell once it is denied, so the move often reverses."
+      "explanation": "Buyers who paid for the rumor sell once it is denied, so the move often reverses."
     },
     {
       "id": "qb-ch6-19",
@@ -3719,7 +3719,7 @@
         }
       ],
       "answer": "b",
-      "explanation": "A backtest shows past behaviour of fixed rules; it does not guarantee future results."
+      "explanation": "A backtest shows past behavior of fixed rules; it does not guarantee future results."
     },
     {
       "id": "qb-ch7-09",
@@ -4032,7 +4032,7 @@
         }
       ],
       "answer": "t",
-      "explanation": "Testing on unseen data is a basic defence against overfitting."
+      "explanation": "Testing on unseen data is a basic defense against overfitting."
     },
     {
       "id": "qb-ch7-20",
@@ -4215,7 +4215,7 @@
         }
       ],
       "answer": "b",
-      "explanation": "Sizing up to recover a loss is revenge trading; it increases risk exactly when judgement is worst."
+      "explanation": "Sizing up to recover a loss is revenge trading; it increases risk exactly when judgment is worst."
     },
     {
       "id": "qb-ch8-06",
@@ -4599,7 +4599,7 @@
       ],
       "difficulty": 1,
       "kind": "mc",
-      "prompt": "Which behaviour is a typical sign of loss aversion?",
+      "prompt": "Which behavior is a typical sign of loss aversion?",
       "options": [
         {
           "id": "a",
@@ -4619,7 +4619,7 @@
         }
       ],
       "answer": "d",
-      "explanation": "Avoiding the pain of a realised loss leads traders to widen stops and hold losers."
+      "explanation": "Avoiding the pain of a realized loss leads traders to widen stops and hold losers."
     },
     {
       "id": "qb-ch8-20",

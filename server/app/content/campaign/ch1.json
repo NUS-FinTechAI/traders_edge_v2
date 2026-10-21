@@ -19,9 +19,10 @@
         "Name the two ways shareholders earn (or lose) money."
       ],
       "terms": [
-        { "term": "Share", "definition": "One unit of ownership in a company. Also called a stock." },
+        { "term": "Share", "definition": "One unit of ownership in a company, usually with a vote at shareholder meetings. Also called a stock." },
         { "term": "IPO", "definition": "Initial public offering: the first time a company sells its shares to the public." },
         { "term": "Dividend", "definition": "A part of a company's profit paid out to shareholders. Not guaranteed and can be cut." },
+        { "term": "Dividend yield", "definition": "Yearly dividend per share ÷ share price, as a percentage." },
         { "term": "Capital gain", "definition": "Profit from selling something for more than you paid for it." },
         { "term": "Market capitalization", "definition": "Share price × number of shares. The market's total value for a company." }
       ],
@@ -228,7 +229,7 @@
         },
         {
           "title": "The money rule",
-          "body": "In real life, only risk money you could lose without hurting essentials like rent, food or emergency savings. Large studies of day traders find that most lose money over time. That is why you practise here with simulated cash."
+          "body": "In real life, only risk money you could lose without hurting essentials like rent, food or emergency savings. Large studies of day traders find that most lose money over time. That is why you practice here with simulated cash."
         },
         {
           "title": "Your game plan",
@@ -309,11 +310,11 @@
       "cards": [
         {
           "title": "Profit and loss",
-          "body": "**P/L = (sell price − buy price) × shares − fees.** Buy 20 Orchard Foods shares at $50, sell at $56, and pay $10 in fees: (6 × 20) − 10 = **$110** profit."
+          "body": "**P/L = (sell price − buy price) × shares − fees.** Buy 20 Orchard Foods shares at $50, sell at $56, and pay about $2 in fees (this game's 0.1%, minimum $1, on each side): (6 × 20) − 2 = **$118** profit."
         },
         {
           "title": "Percent return",
-          "body": "**Return % = P/L ÷ amount invested.** That trade invested 20 × $50 = $1,000, so $110 ÷ $1,000 = **11%**. Percentages let you compare trades of different sizes: $110 on $1,000 is a better result than $150 on $5,000 (3%)."
+          "body": "**Return % = P/L ÷ amount invested.** That trade invested 20 × $50 = $1,000, so $118 ÷ $1,000 = **11.8%**. Percentages compare trades of different sizes: $118 on $1,000 is a better return than $150 on $5,000 (3%). Matches, though, are ranked by dollar profit."
         },
         {
           "title": "Paper versus real",

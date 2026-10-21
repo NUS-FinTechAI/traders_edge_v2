@@ -68,7 +68,7 @@
       "id": "calendar",
       "tick": 1,
       "headline": "Calendar: Orchard Foods reports day 8, rate decision day 13, Nimbus Cloud reports day 18",
-      "body": "Analysts expect solid results from both; most expect a 0.25% rate rise.",
+      "body": "Analysts expect solid results from both; most expect a 0.25 percentage-point rate rise.",
       "tone": "neutral",
       "kind": "earnings",
       "symbols": [
@@ -105,7 +105,7 @@
     {
       "id": "rate-rise",
       "tick": 13,
-      "headline": "Rates rise 0.50%, more than expected",
+      "headline": "Rates rise 0.50 percentage points, more than expected",
       "body": "Growth shares fell the most.",
       "tone": "negative",
       "kind": "macro",

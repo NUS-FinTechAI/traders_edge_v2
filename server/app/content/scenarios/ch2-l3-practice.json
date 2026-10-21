@@ -74,7 +74,7 @@
     {
       "symbol": "KSTL",
       "name": "Kestrel Air",
-      "sector": "Industrials",
+      "sector": "Airlines",
       "blurb": "Flies short routes between the region's island cities.",
       "price": 98,
       "drift": 0.0,
@@ -94,7 +94,7 @@
           "type": "limit",
           "n": 1
         },
-        "text": "Place a buy limit order below the market price"
+        "text": "Place a limit order (try a buy limit below the market price)"
       },
       {
         "id": "m2",
@@ -113,7 +113,7 @@
           "type": "limit",
           "n": 2
         },
-        "text": "Place at least 2 limit orders: an entry and a take-profit"
+        "text": "Place at least 2 limit orders (try an entry and a take-profit)"
       },
       {
         "id": "b2",

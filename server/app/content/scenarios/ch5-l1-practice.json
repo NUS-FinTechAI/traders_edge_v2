@@ -2,7 +2,7 @@
   "id": "ch5-l1-practice",
   "version": 2,
   "title": "Above the Average",
-  "briefing": "Two stocks, two trends. Lumen Bikes rides above a rising 20-day average; Kestrel Air sinks below a falling one. Pick your side.",
+  "briefing": "Two stocks, two trends. Lumen Bikes rides above a rising 20-day average; Kestrel Air sinks below a falling one. Let the average, not the headlines, pick your side.",
   "objective": "Use price above or below a moving average as a trend filter.",
   "debrief": "Lumen Bikes stayed above its rising 20-day average for most of the match, and the battery recall on day 17 only pulled it back to the line before buyers returned. Kestrel Air stayed under its falling average and dropped again on the route cuts of day 12. A disciplined player bought the stock that passed the filter, held through the dip to the average, and left Kestrel Air alone.",
   "difficulty": 2,
@@ -124,7 +124,7 @@
           "pct": 10,
           "symbol": "KSTL"
         },
-        "text": "Keep Kestrel Air under 10% of your portfolio while it sits below its falling average"
+        "text": "Keep Kestrel Air at or under 10% of your portfolio while it sits below its falling average"
       }
     ],
     "bonus": [

@@ -3,8 +3,8 @@
   "version": 1,
   "title": "Range Breaker",
   "briefing": "Lumen Bikes has spent weeks in a tight range near $50. Momentum Max and Breakout Bea are both waiting for it to break out. Only one breakout on this chart is real.",
-  "objective": "Read the chart: buy the confirmed breakout, skip the rumour spike, and exit when the trend breaks.",
-  "debrief": "Lumen Bikes broke out of its range on day 2 when orders doubled, closing strongly on heavy volume, then climbed in a clean uptrend of higher highs and higher lows. On day 20 an unconfirmed takeover rumour pushed it to a new high, and Breakout Bea bought it. The denial on day 21 gapped it down, and the chart turned to lower highs and lower lows. Buying the confirmed breakout with a trailing stop, and skipping the rumour spike, beat both opponents.",
+  "objective": "Read the chart: buy the confirmed breakout, skip the rumor spike, and exit when the trend breaks.",
+  "debrief": "Lumen Bikes broke out of its range on day 2 when orders doubled, closing strongly on heavy volume, then climbed in a clean uptrend of higher highs and higher lows. On day 20 an unconfirmed takeover rumor pushed it to a new high, and Breakout Bea bought it. The denial on day 21 gapped it down, and the chart turned to lower highs and lower lows. Buying the confirmed breakout with a trailing stop, and skipping the rumor spike, usually beat both opponents.",
   "difficulty": 3,
   "ticks": 32,
   "history": 20,
@@ -87,7 +87,7 @@
       ]
     },
     {
-      "id": "lumb-rumour",
+      "id": "lumb-rumor",
       "tick": 20,
       "headline": "Unconfirmed report: car maker eyes takeover of Lumen Bikes",
       "body": "A blog claims a car maker wants to buy Lumen Bikes. It names no sources.",
@@ -157,7 +157,7 @@
           "from": 20,
           "to": 21
         },
-        "text": "Don't buy the day-20 rumour spike (no buys on days 20-21)"
+        "text": "Don't buy the day-20 rumor spike (no buys on days 20-21)"
       },
       {
         "id": "b3",

@@ -2,9 +2,9 @@
   "id": "ch2-boss",
   "version": 1,
   "title": "Thin Ice",
-  "briefing": "Pebble Games trades thinly, with a 0.6% spread on every market order, and its big game launch is coming. HODL Hannah bought on day 0 and will never sell.",
+  "briefing": "Pebble Games trades thinly, with a wide 0.6% bid-ask spread (each market order pays half of it), and its big game launch is coming. HODL Hannah bought on day 0 and will never sell.",
   "objective": "Choose the right order for the job: a stop-loss to get out when news turns bad, a limit order to get back in.",
-  "debrief": "Pebble Games climbed for 12 days on excitement about its new game. On day 12 its lead designer quit: the stock gapped down about 7% and slid for five more days. A stop-loss sold at the open and missed the slide that HODL Hannah sat through. The stock then went quiet, Pebble confirmed the launch date on day 17, and the launch on day 22 started a rally that lasted to the end. Getting back in with a limit order during the quiet spell avoided the wide spread and beat Hannah.",
+  "debrief": "Pebble Games climbed for 12 days on excitement about its new game. On day 12 its lead designer quit: the stock gapped down about 7% and slid for five more days. A stop-loss sold at the open and missed the slide that HODL Hannah sat through. The stock then went quiet, Pebble confirmed the launch date on day 17, and the launch on day 22 started a rally that lasted to the end. Getting back in with a limit order during the quiet spell avoided the wide spread and usually beat Hannah.",
   "difficulty": 3,
   "ticks": 34,
   "history": 20,
@@ -57,7 +57,7 @@
     {
       "symbol": "PBGM",
       "name": "Pebble Games",
-      "sector": "Communication services",
+      "sector": "Video games",
       "blurb": "Makes puzzle and adventure games. Its shares trade thinly.",
       "price": 12,
       "drift": 0.0,
@@ -167,7 +167,7 @@
           "type": "limit",
           "n": 1
         },
-        "text": "Get back in with a limit order"
+        "text": "Place a limit order (try one to get back in)"
       },
       {
         "id": "b4",

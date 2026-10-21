@@ -145,7 +145,7 @@
         },
         {
           "title": "Trailing stops",
-          "body": "As a trade moves your way, raise the stop: to breakeven once you're well ahead, then below each new higher low. A trailing stop follows the price up and never moves down. In this game you trail by cancelling the old stop and placing a higher one.",
+          "body": "As a trade moves your way, raise the stop: to breakeven once you're well ahead, then below each new higher low. A trailing stop follows the price up and never moves down. In this game you trail by canceling the old stop and placing a higher one.",
           "visual": "trend-lines"
         },
         {
@@ -209,7 +209,7 @@
         {
           "id": "q5",
           "kind": "true_false",
-          "prompt": "Once a trade moves in your favour, raising your stop is fine, but lowering it is not.",
+          "prompt": "Once a trade moves in your favor, raising your stop is fine, but lowering it is not.",
           "options": [
             { "id": "t", "text": "True" },
             { "id": "f", "text": "False" }
@@ -226,7 +226,7 @@
       "summary": "Measure trades in R, know the win rate you need, and skip trades that don't pay.",
       "objectives": [
         "Express trades in R-multiples and reward-to-risk ratios.",
-        "Calculate the breakeven win rate, 1 ÷ (1 + R).",
+        "Calculate the breakeven win rate, 1 ÷ (1 + reward-to-risk).",
         "Compute expectancy and skip trades with poor reward-to-risk."
       ],
       "terms": [
@@ -248,7 +248,7 @@
         },
         {
           "title": "Breakeven win rate",
-          "body": "If each win pays R times what each loss costs, you break even, before costs, when you win **1 ÷ (1 + R)** of the time. At 1:1 you need 50%. At 2:1 you need 33.3%. At 3:1 you need 25%."
+          "body": "If each win pays **W** times what each loss costs (a W:1 reward-to-risk), you break even, before costs, when you win **1 ÷ (1 + W)** of the time. At 1:1 you need 50%. At 2:1 you need 33.3%. At 3:1 you need 25%."
         },
         {
           "title": "Expectancy",
@@ -256,7 +256,7 @@
         },
         {
           "title": "Skip weak setups",
-          "body": "If your target is closer than your stop, below 1:1, you must be right more than half the time just to break even. Passing on a trade is a decision too. The best traders skip many more setups than they take."
+          "body": "If your target is closer than your stop, below 1:1, you must be right more than half the time just to break even. Passing on a trade is a decision too. Experienced traders often pass on many more setups than they take."
         }
       ],
       "check": [

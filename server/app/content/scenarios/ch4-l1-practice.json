@@ -2,7 +2,7 @@
   "id": "ch4-l1-practice",
   "version": 2,
   "title": "Size It Right",
-  "briefing": "Steady Orchard Foods and jumpy Kestrel Air. Use the ticket's \"risk if stopped\" figure to size every trade at about 1% of your portfolio.",
+  "briefing": "Steady Orchard Foods and jumpy Kestrel Air. Use the ticket's \"risk if stopped\" figure to keep the risk on every trade at about 1% of your portfolio.",
   "objective": "Size each position from your stop: shares = (portfolio × risk %) ÷ (entry − stop).",
   "debrief": "Orchard Foods climbed calmly. Kestrel Air swung hard, and on day 16 it gapped down about 10% when part of its fleet was grounded. Players who sized Kestrel from their stop held only a small position, so even the gap past their stop cost little. Anyone who put most of their cash into Kestrel took a large drawdown in a single day.",
   "difficulty": 2,
@@ -39,7 +39,7 @@
       "symbol": "ORCF",
       "name": "Orchard Foods",
       "sector": "Consumer staples",
-      "blurb": "Runs a chain of neighbourhood grocery stores.",
+      "blurb": "Runs a chain of neighborhood grocery stores.",
       "price": 40,
       "drift": 0.0015,
       "beta": 0.6,
@@ -49,7 +49,7 @@
     {
       "symbol": "KSTL",
       "name": "Kestrel Air",
-      "sector": "Industrials",
+      "sector": "Airlines",
       "blurb": "Flies short routes between the region's island cities.",
       "price": 35,
       "drift": 0.002,
@@ -63,7 +63,7 @@
       "id": "kstl-grounded",
       "tick": 16,
       "headline": "Kestrel Air grounds part of its fleet for inspections",
-      "body": "Kestrel Air has grounded a third of its planes for safety inspections and cancelled many flights.",
+      "body": "Kestrel Air has grounded a third of its planes for safety inspections and canceled many flights.",
       "tone": "negative",
       "kind": "company",
       "symbols": [
@@ -92,7 +92,7 @@
         "id": "m1",
         "type": "stop_loss_set",
         "params": {},
-        "text": "Place a stop-loss with your first trade"
+        "text": "Place a stop-loss order"
       },
       {
         "id": "m2",

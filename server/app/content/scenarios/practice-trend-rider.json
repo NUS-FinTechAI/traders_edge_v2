@@ -158,7 +158,7 @@
         "id": "stop",
         "type": "stop_loss_set",
         "params": {},
-        "text": "Protect your trend trade with a stop-loss"
+        "text": "Place a stop-loss order to protect your trend trade"
       },
       {
         "id": "trend-exit",

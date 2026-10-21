@@ -38,7 +38,7 @@
     {
       "symbol": "PBGM",
       "name": "Pebble Games",
-      "sector": "Communication services",
+      "sector": "Video games",
       "blurb": "Makes puzzle and adventure games for phones and consoles.",
       "price": 18,
       "drift": 0.001,
@@ -71,7 +71,7 @@
       "id": "pbgm-denial",
       "tick": 13,
       "headline": "Pebble Games: no new deal, sales in line with plan",
-      "body": "Asked about the online rumours, Pebble Games said it has no new deal and that sales are on plan.",
+      "body": "Asked about the online rumors, Pebble Games said it has no new deal and that sales are on plan.",
       "tone": "negative",
       "kind": "company",
       "symbols": [

@@ -39,7 +39,7 @@
     {
       "symbol": "HRBL",
       "name": "Harborline Shipping",
-      "sector": "Industrials",
+      "sector": "Shipping",
       "blurb": "Moves shipping containers between the region's ports.",
       "price": 22,
       "drift": 0.001,

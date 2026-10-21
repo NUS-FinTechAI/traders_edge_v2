@@ -4,7 +4,7 @@
   "title": "Floors and Ceilings",
   "briefing": "Orchard Foods is bouncing between a floor near $48.50 and a ceiling near $51.50. Buy near the floor, protect it, and aim for the ceiling.",
   "objective": "Support is a floor, resistance a ceiling. Enter near support with a stop just below it, and target resistance.",
-  "debrief": "Orchard Foods spent the whole match in a range, turning up near $48.50 and down near $51.50 roughly every five days. A buy limit near the floor filled at a good price, a stop just below the zone protected the trade, and a sell limit near the ceiling took the profit. Buying in the middle of the range, or chasing near the ceiling, left little room to gain.",
+  "debrief": "Orchard Foods spent the whole match in a range, turning up near $48.50 and down near $51.50 roughly every five days. A buy limit near the floor filled at a good price, a stop just below the zone protected part of the position, and a sell limit near the ceiling took profit on the rest. Buying in the middle of the range, or chasing near the ceiling, left little room to gain.",
   "difficulty": 2,
   "ticks": 30,
   "history": 20,
@@ -76,7 +76,7 @@
       "symbol": "ORCF",
       "name": "Orchard Foods",
       "sector": "Consumer staples",
-      "blurb": "Runs a chain of neighbourhood grocery stores.",
+      "blurb": "Runs a chain of neighborhood grocery stores.",
       "price": 49.5,
       "drift": 0.0,
       "beta": 1.0,
@@ -95,13 +95,13 @@
           "type": "limit",
           "n": 1
         },
-        "text": "Place a buy limit near support"
+        "text": "Place a limit order (aim for a buy limit near support)"
       },
       {
         "id": "m2",
         "type": "stop_loss_set",
         "params": {},
-        "text": "Set a stop-loss just below support"
+        "text": "Place a stop-loss order (aim just below support)"
       }
     ],
     "bonus": [

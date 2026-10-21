@@ -38,7 +38,7 @@
     {
       "symbol": "KSTL",
       "name": "Kestrel Air",
-      "sector": "Industrials",
+      "sector": "Airlines",
       "blurb": "Flies short routes between the region's island cities.",
       "price": 40,
       "drift": 0.005,
@@ -92,7 +92,7 @@
         "id": "m1",
         "type": "stop_loss_set",
         "params": {},
-        "text": "Place a stop-loss below a recent swing low"
+        "text": "Place a stop-loss order (aim below a recent swing low)"
       },
       {
         "id": "m2",

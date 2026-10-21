@@ -4,7 +4,7 @@
   "title": "News Shock",
   "briefing": "A shock is coming for the whole market. Some businesses will shrug it off; others will not. Everyone gets the same headlines at the same time.",
   "objective": "After a market-wide shock, tell temporary damage from lasting damage and move toward the businesses that hold up.",
-  "debrief": "A sudden banking scare on day 9 knocked every stock down at the open. Orchard Foods recovered within days because people still buy groceries; Kestrel Air kept falling as travel bookings were cancelled. The central bank's support on day 15 lifted the market, but the airline recovered only part of its loss. A disciplined player avoided panic-selling the defensive stock, did not buy the airline's first bounce and kept size moderate.",
+  "debrief": "A sudden banking scare on day 9 knocked every stock down at the open. Orchard Foods recovered within days because people still buy groceries; Kestrel Air kept falling as travel bookings were canceled. The central bank's support on day 15 lifted the market, but the airline recovered only part of its loss. A disciplined player avoided panic-selling the defensive stock, did not buy the airline's first bounce and kept size moderate.",
   "difficulty": 2,
   "ticks": 30,
   "history": 20,
@@ -161,9 +161,9 @@
         "id": "moderate",
         "type": "max_position",
         "params": {
-          "pct": 60
+          "pct": 25
         },
-        "text": "Never put more than 60% of your portfolio in one stock"
+        "text": "Keep every position at or under 25% of your portfolio"
       }
     ],
     "bonus": [
@@ -185,7 +185,7 @@
           "pct": 15,
           "symbol": "KSTL"
         },
-        "text": "Keep Kestrel Air at 15% or less until the support news (day 15)"
+        "text": "Keep Kestrel Air at or under 15% until the support news (day 15)"
       }
     ]
   }

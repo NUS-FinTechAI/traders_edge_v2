@@ -4,7 +4,7 @@
   "title": "Who Won the Day?",
   "briefing": "Lumen Bikes has printed mostly red candles for weeks. Read each candle: who is in control, buyers or sellers?",
   "objective": "A candle shows open, high, low and close. Long green bodies mean buyers took control.",
-  "debrief": "For two weeks Lumen Bikes printed mostly red candles: sellers kept closing it below the open. On day 14 strong sales produced a long green candle on heavy volume, and buyers stayed in control for days after. Players who bought once the long green candle appeared, rather than during the red run, beat buying on day 0.",
+  "debrief": "For two weeks Lumen Bikes printed mostly red candles: sellers kept closing it below the open. On day 14 strong sales produced a long green candle on heavy volume, and buyers stayed in control for days after. Players who bought once the long green candle appeared, rather than during the red run, usually beat buying on day 0.",
   "difficulty": 1,
   "ticks": 28,
   "history": 20,

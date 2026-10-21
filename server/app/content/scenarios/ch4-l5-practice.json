@@ -4,7 +4,7 @@
   "title": "Stop the Slide",
   "briefing": "The market is calm for now. Choose a maximum loss in your plan and keep to it, whatever the Harbor 50 does next.",
   "objective": "Drawdowns grow fast and need bigger gains to recover. Cap your losses and pause when your limit is near.",
-  "debrief": "Stocks rose for ten days. On day 10 an interest-rate rise knocked the Harbor 50 down, and a broad sell-off lasted until about day 22, hitting Nimbus Cloud and Lumen Bikes hardest and calm Tidal Power least. Panic Pete sold late and bought back early. Players with stops and a firm maximum loss stepped aside early, kept their drawdown small and had cash ready for the recovery.",
+  "debrief": "Stocks rose for ten days. On day 10 a global growth scare knocked the Harbor 50 down, and a broad sell-off lasted until about day 22, hitting Nimbus Cloud and Lumen Bikes hardest and calm Tidal Power least. Panic Pete sold late and bought back early. Players with stops and a firm maximum loss stepped aside early, kept their drawdown small and had cash ready for the recovery.",
   "difficulty": 2,
   "ticks": 32,
   "history": 20,
@@ -85,8 +85,8 @@
     {
       "id": "rates-rise",
       "tick": 10,
-      "headline": "Harbor 50 drops 3% as interest rates rise",
-      "body": "The central bank raised interest rates more than expected. Fast-growing companies fell most.",
+      "headline": "Harbor 50 drops 3% on a global growth scare",
+      "body": "Weak factory figures from the region's biggest trading partners have investors worried about a slowdown. Fast-growing companies fell most; steady utilities fell least.",
       "tone": "negative",
       "kind": "macro",
       "symbols": [

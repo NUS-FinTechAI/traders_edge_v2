@@ -23,7 +23,11 @@
         { "term": "Body", "definition": "The thick part of a candle, from the open to the close." },
         { "term": "Wick", "definition": "The thin line above or below the body, reaching the high or the low. Also called a shadow." },
         { "term": "Bullish candle", "definition": "A candle that closed above its open, usually shown in green." },
-        { "term": "Bearish candle", "definition": "A candle that closed below its open, usually shown in red." }
+        { "term": "Bearish candle", "definition": "A candle that closed below its open, usually shown in red." },
+        {
+          "term": "Timeframe",
+          "definition": "How much time each candle covers, such as one day on a daily chart or one week on a weekly chart."
+        }
       ],
       "cards": [
         {
@@ -37,7 +41,7 @@
         },
         {
           "title": "Green and red",
-          "body": "A **green** (bullish) candle closed above its open. A **red** (bearish) candle closed below its open. You can change the colours in settings, and every candle also carries a text label, so colour is never the only clue."
+          "body": "A **green** (bullish) candle closed above its open. A **red** (bearish) candle closed below its open. You can change the colors in settings, and every candle also carries a text label, so color is never the only clue."
         },
         {
           "title": "What a candle says",
@@ -61,7 +65,7 @@
         {
           "id": "q2",
           "kind": "mc",
-          "prompt": "A candle has Open 20.00, High 21.50, Low 19.80, Close 21.20. What colour is it?",
+          "prompt": "A candle has Open 20.00, High 21.50, Low 19.80, Close 21.20. What color is it?",
           "options": [
             { "id": "a", "text": "Green" },
             { "id": "b", "text": "Red" },
@@ -109,8 +113,11 @@
       "terms": [
         { "term": "Doji", "definition": "A candle whose open and close are almost equal, showing indecision." },
         { "term": "Hammer", "definition": "A small body near the top with a long lower wick, after a decline. A possible bullish reversal." },
-        { "term": "Shooting star", "definition": "A small body near the bottom with a long upper wick, after a rise. A possible bearish reversal." },
-        { "term": "Engulfing", "definition": "A candle whose body completely covers the previous candle's body in the opposite colour." },
+        {
+          "term": "Shooting star",
+          "definition": "A small body near the bottom with a long upper wick, after a rise. A possible bearish reversal."
+        },
+        { "term": "Engulfing", "definition": "A candle whose body completely covers the previous candle's body in the opposite color." },
         { "term": "Confirmation", "definition": "Evidence from the next candle or candles that a pattern's signal is playing out." }
       ],
       "cards": [
@@ -314,7 +321,7 @@
         },
         {
           "title": "Using levels",
-          "body": "Buy near support with a stop just below the zone, and aim for a target near resistance. Buying Orchard Foods at $48.30 with a stop at $47.20 and a target at $51.80 risks $1.10 to make $3.50. Drag the stop and target to compare reward with risk.",
+          "body": "Buy near support with a stop just below the zone, and aim for a target near resistance. Buying Orchard Foods at $48.30 with a stop at $47.20 and a target at $51.80 risks $1.10 to make $3.50. In this game a stop-loss and a sell limit cannot cover the same shares, so split the position (part covered by the stop, part by the sell limit) or keep the stop on all of it and sell by hand at the target. Drag the stop and target to compare reward with risk.",
           "visual": "risk-reward"
         }
       ],
@@ -383,7 +390,10 @@
       ],
       "terms": [
         { "term": "Breakout", "definition": "A close beyond resistance (or below support) after a range." },
-        { "term": "False breakout", "definition": "A move beyond a level that quickly falls back into the range. Also called a bull trap." },
+        {
+          "term": "False breakout",
+          "definition": "A move beyond a level that quickly falls back into the range. An upside one is also called a bull trap."
+        },
         { "term": "Measured move", "definition": "A rough breakout target: the breakout level plus the height of the range." },
         { "term": "Average volume", "definition": "The typical number of shares traded per day, used to judge whether today is unusual." }
       ],
@@ -399,11 +409,11 @@
         },
         {
           "title": "False breakouts",
-          "body": "In a **false breakout**, or bull trap, the price pokes above resistance on weak volume or an unconfirmed rumour, then falls back into the range. Defences: wait for a **close** above the level, check the volume, and keep your stop back inside the range."
+          "body": "In a **false breakout**, or bull trap, the price pokes above resistance on weak volume or an unconfirmed rumor, then falls back into the range. Defenses: wait for a **close** above the level, check the volume, and keep your stop back inside the range."
         },
         {
           "title": "The breakout plan",
-          "body": "Enter after a confirmed close above resistance, put the stop-loss back inside the range, and set a rough target of breakout level + range height (the **measured move**). Range $40–$44: target $48. Real brokers also let you pre-place a buy stop just above resistance.",
+          "body": "Enter after a confirmed close above resistance, put the stop-loss back inside the range, and set a rough target of breakout level + range height (the **measured move**). Range $40–$44: target $48. Real brokers also let you pre-place a buy stop just above resistance; this game does not, so you buy after the close.",
           "visual": "support-resistance"
         }
       ],
