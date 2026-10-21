@@ -14,9 +14,8 @@ Supply these through a host environment or an untracked, access-restricted envir
 - `ALLOWED_ORIGINS`: a comma-separated allowlist of actual HTTPS browser origins.
 - `API_PORT`: an unused host port; defaults to 8000.
 
-Optional settings default to no instructors and disabled study enrollment:
+Optional settings default to disabled study enrollment. Any signed-in player may host a classroom quiz room, so there is no instructor setting:
 
-- `INSTRUCTOR_FIREBASE_UIDS`: comma-separated verified Firebase user IDs permitted to host classroom quizzes. Development profile IDs do not grant this permission in production.
 - `RESEARCH_ENABLED`: enable only after the participant study and its consent policy receive the required approval.
 - `RESEARCH_POLICY_VERSION`: a nonblank version of at most 80 characters with no surrounding whitespace, required when enrollment is enabled.
 - `RESEARCH_POLICY_TEXT`: the exact approved consent text, required when enrollment is enabled. Change the version when changing accepted text. Acceptance requires the current version and SHA-256 text digest returned by the API.
