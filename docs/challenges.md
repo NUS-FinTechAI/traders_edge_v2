@@ -1,47 +1,90 @@
-# Shared AI challenge contract
+# Trading matches
 
-The supplied gameplay brief defines competition by final profit. `shared-ai-1` standardizes profit as cash plus holdings valued at the final mid price, minus the starting portfolio value. Cash already reflects paid transaction fees; fees are not subtracted twice. This score determines competition results, not evidence of learning or future real-world profitability.
+Every mode plays the same match on the trading engine in `server/app/game/`.
+This page describes the modes and the match lifecycle. The engine rules are in
+the [engine model](simulation-model.md); exact payloads are in the
+[build contract](game-architecture.md#games).
 
-AI and human challenges reuse `server/app/competition.py` for portfolio valuation and joint ranking. Each mode retains its existing result fields, version, winner and abandonment policies; daily and boss attempts use the AI challenge core. This shared calculation does not change saved snapshots or command receipts.
+## Modes
 
-Every participant starts with 10,000 simulated units, the same four synthetic assets, prices, spreads, liquidity observations and 30-observation path. The common final observation is tick 29. Each participant has equal independent execution capacity at each observation; participants do not consume another participant's liquidity. Foundation execution retains a 25% per-asset cap, no shorting and no leverage. Orders require the full existing written plan and fill on later observations with the existing fees, spread, slippage and partial fills.
+| Mode       | Created by                         | Scenario                                                               | Opponents                         | Clock             |
+| ---------- | ---------------------------------- | ---------------------------------------------------------------------- | --------------------------------- | ----------------- |
+| `level`    | `POST /api/games {mode, level_id}` | The level's `chN-lM-practice`                                          | The scenario's bots (0–1 shipped) | Solo              |
+| `boss`     | `{mode, chapter_id, boss}`         | Chapter or previous-chapter boss (see [campaign](adventure.md#bosses)) | 1–3 bots                          | Solo              |
+| `daily`    | `{mode: "daily"}`                  | Today's weekday scenario                                               | One bot                           | Solo              |
+| `practice` | `{mode, scenario_id?, bots?}`      | A `practice-*` market (random if omitted)                              | Up to 3 of the scenario's bots    | Solo              |
+| `private`  | Lobby start                        | The host's `mp-*` or `practice-*` choice                               | 2–30 humans plus 0–3 bots         | Fixed 3 s per day |
+| `ranked`   | Matchmaking                        | A random `mp-*` market                                                 | Two humans, no bots               | Fixed 3 s per day |
 
-Practice attempts and saved legacy forms retain the original deterministic strategies: a small opening basket; small purchases on positive five-observation momentum with liquidation on negative momentum; and smaller purchases on positive momentum. Existing snapshots without a `strategy_policy` continue those exact rules.
+Solo clock: 2 s per day at 1×, with 2× and 4×, pause and "next day" (only
+while paused). Multiplayer clock commands return 403.
 
-New chapter and daily forms use `challenge-profiles-1` and pin `observed-allocation-1` parameters with each opponent. The allocation opponent targets a fraction of the whole portfolio in each asset, including cash in the denominator. The trend opponent targets that allocation only after an observed positive return exceeds its threshold; otherwise it reduces the position. The defensive opponent also checks the decline from the highest observed price. Orders retain the full plan, cash reservation, concentration limit, partial fills, spread, fees and slippage used by the player. Small target drift does not trigger another order; the common 50-order cap bounds the attempt. These are explicit game policies, not investment recommendations or evidence of an optimal strategy.
+## Lifecycle
 
-Chapter tiers change actual parameters, alongside the existing increase from one to three opponents:
+1. **Briefing** (`status: briefing`). The match shows the scenario, the
+   history bars and the rivals. The player picks a plan: a strategy (`trend`,
+   `dip`, `breakout`, `news`, `hold` or `cautious`) and a maximum loss of
+   1–50 %.
+2. **Start** (`POST /start`). Solo: stores the plan and starts the clock.
+   Multiplayer matches are already running; `start` stores the plan once.
+3. **Trading** (`running`). Market orders fill at once at the close plus or
+   minus half the spread. Limit and stop-loss orders rest and are checked
+   against each later bar. Orders the scenario does not allow, or that break
+   cash, holdings or position-size rules, are rejected with a reason. Missions
+   update live (`pending`, `on_track`, `behind`, `done`, `failed`). Bots show
+   only their profit, rank and style.
+4. **Ended** (`ended`, derived) once the last day has passed.
+5. **Finish** (`POST /finish`). Allowed after the end, or at any time with
+   `forfeit: true`. A forfeit ranks the player last, fails every mission and
+   cancels open orders. The response is the result: rank, profit, missions,
+   stars, rewards, plan review, stats, decision score and breakdown, key
+   moments, the scenario debrief and an optional reflection. Calling it again
+   returns the stored result. `settled` is set once every human has finished.
 
-| Chapters | Tier       | Maximum target per asset | Decision checkpoint      | Observed lookback |
-| -------- | ---------- | ------------------------ | ------------------------ | ----------------- |
-| 1–3      | Foundation | 12%, 13.5%, 15%          | Every five observations  | Five observations |
-| 4–6      | Developing | 18%, 19%, 20%            | Every three observations | Five observations |
-| 7–10     | Practised  | 21%, 22%, 23%, 24%       | Every two observations   | Four observations |
+`GET /api/games?status=active` lists unfinished matches for resuming.
+Disconnecting does nothing to a match: the server clock keeps running and
+positions are ranked normally.
 
-Allocation targets can remain unfilled or change with observed prices; they do not override the engine's 25% buy cap. Trend thresholds and defensive drawdown limits are pinned too. Daily forms rotate across these tiers and opponent strategies by UTC date. Each date has one common saved market and opponent policy; a retry does not resample them. New definition identifiers include the profile version, preserving earlier definitions and active attempts. Saved command responses remain unchanged.
+## Winning
 
-All ten chapters supply a distinct public objective, context, review prompts and an inventory of operational evidence. Topics include readiness, executable quotes, product limits, allocation, execution, risk, evidence, loss-chasing, integrated review and the limitations of advanced-product practice in a long-only simulator. `profile_version`, `context`, `review_prompts`, `recorded_evidence` and `assessment_basis` are optional policy fields so legacy responses retain their shape. Prompts do not grade plan semantics or turn a profit result into learning mastery. These finite profiles do not implement missing lesson missions, news, macro effects, advanced execution or validated difficulty calibration.
+Profit is final equity (cash plus holdings at the last close) minus starting
+cash, after fees and spread. Ranks share equal profits to the cent. A win
+needs rank 1, unshared, without forfeiting. Profit decides the match; missions
+and the decision score show process and never decide a win.
 
-Decisions use only already observed prices and current account state. The server privately saves seeds, complete paths, future liquidity and pinned opponent parameters. Public responses contain only the player's observed market history, the public brief and opponent identifiers/current ticks. Opponent results are disclosed when the challenge completes.
+## Daily challenge
 
-Ranks use descending net profit with joint ranks for equal values. Stable participant identifiers determine presentation order within a tie. A player wins only by strictly outperforming every opponent; a tie is not a victory. Players may complete without trading. Early completion is rejected; abandoning produces no result or completion award. Attempts have no wall-clock deadline and can resume after restart. Each mutation saves the exact response for an owned command key before any fresh version or eligibility gate. Changing the action behind a committed key is rejected.
+- Unlocks with the Chapter 1 boss.
+- Seven scenarios rotate by UTC weekday: `daily-mon-steady-climb`,
+  `daily-tue-range-chop`, `daily-wed-pullback`, `daily-thu-earnings-gap`,
+  `daily-fri-breakout-fakeout`, `daily-sat-news-shock`,
+  `daily-sun-bubble-crash`, each against one bot.
+- The first attempt of the UTC day uses the day's shared seed, so everyone
+  plays the same market; retries use random seeds.
+- Rewards: 15 XP for the first finish of the day (not a forfeit), 15 XP for the
+  first win, 200 Doubloons for the first win.
+- A loss or forfeit starts a 2-hour cooldown. A cooldown started on an earlier
+  UTC day never blocks the new day. `POST /api/daily/refresh` spends 20 Gems
+  to clear an active cooldown; the next daily records the refresh key.
+- `GET /api/daily` shows the scenario, opponent, attempts today, cooldown,
+  win state and the weekly Doubloon track.
 
-Completed profiled forms additionally return a saved `decision_review`: actual cash percentage, largest current position weight, maximum observed portfolio drawdown, paid fees, submitted/filled order counts and the chapter's review prompts. With no positions the largest weight is zero. Order counts are descriptive and never earn rewards. This accounting summary has no learning grade and does not judge the quality of the written plan. Legacy results omit the field. Completion replay and later owned reads return the saved summary.
+## Practice arena
 
-`POST /api/challenges` starts a practice attempt with one to three opponents after the existing guided prerequisites. The owned list/detail routes support resumption. Order, cancel, advance, complete and abandon routes use the same command and plan payloads as ordinary simulation. Completion requires the final tick and a reflection. Attempts are numbered per player and challenge identifier, retaining first attempts separately from retries. Ordered decision records include server UTC timestamps, attempt numbers, submitted payloads and before/after public observations, including cash, holdings, allocation, fills and costs. These operational records do not establish participant consent, export/deletion policy or a research-ready dataset.
+`GET /api/practice` lists the five `practice-*` markets with their bots.
+Practice matches are open to every signed-in player. A finished practice match
+(not a forfeit) gives 10 XP, at most three times per UTC day.
 
-Attempts pin catalog publication approval. Production blocks fresh access to an unapproved saved attempt while retaining its committed command replay.
+## Balance
 
-## Client service and recovery controller
+Boss and daily scenarios are checked by the Monte-Carlo gauntlet in
+`server/tests/test_game_balance.py`: over seeds 0–49 an idle player must win at
+most 5 % of boss matches and 10 % of dailies, and a random clicker at most
+10 % and 25 %. Lesson practice scenarios are not gated. The gauntlet uses
+synthetic players; it says nothing about how hard a match feels to a person.
 
-`client/services/challengeService.ts` wraps all eight generated challenge endpoints and trusts the backend's generated `ChallengeResponse` contract for response shapes, primitive types and enum values. `parseChallenge` checks consistency between fields: attempt identity, lifecycle, observed history length, synchronized opponent ticks, portfolio/order references and final-result participants. HTTP errors propagate separately. Browser journal data still receives runtime validation before replay. Profit, ranking, wins, eligibility and rewards remain server-owned.
+## Limits
 
-`ChallengeController` in `client/controllers/challengeController.ts` supplies a React-independent state subscription and start, planned order, cancel, advance, complete, abandon and recover actions. It supports the existing practice, daily and chapter modes through the same transport. Its phases distinguish loading/submitting, active trading, final-observation reflection, completed/abandoned attempts, errors and uncertain-command recovery. This is an integration foundation; it does not add a playable screen or connect daily/boss navigation. Human multiplayer readiness and its response adapter remain separate integration work.
-
-Create one controller per signed-in owner and browser tab, pass that owner's current identity through `getOwnerId`, and supply `sessionStorage`. Dispose the controller on sign-out, identity change or unmount; disposal hides late responses while retaining recoverable commands. The controller checks owner identity before requests and after responses. Tab-scoped storage avoids sharing a mutable command journal across tabs; the controller serializes its own requests, not requests from other tabs or devices.
-
-The versioned, owner-scoped journal in `client/services/challengeJournal.ts` stores the current attempt ID and at most one pending command, including its exact key and payload. Written plans and reflections can be present in that pending payload; identity tokens, future market paths and opponent portfolios are not stored. A storage failure before submission blocks the request. Corrupt journals fail closed and remain intact. Reload with `recover()` to retry a pending command or read the saved attempt; `recover(attemptId)` opens an owned attempt when no conflicting command is pending.
-
-Network failures, invalid responses, authentication failures and server errors retain the pending command. Recovery resubmits its original key and payload, then reads current server state because a replay receipt can be stale. Confirmed 404/409/422 rejections release the command; 409 also attempts an authoritative read. After an error, recover before submitting a corrected action. Once a valid mutation response is acknowledged, the attempt ID and cleared pending slot are saved together; a subsequent read failure retries only the read. The journal is recovery metadata, never an offline source of portfolio state or a substitute for server ownership and replay checks. Closing the tab or clearing session storage can remove this metadata; owned attempt listing remains available through the service.
-
-Migration 5 adds only `challenge_attempts` and `challenge_commands`; migrations 1–4 remain frozen. `start_attempt` accepts server-owned scenario configuration for subsequent daily and chapter policies. Application-level start, completion and abandonment handlers must execute in the same authenticated database transaction. A completion handler receives the persisted attempt identifier, owner, mode, module, challenge identifier, attempt number, win, profit and final leaderboard once; committed replay returns its frozen awards without rerunning it. The abandonment handler receives owner/attempt metadata with `status=abandoned` and `win=false`, permitting daily policy to impose a defeat cooldown without granting completion XP. This core does not itself implement chapter unlocks, daily currency, login rewards, multiplayer, ranked progression or shop items.
+Bot difficulty, scenario tuning and the decision score are product defaults,
+not validated measures. A win shows a better result in one synthetic market,
+not trading skill.
