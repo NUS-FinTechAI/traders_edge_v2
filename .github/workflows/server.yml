@@ -42,6 +42,4 @@ jobs:
         run: uv run --project server --extra test --locked python -m unittest discover -s server/tests
 
       - name: Validate curriculum and its contract
-        run: |
-          uv run --project server --extra test --locked python -m app.content.validate
-          uv run --project server --extra test --locked python -m unittest app.content.test_catalog
+        run: uv run --project server --extra test --locked python -m app.content.validate

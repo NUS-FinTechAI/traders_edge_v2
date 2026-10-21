@@ -56,6 +56,23 @@ async def current_profile(request: Request, db: AsyncSession = Depends(get_db, s
     return profile
 
 
+async def optional_profile(request: Request, db: AsyncSession = Depends(get_db, scope='function')) -> Profile | None:
+    """The signed-in profile, or None for a visitor without (valid) credentials on public reads."""
+    settings = request.app.state.settings
+    if settings.auth_mode == 'firebase':
+        present = request.headers.get('authorization', '').startswith('Bearer ')
+    else:
+        present = bool(request.cookies.get(settings.cookie_name))
+    if not present:
+        return None
+    try:
+        return await current_profile(request, db)
+    except HTTPException as error:
+        if error.status_code == 401:
+            return None
+        raise
+
+
 @router.post('/session', response_model=GuestSession, operation_id='startGuestSession', openapi_extra={'x-client-auth': 'none'})
 async def guest_session(request: Request, response: Response, db: AsyncSession = Depends(get_db, scope='function')):
     settings = request.app.state.settings

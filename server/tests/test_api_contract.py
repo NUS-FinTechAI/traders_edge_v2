@@ -34,7 +34,7 @@ class ApiContractTests(unittest.TestCase):
         operations = [operation['operationId'] for item in schema['paths'].values()
                       for method, operation in item.items() if method in {'get', 'post', 'patch', 'delete'}]
         self.assertEqual(len(operations), len(set(operations)))
-        self.assertIn('getProfile', operations)
+        self.assertIn('getMe', operations)
         self.assertEqual(schema['paths']['/api/config']['get']['x-client-auth'], 'none')
 
     def test_export_is_identical_under_invalid_deployment_settings(self):

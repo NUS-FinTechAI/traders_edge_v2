@@ -16,7 +16,7 @@ class CreateGame(Payload):
     scenario_id: str | None = Field(default=None, max_length=120, pattern=r'^[a-z0-9]+(-[a-z0-9]+)*$')
     level_id: str | None = Field(default=None, max_length=120)
     chapter_id: str | None = Field(default=None, max_length=120)
-    boss: Literal['gate', 'final'] | None = None
+    boss: Literal['preview', 'gate', 'final'] | None = None
     bots: int | None = Field(default=None, ge=1, le=7)
 
 
