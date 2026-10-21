@@ -91,10 +91,28 @@ class GameApiTests(unittest.TestCase):
         self.assertEqual(result['rewards'], {'xp': 0, 'stocks': 0, 'gems': 0, 'items': [], 'badges': []})
         self.assertEqual(result['stats']['trades'], 1)
         self.assertIn(result['plan_review']['kept_loss_limit'], (True, False))
-        self.assertTrue(0 <= result['decision_score'] <= 100)
+        self.assertEqual(result['decision_score'], sum(result['decision_breakdown'].values()))
+        self.assertEqual(result['reflection'], 'Held through the dip.')
         self.assertEqual(self.client.get(f'/api/games/{game["id"]}/result').json(), result)
         self.assertEqual(self.client.get(f'/api/games/{game["id"]}').json()['status'], 'settled')
         self.assertEqual(self.client.get('/api/games').json(), {'games': []})
+
+    def test_reflection_added_after_settling_is_stored_once(self):
+        game = self.started()
+        self.advance(100)
+        settled = self.client.post(f'/api/games/{game["id"]}/finish', json={}).json()
+
+        first = self.client.post(f'/api/games/{game["id"]}/finish', json={'reflection': 'Sell sooner.'}).json()
+        second = self.client.post(f'/api/games/{game["id"]}/finish', json={'reflection': 'Changed my mind.'}).json()
+
+        self.assertIsNone(settled['reflection'])
+        self.assertEqual((first['reflection'], second['reflection']), ('Sell sooner.', 'Sell sooner.'))
+        self.assertEqual({**first, 'reflection': None}, settled)
+
+    def test_state_names_the_campaign_context(self):
+        game = self.create()
+
+        self.assertEqual((game['mode'], game['chapter_id'], game['level_id'], game['boss']), ('practice', None, None, None))
 
     def test_commands_are_logged_with_observed_context(self):
         game = self.started()

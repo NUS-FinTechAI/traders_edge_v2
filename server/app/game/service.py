@@ -224,7 +224,8 @@ def public_state(loaded, match, tick, at, since=None):
                        'price': f2(close), 'change_pct': f2((close / previous - 1) * HUNDRED)})
     status = status_of(loaded, tick)
     return {
-        'id': game.id, 'mode': game.mode, 'status': status, 'tick': tick, 'ticks': scenario['ticks'],
+        'id': game.id, 'mode': game.mode, 'chapter_id': game.chapter_id, 'level_id': game.level_id, 'boss': game.boss,
+        'status': status, 'tick': tick, 'ticks': scenario['ticks'],
         'tick_label': scenario['tick_label'], 'tick_ms': game.clock['tick_ms'], 'speed': game.clock['speed'],
         'paused': game.clock['paused'], 'server_time': at,
         'next_tick_at': clock.next_tick_at(game.clock, scenario['ticks'], at) if status == 'running' else None,
@@ -400,19 +401,24 @@ def compute_result(loaded, match):
         'kept_loss_limit': book.max_drawdown_pct <= Decimal(str(plan['max_loss_pct']))}
     profit = match.profit(pid)
     missions = objectives.evaluate(match, pid, plan)
+    breakdown = review.decision_breakdown(match, pid, plan, missions)
     return {'won': won, 'rank': mine['rank'], 'of': len(board), 'forfeited': forfeited, 'profit': f2(profit),
             'profit_pct': f2(profit / match.rules.starting_cash * HUNDRED), 'leaderboard': board,
             'missions': missions, 'plan_review': plan_review,
-            'decision_score': review.decision_score(match, pid, plan, missions), 'key_moments': review.key_moments(match, pid),
+            'decision_score': sum(breakdown.values()), 'decision_breakdown': breakdown, 'key_moments': review.key_moments(match, pid),
             'stats': {'trades': len(book.fills), 'fees': f2(book.fees), 'biggest_position_pct': f2(book.biggest_position_pct),
                       'max_drawdown_pct': f2(book.max_drawdown_pct), 'buy_hold_profit': f2(match.buy_hold_profit())},
-            'debrief': loaded.scenario['debrief']}
+            'debrief': loaded.scenario['debrief'], 'reflection': None}
 
 
 async def finish(db, profile, game_id, forfeit, reflection, settle):
     loaded = await load(db, profile, game_id, lock=True)
     me, game = loaded.me, loaded.game
     if me.result is not None:
+        if reflection and not me.result.get('reflection'):
+            me.result = {**me.result, 'reflection': reflection}
+            log(db, loaded, loaded.scenario['ticks'], 'reflection', {'reflection': reflection})
+            await db.flush()
         return me.result
     at = clock.now_ms()
     tick = current_tick(loaded, at)
@@ -428,7 +434,7 @@ async def finish(db, profile, game_id, forfeit, reflection, settle):
                 row.cancelled_tick = tick
         if game.mode in SOLO_MODES and game.status == 'running':
             game.clock = clock.pause(game.clock, loaded.scenario['ticks'], at)
-    result = compute_result(loaded, match)
+    result = {**compute_result(loaded, match), 'reflection': reflection or None}
     result = {**result, **await settle(db, profile, game, me, result)}
     me.result = result
     if all(p.result is not None for p in loaded.participants if p.user_id):

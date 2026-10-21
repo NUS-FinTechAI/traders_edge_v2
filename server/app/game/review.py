@@ -18,8 +18,8 @@ def _protected(book, fill):
                for o in book.orders.values())
 
 
-def decision_score(match, pid, plan, missions):
-    """0-100: 40 bonus missions + 25 plan kept + 25 stop discipline + 10 low overtrading. Not a validated measure."""
+def decision_breakdown(match, pid, plan, missions):
+    """Points out of 40 bonus missions, 25 plan kept, 25 stop discipline, 10 low overtrading. Not a validated measure."""
     book = match.books[pid]
     bonus = [m for m in missions if m['tier'] == 'bonus'] or missions
     missions_share = Decimal(sum(m['done'] for m in bonus)) / len(bonus)
@@ -30,7 +30,8 @@ def decision_score(match, pid, plan, missions):
     else:
         discipline = Decimal(sum(_protected(book, fill) for fill in buys)) / len(buys) if buys else Decimal(0)
     overtrading = 1 - min(Decimal(1), book.fees / max(Decimal(1), abs(match.profit(pid))))
-    return int((40 * missions_share + 25 * kept + 25 * discipline + 10 * overtrading).to_integral_value())
+    parts = {'missions': 40 * missions_share, 'plan': 25 * kept, 'risk': 25 * discipline, 'overtrading': 10 * overtrading}
+    return {key: int(value.to_integral_value()) for key, value in parts.items()}
 
 
 def _held(book, t, symbol):

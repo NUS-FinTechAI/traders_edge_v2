@@ -227,6 +227,13 @@ class Unlocked(BaseModel):
     chapter_id: str | None = None
 
 
+class DecisionBreakdown(BaseModel):
+    missions: int = Field(ge=0, le=40)
+    plan: int = Field(ge=0, le=25)
+    risk: int = Field(ge=0, le=25)
+    overtrading: int = Field(ge=0, le=10)
+
+
 class GameResult(BaseModel):
     won: bool
     rank: int
@@ -240,15 +247,20 @@ class GameResult(BaseModel):
     rewards: GameRewards
     plan_review: PlanReview | None
     decision_score: int = Field(ge=0, le=100, description='Unvalidated 0-100 process score; never decides a win')
+    decision_breakdown: DecisionBreakdown
     key_moments: list[str]
     stats: GameStats
     debrief: str
+    reflection: str | None = None
     unlocked: Unlocked | None
 
 
 class GameState(BaseModel):
     id: str
     mode: str
+    chapter_id: str | None
+    level_id: str | None
+    boss: str | None
     status: Status
     tick: int
     ticks: int

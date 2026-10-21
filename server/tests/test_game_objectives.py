@@ -164,12 +164,14 @@ class ReviewTests(unittest.TestCase):
         protected = flat_match().advance(1, [order('b1', 'buy', 5), order('s1', 'sell', 5, kind='stop', stop='45', tick=1)])
         missions = [{'tier': 'basic', 'done': True}]
 
-        self.assertEqual(review.decision_score(protected, 'me', PLAN, missions) - review.decision_score(bare, 'me', PLAN, missions), 25)
+        self.assertEqual(review.decision_breakdown(protected, 'me', PLAN, missions)['risk']
+                         - review.decision_breakdown(bare, 'me', PLAN, missions)['risk'], 25)
 
     def test_idle_player_scores_plan_and_overtrading_only(self):
         match = flat_match().advance(3)
 
-        self.assertEqual(review.decision_score(match, 'me', PLAN, [{'tier': 'bonus', 'done': False}]), 35)
+        self.assertEqual(review.decision_breakdown(match, 'me', PLAN, [{'tier': 'bonus', 'done': False}]),
+                         {'missions': 0, 'plan': 25, 'risk': 0, 'overtrading': 10})
 
     def test_key_moments_describe_news_with_the_players_holding(self):
         match = flat_match(scenario(news=[NEWS]))

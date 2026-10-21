@@ -27,8 +27,8 @@ class ContentTests(unittest.TestCase):
     def test_shipped_scenarios_and_bots_validate(self):
         scenarios = load_scenarios()
 
-        self.assertEqual(set(scenarios), {'practice-trend-rider', 'practice-earnings-gap', 'practice-choppy-range'})
-        self.assertFalse(any(s.get('balance') == 'boss' for s in scenarios.values()))
+        self.assertLessEqual({'practice-trend-rider', 'practice-earnings-gap', 'practice-choppy-range'}, set(scenarios))
+        self.assertTrue(all(s.get('balance') != 'boss' for key, s in scenarios.items() if key.startswith('practice-')))
 
     def test_bot_catalog_matches_the_canonical_roster(self):
         bots = load_bots()
