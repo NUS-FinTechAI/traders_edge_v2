@@ -1,0 +1,173 @@
+{
+  "id": "ch6-l1-practice",
+  "version": 1,
+  "title": "Beat and Raise",
+  "briefing": "Earnings week on the News Coast. Orchard Foods and Kestrel Air both report soon, and the event calendar shows exactly when.",
+  "objective": "Judge earnings against expectations and guidance, and keep size small into a report.",
+  "debrief": "Orchard Foods beat estimates and raised its guidance on day 10: the price gapped up and kept drifting higher for days as investors adjusted. Kestrel Air missed and cut its outlook on day 18, and the gap went straight through any stop. A disciplined player kept Kestrel Air small going into its report, then bought Orchard Foods after the beat-and-raise confirmed the story.",
+  "difficulty": 2,
+  "ticks": 30,
+  "history": 20,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": true,
+    "stop": true
+  },
+  "max_position_pct": null,
+  "balance": "lesson",
+  "tools": [
+    "candles",
+    "volume",
+    "sma"
+  ],
+  "market": {
+    "vol": 0.005
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 30,
+      "market_drift": 0.0005,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "ORCF",
+      "name": "Orchard Foods",
+      "sector": "Consumer staples",
+      "blurb": "Runs a chain of neighborhood grocery stores.",
+      "price": 40,
+      "drift": 0.0005,
+      "beta": 0.6,
+      "vol": 0.01,
+      "base_volume": 20000
+    },
+    {
+      "symbol": "KSTR",
+      "name": "Kestrel Air",
+      "sector": "Airlines",
+      "blurb": "Flies short routes between regional cities.",
+      "price": 36,
+      "drift": 0.001,
+      "beta": 1.1,
+      "vol": 0.014,
+      "base_volume": 26000
+    }
+  ],
+  "news": [
+    {
+      "id": "earnings-calendar",
+      "tick": 2,
+      "headline": "Earnings week: Orchard Foods reports on day 10, Kestrel Air on day 18",
+      "body": "Analysts expect Orchard Foods to earn $0.45 a share and Kestrel Air $0.80.",
+      "tone": "neutral",
+      "kind": "earnings",
+      "symbols": [
+        "ORCF",
+        "KSTR"
+      ],
+      "effects": []
+    },
+    {
+      "id": "orcf-results",
+      "tick": 10,
+      "headline": "Orchard Foods earns $0.52 a share vs $0.45 expected and raises full-year guidance",
+      "body": "Sales of its own-brand range grew faster than planned. Management now expects higher profit for the year.",
+      "tone": "positive",
+      "kind": "earnings",
+      "symbols": [
+        "ORCF"
+      ],
+      "effects": [
+        {
+          "symbol": "ORCF",
+          "move": 0.06,
+          "ticks": 1,
+          "gap": true
+        },
+        {
+          "symbol": "ORCF",
+          "move": 0.06,
+          "ticks": 10,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "kstr-results",
+      "tick": 18,
+      "headline": "Kestrel Air earns $0.61 a share vs $0.80 expected and cuts its outlook",
+      "body": "Higher fuel costs and weaker bookings hit profit. The airline lowered its forecast for the year.",
+      "tone": "negative",
+      "kind": "earnings",
+      "symbols": [
+        "KSTR"
+      ],
+      "effects": [
+        {
+          "symbol": "KSTR",
+          "move": -0.08,
+          "ticks": 1,
+          "gap": true
+        },
+        {
+          "symbol": "KSTR",
+          "move": -0.04,
+          "ticks": 6,
+          "gap": false
+        }
+      ]
+    }
+  ],
+  "bots": [
+    "newsy-nina-rookie"
+  ],
+  "missions": {
+    "basic": [
+      {
+        "id": "buy-beat",
+        "type": "bought_after_news",
+        "params": {
+          "news_id": "orcf-results",
+          "within": 3
+        },
+        "text": "Buy Orchard Foods within 3 days of its beat-and-raise report"
+      },
+      {
+        "id": "small-into-report",
+        "type": "max_position_before",
+        "params": {
+          "tick": 18,
+          "pct": 15,
+          "symbol": "KSTR"
+        },
+        "text": "Hold no more than 15% in Kestrel Air going into its day-18 report"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "profit",
+        "type": "profit_min",
+        "params": {
+          "amount": 300
+        },
+        "text": "Finish at least $300 in profit"
+      },
+      {
+        "id": "beat-nina",
+        "type": "beat_bot",
+        "params": {
+          "bot_id": "newsy-nina-rookie"
+        },
+        "text": "Finish ahead of Newsy Nina"
+      }
+    ]
+  }
+}

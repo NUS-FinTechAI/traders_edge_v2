@@ -1,0 +1,186 @@
+{
+  "id": "ch5-l5-practice",
+  "version": 1,
+  "title": "Confluence",
+  "briefing": "Meadow Pharma is trending up and about to pull back; Harborline Shipping keeps flashing \"oversold\" on the way down. Look for reasons that agree, not just one loud signal.",
+  "objective": "Combine trend, price level and indicator before entering, and plan the stop.",
+  "debrief": "Meadow Pharma stayed above its rising average. The patent scare on day 13 pulled it back to the average and old support, RSI dipped and turned up, and the patent ruling on day 20 restarted the trend: three independent reasons lined up. Harborline looked \"oversold\" again and again, but the falling rates on day 8 and the dividend cut on day 18 kept it sliding. A disciplined player bought the pullback with a stop and ignored the falling knife.",
+  "difficulty": 3,
+  "ticks": 34,
+  "history": 30,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": true,
+    "stop": true
+  },
+  "max_position_pct": null,
+  "balance": "lesson",
+  "tools": [
+    "candles",
+    "volume",
+    "sma",
+    "rsi",
+    "macd"
+  ],
+  "market": {
+    "vol": 0.005
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 34,
+      "market_drift": 0.0005,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "MDWP",
+      "name": "Meadow Pharma",
+      "sector": "Pharmaceuticals",
+      "blurb": "Develops and sells prescription medicines.",
+      "price": 60,
+      "drift": 0.004,
+      "beta": 0.8,
+      "vol": 0.011,
+      "base_volume": 20000
+    },
+    {
+      "symbol": "HRBL",
+      "name": "Harborline Shipping",
+      "sector": "Shipping",
+      "blurb": "Moves containers between major ports.",
+      "price": 25,
+      "drift": -0.006,
+      "beta": 1.0,
+      "vol": 0.014,
+      "base_volume": 24000
+    }
+  ],
+  "news": [
+    {
+      "id": "hrbl-rates-fall",
+      "tick": 8,
+      "headline": "Container shipping rates fall for a fifth week",
+      "body": "Too many ships are chasing too little cargo, pushing prices down.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "HRBL"
+      ],
+      "effects": [
+        {
+          "symbol": "HRBL",
+          "move": -0.06,
+          "ticks": 3,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "mdwp-patent-scare",
+      "tick": 13,
+      "headline": "Rival files a competing patent; Meadow Pharma dips",
+      "body": "A competitor claims part of Meadow's allergy medicine. Meadow says the claim has no merit.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "MDWP"
+      ],
+      "effects": [
+        {
+          "symbol": "MDWP",
+          "move": -0.06,
+          "ticks": 3,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "hrbl-dividend-cut",
+      "tick": 18,
+      "headline": "Harborline halves its dividend",
+      "body": "The company is saving cash while shipping rates stay low.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "HRBL"
+      ],
+      "effects": [
+        {
+          "symbol": "HRBL",
+          "move": -0.07,
+          "ticks": 2,
+          "gap": true
+        }
+      ]
+    },
+    {
+      "id": "mdwp-patent-upheld",
+      "tick": 20,
+      "headline": "Patent office sides with Meadow Pharma",
+      "body": "The rival's claim was rejected; Meadow keeps its patent.",
+      "tone": "positive",
+      "kind": "company",
+      "symbols": [
+        "MDWP"
+      ],
+      "effects": [
+        {
+          "symbol": "MDWP",
+          "move": 0.04,
+          "ticks": 2,
+          "gap": false
+        }
+      ]
+    }
+  ],
+  "bots": [
+    "value-vera-rookie"
+  ],
+  "missions": {
+    "basic": [
+      {
+        "id": "buy-pullback",
+        "type": "bought_after_news",
+        "params": {
+          "news_id": "mdwp-patent-scare",
+          "within": 5
+        },
+        "text": "Buy Meadow Pharma on the pullback (within 5 days of the day-13 headline)"
+      },
+      {
+        "id": "set-stop",
+        "type": "stop_loss_set",
+        "params": {},
+        "text": "Protect your entry with a stop-loss"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "skip-knife",
+        "type": "max_position_before",
+        "params": {
+          "tick": 33,
+          "pct": 10,
+          "symbol": "HRBL"
+        },
+        "text": "Keep Harborline under 10% of your portfolio: oversold in a downtrend is not a setup"
+      },
+      {
+        "id": "profit",
+        "type": "profit_min",
+        "params": {
+          "amount": 300
+        },
+        "text": "Finish at least $300 in profit"
+      }
+    ]
+  }
+}

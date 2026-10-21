@@ -1,0 +1,174 @@
+{
+  "id": "practice-trend-rider",
+  "version": 1,
+  "title": "Trend Rider",
+  "briefing": "Lumen Bikes is in a strong uptrend and Orchard Foods is creeping higher. Join the trend on a pullback and let it run.",
+  "objective": "Trend following: buy pullbacks in an uptrend, protect them with a stop and trail the exit.",
+  "debrief": "Lumen Bikes kept making higher highs and higher lows. The dips after the battery-supplier report (day 8) and the analyst downgrade (day 19) were the low-risk places to join, and both held above the rising average. The trend finally cracked when the company cut its forecast on day 29. A disciplined player bought a pullback with a stop, held through the noise and trailed out when the trend broke.",
+  "difficulty": 2,
+  "ticks": 36,
+  "history": 30,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": true,
+    "stop": true
+  },
+  "max_position_pct": null,
+  "balance": null,
+  "tools": [
+    "candles",
+    "volume",
+    "sma",
+    "ema",
+    "rsi"
+  ],
+  "market": {
+    "vol": 0.005
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 36,
+      "market_drift": 0.001,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "LUMB",
+      "name": "Lumen Bikes",
+      "sector": "Consumer discretionary",
+      "blurb": "Designs and sells electric bikes and spare batteries.",
+      "price": 36,
+      "drift": 0.012,
+      "beta": 1.1,
+      "vol": 0.011,
+      "base_volume": 24000
+    },
+    {
+      "symbol": "ORCF",
+      "name": "Orchard Foods",
+      "sector": "Consumer staples",
+      "blurb": "Runs a chain of neighborhood grocery stores.",
+      "price": 40,
+      "drift": 0.002,
+      "beta": 0.4,
+      "vol": 0.008,
+      "base_volume": 20000
+    }
+  ],
+  "news": [
+    {
+      "id": "lumb-supplier",
+      "tick": 8,
+      "headline": "Battery supplier warns of a short delay; Lumen Bikes dips",
+      "body": "Lumen says it has enough stock to cover the delay.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "LUMB"
+      ],
+      "effects": [
+        {
+          "symbol": "LUMB",
+          "move": -0.05,
+          "ticks": 3,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "lumb-downgrade",
+      "tick": 19,
+      "headline": "Analyst downgrades Lumen Bikes on valuation",
+      "body": "The analyst likes the business but thinks the shares have run ahead.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "LUMB"
+      ],
+      "effects": [
+        {
+          "symbol": "LUMB",
+          "move": -0.05,
+          "ticks": 3,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "lumb-forecast-cut",
+      "tick": 29,
+      "headline": "Lumen Bikes trims its full-year sales forecast",
+      "body": "Cooler weather slowed spring sales in its biggest markets.",
+      "tone": "negative",
+      "kind": "earnings",
+      "symbols": [
+        "LUMB"
+      ],
+      "effects": [
+        {
+          "symbol": "LUMB",
+          "move": -0.02,
+          "ticks": 1,
+          "gap": true
+        },
+        {
+          "symbol": "LUMB",
+          "move": -0.28,
+          "ticks": 6,
+          "gap": false
+        }
+      ]
+    }
+  ],
+  "bots": [
+    "momentum-max-pro",
+    "hodl-hannah",
+    "panic-pete-pro"
+  ],
+  "missions": {
+    "basic": [
+      {
+        "id": "win",
+        "type": "rank_max",
+        "params": {
+          "rank": 1
+        },
+        "text": "Finish first"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "pullback",
+        "type": "bought_after_news",
+        "params": {
+          "news_id": "lumb-supplier",
+          "within": 4
+        },
+        "text": "Buy Lumen Bikes on a pullback (within 4 days of the day-8 headline)"
+      },
+      {
+        "id": "stop",
+        "type": "stop_loss_set",
+        "params": {},
+        "text": "Protect your trend trade with a stop-loss"
+      },
+      {
+        "id": "trend-exit",
+        "type": "exited_by",
+        "params": {
+          "symbol": "LUMB",
+          "tick": 32
+        },
+        "text": "Be out of Lumen Bikes by day 32, after the trend breaks"
+      }
+    ]
+  }
+}

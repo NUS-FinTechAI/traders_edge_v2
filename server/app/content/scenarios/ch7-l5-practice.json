@@ -1,0 +1,156 @@
+{
+  "id": "ch7-l5-practice",
+  "version": 1,
+  "title": "Run Your Rules",
+  "briefing": "Meadow Pharma offers the same setup three times: a pullback in an uptrend. Use the same rule each time, with the same stop, and judge the results together.",
+  "objective": "Test an edge by repeating one rule with fixed risk, and judge the set of trades, not one result.",
+  "debrief": "Meadow Pharma pulled back three times: on day 6, day 16 and day 26. The first two pullbacks recovered and paid well. The third, after the trial delay, kept falling and hit the stop for a small loss. Taken together, the same rule with the same stop still came out ahead: two wins larger than one controlled loss. A disciplined player applied the rule every time and kept each loss small.",
+  "difficulty": 3,
+  "ticks": 36,
+  "history": 30,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": true,
+    "stop": true
+  },
+  "max_position_pct": null,
+  "balance": "lesson",
+  "tools": [
+    "candles",
+    "volume",
+    "sma",
+    "rsi"
+  ],
+  "market": {
+    "vol": 0.005
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 36,
+      "market_drift": 0.0005,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "MDWP",
+      "name": "Meadow Pharma",
+      "sector": "Pharmaceuticals",
+      "blurb": "Develops and sells prescription medicines.",
+      "price": 55,
+      "drift": 0.004,
+      "beta": 0.8,
+      "vol": 0.011,
+      "base_volume": 20000
+    }
+  ],
+  "news": [
+    {
+      "id": "mdwp-pullback-1",
+      "tick": 6,
+      "headline": "Meadow Pharma slips as a rival launches a similar drug",
+      "body": "Analysts expect the rival to win only a small share of the market.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "MDWP"
+      ],
+      "effects": [
+        {
+          "symbol": "MDWP",
+          "move": -0.05,
+          "ticks": 3,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "mdwp-pullback-2",
+      "tick": 16,
+      "headline": "Meadow Pharma dips after a large shareholder sells",
+      "body": "A pension fund trimmed its stake to rebalance its portfolio.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "MDWP"
+      ],
+      "effects": [
+        {
+          "symbol": "MDWP",
+          "move": -0.05,
+          "ticks": 3,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "mdwp-trial-delay",
+      "tick": 26,
+      "headline": "Meadow Pharma delays a late-stage trial by six months",
+      "body": "The company needs more patients before it can report results.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "MDWP"
+      ],
+      "effects": [
+        {
+          "symbol": "MDWP",
+          "move": -0.05,
+          "ticks": 3,
+          "gap": false
+        },
+        {
+          "symbol": "MDWP",
+          "move": -0.07,
+          "ticks": 6,
+          "gap": false
+        }
+      ]
+    }
+  ],
+  "bots": [
+    "steady-stella-rookie"
+  ],
+  "missions": {
+    "basic": [
+      {
+        "id": "plan",
+        "type": "kept_plan",
+        "params": {},
+        "text": "Keep your worst drop within your plan's maximum loss"
+      },
+      {
+        "id": "stop",
+        "type": "stop_loss_set",
+        "params": {},
+        "text": "Use a stop-loss on your entries"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "repeat",
+        "type": "trades_min",
+        "params": {
+          "n": 4
+        },
+        "text": "Test the setup at least twice (4 or more trades)"
+      },
+      {
+        "id": "profit",
+        "type": "profit_min",
+        "params": {
+          "amount": 200
+        },
+        "text": "Finish at least $200 in profit"
+      }
+    ]
+  }
+}

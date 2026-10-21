@@ -1,0 +1,226 @@
+{
+  "id": "daily-wed-pullback",
+  "version": 1,
+  "title": "Pullback in Uptrend",
+  "briefing": "Meadow Pharma is trending up, but its pullbacks are sharp. Value Vera loves a dip. Buy the right ones and know when a dip is something more.",
+  "objective": "Buy pullbacks inside an uptrend with a stop, and recognize when a pullback becomes a breakdown.",
+  "debrief": "Meadow Pharma's uptrend had three sharp pullbacks: the rival launch (day 4), the pricing review (day 11) and the share sale (day 18). Each one bounced. The trial halt on day 25 was different: a real change in the business, and the stock kept falling. A disciplined player bought the pullbacks with stops just below the lows and was stopped out quickly when the last one failed.",
+  "difficulty": 2,
+  "ticks": 30,
+  "history": 20,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": true,
+    "stop": true
+  },
+  "max_position_pct": null,
+  "balance": "boss",
+  "tools": [
+    "candles",
+    "volume",
+    "sma"
+  ],
+  "market": {
+    "vol": 0.005
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 30,
+      "market_drift": 0.0005,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "MDWP",
+      "name": "Meadow Pharma",
+      "sector": "Pharmaceuticals",
+      "blurb": "Develops and sells prescription medicines.",
+      "price": 52,
+      "drift": 0.0025,
+      "beta": 0.6,
+      "vol": 0.009,
+      "base_volume": 20000
+    }
+  ],
+  "news": [
+    {
+      "id": "mdwp-rival",
+      "tick": 4,
+      "headline": "A rival launches a similar allergy drug",
+      "body": "Analysts expect Meadow to keep most of its market share.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "MDWP"
+      ],
+      "effects": [
+        {
+          "symbol": "MDWP",
+          "move": -0.16,
+          "ticks": 3,
+          "gap": true
+        }
+      ]
+    },
+    {
+      "id": "mdwp-rival-shrug",
+      "tick": 7,
+      "headline": "Doctors stick with Meadow's allergy drug",
+      "body": "An industry survey shows few doctors plan to switch.",
+      "tone": "positive",
+      "kind": "company",
+      "symbols": [
+        "MDWP"
+      ],
+      "effects": [
+        {
+          "symbol": "MDWP",
+          "move": 0.11,
+          "ticks": 4,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "mdwp-pricing",
+      "tick": 11,
+      "headline": "Government to review drug prices",
+      "body": "The review could take a year; no changes are planned yet.",
+      "tone": "negative",
+      "kind": "macro",
+      "symbols": [
+        "MDWP"
+      ],
+      "effects": [
+        {
+          "symbol": "MDWP",
+          "move": -0.16,
+          "ticks": 3,
+          "gap": true
+        }
+      ]
+    },
+    {
+      "id": "mdwp-pricing-calm",
+      "tick": 14,
+      "headline": "Review will not cover recently approved drugs",
+      "body": "Meadow's newest medicines are outside the scope of the review.",
+      "tone": "positive",
+      "kind": "company",
+      "symbols": [
+        "MDWP"
+      ],
+      "effects": [
+        {
+          "symbol": "MDWP",
+          "move": 0.11,
+          "ticks": 4,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "mdwp-share-sale",
+      "tick": 18,
+      "headline": "A large fund sells Meadow Pharma shares",
+      "body": "The fund says it is rebalancing after a strong run.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "MDWP"
+      ],
+      "effects": [
+        {
+          "symbol": "MDWP",
+          "move": -0.16,
+          "ticks": 3,
+          "gap": true
+        }
+      ]
+    },
+    {
+      "id": "mdwp-buyback",
+      "tick": 21,
+      "headline": "Meadow Pharma announces a share buyback",
+      "body": "The company will buy back about 2% of its shares.",
+      "tone": "positive",
+      "kind": "company",
+      "symbols": [
+        "MDWP"
+      ],
+      "effects": [
+        {
+          "symbol": "MDWP",
+          "move": 0.1,
+          "ticks": 4,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "mdwp-trial-halt",
+      "tick": 25,
+      "headline": "Meadow Pharma halts a heart-drug trial over side effects",
+      "body": "The company will review the data before deciding the trial's future.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "MDWP"
+      ],
+      "effects": [
+        {
+          "symbol": "MDWP",
+          "move": -0.1,
+          "ticks": 1,
+          "gap": true
+        },
+        {
+          "symbol": "MDWP",
+          "move": -0.1,
+          "ticks": 4,
+          "gap": false
+        }
+      ]
+    }
+  ],
+  "bots": [
+    "value-vera-pro"
+  ],
+  "missions": {
+    "basic": [
+      {
+        "id": "win",
+        "type": "rank_max",
+        "params": {
+          "rank": 1
+        },
+        "text": "Finish with more profit than your opponent"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "stop",
+        "type": "stop_loss_set",
+        "params": {},
+        "text": "Protect a pullback entry with a stop-loss"
+      },
+      {
+        "id": "out",
+        "type": "exited_by",
+        "params": {
+          "symbol": "MDWP",
+          "tick": 27
+        },
+        "text": "Be out of Meadow Pharma by day 27, after the trial halt"
+      }
+    ]
+  }
+}

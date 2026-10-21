@@ -1,0 +1,158 @@
+{
+  "id": "ch8-l3-practice",
+  "version": 1,
+  "title": "Tilt Check",
+  "briefing": "Nimbus Cloud is jumpy this month, and an early loss is likely. The test is what you do next.",
+  "objective": "Avoid revenge trading: after a loss, keep size and rules the same and wait for a real setup.",
+  "debrief": "Nimbus Cloud jumped on the reseller deal on day 3, then gapped down when the deal was put on hold on day 5, handing early buyers a quick loss. The next two weeks were choppy, and traders trying to win it back paid fees and took more losses. From day 18 a clean uptrend followed the new product launch. A disciplined player kept losses small, did not double up, and waited for the real trend.",
+  "difficulty": 3,
+  "ticks": 34,
+  "history": 20,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": true,
+    "stop": true
+  },
+  "max_position_pct": null,
+  "balance": "lesson",
+  "tools": [
+    "candles",
+    "volume",
+    "sma",
+    "rsi"
+  ],
+  "market": {
+    "vol": 0.005
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 18,
+      "market_drift": 0.0,
+      "vol_mult": 1.3
+    },
+    {
+      "from": 18,
+      "to": 34,
+      "market_drift": 0.004,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "NMBC",
+      "name": "Nimbus Cloud",
+      "sector": "Technology",
+      "blurb": "Rents cloud servers and storage to businesses.",
+      "price": 70,
+      "drift": 0.0,
+      "beta": 1.2,
+      "vol": 0.013,
+      "base_volume": 30000
+    }
+  ],
+  "news": [
+    {
+      "id": "nmbc-reseller",
+      "tick": 3,
+      "headline": "Nimbus Cloud signs a reseller deal in Asia",
+      "body": "A large IT distributor will sell Nimbus services in six countries.",
+      "tone": "positive",
+      "kind": "company",
+      "symbols": [
+        "NMBC"
+      ],
+      "effects": [
+        {
+          "symbol": "NMBC",
+          "move": 0.04,
+          "ticks": 2,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "nmbc-deal-hold",
+      "tick": 5,
+      "headline": "Nimbus Cloud's reseller deal put on hold",
+      "body": "The distributor says it needs regulatory approval first.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "NMBC"
+      ],
+      "effects": [
+        {
+          "symbol": "NMBC",
+          "move": -0.07,
+          "ticks": 1,
+          "gap": true
+        }
+      ]
+    },
+    {
+      "id": "nmbc-launch",
+      "tick": 18,
+      "headline": "Nimbus Cloud launches a cheaper storage plan for small firms",
+      "body": "Early sign-ups are well ahead of the company's target.",
+      "tone": "positive",
+      "kind": "company",
+      "symbols": [
+        "NMBC"
+      ],
+      "effects": [
+        {
+          "symbol": "NMBC",
+          "move": 0.08,
+          "ticks": 8,
+          "gap": false
+        }
+      ]
+    }
+  ],
+  "bots": [
+    "panic-pete-rookie"
+  ],
+  "missions": {
+    "basic": [
+      {
+        "id": "plan",
+        "type": "kept_plan",
+        "params": {},
+        "text": "Keep your worst drop within your plan's maximum loss"
+      },
+      {
+        "id": "no-overtrading",
+        "type": "trades_max",
+        "params": {
+          "n": 8
+        },
+        "text": "Make at most 8 trades"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "small-drop",
+        "type": "max_drawdown",
+        "params": {
+          "pct": 5
+        },
+        "text": "Keep your worst drop under 5%"
+      },
+      {
+        "id": "profit",
+        "type": "profit_min",
+        "params": {
+          "amount": 150
+        },
+        "text": "Finish at least $150 in profit"
+      }
+    ]
+  }
+}

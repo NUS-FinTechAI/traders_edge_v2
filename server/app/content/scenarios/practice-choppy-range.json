@@ -1,0 +1,262 @@
+{
+  "id": "practice-choppy-range",
+  "version": 1,
+  "title": "Choppy Range",
+  "briefing": "Tidal Power and Harborline Shipping are going nowhere fast. Trend signals will keep firing and failing. Trade the edges or wait.",
+  "objective": "In a sideways market, buy near support with a stop, sell near resistance, and keep the trade count low.",
+  "debrief": "Both stocks spent the match bouncing between support and resistance on small news: weather and repairs for Tidal Power, freight rates for Harborline. Trend followers bought each pop and sold each dip, and frequent traders paid away their gains in fees. A disciplined player bought near the bottom of each range with a stop just below, sold near the top and made only a handful of trades.",
+  "difficulty": 2,
+  "ticks": 32,
+  "history": 20,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": true,
+    "stop": true
+  },
+  "max_position_pct": null,
+  "balance": null,
+  "tools": [
+    "candles",
+    "volume",
+    "sma",
+    "ema",
+    "rsi"
+  ],
+  "market": {
+    "vol": 0.005
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 32,
+      "market_drift": 0.0,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "TDLP",
+      "name": "Tidal Power",
+      "sector": "Utilities",
+      "blurb": "Generates renewable electricity from offshore wind and tidal farms.",
+      "price": 30,
+      "drift": 0.0,
+      "beta": 0.2,
+      "vol": 0.008,
+      "base_volume": 18000
+    },
+    {
+      "symbol": "HRBL",
+      "name": "Harborline Shipping",
+      "sector": "Shipping",
+      "blurb": "Moves containers between major ports.",
+      "price": 22,
+      "drift": 0.0,
+      "beta": 0.3,
+      "vol": 0.009,
+      "base_volume": 18000
+    }
+  ],
+  "news": [
+    {
+      "id": "tdlp-calm",
+      "tick": 4,
+      "headline": "Calm winds cut Tidal Power's output",
+      "body": "Wind farms ran well below capacity.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "TDLP"
+      ],
+      "effects": [
+        {
+          "symbol": "TDLP",
+          "move": -0.06,
+          "ticks": 2,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "hrbl-rates-dip",
+      "tick": 6,
+      "headline": "Container freight rates dip",
+      "body": "Fewer goods are being shipped this month.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "HRBL"
+      ],
+      "effects": [
+        {
+          "symbol": "HRBL",
+          "move": -0.06,
+          "ticks": 2,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "tdlp-winds-back",
+      "tick": 8,
+      "headline": "Winds return for Tidal Power",
+      "body": "Output is back to normal.",
+      "tone": "positive",
+      "kind": "company",
+      "symbols": [
+        "TDLP"
+      ],
+      "effects": [
+        {
+          "symbol": "TDLP",
+          "move": 0.06,
+          "ticks": 3,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "hrbl-rates-firm",
+      "tick": 11,
+      "headline": "Freight rates firm as holiday orders arrive",
+      "body": "Shipping lines report busier routes.",
+      "tone": "positive",
+      "kind": "company",
+      "symbols": [
+        "HRBL"
+      ],
+      "effects": [
+        {
+          "symbol": "HRBL",
+          "move": 0.06,
+          "ticks": 3,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "tdlp-repair",
+      "tick": 16,
+      "headline": "Turbine repairs idle part of a Tidal Power farm",
+      "body": "Repairs should take about a week.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "TDLP"
+      ],
+      "effects": [
+        {
+          "symbol": "TDLP",
+          "move": -0.06,
+          "ticks": 2,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "hrbl-port-delay",
+      "tick": 18,
+      "headline": "Port congestion slows Harborline's deliveries",
+      "body": "The delays are expected to clear within days.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "HRBL"
+      ],
+      "effects": [
+        {
+          "symbol": "HRBL",
+          "move": -0.06,
+          "ticks": 2,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "tdlp-repair-done",
+      "tick": 21,
+      "headline": "Tidal Power finishes repairs early",
+      "body": "The farm is back at full output.",
+      "tone": "positive",
+      "kind": "company",
+      "symbols": [
+        "TDLP"
+      ],
+      "effects": [
+        {
+          "symbol": "TDLP",
+          "move": 0.06,
+          "ticks": 3,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "hrbl-port-clear",
+      "tick": 23,
+      "headline": "Port congestion clears",
+      "body": "Harborline's ships are back on schedule.",
+      "tone": "positive",
+      "kind": "company",
+      "symbols": [
+        "HRBL"
+      ],
+      "effects": [
+        {
+          "symbol": "HRBL",
+          "move": 0.06,
+          "ticks": 3,
+          "gap": false
+        }
+      ]
+    }
+  ],
+  "bots": [
+    "scalper-sam-pro",
+    "value-vera-pro",
+    "momentum-max-rookie"
+  ],
+  "missions": {
+    "basic": [
+      {
+        "id": "win",
+        "type": "rank_max",
+        "params": {
+          "rank": 1
+        },
+        "text": "Finish first"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "few-trades",
+        "type": "trades_max",
+        "params": {
+          "n": 8
+        },
+        "text": "Make at most 8 trades"
+      },
+      {
+        "id": "buy-support",
+        "type": "bought_after_news",
+        "params": {
+          "news_id": "tdlp-repair",
+          "within": 3
+        },
+        "text": "Buy Tidal Power near support (within 3 days of the day-16 headline)"
+      },
+      {
+        "id": "stop",
+        "type": "stop_loss_set",
+        "params": {},
+        "text": "Place a stop just below a range"
+      }
+    ]
+  }
+}

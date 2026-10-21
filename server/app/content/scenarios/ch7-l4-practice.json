@@ -1,0 +1,130 @@
+{
+  "id": "ch7-l4-practice",
+  "version": 1,
+  "title": "Read the Regime",
+  "briefing": "Lumen Bikes will trend, then chop, then break down. Your strategy has to change with it. Sitting out is allowed.",
+  "objective": "Match the strategy to the regime: trend following in trends, small or no size in chop, cash in a breakdown.",
+  "debrief": "For the first twelve days Lumen Bikes made higher highs and lows: a trend. From day 12 the average flattened and price chopped back and forth, punishing anyone who kept trading signals. From day 24 lower lows and the weak consumer-spending report sent it into a breakdown. A disciplined player rode the trend, stepped aside in the chop and stayed in cash through the breakdown.",
+  "difficulty": 3,
+  "ticks": 36,
+  "history": 30,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": true,
+    "stop": true
+  },
+  "max_position_pct": null,
+  "balance": "lesson",
+  "tools": [
+    "candles",
+    "volume",
+    "sma"
+  ],
+  "market": {
+    "vol": 0.005
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 12,
+      "market_drift": 0.005,
+      "vol_mult": 1.0
+    },
+    {
+      "from": 12,
+      "to": 24,
+      "market_drift": 0.0,
+      "vol_mult": 1.4
+    },
+    {
+      "from": 24,
+      "to": 36,
+      "market_drift": -0.006,
+      "vol_mult": 1.4
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "LUMB",
+      "name": "Lumen Bikes",
+      "sector": "Consumer discretionary",
+      "blurb": "Designs and sells electric bikes and spare batteries.",
+      "price": 40,
+      "drift": 0.0,
+      "beta": 1.4,
+      "vol": 0.011,
+      "base_volume": 24000
+    }
+  ],
+  "news": [
+    {
+      "id": "consumer-spending",
+      "tick": 25,
+      "headline": "Consumer spending falls for a third month",
+      "body": "Households are cutting back on bigger purchases such as bikes and furniture.",
+      "tone": "negative",
+      "kind": "macro",
+      "symbols": [
+        "LUMB"
+      ],
+      "effects": [
+        {
+          "symbol": "LUMB",
+          "move": -0.05,
+          "ticks": 1,
+          "gap": true
+        }
+      ]
+    }
+  ],
+  "bots": [
+    "momentum-max-rookie"
+  ],
+  "missions": {
+    "basic": [
+      {
+        "id": "ride-trend",
+        "type": "held_between",
+        "params": {
+          "symbol": "LUMB",
+          "from": 3,
+          "to": 10
+        },
+        "text": "Hold Lumen Bikes during the trend (days 3 to 10)"
+      },
+      {
+        "id": "cash-breakdown",
+        "type": "exited_by",
+        "params": {
+          "symbol": "LUMB",
+          "tick": 26
+        },
+        "text": "Be out of Lumen Bikes by day 26, when the breakdown starts"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "sit-out",
+        "type": "trades_max",
+        "params": {
+          "n": 4
+        },
+        "text": "Make at most 4 trades: sit out the chop"
+      },
+      {
+        "id": "beat-max",
+        "type": "beat_bot",
+        "params": {
+          "bot_id": "momentum-max-rookie"
+        },
+        "text": "Finish ahead of Momentum Max"
+      }
+    ]
+  }
+}

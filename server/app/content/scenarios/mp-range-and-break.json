@@ -1,0 +1,225 @@
+{
+  "id": "mp-range-and-break",
+  "version": 1,
+  "title": "Range and Break",
+  "briefing": "Tidal Power and Harborline Shipping have both been stuck in ranges. Both ranges will end, but not in the same direction.",
+  "objective": "Trade ranges at the edges, then follow a confirmed break and get out of a failed one.",
+  "debrief": "Both stocks bounced inside their ranges for two weeks. On day 17 Tidal Power won a long-term grid contract and broke out on heavy volume, then kept rising. On day 19 Harborline lost its biggest customer and broke down through support. A disciplined player bought the Tidal Power breakout with a stop inside the old range and was stopped out of, or never in, Harborline.",
+  "difficulty": 2,
+  "ticks": 30,
+  "history": 20,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": true,
+    "stop": true
+  },
+  "max_position_pct": null,
+  "balance": null,
+  "tools": [
+    "candles",
+    "volume",
+    "sma",
+    "ema",
+    "rsi"
+  ],
+  "market": {
+    "vol": 0.005
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 30,
+      "market_drift": 0.0,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "TDLP",
+      "name": "Tidal Power",
+      "sector": "Utilities",
+      "blurb": "Generates renewable electricity from offshore wind and tidal farms.",
+      "price": 30,
+      "drift": 0.0,
+      "beta": 0.2,
+      "vol": 0.008,
+      "base_volume": 18000
+    },
+    {
+      "symbol": "HRBL",
+      "name": "Harborline Shipping",
+      "sector": "Shipping",
+      "blurb": "Moves containers between major ports.",
+      "price": 22,
+      "drift": 0.0,
+      "beta": 0.3,
+      "vol": 0.009,
+      "base_volume": 18000
+    }
+  ],
+  "news": [
+    {
+      "id": "tdlp-dip",
+      "tick": 4,
+      "headline": "Low winds trim Tidal Power's output",
+      "body": "Output fell for the week.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "TDLP"
+      ],
+      "effects": [
+        {
+          "symbol": "TDLP",
+          "move": -0.05,
+          "ticks": 2,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "hrbl-firm",
+      "tick": 6,
+      "headline": "Freight rates firm",
+      "body": "Shipping demand picked up slightly.",
+      "tone": "positive",
+      "kind": "company",
+      "symbols": [
+        "HRBL"
+      ],
+      "effects": [
+        {
+          "symbol": "HRBL",
+          "move": 0.05,
+          "ticks": 3,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "tdlp-recover",
+      "tick": 9,
+      "headline": "Tidal Power output recovers",
+      "body": "Winds are back to normal.",
+      "tone": "positive",
+      "kind": "company",
+      "symbols": [
+        "TDLP"
+      ],
+      "effects": [
+        {
+          "symbol": "TDLP",
+          "move": 0.05,
+          "ticks": 3,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "hrbl-soft",
+      "tick": 12,
+      "headline": "Freight rates soften again",
+      "body": "The pickup in demand faded.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "HRBL"
+      ],
+      "effects": [
+        {
+          "symbol": "HRBL",
+          "move": -0.05,
+          "ticks": 3,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "tdlp-contract",
+      "tick": 17,
+      "headline": "Tidal Power wins a 15-year grid supply contract",
+      "body": "The deal covers a third of its output at a fixed price.",
+      "tone": "positive",
+      "kind": "company",
+      "symbols": [
+        "TDLP"
+      ],
+      "effects": [
+        {
+          "symbol": "TDLP",
+          "move": 0.07,
+          "ticks": 1,
+          "gap": true
+        },
+        {
+          "symbol": "TDLP",
+          "move": 0.1,
+          "ticks": 10,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "hrbl-customer",
+      "tick": 19,
+      "headline": "Harborline loses its biggest customer",
+      "body": "A major retailer moved its shipping to a rival.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "HRBL"
+      ],
+      "effects": [
+        {
+          "symbol": "HRBL",
+          "move": -0.08,
+          "ticks": 1,
+          "gap": true
+        },
+        {
+          "symbol": "HRBL",
+          "move": -0.1,
+          "ticks": 8,
+          "gap": false
+        }
+      ]
+    }
+  ],
+  "bots": [],
+  "missions": {
+    "basic": [
+      {
+        "id": "stop",
+        "type": "stop_loss_set",
+        "params": {},
+        "text": "Protect a position with a stop-loss"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "breakout",
+        "type": "bought_after_news",
+        "params": {
+          "news_id": "tdlp-contract",
+          "within": 2
+        },
+        "text": "Buy Tidal Power within 2 days of its breakout"
+      },
+      {
+        "id": "breakdown",
+        "type": "exited_by",
+        "params": {
+          "symbol": "HRBL",
+          "tick": 21
+        },
+        "text": "Be out of Harborline by day 21"
+      }
+    ]
+  }
+}

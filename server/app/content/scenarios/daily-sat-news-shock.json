@@ -1,0 +1,203 @@
+{
+  "id": "daily-sat-news-shock",
+  "version": 1,
+  "title": "News Shock & Recovery",
+  "briefing": "A pipeline outage is about to send fuel prices flying, and airlines will take the hit. Momentum Max waits for the trend to prove itself. Do you buy the panic, the recovery, or nothing?",
+  "objective": "After a shock, wait for evidence the damage is temporary, ride the recovery, and respect the next warning.",
+  "debrief": "The pipeline outage on day 6 sent Kestrel Air down sharply, and early dip-buyers kept losing as fuel stayed high. The early repair on day 11 removed the cause and record summer bookings on day 16 extended the recovery. Then the pilots' union announced strike talks on day 24 and the gains started to slip away. A disciplined player waited for the repair news, rode the recovery with a stop and stepped aside when the strike threat appeared.",
+  "difficulty": 3,
+  "ticks": 30,
+  "history": 20,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": true,
+    "stop": true
+  },
+  "max_position_pct": null,
+  "balance": "boss",
+  "tools": [
+    "candles",
+    "volume",
+    "sma"
+  ],
+  "market": {
+    "vol": 0.005
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 30,
+      "market_drift": 0.0,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "KSTR",
+      "name": "Kestrel Air",
+      "sector": "Airlines",
+      "blurb": "Flies short routes between regional cities.",
+      "price": 44,
+      "drift": -0.002,
+      "beta": 0.8,
+      "vol": 0.011,
+      "base_volume": 26000
+    }
+  ],
+  "news": [
+    {
+      "id": "fuel-creeps",
+      "tick": 1,
+      "headline": "Jet fuel prices creep higher for a second week",
+      "body": "Airlines warn that costs are rising faster than ticket prices.",
+      "tone": "negative",
+      "kind": "macro",
+      "symbols": [
+        "KSTR"
+      ],
+      "effects": [
+        {
+          "symbol": "KSTR",
+          "move": -0.04,
+          "ticks": 5,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "pipeline-outage",
+      "tick": 6,
+      "headline": "Pipeline outage sends jet fuel prices up 20%",
+      "body": "Airlines face sharply higher costs until the pipeline is repaired.",
+      "tone": "negative",
+      "kind": "macro",
+      "symbols": [
+        "KSTR"
+      ],
+      "effects": [
+        {
+          "symbol": "KSTR",
+          "move": -0.1,
+          "ticks": 1,
+          "gap": true
+        },
+        {
+          "symbol": "KSTR",
+          "move": -0.06,
+          "ticks": 4,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "pipeline-repaired",
+      "tick": 11,
+      "headline": "Pipeline repaired weeks early; fuel prices ease",
+      "body": "Fuel prices are falling back toward last month's level.",
+      "tone": "positive",
+      "kind": "macro",
+      "symbols": [
+        "KSTR"
+      ],
+      "effects": [
+        {
+          "symbol": "KSTR",
+          "move": 0.06,
+          "ticks": 1,
+          "gap": true
+        },
+        {
+          "symbol": "KSTR",
+          "move": 0.2,
+          "ticks": 6,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "kstr-summer",
+      "tick": 16,
+      "headline": "Kestrel Air reports record summer bookings",
+      "body": "Advance sales are up 20% on last year.",
+      "tone": "positive",
+      "kind": "company",
+      "symbols": [
+        "KSTR"
+      ],
+      "effects": [
+        {
+          "symbol": "KSTR",
+          "move": 0.16,
+          "ticks": 7,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "kstr-strike",
+      "tick": 24,
+      "headline": "Kestrel Air pilots' union opens strike talks",
+      "body": "The union says a vote could come within weeks if talks fail.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "KSTR"
+      ],
+      "effects": [
+        {
+          "symbol": "KSTR",
+          "move": -0.01,
+          "ticks": 1,
+          "gap": true
+        },
+        {
+          "symbol": "KSTR",
+          "move": -0.26,
+          "ticks": 6,
+          "gap": false
+        }
+      ]
+    }
+  ],
+  "bots": [
+    "momentum-max-elite"
+  ],
+  "missions": {
+    "basic": [
+      {
+        "id": "win",
+        "type": "rank_max",
+        "params": {
+          "rank": 1
+        },
+        "text": "Finish with more profit than your opponent"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "no-knife",
+        "type": "no_buy_between",
+        "params": {
+          "from": 6,
+          "to": 10
+        },
+        "text": "Do not buy before the cause is fixed (days 6 to 10)"
+      },
+      {
+        "id": "recovery",
+        "type": "bought_after_news",
+        "params": {
+          "news_id": "pipeline-repaired",
+          "within": 3
+        },
+        "text": "Buy the recovery within 3 days of the repair news"
+      }
+    ]
+  }
+}

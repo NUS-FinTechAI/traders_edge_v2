@@ -1,0 +1,162 @@
+{
+  "id": "ch6-l4-practice",
+  "version": 1,
+  "title": "Sell the News",
+  "briefing": "Pebble Games has announced the launch date for its big new game. Excitement is building. Plan your exit before launch day arrives.",
+  "objective": "Buy the rumor, sell the news: anticipated good news is often priced in by the time it arrives.",
+  "debrief": "The launch date (day 2) and record preorders (day 8) pulled buyers in early, and Pebble Games climbed into the event. On launch day (day 14) the reviews were solid, but everyone who had bought for the launch started selling, and the price slid for a week. A disciplined player bought early, sold into the launch, and did not chase the launch-day headline.",
+  "difficulty": 2,
+  "ticks": 30,
+  "history": 20,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": true,
+    "stop": true
+  },
+  "max_position_pct": null,
+  "balance": "lesson",
+  "tools": [
+    "candles",
+    "volume",
+    "sma"
+  ],
+  "market": {
+    "vol": 0.005
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 30,
+      "market_drift": 0.0005,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "PBGM",
+      "name": "Pebble Games",
+      "sector": "Video games",
+      "blurb": "Makes console and mobile video games.",
+      "price": 30,
+      "drift": 0.0,
+      "beta": 0.8,
+      "vol": 0.014,
+      "base_volume": 25000
+    }
+  ],
+  "news": [
+    {
+      "id": "pbgm-launch-date",
+      "tick": 2,
+      "headline": "Pebble Games sets day 14 as launch day for \"Skyforge\"",
+      "body": "The studio's biggest game in five years will go on sale worldwide.",
+      "tone": "positive",
+      "kind": "company",
+      "symbols": [
+        "PBGM"
+      ],
+      "effects": [
+        {
+          "symbol": "PBGM",
+          "move": 0.1,
+          "ticks": 8,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "pbgm-preorders",
+      "tick": 8,
+      "headline": "Skyforge preorders pass the company record",
+      "body": "Fans have already ordered more copies than for any earlier Pebble game.",
+      "tone": "positive",
+      "kind": "hype",
+      "symbols": [
+        "PBGM"
+      ],
+      "effects": [
+        {
+          "symbol": "PBGM",
+          "move": 0.06,
+          "ticks": 4,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "pbgm-launch",
+      "tick": 14,
+      "headline": "Skyforge launches to solid reviews",
+      "body": "Critics call it the studio's best work. Early sales are in line with forecasts.",
+      "tone": "positive",
+      "kind": "company",
+      "symbols": [
+        "PBGM"
+      ],
+      "effects": [
+        {
+          "symbol": "PBGM",
+          "move": -0.06,
+          "ticks": 1,
+          "gap": true
+        },
+        {
+          "symbol": "PBGM",
+          "move": -0.08,
+          "ticks": 8,
+          "gap": false
+        }
+      ]
+    }
+  ],
+  "bots": [
+    "panic-pete-rookie"
+  ],
+  "missions": {
+    "basic": [
+      {
+        "id": "buy-early",
+        "type": "bought_after_news",
+        "params": {
+          "news_id": "pbgm-launch-date",
+          "within": 4
+        },
+        "text": "Buy Pebble Games within 4 days of the launch-date announcement"
+      },
+      {
+        "id": "sell-news",
+        "type": "exited_by",
+        "params": {
+          "symbol": "PBGM",
+          "tick": 16
+        },
+        "text": "Be out of Pebble Games by day 16: sell into the launch"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "no-chase",
+        "type": "no_buy_between",
+        "params": {
+          "from": 12,
+          "to": 18
+        },
+        "text": "Do not buy the launch-day excitement (days 12 to 18)"
+      },
+      {
+        "id": "profit",
+        "type": "profit_min",
+        "params": {
+          "amount": 300
+        },
+        "text": "Finish at least $300 in profit"
+      }
+    ]
+  }
+}

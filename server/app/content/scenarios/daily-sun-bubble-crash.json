@@ -1,0 +1,165 @@
+{
+  "id": "daily-sun-bubble-crash",
+  "version": 1,
+  "title": "Bubble & Crash",
+  "briefing": "Pebble Games is in a hype bubble and Orchard Foods is quietly climbing. Steady Stella risks only a little on each trade. Can you beat her without getting caught in the crash?",
+  "objective": "Size small in a bubble, exit when it cracks, and let steady compounding work.",
+  "debrief": "Hype posts on days 3 and 8 sent Pebble Games soaring far above its average. The crack came on day 15, when the studio said the viral demo was a prototype, and the bubble deflated over the following week. Orchard Foods rose slowly throughout. A disciplined player kept the bubble position small, left on the crack and kept most of the money in the steady stock.",
+  "difficulty": 3,
+  "ticks": 30,
+  "history": 20,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": true,
+    "stop": true
+  },
+  "max_position_pct": null,
+  "balance": "boss",
+  "tools": [
+    "candles",
+    "volume",
+    "sma"
+  ],
+  "market": {
+    "vol": 0.005
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 30,
+      "market_drift": 0.0005,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "PBGM",
+      "name": "Pebble Games",
+      "sector": "Video games",
+      "blurb": "Makes console and mobile video games.",
+      "price": 22,
+      "drift": 0.0,
+      "beta": 0.8,
+      "vol": 0.016,
+      "base_volume": 22000
+    },
+    {
+      "symbol": "ORCF",
+      "name": "Orchard Foods",
+      "sector": "Consumer staples",
+      "blurb": "Runs a chain of neighborhood grocery stores.",
+      "price": 40,
+      "drift": 0.003,
+      "beta": 0.4,
+      "vol": 0.008,
+      "base_volume": 20000
+    }
+  ],
+  "news": [
+    {
+      "id": "pbgm-demo",
+      "tick": 3,
+      "headline": "Pebble Games' demo goes viral",
+      "body": "Millions are sharing clips of the new game's demo.",
+      "tone": "positive",
+      "kind": "hype",
+      "symbols": [
+        "PBGM"
+      ],
+      "effects": [
+        {
+          "symbol": "PBGM",
+          "move": 0.25,
+          "ticks": 6,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "pbgm-frenzy",
+      "tick": 8,
+      "headline": "\"Pebble Games to $100\" trends online",
+      "body": "Forum posts predict huge gains. None mention company figures.",
+      "tone": "positive",
+      "kind": "hype",
+      "symbols": [
+        "PBGM"
+      ],
+      "effects": [
+        {
+          "symbol": "PBGM",
+          "move": 0.15,
+          "ticks": 5,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "pbgm-prototype",
+      "tick": 15,
+      "headline": "Pebble Games says the viral demo was an early prototype",
+      "body": "The finished game is at least a year away.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "PBGM"
+      ],
+      "effects": [
+        {
+          "symbol": "PBGM",
+          "move": -0.15,
+          "ticks": 1,
+          "gap": true
+        },
+        {
+          "symbol": "PBGM",
+          "move": -0.45,
+          "ticks": 7,
+          "gap": false
+        }
+      ]
+    }
+  ],
+  "bots": [
+    "steady-stella-elite"
+  ],
+  "missions": {
+    "basic": [
+      {
+        "id": "win",
+        "type": "rank_max",
+        "params": {
+          "rank": 1
+        },
+        "text": "Finish with more profit than your opponent"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "small-bubble",
+        "type": "max_position_before",
+        "params": {
+          "tick": 15,
+          "pct": 25,
+          "symbol": "PBGM"
+        },
+        "text": "Keep Pebble Games at 25% or less of your portfolio until day 15"
+      },
+      {
+        "id": "exit-crack",
+        "type": "exited_by",
+        "params": {
+          "symbol": "PBGM",
+          "tick": 17
+        },
+        "text": "Be out of Pebble Games by day 17"
+      }
+    ]
+  }
+}

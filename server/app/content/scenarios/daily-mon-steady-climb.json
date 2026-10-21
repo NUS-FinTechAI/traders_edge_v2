@@ -1,0 +1,117 @@
+{
+  "id": "daily-mon-steady-climb",
+  "version": 1,
+  "title": "Steady Climb",
+  "briefing": "Orchard Foods is climbing slowly and steadily. Panic Pete is watching the headlines, ready to run at the first scary one.",
+  "objective": "Hold a good trend through a scary headline instead of selling the dip.",
+  "debrief": "Orchard Foods climbed most days. The \"overvalued\" call on day 10 knocked it down for a day or two, and Panic Pete sold into the dip, then bought back higher once the climb resumed. The trend never broke. A disciplined player bought early and held through the noise.",
+  "difficulty": 1,
+  "ticks": 30,
+  "history": 20,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": true,
+    "stop": true
+  },
+  "max_position_pct": null,
+  "balance": "boss",
+  "tools": [
+    "candles",
+    "volume",
+    "sma"
+  ],
+  "market": {
+    "vol": 0.005
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 30,
+      "market_drift": 0.001,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "ORCF",
+      "name": "Orchard Foods",
+      "sector": "Consumer staples",
+      "blurb": "Runs a chain of neighborhood grocery stores.",
+      "price": 34,
+      "drift": 0.006,
+      "beta": 0.5,
+      "vol": 0.008,
+      "base_volume": 20000
+    }
+  ],
+  "news": [
+    {
+      "id": "orcf-overvalued",
+      "tick": 10,
+      "headline": "Analyst calls Orchard Foods \"overvalued\"",
+      "body": "The analyst says the shares have risen faster than profits this year.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "ORCF"
+      ],
+      "effects": [
+        {
+          "symbol": "ORCF",
+          "move": -0.045,
+          "ticks": 1,
+          "gap": true
+        },
+        {
+          "symbol": "ORCF",
+          "move": -0.01,
+          "ticks": 2,
+          "gap": false
+        }
+      ]
+    }
+  ],
+  "bots": [
+    "panic-pete-rookie"
+  ],
+  "missions": {
+    "basic": [
+      {
+        "id": "win",
+        "type": "rank_max",
+        "params": {
+          "rank": 1
+        },
+        "text": "Finish with more profit than your opponent"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "early",
+        "type": "held_between",
+        "params": {
+          "symbol": "ORCF",
+          "from": 5,
+          "to": 25
+        },
+        "text": "Be invested by day 5 and stay invested through day 25"
+      },
+      {
+        "id": "no-panic",
+        "type": "held_between",
+        "params": {
+          "symbol": "ORCF",
+          "from": 9,
+          "to": 13
+        },
+        "text": "Do not sell on the scary headline: hold from day 9 to day 13"
+      }
+    ]
+  }
+}

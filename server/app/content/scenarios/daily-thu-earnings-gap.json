@@ -1,0 +1,191 @@
+{
+  "id": "daily-thu-earnings-gap",
+  "version": 1,
+  "title": "Earnings Gap",
+  "briefing": "Orchard Foods reports on day 12 after a nervous slide. Newsy Nina will jump on the headline. Read it carefully: what matters is the surprise and the guidance.",
+  "objective": "Trade the earnings surprise and guidance, not the nerves before it.",
+  "debrief": "Orchard Foods slid before its report as nervous holders sold. On day 12 it beat estimates and raised guidance: the price gapped up and kept drifting higher for a week, helped by analyst upgrades on day 15. On day 22 a discount rival announced 40 new stores, and the shares turned lower for the rest of the match. A disciplined player stayed small before the report, bought after the beat-and-raise and sold when the competitive threat appeared.",
+  "difficulty": 2,
+  "ticks": 30,
+  "history": 20,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": true,
+    "stop": true
+  },
+  "max_position_pct": null,
+  "balance": "boss",
+  "tools": [
+    "candles",
+    "volume",
+    "sma"
+  ],
+  "market": {
+    "vol": 0.005
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 30,
+      "market_drift": 0.0,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "ORCF",
+      "name": "Orchard Foods",
+      "sector": "Consumer staples",
+      "blurb": "Runs a chain of neighborhood grocery stores.",
+      "price": 42,
+      "drift": -0.002,
+      "beta": 0.5,
+      "vol": 0.009,
+      "base_volume": 20000
+    }
+  ],
+  "news": [
+    {
+      "id": "orcf-date",
+      "tick": 1,
+      "headline": "Orchard Foods reports results on day 12",
+      "body": "Analysts expect earnings of $0.50 a share.",
+      "tone": "neutral",
+      "kind": "earnings",
+      "symbols": [
+        "ORCF"
+      ],
+      "effects": []
+    },
+    {
+      "id": "orcf-nerves",
+      "tick": 4,
+      "headline": "Orchard Foods slips as investors turn cautious before results",
+      "body": "Some holders are selling ahead of the report.",
+      "tone": "neutral",
+      "kind": "company",
+      "symbols": [
+        "ORCF"
+      ],
+      "effects": [
+        {
+          "symbol": "ORCF",
+          "move": -0.18,
+          "ticks": 8,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "orcf-beat",
+      "tick": 12,
+      "headline": "Orchard Foods earns $0.58 vs $0.50 expected and raises guidance",
+      "body": "Strong own-brand sales lifted profit; the company raised its forecast for the year.",
+      "tone": "positive",
+      "kind": "earnings",
+      "symbols": [
+        "ORCF"
+      ],
+      "effects": [
+        {
+          "symbol": "ORCF",
+          "move": 0.05,
+          "ticks": 1,
+          "gap": true
+        },
+        {
+          "symbol": "ORCF",
+          "move": 0.1,
+          "ticks": 6,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "orcf-upgrades",
+      "tick": 15,
+      "headline": "Analysts raise Orchard Foods targets after the strong quarter",
+      "body": "Several brokers lifted their profit forecasts for next year.",
+      "tone": "positive",
+      "kind": "company",
+      "symbols": [
+        "ORCF"
+      ],
+      "effects": [
+        {
+          "symbol": "ORCF",
+          "move": 0.14,
+          "ticks": 6,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "orcf-rival",
+      "tick": 22,
+      "headline": "Discount rival to open 40 stores in Orchard Foods' home region",
+      "body": "Analysts expect the new stores to pressure Orchard Foods' prices and margins.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "ORCF"
+      ],
+      "effects": [
+        {
+          "symbol": "ORCF",
+          "move": -0.01,
+          "ticks": 1,
+          "gap": true
+        },
+        {
+          "symbol": "ORCF",
+          "move": -0.14,
+          "ticks": 8,
+          "gap": false
+        }
+      ]
+    }
+  ],
+  "bots": [
+    "newsy-nina-pro"
+  ],
+  "missions": {
+    "basic": [
+      {
+        "id": "win",
+        "type": "rank_max",
+        "params": {
+          "rank": 1
+        },
+        "text": "Finish with more profit than your opponent"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "small-before",
+        "type": "max_position_before",
+        "params": {
+          "tick": 12,
+          "pct": 15,
+          "symbol": "ORCF"
+        },
+        "text": "Keep Orchard Foods at 15% or less going into the day-12 report"
+      },
+      {
+        "id": "buy-after",
+        "type": "bought_after_news",
+        "params": {
+          "news_id": "orcf-beat",
+          "within": 2
+        },
+        "text": "Buy within 2 days of the beat-and-raise report"
+      }
+    ]
+  }
+}

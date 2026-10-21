@@ -1,0 +1,213 @@
+{
+  "id": "ch6-l3-practice",
+  "version": 1,
+  "title": "Rate Day",
+  "briefing": "The central bank decides on interest rates on day 14. A rate-sensitive utility, a high-growth cloud firm and a grocery chain will not react the same way.",
+  "objective": "Macro surprises move the whole market; rate-sensitive sectors move most.",
+  "debrief": "Economists expected a 0.25% rise; on day 14 the central bank raised rates by 0.50%. Tidal Power, a heavy borrower, and Nimbus Cloud, priced for distant growth, gapped down and kept falling for days. Orchard Foods, a defensive grocer, barely moved. Cooler inflation on day 23 brought a partial rebound. A disciplined player kept positions moderate before the decision and leaned on the defensive stock.",
+  "difficulty": 2,
+  "ticks": 30,
+  "history": 20,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": true,
+    "stop": true
+  },
+  "max_position_pct": null,
+  "balance": "lesson",
+  "tools": [
+    "candles",
+    "volume",
+    "sma"
+  ],
+  "market": {
+    "vol": 0.005
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 30,
+      "market_drift": 0.0005,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "TDLP",
+      "name": "Tidal Power",
+      "sector": "Utilities",
+      "blurb": "Generates renewable electricity from offshore wind and tidal farms.",
+      "price": 30,
+      "drift": 0.001,
+      "beta": 0.8,
+      "vol": 0.01,
+      "base_volume": 18000
+    },
+    {
+      "symbol": "ORCF",
+      "name": "Orchard Foods",
+      "sector": "Consumer staples",
+      "blurb": "Runs a chain of neighborhood grocery stores.",
+      "price": 40,
+      "drift": 0.0008,
+      "beta": 0.4,
+      "vol": 0.008,
+      "base_volume": 20000
+    },
+    {
+      "symbol": "NMBC",
+      "name": "Nimbus Cloud",
+      "sector": "Technology",
+      "blurb": "Rents cloud servers and storage to businesses.",
+      "price": 80,
+      "drift": 0.002,
+      "beta": 1.3,
+      "vol": 0.014,
+      "base_volume": 30000
+    }
+  ],
+  "news": [
+    {
+      "id": "rate-preview",
+      "tick": 5,
+      "headline": "Central bank decides on day 14; most economists expect a 0.25% rise",
+      "body": "A larger rise would make borrowing more expensive across the economy.",
+      "tone": "neutral",
+      "kind": "macro",
+      "symbols": [
+        "TDLP",
+        "ORCF",
+        "NMBC"
+      ],
+      "effects": []
+    },
+    {
+      "id": "rate-surprise",
+      "tick": 14,
+      "headline": "Central bank raises rates by 0.50%, twice the expected rise",
+      "body": "The bank says inflation is not falling fast enough.",
+      "tone": "negative",
+      "kind": "macro",
+      "symbols": [
+        "TDLP",
+        "ORCF",
+        "NMBC"
+      ],
+      "effects": [
+        {
+          "symbol": "TDLP",
+          "move": -0.06,
+          "ticks": 1,
+          "gap": true
+        },
+        {
+          "symbol": "TDLP",
+          "move": -0.03,
+          "ticks": 5,
+          "gap": false
+        },
+        {
+          "symbol": "NMBC",
+          "move": -0.07,
+          "ticks": 1,
+          "gap": true
+        },
+        {
+          "symbol": "NMBC",
+          "move": -0.03,
+          "ticks": 5,
+          "gap": false
+        },
+        {
+          "symbol": "ORCF",
+          "move": -0.01,
+          "ticks": 1,
+          "gap": true
+        }
+      ]
+    },
+    {
+      "id": "cpi-cools",
+      "tick": 23,
+      "headline": "Inflation cools more than expected",
+      "body": "Consumer prices rose 2.6% from a year ago, below the 3.0% forecast.",
+      "tone": "positive",
+      "kind": "macro",
+      "symbols": [
+        "TDLP",
+        "ORCF",
+        "NMBC"
+      ],
+      "effects": [
+        {
+          "symbol": "NMBC",
+          "move": 0.04,
+          "ticks": 3,
+          "gap": false
+        },
+        {
+          "symbol": "TDLP",
+          "move": 0.03,
+          "ticks": 3,
+          "gap": false
+        },
+        {
+          "symbol": "ORCF",
+          "move": 0.01,
+          "ticks": 2,
+          "gap": false
+        }
+      ]
+    }
+  ],
+  "bots": [
+    "hodl-hannah-rookie"
+  ],
+  "missions": {
+    "basic": [
+      {
+        "id": "moderate-size",
+        "type": "max_position_before",
+        "params": {
+          "tick": 14,
+          "pct": 40
+        },
+        "text": "Keep every position under 40% of your portfolio before the day-14 decision"
+      },
+      {
+        "id": "defensive",
+        "type": "held_between",
+        "params": {
+          "symbol": "ORCF",
+          "from": 12,
+          "to": 16
+        },
+        "text": "Hold defensive Orchard Foods through the decision (days 12 to 16)"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "small-drop",
+        "type": "max_drawdown",
+        "params": {
+          "pct": 4
+        },
+        "text": "Keep your worst drop under 4%"
+      },
+      {
+        "id": "beat-hannah",
+        "type": "beat_bot",
+        "params": {
+          "bot_id": "hodl-hannah-rookie"
+        },
+        "text": "Finish ahead of HODL Hannah"
+      }
+    ]
+  }
+}

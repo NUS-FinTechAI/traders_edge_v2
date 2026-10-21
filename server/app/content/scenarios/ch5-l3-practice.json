@@ -1,0 +1,207 @@
+{
+  "id": "ch5-l3-practice",
+  "version": 1,
+  "title": "Overbought, Still Climbing",
+  "briefing": "Pebble Games is climbing hard and its RSI is pinned above 70. Tidal Power drifts sideways. Same indicator, two very different markets.",
+  "objective": "RSI 30/70 works in a range, but a strong trend can stay overbought.",
+  "debrief": "Pebble Games' RSI sat above 70 for most of the match while the price kept rising; anyone who sold just because it read \"overbought\" left most of the trend behind. Tidal Power stayed in a range, and its RSI lows after the calm-wind week (day 3) and the slow repairs (day 16) lined up with the bottom of that range. A disciplined player held the trend and used RSI only on the range stock.",
+  "difficulty": 2,
+  "ticks": 36,
+  "history": 30,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": true,
+    "stop": true
+  },
+  "max_position_pct": null,
+  "balance": "lesson",
+  "tools": [
+    "candles",
+    "volume",
+    "sma",
+    "rsi"
+  ],
+  "market": {
+    "vol": 0.005
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 36,
+      "market_drift": 0.0005,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "PBGM",
+      "name": "Pebble Games",
+      "sector": "Video games",
+      "blurb": "Makes console and mobile video games.",
+      "price": 30,
+      "drift": 0.008,
+      "beta": 0.5,
+      "vol": 0.01,
+      "base_volume": 25000
+    },
+    {
+      "symbol": "TDLP",
+      "name": "Tidal Power",
+      "sector": "Utilities",
+      "blurb": "Generates renewable electricity from offshore wind and tidal farms.",
+      "price": 30,
+      "drift": 0.0,
+      "beta": 0.2,
+      "vol": 0.008,
+      "base_volume": 18000
+    }
+  ],
+  "news": [
+    {
+      "id": "tdlp-calm-week",
+      "tick": 3,
+      "headline": "A calm week cuts Tidal Power's wind output",
+      "body": "Low winds meant the company produced less power than usual for the week.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "TDLP"
+      ],
+      "effects": [
+        {
+          "symbol": "TDLP",
+          "move": -0.06,
+          "ticks": 3,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "tdlp-city-contract",
+      "tick": 9,
+      "headline": "Tidal Power wins a city power contract",
+      "body": "The five-year deal covers street lighting and public buildings.",
+      "tone": "positive",
+      "kind": "company",
+      "symbols": [
+        "TDLP"
+      ],
+      "effects": [
+        {
+          "symbol": "TDLP",
+          "move": 0.07,
+          "ticks": 3,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "tdlp-repairs",
+      "tick": 16,
+      "headline": "Tidal Power turbine repairs take longer than planned",
+      "body": "Two turbines will stay offline for another two weeks.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "TDLP"
+      ],
+      "effects": [
+        {
+          "symbol": "TDLP",
+          "move": -0.07,
+          "ticks": 3,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "tdlp-back-online",
+      "tick": 23,
+      "headline": "Tidal Power turbines back online early",
+      "body": "Repairs finished ahead of the new schedule.",
+      "tone": "positive",
+      "kind": "company",
+      "symbols": [
+        "TDLP"
+      ],
+      "effects": [
+        {
+          "symbol": "TDLP",
+          "move": 0.07,
+          "ticks": 3,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "tdlp-storm",
+      "tick": 30,
+      "headline": "Storm warning may pause Tidal Power's tidal farm",
+      "body": "The company may shut its tidal turbines for safety during the storm.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "TDLP"
+      ],
+      "effects": [
+        {
+          "symbol": "TDLP",
+          "move": -0.05,
+          "ticks": 3,
+          "gap": false
+        }
+      ]
+    }
+  ],
+  "bots": [
+    "value-vera-pro"
+  ],
+  "missions": {
+    "basic": [
+      {
+        "id": "hold-pbgm",
+        "type": "held_between",
+        "params": {
+          "symbol": "PBGM",
+          "from": 8,
+          "to": 30
+        },
+        "text": "Hold Pebble Games from day 8 to day 30, even while RSI stays above 70"
+      },
+      {
+        "id": "buy-range-low",
+        "type": "bought_after_news",
+        "params": {
+          "news_id": "tdlp-repairs",
+          "within": 3
+        },
+        "text": "Buy Tidal Power near the range low (within 3 days of the day-16 headline)"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "sell-range-high",
+        "type": "sold_after_news",
+        "params": {
+          "news_id": "tdlp-back-online",
+          "within": 3
+        },
+        "text": "Sell Tidal Power near the range high (within 3 days of the day-23 headline)"
+      },
+      {
+        "id": "profit",
+        "type": "profit_min",
+        "params": {
+          "amount": 500
+        },
+        "text": "Finish at least $500 in profit"
+      }
+    ]
+  }
+}
