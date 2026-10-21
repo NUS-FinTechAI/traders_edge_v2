@@ -50,7 +50,9 @@ function nodeTitle(node: MapNode): string {
 function nodeLabel(node: MapNode, levelNumber: number | null): string {
   const parts = [nodeTitle(node)]
   if (node.kind === 'boss') parts[0] = `Chapter Boss: ${node.title}`
-  if (node.kind === 'level' && levelNumber) parts.push(`level ${levelNumber}`)
+  // Server titles usually already read "Level 2: …"; only add the number when missing.
+  if (node.kind === 'level' && levelNumber && !/^level\s+\d/i.test(node.title))
+    parts.push(`level ${levelNumber}`)
   if (node.kind === 'reward') parts.push('reward')
   parts.push(STATE_TEXT[node.state].toLowerCase())
   if (node.stars)
@@ -173,7 +175,7 @@ function ChapterPath({
         {boss && (
           <g className={styles.xMark}>
             <path
-              d={`M${boss.x - 58} ${boss.y - 58}L${boss.x + 58} ${boss.y + 58}M${boss.x + 58} ${boss.y - 58}L${boss.x - 58} ${boss.y + 58}`}
+              d={`M${boss.x - 44} ${boss.y - 44}L${boss.x + 44} ${boss.y + 44}M${boss.x + 44} ${boss.y - 44}L${boss.x - 44} ${boss.y + 44}`}
             />
           </g>
         )}

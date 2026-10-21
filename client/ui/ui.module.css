@@ -92,8 +92,9 @@
   background: var(--loss-soft);
 }
 
+/* Small buttons keep a compact look but still a 44px touch target. */
 .sm {
-  min-height: 36px;
+  min-height: 44px;
   padding: 0 var(--space-3);
   font-size: var(--text-sm);
 }
@@ -114,7 +115,7 @@
 }
 
 .iconOnly.sm {
-  width: 36px;
+  width: 44px;
 }
 
 /* Card */
