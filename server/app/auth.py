@@ -88,7 +88,7 @@ async def guest_session(request: Request, response: Response, db: AsyncSession =
     await db.flush()
     expires_at = now() + timedelta(days=settings.session_days)
     db.add(SessionToken(token_hash=token_hash(token), user_id=profile.id, expires_at=expires_at))
-    response.set_cookie(settings.cookie_name, token, max_age=settings.session_days * 86400, httponly=True, samesite='strict', secure=settings.environment == 'production', path='/')
+    response.set_cookie(settings.cookie_name, token, max_age=settings.session_days * 86400, httponly=True, samesite='strict', secure=settings.hosted, path='/')
     return {'profile_id': profile.id, 'auth_mode': 'guest', 'expires_at': expires_at}
 
 
@@ -99,4 +99,4 @@ async def logout(request: Request, response: Response, db: AsyncSession = Depend
     existing = await db.get(SessionToken, token_hash(token)) if token else None
     if existing:
         await db.delete(existing)
-    response.delete_cookie(settings.cookie_name, path='/', httponly=True, samesite='strict')
+    response.delete_cookie(settings.cookie_name, path='/', httponly=True, samesite='strict', secure=settings.hosted)
