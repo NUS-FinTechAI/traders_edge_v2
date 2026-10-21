@@ -1,6 +1,6 @@
 {
   "id": "daily-tue-range-chop",
-  "version": 1,
+  "version": 2,
   "title": "Range Chop",
   "briefing": "Tidal Power is chopping around and slowly losing ground. Scalper Sam will trade every bounce. Can you be patient enough to only take the good ones?",
   "objective": "In a choppy range, trade only the edges, and do not let fees and spreads eat you.",
@@ -46,7 +46,7 @@
       "price": 32,
       "drift": -0.003,
       "beta": 0.3,
-      "vol": 0.008,
+      "vol": 0.005,
       "base_volume": 18000
     }
   ],
@@ -64,7 +64,7 @@
       "effects": [
         {
           "symbol": "TDLP",
-          "move": -0.13,
+          "move": -0.05,
           "ticks": 2,
           "gap": true
         }
@@ -83,7 +83,7 @@
       "effects": [
         {
           "symbol": "TDLP",
-          "move": 0.12,
+          "move": 0.05,
           "ticks": 3,
           "gap": false
         }
@@ -102,7 +102,7 @@
       "effects": [
         {
           "symbol": "TDLP",
-          "move": -0.13,
+          "move": -0.05,
           "ticks": 2,
           "gap": true
         }
@@ -121,7 +121,7 @@
       "effects": [
         {
           "symbol": "TDLP",
-          "move": 0.12,
+          "move": 0.05,
           "ticks": 3,
           "gap": false
         }
@@ -140,7 +140,7 @@
       "effects": [
         {
           "symbol": "TDLP",
-          "move": -0.13,
+          "move": -0.05,
           "ticks": 2,
           "gap": true
         }
@@ -159,7 +159,7 @@
       "effects": [
         {
           "symbol": "TDLP",
-          "move": 0.12,
+          "move": 0.05,
           "ticks": 3,
           "gap": false
         }
@@ -178,7 +178,7 @@
       "effects": [
         {
           "symbol": "TDLP",
-          "move": -0.13,
+          "move": -0.05,
           "ticks": 2,
           "gap": true
         }
@@ -197,7 +197,7 @@
       "effects": [
         {
           "symbol": "TDLP",
-          "move": 0.12,
+          "move": 0.05,
           "ticks": 3,
           "gap": false
         }

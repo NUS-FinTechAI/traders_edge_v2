@@ -1,6 +1,6 @@
 {
   "id": "daily-thu-earnings-gap",
-  "version": 1,
+  "version": 2,
   "title": "Earnings Gap",
   "briefing": "Orchard Foods reports on day 12 after a nervous slide. Newsy Nina will jump on the headline. Read it carefully: what matters is the surprise and the guidance.",
   "objective": "Trade the earnings surprise and guidance, not the nerves before it.",
@@ -76,7 +76,7 @@
       "effects": [
         {
           "symbol": "ORCF",
-          "move": -0.18,
+          "move": -0.06,
           "ticks": 8,
           "gap": false
         }
@@ -120,7 +120,7 @@
       "effects": [
         {
           "symbol": "ORCF",
-          "move": 0.14,
+          "move": 0.05,
           "ticks": 6,
           "gap": false
         }
@@ -153,7 +153,7 @@
     }
   ],
   "bots": [
-    "newsy-nina-pro"
+    "newsy-nina-elite"
   ],
   "missions": {
     "basic": [

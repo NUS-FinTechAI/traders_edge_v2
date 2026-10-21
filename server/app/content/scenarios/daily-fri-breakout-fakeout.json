@@ -4,7 +4,7 @@
   "title": "Breakout vs Fakeout",
   "briefing": "Harborline Shipping and Kestrel Air have both been boxed in for weeks, and Tidal Power keeps sliding. One breakout is coming on strong volume; the other is a quiet poke that will not last. Breakout Bea only trusts volume.",
   "objective": "Tell a confirmed breakout from a false one using the close and the volume.",
-  "debrief": "Harborline crept above its range from day 4 on port-deal talk and light volume, slipped back when the talk cooled on day 12, then collapsed when the deal fell through on day 20: a false breakout that turned into a breakdown. On day 18 record bookings sent Kestrel Air through resistance on heavy volume, and it kept going. Tidal Power drifted lower all match with no breakout at all. A disciplined player skipped the quiet poke, bought the volume breakout and kept a stop back inside the old range.",
+  "debrief": "Harborline crept above its range from day 4 on port-deal talk and light volume, slipped back when the talk cooled on day 12, then slid well below its range when the deal fell through on day 20: a false breakout that turned into a breakdown. On day 18 record bookings sent Kestrel Air through resistance on heavy volume, and it kept going. Tidal Power drifted lower all match with no breakout at all. A disciplined player skipped the quiet poke, bought the volume breakout and kept a stop back inside the old range.",
   "difficulty": 3,
   "ticks": 30,
   "history": 30,
@@ -44,7 +44,7 @@
       "sector": "Shipping",
       "blurb": "Moves containers between major ports.",
       "price": 24,
-      "drift": 0.0,
+      "drift": -0.002,
       "beta": 0.4,
       "vol": 0.012,
       "base_volume": 18000
@@ -130,7 +130,7 @@
         },
         {
           "symbol": "HRBL",
-          "move": -0.45,
+          "move": -0.12,
           "ticks": 9,
           "gap": false
         }
@@ -163,7 +163,7 @@
     }
   ],
   "bots": [
-    "breakout-bea-pro"
+    "breakout-bea-elite"
   ],
   "missions": {
     "basic": [

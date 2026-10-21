@@ -1,6 +1,6 @@
 {
   "id": "daily-wed-pullback",
-  "version": 1,
+  "version": 2,
   "title": "Pullback in Uptrend",
   "briefing": "Meadow Pharma is trending up, but its pullbacks are sharp. Value Vera loves a dip. Buy the right ones and know when a dip is something more.",
   "objective": "Buy pullbacks inside an uptrend with a stop, and recognize when a pullback becomes a breakdown.",
@@ -44,9 +44,9 @@
       "sector": "Pharmaceuticals",
       "blurb": "Develops and sells prescription medicines.",
       "price": 52,
-      "drift": 0.0025,
+      "drift": 0.004,
       "beta": 0.6,
-      "vol": 0.009,
+      "vol": 0.006,
       "base_volume": 20000
     }
   ],
@@ -64,9 +64,9 @@
       "effects": [
         {
           "symbol": "MDWP",
-          "move": -0.16,
+          "move": -0.06,
           "ticks": 3,
-          "gap": true
+          "gap": false
         }
       ]
     },
@@ -83,7 +83,7 @@
       "effects": [
         {
           "symbol": "MDWP",
-          "move": 0.11,
+          "move": 0.05,
           "ticks": 4,
           "gap": false
         }
@@ -102,9 +102,9 @@
       "effects": [
         {
           "symbol": "MDWP",
-          "move": -0.16,
+          "move": -0.06,
           "ticks": 3,
-          "gap": true
+          "gap": false
         }
       ]
     },
@@ -121,7 +121,7 @@
       "effects": [
         {
           "symbol": "MDWP",
-          "move": 0.11,
+          "move": 0.05,
           "ticks": 4,
           "gap": false
         }
@@ -140,9 +140,9 @@
       "effects": [
         {
           "symbol": "MDWP",
-          "move": -0.16,
+          "move": -0.06,
           "ticks": 3,
-          "gap": true
+          "gap": false
         }
       ]
     },
@@ -159,7 +159,7 @@
       "effects": [
         {
           "symbol": "MDWP",
-          "move": 0.1,
+          "move": 0.05,
           "ticks": 4,
           "gap": false
         }
@@ -192,7 +192,7 @@
     }
   ],
   "bots": [
-    "value-vera-pro"
+    "value-vera-rookie"
   ],
   "missions": {
     "basic": [
