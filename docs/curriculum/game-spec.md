@@ -604,9 +604,9 @@ Bonus mission: _Chart:_ an uptrend pulls back to $50 (old resistance, now suppor
 - **L7.3 Breakout Trading:** bases, volume, buy stops, false-breakout handling.
 - **L7.4 Match Strategy to Market:** identify the regime; sitting out is a strategy.
 - **L7.5 Testing & Journaling an Edge:** backtests, sample size, expectancy, overfitting, a trade journal.
-- **Boss "Regime Shift"** (40 days, 2–3 tickers). Uptrend (days 1–14), then chop with false breakouts (15–28), then a breakdown (29–40), while KSTR breaks out of a base on day 30.
+- **Boss "Regime Shift"** (40 days, 2–3 tickers). Uptrend (days 1–14), then chop with false breakouts (15–28), then a breakdown (29–40), while KSTL breaks out of a base on day 30.
   - Opponents: Momentum Max, Value Vera and Breakout Bea, all Elite. Each wins one phase and loses the others.
-  - Concept Checks: reduced exposure during the chop; exited the breakdown within 2 days of a lower low; caught the KSTR breakout with volume confirmation.
+  - Concept Checks: reduced exposure during the chop; exited the breakdown within 2 days of a lower low; caught the KSTL breakout with volume confirmation.
 
 **Chapter 8: Trader Psychology**
 

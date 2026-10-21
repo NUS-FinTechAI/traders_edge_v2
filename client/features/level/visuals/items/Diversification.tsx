@@ -11,7 +11,7 @@ import { Figure, Note, Segmented, Stat, Svg, Toggle } from '../shared/ui.tsx'
 
 const TOTAL = 10_000
 const CRASH = 40
-const TICKERS = ['NMBC', 'ORCF', 'KSTR', 'LUMB', 'TDLP']
+const TICKERS = ['NMBC', 'ORCF', 'KSTL', 'LUMB', 'TDLP']
 
 export default function Diversification() {
   const [count, setCount] = useState<'1' | '5'>('1')
