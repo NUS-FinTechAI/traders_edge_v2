@@ -1,8 +1,9 @@
 from datetime import timedelta
+from types import SimpleNamespace
 import unittest
 
 from app.economy_models import EconomyAccount
-from app.player import ledger
+from app.player import badges, ledger
 from app.player.levels import level_for, rank_name
 from progression_fixtures import AppCase, result
 
@@ -183,10 +184,15 @@ class PlayerTests(AppCase):
         self.assertEqual(collection['stats'], {'levels_done': 5, 'stars': 6, 'bosses_won': 1, 'quizzes_passed': 0, 'matches_played': 0,
                                                'best_profit': 100.0})
 
-    def test_match_badges_reward_process_not_profit(self):
-        settled = self.settle('practice', result(won=True, fees=12.5), scenario_id='practice-choppy-range', plan={'strategy': 'dip'})
+    def test_fee_fighter_needs_three_trades_and_low_fees_but_no_win(self):
+        settled = self.settle('practice', result(won=False, trades=3, fees=12.5), scenario_id='practice-choppy-range', plan={'strategy': 'dip'})
 
-        self.assertEqual({badge['id'] for badge in settled['rewards']['badges']}, {'badge-first-plan', 'badge-fee-fighter', 'badge-patient-trader'})
+        self.assertEqual({badge['id'] for badge in settled['rewards']['badges']}, {'badge-first-plan', 'badge-fee-fighter'})
+
+    def test_fee_fighter_is_not_earned_with_fewer_than_three_trades(self):
+        settled = self.settle('practice', result(won=True, trades=2, fees=2.0), scenario_id='practice-choppy-range')
+
+        self.assertNotIn('badge-fee-fighter', {badge['id'] for badge in settled['rewards']['badges']})
 
     def test_leaderboards_list_only_opted_in_players(self):
         self.claim()
@@ -199,3 +205,36 @@ class PlayerTests(AppCase):
         self.assertEqual(visible['entries'], [{'rank': 1, 'name': 'Visible', 'avatar_id': 'avatar-starter-1', 'level': 1, 'value': 10,
                                                'tier': None, 'is_me': True}])
         self.assertEqual(ranked, {'entries': [], 'me': {'rank': None, 'value': 1000}})
+
+
+def badge_result(kept=True, forfeited=False):
+    outcome = result(forfeited=forfeited)
+    outcome['plan_review'] = {'strategy': 'hold', 'max_loss_pct': 5, 'worst_drawdown_pct': 1, 'kept_loss_limit': kept}
+    return outcome
+
+
+def badge_order(tick, kind='market', side='buy', cancelled=None):
+    return SimpleNamespace(tick=tick, type=kind, side=side, symbol='SUNR', qty=1, cancelled_tick=cancelled)
+
+
+class MatchBadgeTests(unittest.TestCase):
+    game = SimpleNamespace(scenario_id='practice-trend-rider')
+    participant = SimpleNamespace(plan={'strategy': 'hold'})
+
+    def earned(self, outcome, orders, ticks=10):
+        return badges.match_badges(self.game, self.participant, outcome, orders, ticks)
+
+    def test_patient_trader_needs_a_late_order_and_a_kept_plan_without_a_win(self):
+        self.assertIn('patient-trader', self.earned(badge_result(), [badge_order(4)]))
+
+    def test_patient_trader_is_not_earned_without_orders_early_orders_or_a_broken_plan(self):
+        self.assertNotIn('patient-trader', self.earned(badge_result(), []))
+        self.assertNotIn('patient-trader', self.earned(badge_result(), [badge_order(3), badge_order(6)]))
+        self.assertNotIn('patient-trader', self.earned(badge_result(kept=False), [badge_order(6)]))
+
+    def test_risk_manager_ignores_a_stop_cancelled_on_the_day_it_was_placed(self):
+        stopped = [badge_order(1), badge_order(1, kind='stop', side='sell')]
+        withdrawn = [badge_order(1), badge_order(1, kind='stop', side='sell', cancelled=1)]
+
+        self.assertIn('risk-manager', self.earned(badge_result(), stopped))
+        self.assertNotIn('risk-manager', self.earned(badge_result(), withdrawn))

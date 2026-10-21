@@ -7,7 +7,7 @@ from app.economy_models import EconomyEvent
 from app.game.models import Game, GameParticipant
 from app.multiplayer import elo
 from app.multiplayer.models import Rating
-from progression_fixtures import AppCase
+from progression_fixtures import AppCase, result
 
 COOKIE = 'traders_edge_session'
 PLAN = {'strategy': 'trend', 'max_loss_pct': 10}
@@ -139,20 +139,34 @@ class MultiplayerTests(AppCase):
         self.assertEqual(self.client.delete('/api/matchmaking').status_code, 204)
         self.assertEqual(self.client.get('/api/matchmaking').json()['status'], 'idle')
 
-    def finish_ranked(self, game_id, name, order=False):
+    def finish_ranked(self, game_id, name, qty=0):
         self.act_as(name)
         self.client.post(f'/api/games/{game_id}/start', json={'plan': PLAN})
-        if order:
+        if qty:
             symbol = self.client.get(f'/api/games/{game_id}').json()['assets'][0]['symbol']
             placed = self.client.post(f'/api/games/{game_id}/orders', json={'client_order_id': 'ranked-order-1', 'symbol': symbol, 'side': 'buy',
-                                                                            'type': 'market', 'qty': 20})
+                                                                            'type': 'market', 'qty': qty})
             self.assertEqual(placed.status_code, 200, placed.text)
+
+    def test_win_against_an_idle_opponent_who_left_early_pays_only_participation_rewards(self):
+        _, matched, _ = self.ranked_pair()
+        game_id = matched['game_id']
+        self.finish_ranked(game_id, 'host', qty=20)
+        self.act_as('rival')
+        self.client.post(f'/api/games/{game_id}/finish', json={'forfeit': True})
+        self.ms += 200 * 3000
+        self.act_as('host')
+
+        host = self.client.post(f'/api/games/{game_id}/finish', json={}).json()
+
+        self.assertTrue(host['won'])
+        self.assertEqual((host['rewards']['xp'], host['rewards']['gems']), (10, 5))
 
     def test_ranked_results_rate_every_human_once_and_pay_gems(self):
         _, matched, _ = self.ranked_pair()
         game_id = matched['game_id']
-        self.finish_ranked(game_id, 'host', order=True)
-        self.finish_ranked(game_id, 'rival')
+        self.finish_ranked(game_id, 'host', qty=20)
+        self.finish_ranked(game_id, 'rival', qty=10)
         self.ms += 200 * 3000
         self.act_as('host')
         host = self.client.post(f'/api/games/{game_id}/finish', json={}).json()
@@ -173,9 +187,16 @@ class MultiplayerTests(AppCase):
         self.assertEqual((values[host_id][1], values[rival_id][1]), (1, 1))
         self.assertEqual((winner['rewards']['xp'], winner['rewards']['gems']), (20, 25))
         self.assertEqual(loser['rewards']['xp'], 10)
-        self.assertEqual(loser['rewards']['gems'], 5 if loser is host else 0)
+        self.assertEqual(loser['rewards']['gems'], 5)
         ranked = self.client.get('/api/leaderboards/ranked').json()
         self.assertEqual(ranked['me']['value'], values[rival_id][0])
+
+    def test_ranked_xp_and_gems_pay_for_at_most_five_matches_a_day(self):
+        with patch('app.campaign.settlement.contested', return_value=True):
+            settled = [self.settle('ranked', result(won=True), game_id=f'ranked-{n}')['rewards'] for n in range(6)]
+
+        self.assertEqual([reward['xp'] for reward in settled], [20, 20, 20, 20, 20, 0])
+        self.assertEqual([reward['gems'] for reward in settled], [25, 15, 15, 15, 15, 0])
 
     def test_private_games_never_change_ratings(self):
         lobby = self.client.post('/api/lobbies', json={}).json()

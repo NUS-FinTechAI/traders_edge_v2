@@ -206,6 +206,14 @@ class CampaignTests(AppCase):
         self.assertEqual((first['rewards']['xp'], second['rewards']['xp']), (10, 0))
         self.assertEqual(nodes(self.client, 'ch1')['ch1-preview']['attempts'], 2)
 
+    def test_forfeited_preview_records_an_attempt_but_keeps_level_one_locked(self):
+        settled = self.settle('boss', result(forfeited=True), chapter_id='ch1', boss='preview', game_id='preview-left')
+        map_nodes = nodes(self.client, 'ch1')
+
+        self.assertEqual(settled['rewards']['xp'], 0)
+        self.assertEqual((map_nodes['ch1-preview']['attempts'], map_nodes['ch1-preview']['state']), (1, 'open'))
+        self.assertEqual(map_nodes['ch1-l1']['state'], 'locked')
+
     def test_practice_xp_stops_after_three_matches_a_day(self):
         awarded = [self.settle('practice', result(), game_id=f'practice-{n}')['rewards']['xp'] for n in range(4)]
         forfeited = self.settle('practice', result(forfeited=True), game_id='practice-forfeit')['rewards']['xp']
@@ -261,6 +269,13 @@ class CampaignGameTests(AppCase):
         self.assertEqual(locked_preview.status_code, 403)
         self.assertEqual((gate.status_code, gate.json()['scenario']['id']), (201, 'practice-choppy-range'))
         self.assertEqual(no_gate.status_code, 403)
+
+    def test_gate_boss_is_refused_once_the_chapter_is_open(self):
+        self.win_boss('ch2', kind='gate')
+
+        replay = self.create(mode='boss', chapter_id='ch2', boss='gate')
+
+        self.assertEqual((replay.status_code, replay.json()['detail']), (409, 'This chapter is already open'))
 
     def test_practice_uses_the_requested_number_of_scenario_bots(self):
         one = self.create(mode='practice', scenario_id='practice-choppy-range', bots=1).json()

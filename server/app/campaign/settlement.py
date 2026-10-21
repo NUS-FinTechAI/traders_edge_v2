@@ -8,7 +8,7 @@ from app.campaign import daily
 from app.campaign.progress import BOSS_XP, LEVEL_XP, PREVIEW_XP, boss_key, boss_row, load_progress, progress_row
 from app.db import XPLedger
 from app.economy_models import EconomyEvent
-from app.game.models import GameOrder
+from app.game.models import GameEvent, GameOrder, GameParticipant
 from app.game.scenario import load_scenarios
 from app.multiplayer import elo
 from app.player import badges, ledger
@@ -17,6 +17,7 @@ PRACTICE_XP = 10
 PRACTICE_DAILY_CAP = 3
 RANKED_XP = {'win': 20, 'loss': 10}
 RANKED_GEMS = {'win': 15, 'loss': 5, 'first_win': 10}
+RANKED_DAILY_CAP = 5
 
 
 class Tally:
@@ -81,13 +82,18 @@ async def _boss(db, content, tally, user_id, game, result, instant):
     kind = {'preview': 'preview', 'final': 'boss', 'gate': 'gate'}[game.boss]
     row = await boss_row(db, user_id, chapter['id'], kind)
     _record(row, result, 'attempts')
-    won = result['won'] and kind != 'preview'
+    if kind == 'preview':
+        # The Preview cannot be failed: `won` records that it was played to the last day, which opens Level 1.
+        if not result['forfeited']:
+            if not row.won:
+                row.won, row.first_won_at = True, instant
+            tally.xp += await ledger.award_xp(db, user_id, f'preview:{chapter["id"]}', PREVIEW_XP, 'Preview Battle played', instant)
+        await db.flush()
+        return None, None
+    won = result['won']
     if won and not row.won:
         row.won, row.first_won_at = True, instant
     await db.flush()
-    if kind == 'preview':
-        tally.xp += await ledger.award_xp(db, user_id, f'preview:{chapter["id"]}', PREVIEW_XP, 'Preview Battle played', instant)
-        return None, None
     if won:
         tally.xp += await ledger.award_xp(db, user_id, f'{kind}-win:{chapter["id"]}', BOSS_XP, f'{kind.capitalize()} won', instant)
     if kind == 'gate':
@@ -115,18 +121,44 @@ async def _practice(db, tally, user_id, game, result, instant):
         tally.xp += await ledger.award_xp(db, user_id, f'practice:{game.id}', PRACTICE_XP, 'Practice match finished', instant)
 
 
+async def contested(db, game, participant):
+    """At least one human opponent placed an order and did not forfeit before the last third of the match."""
+    scenario = load_scenarios().get(game.scenario_id)
+    ticks = scenario['ticks'] if scenario else 0
+    opponents = list(await db.scalars(select(GameParticipant).where(GameParticipant.game_id == game.id, GameParticipant.user_id.is_not(None),
+                                                                    GameParticipant.id != participant.id)))
+    for opponent in opponents:
+        if await db.scalar(select(GameOrder.id).where(GameOrder.participant_id == opponent.id).limit(1)) is None:
+            continue
+        if opponent.forfeited:
+            left = await db.scalar(select(func.min(GameEvent.tick)).where(GameEvent.participant_id == opponent.id, GameEvent.kind == 'finish'))
+            if left is None or 3 * left < 2 * ticks:
+                continue
+        return True
+    return False
+
+
+async def _rewarded_today(db, model, user_id, instant):
+    start = ledger.day_start(ledger.day(instant))
+    return await db.scalar(select(func.count()).select_from(model).where(model.user_id == user_id, model.event_key.like('ranked:%'),
+                                                                        model.created_at >= start))
+
+
 async def _ranked(db, tally, user_id, game, participant, result, instant):
+    """Win rewards need a contested win; XP and Gems each pay for at most RANKED_DAILY_CAP matches per UTC day."""
     if result['forfeited']:
         return
-    outcome = 'win' if result['won'] else 'loss'
-    tally.xp += await ledger.award_xp(db, user_id, f'ranked:{game.id}', RANKED_XP[outcome], f'Ranked {outcome}', instant)
+    outcome = 'win' if result['won'] and await contested(db, game, participant) else 'loss'
+    if await _rewarded_today(db, XPLedger, user_id, instant) < RANKED_DAILY_CAP:
+        tally.xp += await ledger.award_xp(db, user_id, f'ranked:{game.id}', RANKED_XP[outcome], f'Ranked {outcome}', instant)
     placed = await db.scalar(select(GameOrder.id).where(GameOrder.participant_id == participant.id).limit(1))
-    gems = RANKED_GEMS[outcome] if result['won'] or placed else 0
-    if gems and await ledger.credit(db, user_id, f'ranked:{game.id}', instant, gems=gems, context={'outcome': outcome}):
-        tally.gems += gems
-    if result['won'] and await ledger.credit(db, user_id, f'ranked-first-win:{ledger.day(instant)}', instant,
-                                             gems=RANKED_GEMS['first_win'], context={'game_id': game.id}):
-        tally.gems += RANKED_GEMS['first_win']
+    gems = RANKED_GEMS[outcome] if outcome == 'win' or placed else 0
+    if gems and await _rewarded_today(db, EconomyEvent, user_id, instant) < RANKED_DAILY_CAP:
+        if await ledger.credit(db, user_id, f'ranked:{game.id}', instant, gems=gems, context={'outcome': outcome}):
+            tally.gems += gems
+            if outcome == 'win' and await ledger.credit(db, user_id, f'ranked-first-win:{ledger.day(instant)}', instant,
+                                                        gems=RANKED_GEMS['first_win'], context={'game_id': game.id}):
+                tally.gems += RANKED_GEMS['first_win']
     await elo.apply(db, game, result, instant)
 
 
