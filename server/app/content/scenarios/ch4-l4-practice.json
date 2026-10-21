@@ -1,0 +1,154 @@
+{
+  "id": "ch4-l4-practice",
+  "version": 1,
+  "title": "Spread the Load",
+  "briefing": "Kestrel Air, Harborline Shipping and Orchard Foods. Two of these have something important in common. Spread your money wisely.",
+  "objective": "Diversify across companies with different drivers. Correlated holdings act like one big bet.",
+  "debrief": "All three stocks rose until day 14, when a refinery fire sent fuel prices soaring. Kestrel Air and Harborline Shipping both burn huge amounts of fuel, so both gapped down together; Orchard Foods barely noticed. Holding the airline and the shipper was one fuel bet, not two. Players who capped each position and paired one fuel-sensitive stock with Orchard Foods kept the damage small.",
+  "difficulty": 2,
+  "ticks": 30,
+  "history": 20,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": true,
+    "stop": true
+  },
+  "max_position_pct": null,
+  "tools": [
+    "candles"
+  ],
+  "market": {
+    "vol": 0.005
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 30,
+      "market_drift": 0.001,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "KSTR",
+      "name": "Kestrel Air",
+      "sector": "Industrials",
+      "blurb": "Flies short routes between the region's island cities.",
+      "price": 34,
+      "drift": 0.003,
+      "beta": 1.2,
+      "vol": 0.018,
+      "base_volume": 45000
+    },
+    {
+      "symbol": "HRBL",
+      "name": "Harborline Shipping",
+      "sector": "Industrials",
+      "blurb": "Moves shipping containers between the region's ports.",
+      "price": 22,
+      "drift": 0.003,
+      "beta": 1.1,
+      "vol": 0.016,
+      "base_volume": 30000
+    },
+    {
+      "symbol": "ORCF",
+      "name": "Orchard Foods",
+      "sector": "Consumer staples",
+      "blurb": "Runs a chain of neighbourhood grocery stores.",
+      "price": 41,
+      "drift": 0.002,
+      "beta": 0.5,
+      "vol": 0.008,
+      "base_volume": 60000
+    }
+  ],
+  "news": [
+    {
+      "id": "fuel-fire",
+      "tick": 14,
+      "headline": "Fuel prices jump 25% after a refinery fire",
+      "body": "A fire at the region's largest refinery has pushed fuel prices up by a quarter. Airlines and shipping companies are expected to be hit hardest.",
+      "tone": "negative",
+      "kind": "macro",
+      "symbols": [
+        "KSTR",
+        "HRBL"
+      ],
+      "effects": [
+        {
+          "symbol": "KSTR",
+          "move": -0.1,
+          "ticks": 1,
+          "gap": true
+        },
+        {
+          "symbol": "KSTR",
+          "move": -0.03,
+          "ticks": 3,
+          "gap": false
+        },
+        {
+          "symbol": "HRBL",
+          "move": -0.09,
+          "ticks": 1,
+          "gap": true
+        },
+        {
+          "symbol": "HRBL",
+          "move": -0.03,
+          "ticks": 3,
+          "gap": false
+        }
+      ]
+    }
+  ],
+  "bots": [
+    "hodl-hannah-rookie"
+  ],
+  "missions": {
+    "basic": [
+      {
+        "id": "m1",
+        "type": "min_holdings",
+        "params": {
+          "n": 2
+        },
+        "text": "Hold at least 2 different companies at the same time"
+      },
+      {
+        "id": "m2",
+        "type": "max_position",
+        "params": {
+          "pct": 40
+        },
+        "text": "Keep every position at or under 40% of your portfolio"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "b1",
+        "type": "max_drawdown",
+        "params": {
+          "pct": 6
+        },
+        "text": "Keep your worst drop under 6%"
+      },
+      {
+        "id": "b2",
+        "type": "beat_bot",
+        "params": {
+          "bot_id": "hodl-hannah-rookie"
+        },
+        "text": "Finish ahead of HODL Hannah"
+      }
+    ]
+  },
+  "balance": "lesson"
+}

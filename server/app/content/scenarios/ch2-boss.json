@@ -1,0 +1,185 @@
+{
+  "id": "ch2-boss",
+  "version": 1,
+  "title": "Thin Ice",
+  "briefing": "Pebble Games trades thinly, with a 0.6% spread on every market order, and its big game launch is coming. HODL Hannah bought on day 0 and will never sell.",
+  "objective": "Choose the right order for the job: a stop-loss to get out when news turns bad, a limit order to get back in.",
+  "debrief": "Pebble Games climbed for 12 days on excitement about its new game. On day 12 its lead designer quit: the stock gapped down about 7% and slid for five more days. A stop-loss sold at the open and missed the slide that HODL Hannah sat through. The stock then went quiet, Pebble confirmed the launch date on day 17, and the launch on day 22 started a rally that lasted to the end. Getting back in with a limit order during the quiet spell avoided the wide spread and beat Hannah.",
+  "difficulty": 3,
+  "ticks": 34,
+  "history": 20,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.006,
+  "allow": {
+    "limit": true,
+    "stop": true
+  },
+  "max_position_pct": null,
+  "tools": [
+    "candles",
+    "volume"
+  ],
+  "market": {
+    "vol": 0.002
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 12,
+      "market_drift": 0.009,
+      "vol_mult": 1.0
+    },
+    {
+      "from": 12,
+      "to": 17,
+      "market_drift": -0.006,
+      "vol_mult": 1.2
+    },
+    {
+      "from": 17,
+      "to": 22,
+      "market_drift": 0.0,
+      "vol_mult": 1.0
+    },
+    {
+      "from": 22,
+      "to": 34,
+      "market_drift": 0.011,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "PBGM",
+      "name": "Pebble Games",
+      "sector": "Communication services",
+      "blurb": "Makes puzzle and adventure games. Its shares trade thinly.",
+      "price": 12,
+      "drift": 0.0,
+      "beta": 1.0,
+      "vol": 0.01,
+      "base_volume": 6000
+    }
+  ],
+  "news": [
+    {
+      "id": "pbgm-designer",
+      "tick": 12,
+      "headline": "Pebble Games' lead designer quits before launch",
+      "body": "The designer behind Pebble's new adventure game has left the company. Fans worry the launch will slip.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "PBGM"
+      ],
+      "effects": [
+        {
+          "symbol": "PBGM",
+          "move": -0.07,
+          "ticks": 1,
+          "gap": true
+        },
+        {
+          "symbol": "PBGM",
+          "move": -0.05,
+          "ticks": 5,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "pbgm-date",
+      "tick": 17,
+      "headline": "Pebble Games confirms its new game launches on day 22",
+      "body": "Pebble Games says the new adventure game is finished and will be released on day 22 as planned.",
+      "tone": "neutral",
+      "kind": "company",
+      "symbols": [
+        "PBGM"
+      ],
+      "effects": []
+    },
+    {
+      "id": "pbgm-launch",
+      "tick": 22,
+      "headline": "Pebble's new game tops the download charts",
+      "body": "Pebble Games' new adventure game was the most downloaded game on launch day, and reviews are strong.",
+      "tone": "positive",
+      "kind": "company",
+      "symbols": [
+        "PBGM"
+      ],
+      "effects": [
+        {
+          "symbol": "PBGM",
+          "move": 0.08,
+          "ticks": 1,
+          "gap": true
+        },
+        {
+          "symbol": "PBGM",
+          "move": 0.04,
+          "ticks": 4,
+          "gap": false
+        }
+      ]
+    }
+  ],
+  "bots": [
+    "hodl-hannah-elite"
+  ],
+  "missions": {
+    "basic": [
+      {
+        "id": "m1",
+        "type": "rank_max",
+        "params": {
+          "rank": 1
+        },
+        "text": "Finish 1st"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "b1",
+        "type": "stop_loss_set",
+        "params": {},
+        "text": "Protect your shares with a stop-loss"
+      },
+      {
+        "id": "b2",
+        "type": "exited_by",
+        "params": {
+          "symbol": "PBGM",
+          "tick": 15
+        },
+        "text": "Be out of Pebble Games by day 15, after the bad news"
+      },
+      {
+        "id": "b3",
+        "type": "use_order",
+        "params": {
+          "type": "limit",
+          "n": 1
+        },
+        "text": "Get back in with a limit order"
+      },
+      {
+        "id": "b4",
+        "type": "held_between",
+        "params": {
+          "symbol": "PBGM",
+          "from": 22,
+          "to": 33
+        },
+        "text": "Own Pebble Games through the launch rally (days 22-33)"
+      }
+    ]
+  },
+  "balance": "boss"
+}

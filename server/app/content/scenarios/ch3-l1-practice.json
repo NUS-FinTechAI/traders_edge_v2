@@ -1,0 +1,125 @@
+{
+  "id": "ch3-l1-practice",
+  "version": 1,
+  "title": "Who Won the Day?",
+  "briefing": "Lumen Bikes has printed mostly red candles for weeks. Read each candle: who is in control, buyers or sellers?",
+  "objective": "A candle shows open, high, low and close. Long green bodies mean buyers took control.",
+  "debrief": "For two weeks Lumen Bikes printed mostly red candles: sellers kept closing it below the open. On day 14 strong sales produced a long green candle on heavy volume, and buyers stayed in control for days after. Players who bought once the long green candle appeared, rather than during the red run, beat buying on day 0.",
+  "difficulty": 1,
+  "ticks": 28,
+  "history": 20,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": true,
+    "stop": true
+  },
+  "max_position_pct": null,
+  "tools": [
+    "candles",
+    "volume"
+  ],
+  "market": {
+    "vol": 0.005
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 14,
+      "market_drift": -0.008,
+      "vol_mult": 1.0
+    },
+    {
+      "from": 14,
+      "to": 28,
+      "market_drift": 0.003,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "LUMB",
+      "name": "Lumen Bikes",
+      "sector": "Consumer discretionary",
+      "blurb": "Designs and sells e-bikes for city commuters.",
+      "price": 46,
+      "drift": 0.0,
+      "beta": 1.0,
+      "vol": 0.013,
+      "base_volume": 40000
+    }
+  ],
+  "news": [
+    {
+      "id": "lumb-sales",
+      "tick": 14,
+      "headline": "Lumen Bikes beats sales forecasts by 20%",
+      "body": "Lumen Bikes sold 20% more e-bikes last quarter than analysts expected and says orders are still rising.",
+      "tone": "positive",
+      "kind": "earnings",
+      "symbols": [
+        "LUMB"
+      ],
+      "effects": [
+        {
+          "symbol": "LUMB",
+          "move": 0.045,
+          "ticks": 1,
+          "gap": false
+        },
+        {
+          "symbol": "LUMB",
+          "move": 0.07,
+          "ticks": 5,
+          "gap": false
+        }
+      ]
+    }
+  ],
+  "bots": [],
+  "missions": {
+    "basic": [
+      {
+        "id": "m1",
+        "type": "bought_after_news",
+        "params": {
+          "news_id": "lumb-sales",
+          "within": 2
+        },
+        "text": "Buy within 2 days of the long green earnings candle"
+      },
+      {
+        "id": "m2",
+        "type": "hold_at_end",
+        "params": {
+          "symbol": "LUMB"
+        },
+        "text": "Still hold Lumen Bikes on the last day"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "b1",
+        "type": "beat_buy_hold",
+        "params": {
+          "symbol": "LUMB"
+        },
+        "text": "Beat buying and holding Lumen Bikes from day 0"
+      },
+      {
+        "id": "b2",
+        "type": "profit_min",
+        "params": {
+          "amount": 1
+        },
+        "text": "Finish with a profit"
+      }
+    ]
+  },
+  "balance": "lesson"
+}

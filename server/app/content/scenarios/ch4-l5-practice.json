@@ -1,0 +1,167 @@
+{
+  "id": "ch4-l5-practice",
+  "version": 1,
+  "title": "Stop the Slide",
+  "briefing": "The market is calm for now. Choose a maximum loss in your plan and keep to it, whatever the Harbor 50 does next.",
+  "objective": "Drawdowns grow fast and need bigger gains to recover. Cap your losses and pause when your limit is near.",
+  "debrief": "Stocks rose for ten days. On day 10 an interest-rate rise knocked the Harbor 50 down, and a broad sell-off lasted until about day 22, hitting Nimbus Cloud and Lumen Bikes hardest and calm Tidal Power least. Panic Pete sold late and bought back early. Players with stops and a firm maximum loss stepped aside early, kept their drawdown small and had cash ready for the recovery.",
+  "difficulty": 2,
+  "ticks": 32,
+  "history": 20,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": true,
+    "stop": true
+  },
+  "max_position_pct": null,
+  "tools": [
+    "candles"
+  ],
+  "market": {
+    "vol": 0.006
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 10,
+      "market_drift": 0.003,
+      "vol_mult": 1.0
+    },
+    {
+      "from": 10,
+      "to": 22,
+      "market_drift": -0.007,
+      "vol_mult": 1.4
+    },
+    {
+      "from": 22,
+      "to": 32,
+      "market_drift": 0.002,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "NMBC",
+      "name": "Nimbus Cloud",
+      "sector": "Technology",
+      "blurb": "Rents computing power and data storage to businesses.",
+      "price": 60,
+      "drift": 0.001,
+      "beta": 1.4,
+      "vol": 0.014,
+      "base_volume": 70000
+    },
+    {
+      "symbol": "TDLP",
+      "name": "Tidal Power",
+      "sector": "Utilities",
+      "blurb": "Runs wind and solar farms that sell power to the grid.",
+      "price": 29,
+      "drift": 0.001,
+      "beta": 0.5,
+      "vol": 0.008,
+      "base_volume": 30000
+    },
+    {
+      "symbol": "LUMB",
+      "name": "Lumen Bikes",
+      "sector": "Consumer discretionary",
+      "blurb": "Designs and sells e-bikes for city commuters.",
+      "price": 44,
+      "drift": 0.001,
+      "beta": 1.2,
+      "vol": 0.013,
+      "base_volume": 40000
+    }
+  ],
+  "news": [
+    {
+      "id": "rates-rise",
+      "tick": 10,
+      "headline": "Harbor 50 drops 3% as interest rates rise",
+      "body": "The central bank raised interest rates more than expected. Fast-growing companies fell most.",
+      "tone": "negative",
+      "kind": "macro",
+      "symbols": [
+        "NMBC",
+        "TDLP",
+        "LUMB"
+      ],
+      "effects": [
+        {
+          "symbol": "NMBC",
+          "move": -0.04,
+          "ticks": 2,
+          "gap": true
+        },
+        {
+          "symbol": "LUMB",
+          "move": -0.03,
+          "ticks": 2,
+          "gap": true
+        },
+        {
+          "symbol": "TDLP",
+          "move": -0.01,
+          "ticks": 1,
+          "gap": true
+        }
+      ]
+    }
+  ],
+  "bots": [
+    "panic-pete-rookie"
+  ],
+  "missions": {
+    "basic": [
+      {
+        "id": "m1",
+        "type": "trades_min",
+        "params": {
+          "n": 1
+        },
+        "text": "Make at least one trade"
+      },
+      {
+        "id": "m2",
+        "type": "kept_plan",
+        "params": {},
+        "text": "Keep your worst drop within your plan's maximum loss"
+      },
+      {
+        "id": "m3",
+        "type": "max_drawdown",
+        "params": {
+          "pct": 5
+        },
+        "text": "Keep your worst drop under 5%"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "b1",
+        "type": "profit_min",
+        "params": {
+          "amount": 1
+        },
+        "text": "Finish with a profit"
+      },
+      {
+        "id": "b2",
+        "type": "beat_bot",
+        "params": {
+          "bot_id": "panic-pete-rookie"
+        },
+        "text": "Finish ahead of Panic Pete"
+      }
+    ]
+  },
+  "balance": "lesson"
+}

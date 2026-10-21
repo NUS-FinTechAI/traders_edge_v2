@@ -1,0 +1,111 @@
+{
+  "id": "ch2-l2-practice",
+  "version": 1,
+  "title": "Get Me Out",
+  "briefing": "Nimbus Cloud is rising nicely. If bad news hits, a market order is the fastest way out.",
+  "objective": "Market orders trade price certainty for speed: the right tool when you need out now.",
+  "debrief": "Nimbus Cloud rose for two weeks until a two-day outage on day 15. The stock gapped down and kept sliding for more than a week as customers worried. Nobody could avoid the gap itself, but a market sell within a day or two of the headline got out near the first price available and avoided most of the slide that followed.",
+  "difficulty": 1,
+  "ticks": 30,
+  "history": 20,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": false,
+    "stop": false
+  },
+  "max_position_pct": null,
+  "tools": [
+    "candles"
+  ],
+  "market": {
+    "vol": 0.005
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 30,
+      "market_drift": 0.0008,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "NMBC",
+      "name": "Nimbus Cloud",
+      "sector": "Technology",
+      "blurb": "Rents computing power and data storage to businesses.",
+      "price": 58,
+      "drift": 0.005,
+      "beta": 1.2,
+      "vol": 0.014,
+      "base_volume": 70000
+    }
+  ],
+  "news": [
+    {
+      "id": "nmbc-outage",
+      "tick": 15,
+      "headline": "Nimbus Cloud suffers a two-day outage",
+      "body": "Thousands of business customers lost access to their data during a two-day outage at Nimbus Cloud. Several say they are reviewing their contracts.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "NMBC"
+      ],
+      "effects": [
+        {
+          "symbol": "NMBC",
+          "move": -0.05,
+          "ticks": 1,
+          "gap": true
+        },
+        {
+          "symbol": "NMBC",
+          "move": -0.14,
+          "ticks": 10,
+          "gap": false
+        }
+      ]
+    }
+  ],
+  "bots": [],
+  "missions": {
+    "basic": [
+      {
+        "id": "m1",
+        "type": "use_order",
+        "params": {
+          "type": "market",
+          "n": 1
+        },
+        "text": "Buy Nimbus Cloud with a market order"
+      },
+      {
+        "id": "m2",
+        "type": "sold_after_news",
+        "params": {
+          "news_id": "nmbc-outage",
+          "within": 2
+        },
+        "text": "Sell within 2 days of the outage headline"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "b1",
+        "type": "beat_buy_hold",
+        "params": {
+          "symbol": "NMBC"
+        },
+        "text": "Beat buying and holding Nimbus Cloud from day 0"
+      }
+    ]
+  },
+  "balance": "lesson"
+}
