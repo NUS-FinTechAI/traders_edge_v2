@@ -2,6 +2,8 @@
 
 Status: accepted for discovery and design. Reviewed backend slices have been merged; replacement product UI still requires owner direction selection, a separate implementation go-ahead, and technical, safety and accessibility review.
 
+Superseded in part by [ADR 0003](0003-gameplay-brief-authority.md) and [ADR 0004](0004-playable-game-overhaul.md). The ten-module sequence, entry/exit checks, per-order written plans and mastery gates below no longer describe the code; the safety rules against urgency, leverage and trade-count rewards still apply.
+
 ## Context
 
 The supplied research brief requires readiness, risk and investing foundations before execution and optional speculative trading. The screen mockup and v1 put strategies and technical tools earlier. The mockup also uses a “Sniper” badge, “Keep trading” copy and a reward countdown. These conflict with the brief’s focus on decision quality and its avoid list.
