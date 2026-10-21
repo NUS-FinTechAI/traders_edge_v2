@@ -21,10 +21,12 @@ questions (§12).
 The chapter map is `Preview Battle → L1 … L5 → Chapter Boss`. The Preview
 Battle runs the boss scenario with a fresh seed before the lessons. It cannot
 be failed. It is the research pre-measure, and the boss is the post-measure.
-Level 1 opens once the Preview has been played. Each locked chapter card offers
+Level 1 opens once the Preview has been played to its last day; a Preview left
+early records an attempt but pays no XP and keeps Level 1 locked. Each locked
+chapter card offers
 a **Gate Boss**, a parallel form of the previous chapter's boss: winning it
 unlocks the chapter early, after a friendly "we recommend playing in order"
-message. Each chapter holds 12 stars: 5 levels × 2 plus the boss × 2. The boss
+message. A gate boss is refused (409) once its chapter is open. Each chapter holds 12 stars: 5 levels × 2 plus the boss × 2. The boss
 special star needs a win with every boss bonus mission met.
 
 Daily challenges, practice matches, quizzes and multiplayer reuse the same
@@ -33,27 +35,32 @@ trading engine. The full curriculum and AI personalities are in the
 
 ## Decisions for open design questions
 
-| Question (GDD §)     | Decision                                                                                                                                                                                                                                             |
-| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Profit (§3.3)        | `profit = final equity − starting cash`. Equity = cash + holdings × final close. Fees and spread are included.                                                                                                                                       |
-| Ties (§3.3)          | Equal profit (to the cent) shares a rank. A shared first place is not a win against AI.                                                                                                                                                              |
-| Early exit (§3.3)    | Leaving a running match forfeits it: the player ranks last and receives no win rewards.                                                                                                                                                              |
-| Disconnects (§8.2)   | Matches run on the server clock. A disconnected player keeps their positions and is ranked normally.                                                                                                                                                 |
-| Duration (§3.3)      | Lessons 20–40 market days, bosses 30–45, dailies 30. One market day = one candle. Solo: 1× = 2 s per day, 2× and 4× available, plus pause and "next day" stepping. Multiplayer: fixed 3 s per day, no pause.                                         |
-| Starting conditions  | $10,000 simulated cash unless a scenario says otherwise. Long-only. No leverage.                                                                                                                                                                     |
-| Fees                 | 0.1 % of order value, minimum $1, plus the bid/ask spread (default 0.10 %). This makes random clicking lose money.                                                                                                                                   |
-| Plan before trading  | One game plan per match, chosen in the briefing: a strategy chip and a maximum loss. The order ticket offers an optional stop-loss and shows "risk if stopped: $X (Y %)". Results compare the plan with what happened. Orders are one click.         |
-| Order types          | Unlocked as taught. Market from the start, limit after Ch2 L3, stop-loss after Ch2 L4. Each scenario's `allow` field enforces this.                                                                                                                  |
-| AI difficulty (§5.2) | Chapter bosses rise in difficulty through bot strategy mix, parameters and reaction speed. A Monte-Carlo balance test asserts that idle and random players lose bosses.                                                                              |
-| Daily form (§6)      | Weekday rotation of seven daily scenarios against one AI. The first attempt of the day uses the day's shared seed; retries use fresh seeds, so a retry cannot be memorised. Unlocks after the Chapter 1 boss.                                        |
-| Daily reset          | 00:00 UTC. The reset clears any cooldown from the previous day.                                                                                                                                                                                      |
-| Currencies (§7)      | **Sim cash** (`$`, green banknote, exists only inside a match), **Doubloons** (the GDD's "Stocks"; gold coin; weekly, expire Monday 00:00 UTC; internal key `stocks`), **Gems** (purple; premium, from ranked play only; never sold for real money). |
-| Premium refresh      | 20 Gems skips the daily cooldown. Ranked: win +15 Gems, loss +5 (if the player placed an order), first ranked win of the day +10.                                                                                                                    |
-| Ranked rating (§9)   | Elo, start 1000, K = 32, pairwise against every other human in the match. Equal profit is a draw. Tiers: Bronze < 1100, Silver < 1300, Gold < 1500, Platinum < 1700, Diamond. Private lobbies never change rating.                                   |
-| Lobby size (§8)      | 2–30 humans (classes). The host picks the scenario and may add up to 3 AI opponents.                                                                                                                                                                 |
-| XP                   | See [Progression](#progression). Private lobbies and classroom quizzes give no XP.                                                                                                                                                                   |
-| Unlocks (§4.3)       | Chapter 1 is open. Chapter _n_ unlocks by winning chapter _n−1_'s boss **or** chapter _n_'s gate boss. The boss unlocks when every level in its chapter has a normal star. Retries are unlimited and re-seeded.                                      |
-| Multiplayer access   | Private lobbies have no prerequisite (classroom use). Ranked matchmaking unlocks after winning the Chapter 3 boss.                                                                                                                                   |
+| Question (GDD §)     | Decision                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Profit (§3.3)        | `profit = final equity − starting cash`. Equity = cash + holdings × final close. Fees and spread are included.                                                                                                                                                                                                                                                                                                                                                          |
+| Ties (§3.3)          | Equal profit (to the cent) shares a rank. A shared first place is not a win against AI. A match without opponents is never a win; a `rank_max` mission still counts as met there, because there is no one to beat.                                                                                                                                                                                                                                                      |
+| Early exit (§3.3)    | Leaving a running match forfeits it: the player ranks last and receives no win rewards. Leaving after the last day finishes the match normally.                                                                                                                                                                                                                                                                                                                         |
+| Stale matches        | A match whose scenario was removed or changed version is left out of `GET /api/games`, cannot be read or played (409), and `finish` closes it as a forfeit with no rewards. It never counts as an open daily.                                                                                                                                                                                                                                                           |
+| Disconnects (§8.2)   | Matches run on the server clock. A disconnected player keeps their positions and is ranked normally.                                                                                                                                                                                                                                                                                                                                                                    |
+| Duration (§3.3)      | Lessons 20–40 market days, bosses 30–45, dailies 30. One market day = one candle. Solo: 1× = 2 s per day, 2× and 4× available, plus pause and "next day" stepping. Multiplayer: fixed 3 s per day, no pause.                                                                                                                                                                                                                                                            |
+| Starting conditions  | $10,000 simulated cash unless a scenario says otherwise. Long-only. No leverage.                                                                                                                                                                                                                                                                                                                                                                                        |
+| Fees                 | 0.1 % of order value, minimum $1, plus the bid/ask spread (default 0.10 %). This makes random clicking lose money.                                                                                                                                                                                                                                                                                                                                                      |
+| Plan before trading  | One game plan per match, chosen in the briefing: a strategy chip and a maximum loss. The order ticket offers an optional stop-loss and shows "risk if stopped: $X (Y %)". Results compare the plan with what happened. Orders are one click. Every order needs a plan (422 "Choose your game plan before trading."). Multiplayer matches start running, so each player sets the plan once during the first 3 days (ticks 0–2); later, `POST /start` returns 409.        |
+| Order types          | Unlocked as taught. Market from the start, limit after Ch2 L3, stop-loss after Ch2 L4. Each scenario's `allow` field enforces this.                                                                                                                                                                                                                                                                                                                                     |
+| AI difficulty (§5.2) | Chapter bosses rise in difficulty through bot strategy mix, parameters and reaction speed. A Monte-Carlo balance test asserts that idle and random players lose bosses.                                                                                                                                                                                                                                                                                                 |
+| Daily form (§6)      | Weekday rotation of seven daily scenarios against one AI. The first attempt of the day uses the day's shared seed, drawn at random on first use and stored in `daily_seeds`; retries use fresh seeds, so a retry cannot be memorised. Unlocks after the Chapter 1 boss.                                                                                                                                                                                                 |
+| Open daily           | One daily at a time: while today's daily is in the briefing, running or ended but not finished, a new daily returns 409 "Finish your current daily challenge first" and `GET /api/daily` names it in `active_game_id`. A daily that ended unfinished is settled with its result on the next daily request, so a loss starts the 2-hour cooldown. A daily starts only on the UTC day it was created for (409 "This daily challenge has expired") and outside a cooldown. |
+| Daily reset          | 00:00 UTC. The reset clears any cooldown from the previous day, and settling an earlier day's daily never starts today's cooldown.                                                                                                                                                                                                                                                                                                                                      |
+| Currencies (§7)      | **Sim cash** (`$`, green banknote, exists only inside a match), **Doubloons** (the GDD's "Stocks"; gold coin; weekly, expire Monday 00:00 UTC; internal key `stocks`), **Gems** (purple; premium, from ranked play only; never sold for real money).                                                                                                                                                                                                                    |
+| Premium refresh      | 20 Gems skips the daily cooldown. Ranked: win +15 Gems, loss +5 (if the player placed an order), first ranked win of the day +10.                                                                                                                                                                                                                                                                                                                                       |
+| Ranked rewards       | Win rewards (XP, Gems, first-win bonus) need a contested win: at least one human opponent placed an order and did not forfeit before the last third of the match. Other wins pay the loss rewards. Ranked XP and ranked Gems each pay for at most 5 matches per UTC day. Elo is unchanged by these rules.                                                                                                                                                               |
+| Ranked rating (§9)   | Elo, start 1000, K = 32, pairwise against every other human in the match. Equal profit is a draw. Tiers: Bronze < 1100, Silver < 1300, Gold < 1500, Platinum < 1700, Diamond. Private lobbies never change rating.                                                                                                                                                                                                                                                      |
+| Lobby size (§8)      | 2–30 humans (classes). The host picks the scenario and may add up to 3 AI opponents: the scenario's bots first, then Momentum Max (pro), Value Vera (pro) and HODL Hannah.                                                                                                                                                                                                                                                                                              |
+| XP                   | See [Progression](#progression). Private lobbies and classroom quizzes give no XP.                                                                                                                                                                                                                                                                                                                                                                                      |
+| Unlocks (§4.3)       | Chapter 1 is open. Chapter _n_ unlocks by winning chapter _n−1_'s boss **or** chapter _n_'s gate boss. The boss unlocks when every level in its chapter has a normal star. Retries are unlimited and re-seeded.                                                                                                                                                                                                                                                         |
+| Multiplayer access   | Private lobbies have no prerequisite (classroom use). Ranked matchmaking unlocks after winning the Chapter 3 boss.                                                                                                                                                                                                                                                                                                                                                      |
+| Matchmaking          | Pairing runs under one global lock (a PostgreSQL advisory transaction lock; SQLite serialises writers) on both `POST` and `GET /api/matchmaking`. A search older than 2 minutes is never paired and reads as `idle`, so the client searches again. `DELETE` after a match started returns 409 "Your match has started".                                                                                                                                                 |
+| Content approval     | `content/review.json` records the independent financial and pedagogical review. In production, level content and checks, the daily, games, quizzes, lobbies and matchmaking return 503 "Game content is awaiting independent review" until its status is `approved`. Development serves authored content.                                                                                                                                                               |
 
 ## Backend
 
@@ -133,9 +140,14 @@ placement order (`game_orders.seq`). Freeing cash or shares earlier never
 invalidates a later order, so a replay always reproduces the validated state.
 
 Every fill pays `max(min_fee, fee_rate × value)`. Buy limits reserve cash and
-sells reserve shares when placed, so a fill never fails. An order that breaks
-a rule (cash, holdings, `max_position_pct`, disabled order type, finished
-match) is rejected with 422 and a plain-language reason.
+sells reserve shares when placed, so a fill never fails. Every sell (market,
+limit or stop) must leave enough available cash to pay its fee at the order's
+price. An order that breaks a rule (cash, holdings, `max_position_pct`,
+disabled order type, finished match, no plan) is rejected with 422 and a
+plain-language reason. Prices must be whole cents (422 from validation). An
+order cancelled on the tick it was placed counts as never placed for missions,
+badges and the discipline score. The order response carries the replayed
+state, so it equals the next `GET`.
 
 ### Clock
 
@@ -178,8 +190,13 @@ refresh enabled the attempt. This covers GDD §10.2.
 - `game_events`: id, game_id, participant_id, tick, kind, payload (JSON), created_at.
 - `campaign_progress`: user_id, level_id, check_best, check_passed,
   normal_star, special_star, best_profit, plays, updated_at.
-- `boss_results`: user_id, chapter_id, kind (`gate`|`final`), won, best_profit,
-  attempts, first_won_at.
+- `campaign_checks`: user_id, level_id, question_id, first_option_id,
+  first_correct, solved (first-ever answers, for research), run_first_correct,
+  run_solved (the current run of the check; reset when it completes).
+- `boss_results`: user_id, chapter_id, kind (`gate`|`boss`|`preview`), won,
+  best_profit, attempts, first_won_at. For the Preview Battle, `won` records
+  that it was played to the last day.
+- `daily_seeds`: day, seed, created_at.
 - `quiz_attempts_v2`, `quiz_rooms_v2`, `quiz_room_members_v2`.
 - `lobbies`, `lobby_members`, `matchmaking_queue`, `ratings`.
 
@@ -193,17 +210,17 @@ uses natural keys (`client_order_id`, unique events), not receipt tables.
 
 ### Games
 
-| Method & path                                                                                                                         | Purpose                                                                                                                           |
-| ------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
-| `POST /api/games` `{mode, scenario_id?, level_id?, chapter_id?, boss?: "gate"\|"final", bots?: n}`                                    | Create a match in `briefing`. `mode`: `level`, `boss`, `daily`, `practice`. The server picks the scenario for `daily` and `boss`. |
-| `GET /api/games/{id}?since=<tick>`                                                                                                    | Full public state (below). `since` limits the returned bars and news to newer ticks.                                              |
-| `POST /api/games/{id}/start` `{plan: {strategy, max_loss_pct}}`                                                                       | Leave the briefing and start the clock.                                                                                           |
-| `POST /api/games/{id}/clock` `{action: pause\|resume\|step\|speed, speed?: 1\|2\|4}`                                                  | Solo modes only.                                                                                                                  |
-| `POST /api/games/{id}/orders` `{client_order_id, symbol, side: buy\|sell, type: market\|limit\|stop, qty, limit_price?, stop_price?}` | Place an order at the current tick. A repeat `client_order_id` returns the original order.                                        |
-| `DELETE /api/games/{id}/orders/{order_id}`                                                                                            | Cancel a resting order.                                                                                                           |
-| `POST /api/games/{id}/finish` `{forfeit?: bool, reflection?: string}`                                                                 | Settle; returns the result.                                                                                                       |
-| `GET /api/games/{id}/result`                                                                                                          | Stored result.                                                                                                                    |
-| `GET /api/games?status=active`                                                                                                        | The player's unfinished matches (resume).                                                                                         |
+| Method & path                                                                                                                         | Purpose                                                                                                                                                                                 |
+| ------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `POST /api/games` `{mode, scenario_id?, level_id?, chapter_id?, boss?: "gate"\|"final", bots?: n}`                                    | Create a match in `briefing`. `mode`: `level`, `boss`, `daily`, `practice`. The server picks the scenario for `daily` and `boss`. A daily that cannot start now returns 409 `{detail}`. |
+| `GET /api/games/{id}?since=<tick>`                                                                                                    | Full public state (below). `since` limits the returned bars and news to newer ticks.                                                                                                    |
+| `POST /api/games/{id}/start` `{plan: {strategy, max_loss_pct}}`                                                                       | Leave the briefing and start the clock.                                                                                                                                                 |
+| `POST /api/games/{id}/clock` `{action: pause\|resume\|step\|speed, speed?: 1\|2\|4}`                                                  | Solo modes only.                                                                                                                                                                        |
+| `POST /api/games/{id}/orders` `{client_order_id, symbol, side: buy\|sell, type: market\|limit\|stop, qty, limit_price?, stop_price?}` | Place an order at the current tick. A repeat `client_order_id` returns the original order.                                                                                              |
+| `DELETE /api/games/{id}/orders/{order_id}`                                                                                            | Cancel a resting order.                                                                                                                                                                 |
+| `POST /api/games/{id}/finish` `{forfeit?: bool, reflection?: string}`                                                                 | Settle; returns the result.                                                                                                                                                             |
+| `GET /api/games/{id}/result`                                                                                                          | Stored result.                                                                                                                                                                          |
+| `GET /api/games?status=active`                                                                                                        | The player's unfinished matches (resume).                                                                                                                                               |
 
 **Game state**:
 
@@ -342,16 +359,24 @@ and news are never sent.
   "unlocked": { "chapter_id": "ch3" } }
 ```
 
-`won` needs rank 1 unshared and no forfeit. A forfeit marks every mission not
-done. `buy_hold_profit` is an equal-weight buy of every asset at tick 0's ask.
+`won` needs at least one opponent, rank 1 unshared and no forfeit. A forfeit
+marks every mission not done. In final results an unmet mission never reads
+"Not yet"; it says "Missed" or a precise end state such as "Still holding".
+`buy_hold_profit` is an equal-weight buy of every asset at tick 0's ask.
 
 `decision_score` (0–100) is an **unvalidated** process score that never decides
-a win: 40 × share of bonus missions met (basic missions when there are no
-bonus missions) + 25 × plan kept (worst drawdown ≤ `max_loss_pct`) + 25 × risk
-discipline (share of buy fills with a stop on that symbol resting within one
-tick after the fill; 0.5 when the scenario disables stops) + 10 × (1 −
-min(1, fees / max(1, |profit|))). `key_moments` holds up to five generated
-sentences from news, fills, stop-loss exits and the deepest drawdown.
+a win. Its components and default weights are: process missions 40 (share of
+bonus missions met, basic missions when there are no bonus missions; profit
+and rank missions — `profit_min`, `profit_pct_min`, `rank_max`, `beat_bot`,
+`beat_buy_hold` — never count), plan kept 25 (worst drawdown ≤
+`max_loss_pct`), risk discipline 25 (share of buy fills with a stop on that
+symbol resting within one tick after the fill) and low overtrading 10 (1 −
+min(1, fees / max(1, |profit|))). A component the player could not act on —
+risk when the scenario disables stops, missions when it has no process
+missions — is left out and the others are rescaled to whole points that sum to 100. `decision_breakdown` holds the points and `decision_max` the points
+available per component (0 for a component left out). `key_moments` holds up
+to five generated sentences from news, fills, stop-loss exits and the deepest
+drawdown.
 
 The game state also carries `me.available_cash` (cash minus reserved cash),
 each order's `client_order_id` and `stop_price`, news `kind`, and leaderboard
@@ -395,6 +420,7 @@ interface Reward {
   kind: 'avatar' | 'title' | 'badge'
   id: string
   name: string
+  image: string | null // art key, e.g. 'parrot'; also on game result reward items
 }
 
 // GET /api/campaign
@@ -453,7 +479,7 @@ interface Level {
     id: string
     kind: 'mc' | 'true_false'
     prompt: string
-    options: { id: string; text: string }[]
+    options: { id: string; text: string }[] // mc: stable shuffled order per player, level and question; true_false: authored order
   }[]
   practice: {
     scenario_id: string
@@ -474,17 +500,18 @@ interface CheckAnswer {
   correct: boolean
   correct_option_id: string
   explanation: string
-  first_try: boolean
+  first_try: boolean // first answer to this question in the current run
 }
-// POST /api/campaign/levels/{id}/check/complete  {}
+// POST /api/campaign/levels/{id}/check/complete  {} — a replayed check must be answered again first
 interface CheckComplete {
-  first_try_correct: number
+  first_try_correct: number // this run
+  first_ever_correct: number // the player's first-ever run (research; also Level.progress.check_best)
   total: number
   xp: number
   practice_unlocked: boolean
 }
 
-// GET /api/me → Player (see client/services/playerService.ts); PATCH /api/me {display_name?, avatar_id?, title_id?, leaderboard_opt_in?} → Player
+// GET /api/me → Player (see client/services/playerService.ts; includes avatar_image: string | null, the equipped avatar's art key); PATCH /api/me {display_name?, avatar_id?, title_id?, leaderboard_opt_in?} → Player
 // POST /api/me/daily-login → { day: number; doubloons: number; xp: number; already_claimed: boolean; player: Player }
 // GET /api/me/activity → { days: { date: string; count: number }[]; streak_days: number; week: { date: string; claimed: boolean; xp: number; doubloons: number }[] } // week = current 7-day cycle
 // GET /api/me/collection
@@ -500,6 +527,7 @@ interface Collection {
   avatars: {
     id: string
     name: string
+    image: string | null
     owned: boolean
     equipped: boolean
     how: string
@@ -507,6 +535,7 @@ interface Collection {
   titles: {
     id: string
     name: string
+    image: string | null
     owned: boolean
     equipped: boolean
     how: string
@@ -539,6 +568,7 @@ interface Daily {
   attempts_today: number
   cooldown_until: string | null
   refresh_cost_gems: number
+  active_game_id: string | null // today's unfinished daily to resume; a new daily is refused while it is open
   week: {
     doubloons: number
     target: number
@@ -835,11 +865,11 @@ Lesson check questions are never reused as quiz items.
 | Level check finished (first time)         | 10                   |
 | Level normal star (first time)            | 20                   |
 | Level special star (first time)           | 10                   |
-| Preview Battle (first play)               | 10                   |
+| Preview Battle (first play to the end)    | 10                   |
 | Boss or gate win (first win)              | 50                   |
 | Daily: finished / won (each once per day) | 15 / 15              |
 | Practice match finished (max 3 per day)   | 10                   |
-| Ranked match: loss / win                  | 10 / 20              |
+| Ranked match: loss / win (max 5 per day)  | 10 / 20              |
 | Chapter quiz ≥ 80 % (first pass)          | 20                   |
 | Daily review (once per day)               | 10                   |
 | Mixed mastery ≥ 80 % (first pass)         | 50                   |
@@ -847,10 +877,12 @@ Lesson check questions are never reused as quiz items.
 
 No XP is ever paid per order, trade count or volume.
 
-XP needed to go from level _L_ to _L_+1 is `100 + 25·(L−1)`. Ranks by level:
-Rookie Trader (1–4), Market Explorer (5–9), Chart Reader (10–14), Risk Manager
-(15–19), Strategist (20–29), Seasoned Trader (30–39), Market Veteran (40–49),
-Captain of the Ledger (50).
+XP needed to go from level _L_ to _L_+1 is `100 + 25·(L−1)`. Ranks by level
+are nautical, so they never claim trading skill or repeat a badge name:
+Deckhand (1–4), Able Seaman (5–9), Navigator (10–14), Quartermaster (15–19),
+First Mate (20–29), Captain (30–39), Commodore (40–49), Admiral (50). Each rank
+is also a title (`title-rank-<name>`). Starter avatars use other crew names
+(Shipwright, Sailmaker, Cartographer, Lamplighter).
 
 Login Doubloons by streak day: 20, 20, 20, 30, 30, 30, 50 (a full week = 200),
 repeating after day 7. A missed day resets the streak to day 1. Daily win: 200
@@ -862,15 +894,20 @@ Badges are earned only, never sold. Each is based on process, not profit size:
 First Steps, First Plan, Quick Learner, Chart Reader, Risk Manager, Sniper, Fee
 Fighter, Cool Head, Patient Trader, Explorer, Gatecrasher, Boss Slayer, Streak
 Master, Quiz Master, Ranked Debut, Calibrated. Conditions are in the
-[curriculum spec](curriculum/game-spec.md) §B6.
+[curriculum spec](curriculum/game-spec.md) §B6; the player-facing text in
+`cosmetics.json` states the implemented rule. No badge needs a profit-ranked
+win: Fee Fighter needs a finished choppy or range-bound market with at least 3
+trades and under $30 in fees, and Patient Trader a finished match within the
+loss limit with at least one order and none before 40% of the days.
 
 ### Module boundaries
 
 `app/game` owns matches and does not know about chapters or currencies. It
-calls two hooks registered on `app.state`:
+calls three hooks registered on `app.state`:
 
 ```python
-# Resolve what a POST /api/games request may play. Raises HTTPException(403/409) when not allowed.
+# Resolve what a POST /api/games request may play. Raises HTTPException(403/409) when not allowed,
+# or service.Refused(status, detail) to refuse while keeping writes made first (e.g. settling an ended daily).
 async def resolve_game(db, profile, request: CreateGame) -> GameSpec
 #   GameSpec(scenario_id: str, mode: str, chapter_id: str | None, level_id: str | None,
 #            boss: str | None, context: dict,   # stored on the game (e.g. daily day, refresh key); an int "seed" replaces the random seed
@@ -879,6 +916,9 @@ async def resolve_game(db, profile, request: CreateGame) -> GameSpec
 # Settle one human participant after the engine computed `result` (dict, see Result above,
 # without "rewards", "stars" and "unlocked"). Returns those three keys. Must be idempotent.
 async def settle_game(db, profile, game, participant, result: dict) -> dict
+
+# Called before a solo briefing starts. Raises HTTPException to refuse (e.g. an expired daily).
+async def before_start(db, profile, game) -> None
 ```
 
 The defaults in `app/game/service.py` allow `practice` only and award nothing.
