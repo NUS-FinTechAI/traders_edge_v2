@@ -1147,6 +1147,15 @@ export interface operations {
           'application/json': components['schemas']['GameState']
         }
       }
+      /** @description This match cannot be created now; `detail` says why */
+      409: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['OrderRejection']
+        }
+      }
       /** @description Validation Error */
       422: {
         headers: {

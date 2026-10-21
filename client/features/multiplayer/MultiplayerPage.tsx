@@ -1,6 +1,7 @@
 import { useRef, useState, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import useAuth from '../../hooks/useAuth.ts'
+import { HttpError } from '../../services/httpService.ts'
 import {
   createLobby,
   getLobby,
@@ -176,6 +177,7 @@ function Ranked() {
   const [match, setMatch] = useState<Match | null>(null)
   const [busy, setBusy] = useState(false)
   const [pollError, setPollError] = useState(false)
+  const [timedOut, setTimedOut] = useState(false)
   // Bumped by every join or cancel so a poll that was already in flight
   // cannot put a cancelled search back on screen.
   const generation = useRef(0)
@@ -198,6 +200,8 @@ function Ranked() {
         const next = await getMatchmaking()
         if (ticket !== generation.current) return
         setPollError(false)
+        // The server ends a search that found no rival after two minutes.
+        if (next.status === 'idle') setTimedOut(true)
         setMatch(next)
         follow(next)
       } catch {
@@ -210,6 +214,7 @@ function Ranked() {
 
   async function find() {
     generation.current += 1
+    setTimedOut(false)
     setBusy(true)
     try {
       const next = await joinMatchmaking()
@@ -230,7 +235,17 @@ function Ranked() {
       if (current) setMatch({ ...current, status: 'idle', waiting_since: null })
       setPollError(false)
     } catch (error) {
-      notify(errorText(error), 'error')
+      // 409: a rival was found just before cancelling, so open the match.
+      const matched =
+        error instanceof HttpError && error.status === 409
+          ? await getMatchmaking().catch(() => null)
+          : null
+      if (matched?.status === 'matched') {
+        setMatch(matched)
+        follow(matched)
+      } else {
+        notify(errorText(error), 'error')
+      }
     } finally {
       setBusy(false)
     }
@@ -300,6 +315,11 @@ function Ranked() {
                 </div>
               ) : (
                 <div className={styles.rankedActions}>
+                  {timedOut && current.status === 'idle' && (
+                    <p className={styles.muted} role="status">
+                      Search timed out — search again.
+                    </p>
+                  )}
                   {current.status === 'matched' && current.game_id && (
                     <ButtonLink
                       to={`/game/${encodeURIComponent(current.game_id)}`}

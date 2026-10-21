@@ -22,11 +22,8 @@ import styles from './DailyCard.module.css'
 /** Weekly-track Doubloons for the first daily win of a UTC day (GDD §6.2). */
 const DAILY_WIN_DOUBLOONS = 200
 
-/** `active_game_id` names an unsettled daily to resume (newer servers). */
-type DailyView = Daily & { active_game_id?: string | null }
-
 interface DailyCardProps {
-  daily: DailyView
+  daily: Daily
   onChange: (daily: Daily) => void
   onReload: () => void
   full?: boolean
@@ -166,7 +163,7 @@ export default function DailyCard({
               )
             }
           >
-            Resume today’s daily
+            Resume daily
           </Button>
         ) : cooling && daily.cooldown_until ? (
           <>

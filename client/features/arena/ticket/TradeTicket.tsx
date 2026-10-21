@@ -17,6 +17,7 @@ import {
   executionPrice,
   hasCents,
   heldShares,
+  money,
   maxAffordable,
   positionCapQty,
   riskIfStopped,
@@ -43,6 +44,12 @@ function parse(text: string): number {
 
 function roundPrice(value: number): string {
   return value.toFixed(2)
+}
+
+/** Prices are dollars and cents; round a typed value to two decimals. */
+function toCents(text: string): string {
+  const value = parse(text)
+  return value > 0 ? roundPrice(money(value)) : text
 }
 
 export default function TradeTicket({
@@ -285,6 +292,7 @@ export default function TradeTicket({
             step={0.01}
             value={priceText}
             onChange={(event) => setPriceText(event.target.value)}
+            onBlur={() => setPriceText(toCents(priceText))}
           />
         </div>
       )}
@@ -318,6 +326,7 @@ export default function TradeTicket({
                 step={0.01}
                 value={stopText}
                 onChange={(event) => setStopText(event.target.value)}
+                onBlur={() => setStopText(toCents(stopText))}
               />
             </div>
           )}

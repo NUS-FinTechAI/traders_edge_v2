@@ -32,16 +32,20 @@ interface ResultsScreenProps {
   onTryAgain: () => Promise<void>
 }
 
-const BREAKDOWN: {
-  key: keyof DecisionBreakdown
-  label: string
-  max: number
-}[] = [
-  { key: 'missions', label: 'Bonus missions met', max: 40 },
-  { key: 'plan', label: 'Stayed within your loss limit', max: 25 },
-  { key: 'risk', label: 'Protected buys with a stop-loss', max: 25 },
-  { key: 'overtrading', label: 'Kept fees small', max: 10 },
+const BREAKDOWN: { key: keyof DecisionBreakdown; label: string }[] = [
+  { key: 'missions', label: 'Bonus missions met' },
+  { key: 'plan', label: 'Stayed within your loss limit' },
+  { key: 'risk', label: 'Protected buys with a stop-loss' },
+  { key: 'overtrading', label: 'Kept fees small' },
 ]
+
+/** Points available per part; older results without maxima use the original split. */
+const DEFAULT_MAX: DecisionBreakdown = {
+  missions: 40,
+  plan: 25,
+  risk: 25,
+  overtrading: 10,
+}
 
 export default function ResultsScreen({
   state,
@@ -158,11 +162,13 @@ export default function ResultsScreen({
             name={
               preview
                 ? 'compass'
-                : won
-                  ? 'trophy'
-                  : result.forfeited
-                    ? 'flag'
-                    : 'podium'
+                : result.of === 1 && !result.forfeited
+                  ? 'target'
+                  : won
+                    ? 'trophy'
+                    : result.forfeited
+                      ? 'flag'
+                      : 'podium'
             }
             size={30}
           />
@@ -312,11 +318,14 @@ export default function ResultsScreen({
             tone="gold"
           />
           <ul className={styles.breakdown}>
-            {BREAKDOWN.map(({ key, label, max }) => (
+            {BREAKDOWN.filter(
+              ({ key }) => (result.decision_max ?? DEFAULT_MAX)[key] > 0,
+            ).map(({ key, label }) => (
               <li key={key}>
                 <span>{label}</span>
                 <span className="num">
-                  {result.decision_breakdown?.[key] ?? 0} / {max}
+                  {Math.round(result.decision_breakdown?.[key] ?? 0)} /{' '}
+                  {Math.round((result.decision_max ?? DEFAULT_MAX)[key])}
                 </span>
               </li>
             ))}

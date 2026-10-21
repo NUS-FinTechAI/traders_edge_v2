@@ -25,9 +25,6 @@ import styles from './Level.module.css'
 
 type Phase = 'choose' | 'cards' | 'check' | 'done' | 'practice'
 
-/** Newer servers also report this run's first-try score. */
-type RunSummary = CheckComplete & { run_first_try_correct?: number }
-
 /** Plain text with **bold** spans; blank lines start new paragraphs. */
 function RichText({ text }: { text: string }) {
   return text
@@ -283,9 +280,8 @@ function LevelFlow({ level }: { level: Level }) {
       </div>
     )
   } else if (phase === 'done') {
-    const runScore =
-      (summary as RunSummary | null)?.run_first_try_correct ??
-      firstTryCount(queue)
+    // The server counts first tries in this run of the check.
+    const runScore = summary?.first_try_correct ?? firstTryCount(queue)
     const runTotal = summary?.total ?? questions.length
     const strong = runTotal > 0 && runScore * 2 >= runTotal
     body = (
