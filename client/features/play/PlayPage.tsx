@@ -68,7 +68,13 @@ function PracticeCard({
           </span>
         </div>
       )}
-      <Button variant="secondary" icon="play" disabled={busy} onClick={onStart}>
+      <Button
+        variant="secondary"
+        icon="play"
+        disabled={busy}
+        onClick={onStart}
+        aria-label={`Start ${scenario.title}`}
+      >
         Start
       </Button>
     </li>

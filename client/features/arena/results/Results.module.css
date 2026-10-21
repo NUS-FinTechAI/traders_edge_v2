@@ -332,7 +332,7 @@
   flex-wrap: wrap;
   justify-content: center;
   gap: var(--space-3);
-  margin-top: var(--space-5);
+  margin: var(--space-3) 0 var(--space-5);
 }
 
 .footer {
