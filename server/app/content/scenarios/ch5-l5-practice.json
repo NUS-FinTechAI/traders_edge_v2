@@ -4,7 +4,7 @@
   "title": "Confluence",
   "briefing": "Meadow Pharma is trending up and about to pull back; Harborline Shipping keeps flashing \"oversold\" on the way down. Look for reasons that agree, not just one loud signal.",
   "objective": "Combine trend, price level and indicator before entering, and plan the stop.",
-  "debrief": "Meadow Pharma stayed above its rising average. The patent scare on day 13 pulled it back to the average and old support, RSI dipped and turned up, and the patent ruling on day 20 restarted the trend: three independent reasons lined up. Harborline looked \"oversold\" again and again, but the falling rates on day 8 and the dividend cut on day 18 kept it sliding. A disciplined player bought the pullback with a stop and ignored the falling knife.",
+  "debrief": "Meadow Pharma stayed above its rising average. The patent scare on day 13 pulled it back to the average and old support, RSI dipped and turned up, and the patent ruling on day 20 restarted the trend: three independent reasons lined up. Harborline looked \"oversold\" again and again, but the falling freight rates on day 8 and the dividend cut on day 18 kept it sliding. A disciplined player bought the pullback with a stop and ignored the falling knife.",
   "difficulty": 3,
   "ticks": 34,
   "history": 30,
@@ -153,7 +153,7 @@
           "news_id": "mdwp-patent-scare",
           "within": 5
         },
-        "text": "Buy Meadow Pharma on the pullback (within 5 days of the day-13 headline)"
+        "text": "Buy Meadow Pharma on the pullback to its rising average, days 13 to 18"
       },
       {
         "id": "set-stop",
@@ -171,7 +171,7 @@
           "pct": 10,
           "symbol": "HRBL"
         },
-        "text": "Keep Harborline under 10% of your portfolio: oversold in a downtrend is not a setup"
+        "text": "Keep Harborline at or under 10% of your portfolio: oversold in a downtrend is not a setup"
       },
       {
         "id": "profit",

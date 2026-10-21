@@ -1,6 +1,6 @@
 {
   "id": "ch6-l2-practice",
-  "version": 1,
+  "version": 2,
   "title": "Priced for Perfection",
   "briefing": "Nimbus Cloud trades at about 60 times earnings; Harborline Shipping at about 8. Both report on day 15. Which one has more to lose from a small disappointment?",
   "objective": "High-P/E growth stocks carry high expectations; a small miss can hit them hard.",
@@ -140,7 +140,7 @@
     }
   ],
   "bots": [
-    "value-vera-rookie"
+    "newsy-nina-rookie"
   ],
   "missions": {
     "basic": [
@@ -152,7 +152,7 @@
           "pct": 20,
           "symbol": "NMBC"
         },
-        "text": "Keep Nimbus Cloud under 20% of your portfolio going into its day-15 report"
+        "text": "Keep Nimbus Cloud at or under 20% of your portfolio going into its day-15 report"
       },
       {
         "id": "hold-value",
@@ -173,12 +173,12 @@
         "text": "Finish at least $150 in profit"
       },
       {
-        "id": "beat-vera",
+        "id": "beat-nina",
         "type": "beat_bot",
         "params": {
-          "bot_id": "value-vera-rookie"
+          "bot_id": "newsy-nina-rookie"
         },
-        "text": "Finish ahead of Value Vera"
+        "text": "Finish ahead of Newsy Nina"
       }
     ]
   }

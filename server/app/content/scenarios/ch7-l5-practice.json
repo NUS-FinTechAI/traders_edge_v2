@@ -3,8 +3,8 @@
   "version": 1,
   "title": "Run Your Rules",
   "briefing": "Meadow Pharma offers the same setup three times: a pullback in an uptrend. Use the same rule each time, with the same stop, and judge the results together.",
-  "objective": "Test an edge by repeating one rule with fixed risk, and judge the set of trades, not one result.",
-  "debrief": "Meadow Pharma pulled back three times: on day 6, day 16 and day 26. The first two pullbacks recovered and paid well. The third, after the trial delay, kept falling and hit the stop for a small loss. Taken together, the same rule with the same stop still came out ahead: two wins larger than one controlled loss. A disciplined player applied the rule every time and kept each loss small.",
+  "objective": "Practice testing an edge: repeat one rule with fixed risk, record every result, and judge many trades, not one.",
+  "debrief": "Meadow Pharma pulled back three times: on day 6, day 16 and day 26. In most runs the first two pullbacks recovered and the third, after the trial delay, kept falling into the stop. Using the same rule with the same stop kept each loss small. Three trades cannot prove an edge; only a journal of many trades across many matches can show whether the rule really pays.",
   "difficulty": 3,
   "ticks": 36,
   "history": 30,
@@ -131,7 +131,7 @@
         "id": "stop",
         "type": "stop_loss_set",
         "params": {},
-        "text": "Use a stop-loss on your entries"
+        "text": "Place a stop-loss order with your entries"
       }
     ],
     "bonus": [

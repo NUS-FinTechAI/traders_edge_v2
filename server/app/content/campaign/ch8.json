@@ -68,7 +68,7 @@
           "options": [
             {
               "id": "a",
-              "text": "25%"
+              "text": "2.5%"
             },
             {
               "id": "b",
@@ -80,7 +80,7 @@
             },
             {
               "id": "d",
-              "text": "2.5%"
+              "text": "25%"
             }
           ],
           "answer": "c",
@@ -93,19 +93,19 @@
           "options": [
             {
               "id": "a",
-              "text": "Buying because a stock is up 40% this week and everyone online is posting gains"
+              "text": "Buying because the stock is up 40% this week and everyone is posting gains"
             },
             {
               "id": "b",
-              "text": "Buying a planned pullback with a stop"
+              "text": "Buying a planned pullback in an uptrend, with the stop set before entry"
             },
             {
               "id": "c",
-              "text": "Skipping a trade that has no setup"
+              "text": "Skipping a trade today because it does not match any setup in your written plan"
             },
             {
               "id": "d",
-              "text": "Selling at a planned target"
+              "text": "Selling at a planned target even though the stock might keep rising"
             }
           ],
           "answer": "a",
@@ -114,7 +114,7 @@
         {
           "id": "q3",
           "kind": "true_false",
-          "prompt": "True or false: missing a winning trade loses you money.",
+          "prompt": "True or false: skipping a trade that would have won takes money out of your account.",
           "options": [
             {
               "id": "t",
@@ -126,7 +126,7 @@
             }
           ],
           "answer": "f",
-          "explanation": "Not trading costs nothing; chasing a reversal does."
+          "explanation": "Skipping a trade leaves your cash where it was; chasing a move that reverses is what costs money."
         },
         {
           "id": "q4",
@@ -135,22 +135,22 @@
           "options": [
             {
               "id": "a",
-              "text": "$10,000"
+              "text": "About $100"
             },
             {
               "id": "b",
-              "text": "$1,500"
+              "text": "About $667"
             },
             {
               "id": "c",
-              "text": "$100"
+              "text": "About $1,500"
             },
             {
               "id": "d",
-              "text": "About $667"
+              "text": "About $10,000"
             }
           ],
-          "answer": "d",
+          "answer": "b",
           "explanation": "$100 of risk ÷ 0.15 = about $667."
         },
         {
@@ -160,22 +160,22 @@
           "options": [
             {
               "id": "a",
-              "text": "Buy immediately before it rises more"
+              "text": "Buy immediately, before the price runs any further away from you"
             },
             {
               "id": "b",
-              "text": "Pause and check the setup against your written plan"
+              "text": "Buy twice your usual size to make up for arriving late"
             },
             {
               "id": "c",
-              "text": "Double your usual size"
+              "text": "Ask a chat room whether others are buying it too"
             },
             {
               "id": "d",
-              "text": "Ask a chat room what to do"
+              "text": "Pause and check the setup against your written plan"
             }
           ],
-          "answer": "b",
+          "answer": "d",
           "explanation": "A short pause lets the plan, not the feeling, make the decision."
         }
       ],
@@ -236,23 +236,23 @@
           "options": [
             {
               "id": "a",
-              "text": "Buying low and selling high"
-            },
-            {
-              "id": "b",
               "text": "Selling winners too early and holding losers too long"
             },
             {
+              "id": "b",
+              "text": "Spreading money across many different sectors"
+            },
+            {
               "id": "c",
-              "text": "Spreading money across sectors"
+              "text": "Holding winners for years and selling losers straight away"
             },
             {
               "id": "d",
-              "text": "Using limit orders instead of market orders"
+              "text": "Using limit orders instead of market orders to save on costs"
             }
           ],
-          "answer": "b",
-          "explanation": "It is one of the best-documented habits of individual traders."
+          "answer": "a",
+          "explanation": "Traders sell winners early to lock in a good feeling and hold losers to avoid admitting a mistake. That pattern is the disposition effect."
         },
         {
           "id": "q2",
@@ -261,22 +261,22 @@
           "options": [
             {
               "id": "a",
-              "text": "+$35"
-            },
-            {
-              "id": "b",
-              "text": "+$10"
-            },
-            {
-              "id": "c",
               "text": "−$45"
             },
             {
-              "id": "d",
+              "id": "b",
               "text": "−$10"
+            },
+            {
+              "id": "c",
+              "text": "+$10"
+            },
+            {
+              "id": "d",
+              "text": "+$35"
             }
           ],
-          "answer": "d",
+          "answer": "b",
           "explanation": "0.70 × $50 − 0.30 × $150 = $35 − $45 = −$10."
         },
         {
@@ -303,22 +303,22 @@
           "options": [
             {
               "id": "a",
-              "text": "33.3%"
+              "text": "40%"
             },
             {
               "id": "b",
-              "text": "25%"
+              "text": "33.3%"
             },
             {
               "id": "c",
-              "text": "10%"
+              "text": "25%"
             },
             {
               "id": "d",
-              "text": "40%"
+              "text": "10%"
             }
           ],
-          "answer": "a",
+          "answer": "b",
           "explanation": "$10 ÷ $30 = 33.3%; losses need bigger gains to recover."
         },
         {
@@ -328,11 +328,11 @@
           "options": [
             {
               "id": "a",
-              "text": "Moving your stop further away when price nears it"
+              "text": "Averaging down on every drop"
             },
             {
               "id": "b",
-              "text": "Averaging down on every drop"
+              "text": "Moving your stop further away when price nears it"
             },
             {
               "id": "c",
@@ -412,18 +412,18 @@
             },
             {
               "id": "b",
-              "text": "Diversification"
+              "text": "Revenge trading"
             },
             {
               "id": "c",
-              "text": "Mean reversion"
+              "text": "Diversification"
             },
             {
               "id": "d",
-              "text": "Revenge trading"
+              "text": "Mean reversion"
             }
           ],
-          "answer": "d",
+          "answer": "b",
           "explanation": "The trade is driven by the loss, not by a setup or a rule."
         },
         {
@@ -433,22 +433,22 @@
           "options": [
             {
               "id": "a",
-              "text": "50"
+              "text": "100"
             },
             {
               "id": "b",
-              "text": "47"
-            },
-            {
-              "id": "c",
               "text": "95"
             },
             {
+              "id": "c",
+              "text": "50"
+            },
+            {
               "id": "d",
-              "text": "100"
+              "text": "47"
             }
           ],
-          "answer": "b",
+          "answer": "d",
           "explanation": "1% of $9,500 = $95; $95 ÷ $2 = 47.5, rounded down to 47."
         },
         {
@@ -475,22 +475,22 @@
           "options": [
             {
               "id": "a",
-              "text": "Following the same checklist every trade"
+              "text": "Following the same written checklist before every trade, even when bored"
             },
             {
               "id": "b",
-              "text": "Taking a planned break"
+              "text": "Taking a planned break after two losses in a row"
             },
             {
               "id": "c",
-              "text": "Trading more often, with bigger size and no stops, after losses"
+              "text": "Writing every trade in a journal, including the losing ones"
             },
             {
               "id": "d",
-              "text": "Writing in a trade journal"
+              "text": "Trading more often, with bigger size and no stops, after losses"
             }
           ],
-          "answer": "c",
+          "answer": "d",
           "explanation": "Tilt shows up as looser, larger, more frequent trading."
         },
         {
@@ -504,15 +504,15 @@
             },
             {
               "id": "b",
-              "text": "After a loss, double your size"
+              "text": "After a loss, trade twice the size"
             },
             {
               "id": "c",
-              "text": "Never stop trading"
+              "text": "After a loss, trade straight away while the market is still moving"
             },
             {
               "id": "d",
-              "text": "Remove stops after a loss so you are not stopped again"
+              "text": "After a loss, move your stops further away so they are hit less often"
             }
           ],
           "answer": "a",
@@ -560,7 +560,7 @@
         {
           "title": "Fee drag",
           "visual": "bid-ask-spread",
-          "body": "In this game a round trip costs about 0.1% in spread plus 0.1% in fees each way: roughly **0.3%** of the trade. Forty round trips of $5,000 cost about $600 before a single losing trade."
+          "body": "In this game a round trip pays the spread once (about 0.1% in total) plus a 0.1% fee on the buy and again on the sell: roughly **0.3%** of the trade. Forty round trips of $5,000 cost about $600 before a single losing trade."
         },
         {
           "title": "Fewer, better trades",
@@ -579,22 +579,22 @@
           "options": [
             {
               "id": "a",
-              "text": "About $600"
-            },
-            {
-              "id": "b",
               "text": "About $60"
             },
             {
-              "id": "c",
+              "id": "b",
               "text": "About $120"
+            },
+            {
+              "id": "c",
+              "text": "About $600"
             },
             {
               "id": "d",
               "text": "About $6,000"
             }
           ],
-          "answer": "a",
+          "answer": "c",
           "explanation": "0.3% of $4,000 = $12; 50 × $12 = $600."
         },
         {
@@ -621,22 +621,22 @@
           "options": [
             {
               "id": "a",
-              "text": "Triple your position size"
+              "text": "Raise your size, since five wins in a row show your edge is real"
             },
             {
               "id": "b",
-              "text": "Trade every day to keep the streak going"
+              "text": "Trade every day to keep the streak going while you are hot"
             },
             {
               "id": "c",
-              "text": "Keep the same risk rule and check whether the wins followed your plan"
+              "text": "Loosen your stops, since your recent entries have been so accurate"
             },
             {
               "id": "d",
-              "text": "Stop using stops"
+              "text": "Keep the same risk rule and check the wins followed your plan"
             }
           ],
-          "answer": "c",
+          "answer": "d",
           "explanation": "Streaks are noisy; the process should not change because of them."
         },
         {
@@ -646,11 +646,11 @@
           "options": [
             {
               "id": "a",
-              "text": "Ana +$500, Ben +$500"
+              "text": "Ana +$452, Ben −$220"
             },
             {
               "id": "b",
-              "text": "Ana +$452, Ben −$220"
+              "text": "Ana +$500, Ben +$500"
             },
             {
               "id": "c",
@@ -661,7 +661,7 @@
               "text": "Ana +$452, Ben +$440"
             }
           ],
-          "answer": "b",
+          "answer": "a",
           "explanation": "Ana: $500 − 4 × $12 = $452. Ben: $500 − 60 × $12 = −$220."
         },
         {
@@ -679,14 +679,14 @@
             },
             {
               "id": "c",
-              "text": "You are behind on the leaderboard"
+              "text": "A setup from your plan appeared"
             },
             {
               "id": "d",
-              "text": "A setup from your plan appeared"
+              "text": "You are behind on the leaderboard"
             }
           ],
-          "answer": "d",
+          "answer": "c",
           "explanation": "Every trade should come from the plan."
         }
       ],
@@ -745,22 +745,22 @@
           "options": [
             {
               "id": "a",
-              "text": "Good process, good result"
+              "text": "Good process, good result: the profit proves the idea was right"
             },
             {
               "id": "b",
-              "text": "Bad process, good result: luck that can build bad habits"
+              "text": "Proof that reading rumors is a skill"
             },
             {
               "id": "c",
-              "text": "Good process, bad result"
+              "text": "Bad process, good result: luck that can build bad habits"
             },
             {
               "id": "d",
-              "text": "Proof of skill"
+              "text": "Good process, bad result, since the stock could easily have fallen"
             }
           ],
-          "answer": "b",
+          "answer": "c",
           "explanation": "The profit came without a plan, so it teaches the wrong lesson."
         },
         {
@@ -770,22 +770,22 @@
           "options": [
             {
               "id": "a",
-              "text": "A bad decision that must never be repeated"
-            },
-            {
-              "id": "b",
-              "text": "A reason to change strategy immediately"
-            },
-            {
-              "id": "c",
               "text": "Good process, bad result: likely fine to repeat"
             },
             {
+              "id": "b",
+              "text": "A bad decision, since any losing trade means the plan was wrong"
+            },
+            {
+              "id": "c",
+              "text": "A reason to change strategy right away before the next loss"
+            },
+            {
               "id": "d",
-              "text": "A reason to stop using stops"
+              "text": "A reason to drop stops"
             }
           ],
-          "answer": "c",
+          "answer": "a",
           "explanation": "Planned losses are part of any strategy."
         },
         {
@@ -812,15 +812,15 @@
           "options": [
             {
               "id": "a",
-              "text": "A promise of monthly profits"
+              "text": "A target of 10% profit every month, whatever the market does"
             },
             {
               "id": "b",
-              "text": "Tips from strangers"
+              "text": "Tips from popular online accounts"
             },
             {
               "id": "c",
-              "text": "A list of this week's hot stocks"
+              "text": "This week's hottest stocks, ranked by how much they have risen"
             },
             {
               "id": "d",
@@ -837,22 +837,22 @@
           "options": [
             {
               "id": "a",
-              "text": "A consistent process with losses kept small"
-            },
-            {
-              "id": "b",
               "text": "The single biggest winning trade"
             },
             {
+              "id": "b",
+              "text": "A consistent process with losses kept small"
+            },
+            {
               "id": "c",
-              "text": "The number of trades placed"
+              "text": "Placing as many trades as possible to collect more chances"
             },
             {
               "id": "d",
-              "text": "Luck"
+              "text": "Picking the right stocks during the few best weeks of the year"
             }
           ],
-          "answer": "a",
+          "answer": "b",
           "explanation": "Over many trades, process decides the outcome."
         }
       ],

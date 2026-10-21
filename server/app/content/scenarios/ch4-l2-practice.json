@@ -1,6 +1,6 @@
 {
   "id": "ch4-l2-practice",
-  "version": 1,
+  "version": 2,
   "title": "Room to Breathe",
   "briefing": "Kestrel Air is trending up, but it wobbles a lot. Place your stop where the trend would be broken, not where a normal wobble reaches.",
   "objective": "Put stops beyond chart structure and outside the normal daily range. Raise them; never lower them.",
@@ -36,9 +36,9 @@
   ],
   "assets": [
     {
-      "symbol": "KSTR",
+      "symbol": "KSTL",
       "name": "Kestrel Air",
-      "sector": "Industrials",
+      "sector": "Airlines",
       "blurb": "Flies short routes between the region's island cities.",
       "price": 40,
       "drift": 0.005,
@@ -60,24 +60,24 @@
   ],
   "news": [
     {
-      "id": "kstr-fuel",
+      "id": "kstl-fuel",
       "tick": 24,
       "headline": "Fuel costs jump; Kestrel Air cuts its forecast",
       "body": "Kestrel Air says higher fuel prices will cut its profit this year by a quarter.",
       "tone": "negative",
       "kind": "company",
       "symbols": [
-        "KSTR"
+        "KSTL"
       ],
       "effects": [
         {
-          "symbol": "KSTR",
+          "symbol": "KSTL",
           "move": -0.06,
           "ticks": 1,
           "gap": true
         },
         {
-          "symbol": "KSTR",
+          "symbol": "KSTL",
           "move": -0.08,
           "ticks": 5,
           "gap": false
@@ -92,13 +92,13 @@
         "id": "m1",
         "type": "stop_loss_set",
         "params": {},
-        "text": "Place a stop-loss below a recent swing low"
+        "text": "Place a stop-loss order (aim below a recent swing low)"
       },
       {
         "id": "m2",
         "type": "held_between",
         "params": {
-          "symbol": "KSTR",
+          "symbol": "KSTL",
           "from": 6,
           "to": 20
         },
@@ -110,7 +110,7 @@
         "id": "b1",
         "type": "exited_by",
         "params": {
-          "symbol": "KSTR",
+          "symbol": "KSTL",
           "tick": 27
         },
         "text": "Be out of Kestrel Air by day 27"

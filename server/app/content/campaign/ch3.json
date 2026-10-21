@@ -23,7 +23,11 @@
         { "term": "Body", "definition": "The thick part of a candle, from the open to the close." },
         { "term": "Wick", "definition": "The thin line above or below the body, reaching the high or the low. Also called a shadow." },
         { "term": "Bullish candle", "definition": "A candle that closed above its open, usually shown in green." },
-        { "term": "Bearish candle", "definition": "A candle that closed below its open, usually shown in red." }
+        { "term": "Bearish candle", "definition": "A candle that closed below its open, usually shown in red." },
+        {
+          "term": "Timeframe",
+          "definition": "How much time each candle covers, such as one day on a daily chart or one week on a weekly chart."
+        }
       ],
       "cards": [
         {
@@ -37,7 +41,7 @@
         },
         {
           "title": "Green and red",
-          "body": "A **green** (bullish) candle closed above its open. A **red** (bearish) candle closed below its open. You can change the colours in settings, and every candle also carries a text label, so colour is never the only clue."
+          "body": "A **green** (bullish) candle closed above its open. A **red** (bearish) candle closed below its open. You can change the colors in settings, and every candle also carries a text label, so color is never the only clue."
         },
         {
           "title": "What a candle says",
@@ -50,25 +54,25 @@
           "kind": "mc",
           "prompt": "What does a long green candlestick usually indicate?",
           "options": [
-            { "id": "a", "text": "Strong selling pressure" },
-            { "id": "b", "text": "The market is moving sideways" },
-            { "id": "c", "text": "Buyers in control, pushing the price up" },
-            { "id": "d", "text": "Increased selling volume" }
+            { "id": "a", "text": "Sellers pushed the price down" },
+            { "id": "b", "text": "Buyers and sellers ended the day evenly matched" },
+            { "id": "c", "text": "Heavy volume, though the direction is unclear" },
+            { "id": "d", "text": "Buyers in control, pushing the price up" }
           ],
-          "answer": "c",
+          "answer": "d",
           "explanation": "It closed well above its open."
         },
         {
           "id": "q2",
           "kind": "mc",
-          "prompt": "A candle has Open 20.00, High 21.50, Low 19.80, Close 21.20. What colour is it?",
+          "prompt": "A candle has Open 20.00, High 21.50, Low 19.80, Close 21.20. What color is it?",
           "options": [
-            { "id": "a", "text": "Green" },
-            { "id": "b", "text": "Red" },
-            { "id": "c", "text": "Neither" },
-            { "id": "d", "text": "You can't tell" }
+            { "id": "a", "text": "Red" },
+            { "id": "b", "text": "Green" },
+            { "id": "c", "text": "A doji, so no color" },
+            { "id": "d", "text": "You can't tell without volume" }
           ],
-          "answer": "a",
+          "answer": "b",
           "explanation": "The close is above the open, so it is green (bullish)."
         },
         {
@@ -76,12 +80,12 @@
           "kind": "mc",
           "prompt": "A candle has Open 35.00, High 35.40, Low 31.90, Close 32.10. Which is true?",
           "options": [
-            { "id": "a", "text": "It closed above its open" },
-            { "id": "b", "text": "It closed near its low, so sellers were in control" },
-            { "id": "c", "text": "It has a long lower wick" },
-            { "id": "d", "text": "The high was $35.00" }
+            { "id": "a", "text": "It closed near its low: sellers were in control" },
+            { "id": "b", "text": "It closed above its open, so buyers controlled the day" },
+            { "id": "c", "text": "It has a long lower wick, a sign that buyers fought back" },
+            { "id": "d", "text": "Its high was $35.00, the same as its open" }
           ],
-          "answer": "b",
+          "answer": "a",
           "explanation": "It closed just $0.20 above the low after opening near the high."
         },
         {
@@ -109,8 +113,11 @@
       "terms": [
         { "term": "Doji", "definition": "A candle whose open and close are almost equal, showing indecision." },
         { "term": "Hammer", "definition": "A small body near the top with a long lower wick, after a decline. A possible bullish reversal." },
-        { "term": "Shooting star", "definition": "A small body near the bottom with a long upper wick, after a rise. A possible bearish reversal." },
-        { "term": "Engulfing", "definition": "A candle whose body completely covers the previous candle's body in the opposite colour." },
+        {
+          "term": "Shooting star",
+          "definition": "A small body near the bottom with a long upper wick, after a rise. A possible bearish reversal."
+        },
+        { "term": "Engulfing", "definition": "A candle whose body completely covers the previous candle's body in the opposite color." },
         { "term": "Confirmation", "definition": "Evidence from the next candle or candles that a pattern's signal is playing out." }
       ],
       "cards": [
@@ -141,10 +148,10 @@
           "options": [
             { "id": "a", "text": "Shooting star" },
             { "id": "b", "text": "Bearish engulfing" },
-            { "id": "c", "text": "Doji" },
-            { "id": "d", "text": "Hammer" }
+            { "id": "c", "text": "Hammer" },
+            { "id": "d", "text": "Doji" }
           ],
-          "answer": "d",
+          "answer": "c",
           "explanation": "The lower wick ($1.70) is far longer than the body ($0.30), which sits near the top."
         },
         {
@@ -152,12 +159,12 @@
           "kind": "mc",
           "prompt": "Day 1: Open 52, Close 50 (red). Day 2: Open 49.80, Close 52.60 (green). Which pattern is it?",
           "options": [
-            { "id": "a", "text": "Bullish engulfing" },
-            { "id": "b", "text": "Bearish engulfing" },
-            { "id": "c", "text": "Doji" },
-            { "id": "d", "text": "Hammer" }
+            { "id": "a", "text": "Shooting star" },
+            { "id": "b", "text": "Bullish engulfing" },
+            { "id": "c", "text": "Bearish engulfing" },
+            { "id": "d", "text": "Doji with long wicks" }
           ],
-          "answer": "a",
+          "answer": "b",
           "explanation": "Day 2's green body covers all of Day 1's red body."
         },
         {
@@ -166,11 +173,11 @@
           "prompt": "A candle prints Open 30.00, High 30.90, Low 29.20, Close 30.02. Which pattern is it?",
           "options": [
             { "id": "a", "text": "Hammer" },
-            { "id": "b", "text": "Long green candle" },
-            { "id": "c", "text": "Doji" },
-            { "id": "d", "text": "Gap" }
+            { "id": "b", "text": "Shooting star" },
+            { "id": "c", "text": "Long green candle" },
+            { "id": "d", "text": "Doji" }
           ],
-          "answer": "c",
+          "answer": "d",
           "explanation": "The open and close are almost equal, with wicks on both sides."
         },
         {
@@ -178,12 +185,12 @@
           "kind": "mc",
           "prompt": "You spot a hammer after a long downtrend. What is the most reasonable action?",
           "options": [
-            { "id": "a", "text": "Buy the maximum; the reversal is guaranteed" },
-            { "id": "b", "text": "Treat it as a possible reversal: wait for confirmation and plan a stop below the hammer's low" },
-            { "id": "c", "text": "Sell everything" },
-            { "id": "d", "text": "Ignore candles completely" }
+            { "id": "a", "text": "Wait for a confirming candle; plan a stop below the hammer's low" },
+            { "id": "b", "text": "Buy a full position at once, since hammers mark the bottom of most declines" },
+            { "id": "c", "text": "Sell any shares you hold, since the long lower wick shows heavy selling" },
+            { "id": "d", "text": "Ignore it, since candle patterns only matter on weekly charts" }
           ],
-          "answer": "b",
+          "answer": "a",
           "explanation": "A pattern is a clue; confirmation and a stop handle the times it fails."
         }
       ],
@@ -232,11 +239,11 @@
           "prompt": "Swing highs are $50, $54, $58; swing lows are $46, $49, $53. What is the trend?",
           "options": [
             { "id": "a", "text": "Down" },
-            { "id": "b", "text": "Up" },
-            { "id": "c", "text": "Sideways" },
+            { "id": "b", "text": "Sideways" },
+            { "id": "c", "text": "Up" },
             { "id": "d", "text": "You can't tell" }
           ],
-          "answer": "b",
+          "answer": "c",
           "explanation": "Both the highs and the lows are rising."
         },
         {
@@ -244,12 +251,12 @@
           "kind": "mc",
           "prompt": "Swing highs are $80, $76, $71; swing lows are $74, $69, $65. What is the trend?",
           "options": [
-            { "id": "a", "text": "Up" },
-            { "id": "b", "text": "Sideways" },
-            { "id": "c", "text": "A breakout" },
-            { "id": "d", "text": "Down" }
+            { "id": "a", "text": "Down" },
+            { "id": "b", "text": "Up" },
+            { "id": "c", "text": "Sideways" },
+            { "id": "d", "text": "A breakout" }
           ],
-          "answer": "d",
+          "answer": "a",
           "explanation": "Lower highs and lower lows make a downtrend."
         },
         {
@@ -257,12 +264,12 @@
           "kind": "mc",
           "prompt": "How do you draw an uptrend line?",
           "options": [
-            { "id": "a", "text": "Connect rising lows" },
-            { "id": "b", "text": "Connect the highs" },
-            { "id": "c", "text": "Draw a horizontal line at the average price" },
-            { "id": "d", "text": "Join the first close to the last close" }
+            { "id": "a", "text": "Connect the highs" },
+            { "id": "b", "text": "Draw a horizontal line at the average price" },
+            { "id": "c", "text": "Join the first close to the last close" },
+            { "id": "d", "text": "Connect rising lows" }
           ],
-          "answer": "a",
+          "answer": "d",
           "explanation": "An uptrend line runs under the rising swing lows."
         },
         {
@@ -270,12 +277,12 @@
           "kind": "mc",
           "prompt": "In an uptrend, the price closes below the trendline and the next bounce fails below the previous high. What does this suggest?",
           "options": [
-            { "id": "a", "text": "A stronger uptrend" },
-            { "id": "b", "text": "Nothing at all" },
-            { "id": "c", "text": "The trend may be weakening or reversing" },
-            { "id": "d", "text": "A guaranteed crash" }
+            { "id": "a", "text": "The uptrend is gaining strength after a brief pause" },
+            { "id": "b", "text": "The trend may be weakening or reversing" },
+            { "id": "c", "text": "A buying chance at a cheaper price" },
+            { "id": "d", "text": "A crash is coming, so sell everything at once" }
           ],
-          "answer": "c",
+          "answer": "b",
           "explanation": "A trendline break plus a lower high is a warning, not proof."
         }
       ],
@@ -314,7 +321,7 @@
         },
         {
           "title": "Using levels",
-          "body": "Buy near support with a stop just below the zone, and aim for a target near resistance. Buying Orchard Foods at $48.30 with a stop at $47.20 and a target at $51.80 risks $1.10 to make $3.50. Drag the stop and target to compare reward with risk.",
+          "body": "Buy near support with a stop just below the zone, and aim for a target near resistance. Buying Orchard Foods at $48.30 with a stop at $47.20 and a target at $51.80 risks $1.10 to make $3.50. In this game a stop-loss and a sell limit cannot cover the same shares, so split the position (part covered by the stop, part by the sell limit) or keep the stop on all of it and sell by hand at the target. Drag the stop and target to compare reward with risk.",
           "visual": "risk-reward"
         }
       ],
@@ -325,11 +332,11 @@
           "prompt": "A chart bounces near $48 on days 3, 9 and 15 and tops out near $55 on days 6 and 12. What are support and resistance?",
           "options": [
             { "id": "a", "text": "Support $55, resistance $48" },
-            { "id": "b", "text": "Support $50, resistance $52" },
-            { "id": "c", "text": "There are none" },
-            { "id": "d", "text": "Support $48, resistance $55" }
+            { "id": "b", "text": "Support $51.50, resistance $55" },
+            { "id": "c", "text": "Support $48, resistance $55" },
+            { "id": "d", "text": "There are none" }
           ],
-          "answer": "d",
+          "answer": "c",
           "explanation": "Falls stop near $48 (support); rises stall near $55 (resistance)."
         },
         {
@@ -337,12 +344,12 @@
           "kind": "mc",
           "prompt": "The price breaks above $55 on high volume, later pulls back to $55 and holds. What is $55 acting as now?",
           "options": [
-            { "id": "a", "text": "Support" },
-            { "id": "b", "text": "Resistance" },
-            { "id": "c", "text": "Nothing" },
-            { "id": "d", "text": "A gap" }
+            { "id": "a", "text": "Resistance" },
+            { "id": "b", "text": "Nothing" },
+            { "id": "c", "text": "A gap" },
+            { "id": "d", "text": "Support" }
           ],
-          "answer": "a",
+          "answer": "d",
           "explanation": "Role reversal: the old ceiling became a floor."
         },
         {
@@ -350,24 +357,24 @@
           "kind": "mc",
           "prompt": "You are buying near the $48 support zone at $48.30. Where is a sensible stop?",
           "options": [
-            { "id": "a", "text": "$48.20" },
-            { "id": "b", "text": "$40.00" },
-            { "id": "c", "text": "Just below the support zone, about $46.90" },
-            { "id": "d", "text": "No stop" }
+            { "id": "a", "text": "$48.20, as close as possible" },
+            { "id": "b", "text": "Just below the zone, about $46.90" },
+            { "id": "c", "text": "$40.00, well away from any normal wiggle" },
+            { "id": "d", "text": "Skip the stop and sell if the floor breaks on a close" }
           ],
-          "answer": "c",
+          "answer": "b",
           "explanation": "Below the zone, so normal wiggles don't hit it, but not so far that the loss is huge."
         },
         {
           "id": "q4",
           "kind": "true_false",
-          "prompt": "Support levels are exact prices that can never be broken.",
+          "prompt": "A support zone that has stopped three falls will stop the next one too.",
           "options": [
             { "id": "t", "text": "True" },
             { "id": "f", "text": "False" }
           ],
           "answer": "f",
-          "explanation": "Levels are zones, and they do break."
+          "explanation": "Levels are zones where buyers have stepped in before. They often matter, but they do break."
         }
       ],
       "practice": "ch3-l4-practice"
@@ -383,7 +390,10 @@
       ],
       "terms": [
         { "term": "Breakout", "definition": "A close beyond resistance (or below support) after a range." },
-        { "term": "False breakout", "definition": "A move beyond a level that quickly falls back into the range. Also called a bull trap." },
+        {
+          "term": "False breakout",
+          "definition": "A move beyond a level that quickly falls back into the range. An upside one is also called a bull trap."
+        },
         { "term": "Measured move", "definition": "A rough breakout target: the breakout level plus the height of the range." },
         { "term": "Average volume", "definition": "The typical number of shares traded per day, used to judge whether today is unusual." }
       ],
@@ -399,11 +409,11 @@
         },
         {
           "title": "False breakouts",
-          "body": "In a **false breakout**, or bull trap, the price pokes above resistance on weak volume or an unconfirmed rumour, then falls back into the range. Defences: wait for a **close** above the level, check the volume, and keep your stop back inside the range."
+          "body": "In a **false breakout**, or bull trap, the price pokes above resistance on weak volume or an unconfirmed rumor, then falls back into the range. Defenses: wait for a **close** above the level, check the volume, and keep your stop back inside the range."
         },
         {
           "title": "The breakout plan",
-          "body": "Enter after a confirmed close above resistance, put the stop-loss back inside the range, and set a rough target of breakout level + range height (the **measured move**). Range $40–$44: target $48. Real brokers also let you pre-place a buy stop just above resistance.",
+          "body": "Enter after a confirmed close above resistance, put the stop-loss back inside the range, and set a rough target of breakout level + range height (the **measured move**). Range $40–$44: target $48. Real brokers also let you pre-place a buy stop just above resistance; this game does not, so you buy after the close.",
           "visual": "support-resistance"
         }
       ],
@@ -413,12 +423,12 @@
           "kind": "mc",
           "prompt": "Which is the most convincing breakout?",
           "options": [
-            { "id": "a", "text": "It pokes above resistance during the day but closes below, on low volume" },
-            { "id": "b", "text": "It closes above resistance on twice the average volume" },
+            { "id": "a", "text": "It closes above resistance on twice the average volume" },
+            { "id": "b", "text": "It pokes above resistance during the day but closes below, on low volume" },
             { "id": "c", "text": "It closes above resistance on half the average volume" },
             { "id": "d", "text": "It touches resistance and stops" }
           ],
-          "answer": "b",
+          "answer": "a",
           "explanation": "A close beyond the level with strong volume is the best evidence."
         },
         {
@@ -428,10 +438,10 @@
           "options": [
             { "id": "a", "text": "A confirmed breakout" },
             { "id": "b", "text": "A breakdown" },
-            { "id": "c", "text": "A gap up" },
-            { "id": "d", "text": "A false breakout" }
+            { "id": "c", "text": "A false breakout" },
+            { "id": "d", "text": "A gap up" }
           ],
-          "answer": "d",
+          "answer": "c",
           "explanation": "It poked above $44 but closed back inside the range on low volume."
         },
         {
@@ -439,8 +449,8 @@
           "kind": "mc",
           "prompt": "Range $40–$44, breakout at $44. What is the measured-move target?",
           "options": [
-            { "id": "a", "text": "$46" },
-            { "id": "b", "text": "$44.40" },
+            { "id": "a", "text": "$44.40" },
+            { "id": "b", "text": "$46" },
             { "id": "c", "text": "$48" },
             { "id": "d", "text": "$52" }
           ],
@@ -452,10 +462,10 @@
           "kind": "mc",
           "prompt": "You bought the breakout at $44.20. Where is a logical stop?",
           "options": [
-            { "id": "a", "text": "Back inside the range, about $42.90" },
-            { "id": "b", "text": "$44.10" },
-            { "id": "c", "text": "$30.00" },
-            { "id": "d", "text": "No stop" }
+            { "id": "a", "text": "Back inside the range, near $42.90" },
+            { "id": "b", "text": "$44.10, just below your entry" },
+            { "id": "c", "text": "$30.00, so a normal pullback cannot touch it" },
+            { "id": "d", "text": "No stop; add more if it dips back to $44" }
           ],
           "answer": "a",
           "explanation": "If the price falls back into the range, the breakout has failed."

@@ -3,8 +3,8 @@
   "version": 1,
   "title": "Real or Fake?",
   "briefing": "Lumen Bikes is stuck in a range near $50. Two breakouts are coming. One is real. Check the news and the volume before you buy.",
-  "objective": "A confirmed breakout closes beyond resistance on strong volume and real news. Rumour spikes often fail.",
-  "debrief": "On day 9 an unconfirmed post about deal talks pushed Lumen Bikes above its range, and Breakout Bea bought the new high. On day 11 the company denied it and the price fell back into the range. The real breakout came on day 18: a doubled order book, a gap up on the heaviest volume of the match, and a steady climb. Buying the confirmed move with a stop back inside the range paid off.",
+  "objective": "A confirmed breakout closes beyond resistance on strong volume and real news. Rumor spikes often fail.",
+  "debrief": "On day 9 an unconfirmed post about deal talks pushed Lumen Bikes above its range, and Breakout Bea bought the new high. On day 11 the company denied it and the price fell back into the range. The real breakout came on day 18: a doubled order book, a gap up on the heaviest volume of the match, and a steady climb. Buying the confirmed move with a stop back inside the range usually paid off.",
   "difficulty": 2,
   "ticks": 30,
   "history": 20,
@@ -80,7 +80,7 @@
   ],
   "news": [
     {
-      "id": "lumb-rumour",
+      "id": "lumb-rumor",
       "tick": 9,
       "headline": "Unconfirmed post: Lumen Bikes in deal talks",
       "body": "An anonymous post claims a car maker wants to buy Lumen Bikes. There is no source.",
@@ -155,7 +155,7 @@
           "from": 9,
           "to": 11
         },
-        "text": "Don't buy the unconfirmed rumour spike (days 9-11)"
+        "text": "Don't buy the unconfirmed rumor spike (days 9-11)"
       },
       {
         "id": "m2",
@@ -172,7 +172,7 @@
         "id": "b1",
         "type": "stop_loss_set",
         "params": {},
-        "text": "Set a stop-loss back inside the old range"
+        "text": "Place a stop-loss order (aim back inside the old range)"
       },
       {
         "id": "b2",

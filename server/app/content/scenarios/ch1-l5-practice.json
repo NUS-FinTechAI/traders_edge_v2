@@ -1,10 +1,10 @@
 {
   "id": "ch1-l5-practice",
-  "version": 1,
+  "version": 2,
   "title": "Turning Tide",
   "briefing": "Kestrel Air has been flying high, but the weather can change. Remember that cash is a position too.",
   "objective": "Bull and bear markets. When prices keep falling and you can only buy, cash keeps you safe.",
-  "debrief": "Kestrel Air rose for the first 13 days. On day 13 fuel prices jumped, the Harbor 50 slid, and the airline gapped down and kept falling in a bear phase. HODL Hannah never sells, so she rode it all the way down. Players who stepped into cash soon after the turn kept most of their early gains; waiting in cash at $0 beat losing money.",
+  "debrief": "Kestrel Air rose for the first 13 days. On day 13 fuel prices jumped, the Harbor 50 slid, and the airline gapped down and kept falling in a steady downtrend. HODL Hannah never sells, so she rode it all the way down. Players who stepped into cash soon after the turn kept most of their early gains; waiting in cash at $0 beat losing money.",
   "difficulty": 1,
   "ticks": 30,
   "history": 20,
@@ -42,9 +42,9 @@
   ],
   "assets": [
     {
-      "symbol": "KSTR",
+      "symbol": "KSTL",
       "name": "Kestrel Air",
-      "sector": "Industrials",
+      "sector": "Airlines",
       "blurb": "Flies short routes between the region's island cities.",
       "price": 36,
       "drift": 0.0,
@@ -62,11 +62,11 @@
       "tone": "negative",
       "kind": "macro",
       "symbols": [
-        "KSTR"
+        "KSTL"
       ],
       "effects": [
         {
-          "symbol": "KSTR",
+          "symbol": "KSTL",
           "move": -0.05,
           "ticks": 3,
           "gap": true
@@ -91,7 +91,7 @@
         "id": "m2",
         "type": "exited_by",
         "params": {
-          "symbol": "KSTR",
+          "symbol": "KSTL",
           "tick": 20
         },
         "text": "Be out of Kestrel Air (in cash) by day 20"

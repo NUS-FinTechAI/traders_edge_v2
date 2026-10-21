@@ -1,10 +1,10 @@
 {
   "id": "ch6-l1-practice",
-  "version": 1,
+  "version": 2,
   "title": "Beat and Raise",
   "briefing": "Earnings week on the News Coast. Orchard Foods and Kestrel Air both report soon, and the event calendar shows exactly when.",
   "objective": "Judge earnings against expectations and guidance, and keep size small into a report.",
-  "debrief": "Orchard Foods beat estimates and raised its guidance on day 10: the price gapped up and kept drifting higher for days as investors adjusted. Kestrel Air missed and cut its outlook on day 18, and the gap went straight through any stop. A disciplined player kept Kestrel Air small going into its report, then bought Orchard Foods after the beat-and-raise confirmed the story.",
+  "debrief": "Orchard Foods beat estimates and raised its guidance on day 10: the price gapped up and kept drifting higher for days as investors adjusted. Kestrel Air missed and cut its outlook on day 18, and the gap went straight through any stop placed close to the price. A disciplined player kept Kestrel Air small going into its report, then bought Orchard Foods after the beat-and-raise confirmed the story.",
   "difficulty": 2,
   "ticks": 30,
   "history": 20,
@@ -50,7 +50,7 @@
       "base_volume": 20000
     },
     {
-      "symbol": "KSTR",
+      "symbol": "KSTL",
       "name": "Kestrel Air",
       "sector": "Airlines",
       "blurb": "Flies short routes between regional cities.",
@@ -71,7 +71,7 @@
       "kind": "earnings",
       "symbols": [
         "ORCF",
-        "KSTR"
+        "KSTL"
       ],
       "effects": []
     },
@@ -101,24 +101,24 @@
       ]
     },
     {
-      "id": "kstr-results",
+      "id": "kstl-results",
       "tick": 18,
       "headline": "Kestrel Air earns $0.61 a share vs $0.80 expected and cuts its outlook",
       "body": "Higher fuel costs and weaker bookings hit profit. The airline lowered its forecast for the year.",
       "tone": "negative",
       "kind": "earnings",
       "symbols": [
-        "KSTR"
+        "KSTL"
       ],
       "effects": [
         {
-          "symbol": "KSTR",
+          "symbol": "KSTL",
           "move": -0.08,
           "ticks": 1,
           "gap": true
         },
         {
-          "symbol": "KSTR",
+          "symbol": "KSTL",
           "move": -0.04,
           "ticks": 6,
           "gap": false
@@ -146,7 +146,7 @@
         "params": {
           "tick": 18,
           "pct": 15,
-          "symbol": "KSTR"
+          "symbol": "KSTL"
         },
         "text": "Hold no more than 15% in Kestrel Air going into its day-18 report"
       }

@@ -19,9 +19,10 @@
         "Name the two ways shareholders earn (or lose) money."
       ],
       "terms": [
-        { "term": "Share", "definition": "One unit of ownership in a company. Also called a stock." },
+        { "term": "Share", "definition": "One unit of ownership in a company, usually with a vote at shareholder meetings. Also called a stock." },
         { "term": "IPO", "definition": "Initial public offering: the first time a company sells its shares to the public." },
         { "term": "Dividend", "definition": "A part of a company's profit paid out to shareholders. Not guaranteed and can be cut." },
+        { "term": "Dividend yield", "definition": "Yearly dividend per share ÷ share price, as a percentage." },
         { "term": "Capital gain", "definition": "Profit from selling something for more than you paid for it." },
         { "term": "Market capitalization", "definition": "Share price × number of shares. The market's total value for a company." }
       ],
@@ -56,12 +57,12 @@
           "kind": "mc",
           "prompt": "You own 200 shares of Orchard Foods, which has 1,000,000 shares in total. What do you own?",
           "options": [
-            { "id": "a", "text": "200% of the company" },
-            { "id": "b", "text": "2% of the company" },
-            { "id": "c", "text": "0.02% of the company" },
-            { "id": "d", "text": "The right to run the company" }
+            { "id": "a", "text": "2% of the company" },
+            { "id": "b", "text": "0.02% of the company" },
+            { "id": "c", "text": "0.2% of the company" },
+            { "id": "d", "text": "0.002% of the company" }
           ],
-          "answer": "c",
+          "answer": "b",
           "explanation": "200 ÷ 1,000,000 = 0.0002, which is 0.02%."
         },
         {
@@ -80,9 +81,9 @@
           "kind": "mc",
           "prompt": "Which two are ways a shareholder can earn a return?",
           "options": [
-            { "id": "a", "text": "Commissions and fees" },
-            { "id": "b", "text": "Guaranteed interest and coupons" },
-            { "id": "c", "text": "Guaranteed dividends and refunds" },
+            { "id": "a", "text": "Interest payments and price rises" },
+            { "id": "b", "text": "A share of revenue and dividends" },
+            { "id": "c", "text": "Interest and dividends" },
             { "id": "d", "text": "Price rises and dividends" }
           ],
           "answer": "d",
@@ -93,12 +94,12 @@
           "kind": "mc",
           "prompt": "Company A: $200 per share, 2 million shares. Company B: $20 per share, 50 million shares. Which company is bigger?",
           "options": [
-            { "id": "a", "text": "Company A" },
-            { "id": "b", "text": "Company B" },
-            { "id": "c", "text": "They are the same size" },
+            { "id": "a", "text": "They are the same size" },
+            { "id": "b", "text": "Company A" },
+            { "id": "c", "text": "Company B" },
             { "id": "d", "text": "You can't tell without more information" }
           ],
-          "answer": "b",
+          "answer": "c",
           "explanation": "A is worth $400 million; B is worth $1 billion. Share price alone doesn't show size."
         }
       ],
@@ -150,9 +151,9 @@
           "prompt": "What does a broker do?",
           "options": [
             { "id": "a", "text": "Sends your orders to the market and holds your account" },
-            { "id": "b", "text": "Sets the stock price" },
-            { "id": "c", "text": "Guarantees your profits" },
-            { "id": "d", "text": "Owns the companies you buy" }
+            { "id": "b", "text": "Sets each day's share price from the company's profits" },
+            { "id": "c", "text": "Lists new companies and decides who may buy their shares" },
+            { "id": "d", "text": "Owns the companies you invest in and pays out their profits" }
           ],
           "answer": "a",
           "explanation": "The broker routes your orders and keeps your cash and shares; prices come from buyers and sellers."
@@ -162,12 +163,12 @@
           "kind": "mc",
           "prompt": "The last trade in Tidal Power was at $31.20. What is $31.20?",
           "options": [
-            { "id": "a", "text": "An official value set by regulators" },
-            { "id": "b", "text": "The price you are guaranteed on your next trade" },
-            { "id": "c", "text": "The price where the most recent buyer and seller agreed" },
-            { "id": "d", "text": "The average price over the year" }
+            { "id": "a", "text": "The value regulators have set for one Tidal Power share" },
+            { "id": "b", "text": "The price your next market buy will fill at" },
+            { "id": "c", "text": "The average price of all Tidal Power trades today" },
+            { "id": "d", "text": "The most recent price a buyer and a seller agreed on" }
           ],
-          "answer": "c",
+          "answer": "d",
           "explanation": "The last price is simply the most recent deal between a buyer and a seller."
         },
         {
@@ -187,11 +188,11 @@
           "prompt": "Day 5 closes at $40.00. After overnight news, Day 6 opens at $43.50. What is this called?",
           "options": [
             { "id": "a", "text": "A gap down" },
-            { "id": "b", "text": "A dividend" },
+            { "id": "b", "text": "A gap up" },
             { "id": "c", "text": "A stock split" },
-            { "id": "d", "text": "A gap up" }
+            { "id": "d", "text": "A dividend" }
           ],
-          "answer": "d",
+          "answer": "b",
           "explanation": "The open is well above the previous close, so the price gapped up."
         }
       ],
@@ -228,7 +229,7 @@
         },
         {
           "title": "The money rule",
-          "body": "In real life, only risk money you could lose without hurting essentials like rent, food or emergency savings. Large studies of day traders find that most lose money over time. That is why you practise here with simulated cash."
+          "body": "In real life, only risk money you could lose without hurting essentials like rent, food or emergency savings. Large studies of day traders find that most lose money over time. That is why you practice here with simulated cash."
         },
         {
           "title": "Your game plan",
@@ -241,12 +242,12 @@
           "kind": "mc",
           "prompt": "Maya buys Kestrel Air shares to hold for 10 years because she expects the airline to grow. This is:",
           "options": [
-            { "id": "a", "text": "Day trading" },
-            { "id": "b", "text": "Investing" },
-            { "id": "c", "text": "Gambling" },
-            { "id": "d", "text": "Short selling" }
+            { "id": "a", "text": "Trading" },
+            { "id": "b", "text": "Gambling" },
+            { "id": "c", "text": "Speculating" },
+            { "id": "d", "text": "Investing" }
           ],
-          "answer": "b",
+          "answer": "d",
           "explanation": "A reason and a time frame of years make it investing."
         },
         {
@@ -254,12 +255,12 @@
           "kind": "mc",
           "prompt": "Which is most like gambling?",
           "options": [
-            { "id": "a", "text": "Buying because a stranger online says \"to the moon!\", with no exit plan" },
-            { "id": "b", "text": "Buying after research, with an exit plan" },
-            { "id": "c", "text": "Holding a diversified fund for retirement" },
-            { "id": "d", "text": "Selling when your planned stop is hit" }
+            { "id": "a", "text": "Buying after your own research, with a stop-loss and a planned exit" },
+            { "id": "b", "text": "Holding a diversified fund for retirement" },
+            { "id": "c", "text": "Buying on a stranger's \"to the moon!\" post, with no exit plan" },
+            { "id": "d", "text": "Selling a stock when the price reaches the stop you planned in advance" }
           ],
-          "answer": "a",
+          "answer": "c",
           "explanation": "There is no reason of your own and no exit."
         },
         {
@@ -278,12 +279,12 @@
           "kind": "mc",
           "prompt": "In real life, which money is suitable for risky short-term trading?",
           "options": [
-            { "id": "a", "text": "Next month's rent" },
-            { "id": "b", "text": "Emergency savings" },
-            { "id": "c", "text": "Money you could lose without affecting essentials" },
-            { "id": "d", "text": "A credit-card cash advance" }
+            { "id": "a", "text": "Money you could lose without affecting essentials" },
+            { "id": "b", "text": "Next month's rent, if you expect to win it back quickly" },
+            { "id": "c", "text": "Emergency savings, with a stop-loss" },
+            { "id": "d", "text": "A credit-card cash advance you repay from your next paycheck" }
           ],
-          "answer": "c",
+          "answer": "a",
           "explanation": "Only risk money whose loss would not hurt your essentials."
         }
       ],
@@ -309,11 +310,11 @@
       "cards": [
         {
           "title": "Profit and loss",
-          "body": "**P/L = (sell price − buy price) × shares − fees.** Buy 20 Orchard Foods shares at $50, sell at $56, and pay $10 in fees: (6 × 20) − 10 = **$110** profit."
+          "body": "**P/L = (sell price − buy price) × shares − fees.** Buy 20 Orchard Foods shares at $50, sell at $56, and pay about $2 in fees (this game's 0.1%, minimum $1, on each side): (6 × 20) − 2 = **$118** profit."
         },
         {
           "title": "Percent return",
-          "body": "**Return % = P/L ÷ amount invested.** That trade invested 20 × $50 = $1,000, so $110 ÷ $1,000 = **11%**. Percentages let you compare trades of different sizes: $110 on $1,000 is a better result than $150 on $5,000 (3%)."
+          "body": "**Return % = P/L ÷ amount invested.** That trade invested 20 × $50 = $1,000, so $118 ÷ $1,000 = **11.8%**. Percentages compare trades of different sizes: $118 on $1,000 is a better return than $150 on $5,000 (3%). Matches, though, are ranked by dollar profit."
         },
         {
           "title": "Paper versus real",
@@ -332,28 +333,28 @@
         {
           "id": "q1",
           "kind": "mc",
-          "prompt": "You buy 50 shares at $20 and sell them at $23. Total fees are $10. What is your P/L?",
+          "prompt": "You buy 50 shares at $20 and sell them at $23. Total fees are $2. What is your P/L?",
           "options": [
             { "id": "a", "text": "$150" },
-            { "id": "b", "text": "$160" },
-            { "id": "c", "text": "$1,150" },
-            { "id": "d", "text": "$140" }
+            { "id": "b", "text": "$152" },
+            { "id": "c", "text": "$1,148" },
+            { "id": "d", "text": "$148" }
           ],
           "answer": "d",
-          "explanation": "$3 × 50 = $150, minus $10 in fees = $140."
+          "explanation": "$3 × 50 = $150, minus $2 in fees = $148."
         },
         {
           "id": "q2",
           "kind": "mc",
           "prompt": "That trade invested $1,000 (50 × $20). What is its percent return?",
           "options": [
-            { "id": "a", "text": "14%" },
-            { "id": "b", "text": "15%" },
-            { "id": "c", "text": "1.4%" },
+            { "id": "a", "text": "15%" },
+            { "id": "b", "text": "14.8%" },
+            { "id": "c", "text": "1.48%" },
             { "id": "d", "text": "23%" }
           ],
-          "answer": "a",
-          "explanation": "$140 ÷ $1,000 = 0.14 = 14%."
+          "answer": "b",
+          "explanation": "$148 ÷ $1,000 = 0.148 = 14.8%."
         },
         {
           "id": "q3",
@@ -361,11 +362,11 @@
           "prompt": "You hold 30 shares bought at $40. The price is now $35 and you haven't sold. Which is true?",
           "options": [
             { "id": "a", "text": "You have a realized loss of $150" },
-            { "id": "b", "text": "You have an unrealized loss of $150" },
-            { "id": "c", "text": "You have an unrealized gain of $150" },
+            { "id": "b", "text": "You have an unrealized gain of $150" },
+            { "id": "c", "text": "You have an unrealized loss of $150" },
             { "id": "d", "text": "You have $0 P/L because nothing counts until you sell" }
           ],
-          "answer": "b",
+          "answer": "c",
           "explanation": "30 × $5 = $150 paper loss. Selling now would realize it."
         },
         {
@@ -373,12 +374,12 @@
           "kind": "mc",
           "prompt": "A match ends with $6,200 cash and 80 shares closing at $50. You started with $10,000. What is your profit?",
           "options": [
-            { "id": "a", "text": "−$3,800" },
-            { "id": "b", "text": "+$4,000" },
-            { "id": "c", "text": "+$200" },
-            { "id": "d", "text": "+$10,200" }
+            { "id": "a", "text": "+$200" },
+            { "id": "b", "text": "+$10,200" },
+            { "id": "c", "text": "−$3,800" },
+            { "id": "d", "text": "+$4,000" }
           ],
-          "answer": "c",
+          "answer": "a",
           "explanation": "$6,200 + 80 × $50 = $10,200; minus $10,000 = +$200."
         },
         {
@@ -386,12 +387,12 @@
           "kind": "mc",
           "prompt": "You buy 10 Orchard Foods shares at $42.50. Three days later it closes at $44.10. What is your unrealized P/L before fees?",
           "options": [
-            { "id": "a", "text": "+$16.00" },
-            { "id": "b", "text": "+$1.60" },
-            { "id": "c", "text": "+$160.00" },
-            { "id": "d", "text": "+$441.00" }
+            { "id": "a", "text": "+$1.60" },
+            { "id": "b", "text": "+$160.00" },
+            { "id": "c", "text": "+$441.00" },
+            { "id": "d", "text": "+$16.00" }
           ],
-          "answer": "a",
+          "answer": "d",
           "explanation": "($44.10 − $42.50) × 10 = $1.60 × 10 = $16.00."
         }
       ],
@@ -442,11 +443,11 @@
           "prompt": "The Harbor 50 index falls from 4,000 to 3,100 over several months. What is the best description?",
           "options": [
             { "id": "a", "text": "A bull market" },
-            { "id": "b", "text": "A bear market" },
-            { "id": "c", "text": "A normal day" },
+            { "id": "b", "text": "A short-term dip" },
+            { "id": "c", "text": "A bear market" },
             { "id": "d", "text": "A sideways market" }
           ],
-          "answer": "b",
+          "answer": "c",
           "explanation": "900 ÷ 4,000 = a 22.5% fall, past the usual 20% bear-market line."
         },
         {
@@ -454,12 +455,12 @@
           "kind": "mc",
           "prompt": "Over 20 days, Stock A moves within ±0.5% a day and Stock B moves about ±4% a day. Which is more volatile?",
           "options": [
-            { "id": "a", "text": "Stock A" },
-            { "id": "b", "text": "They are equally volatile" },
-            { "id": "c", "text": "You can't tell" },
-            { "id": "d", "text": "Stock B" }
+            { "id": "a", "text": "Stock B" },
+            { "id": "b", "text": "Stock A" },
+            { "id": "c", "text": "They are equally volatile" },
+            { "id": "d", "text": "You can't tell from daily moves" }
           ],
-          "answer": "d",
+          "answer": "a",
           "explanation": "Stock B's daily swings are eight times bigger."
         },
         {
@@ -478,12 +479,12 @@
           "kind": "mc",
           "prompt": "You can only buy and then sell, and the market is in a steady downtrend. Which choice avoids losses from it?",
           "options": [
-            { "id": "a", "text": "Buy more each day" },
-            { "id": "b", "text": "Buy the most volatile stock" },
-            { "id": "c", "text": "Hold cash and wait for signs of a turn" },
-            { "id": "d", "text": "Trade every day to win it back" }
+            { "id": "a", "text": "Buy more each day as it falls" },
+            { "id": "b", "text": "Hold cash and wait for signs of a turn" },
+            { "id": "c", "text": "Buy the stock that has fallen the most, since it is cheapest" },
+            { "id": "d", "text": "Buy and sell quickly each day to catch the small bounces" }
           ],
-          "answer": "c",
+          "answer": "b",
           "explanation": "Cash keeps you at $0 while prices fall."
         },
         {
@@ -491,12 +492,12 @@
           "kind": "mc",
           "prompt": "A stock rose steadily for 10 days, dropped 3% on one day with no news, then kept rising. That drop was most likely:",
           "options": [
-            { "id": "a", "text": "Normal noise within an uptrend" },
-            { "id": "b", "text": "The start of a crash" },
-            { "id": "c", "text": "A bear market" },
-            { "id": "d", "text": "A stock split" }
+            { "id": "a", "text": "The start of a new downtrend" },
+            { "id": "b", "text": "A signal to sell before the price falls further" },
+            { "id": "c", "text": "Normal noise within an uptrend" },
+            { "id": "d", "text": "A warning that the company's profits are falling" }
           ],
-          "answer": "a",
+          "answer": "c",
           "explanation": "One small dip with no news inside a steady trend is usually noise."
         }
       ],

@@ -2,9 +2,9 @@
   "id": "ch3-l2-practice",
   "version": 1,
   "title": "Confirm the Turn",
-  "briefing": "Tidal Power keeps making lower lows. A bounce will tempt you. Wait for the next candles to confirm before you buy.",
-  "objective": "Reversal patterns are clues, not promises. Wait for confirmation.",
-  "debrief": "Tidal Power fell steadily. A bounce on day 6, fuelled by takeover chatter, looked like a turn but failed, and the lower lows continued. Value Vera bought after red candles and kept catching the fall. The real turn came on day 13, when the regulator approved a rate rise and higher closes followed. Waiting for that confirmation avoided the falling knife.",
+  "briefing": "Tidal Power keeps making lower lows, and a bounce will tempt you. This chart will not hand you a textbook hammer or engulfing candle, so judge the turn the way the lesson says: wait for higher closes to confirm it before you buy.",
+  "objective": "Reversal signals are clues, not promises. Wait for the next candles to confirm a turn.",
+  "debrief": "Tidal Power fell steadily. A bounce on day 6, fueled by takeover chatter, looked like a turn but failed, and the lower lows continued. Value Vera bought after red candles and kept catching the fall. The real turn came on day 13, when the regulator approved higher electricity prices and higher closes followed. Waiting for that confirmation avoided the falling knife.",
   "difficulty": 2,
   "ticks": 30,
   "history": 20,
@@ -77,7 +77,7 @@
     {
       "id": "tdlp-rates",
       "tick": 13,
-      "headline": "Regulator approves Tidal Power's rate rise",
+      "headline": "Regulator approves a 6% rise in Tidal Power's electricity prices",
       "body": "Tidal Power can raise the price it charges for electricity by 6% from next month.",
       "tone": "positive",
       "kind": "company",
@@ -114,7 +114,7 @@
         "params": {
           "n": 1
         },
-        "text": "Buy once the turn is confirmed"
+        "text": "Buy after the downtrend ends (from day 13)"
       }
     ],
     "bonus": [

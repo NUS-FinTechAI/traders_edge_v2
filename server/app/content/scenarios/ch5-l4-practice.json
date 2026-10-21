@@ -1,8 +1,8 @@
 {
   "id": "ch5-l4-practice",
-  "version": 1,
+  "version": 2,
   "title": "Momentum Turns",
-  "briefing": "Kestrel Air has been flying higher for weeks. Watch the MACD histogram: it often shrinks before the price itself turns.",
+  "briefing": "Kestrel Air has been flying higher for weeks. Watch the MACD histogram: it often shrinks before the price itself turns. Plan to sell on the MACD signal, not on a headline.",
   "objective": "Read MACD momentum: building, fading and crossing below its signal line.",
   "debrief": "Kestrel Air rallied for the first two weeks while the MACD histogram grew. From about day 15 the price stalled and the histogram shrank toward zero; MACD then crossed below its signal line before the fuel-price jump on day 22 pushed the stock into a slide. A disciplined player held the rally and sold when momentum turned, instead of waiting for the bad news.",
   "difficulty": 2,
@@ -52,7 +52,7 @@
   ],
   "assets": [
     {
-      "symbol": "KSTR",
+      "symbol": "KSTL",
       "name": "Kestrel Air",
       "sector": "Airlines",
       "blurb": "Flies short routes between regional cities.",
@@ -72,11 +72,11 @@
       "tone": "negative",
       "kind": "macro",
       "symbols": [
-        "KSTR"
+        "KSTL"
       ],
       "effects": [
         {
-          "symbol": "KSTR",
+          "symbol": "KSTL",
           "move": -0.04,
           "ticks": 3,
           "gap": false
@@ -93,7 +93,7 @@
         "id": "ride-rally",
         "type": "held_between",
         "params": {
-          "symbol": "KSTR",
+          "symbol": "KSTL",
           "from": 3,
           "to": 12
         },
@@ -103,10 +103,10 @@
         "id": "exit-turn",
         "type": "exited_by",
         "params": {
-          "symbol": "KSTR",
+          "symbol": "KSTL",
           "tick": 24
         },
-        "text": "Be out of Kestrel Air by day 24, after momentum turns down"
+        "text": "Be out of Kestrel Air by day 24 (sell when MACD crosses below its signal line)"
       }
     ],
     "bonus": [

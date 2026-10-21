@@ -4,7 +4,7 @@
   "title": "Process Review",
   "briefing": "Two stocks, one surprise you cannot predict. Size every position so that no single bad day can sink you, and use stops.",
   "objective": "Judge decisions by process: sensible size and stops protect you from outcomes you cannot foresee.",
-  "debrief": "Lumen Bikes climbed steadily all match. On day 18, Meadow Pharma's drug trial failed without warning and the stock gapped down 15% overnight, straight through any stop. Nobody could have known. Players who had capped each position and used stops took a bruise; anyone with most of their money in Meadow took a serious loss. Good process could not prevent the bad news, but it decided how much it cost.",
+  "debrief": "Lumen Bikes climbed steadily all match. On day 18, Meadow Pharma's drug trial failed without warning and the stock gapped down 15% overnight, straight through any stop placed within 15% of the price. Nobody could have known. Players who had capped each position and used stops took a bruise; anyone with most of their money in Meadow took a serious loss. Good process could not prevent the bad news, but it decided how much it cost.",
   "difficulty": 3,
   "ticks": 30,
   "history": 20,
@@ -97,15 +97,15 @@
         "id": "stop",
         "type": "stop_loss_set",
         "params": {},
-        "text": "Protect a position with a stop-loss"
+        "text": "Place a stop-loss order"
       },
       {
         "id": "cap",
         "type": "max_position",
         "params": {
-          "pct": 50
+          "pct": 25
         },
-        "text": "Never put more than 50% of your portfolio in one stock"
+        "text": "Keep every position at or under 25% of your portfolio"
       }
     ],
     "bonus": [

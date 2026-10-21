@@ -38,7 +38,7 @@
     {
       "symbol": "MDWP",
       "name": "Meadow Pharma",
-      "sector": "Health care",
+      "sector": "Pharmaceuticals",
       "blurb": "Develops medicines for heart and lung conditions.",
       "price": 64,
       "drift": 0.003,

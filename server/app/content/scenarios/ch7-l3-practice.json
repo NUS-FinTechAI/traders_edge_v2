@@ -1,6 +1,6 @@
 {
   "id": "ch7-l3-practice",
-  "version": 1,
+  "version": 2,
   "title": "Base and Break",
   "briefing": "Kestrel Air has been stuck between about $36 and $40 for a month. Breakouts are coming, but not every move above $40 will be real.",
   "objective": "Breakout trading: wait for a close above the base on strong volume, and keep the stop inside the base.",
@@ -39,7 +39,7 @@
   ],
   "assets": [
     {
-      "symbol": "KSTR",
+      "symbol": "KSTL",
       "name": "Kestrel Air",
       "sector": "Airlines",
       "blurb": "Flies short routes between regional cities.",
@@ -52,18 +52,18 @@
   ],
   "news": [
     {
-      "id": "kstr-chatter",
+      "id": "kstl-chatter",
       "tick": 10,
       "headline": "Kestrel Air edges up on travel-demand chatter",
       "body": "Online travel forums say summer bookings look busy. The airline has not commented.",
       "tone": "neutral",
       "kind": "rumor",
       "symbols": [
-        "KSTR"
+        "KSTL"
       ],
       "effects": [
         {
-          "symbol": "KSTR",
+          "symbol": "KSTL",
           "move": 0.045,
           "ticks": 3,
           "gap": false
@@ -71,18 +71,18 @@
       ]
     },
     {
-      "id": "kstr-chatter-fades",
+      "id": "kstl-chatter-fades",
       "tick": 13,
       "headline": "No new routes announced; Kestrel Air drifts back",
       "body": "The airline's monthly update contained no surprises.",
       "tone": "neutral",
       "kind": "company",
       "symbols": [
-        "KSTR"
+        "KSTL"
       ],
       "effects": [
         {
-          "symbol": "KSTR",
+          "symbol": "KSTL",
           "move": -0.06,
           "ticks": 3,
           "gap": false
@@ -90,24 +90,24 @@
       ]
     },
     {
-      "id": "kstr-breakout",
+      "id": "kstl-breakout",
       "tick": 20,
       "headline": "Kestrel Air reports record bookings and adds 12 routes",
       "body": "Advance bookings are up 25% on last year. The new routes start next month.",
       "tone": "positive",
       "kind": "company",
       "symbols": [
-        "KSTR"
+        "KSTL"
       ],
       "effects": [
         {
-          "symbol": "KSTR",
+          "symbol": "KSTL",
           "move": 0.06,
           "ticks": 1,
           "gap": true
         },
         {
-          "symbol": "KSTR",
+          "symbol": "KSTL",
           "move": 0.08,
           "ticks": 10,
           "gap": false
@@ -124,7 +124,7 @@
         "id": "buy-break",
         "type": "bought_after_news",
         "params": {
-          "news_id": "kstr-breakout",
+          "news_id": "kstl-breakout",
           "within": 2
         },
         "text": "Buy Kestrel Air within 2 days of the high-volume breakout"
@@ -133,7 +133,7 @@
         "id": "stop",
         "type": "stop_loss_set",
         "params": {},
-        "text": "Keep a stop-loss back inside the base"
+        "text": "Place a stop-loss order (aim back inside the base)"
       }
     ],
     "bonus": [

@@ -2,7 +2,7 @@
   "id": "ch5-l3-practice",
   "version": 1,
   "title": "Overbought, Still Climbing",
-  "briefing": "Pebble Games is climbing hard and its RSI is pinned above 70. Tidal Power drifts sideways. Same indicator, two very different markets.",
+  "briefing": "Pebble Games is climbing hard and its RSI is pinned above 70. Tidal Power drifts sideways. Same indicator, two very different markets: hold the trend, and use RSI near 30 and 70 only on the range.",
   "objective": "RSI 30/70 works in a range, but a strong trend can stay overbought.",
   "debrief": "Pebble Games' RSI sat above 70 for most of the match while the price kept rising; anyone who sold just because it read \"overbought\" left most of the trend behind. Tidal Power stayed in a range, and its RSI lows after the calm-wind week (day 3) and the slow repairs (day 16) lined up with the bottom of that range. A disciplined player held the trend and used RSI only on the range stock.",
   "difficulty": 2,
@@ -181,7 +181,7 @@
           "news_id": "tdlp-repairs",
           "within": 3
         },
-        "text": "Buy Tidal Power near the range low (within 3 days of the day-16 headline)"
+        "text": "Buy Tidal Power at the range low, days 16 to 19 (watch for RSI near 30)"
       }
     ],
     "bonus": [
@@ -192,7 +192,7 @@
           "news_id": "tdlp-back-online",
           "within": 3
         },
-        "text": "Sell Tidal Power near the range high (within 3 days of the day-23 headline)"
+        "text": "Sell Tidal Power at the range high, days 23 to 26 (watch for RSI near 70)"
       },
       {
         "id": "profit",

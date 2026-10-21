@@ -164,7 +164,7 @@
         "id": "stop",
         "type": "stop_loss_set",
         "params": {},
-        "text": "Protect your entry with a stop-loss"
+        "text": "Place a stop-loss order to protect your entry"
       },
       {
         "id": "beat-pete",

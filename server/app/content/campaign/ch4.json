@@ -54,11 +54,11 @@
           "prompt": "Your account is $10,000 and you risk 1% per trade. You buy at $50 with a stop at $48. How many shares?",
           "options": [
             { "id": "a", "text": "20" },
-            { "id": "b", "text": "100" },
-            { "id": "c", "text": "50" },
+            { "id": "b", "text": "50" },
+            { "id": "c", "text": "100" },
             { "id": "d", "text": "200" }
           ],
-          "answer": "c",
+          "answer": "b",
           "explanation": "1% of $10,000 = $100; $100 ÷ $2 stop distance = 50 shares."
         },
         {
@@ -67,9 +67,9 @@
           "prompt": "Starting with $10,000, you lose ten trades in a row. Roughly what is left if each loss is 1% of your balance, compared with 10% each?",
           "options": [
             { "id": "a", "text": "About $9,040 compared with about $3,490" },
-            { "id": "b", "text": "$9,000 compared with $0" },
-            { "id": "c", "text": "$9,900 compared with $9,000" },
-            { "id": "d", "text": "The same amount either way" }
+            { "id": "b", "text": "About $9,900 compared with roughly $9,000" },
+            { "id": "c", "text": "About $9,000 compared with about $1,000" },
+            { "id": "d", "text": "About $9,000 compared with about $0" }
           ],
           "answer": "a",
           "explanation": "$10,000 × 0.99¹⁰ ≈ $9,044; $10,000 × 0.90¹⁰ ≈ $3,487."
@@ -90,18 +90,18 @@
           "kind": "mc",
           "prompt": "You buy 200 Tidal Power shares at $30 with a stop at $28.50, in a $10,000 account. What is your risk if stopped, ignoring fees and gaps?",
           "options": [
-            { "id": "a", "text": "$150, which is 1.5%" },
-            { "id": "b", "text": "$6,000, which is 60%" },
-            { "id": "c", "text": "$28.50" },
-            { "id": "d", "text": "$300, which is 3%" }
+            { "id": "a", "text": "$6,000, which is 60%" },
+            { "id": "b", "text": "$5,700, which is 57%" },
+            { "id": "c", "text": "$300, which is 3%" },
+            { "id": "d", "text": "$150, which is 1.5%" }
           ],
-          "answer": "d",
+          "answer": "c",
           "explanation": "200 × $1.50 = $300, which is 3% of $10,000."
         },
         {
           "id": "q5",
           "kind": "mc",
-          "prompt": "The 1% rule says to buy 400 shares of a $40 stock, but you have $10,000 in cash. What is the most you can buy, ignoring fees?",
+          "prompt": "The 1% rule says to buy 400 shares of a $40 stock, but you have $10,000 in cash. What is the most you can buy, ignoring fees and the spread?",
           "options": [
             { "id": "a", "text": "400" },
             { "id": "b", "text": "250" },
@@ -145,7 +145,7 @@
         },
         {
           "title": "Trailing stops",
-          "body": "As a trade moves your way, raise the stop: to breakeven once you're well ahead, then below each new higher low. A trailing stop follows the price up and never moves down. In this game you trail by cancelling the old stop and placing a higher one.",
+          "body": "As a trade moves your way, raise the stop: to breakeven once you're well ahead, then below each new higher low. A trailing stop follows the price up and never moves down. In this game you trail by canceling the old stop and placing a higher one.",
           "visual": "trend-lines"
         },
         {
@@ -159,12 +159,12 @@
           "kind": "mc",
           "prompt": "Lumen Bikes is at $50. It usually moves about $2 a day, and its last swing low was $47.20. Where is the best stop?",
           "options": [
-            { "id": "a", "text": "$49.70" },
-            { "id": "b", "text": "$35.00" },
-            { "id": "c", "text": "About $46.90, just below the swing low" },
-            { "id": "d", "text": "No stop" }
+            { "id": "a", "text": "$49.70, to keep the risk small" },
+            { "id": "b", "text": "$35.00, so that no normal move can reach it" },
+            { "id": "c", "text": "$48.00, exactly one daily move below $50" },
+            { "id": "d", "text": "About $46.90, just below the swing low" }
           ],
-          "answer": "c",
+          "answer": "d",
           "explanation": "It sits beyond structure and outside one normal day's move."
         },
         {
@@ -172,10 +172,10 @@
           "kind": "mc",
           "prompt": "You bought Orchard Foods at $40 with a stop at $38. It is now $44. You raise the stop to $40. What does that do?",
           "options": [
-            { "id": "a", "text": "Your worst case is now about breakeven, unless the price gaps through" },
-            { "id": "b", "text": "The trade can no longer lose money under any circumstances" },
-            { "id": "c", "text": "You have locked in $4 per share" },
-            { "id": "d", "text": "You have doubled your risk" }
+            { "id": "a", "text": "Your worst case is about breakeven, barring a gap" },
+            { "id": "b", "text": "The trade can no longer lose money in any situation" },
+            { "id": "c", "text": "You have locked in a $4 profit on every share" },
+            { "id": "d", "text": "You have doubled your risk, because the stop is closer to the price" }
           ],
           "answer": "a",
           "explanation": "A stop at entry protects against loss in normal trading, but gaps and fees still apply."
@@ -187,10 +187,10 @@
           "options": [
             { "id": "a", "text": "$46.00" },
             { "id": "b", "text": "$52.00" },
-            { "id": "c", "text": "$60.00" },
-            { "id": "d", "text": "$55.20" }
+            { "id": "c", "text": "$55.20" },
+            { "id": "d", "text": "$60.00" }
           ],
-          "answer": "d",
+          "answer": "c",
           "explanation": "8% below $60 is $60 × 0.92 = $55.20."
         },
         {
@@ -199,17 +199,17 @@
           "prompt": "The price is falling and is now $0.30 above your stop. Which response follows the rules?",
           "options": [
             { "id": "a", "text": "Lower the stop to give the trade more room" },
-            { "id": "b", "text": "Leave the stop where it is" },
-            { "id": "c", "text": "Cancel the stop" },
-            { "id": "d", "text": "Buy more to lower your average price" }
+            { "id": "b", "text": "Cancel the stop" },
+            { "id": "c", "text": "Buy more to lower your average price" },
+            { "id": "d", "text": "Leave the stop where it is" }
           ],
-          "answer": "b",
+          "answer": "d",
           "explanation": "The stop was set where the idea is wrong; moving it away turns a small loss into a big one."
         },
         {
           "id": "q5",
           "kind": "true_false",
-          "prompt": "Once a trade moves in your favour, raising your stop is fine, but lowering it is not.",
+          "prompt": "Once a trade moves in your favor, raising your stop is fine, but lowering it is not.",
           "options": [
             { "id": "t", "text": "True" },
             { "id": "f", "text": "False" }
@@ -226,7 +226,7 @@
       "summary": "Measure trades in R, know the win rate you need, and skip trades that don't pay.",
       "objectives": [
         "Express trades in R-multiples and reward-to-risk ratios.",
-        "Calculate the breakeven win rate, 1 ÷ (1 + R).",
+        "Calculate the breakeven win rate, 1 ÷ (1 + reward-to-risk).",
         "Compute expectancy and skip trades with poor reward-to-risk."
       ],
       "terms": [
@@ -248,7 +248,7 @@
         },
         {
           "title": "Breakeven win rate",
-          "body": "If each win pays R times what each loss costs, you break even, before costs, when you win **1 ÷ (1 + R)** of the time. At 1:1 you need 50%. At 2:1 you need 33.3%. At 3:1 you need 25%."
+          "body": "If each win pays **W** times what each loss costs (a W:1 reward-to-risk), you break even, before costs, when you win **1 ÷ (1 + W)** of the time. At 1:1 you need 50%. At 2:1 you need 33.3%. At 3:1 you need 25%."
         },
         {
           "title": "Expectancy",
@@ -256,7 +256,7 @@
         },
         {
           "title": "Skip weak setups",
-          "body": "If your target is closer than your stop, below 1:1, you must be right more than half the time just to break even. Passing on a trade is a decision too. The best traders skip many more setups than they take."
+          "body": "If your target is closer than your stop, below 1:1, you must be right more than half the time just to break even. Passing on a trade is a decision too. Experienced traders often pass on many more setups than they take."
         }
       ],
       "check": [
@@ -265,12 +265,12 @@
           "kind": "mc",
           "prompt": "Entry $40, stop $38, target $46. What is the reward-to-risk ratio?",
           "options": [
-            { "id": "a", "text": "1:3" },
-            { "id": "b", "text": "2:1" },
-            { "id": "c", "text": "3:1" },
-            { "id": "d", "text": "6:1" }
+            { "id": "a", "text": "6:1" },
+            { "id": "b", "text": "3:1" },
+            { "id": "c", "text": "2:1" },
+            { "id": "d", "text": "1:3" }
           ],
-          "answer": "c",
+          "answer": "b",
           "explanation": "Reward $6 ÷ risk $2 = 3:1."
         },
         {
@@ -278,12 +278,12 @@
           "kind": "mc",
           "prompt": "Every trade in your system aims for 2:1. What win rate do you need to break even, before costs?",
           "options": [
-            { "id": "a", "text": "50%" },
-            { "id": "b", "text": "33.3%" },
-            { "id": "c", "text": "66.7%" },
+            { "id": "a", "text": "66.7%" },
+            { "id": "b", "text": "50%" },
+            { "id": "c", "text": "33.3%" },
             { "id": "d", "text": "20%" }
           ],
-          "answer": "b",
+          "answer": "c",
           "explanation": "1 ÷ (1 + 2) = 33.3%."
         },
         {
@@ -291,12 +291,12 @@
           "kind": "mc",
           "prompt": "You win 50% of trades with an average win of 1.5R and lose 50% with an average loss of 1R. What is your expectancy?",
           "options": [
-            { "id": "a", "text": "+0.25R per trade" },
-            { "id": "b", "text": "+0.5R per trade" },
-            { "id": "c", "text": "−0.25R per trade" },
+            { "id": "a", "text": "−0.25R per trade" },
+            { "id": "b", "text": "+0.25R per trade" },
+            { "id": "c", "text": "+0.5R per trade" },
             { "id": "d", "text": "+1.25R per trade" }
           ],
-          "answer": "a",
+          "answer": "b",
           "explanation": "0.5 × 1.5 − 0.5 × 1 = 0.75 − 0.5 = +0.25R."
         },
         {
@@ -304,10 +304,10 @@
           "kind": "mc",
           "prompt": "A setup has entry $30, stop $27 and target $31.50. What is the best response?",
           "options": [
-            { "id": "a", "text": "Take it; any trade with a stop is fine" },
-            { "id": "b", "text": "Remove the stop to improve the ratio" },
-            { "id": "c", "text": "Double the size to make the reward bigger" },
-            { "id": "d", "text": "Skip it or find a better entry; at 0.5:1 it must win over 66.7% of the time to break even" }
+            { "id": "a", "text": "Take it, because any trade that has a stop-loss is a sound trade" },
+            { "id": "b", "text": "Take it at double size so that the small reward is worth the effort" },
+            { "id": "c", "text": "Move the stop up to $29.50 so the ratio becomes 3:1" },
+            { "id": "d", "text": "Skip it or find a better entry; at 0.5:1 it needs over 66.7% wins" }
           ],
           "answer": "d",
           "explanation": "Reward $1.50 ÷ risk $3 = 0.5, and 1 ÷ 1.5 = 66.7%."
@@ -372,25 +372,25 @@
           "kind": "mc",
           "prompt": "Which pair is most likely to move together?",
           "options": [
-            { "id": "a", "text": "Kestrel Air and Harborline Shipping (both burn lots of fuel)" },
-            { "id": "b", "text": "Orchard Foods and Pebble Games" },
-            { "id": "c", "text": "Tidal Power and Pebble Games" },
-            { "id": "d", "text": "Meadow Pharma and Lumen Bikes" }
+            { "id": "a", "text": "Kestrel Air (airline) and Harborline Shipping (shipping)" },
+            { "id": "b", "text": "Orchard Foods (grocery chain) and Pebble Games (video games)" },
+            { "id": "c", "text": "Tidal Power (utility) and Pebble Games (video games)" },
+            { "id": "d", "text": "Meadow Pharma (medicines) and Lumen Bikes (e-bikes)" }
           ],
           "answer": "a",
-          "explanation": "They share a big cost driver, so the same news hits both."
+          "explanation": "An airline and a shipping line both burn a lot of fuel, so the same fuel news hits both."
         },
         {
           "id": "q2",
           "kind": "mc",
           "prompt": "Your $12,000 portfolio holds $6,000 of Nimbus Cloud, $3,000 of Orchard Foods and $3,000 in cash. What percentage is Nimbus Cloud?",
           "options": [
-            { "id": "a", "text": "25%" },
-            { "id": "b", "text": "50%" },
-            { "id": "c", "text": "60%" },
-            { "id": "d", "text": "100%" }
+            { "id": "a", "text": "100%" },
+            { "id": "b", "text": "60%" },
+            { "id": "c", "text": "50%" },
+            { "id": "d", "text": "25%" }
           ],
-          "answer": "b",
+          "answer": "c",
           "explanation": "$6,000 ÷ $12,000 = 50%. Cash counts as part of the portfolio."
         },
         {
@@ -398,12 +398,12 @@
           "kind": "mc",
           "prompt": "You hold $2,500 in each of four stocks. One falls 40% and the others don't move. What happens to your $10,000 portfolio?",
           "options": [
-            { "id": "a", "text": "It falls 40%" },
-            { "id": "b", "text": "It falls $4,000" },
-            { "id": "c", "text": "It falls $1,000, which is 10%" },
-            { "id": "d", "text": "It falls $400, which is 4%" }
+            { "id": "a", "text": "It falls 40%, the same as the stock" },
+            { "id": "b", "text": "It falls $4,000, since 40% of $10,000 is $4,000" },
+            { "id": "c", "text": "It falls $400, which is 4%" },
+            { "id": "d", "text": "It falls $1,000, which is 10%" }
           ],
-          "answer": "c",
+          "answer": "d",
           "explanation": "40% of $2,500 = $1,000, which is 10% of $10,000."
         },
         {
@@ -422,12 +422,12 @@
           "kind": "mc",
           "prompt": "Which choice reduces company-specific risk the most?",
           "options": [
-            { "id": "a", "text": "Owning four different airlines" },
-            { "id": "b", "text": "Putting everything in the one company you know best" },
-            { "id": "c", "text": "Adding more to whichever stock has risen most" },
-            { "id": "d", "text": "Splitting across unrelated sectors, such as groceries, cloud software and a utility" }
+            { "id": "a", "text": "Spreading across groceries, cloud software and a utility" },
+            { "id": "b", "text": "Owning four different airlines" },
+            { "id": "c", "text": "Putting everything in the one company you know and follow best" },
+            { "id": "d", "text": "Adding to whichever stock has risen most, since it is the strongest" }
           ],
-          "answer": "d",
+          "answer": "a",
           "explanation": "Unrelated businesses rarely get hit by the same company news at once."
         }
       ],
@@ -480,10 +480,10 @@
           "options": [
             { "id": "a", "text": "2,200%" },
             { "id": "b", "text": "25%" },
-            { "id": "c", "text": "12%" },
-            { "id": "d", "text": "20%" }
+            { "id": "c", "text": "20%" },
+            { "id": "d", "text": "12%" }
           ],
-          "answer": "d",
+          "answer": "c",
           "explanation": "$2,200 ÷ $11,000 = 20%. Drawdown is measured from the peak."
         },
         {
@@ -491,12 +491,12 @@
           "kind": "mc",
           "prompt": "After a 40% drawdown, what gain do you need to get back to the peak?",
           "options": [
-            { "id": "a", "text": "About 66.7%" },
-            { "id": "b", "text": "40%" },
-            { "id": "c", "text": "60%" },
-            { "id": "d", "text": "100%" }
+            { "id": "a", "text": "100%" },
+            { "id": "b", "text": "66.7%" },
+            { "id": "c", "text": "40%" },
+            { "id": "d", "text": "28.6%" }
           ],
-          "answer": "a",
+          "answer": "b",
           "explanation": "40 ÷ (100 − 40) = 40 ÷ 60 ≈ 66.7%."
         },
         {
@@ -504,25 +504,25 @@
           "kind": "mc",
           "prompt": "$10,000 falls 50%, then gains 50%. Where are you now?",
           "options": [
-            { "id": "a", "text": "Back at $10,000" },
-            { "id": "b", "text": "$7,500, still down 25%" },
-            { "id": "c", "text": "$5,000" },
-            { "id": "d", "text": "$12,500" }
+            { "id": "a", "text": "$10,000, back where you started" },
+            { "id": "b", "text": "$12,500, a 25% gain" },
+            { "id": "c", "text": "$8,750, a 12.5% loss" },
+            { "id": "d", "text": "$7,500, still down 25%" }
           ],
-          "answer": "b",
-          "explanation": "$10,000 → $5,000 → $5,000 × 1.5 = $7,500."
+          "answer": "d",
+          "explanation": "$10,000 → $5,000 → $5,000 × 1.5 = $7,500, still 25% below where you started."
         },
         {
           "id": "q4",
           "kind": "mc",
           "prompt": "You've had three losing trades today and you're down 2.5%. Your rule says stop after a 2% daily loss. What should you do?",
           "options": [
-            { "id": "a", "text": "Double the next trade to win it back" },
-            { "id": "b", "text": "Remove your stops so you can't be stopped out again" },
-            { "id": "c", "text": "Stop trading for the day and review what happened" },
-            { "id": "d", "text": "Switch to a more volatile stock" }
+            { "id": "a", "text": "Stop trading for the day and review what happened" },
+            { "id": "b", "text": "Double the next trade to win it back" },
+            { "id": "c", "text": "Keep trading but switch to a more volatile stock to recover faster" },
+            { "id": "d", "text": "Take one more trade, since a win now is more likely" }
           ],
-          "answer": "c",
+          "answer": "a",
           "explanation": "Your pause rule exists for exactly this moment."
         },
         {

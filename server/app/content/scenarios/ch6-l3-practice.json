@@ -4,7 +4,7 @@
   "title": "Rate Day",
   "briefing": "The central bank decides on interest rates on day 14. A rate-sensitive utility, a high-growth cloud firm and a grocery chain will not react the same way.",
   "objective": "Macro surprises move the whole market; rate-sensitive sectors move most.",
-  "debrief": "Economists expected a 0.25% rise; on day 14 the central bank raised rates by 0.50%. Tidal Power, a heavy borrower, and Nimbus Cloud, priced for distant growth, gapped down and kept falling for days. Orchard Foods, a defensive grocer, barely moved. Cooler inflation on day 23 brought a partial rebound. A disciplined player kept positions moderate before the decision and leaned on the defensive stock.",
+  "debrief": "Economists expected a 0.25 percentage-point rise; on day 14 the central bank raised rates by 0.50 points. Tidal Power, a heavy borrower, and Nimbus Cloud, priced for distant growth, gapped down and kept falling for days. Orchard Foods, a defensive grocer, barely moved. Cooler inflation on day 23 brought a partial rebound. A disciplined player kept positions moderate before the decision and leaned on the defensive stock.",
   "difficulty": 2,
   "ticks": 30,
   "history": 20,
@@ -76,7 +76,7 @@
     {
       "id": "rate-preview",
       "tick": 5,
-      "headline": "Central bank decides on day 14; most economists expect a 0.25% rise",
+      "headline": "Central bank decides on day 14; most economists expect a 0.25 percentage-point rise",
       "body": "A larger rise would make borrowing more expensive across the economy.",
       "tone": "neutral",
       "kind": "macro",
@@ -90,7 +90,7 @@
     {
       "id": "rate-surprise",
       "tick": 14,
-      "headline": "Central bank raises rates by 0.50%, twice the expected rise",
+      "headline": "Central bank raises rates by 0.50 percentage points, twice the expected rise",
       "body": "The bank says inflation is not falling fast enough.",
       "tone": "negative",
       "kind": "macro",
@@ -176,9 +176,9 @@
         "type": "max_position_before",
         "params": {
           "tick": 14,
-          "pct": 40
+          "pct": 25
         },
-        "text": "Keep every position under 40% of your portfolio before the day-14 decision"
+        "text": "Keep every position at or under 25% of your portfolio before the day-14 decision"
       },
       {
         "id": "defensive",

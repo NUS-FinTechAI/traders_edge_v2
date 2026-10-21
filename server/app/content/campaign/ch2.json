@@ -67,12 +67,12 @@
           "kind": "mc",
           "prompt": "Same quote: Bid $24.80 / Ask $25.00. What is the spread?",
           "options": [
-            { "id": "a", "text": "$0.20" },
-            { "id": "b", "text": "$0.02" },
-            { "id": "c", "text": "$24.90" },
-            { "id": "d", "text": "$2.00" }
+            { "id": "a", "text": "$0.02" },
+            { "id": "b", "text": "$0.20" },
+            { "id": "c", "text": "$2.00" },
+            { "id": "d", "text": "$24.90" }
           ],
-          "answer": "a",
+          "answer": "b",
           "explanation": "$25.00 − $24.80 = $0.20."
         },
         {
@@ -81,11 +81,11 @@
           "prompt": "You buy 100 shares at $25.00 and immediately sell them at $24.80, with no commission. What is the result?",
           "options": [
             { "id": "a", "text": "$0" },
-            { "id": "b", "text": "+$20" },
-            { "id": "c", "text": "−$2" },
-            { "id": "d", "text": "−$20" }
+            { "id": "b", "text": "−$2" },
+            { "id": "c", "text": "−$20" },
+            { "id": "d", "text": "−$200" }
           ],
-          "answer": "d",
+          "answer": "c",
           "explanation": "100 × $0.20 = $20 lost to the spread."
         },
         {
@@ -93,12 +93,12 @@
           "kind": "mc",
           "prompt": "Which quote costs the most, as a percentage, to trade in and out of?",
           "options": [
-            { "id": "a", "text": "Bid $100.00 / Ask $100.02" },
-            { "id": "b", "text": "Bid $10.00 / Ask $10.50" },
-            { "id": "c", "text": "Bid $50.00 / Ask $50.05" },
-            { "id": "d", "text": "Bid $75.00 / Ask $75.03" }
+            { "id": "a", "text": "Bid $50.00 / Ask $50.05" },
+            { "id": "b", "text": "Bid $100.00 / Ask $100.02" },
+            { "id": "c", "text": "Bid $75.00 / Ask $75.03" },
+            { "id": "d", "text": "Bid $10.00 / Ask $10.50" }
           ],
-          "answer": "b",
+          "answer": "d",
           "explanation": "$0.50 on a $10.25 mid is about 5%; the others are 0.1% or less."
         }
       ],
@@ -145,12 +145,12 @@
           "kind": "mc",
           "prompt": "What is the main advantage of a market order?",
           "options": [
-            { "id": "a", "text": "It guarantees the price" },
-            { "id": "b", "text": "It has no fees" },
-            { "id": "c", "text": "It avoids the spread" },
-            { "id": "d", "text": "It executes quickly and almost certainly" }
+            { "id": "a", "text": "It fills quickly and almost certainly" },
+            { "id": "b", "text": "It locks in the last price" },
+            { "id": "c", "text": "It avoids paying the spread on the trade" },
+            { "id": "d", "text": "It costs less in fees than a limit order" }
           ],
-          "answer": "d",
+          "answer": "a",
           "explanation": "Speed and certainty of a fill, not certainty of price."
         },
         {
@@ -159,11 +159,11 @@
           "prompt": "Asks: 100 @ $20.00, 100 @ $20.05, 200 @ $20.10. You market-buy 300 shares. What is your average price?",
           "options": [
             { "id": "a", "text": "$20.00" },
-            { "id": "b", "text": "$20.05" },
-            { "id": "c", "text": "$20.10" },
-            { "id": "d", "text": "$20.03" }
+            { "id": "b", "text": "$20.03" },
+            { "id": "c", "text": "$20.05" },
+            { "id": "d", "text": "$20.10" }
           ],
-          "answer": "b",
+          "answer": "c",
           "explanation": "($2,000 + $2,005 + $2,010) ÷ 300 = $20.05."
         },
         {
@@ -171,24 +171,24 @@
           "kind": "mc",
           "prompt": "In a real market, you send a market sell order in the evening after Day 9 closes at $30. Bad news arrives overnight and Day 10 opens at $27. Your fill is about:",
           "options": [
-            { "id": "a", "text": "$30" },
+            { "id": "a", "text": "$27" },
             { "id": "b", "text": "$28.50" },
-            { "id": "c", "text": "$27" },
+            { "id": "c", "text": "$30" },
             { "id": "d", "text": "It won't fill" }
           ],
-          "answer": "c",
+          "answer": "a",
           "explanation": "The order waits for the open and fills at the gapped price."
         },
         {
           "id": "q4",
           "kind": "true_false",
-          "prompt": "A market order guarantees you the last traded price.",
+          "prompt": "A market order fills at the last traded price shown on your screen.",
           "options": [
             { "id": "t", "text": "True" },
             { "id": "f", "text": "False" }
           ],
           "answer": "f",
-          "explanation": "It fills at the best price available when it executes, which can differ."
+          "explanation": "It fills at the best price available when it executes: the ask for a buy, the bid for a sell. That can differ from the last trade."
         }
       ],
       "practice": "ch2-l2-practice"
@@ -234,12 +234,12 @@
           "kind": "mc",
           "prompt": "You think Kestrel Air will dip to $95.50 and want to buy only there or lower. Which order?",
           "options": [
-            { "id": "a", "text": "Buy limit at $95.50" },
-            { "id": "b", "text": "Market order now" },
+            { "id": "a", "text": "Market buy order right now" },
+            { "id": "b", "text": "Buy limit at $95.50" },
             { "id": "c", "text": "Buy stop at $95.50" },
-            { "id": "d", "text": "Trailing stop" }
+            { "id": "d", "text": "Sell limit at $95.50" }
           ],
-          "answer": "a",
+          "answer": "b",
           "explanation": "A buy limit fills only at your price or better."
         },
         {
@@ -248,8 +248,8 @@
           "prompt": "Your buy limit is at $40. The next candle is Open 41.20, High 41.80, Low 40.30, Close 41.00. Does it fill?",
           "options": [
             { "id": "a", "text": "Yes, at $40.00" },
-            { "id": "b", "text": "Yes, at $41.20" },
-            { "id": "c", "text": "Yes, at $40.30" },
+            { "id": "b", "text": "Yes, at $40.30" },
+            { "id": "c", "text": "Yes, at $41.20" },
             { "id": "d", "text": "No" }
           ],
           "answer": "d",
@@ -260,9 +260,9 @@
           "kind": "mc",
           "prompt": "Your buy limit is at $40. The next candle is Open 39.10, High 40.50, Low 38.90, Close 40.20. What is your fill price?",
           "options": [
-            { "id": "a", "text": "$40.00" },
+            { "id": "a", "text": "$38.90" },
             { "id": "b", "text": "$39.10" },
-            { "id": "c", "text": "$38.90" },
+            { "id": "c", "text": "$40.00" },
             { "id": "d", "text": "$40.20" }
           ],
           "answer": "b",
@@ -316,7 +316,7 @@
         },
         {
           "title": "Buy stops and stop-limits",
-          "body": "Real brokers also offer a **buy stop** above the price, which buys when the price breaks upward, and a **stop-limit**, which becomes a limit once triggered: it protects your price but might not fill in a gap. In this game, stop orders are sell stop-losses."
+          "body": "Real brokers also offer a **buy stop** above the price, which buys when the price breaks upward, and a **stop-limit**, which becomes a limit once triggered: it protects your price but might not fill in a gap. In this game, stop orders are sell stop-losses only. A stop-loss and a sell limit cannot cover the same shares at once, so to use both, split your shares between them."
         },
         {
           "title": "Where to place it",
@@ -329,12 +329,12 @@
           "kind": "mc",
           "prompt": "You buy at $50 with a sell stop at $46. On a normal day with no gap, the price trades down to $45.90. What happens?",
           "options": [
-            { "id": "a", "text": "Nothing" },
-            { "id": "b", "text": "It sells at exactly $46, guaranteed" },
-            { "id": "c", "text": "The stop triggers and sells at about $46 or a little lower" },
-            { "id": "d", "text": "It buys more shares" }
+            { "id": "a", "text": "Nothing, because it only triggers on a close below $46" },
+            { "id": "b", "text": "It sells at exactly $46.00, and no lower" },
+            { "id": "c", "text": "It waits for the price to recover to $46 before selling" },
+            { "id": "d", "text": "It triggers and sells at or a bit below $46" }
           ],
-          "answer": "c",
+          "answer": "d",
           "explanation": "Trading at or below $46 triggers a market sell near the stop price."
         },
         {
@@ -342,12 +342,12 @@
           "kind": "mc",
           "prompt": "Your sell stop is at $46. The day closes at $47; the next candle is Open 41, High 42, Low 40.50. Your fill is about:",
           "options": [
-            { "id": "a", "text": "$41" },
-            { "id": "b", "text": "$46" },
-            { "id": "c", "text": "$40.50" },
+            { "id": "a", "text": "$40.50" },
+            { "id": "b", "text": "$41" },
+            { "id": "c", "text": "$46" },
             { "id": "d", "text": "No fill" }
           ],
-          "answer": "a",
+          "answer": "b",
           "explanation": "The price gapped through the stop, so it fills at the open."
         },
         {
@@ -355,12 +355,12 @@
           "kind": "mc",
           "prompt": "The price is $57. You want to buy only if it breaks above $60 resistance. Which real-market order fits?",
           "options": [
-            { "id": "a", "text": "Buy limit at $60" },
-            { "id": "b", "text": "Sell stop at $60" },
-            { "id": "c", "text": "Market order now" },
-            { "id": "d", "text": "Buy stop at $60" }
+            { "id": "a", "text": "Buy stop at $60" },
+            { "id": "b", "text": "Buy limit at $60" },
+            { "id": "c", "text": "Sell stop at $60" },
+            { "id": "d", "text": "Market order now" }
           ],
-          "answer": "d",
+          "answer": "a",
           "explanation": "A buy stop triggers on the break. A buy limit at $60 would fill right away at about $57."
         },
         {
@@ -368,12 +368,12 @@
           "kind": "mc",
           "prompt": "You hold a stop-limit with stop $46 and limit $45.50. The stock gaps down to $41 and the day's high is $42. What happens?",
           "options": [
-            { "id": "a", "text": "It sells at $45.50" },
-            { "id": "b", "text": "No fill; you still hold the shares" },
-            { "id": "c", "text": "It sells at $41" },
-            { "id": "d", "text": "It sells at $46" }
+            { "id": "a", "text": "It sells at $45.50, the limit you set" },
+            { "id": "b", "text": "It sells at about $41, the opening price" },
+            { "id": "c", "text": "No fill; you still hold the shares" },
+            { "id": "d", "text": "It sells at $46, the stop price" }
           ],
-          "answer": "b",
+          "answer": "c",
           "explanation": "The stop triggered, but the price never traded at $45.50 or better."
         }
       ],
@@ -392,12 +392,12 @@
         { "term": "Depth", "definition": "How many shares wait at each price in the order book." },
         { "term": "Volume", "definition": "The number of shares traded in a period, shown as bars under the chart." },
         { "term": "Thin market", "definition": "A market with few shares waiting and little trading, so spreads are wide." },
-        { "term": "Partial fill", "definition": "When only part of an order executes and the rest waits or is cancelled." }
+        { "term": "Partial fill", "definition": "When only part of an order executes and the rest waits or is canceled." }
       ],
       "cards": [
         {
           "title": "The order book",
-          "body": "The **order book** lists waiting limit orders: bids (buyers) below, asks (sellers) above. The best bid and best ask sit at the top, and the gap between them is the spread. Each line shows a price and how many shares wait there.",
+          "body": "The **order book** lists waiting limit orders: bids (buyers) below, asks (sellers) above. The best bid and best ask sit at the top, and the gap between them is the spread. Each line shows a price and how many shares wait there. In this game you see only the best bid and ask, not the full book.",
           "visual": "order-book"
         },
         {
@@ -420,12 +420,12 @@
           "kind": "mc",
           "prompt": "Bids: $50.00 × 300, $49.95 × 500. Asks: $50.05 × 200, $50.10 × 400. What are the best bid and the spread?",
           "options": [
-            { "id": "a", "text": "$49.95 and $0.10" },
-            { "id": "b", "text": "$50.05 and $0.05" },
-            { "id": "c", "text": "$50.00 and $0.05" },
-            { "id": "d", "text": "$50.00 and $0.10" }
+            { "id": "a", "text": "$50.05 and $0.05" },
+            { "id": "b", "text": "$49.95 and $0.10" },
+            { "id": "c", "text": "$50.00 and $0.10" },
+            { "id": "d", "text": "$50.00 and $0.05" }
           ],
-          "answer": "c",
+          "answer": "d",
           "explanation": "The best bid is the highest bid, $50.00; the best ask is $50.05."
         },
         {
@@ -433,12 +433,12 @@
           "kind": "mc",
           "prompt": "You market-sell 600 shares into that same book. What is your average price?",
           "options": [
-            { "id": "a", "text": "$49.975" },
-            { "id": "b", "text": "$50.00" },
-            { "id": "c", "text": "$49.95" },
-            { "id": "d", "text": "$50.05" }
+            { "id": "a", "text": "$49.95" },
+            { "id": "b", "text": "$49.975" },
+            { "id": "c", "text": "$50.00" },
+            { "id": "d", "text": "$50.025" }
           ],
-          "answer": "a",
+          "answer": "b",
           "explanation": "300 at $50.00 plus 300 at $49.95 = $29,985 ÷ 600 = $49.975."
         },
         {
@@ -457,13 +457,13 @@
           "kind": "mc",
           "prompt": "Volume is three times its average while the price jumps 6%. What is the best interpretation?",
           "options": [
-            { "id": "a", "text": "Volume doesn't matter" },
-            { "id": "b", "text": "The price is guaranteed to keep rising" },
-            { "id": "c", "text": "The price must reverse" },
-            { "id": "d", "text": "Strong participation, more meaningful than the same move on low volume" }
+            { "id": "a", "text": "Many traders took part, so the move means more than a quiet one" },
+            { "id": "b", "text": "Volume tells you little; only price matters" },
+            { "id": "c", "text": "So many buyers have already bought that the move is likely to reverse" },
+            { "id": "d", "text": "Large sellers are unloading shares into the rally while the price rises" }
           ],
-          "answer": "d",
-          "explanation": "High volume shows many traders took part, but it guarantees nothing."
+          "answer": "a",
+          "explanation": "High volume shows many traders took part. It makes the move more meaningful, but it does not promise what comes next."
         }
       ],
       "practice": "ch2-l5-practice"

@@ -60,7 +60,7 @@
         {
           "title": "Gaps and drift",
           "visual": "gap-chart",
-          "body": "Reports usually come out outside trading hours, so the price **gaps** at the next open and market orders fill at the gapped price. After a real surprise, price can keep **drifting** the same way for days as investors adjust. Not every gap follows through."
+          "body": "Reports usually come out outside trading hours, so the price **gaps** at the next open. In real markets, orders sent overnight fill at that gapped price; in this game, the gap is already in the price by the time you can trade. After a real surprise, price can keep **drifting** the same way for days as investors adjust. Not every gap follows through."
         },
         {
           "title": "Earnings risk",
@@ -75,22 +75,22 @@
           "options": [
             {
               "id": "a",
-              "text": "$2.00"
-            },
-            {
-              "id": "b",
               "text": "$0.20"
             },
             {
-              "id": "c",
+              "id": "b",
               "text": "$0.50"
+            },
+            {
+              "id": "c",
+              "text": "$2.00"
             },
             {
               "id": "d",
               "text": "$5.00"
             }
           ],
-          "answer": "c",
+          "answer": "b",
           "explanation": "EPS = $30 million ÷ 60 million shares = $0.50."
         },
         {
@@ -125,28 +125,28 @@
           "options": [
             {
               "id": "a",
-              "text": "Beats always make a stock fall"
+              "text": "Investors cared more about the weaker outlook than the past quarter"
             },
             {
               "id": "b",
-              "text": "The exchange made an error"
+              "text": "Profitable companies often fall after reports as traders lock in gains"
             },
             {
               "id": "c",
-              "text": "Fees pushed the price down"
+              "text": "The exchange set a lower opening price to calm trading after the report"
             },
             {
               "id": "d",
-              "text": "Investors cared more about the weaker outlook than the past quarter"
+              "text": "The EPS beat was too small to matter, whatever the guidance said"
             }
           ],
-          "answer": "d",
+          "answer": "a",
           "explanation": "Prices look forward, so a lower forecast can outweigh a good quarter."
         },
         {
           "id": "q4",
           "kind": "true_false",
-          "prompt": "True or false: a stop-loss guarantees your exit price if a stock gaps down after earnings.",
+          "prompt": "True or false: a stop-loss at $46 sells at about $46 even if the stock opens at $41 after an earnings miss.",
           "options": [
             {
               "id": "t",
@@ -158,7 +158,7 @@
             }
           ],
           "answer": "f",
-          "explanation": "If the open is below your stop, the stop fills near the open, not at the stop price."
+          "explanation": "If the open is below your stop, the stop fills near the open, about $41, not at the stop price."
         },
         {
           "id": "q5",
@@ -171,18 +171,18 @@
             },
             {
               "id": "b",
-              "text": "A beat with guidance raised"
+              "text": "A beat with guidance cut"
             },
             {
               "id": "c",
-              "text": "In line with no guidance"
+              "text": "A beat with guidance raised"
             },
             {
               "id": "d",
-              "text": "A beat with guidance cut"
+              "text": "In line, with no change to guidance"
             }
           ],
-          "answer": "b",
+          "answer": "c",
           "explanation": "A positive surprise and a better outlook point the same way."
         }
       ],
@@ -251,18 +251,18 @@
             },
             {
               "id": "b",
-              "text": "30"
+              "text": "27"
             },
             {
               "id": "c",
-              "text": "27"
+              "text": "30"
             },
             {
               "id": "d",
               "text": "270"
             }
           ],
-          "answer": "b",
+          "answer": "c",
           "explanation": "P/E = $90 ÷ $3.00 = 30."
         },
         {
@@ -272,15 +272,15 @@
           "options": [
             {
               "id": "a",
-              "text": "Pebble Games is certain to fall"
+              "text": "Pebble Games is overpriced and will soon fall back to a P/E of 9"
             },
             {
               "id": "b",
-              "text": "Harborline is a guaranteed bargain"
+              "text": "Harborline is the better buy, since a low P/E means a bargain"
             },
             {
               "id": "c",
-              "text": "Pebble Games must be the smaller company"
+              "text": "Pebble Games must be the bigger company because its P/E is higher"
             },
             {
               "id": "d",
@@ -297,22 +297,22 @@
           "options": [
             {
               "id": "a",
-              "text": "Not meaningful: P/E needs positive earnings"
+              "text": "Negative, which means the shares are a bargain"
             },
             {
               "id": "b",
-              "text": "Negative, which means it is cheap"
+              "text": "Zero, because the company earned nothing"
             },
             {
               "id": "c",
-              "text": "Zero"
+              "text": "About 100, because losses make P/E very high"
             },
             {
               "id": "d",
-              "text": "100"
+              "text": "Not meaningful: P/E needs positive earnings"
             }
           ],
-          "answer": "a",
+          "answer": "d",
           "explanation": "With losses, price ÷ EPS gives a number that does not measure value."
         },
         {
@@ -339,22 +339,22 @@
           "options": [
             {
               "id": "a",
-              "text": "No reaction at all"
+              "text": "Little reaction, since the company is still growing fast"
             },
             {
               "id": "b",
-              "text": "A guaranteed rise"
+              "text": "A large drop, because high expectations were priced in"
             },
             {
               "id": "c",
-              "text": "A large drop, because high expectations were already in the price"
+              "text": "A rise, since the miss was small and growth stocks shrug off news"
             },
             {
               "id": "d",
-              "text": "The P/E rises, so the price rises"
+              "text": "The P/E rises, so the price rises along with it"
             }
           ],
-          "answer": "c",
+          "answer": "b",
           "explanation": "When the price assumes strong growth, a small miss forces a big rethink."
         }
       ],
@@ -372,7 +372,7 @@
       "terms": [
         {
           "term": "Interest rate",
-          "definition": "The cost of borrowing money, set for the economy by the central bank."
+          "definition": "The cost of borrowing money. The central bank sets a key policy rate, which influences the rates banks charge across the economy."
         },
         {
           "term": "Inflation",
@@ -407,7 +407,7 @@
         },
         {
           "title": "Surprise vs expected",
-          "body": "As with earnings, the market reacts to the gap between the forecast and the result. A 0.25% rate rise that everyone expected may barely move prices. An unexpected 0.50% rise can knock the whole market down in one day."
+          "body": "As with earnings, the market reacts to the gap between the forecast and the result. A 0.25 percentage-point rate rise that everyone expected may barely move prices. An unexpected 0.50-point rise can knock the whole market down in one day."
         },
         {
           "title": "The calendar",
@@ -422,22 +422,22 @@
           "options": [
             {
               "id": "a",
-              "text": "A defensive grocery chain"
+              "text": "A high-P/E cloud software company"
             },
             {
               "id": "b",
-              "text": "Cash in your account"
+              "text": "A defensive grocery chain"
             },
             {
               "id": "c",
-              "text": "Every stock falls by exactly the same amount"
+              "text": "A low-P/E shipping firm with little debt"
             },
             {
               "id": "d",
-              "text": "A high-P/E cloud software company"
+              "text": "All stocks fall by roughly the same amount"
             }
           ],
-          "answer": "d",
+          "answer": "a",
           "explanation": "Higher rates reduce what investors pay for distant future profits, which hurts high-P/E stocks most."
         },
         {
@@ -464,22 +464,22 @@
           "options": [
             {
               "id": "a",
-              "text": "Company profits"
+              "text": "The total profits of listed companies"
             },
             {
               "id": "b",
-              "text": "Changes in the prices of everyday goods and services"
+              "text": "The number of people in work each month"
             },
             {
               "id": "c",
-              "text": "The number of people with jobs"
+              "text": "The prices of everyday goods and services"
             },
             {
               "id": "d",
-              "text": "The central bank's interest rate"
+              "text": "The interest rate the central bank charges on loans to banks"
             }
           ],
-          "answer": "b",
+          "answer": "c",
           "explanation": "The consumer price index is the standard inflation gauge."
         },
         {
@@ -489,22 +489,22 @@
           "options": [
             {
               "id": "a",
-              "text": "An airline"
+              "text": "A grocery chain"
             },
             {
               "id": "b",
-              "text": "A video game studio"
+              "text": "An airline"
             },
             {
               "id": "c",
-              "text": "A grocery chain"
+              "text": "A video game studio"
             },
             {
               "id": "d",
               "text": "A container shipping line"
             }
           ],
-          "answer": "c",
+          "answer": "a",
           "explanation": "Food demand stays steady when the economy slows."
         },
         {
@@ -514,22 +514,22 @@
           "options": [
             {
               "id": "a",
-              "text": "Keeps position size modest and accepts that a gap can skip a stop"
+              "text": "Buys more tonight, since strong jobs data usually lifts every stock"
             },
             {
               "id": "b",
-              "text": "Doubles their position size tonight"
+              "text": "Keeps full size but moves stops closer so a gap cannot hurt"
             },
             {
               "id": "c",
-              "text": "Removes all stop-losses"
+              "text": "Waits for the report, then buys at full size"
             },
             {
               "id": "d",
-              "text": "Ignores the calendar"
+              "text": "Keeps size modest and accepts a gap could skip a stop"
             }
           ],
-          "answer": "a",
+          "answer": "d",
           "explanation": "Scheduled events are known risks; size is the main control you have."
         }
       ],
@@ -597,22 +597,22 @@
           "options": [
             {
               "id": "a",
-              "text": "Little gain or a drop, because the good news was already priced in"
+              "text": "Another strong rise, since the launch went as planned"
             },
             {
               "id": "b",
-              "text": "Another 30% rise"
+              "text": "Little gain or a drop, since the news was priced in"
             },
             {
               "id": "c",
-              "text": "Trading is halted"
+              "text": "A big jump, because buyers waited for proof before buying"
             },
             {
               "id": "d",
-              "text": "The price is certain to double"
+              "text": "No change, because nothing unexpected happened"
             }
           ],
-          "answer": "a",
+          "answer": "b",
           "explanation": "An expected outcome adds no surprise, and early buyers may take profits."
         },
         {
@@ -639,11 +639,11 @@
           "options": [
             {
               "id": "a",
-              "text": "A further collapse"
+              "text": "A further fall as more holders give up and sell"
             },
             {
               "id": "b",
-              "text": "No price change at all"
+              "text": "No change; the first move was right"
             },
             {
               "id": "c",
@@ -651,7 +651,7 @@
             },
             {
               "id": "d",
-              "text": "The stock is removed from the exchange"
+              "text": "A trading halt until the delay is over"
             }
           ],
           "answer": "c",
@@ -664,7 +664,7 @@
           "options": [
             {
               "id": "a",
-              "text": "It must reverse the same day"
+              "text": "It must give back the whole gap within a day"
             },
             {
               "id": "b",
@@ -672,11 +672,11 @@
             },
             {
               "id": "c",
-              "text": "Nothing more can happen after a gap"
+              "text": "Nothing more; once a gap happens, the move is over"
             },
             {
               "id": "d",
-              "text": "The P/E becomes zero"
+              "text": "It should fall, since good news is usually sold on the day"
             }
           ],
           "answer": "b",
@@ -689,15 +689,15 @@
           "options": [
             {
               "id": "a",
-              "text": "Add more just before the event"
+              "text": "Keep your full position and decide after you see the reaction"
             },
             {
               "id": "b",
-              "text": "Remove your stop so it is not hit"
+              "text": "Add more, because hyped events usually beat expectations"
             },
             {
               "id": "c",
-              "text": "Borrow money to buy more"
+              "text": "Sell at the first red candle after the event, whatever your plan said"
             },
             {
               "id": "d",
@@ -730,7 +730,7 @@
         },
         {
           "term": "Insider trading",
-          "definition": "Trading on important information that has not been made public. It is a crime in most countries."
+          "definition": "Trading on important (material) information that has not been made public. It is a crime in most countries."
         },
         {
           "term": "Rumor",
@@ -768,22 +768,22 @@
           "options": [
             {
               "id": "a",
-              "text": "Buy as much as you can right away"
+              "text": "Wait until Friday and buy if the price is still rising"
             },
             {
               "id": "b",
-              "text": "Treat it as unconfirmed and look for an official source before acting"
+              "text": "Buy a small amount now, since the volume spike shows the news is real"
             },
             {
               "id": "c",
-              "text": "Borrow money to buy more"
+              "text": "Treat it as unconfirmed and check for an official source first"
             },
             {
               "id": "d",
-              "text": "Tell your friends to buy too"
+              "text": "Buy, but set a stop-loss 5% below in case the rumor is wrong"
             }
           ],
-          "answer": "b",
+          "answer": "c",
           "explanation": "Urgency, an anonymous source and a volume spike are classic red flags."
         },
         {
@@ -810,22 +810,22 @@
           "options": [
             {
               "id": "a",
-              "text": "The company becomes very profitable"
+              "text": "The company grows into the higher price over time"
             },
             {
               "id": "b",
-              "text": "The price settles at the new high"
+              "text": "The price settles at the new high as the hype fades"
             },
             {
               "id": "c",
-              "text": "The promoters sell and the price collapses"
+              "text": "The promoters keep buying"
             },
             {
               "id": "d",
-              "text": "A regulator guarantees the price"
+              "text": "The promoters sell and the price collapses"
             }
           ],
-          "answer": "c",
+          "answer": "d",
           "explanation": "The scheme only works if the promoters can sell to late buyers."
         },
         {
@@ -835,22 +835,22 @@
           "options": [
             {
               "id": "a",
-              "text": "A company press release with figures"
+              "text": "\"Guaranteed 10x, today only\" from an anonymous account"
             },
             {
               "id": "b",
-              "text": "A regulatory filing"
+              "text": "A company press release with sales figures and a named contact"
             },
             {
               "id": "c",
-              "text": "A quarterly earnings report"
+              "text": "A regulatory filing showing a director's share purchase"
             },
             {
               "id": "d",
-              "text": "\"Guaranteed 10x, today only\" from an anonymous account"
+              "text": "A quarterly earnings report published on the company's website"
             }
           ],
-          "answer": "d",
+          "answer": "a",
           "explanation": "Promised returns, urgency and no checkable source are warning signs."
         },
         {
@@ -860,22 +860,22 @@
           "options": [
             {
               "id": "a",
-              "text": "The price gives back the rumor gain, possibly more"
+              "text": "The price holds its gain, since buyers rarely change their minds"
             },
             {
               "id": "b",
-              "text": "The price holds its gain"
+              "text": "The price gives back the rumor gain, possibly more"
             },
             {
               "id": "c",
-              "text": "The price doubles"
+              "text": "The price rises again as traders buy the cheaper shares"
             },
             {
               "id": "d",
-              "text": "Trading stops forever"
+              "text": "Trading is halted until the regulator investigates"
             }
           ],
-          "answer": "a",
+          "answer": "b",
           "explanation": "Once the rumor is denied, the reason for the jump is gone."
         }
       ],

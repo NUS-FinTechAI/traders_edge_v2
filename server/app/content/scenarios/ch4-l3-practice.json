@@ -61,7 +61,7 @@
     {
       "symbol": "PBGM",
       "name": "Pebble Games",
-      "sector": "Communication services",
+      "sector": "Video games",
       "blurb": "Makes puzzle and adventure games for phones and consoles.",
       "price": 30,
       "drift": 0.006,
@@ -123,7 +123,7 @@
         "id": "m1",
         "type": "stop_loss_set",
         "params": {},
-        "text": "Place a stop-loss before you aim for a target"
+        "text": "Place a stop-loss order"
       },
       {
         "id": "m2",
@@ -132,7 +132,7 @@
           "type": "limit",
           "n": 1
         },
-        "text": "Place a limit order (use a sell limit as your take-profit)"
+        "text": "Place a sell limit as your take-profit on shares not already covered by your stop-loss"
       }
     ],
     "bonus": [

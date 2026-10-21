@@ -39,7 +39,7 @@
       "symbol": "ORCF",
       "name": "Orchard Foods",
       "sector": "Consumer staples",
-      "blurb": "Runs a chain of neighbourhood grocery stores.",
+      "blurb": "Runs a chain of neighborhood grocery stores.",
       "price": 42.5,
       "drift": 0.002,
       "beta": 0.7,
