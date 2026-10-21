@@ -1,6 +1,6 @@
 {
   "id": "ch4-boss",
-  "version": 1,
+  "version": 2,
   "title": "Reef Storm",
   "briefing": "Volatile Kestrel Air, steady Orchard Foods and red-hot Nimbus Cloud. A storm is coming to the reef. Momentum Max and Steady Stella are already sailing.",
   "objective": "Survive the storm: spread your money, size by risk, cap every position and use stops.",
@@ -43,7 +43,7 @@
   ],
   "assets": [
     {
-      "symbol": "KSTR",
+      "symbol": "KSTL",
       "name": "Kestrel Air",
       "sector": "Industrials",
       "blurb": "Flies short routes between the region's island cities.",

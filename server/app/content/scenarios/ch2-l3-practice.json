@@ -1,6 +1,6 @@
 {
   "id": "ch2-l3-practice",
-  "version": 1,
+  "version": 2,
   "title": "Name Your Price",
   "briefing": "Kestrel Air is swinging between about $95 and $99. Limit orders are now unlocked: name the price you want and let the market come to you.",
   "objective": "A buy limit buys only at your price or lower. A sell limit sells only at your price or higher.",
@@ -72,7 +72,7 @@
   ],
   "assets": [
     {
-      "symbol": "KSTR",
+      "symbol": "KSTL",
       "name": "Kestrel Air",
       "sector": "Industrials",
       "blurb": "Flies short routes between the region's island cities.",

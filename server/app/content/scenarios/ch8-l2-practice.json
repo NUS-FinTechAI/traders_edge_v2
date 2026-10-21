@@ -1,6 +1,6 @@
 {
   "id": "ch8-l2-practice",
-  "version": 1,
+  "version": 2,
   "title": "Cut It, Let It Run",
   "briefing": "You will own a loser and a winner in this match. Most people sell the winner to feel good and keep the loser hoping it comes back. Do the opposite.",
   "objective": "Counter loss aversion: cut losing positions at the planned exit and let winners run.",
@@ -40,7 +40,7 @@
   ],
   "assets": [
     {
-      "symbol": "KSTR",
+      "symbol": "KSTL",
       "name": "Kestrel Air",
       "sector": "Airlines",
       "blurb": "Flies short routes between regional cities.",
@@ -64,24 +64,24 @@
   ],
   "news": [
     {
-      "id": "kstr-fine",
+      "id": "kstl-fine",
       "tick": 6,
       "headline": "Kestrel Air fined for repeated delays; fuel costs keep rising",
       "body": "The regulator fined the airline and warned of tighter rules. Fuel prices rose for a fourth week.",
       "tone": "negative",
       "kind": "company",
       "symbols": [
-        "KSTR"
+        "KSTL"
       ],
       "effects": [
         {
-          "symbol": "KSTR",
+          "symbol": "KSTL",
           "move": -0.06,
           "ticks": 1,
           "gap": true
         },
         {
-          "symbol": "KSTR",
+          "symbol": "KSTL",
           "move": -0.15,
           "ticks": 16,
           "gap": false
@@ -123,7 +123,7 @@
         "id": "cut-loser",
         "type": "exited_by",
         "params": {
-          "symbol": "KSTR",
+          "symbol": "KSTL",
           "tick": 12
         },
         "text": "Sell Kestrel Air by day 12: cut the loser"

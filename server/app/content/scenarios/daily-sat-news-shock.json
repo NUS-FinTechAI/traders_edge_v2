@@ -1,6 +1,6 @@
 {
   "id": "daily-sat-news-shock",
-  "version": 1,
+  "version": 2,
   "title": "News Shock & Recovery",
   "briefing": "A pipeline outage is about to send fuel prices flying, and airlines will take the hit. Momentum Max waits for the trend to prove itself. Do you buy the panic, the recovery, or nothing?",
   "objective": "After a shock, wait for evidence the damage is temporary, ride the recovery, and respect the next warning.",
@@ -39,7 +39,7 @@
   ],
   "assets": [
     {
-      "symbol": "KSTR",
+      "symbol": "KSTL",
       "name": "Kestrel Air",
       "sector": "Airlines",
       "blurb": "Flies short routes between regional cities.",
@@ -59,11 +59,11 @@
       "tone": "negative",
       "kind": "macro",
       "symbols": [
-        "KSTR"
+        "KSTL"
       ],
       "effects": [
         {
-          "symbol": "KSTR",
+          "symbol": "KSTL",
           "move": -0.04,
           "ticks": 5,
           "gap": false
@@ -78,17 +78,17 @@
       "tone": "negative",
       "kind": "macro",
       "symbols": [
-        "KSTR"
+        "KSTL"
       ],
       "effects": [
         {
-          "symbol": "KSTR",
+          "symbol": "KSTL",
           "move": -0.1,
           "ticks": 1,
           "gap": true
         },
         {
-          "symbol": "KSTR",
+          "symbol": "KSTL",
           "move": -0.06,
           "ticks": 4,
           "gap": false
@@ -103,17 +103,17 @@
       "tone": "positive",
       "kind": "macro",
       "symbols": [
-        "KSTR"
+        "KSTL"
       ],
       "effects": [
         {
-          "symbol": "KSTR",
+          "symbol": "KSTL",
           "move": 0.06,
           "ticks": 1,
           "gap": true
         },
         {
-          "symbol": "KSTR",
+          "symbol": "KSTL",
           "move": 0.2,
           "ticks": 6,
           "gap": false
@@ -121,18 +121,18 @@
       ]
     },
     {
-      "id": "kstr-summer",
+      "id": "kstl-summer",
       "tick": 16,
       "headline": "Kestrel Air reports record summer bookings",
       "body": "Advance sales are up 20% on last year.",
       "tone": "positive",
       "kind": "company",
       "symbols": [
-        "KSTR"
+        "KSTL"
       ],
       "effects": [
         {
-          "symbol": "KSTR",
+          "symbol": "KSTL",
           "move": 0.16,
           "ticks": 7,
           "gap": false
@@ -140,24 +140,24 @@
       ]
     },
     {
-      "id": "kstr-strike",
+      "id": "kstl-strike",
       "tick": 24,
       "headline": "Kestrel Air pilots' union opens strike talks",
       "body": "The union says a vote could come within weeks if talks fail.",
       "tone": "negative",
       "kind": "company",
       "symbols": [
-        "KSTR"
+        "KSTL"
       ],
       "effects": [
         {
-          "symbol": "KSTR",
+          "symbol": "KSTL",
           "move": -0.01,
           "ticks": 1,
           "gap": true
         },
         {
-          "symbol": "KSTR",
+          "symbol": "KSTL",
           "move": -0.26,
           "ticks": 6,
           "gap": false

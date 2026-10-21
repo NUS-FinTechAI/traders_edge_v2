@@ -1,6 +1,6 @@
 {
   "id": "ch4-l1-practice",
-  "version": 1,
+  "version": 2,
   "title": "Size It Right",
   "briefing": "Steady Orchard Foods and jumpy Kestrel Air. Use the ticket's \"risk if stopped\" figure to size every trade at about 1% of your portfolio.",
   "objective": "Size each position from your stop: shares = (portfolio × risk %) ÷ (entry − stop).",
@@ -47,7 +47,7 @@
       "base_volume": 60000
     },
     {
-      "symbol": "KSTR",
+      "symbol": "KSTL",
       "name": "Kestrel Air",
       "sector": "Industrials",
       "blurb": "Flies short routes between the region's island cities.",
@@ -60,24 +60,24 @@
   ],
   "news": [
     {
-      "id": "kstr-grounded",
+      "id": "kstl-grounded",
       "tick": 16,
       "headline": "Kestrel Air grounds part of its fleet for inspections",
       "body": "Kestrel Air has grounded a third of its planes for safety inspections and cancelled many flights.",
       "tone": "negative",
       "kind": "company",
       "symbols": [
-        "KSTR"
+        "KSTL"
       ],
       "effects": [
         {
-          "symbol": "KSTR",
+          "symbol": "KSTL",
           "move": -0.1,
           "ticks": 1,
           "gap": true
         },
         {
-          "symbol": "KSTR",
+          "symbol": "KSTL",
           "move": -0.04,
           "ticks": 4,
           "gap": false

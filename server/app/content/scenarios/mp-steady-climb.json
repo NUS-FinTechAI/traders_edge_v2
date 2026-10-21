@@ -1,6 +1,6 @@
 {
   "id": "mp-steady-climb",
-  "version": 1,
+  "version": 2,
   "title": "Steady Climb",
   "briefing": "Same market, same news, every player. Orchard Foods and Kestrel Air are both climbing. One scary headline will test everyone's nerve.",
   "objective": "Hold a good trend through short-lived bad news; do not sell the dip on a headline.",
@@ -52,7 +52,7 @@
       "base_volume": 20000
     },
     {
-      "symbol": "KSTR",
+      "symbol": "KSTL",
       "name": "Kestrel Air",
       "sector": "Airlines",
       "blurb": "Flies short routes between regional cities.",
@@ -72,17 +72,17 @@
       "tone": "negative",
       "kind": "macro",
       "symbols": [
-        "KSTR"
+        "KSTL"
       ],
       "effects": [
         {
-          "symbol": "KSTR",
+          "symbol": "KSTL",
           "move": -0.05,
           "ticks": 1,
           "gap": true
         },
         {
-          "symbol": "KSTR",
+          "symbol": "KSTL",
           "move": -0.01,
           "ticks": 2,
           "gap": false
@@ -109,7 +109,7 @@
         "id": "hold-kstr",
         "type": "held_between",
         "params": {
-          "symbol": "KSTR",
+          "symbol": "KSTL",
           "from": 10,
           "to": 14
         },

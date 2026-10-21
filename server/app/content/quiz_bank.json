@@ -10,7 +10,7 @@
       ],
       "difficulty": 1,
       "kind": "mc",
-      "prompt": "Kestrel Air (KSTR) has 4,000,000 shares. You own 2,000 of them. What percentage of the company do you own?",
+      "prompt": "Kestrel Air (KSTL) has 4,000,000 shares. You own 2,000 of them. What percentage of the company do you own?",
       "options": [
         {
           "id": "a",
@@ -725,7 +725,7 @@
       ],
       "difficulty": 2,
       "kind": "mc",
-      "prompt": "You hold Kestrel Air (KSTR) with a sell stop at $80. It closes at $82, then opens at $74 the next day after bad news. Your stop most likely fills near:",
+      "prompt": "You hold Kestrel Air (KSTL) with a sell stop at $80. It closes at $82, then opens at $74 the next day after bad news. Your stop most likely fills near:",
       "options": [
         {
           "id": "a",
@@ -1644,7 +1644,7 @@
       ],
       "difficulty": 3,
       "kind": "mc",
-      "prompt": "Kestrel Air (KSTR) is in a clear uptrend on the weekly chart but has fallen for three days on the daily chart. What is the most reasonable reading?",
+      "prompt": "Kestrel Air (KSTL) is in a clear uptrend on the weekly chart but has fallen for three days on the daily chart. What is the most reasonable reading?",
       "options": [
         {
           "id": "a",
@@ -1782,7 +1782,7 @@
       ],
       "difficulty": 2,
       "kind": "mc",
-      "prompt": "You have a $25,000 account and risk 1% per trade. You buy Kestrel Air (KSTR) at $80 with a stop at $76. How many shares should you buy?",
+      "prompt": "You have a $25,000 account and risk 1% per trade. You buy Kestrel Air (KSTL) at $80 with a stop at $76. How many shares should you buy?",
       "options": [
         {
           "id": "a",
@@ -3085,15 +3085,15 @@
       ],
       "difficulty": 2,
       "kind": "mc",
-      "prompt": "Kestrel Air (KSTR) has a P/E of 40 and Orchard Foods (ORCF) has a P/E of 12. What does this most likely tell you?",
+      "prompt": "Kestrel Air (KSTL) has a P/E of 40 and Orchard Foods (ORCF) has a P/E of 12. What does this most likely tell you?",
       "options": [
         {
           "id": "a",
-          "text": "KSTR is the bigger company"
+          "text": "KSTL is the bigger company"
         },
         {
           "id": "b",
-          "text": "Investors are paying more per dollar of current earnings for KSTR, often because they expect faster growth"
+          "text": "Investors are paying more per dollar of current earnings for KSTL, often because they expect faster growth"
         },
         {
           "id": "c",
@@ -3101,7 +3101,7 @@
         },
         {
           "id": "d",
-          "text": "KSTR's share price must be higher"
+          "text": "KSTL's share price must be higher"
         }
       ],
       "answer": "b",
@@ -3936,7 +3936,7 @@
       ],
       "difficulty": 3,
       "kind": "mc",
-      "prompt": "Over 30 days, Kestrel Air's (KSTR) swing highs were $40, $43 and $46, its swing lows were $37, $40 and $43, and the price stayed above its rising 50-day MA. Which strategy fits best?",
+      "prompt": "Over 30 days, Kestrel Air's (KSTL) swing highs were $40, $43 and $46, its swing lows were $37, $40 and $43, and the price stayed above its rising 50-day MA. Which strategy fits best?",
       "options": [
         {
           "id": "a",
@@ -4569,7 +4569,7 @@
       ],
       "difficulty": 2,
       "kind": "mc",
-      "prompt": "Kestrel Air (KSTR) jumps 12% at the open on news you had not seen. Your plan was to buy on a pullback to $55; it is now $62. What is the plan-consistent action?",
+      "prompt": "Kestrel Air (KSTL) jumps 12% at the open on news you had not seen. Your plan was to buy on a pullback to $55; it is now $62. What is the plan-consistent action?",
       "options": [
         {
           "id": "a",

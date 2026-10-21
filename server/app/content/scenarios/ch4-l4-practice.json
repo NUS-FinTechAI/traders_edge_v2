@@ -1,6 +1,6 @@
 {
   "id": "ch4-l4-practice",
-  "version": 1,
+  "version": 2,
   "title": "Spread the Load",
   "briefing": "Kestrel Air, Harborline Shipping and Orchard Foods. Two of these have something important in common. Spread your money wisely.",
   "objective": "Diversify across companies with different drivers. Correlated holdings act like one big bet.",
@@ -36,7 +36,7 @@
   ],
   "assets": [
     {
-      "symbol": "KSTR",
+      "symbol": "KSTL",
       "name": "Kestrel Air",
       "sector": "Industrials",
       "blurb": "Flies short routes between the region's island cities.",
@@ -78,18 +78,18 @@
       "tone": "negative",
       "kind": "macro",
       "symbols": [
-        "KSTR",
+        "KSTL",
         "HRBL"
       ],
       "effects": [
         {
-          "symbol": "KSTR",
+          "symbol": "KSTL",
           "move": -0.1,
           "ticks": 1,
           "gap": true
         },
         {
-          "symbol": "KSTR",
+          "symbol": "KSTL",
           "move": -0.03,
           "ticks": 3,
           "gap": false

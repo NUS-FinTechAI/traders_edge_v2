@@ -1,6 +1,6 @@
 {
   "id": "ch7-boss",
-  "version": 1,
+  "version": 2,
   "title": "Regime Shift",
   "briefing": "Three specialists, three styles: Momentum Max, Value Vera and Breakout Bea. The market will change character twice. Whoever adapts wins.",
   "objective": "Identify the regime and switch strategy: trend, then chop, then breakdown, plus one real breakout.",
@@ -64,7 +64,7 @@
       "base_volume": 30000
     },
     {
-      "symbol": "KSTR",
+      "symbol": "KSTL",
       "name": "Kestrel Air",
       "sector": "Airlines",
       "blurb": "Flies short routes between regional cities.",
@@ -178,24 +178,24 @@
       ]
     },
     {
-      "id": "kstr-contract",
+      "id": "kstl-contract",
       "tick": 30,
       "headline": "Kestrel Air wins the national carrier contract for regional routes",
       "body": "The ten-year deal guarantees government business on 20 routes.",
       "tone": "positive",
       "kind": "company",
       "symbols": [
-        "KSTR"
+        "KSTL"
       ],
       "effects": [
         {
-          "symbol": "KSTR",
+          "symbol": "KSTL",
           "move": 0.09,
           "ticks": 1,
           "gap": true
         },
         {
-          "symbol": "KSTR",
+          "symbol": "KSTL",
           "move": 0.18,
           "ticks": 9,
           "gap": false
@@ -242,7 +242,7 @@
         "id": "catch-break",
         "type": "bought_after_news",
         "params": {
-          "news_id": "kstr-contract",
+          "news_id": "kstl-contract",
           "within": 2
         },
         "text": "Buy Kestrel Air within 2 days of its high-volume breakout"
