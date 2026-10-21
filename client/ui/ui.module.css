@@ -228,7 +228,7 @@
   max-height: calc(100vh - 32px);
   overflow: auto;
   margin: auto;
-  padding: var(--space-5);
+  padding: 0;
   background: var(--surface);
   color: var(--text);
   border: 1px solid var(--border-strong);
@@ -242,6 +242,11 @@
 
 .modal::backdrop {
   background: #050a08cc;
+}
+
+.modalInner {
+  position: relative;
+  padding: var(--space-5);
 }
 
 .modalWide {
@@ -285,7 +290,7 @@
 
 .tab {
   flex: 1 0 auto;
-  min-height: 40px;
+  min-height: 44px;
   padding: 0 var(--space-4);
   border: 0;
   border-radius: var(--radius-sm);
@@ -397,6 +402,11 @@
   .toastRegion {
     bottom: var(--space-5);
   }
+}
+
+.toastStack {
+  display: grid;
+  gap: var(--space-2);
 }
 
 .toast {

@@ -9,7 +9,10 @@ interface TabsProps<T extends string> {
   idPrefix: string
 }
 
-/** Tab list with roving focus; pair each panel with id `${idPrefix}-panel-${tab}`. */
+/**
+ * Tab list with roving focus. Only the selected tab's panel is rendered, so
+ * only that tab points at it; give the panel id `${idPrefix}-panel-${tab}`.
+ */
 export default function Tabs<T extends string>({
   label,
   tabs,
@@ -20,11 +23,14 @@ export default function Tabs<T extends string>({
   const refs = useRef<(HTMLButtonElement | null)[]>([])
 
   function onKeyDown(event: KeyboardEvent, index: number) {
-    const step =
-      event.key === 'ArrowRight' ? 1 : event.key === 'ArrowLeft' ? -1 : 0
-    if (!step) return
+    let next: number
+    if (event.key === 'ArrowRight') next = (index + 1) % tabs.length
+    else if (event.key === 'ArrowLeft')
+      next = (index - 1 + tabs.length) % tabs.length
+    else if (event.key === 'Home') next = 0
+    else if (event.key === 'End') next = tabs.length - 1
+    else return
     event.preventDefault()
-    const next = (index + step + tabs.length) % tabs.length
     refs.current[next]?.focus()
     onChange(tabs[next].id)
   }
@@ -41,7 +47,9 @@ export default function Tabs<T extends string>({
           role="tab"
           id={`${idPrefix}-tab-${tab.id}`}
           aria-selected={tab.id === value}
-          aria-controls={`${idPrefix}-panel-${tab.id}`}
+          aria-controls={
+            tab.id === value ? `${idPrefix}-panel-${tab.id}` : undefined
+          }
           tabIndex={tab.id === value ? 0 : -1}
           className={styles.tab}
           onClick={() => onChange(tab.id)}
