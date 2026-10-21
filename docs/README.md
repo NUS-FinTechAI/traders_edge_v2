@@ -32,7 +32,8 @@ the code wins and the doc needs fixing. Start with
 
 ## Operations
 
-- [Deployment](operations/deployment.md): container stack, client build, hosting status, live PostgreSQL tests.
+- [Hosting guide](operations/hosting.md): staging and production on Render and Vercel.
+- [Deployment](operations/deployment.md): container image, Compose stack, client build, live PostgreSQL tests.
 - [Performance](operations/performance.md): budgets, local benchmark, first-time usability tasks.
 
 ## Decisions

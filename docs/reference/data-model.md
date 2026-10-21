@@ -1,6 +1,7 @@
 # Data model
 
-SQLite locally (`server/data/learning.db`); PostgreSQL in production. Authored
+SQLite locally (`server/data/learning.db`); PostgreSQL in staging and
+production. Authored
 content (chapters, scenarios, bots, quiz bank, cosmetics) is JSON in source
 control, not database data. Match state is not stored: it is rebuilt on each
 read from the scenario, the seed and the stored orders

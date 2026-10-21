@@ -59,13 +59,20 @@ The backend suite includes the balance gauntlet. Live PostgreSQL tests run
 only when `TRADERS_EDGE_TEST_POSTGRES_URL` is set
 ([deployment](docs/operations/deployment.md#live-postgresql-tests)).
 
+## Deploy
+
+The [hosting guide](docs/operations/hosting.md) sets up a guest-demo staging
+environment and production on Render (API and PostgreSQL, `render.yaml`) and
+Vercel (client, `client/vercel.json`). The container image and a
+self-hosted Compose stack are in [deployment](docs/operations/deployment.md).
+
 ## Documentation
 
 [docs/README.md](docs/README.md) indexes every document. Start with
 [ARCHITECTURE.md](ARCHITECTURE.md), the
 [game design document](docs/game-design.md) and the
-[server guide](server/README.md). Repository rules are in
-[AGENTS.md](AGENTS.md) and [CONTRIBUTING.md](CONTRIBUTING.md); history is in
+[server guide](server/README.md). Contributors should read
+[CONTRIBUTING.md](CONTRIBUTING.md); history is in
 the [changelog](CHANGELOG.md).
 
 ## Status
@@ -75,6 +82,6 @@ tested locally. Not yet done:
 
 - independent financial and pedagogical review of the content (production
   refuses gameplay until it is recorded);
-- real Firebase sign-in and a hosted deployment;
+- verified Firebase sign-in on a hosted deployment;
 - account deletion, retention rules and researcher access;
 - any measured learning outcome; the decision score is unvalidated.

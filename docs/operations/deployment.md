@@ -1,9 +1,17 @@
 # Deployment
 
-Server settings and startup checks are in the
+The container image, a self-hosted Compose stack, migrations and the live
+PostgreSQL tests. Step-by-step hosting on Render and Vercel is in the
+[hosting guide](hosting.md); server settings and startup checks are in the
 [server guide](../../server/README.md#configuration).
 
-## Container stack
+## Container image
+
+`server/Dockerfile` (Python 3.12, uv 0.12.23) installs from `server/uv.lock`,
+copies only the application, the manifests and the README, and runs the API
+as user 10001. Both the Compose stack and the Render blueprint build it.
+
+## Compose stack
 
 `compose.yaml` runs three services:
 
@@ -13,9 +21,7 @@ Server settings and startup checks are in the
 | `migrate`  | Applies migrations with `python -m app.db`, then exits; the API waits for it                              |
 | `api`      | The API as user 10001 without reload, bound to `127.0.0.1:${API_PORT:-8000}`; health-checked on `/health` |
 
-The image (`server/Dockerfile`, Python 3.12, uv 0.12.23) installs from
-`server/uv.lock` and copies only the application, the manifests and the
-README. The Compose environment is production: `APP_ENV=production`,
+The Compose environment is production: `APP_ENV=production`,
 PostgreSQL, Firebase authentication, explicit HTTPS origins and
 `AUTO_MIGRATE=false`. Guest authentication cannot be enabled through it.
 Because the shipped `content/review.json` is not `approved`, gameplay routes
@@ -50,21 +56,16 @@ curl --fail http://127.0.0.1:8000/health
   restored copy first.
 - Never use `down --volumes` on a persistent instance; it deletes player data.
 
+The stack binds the API to loopback: put an HTTPS reverse proxy in front of
+it for external access.
+
 ## Client build
 
 The client is a static Vite build (`npm run build`, output in `client/dist/`).
 Production builds call same-origin API routes unless `VITE_BACKEND_URL` is
 set. Firebase sign-in also needs the `VITE_FIREBASE_*` web-app settings; see
-`client/.env.example`.
-
-## Hosting
-
-No hosted deployment exists yet. What the repository provides today is the
-container stack above, which binds the API to loopback and expects an HTTPS
-reverse proxy in front of it, and the static client build. When a real
-hosting project and credentials are available, record the destination, image
-revision, migration result, health check, valid and revoked token checks and
-browser-origin results here.
+`client/.env.example`. On Vercel, `client/vercel.json` forwards `/api/*` to
+the API ([hosting guide](hosting.md)).
 
 ## Live PostgreSQL tests
 
@@ -82,13 +83,14 @@ uv run --project server --extra test --locked python -m unittest discover -s ser
 migration 12 keeps every row, that the profile lock waits and refreshes, that
 two players can be awarded XP and activity concurrently, and that a command
 replays the same response across two workers and a restart.
-`test_research.py` repeats its cases on PostgreSQL. Without the URL these 15
+`test_research.py` repeats its cases on PostgreSQL. Without the URL these
 tests are skipped; the PostgreSQL CI job sets it.
 
 ## Not established
 
 A passing health check shows the process started and the schema matched. It
-does not show that Firebase tokens are accepted, that a hosted HTTPS
-deployment works, or that the content is approved. Earlier container and
+does not show that Firebase tokens are accepted or that the content is
+approved; the [hosting guide](hosting.md#check-a-deployment) lists the checks
+for a hosted deployment. Earlier container and
 PostgreSQL runs (6 October 2026) used the removed learning-run system and do
 not cover migrations 11–12.

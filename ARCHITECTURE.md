@@ -65,7 +65,7 @@ Lobbies and matchmaking call `game.service.create_multiplayer_game(...)`.
 
 ### Persistence
 
-SQLite locally, PostgreSQL in production. `migrations.py` applies 1–12 in
+SQLite locally, PostgreSQL in staging and production. `migrations.py` applies 1–12 in
 order and refuses gaps; migration 11 adds the game tables and 12 the
 campaign, quiz, lobby and rating tables. Tables from migrations 1–10 that
 belonged to the removed system remain but are unused. Mutating requests lock

@@ -33,22 +33,28 @@ loopback database ([deployment](../docs/operations/deployment.md#live-postgresql
 
 ## Configuration
 
-| Variable                  | Default                                          | Meaning                                                                       |
-| ------------------------- | ------------------------------------------------ | ----------------------------------------------------------------------------- |
-| `APP_ENV`                 | `development`                                    | `production` enables strict startup checks and the content review gate        |
-| `DATABASE_URL`            | Absolute local SQLite URL                        | Use `postgresql+psycopg://...` for PostgreSQL                                 |
-| `AUTH_MODE`               | `guest` in development; `firebase` in production | Guest sessions or server-verified Firebase identity                           |
-| `ALLOWED_ORIGINS`         | `http://localhost:5173`, `http://127.0.0.1:5173` | Comma-separated exact browser origins                                         |
-| `FIREBASE_PROJECT_ID`     | Unset                                            | Required in Firebase mode                                                     |
-| `AUTO_MIGRATE`            | `true` locally, `false` in production            | Apply pending migrations at startup; otherwise only check the schema version  |
-| `RESEARCH_ENABLED`        | `false`                                          | Enable study enrollment only after ethics and privacy approval                |
-| `RESEARCH_POLICY_VERSION` | Unset                                            | Required nonblank, unpadded 1–80 character version when enrollment is enabled |
-| `RESEARCH_POLICY_TEXT`    | Unset                                            | Required exact consent text; its UTF-8 SHA-256 digest binds acceptance        |
+| Variable                  | Default                                          | Meaning                                                                                    |
+| ------------------------- | ------------------------------------------------ | ------------------------------------------------------------------------------------------ |
+| `APP_ENV`                 | `development`                                    | `development`, `staging` or `production`; see below                                        |
+| `DATABASE_URL`            | Absolute local SQLite URL                        | PostgreSQL URL; `postgres://` and `postgresql://` are rewritten to `postgresql+psycopg://` |
+| `AUTH_MODE`               | `firebase` in production, otherwise `guest`      | Guest sessions or server-verified Firebase identity                                        |
+| `ALLOWED_ORIGINS`         | `http://localhost:5173`, `http://127.0.0.1:5173` | Comma-separated exact browser origins                                                      |
+| `FIREBASE_PROJECT_ID`     | Unset                                            | Required in Firebase mode                                                                  |
+| `AUTO_MIGRATE`            | `true` in development, otherwise `false`         | Apply pending migrations at startup; otherwise only check the schema version               |
+| `RESEARCH_ENABLED`        | `false`                                          | Enable study enrollment only after ethics and privacy approval                             |
+| `RESEARCH_POLICY_VERSION` | Unset                                            | Required nonblank, unpadded 1–80 character version when enrollment is enabled              |
+| `RESEARCH_POLICY_TEXT`    | Unset                                            | Required exact consent text; its UTF-8 SHA-256 digest binds acceptance                     |
 
-Startup fails when `AUTH_MODE` is not `guest` or `firebase`, when Firebase
-mode has no project id, when enabled enrollment lacks a valid policy, and, in
-production, unless authentication is Firebase, the database URL starts with
-`postgresql+psycopg://` and every origin starts with `https://`.
+| `APP_ENV`     | Auth default | Database   | Origins | Content review gate | Use                                |
+| ------------- | ------------ | ---------- | ------- | ------------------- | ---------------------------------- |
+| `development` | guest        | any        | any     | off                 | Local work                         |
+| `staging`     | guest        | PostgreSQL | HTTPS   | off                 | Hosted guest demo and user testing |
+| `production`  | firebase     | PostgreSQL | HTTPS   | on                  | Real accounts; Firebase required   |
+
+Startup fails on any other `APP_ENV`, when `AUTH_MODE` is not `guest` or
+`firebase`, when Firebase mode has no project id, when enabled enrollment
+lacks a valid policy, and when a staging or production setting in the table
+is not met. Staging and production also mark the guest cookie `Secure`.
 
 In production, gameplay routes (level content and checks, the daily
 challenge, `/api/games`, quizzes, lobbies and matchmaking) return 503 until

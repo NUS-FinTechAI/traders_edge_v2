@@ -9,7 +9,9 @@ Two environments run from `master`:
 
 Vercel serves the static client and forwards `/api/*` to Render
 (`client/vercel.json`). The browser sees one origin, so the guest session
-cookie stays first-party and no CORS is involved.
+cookie stays first-party and no CORS is involved. Both API services build the
+same [container image](deployment.md#container-image); the `APP_ENV` values
+are described in the [server guide](../../server/README.md#configuration).
 
 ## 1. API and database on Render
 
