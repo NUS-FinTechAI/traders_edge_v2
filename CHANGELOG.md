@@ -2,6 +2,19 @@
 
 ## Unreleased
 
+### Playable game overhaul (`feat/game-overhaul`, `9db44ce`)
+
+- Replace the learning-run, observation and challenge backend and the old client with a real-time trading game. [ADR 0004](docs/decisions/0004-playable-game-overhaul.md) records the decision; the [game design document](docs/game-design.md) governs gameplay and the [build contract](docs/game-architecture.md) records the implementation.
+- Add the trading engine (`server/app/game`): seeded markets with news, market/limit/stop-loss orders with fees and a spread, 24 AI opponents across 8 strategies, live missions, a server-owned clock with pause, next-day stepping and 1×/2×/4× speed, state rebuilt from the order log on each read, results with key moments and an unvalidated decision score, and a Monte-Carlo balance gauntlet for bosses and dailies.
+- Add the campaign (`server/app/campaign`): 8 chapters × 5 levels with lesson cards, checks and trading missions, Preview, Gate and Chapter bosses, stars, unlocks and the weekday daily challenge with a cooldown and Gem refresh.
+- Add the player economy (`server/app/player`): XP and levels, Doubloons and Gems, a 7-day login cycle, cosmetics, 16 process badges, a shop and opt-in leaderboards.
+- Add quizzes and classroom rooms (`server/app/quiz`), private lobbies, ranked matchmaking and Elo (`server/app/multiplayer`), and research exports of game events, campaign progress and quiz attempts.
+- Migration 11 adds the game tables and migration 12 the campaign, quiz, lobby and rating tables. Migrations 1–10 stay frozen; most of their tables are no longer used.
+- Author 64 scenarios, 160 quiz questions and 73 cosmetics. The content has not had independent financial or pedagogical review, and there is no production approval gate for it yet.
+- Build a new React client: home, adventure map, lesson and check flow with interactive visuals, trading arena, play hub, quizzes, multiplayer, profile, shop, leaderboards and archive, with services bound to the generated API types.
+- Rewrite the documentation for the new system; remove the readiness, plan and assessment-model documents, the retired-interface QA evidence and three adventure increment records.
+- Local checks at `9db44ce`: 249 backend tests passed (15 PostgreSQL tests skipped without a database URL) and content validation passed. Real Firebase sign-in, hosted deployment and learning outcomes remain unverified.
+
 ### Historical foundations through `8098856`
 
 - Establish the React/TypeScript setup client, FastAPI service and build/check workflow; the HTTP service is tested but the setup screen does not call it.

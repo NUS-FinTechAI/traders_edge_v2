@@ -1,34 +1,56 @@
-# Learning rewards and safety
+# Rewards and safety
 
-The backend separates learning rewards from the game economy authorized by the [supplied brief and ADR 0003](decisions/0003-gameplay-brief-authority.md). Neither learning XP nor competitive profit establishes competence or future profitability. The API awards 20 XP once per passed lesson, 50 once per module check and 10 once per passed delayed review (`review:<lesson_id>`). Retries cannot farm these events. The optional leaderboard ranks opted-in pseudonyms by learning XP, not multiplayer rank. Merging the code does not approve the authored content for publication or establish deployment readiness.
+The game ranks every match by profit, as the
+[game design document](game-design.md) requires, and pays XP, Doubloons and
+Gems under the rules in the [economy](economy.md) page. This page lists the
+safety rules those rewards and screens follow. [ADR 0004](decisions/0004-playable-game-overhaul.md)
+records the decisions behind them.
 
-Module maps project standard completion and separate verified bonus stars for all 30 levels. Bonuses grant zero XP/activity and never gate progress. Replay returns the saved completion state rather than granting an additional reward; `bonus_star` is completion state, not an award delta. Legacy completion remains labeled; no baseline or bonus evidence is fabricated. Older module-level reflection prompts are content-only; text length is not assessed reasoning quality.
+## Implemented rules
 
-## Implemented finite inventory
+- **Simulated money, fictional companies.** One persistent line says so on the
+  landing, login and profile screens. Every scenario uses invented companies
+  and tickers.
+- **No pay for activity.** XP, currencies and badges never depend on the
+  number of orders, trade count or volume. Practice XP is capped at three
+  matches a day.
+- **Badges reward process.** The 16 badges are earned only (never sold) and
+  are based on actions such as setting stop-losses, keeping drawdown low,
+  waiting before trading or right-first-time checks, not on profit size.
+- **Profit decides matches, not learning.** Results say "Profit decides the
+  match; your missions show what you learned". The decision score is labelled
+  unvalidated in the API and never decides a win.
+- **A plan for every match.** The briefing asks for a strategy and a maximum
+  loss before trading. The results compare the plan with the worst drawdown.
+  The ticket shows the risk if a stop-loss is hit. There is no per-order
+  essay.
+- **No pressure mechanics.** No countdown timers (the counter reads "Day N of
+  M"), no order confetti, no urgent alerts, no flashing prices, no
+  one-swipe execution. News appears in a calm feed. Solo matches can be paused
+  at any time.
+- **No leverage, shorting or copy-trading.** The engine is long-only with cash
+  only.
+- **Random clicking loses.** Fees and the spread apply to every fill, and the
+  balance gauntlet checks that idle and random players lose shipped bosses and
+  dailies.
+- **Gentle streaks.** A missed login day restarts the streak at day 1 with no
+  penalty and no warning. The daily cooldown after a loss is 2 hours and can be
+  skipped with earned Gems only; Gems are never sold for real money.
+- **Opt-in leaderboards.** Players appear on the XP and ranked leaderboards
+  only after opting in.
+- **Accessible signals.** Gains and losses carry `+`/`−` signs and ▲/▼ glyphs
+  as well as colour; touch targets are at least 44px; animation is disabled
+  under `prefers-reduced-motion`.
 
-`server/app/rewards.py` owns six code-policy items, each at rule version `1`:
+## Not established
 
-- `badge-first-lesson` and `avatar-compass`: a positive recorded `lesson:` XP event.
-- `badge-foundations` and `title-foundations-complete`: recorded mastery checks for all four foundation modules.
-- `badge-core`: recorded mastery checks for all nine core modules.
-- `badge-first-review`: a positive recorded `review:` XP event.
-
-Inventory returns owned/eligible/locked items, rule/criteria, evidence and equipment. Claim/equip commands have a separate replay ledger; they award no XP and create no activity. Owned retired items retain the original public snapshot/evidence and remain available for compatible equipment slots. Server checks owner and item kind; omitted slots remain unchanged, explicit null unequips. See [server contract](../server/README.md#rewards-and-learning-activity) for routes. Visual keys are identifiers, not delivered artwork. The separate economy derives player level from total XP; public human multiplayer uses its separate Elo rating, not the learning leaderboard.
-
-`GET /api/me/activity` returns a bounded inclusive calendar (default 30, maximum 366 days) and current/longest UTC streaks computed from all recorded learning-day history. Current streak runs through today if active, otherwise yesterday. The basis is rewarded learning events, never login, zero-XP bonus, claim/equip or trading. This is descriptive history, not a daily obligation or check-in reward.
-
-## Separate game rewards
-
-[Economy policy 1](economy.md) implements UTC login claims, first daily AI-victory Stocks, weekly expiry, a two-hour daily defeat/abandonment cooldown, premium refresh and finite shop purchases. These rewards use server-persisted game events and never insert learning activity or qualifying lesson/review evidence. Profiles expose `learning_xp`, `game_xp` and `player_level`; level is 1 plus one level per 100 total XP, not a competence score. [Public paired matches](multiplayer.md) now settle 10 game XP per finisher plus 10 premium for a unique winner or 5 for another finisher; tied finishers receive 5 each. Private matches and forfeiting participants receive no completion award, and private matches do not alter public rating. Supplementary standalone quizzes award once-only game XP under the [quiz policy](quizzes.md); private classroom quizzes award none. No real-money purchase endpoint exists.
-
-Shared AI and chapter/daily results rank net portfolio profit under [versioned challenge](challenges.md) and [adventure](adventure.md) contracts. Boss victories grant game chapter access, not earlier learning mastery. The opponent defaults and chapter associations are not validated difficulty or concept-specific assessment. A no-order decision can win by outperforming opponents; game rank is not a judgment that trading is necessary or that a profitable decision was sound.
-
-## Safety boundaries
-
-Learning mastery and learning-earned badges must not use profit. Versioned simulated competitions may rank net profit and settle their game rewards under ADR 0003. Individual order placement, fills, trade count, volume or increased leverage do not earn rewards. No reward may depend on funding or linking a brokerage account. Reasoned no-trade decisions remain valid.
-
-Readiness precedes markets, products, portfolio construction, execution and risk. Every actual simulated order requires a prior written plan; routine choices/classifications do not place orders or require essays. Only `m05-l01` currently binds a final graded simulation audit. Its synthetic case supplies no investment thesis and is not a recommendation to buy NORTH. Completion checks an accurate observed audit, rejection of a fill guarantee and a verified reason if no orders exist, not inactivity, profit or order count. The separate bonus remains independent. Other lesson bindings and Module 9 multi-scenario assessment remain pending. Advanced execution remains absent. Human multiplayer is separately implemented: private lobbies require structured mastery of chapters 1–4 and public matchmaking requires 1–9. Boss-earned access cannot bypass those checks. Bounded endless simulation remains a distinct mode.
-
-Keep the core jurisdiction-neutral. Product terms, tax, account rules, settlement periods, margin thresholds and reporting channels require reviewed localization. Current sources include US and Spanish regulators without importing their local legal rules into the core. Content remains pending independent financial/pedagogical review; production publication fails closed. Local checks do not establish learning efficacy.
-
-No loss-chasing, broken-streak shame, countdowns, urgent market notifications, order confetti, one-swipe execution or copy-trading. Simulated competition standings must identify their game basis and must not claim real-world financial skill. A helper may explain misconceptions or factual game results without pressuring learners, promising returns or expressing disappointment at a break. Frontend design remains the teammate's scope.
+- The content (chapters, scenarios, quiz bank) has not been independently
+  reviewed for financial accuracy or teaching quality, and there is no
+  production approval gate for it.
+- No study has measured whether the game improves understanding or behaviour.
+  Profit in a synthetic market does not show real-world skill, and the app
+  must not claim to make players profitable.
+- The core is jurisdiction-neutral; tax, account and settlement rules are not
+  modelled (see [localization](localization-packs.md)).
+- The free accessibility palettes and paid candle themes are sold or granted
+  but not yet applied by the client.
