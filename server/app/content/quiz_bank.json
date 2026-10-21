@@ -14,22 +14,22 @@
       "options": [
         {
           "id": "a",
-          "text": "5%"
+          "text": "0.005%"
         },
         {
           "id": "b",
-          "text": "0.5%"
-        },
-        {
-          "id": "c",
           "text": "0.05%"
         },
         {
+          "id": "c",
+          "text": "0.5%"
+        },
+        {
           "id": "d",
-          "text": "0.005%"
+          "text": "5%"
         }
       ],
-      "answer": "c",
+      "answer": "b",
       "explanation": "2,000 ÷ 4,000,000 = 0.0005, which is 0.05% of the company."
     },
     {
@@ -44,22 +44,22 @@
       "options": [
         {
           "id": "a",
-          "text": "Share price × number of shares"
-        },
-        {
-          "id": "b",
           "text": "Annual profit × 10"
         },
         {
-          "id": "c",
+          "id": "b",
           "text": "Share price × shares traded today"
         },
         {
-          "id": "d",
+          "id": "c",
           "text": "Total cash in the bank minus debt"
+        },
+        {
+          "id": "d",
+          "text": "Share price × number of shares"
         }
       ],
-      "answer": "a",
+      "answer": "d",
       "explanation": "Market cap is share price multiplied by the number of shares, the market's total value for the company."
     },
     {
@@ -71,15 +71,15 @@
       ],
       "difficulty": 2,
       "kind": "mc",
-      "prompt": "Meadow Pharma (MDWP) trades at $15 with 300 million shares. Harborline Shipping (HRBL) trades at $90 with 40 million shares. Which statement is correct?",
+      "prompt": "Meadow Pharma (MDWP) trades at $15 with 300 million shares. Tidal Power (TDLP) trades at $90 with 40 million shares. Which statement is correct?",
       "options": [
         {
           "id": "a",
-          "text": "HRBL is bigger, because its share price is six times higher"
+          "text": "MDWP is bigger: about $4.5 billion against $3.6 billion"
         },
         {
           "id": "b",
-          "text": "MDWP is bigger: about $4.5 billion against $3.6 billion"
+          "text": "TDLP is bigger, because its share price is six times higher"
         },
         {
           "id": "c",
@@ -90,8 +90,8 @@
           "text": "You cannot compare them without dividend data"
         }
       ],
-      "answer": "b",
-      "explanation": "MDWP: $15 × 300M = $4.5B. HRBL: $90 × 40M = $3.6B. A higher share price does not mean a bigger company."
+      "answer": "a",
+      "explanation": "MDWP: $15 × 300M = $4.5B. TDLP: $90 × 40M = $3.6B. A higher share price does not mean a bigger company."
     },
     {
       "id": "qb-ch1-04",
@@ -106,22 +106,22 @@
       "options": [
         {
           "id": "a",
-          "text": "The regulator that sets the official share price"
+          "text": "The regulator that sets the official share price each day"
         },
         {
           "id": "b",
-          "text": "The company whose shares you are buying"
+          "text": "The company whose shares you are buying, which then receives your money"
         },
         {
           "id": "c",
-          "text": "A fund that guarantees you against losses"
+          "text": "A firm that passes your orders to an exchange and holds your account"
         },
         {
           "id": "d",
-          "text": "A firm or app that passes your trades to an exchange and looks after your account"
+          "text": "The exchange itself, which matches buyers and sellers directly"
         }
       ],
-      "answer": "d",
+      "answer": "c",
       "explanation": "You trade through a broker, which passes your orders to an exchange and keeps your account."
     },
     {
@@ -159,22 +159,22 @@
       "options": [
         {
           "id": "a",
-          "text": "The price rises because sellers are keen"
+          "text": "The price rises, because sellers are keen to trade quickly"
         },
         {
           "id": "b",
-          "text": "The price tends to fall until enough buyers are willing to trade"
+          "text": "The exchange holds the price at $30 until buyers and sellers match"
         },
         {
           "id": "c",
-          "text": "The exchange fixes the price at $30"
+          "text": "The company steps in and buys the extra shares to support the price"
         },
         {
           "id": "d",
-          "text": "The company buys the extra shares"
+          "text": "The price tends to fall until enough buyers are willing to trade"
         }
       ],
-      "answer": "b",
+      "answer": "d",
       "explanation": "More shares for sale than buyers want at $30 means sellers must accept lower prices to find buyers."
     },
     {
@@ -223,18 +223,18 @@
         },
         {
           "id": "b",
-          "text": "Gambling"
-        },
-        {
-          "id": "c",
           "text": "Trading"
         },
         {
+          "id": "c",
+          "text": "Gambling"
+        },
+        {
           "id": "d",
-          "text": "Running the company"
+          "text": "Day trading"
         }
       ],
-      "answer": "c",
+      "answer": "b",
       "explanation": "A holding period of days to weeks with a plan and an exit is trading."
     },
     {
@@ -250,19 +250,19 @@
       "options": [
         {
           "id": "a",
-          "text": "Holding the shares for less than a month"
+          "text": "Holding the shares for less than a month before selling"
         },
         {
           "id": "b",
-          "text": "Using a limit order instead of a market order"
+          "text": "Using a market order instead of a limit order to buy"
         },
         {
           "id": "c",
-          "text": "Buying a stock that is more volatile than average"
+          "text": "Buying a stock that is more volatile than the market average"
         },
         {
           "id": "d",
-          "text": "Having no reason, no exit plan and no limit on what you can lose"
+          "text": "Having no reason, no exit plan and no limit on losses"
         }
       ],
       "answer": "d",
@@ -284,15 +284,15 @@
         },
         {
           "id": "b",
-          "text": "A fee you pay your broker for each trade"
+          "text": "A fee you pay your broker each time you buy or sell shares"
         },
         {
           "id": "c",
-          "text": "Guaranteed yearly interest on every share"
+          "text": "Interest the company owes you each year for lending it money"
         },
         {
           "id": "d",
-          "text": "The gain you make when the share price rises"
+          "text": "The gain you make when you sell shares for more than you paid"
         }
       ],
       "answer": "a",
@@ -305,19 +305,27 @@
         "dividends"
       ],
       "difficulty": 2,
-      "kind": "true_false",
-      "prompt": "Once a company starts paying a dividend, it must keep paying at least the same amount every year.",
+      "kind": "mc",
+      "prompt": "Orchard Foods (ORCF) has paid the same dividend every year for a decade. This year its profits halve. What can happen to the dividend?",
       "options": [
         {
-          "id": "t",
-          "text": "True"
+          "id": "a",
+          "text": "It must stay the same as last year"
         },
         {
-          "id": "f",
-          "text": "False"
+          "id": "b",
+          "text": "It must rise, because dividends grow with the share price"
+        },
+        {
+          "id": "c",
+          "text": "The board can cut it or stop paying it"
+        },
+        {
+          "id": "d",
+          "text": "Shareholders can force the company to keep paying it in full"
         }
       ],
-      "answer": "f",
+      "answer": "c",
       "explanation": "Dividends are decided by the company's board and can be cut or stopped, especially when profits fall."
     },
     {
@@ -333,22 +341,22 @@
       "options": [
         {
           "id": "a",
-          "text": "1.2%"
-        },
-        {
-          "id": "b",
-          "text": "3%"
-        },
-        {
-          "id": "c",
           "text": "30%"
         },
         {
-          "id": "d",
+          "id": "b",
           "text": "4.8%"
+        },
+        {
+          "id": "c",
+          "text": "3%"
+        },
+        {
+          "id": "d",
+          "text": "1.2%"
         }
       ],
-      "answer": "b",
+      "answer": "c",
       "explanation": "Dividend yield = annual dividend ÷ price = $1.20 ÷ $40 = 0.03, or 3%."
     },
     {
@@ -363,22 +371,22 @@
       "options": [
         {
           "id": "a",
-          "text": "Prices are broadly rising"
-        },
-        {
-          "id": "b",
           "text": "Prices are broadly falling"
         },
         {
+          "id": "b",
+          "text": "Prices are broadly rising"
+        },
+        {
           "id": "c",
-          "text": "Trading is halted"
+          "text": "Prices move sideways in a range"
         },
         {
           "id": "d",
           "text": "Only dividend-paying stocks go up"
         }
       ],
-      "answer": "a",
+      "answer": "b",
       "explanation": "Bull means broadly rising prices; bear means broadly falling prices."
     },
     {
@@ -402,14 +410,14 @@
         },
         {
           "id": "c",
-          "text": "22%, a bear market"
+          "text": "22%, a bull market"
         },
         {
           "id": "d",
-          "text": "22%, a bull market"
+          "text": "22%, a bear market"
         }
       ],
-      "answer": "c",
+      "answer": "d",
       "explanation": "(5,000 - 3,900) ÷ 5,000 = 22%. A fall of 20% or more from a recent high is commonly called a bear market."
     },
     {
@@ -447,7 +455,7 @@
       "options": [
         {
           "id": "a",
-          "text": "-$112"
+          "text": "-$128"
         },
         {
           "id": "b",
@@ -455,14 +463,14 @@
         },
         {
           "id": "c",
-          "text": "+$128"
+          "text": "-$112"
         },
         {
           "id": "d",
-          "text": "-$128"
+          "text": "+$128"
         }
       ],
-      "answer": "d",
+      "answer": "a",
       "explanation": "($22 - $25) × 40 = -$120, then subtract $8 of fees: -$128."
     },
     {
@@ -486,11 +494,11 @@
         },
         {
           "id": "c",
-          "text": "+$9,700"
+          "text": "-$3,000"
         },
         {
           "id": "d",
-          "text": "-$3,000"
+          "text": "+$9,700"
         }
       ],
       "answer": "b",
@@ -509,22 +517,22 @@
       "options": [
         {
           "id": "a",
-          "text": "X is the larger company"
+          "text": "X is the larger company, since its share price is fifty times higher"
         },
         {
           "id": "b",
-          "text": "Y is the better bargain as a business"
+          "text": "Y is the better bargain, since cheaper shares have more room to rise"
         },
         {
           "id": "c",
-          "text": "X is more likely to rise"
+          "text": "Nothing about size, because you also need the number of shares"
         },
         {
           "id": "d",
-          "text": "Nothing about which company is bigger, because you need the number of shares"
+          "text": "X is more likely to rise, because investors pay more for quality"
         }
       ],
-      "answer": "d",
+      "answer": "c",
       "explanation": "Company size is market cap (price × shares). Share price alone says nothing about size or value."
     },
     {
@@ -540,22 +548,22 @@
       "options": [
         {
           "id": "a",
-          "text": "A guaranteed share of profits every quarter"
+          "text": "A fixed share of the company's profits, paid out to you at the end of every quarter"
         },
         {
           "id": "b",
-          "text": "The right to manage the company's daily operations"
+          "text": "The right to manage how the company is run from day to day"
         },
         {
           "id": "c",
-          "text": "A small ownership stake, usually with voting rights at shareholder meetings"
+          "text": "A promise that you get your money back if the company fails"
         },
         {
           "id": "d",
-          "text": "Your money back if the company fails"
+          "text": "A small ownership stake, usually with a vote at shareholder meetings"
         }
       ],
-      "answer": "c",
+      "answer": "d",
       "explanation": "Shareholders own a fraction of the company and usually vote on major matters; returns are not guaranteed."
     },
     {
@@ -593,22 +601,22 @@
       "options": [
         {
           "id": "a",
-          "text": "The lowest price a seller will accept"
+          "text": "The lowest price a seller is currently willing to accept"
         },
         {
           "id": "b",
-          "text": "The highest price a buyer is currently offering"
+          "text": "The price of the most recent trade in the stock"
         },
         {
           "id": "c",
-          "text": "The guaranteed price of the next trade"
+          "text": "The highest price a buyer is currently offering"
         },
         {
           "id": "d",
-          "text": "Yesterday's closing price"
+          "text": "Yesterday's closing price, shown until the market opens"
         }
       ],
-      "answer": "b",
+      "answer": "c",
       "explanation": "The bid is the best price buyers are offering; the ask is the best price sellers will accept."
     },
     {
@@ -631,11 +639,11 @@
         },
         {
           "id": "c",
-          "text": "$62.14"
+          "text": "$0.80"
         },
         {
           "id": "d",
-          "text": "$0.80"
+          "text": "$62.14"
         }
       ],
       "answer": "a",
@@ -698,22 +706,22 @@
       "options": [
         {
           "id": "a",
-          "text": "It may fill at a much worse price than your limit"
-        },
-        {
-          "id": "b",
-          "text": "It always costs a higher commission"
-        },
-        {
-          "id": "c",
           "text": "It may never fill if the price does not reach your limit"
         },
         {
+          "id": "b",
+          "text": "It may fill well beyond your limit price when the market moves fast"
+        },
+        {
+          "id": "c",
+          "text": "It costs a higher commission than a market order"
+        },
+        {
           "id": "d",
-          "text": "It turns into a market order after one day"
+          "text": "It turns into a market order if it has not filled by the close"
         }
       ],
-      "answer": "c",
+      "answer": "a",
       "explanation": "A limit controls the price but not the fill; if the price never reaches it, you may miss the move."
     },
     {
@@ -729,15 +737,15 @@
       "options": [
         {
           "id": "a",
-          "text": "$80"
-        },
-        {
-          "id": "b",
           "text": "$82"
         },
         {
+          "id": "b",
+          "text": "$80"
+        },
+        {
           "id": "c",
-          "text": "$77"
+          "text": "$77.50"
         },
         {
           "id": "d",
@@ -790,22 +798,22 @@
       "options": [
         {
           "id": "a",
-          "text": "The difference between the price you expected and the price you actually got"
+          "text": "A fee the exchange charges when an order fills in several pieces"
         },
         {
           "id": "b",
-          "text": "A fee the exchange charges on every order"
+          "text": "The gap between a day's opening price and its closing price"
         },
         {
           "id": "c",
-          "text": "The gap between a day's open and close"
+          "text": "The delay before an unfilled limit order is canceled by the broker"
         },
         {
           "id": "d",
-          "text": "The delay before a limit order is canceled"
+          "text": "The gap between the price you expected and the price you got"
         }
       ],
-      "answer": "a",
+      "answer": "d",
       "explanation": "Slippage happens when an order fills at a worse price than expected, for example by walking up the order book."
     },
     {
@@ -820,22 +828,22 @@
       "options": [
         {
           "id": "a",
-          "text": "It guarantees both a fill and a price"
+          "text": "Once triggered it becomes a limit order, so it may not fill in a gap"
         },
         {
           "id": "b",
-          "text": "It works exactly like a market order"
+          "text": "It sells at the stop price exactly, whatever the next open is"
         },
         {
           "id": "c",
-          "text": "When triggered it becomes a limit order, so it protects your price but may not fill if the price jumps past the limit"
+          "text": "It works like a market order once the stop price trades, filling at once"
         },
         {
           "id": "d",
-          "text": "It can only be used to buy"
+          "text": "It can be used only to buy, when a stock breaks above resistance"
         }
       ],
-      "answer": "c",
+      "answer": "a",
       "explanation": "A stop-limit trades fill certainty for price control: in a gap through the limit, nothing fills."
     },
     {
@@ -847,7 +855,7 @@
       ],
       "difficulty": 2,
       "kind": "mc",
-      "prompt": "Harborline Shipping (HRBL) trades at $34, below resistance at $36. You want to buy only if it breaks above $36. Which order fits?",
+      "prompt": "Harborline Shipping (HRBL) trades at $34, below resistance at $36. You want to buy only if it breaks above $36. At a real broker, which order fits?",
       "options": [
         {
           "id": "a",
@@ -859,7 +867,7 @@
         },
         {
           "id": "c",
-          "text": "Market buy now"
+          "text": "Market buy order right now"
         },
         {
           "id": "d",
@@ -867,7 +875,7 @@
         }
       ],
       "answer": "d",
-      "explanation": "A buy stop above the price triggers only on a break upward. A buy limit at $36 would fill right away near $34."
+      "explanation": "A buy stop above the price triggers only on a break upward; a buy limit at $36 would fill right away near $34. This game has no buy stops, so here you would buy after a close above $36."
     },
     {
       "id": "qb-ch2-11",
@@ -913,19 +921,19 @@
       "options": [
         {
           "id": "a",
-          "text": "Average volume 3,000 shares a day, spread 1.5%"
+          "text": "Fewer than 200 shares a day; spread 3%"
         },
         {
           "id": "b",
-          "text": "Average volume 50,000 shares a day, spread 0.4%"
+          "text": "3,000 shares a day; spread 1.50%"
         },
         {
           "id": "c",
-          "text": "Average volume 4,000,000 shares a day, spread 0.02%"
+          "text": "4 million shares a day; spread 0.02%"
         },
         {
           "id": "d",
-          "text": "Average volume 200 shares a day, spread 3%"
+          "text": "50,000 shares a day; spread 0.40%"
         }
       ],
       "answer": "c",
@@ -944,22 +952,22 @@
       "options": [
         {
           "id": "a",
-          "text": "0.24%"
-        },
-        {
-          "id": "b",
-          "text": "1%"
-        },
-        {
-          "id": "c",
           "text": "24%"
         },
         {
-          "id": "d",
+          "id": "b",
           "text": "2%"
+        },
+        {
+          "id": "c",
+          "text": "1%"
+        },
+        {
+          "id": "d",
+          "text": "0.24%"
         }
       ],
-      "answer": "d",
+      "answer": "b",
       "explanation": "Spread = $0.24 and mid = $12.00, so $0.24 ÷ $12.00 = 2%."
     },
     {
@@ -971,27 +979,27 @@
       ],
       "difficulty": 2,
       "kind": "mc",
-      "prompt": "You buy 200 shares at the ask of $40.10 and immediately sell them at the bid of $40.00. Commission is $2 per trade. What is your total loss?",
+      "prompt": "You buy 200 shares at the ask of $40.10 and immediately sell them at the bid of $40.00. Commission is $2.50 per trade. What is your total loss?",
       "options": [
         {
           "id": "a",
-          "text": "$20"
+          "text": "$5"
         },
         {
           "id": "b",
-          "text": "$22"
+          "text": "$20"
         },
         {
           "id": "c",
-          "text": "$4"
+          "text": "$22.50"
         },
         {
           "id": "d",
-          "text": "$24"
+          "text": "$25"
         }
       ],
       "answer": "d",
-      "explanation": "Spread cost: 200 × $0.10 = $20. Two commissions: $4. Total loss: $24."
+      "explanation": "Spread cost: 200 × $0.10 = $20. Two commissions: $5. Total loss: $25."
     },
     {
       "id": "qb-ch2-15",
@@ -1005,22 +1013,22 @@
       "options": [
         {
           "id": "a",
-          "text": "$280"
+          "text": "$20"
         },
         {
           "id": "b",
-          "text": "$300"
-        },
-        {
-          "id": "c",
           "text": "$56"
         },
         {
+          "id": "c",
+          "text": "$280"
+        },
+        {
           "id": "d",
-          "text": "$20"
+          "text": "$300"
         }
       ],
-      "answer": "a",
+      "answer": "c",
       "explanation": "Raj pays 60 × $5 = $300 and Ana pays 4 × $5 = $20, a difference of $280."
     },
     {
@@ -1094,7 +1102,7 @@
       ],
       "difficulty": 3,
       "kind": "true_false",
-      "prompt": "A stop-loss order guarantees that your loss will be no larger than the distance between your entry and your stop.",
+      "prompt": "You bought at $50 with a stop-loss at $45. The stock closes at $47, then opens at $40 after bad news. Your loss is still about $5 a share.",
       "options": [
         {
           "id": "t",
@@ -1106,7 +1114,7 @@
         }
       ],
       "answer": "f",
-      "explanation": "If the price gaps past the stop, it becomes a market order and fills at the next available price, which can be much worse."
+      "explanation": "The price gapped past the stop, so it became a market order at the open and filled near $40: a loss of about $10 a share."
     },
     {
       "id": "qb-ch2-19",
@@ -1144,19 +1152,19 @@
       "options": [
         {
           "id": "a",
-          "text": "A stop-limit with stop $47 and limit $46.50; if the price gaps below $46.50, it may not fill and you keep holding"
+          "text": "Stop-limit, stop $47, limit $46.50; it may not fill in a gap"
         },
         {
           "id": "b",
-          "text": "A sell stop at $47; it guarantees a fill at exactly $47"
+          "text": "A sell stop at $47; it fills at $47 in any gap"
         },
         {
           "id": "c",
-          "text": "A market sell now; it guarantees the best price"
+          "text": "A sell limit at $46.50; it sells only if the price falls to $46.50"
         },
         {
           "id": "d",
-          "text": "A buy limit at $47; it protects the position"
+          "text": "A buy limit at $47, which protects the position if the price falls below it"
         }
       ],
       "answer": "a",
@@ -1174,22 +1182,22 @@
       "options": [
         {
           "id": "a",
-          "text": "The range between the open and the close"
+          "text": "The volume traded during the period"
         },
         {
           "id": "b",
-          "text": "The range between the high and the low"
+          "text": "The average price over the whole day"
         },
         {
           "id": "c",
-          "text": "The volume traded"
+          "text": "The range between the day's high and its low"
         },
         {
           "id": "d",
-          "text": "The average price of the day"
+          "text": "The range between the open and the close"
         }
       ],
-      "answer": "a",
+      "answer": "d",
       "explanation": "The body runs from open to close; the wicks reach the high and the low."
     },
     {
@@ -1204,11 +1212,11 @@
       "options": [
         {
           "id": "a",
-          "text": "Green (bullish)"
+          "text": "Red (bearish)"
         },
         {
           "id": "b",
-          "text": "Red (bearish)"
+          "text": "Green (bullish)"
         },
         {
           "id": "c",
@@ -1219,7 +1227,7 @@
           "text": "You cannot tell without volume"
         }
       ],
-      "answer": "b",
+      "answer": "a",
       "explanation": "It closed below its open, so it is a red (bearish) candle."
     },
     {
@@ -1235,7 +1243,7 @@
       "options": [
         {
           "id": "a",
-          "text": "$3.00"
+          "text": "$0.50"
         },
         {
           "id": "b",
@@ -1247,7 +1255,7 @@
         },
         {
           "id": "d",
-          "text": "$0.50"
+          "text": "$3.00"
         }
       ],
       "answer": "c",
@@ -1287,22 +1295,22 @@
       "options": [
         {
           "id": "a",
-          "text": "A guaranteed reversal"
+          "text": "A reversal that has been confirmed by the market"
         },
         {
           "id": "b",
-          "text": "Strong buying pressure"
+          "text": "Indecision between buyers and sellers"
         },
         {
           "id": "c",
-          "text": "Heavy volume"
+          "text": "Strong buying pressure that is likely to continue"
         },
         {
           "id": "d",
-          "text": "Indecision between buyers and sellers"
+          "text": "Heavy volume as large holders trade"
         }
       ],
-      "answer": "d",
+      "answer": "b",
       "explanation": "A tiny body means neither side won the period; it is a clue, not a signal on its own."
     },
     {
@@ -1326,14 +1334,14 @@
         },
         {
           "id": "c",
-          "text": "Shooting star"
+          "text": "Doji"
         },
         {
           "id": "d",
-          "text": "Doji"
+          "text": "Shooting star"
         }
       ],
-      "answer": "c",
+      "answer": "d",
       "explanation": "A shooting star at the top of an uptrend shows buyers pushed up but sellers drove the price back down."
     },
     {
@@ -1349,11 +1357,11 @@
       "options": [
         {
           "id": "a",
-          "text": "Open $50.00, high $52.00, low $49.80, close $50.20"
+          "text": "Open $49.60, high $50.10, low $48.40, close $50.00"
         },
         {
           "id": "b",
-          "text": "Open $49.60, high $50.10, low $48.40, close $50.00"
+          "text": "Open $50.00, high $52.00, low $49.80, close $50.20"
         },
         {
           "id": "c",
@@ -1364,7 +1372,7 @@
           "text": "Open $48.50, high $50.30, low $48.40, close $50.20"
         }
       ],
-      "answer": "b",
+      "answer": "a",
       "explanation": "Body $0.40, lower wick $1.20 (three times the body) and only $0.10 of upper wick, so the body sits near the top."
     },
     {
@@ -1384,18 +1392,18 @@
         },
         {
           "id": "b",
-          "text": "Hammer"
-        },
-        {
-          "id": "c",
           "text": "Bearish engulfing"
         },
         {
+          "id": "c",
+          "text": "Hammer"
+        },
+        {
           "id": "d",
-          "text": "Doji"
+          "text": "Shooting star after a gap"
         }
       ],
-      "answer": "c",
+      "answer": "b",
       "explanation": "Day 2's red body ($72.40 to $69.50) completely covers Day 1's green body ($70 to $72) after a rise."
     },
     {
@@ -1410,22 +1418,22 @@
       "options": [
         {
           "id": "a",
-          "text": "Higher highs and higher lows"
-        },
-        {
-          "id": "b",
           "text": "Lower highs and lower lows"
         },
         {
-          "id": "c",
+          "id": "b",
           "text": "Equal highs and equal lows"
         },
         {
+          "id": "c",
+          "text": "Higher highs and higher lows"
+        },
+        {
           "id": "d",
-          "text": "Rising volume alone"
+          "text": "Rising volume, whatever the price does"
         }
       ],
-      "answer": "a",
+      "answer": "c",
       "explanation": "Rising peaks and rising dips define an uptrend."
     },
     {
@@ -1441,22 +1449,22 @@
       "options": [
         {
           "id": "a",
-          "text": "An uptrend"
+          "text": "A sideways range"
         },
         {
           "id": "b",
-          "text": "A downtrend"
+          "text": "An uptrend"
         },
         {
           "id": "c",
-          "text": "A sideways range"
+          "text": "A downtrend"
         },
         {
           "id": "d",
           "text": "A confirmed breakout"
         }
       ],
-      "answer": "c",
+      "answer": "a",
       "explanation": "The highs and lows are neither steadily rising nor falling, so the price is moving sideways between about $28 and $32."
     },
     {
@@ -1475,11 +1483,11 @@
         },
         {
           "id": "b",
-          "text": "The exchange stops trading the stock"
+          "text": "Trading stops for the day to prevent further falls"
         },
         {
           "id": "c",
-          "text": "The price is guaranteed not to fall below"
+          "text": "The price is held up by the exchange to stop big falls"
         },
         {
           "id": "d",
@@ -1525,22 +1533,22 @@
       "options": [
         {
           "id": "a",
-          "text": "$29.50"
+          "text": "$28.30"
         },
         {
           "id": "b",
-          "text": "$31"
+          "text": "$29.50"
         },
         {
           "id": "c",
-          "text": "$34"
+          "text": "$31"
         },
         {
           "id": "d",
-          "text": "$28.30"
+          "text": "$34"
         }
       ],
-      "answer": "b",
+      "answer": "c",
       "explanation": "Range height = $28 - $25 = $3, so the target is $28 + $3 = $31. It is a rough guide, not a promise."
     },
     {
@@ -1555,22 +1563,22 @@
       "options": [
         {
           "id": "a",
-          "text": "The rise has weak participation and is less convincing"
+          "text": "Sellers have given up, so the rise is likely to speed up"
         },
         {
           "id": "b",
-          "text": "The rise is guaranteed to continue"
+          "text": "The rise has weak participation and is less convincing"
         },
         {
           "id": "c",
-          "text": "Volume does not matter for price moves"
+          "text": "Volume is irrelevant once the price is moving in a trend"
         },
         {
           "id": "d",
-          "text": "A breakout has been confirmed"
+          "text": "A breakout has been confirmed by the steady rise"
         }
       ],
-      "answer": "a",
+      "answer": "b",
       "explanation": "Rising prices on falling volume show fewer participants backing the move."
     },
     {
@@ -1587,22 +1595,22 @@
       "options": [
         {
           "id": "a",
-          "text": "Buy as soon as the price touches resistance during the day"
+          "text": "Wait for a close above resistance on high volume, with a stop back in the range"
         },
         {
           "id": "b",
-          "text": "Use a bigger position so a real breakout pays more"
+          "text": "Buy as soon as the price touches resistance during the day, before it runs away"
         },
         {
           "id": "c",
-          "text": "Remove your stop so a brief dip cannot shake you out"
+          "text": "Use a bigger position so that a real breakout pays enough to cover the fakes"
         },
         {
           "id": "d",
-          "text": "Wait for a close above resistance on above-average volume, with a stop back inside the range"
+          "text": "Set the stop far below the range so a brief dip back inside cannot shake you out"
         }
       ],
-      "answer": "d",
+      "answer": "a",
       "explanation": "Waiting for a close and volume filters weak breakouts, and the stop limits the damage if it still fails."
     },
     {
@@ -1625,14 +1633,14 @@
         },
         {
           "id": "c",
-          "text": "One single trade"
+          "text": "One trading day"
         },
         {
           "id": "d",
-          "text": "One trading day"
+          "text": "One single trade"
         }
       ],
-      "answer": "d",
+      "answer": "c",
       "explanation": "The timeframe sets how much time each candle covers; on a daily chart it is one trading day."
     },
     {
@@ -1648,22 +1656,22 @@
       "options": [
         {
           "id": "a",
-          "text": "The longer-term trend is up and the recent fall is a short-term pullback, which may or may not end soon"
-        },
-        {
-          "id": "b",
           "text": "Both timeframes now show a downtrend"
         },
         {
+          "id": "b",
+          "text": "The weekly trend is up; the daily fall is a pullback within it"
+        },
+        {
           "id": "c",
-          "text": "The weekly chart must be wrong"
+          "text": "The weekly chart is out of date and should be ignored until it catches up"
         },
         {
           "id": "d",
-          "text": "Different timeframes always show the same trend"
+          "text": "The daily chart is wrong, since a weekly uptrend rules out daily falls"
         }
       ],
-      "answer": "a",
+      "answer": "b",
       "explanation": "Timeframes can disagree; a pullback on a short timeframe can sit inside a longer uptrend."
     },
     {
@@ -1683,18 +1691,18 @@
         },
         {
           "id": "b",
-          "text": "Stop $40.20, target $44.80"
-        },
-        {
-          "id": "c",
           "text": "Stop $35.00, target $45.00"
         },
         {
-          "id": "d",
+          "id": "c",
           "text": "No stop, target $50.00"
+        },
+        {
+          "id": "d",
+          "text": "Stop $40.20, target $44.80"
         }
       ],
-      "answer": "b",
+      "answer": "d",
       "explanation": "A stop just below the zone risks $1.00 for $3.60 of reward (3.6:1). A $41.10 stop sits inside normal noise."
     },
     {
@@ -1706,7 +1714,7 @@
       ],
       "difficulty": 1,
       "kind": "true_false",
-      "prompt": "A hammer after a downtrend reliably predicts a rise, so waiting for confirmation is unnecessary.",
+      "prompt": "After a downtrend, a hammer is strong enough evidence to buy at once, without waiting for the next candle.",
       "options": [
         {
           "id": "t",
@@ -1755,7 +1763,7 @@
       "options": [
         {
           "id": "a",
-          "text": "$20"
+          "text": "$2,000"
         },
         {
           "id": "b",
@@ -1763,11 +1771,11 @@
         },
         {
           "id": "c",
-          "text": "$2,000"
+          "text": "$100"
         },
         {
           "id": "d",
-          "text": "$100"
+          "text": "$20"
         }
       ],
       "answer": "b",
@@ -1786,7 +1794,7 @@
       "options": [
         {
           "id": "a",
-          "text": "62"
+          "text": "250"
         },
         {
           "id": "b",
@@ -1794,14 +1802,14 @@
         },
         {
           "id": "c",
-          "text": "250"
+          "text": "62"
         },
         {
           "id": "d",
           "text": "31"
         }
       ],
-      "answer": "a",
+      "answer": "c",
       "explanation": "Risk = $250; stop distance = $4; $250 ÷ $4 = 62.5, rounded down to 62 so you stay within 1%."
     },
     {
@@ -1821,18 +1829,18 @@
         },
         {
           "id": "b",
-          "text": "Position $3,000, risk $200"
-        },
-        {
-          "id": "c",
           "text": "Position $200, risk $3,000"
         },
         {
-          "id": "d",
+          "id": "c",
           "text": "Position $2,800, risk $200"
+        },
+        {
+          "id": "d",
+          "text": "Position $3,000, risk $200"
         }
       ],
-      "answer": "b",
+      "answer": "d",
       "explanation": "Position = 100 × $30 = $3,000. Risk = 100 × ($30 - $28) = $200 if the stop fills as planned."
     },
     {
@@ -1870,22 +1878,22 @@
       "options": [
         {
           "id": "a",
-          "text": "Move the stop down to $43 to give the trade more room"
+          "text": "Keep the stop where you planned it; widening it grows the loss"
         },
         {
           "id": "b",
-          "text": "Cancel the stop because the price will probably bounce"
+          "text": "Move the stop down to $43 to give the trade more room to recover"
         },
         {
           "id": "c",
-          "text": "Buy more shares to lower your average price"
+          "text": "Cancel the stop, since the price will probably bounce off $46"
         },
         {
           "id": "d",
-          "text": "Keep the stop where you planned it; widening it increases the loss you agreed to"
+          "text": "Buy more shares here so your average price is closer to the stop"
         }
       ],
-      "answer": "d",
+      "answer": "a",
       "explanation": "Moving a stop away from the price turns a planned small loss into an unplanned bigger one."
     },
     {
@@ -1923,22 +1931,22 @@
       "options": [
         {
           "id": "a",
-          "text": "$47"
+          "text": "$58"
         },
         {
           "id": "b",
-          "text": "$50"
-        },
-        {
-          "id": "c",
           "text": "$55"
         },
         {
+          "id": "c",
+          "text": "$50"
+        },
+        {
           "id": "d",
-          "text": "$58"
+          "text": "$47"
         }
       ],
-      "answer": "c",
+      "answer": "b",
       "explanation": "The stop trails the $58 high by $3, so it sits at $55 and locks in part of the gain."
     },
     {
@@ -1949,11 +1957,11 @@
       ],
       "difficulty": 1,
       "kind": "mc",
-      "prompt": "Entry $20, stop $19, target $23. What is the reward-to-risk ratio?",
+      "prompt": "Entry $35, stop $33.50, target $41. What is the reward-to-risk ratio?",
       "options": [
         {
           "id": "a",
-          "text": "1:3"
+          "text": "1:4"
         },
         {
           "id": "b",
@@ -1961,15 +1969,15 @@
         },
         {
           "id": "c",
-          "text": "2:1"
+          "text": "4:1"
         },
         {
           "id": "d",
-          "text": "4:1"
+          "text": "6:1"
         }
       ],
-      "answer": "b",
-      "explanation": "Reward = $3 and risk = $1, so reward-to-risk is 3:1."
+      "answer": "c",
+      "explanation": "Reward = $6 and risk = $1.50, so reward-to-risk is 4:1."
     },
     {
       "id": "qb-ch4-09",
@@ -1984,7 +1992,7 @@
       "options": [
         {
           "id": "a",
-          "text": "60%"
+          "text": "40%"
         },
         {
           "id": "b",
@@ -1992,15 +2000,15 @@
         },
         {
           "id": "c",
-          "text": "33.3%"
+          "text": "60%"
         },
         {
           "id": "d",
-          "text": "40%"
+          "text": "66.7%"
         }
       ],
-      "answer": "d",
-      "explanation": "Breakeven win rate = 1 ÷ (1 + R) = 1 ÷ 2.5 = 40%."
+      "answer": "a",
+      "explanation": "Breakeven win rate = 1 ÷ (1 + reward-to-risk) = 1 ÷ (1 + 1.5) = 40%."
     },
     {
       "id": "qb-ch4-10",
@@ -2018,7 +2026,7 @@
         },
         {
           "id": "b",
-          "text": "-$30"
+          "text": "+$60"
         },
         {
           "id": "c",
@@ -2026,7 +2034,7 @@
         },
         {
           "id": "d",
-          "text": "+$60"
+          "text": "-$30"
         }
       ],
       "answer": "c",
@@ -2041,7 +2049,7 @@
       ],
       "difficulty": 3,
       "kind": "mc",
-      "prompt": "Trader A wins 70% of trades with an average win of $50 and an average loss of $150. Trader B wins 35% with an average win of $300 and an average loss of $100. Which has positive expectancy?",
+      "prompt": "Trader A wins 75% of trades with an average win of $40 and an average loss of $150. Trader B wins 35% with an average win of $300 and an average loss of $100. Which has positive expectancy?",
       "options": [
         {
           "id": "a",
@@ -2049,7 +2057,7 @@
         },
         {
           "id": "b",
-          "text": "B only"
+          "text": "Neither"
         },
         {
           "id": "c",
@@ -2057,11 +2065,11 @@
         },
         {
           "id": "d",
-          "text": "Neither"
+          "text": "B only"
         }
       ],
-      "answer": "b",
-      "explanation": "A: 0.7 × $50 - 0.3 × $150 = -$10. B: 0.35 × $300 - 0.65 × $100 = +$40. A high win rate is not enough."
+      "answer": "d",
+      "explanation": "A: 0.75 × $40 - 0.25 × $150 = -$7.50. B: 0.35 × $300 - 0.65 × $100 = +$40. A high win rate is not enough."
     },
     {
       "id": "qb-ch4-12",
@@ -2075,19 +2083,19 @@
       "options": [
         {
           "id": "a",
-          "text": "The damage one company's bad news can do to your portfolio"
+          "text": "The damage one company's bad news can do to you"
         },
         {
           "id": "b",
-          "text": "The risk of the whole market falling"
+          "text": "The risk of the whole market falling at the same time"
         },
         {
           "id": "c",
-          "text": "All investment risk"
+          "text": "All investment risk, as long as you own enough stocks"
         },
         {
           "id": "d",
-          "text": "Your trading fees"
+          "text": "Your trading fees, since each position is smaller"
         }
       ],
       "answer": "a",
@@ -2106,22 +2114,22 @@
       "options": [
         {
           "id": "a",
-          "text": "Another cloud-software stock that usually moves with NMBC"
+          "text": "Orchard Foods (ORCF), a food company with steady sales"
         },
         {
           "id": "b",
-          "text": "Orchard Foods (ORCF), a food company"
-        },
-        {
-          "id": "c",
           "text": "Tidal Power (TDLP), an electricity supplier"
         },
         {
+          "id": "c",
+          "text": "Harborline Shipping (HRBL), a container shipping company"
+        },
+        {
           "id": "d",
-          "text": "Harborline Shipping (HRBL), a shipping company"
+          "text": "Another cloud-software stock that moves with NMBC"
         }
       ],
-      "answer": "a",
+      "answer": "d",
       "explanation": "Highly correlated holdings move together, so they act like one bigger position."
     },
     {
@@ -2136,22 +2144,22 @@
       "options": [
         {
           "id": "a",
-          "text": "4.8%"
+          "text": "48%"
         },
         {
           "id": "b",
-          "text": "25%"
-        },
-        {
-          "id": "c",
           "text": "40%"
         },
         {
+          "id": "c",
+          "text": "25%"
+        },
+        {
           "id": "d",
-          "text": "48%"
+          "text": "4.8%"
         }
       ],
-      "answer": "c",
+      "answer": "b",
       "explanation": "$4,800 ÷ $12,000 = 0.40, or 40% of the portfolio."
     },
     {
@@ -2188,22 +2196,22 @@
       "options": [
         {
           "id": "a",
-          "text": "20%"
-        },
-        {
-          "id": "b",
-          "text": "2.5%"
-        },
-        {
-          "id": "c",
           "text": "80%"
         },
         {
-          "id": "d",
+          "id": "b",
           "text": "25%"
+        },
+        {
+          "id": "c",
+          "text": "20%"
+        },
+        {
+          "id": "d",
+          "text": "2.5%"
         }
       ],
-      "answer": "d",
+      "answer": "b",
       "explanation": "You need $2,000 on a base of $8,000: $2,000 ÷ $8,000 = 25%."
     },
     {
@@ -2218,11 +2226,11 @@
       "options": [
         {
           "id": "a",
-          "text": "25%"
+          "text": "2.5%"
         },
         {
           "id": "b",
-          "text": "2.5%"
+          "text": "12.5%"
         },
         {
           "id": "c",
@@ -2230,7 +2238,7 @@
         },
         {
           "id": "d",
-          "text": "12.5%"
+          "text": "25%"
         }
       ],
       "answer": "c",
@@ -2261,7 +2269,7 @@
         },
         {
           "id": "d",
-          "text": "A about $8,508; B about $0"
+          "text": "A about $8,508; B about $0, wiped out"
         }
       ],
       "answer": "a",
@@ -2303,19 +2311,19 @@
       "options": [
         {
           "id": "a",
-          "text": "There is no problem; buy 1,000 shares"
+          "text": "There is no problem; the formula has done its job, so buy all 1,000 shares"
         },
         {
           "id": "b",
-          "text": "The risk would be 10% of the account"
+          "text": "The risk would be 10% of the account, far above the 1% rule"
         },
         {
           "id": "c",
-          "text": "The stop is too wide"
+          "text": "The stop is too wide, so the position needs to be larger"
         },
         {
           "id": "d",
-          "text": "1,000 shares would cost $25,000, more than your cash, so the size must be capped by cash and position limits"
+          "text": "1,000 shares cost $25,000, more than your cash, so cash caps the size"
         }
       ],
       "answer": "d",
@@ -2333,22 +2341,22 @@
       "options": [
         {
           "id": "a",
-          "text": "$14"
-        },
-        {
-          "id": "b",
           "text": "$12"
         },
         {
+          "id": "b",
+          "text": "$13"
+        },
+        {
           "id": "c",
-          "text": "$60"
+          "text": "$14"
         },
         {
           "id": "d",
-          "text": "$13"
+          "text": "$60"
         }
       ],
-      "answer": "b",
+      "answer": "a",
       "explanation": "($10 + $11 + $12 + $13 + $14) ÷ 5 = $60 ÷ 5 = $12."
     },
     {
@@ -2364,22 +2372,22 @@
       "options": [
         {
           "id": "a",
-          "text": "Gives more weight to recent prices, so it reacts faster"
+          "text": "Gives every day equal weight but uses more days of data"
         },
         {
           "id": "b",
-          "text": "Ignores the most recent prices"
+          "text": "Uses tomorrow's expected price"
         },
         {
           "id": "c",
-          "text": "Predicts tomorrow's price"
+          "text": "Is calculated from volume instead of closing prices"
         },
         {
           "id": "d",
-          "text": "Is calculated from volume instead of price"
+          "text": "Weights recent prices more, so it reacts faster"
         }
       ],
-      "answer": "a",
+      "answer": "d",
       "explanation": "An EMA weights recent closes more heavily, so it turns sooner than an SMA, though it still lags."
     },
     {
@@ -2417,22 +2425,22 @@
       "options": [
         {
           "id": "a",
-          "text": "$55"
+          "text": "$50.50"
         },
         {
           "id": "b",
-          "text": "$52.50"
-        },
-        {
-          "id": "c",
           "text": "$51"
         },
         {
+          "id": "c",
+          "text": "$52.50"
+        },
+        {
           "id": "d",
-          "text": "$50.50"
+          "text": "$55"
         }
       ],
-      "answer": "c",
+      "answer": "b",
       "explanation": "EMA = $50 + 0.2 × ($55 - $50) = $50 + $1 = $51."
     },
     {
@@ -2452,18 +2460,18 @@
         },
         {
           "id": "b",
-          "text": "The price touches the 200-day moving average"
+          "text": "The 50-day moving average crosses above the 200-day moving average"
         },
         {
           "id": "c",
-          "text": "RSI crosses above 50"
+          "text": "The price climbs back above its 200-day moving average after a fall"
         },
         {
           "id": "d",
-          "text": "The 50-day moving average crosses above the 200-day moving average"
+          "text": "RSI crosses above 50"
         }
       ],
-      "answer": "d",
+      "answer": "b",
       "explanation": "A golden cross is the 50-day moving above the 200-day; the opposite is a death cross."
     },
     {
@@ -2479,7 +2487,7 @@
       "options": [
         {
           "id": "a",
-          "text": "Many small losses from false signals (whipsaw), made worse by fees"
+          "text": "Many small losses from false signals, made worse by fees"
         },
         {
           "id": "b",
@@ -2487,11 +2495,11 @@
         },
         {
           "id": "c",
-          "text": "No trades at all"
+          "text": "Few trades, because averages rarely cross in a sideways market"
         },
         {
           "id": "d",
-          "text": "Buying every low and selling every high exactly"
+          "text": "Buying every low and selling every high of the range exactly"
         }
       ],
       "answer": "a",
@@ -2513,18 +2521,18 @@
         },
         {
           "id": "b",
-          "text": "0 and 100"
+          "text": "0 and 1"
         },
         {
           "id": "c",
-          "text": "0 and 1"
+          "text": "0 and 100"
         },
         {
           "id": "d",
           "text": "It has no fixed range"
         }
       ],
-      "answer": "b",
+      "answer": "c",
       "explanation": "RSI is scaled from 0 to 100."
     },
     {
@@ -2540,22 +2548,22 @@
       "options": [
         {
           "id": "a",
-          "text": "It must fall soon, so sell everything now"
+          "text": "It must fall soon, so sell everything now while the price is still high"
         },
         {
           "id": "b",
-          "text": "RSI above 70 means the company is overvalued"
+          "text": "RSI above 70 means the company is overvalued compared with its profits"
         },
         {
           "id": "c",
-          "text": "In strong trends RSI can stay above 70 for a long time; it is not a sell signal by itself"
+          "text": "The trend is certain to continue while RSI stays above 70"
         },
         {
           "id": "d",
-          "text": "RSI above 70 guarantees the trend will continue"
+          "text": "Strong trends can keep RSI above 70; it is not a sell signal alone"
         }
       ],
-      "answer": "c",
+      "answer": "d",
       "explanation": "\"Overbought\" describes strong recent gains, not a forecast; strong trends often keep RSI high."
     },
     {
@@ -2567,27 +2575,27 @@
       ],
       "difficulty": 3,
       "kind": "mc",
-      "prompt": "The price makes a higher high ($58 against an earlier $55), but RSI makes a lower high (68 against an earlier 76). This is:",
+      "prompt": "Tidal Power (TDLP) makes a lower low ($26.40 against an earlier $27.10), but RSI makes a higher low (34 against an earlier 24). This is:",
       "options": [
         {
           "id": "a",
-          "text": "Bullish divergence"
+          "text": "Bearish divergence: the downtrend is speeding up"
         },
         {
           "id": "b",
-          "text": "Bearish divergence: upward momentum is weakening"
+          "text": "Bullish divergence: downward momentum is weakening"
         },
         {
           "id": "c",
-          "text": "Confirmation that the trend is strengthening"
+          "text": "Confirmation that the downtrend is getting stronger"
         },
         {
           "id": "d",
-          "text": "A golden cross"
+          "text": "An overbought signal, since RSI rose from 24 to 34"
         }
       ],
       "answer": "b",
-      "explanation": "Price and RSI disagreeing at a new high is bearish divergence, a warning rather than a certain reversal."
+      "explanation": "A lower price low with a higher RSI low is bullish divergence: selling momentum is fading. It is a warning, not a certain turn."
     },
     {
       "id": "qb-ch5-10",
@@ -2601,22 +2609,22 @@
       "options": [
         {
           "id": "a",
-          "text": "Overbought"
-        },
-        {
-          "id": "b",
-          "text": "Neutral"
-        },
-        {
-          "id": "c",
           "text": "Oversold"
         },
         {
+          "id": "b",
+          "text": "Overbought"
+        },
+        {
+          "id": "c",
+          "text": "Neutral"
+        },
+        {
           "id": "d",
-          "text": "A guaranteed buy signal"
+          "text": "A bearish divergence"
         }
       ],
-      "answer": "c",
+      "answer": "a",
       "explanation": "Below 30 is called oversold and above 70 overbought; neither is a guarantee."
     },
     {
@@ -2631,15 +2639,15 @@
       "options": [
         {
           "id": "a",
-          "text": "The 26-day SMA minus the 12-day SMA"
+          "text": "The 26-day SMA minus the 12-day SMA of the price"
         },
         {
           "id": "b",
-          "text": "The 9-day EMA of the price"
+          "text": "A 9-day EMA of the closing price"
         },
         {
           "id": "c",
-          "text": "RSI minus 50"
+          "text": "RSI minus 50, smoothed over 14 days"
         },
         {
           "id": "d",
@@ -2662,22 +2670,22 @@
       "options": [
         {
           "id": "a",
-          "text": "MACD 1.30; histogram 0.40"
-        },
-        {
-          "id": "b",
           "text": "MACD -1.30; histogram -2.20"
         },
         {
-          "id": "c",
+          "id": "b",
           "text": "MACD 1.30; histogram 2.20"
+        },
+        {
+          "id": "c",
+          "text": "MACD 1.30; histogram 0.40"
         },
         {
           "id": "d",
           "text": "MACD 0.40; histogram 1.30"
         }
       ],
-      "answer": "a",
+      "answer": "c",
       "explanation": "MACD = $52.40 - $51.10 = 1.30. Histogram = MACD - signal = 1.30 - 0.90 = 0.40."
     },
     {
@@ -2689,27 +2697,27 @@
       ],
       "difficulty": 1,
       "kind": "mc",
-      "prompt": "The MACD signal line is:",
+      "prompt": "MACD is 0.60 and rising, and its signal line is 0.75. If MACD keeps rising and passes 0.75, what has happened?",
       "options": [
         {
           "id": "a",
-          "text": "The 9-day SMA of the price"
+          "text": "A death cross on the price chart"
         },
         {
           "id": "b",
-          "text": "The 26-day EMA of the price"
+          "text": "A bullish signal-line crossover"
         },
         {
           "id": "c",
-          "text": "The zero line"
+          "text": "MACD has crossed zero, so the 12-day EMA passed the 26-day"
         },
         {
           "id": "d",
-          "text": "A 9-period EMA of the MACD line"
+          "text": "The histogram has turned negative"
         }
       ],
-      "answer": "d",
-      "explanation": "The standard MACD settings are 12, 26 and 9: the 9 smooths the MACD line into the signal line."
+      "answer": "b",
+      "explanation": "MACD rising through its signal line is a bullish signal-line crossover, and the histogram turns positive. MACD was already above zero."
     },
     {
       "id": "qb-ch5-14",
@@ -2719,19 +2727,27 @@
         "signals_not_guarantees"
       ],
       "difficulty": 2,
-      "kind": "true_false",
-      "prompt": "When the MACD line crosses above its signal line, the price is guaranteed to rise.",
+      "kind": "mc",
+      "prompt": "In a sideways range, the MACD line crosses above its signal line. What is the most reasonable reading?",
       "options": [
         {
-          "id": "t",
-          "text": "True"
+          "id": "a",
+          "text": "A bullish momentum clue that often fails in a range"
         },
         {
-          "id": "f",
-          "text": "False"
+          "id": "b",
+          "text": "Proof that a new uptrend has started"
+        },
+        {
+          "id": "c",
+          "text": "A bearish signal, since MACD crossings usually come before falls"
+        },
+        {
+          "id": "d",
+          "text": "A sign that trading volume will rise over the next few days"
         }
       ],
-      "answer": "f",
+      "answer": "a",
       "explanation": "A MACD cross is a lagging momentum clue and produces false signals, especially in ranges."
     },
     {
@@ -2746,22 +2762,22 @@
       "options": [
         {
           "id": "a",
-          "text": "RSI below 30 in a strong downtrend, with no support nearby"
+          "text": "RSI below 30 in a strong downtrend with no support nearby, plus a MACD cross"
         },
         {
           "id": "b",
-          "text": "Price pulls back to support in an uptrend, holds above a rising 50-day MA, and RSI turns up from about 40"
-        },
-        {
-          "id": "c",
           "text": "A single MACD cross in the middle of a choppy range"
         },
         {
+          "id": "c",
+          "text": "Pullback to support in an uptrend, above a rising 50-day MA, RSI turning up from 40"
+        },
+        {
           "id": "d",
-          "text": "Five indicators that are all built from the same moving average flash 'buy'"
+          "text": "Five indicators, all built from the same moving average, flashing 'buy' on the same day"
         }
       ],
-      "answer": "b",
+      "answer": "c",
       "explanation": "Confluence means independent clues agree: trend, a price level and momentum together."
     },
     {
@@ -2777,19 +2793,19 @@
       "options": [
         {
           "id": "a",
-          "text": "Indicators only work on weekly charts"
+          "text": "Indicators only work on weekly charts, so daily traders get no benefit"
         },
         {
           "id": "b",
-          "text": "Each extra indicator uses future prices"
+          "text": "Each extra indicator looks ahead at future prices, which is not allowed"
         },
         {
           "id": "c",
-          "text": "Brokers charge a fee for each indicator"
+          "text": "Brokers charge a fee for each indicator, which eats into returns"
         },
         {
           "id": "d",
-          "text": "They are built from the same price data, so they mostly repeat the same information"
+          "text": "They are built from the same price data, so they mostly repeat it"
         }
       ],
       "answer": "d",
@@ -2807,11 +2823,11 @@
       "options": [
         {
           "id": "a",
-          "text": "$23"
+          "text": "$22"
         },
         {
           "id": "b",
-          "text": "$22"
+          "text": "$23"
         },
         {
           "id": "c",
@@ -2838,22 +2854,22 @@
       "options": [
         {
           "id": "a",
-          "text": "Crossovers often confirm a move after much of it has already happened (lag)"
+          "text": "Crossovers give an early warning before prices start to move"
         },
         {
           "id": "b",
-          "text": "Crossovers give early warning before prices move"
+          "text": "The moving averages were calculated from the wrong closing prices"
         },
         {
           "id": "c",
-          "text": "The moving averages were calculated incorrectly"
+          "text": "A golden cross, the signal that a new uptrend is starting"
         },
         {
           "id": "d",
-          "text": "A golden cross"
+          "text": "Crossovers often confirm a move after much of it has happened"
         }
       ],
-      "answer": "a",
+      "answer": "d",
       "explanation": "Moving averages are built from past prices, so their signals arrive late."
     },
     {
@@ -2940,18 +2956,18 @@
         },
         {
           "id": "b",
-          "text": "$2.00"
+          "text": "$1.25"
         },
         {
           "id": "c",
-          "text": "$20.00"
+          "text": "$2.00"
         },
         {
           "id": "d",
-          "text": "$1.25"
+          "text": "$20.00"
         }
       ],
-      "answer": "b",
+      "answer": "c",
       "explanation": "EPS = $50 million ÷ 25 million shares = $2.00."
     },
     {
@@ -2966,22 +2982,22 @@
       "options": [
         {
           "id": "a",
-          "text": "Profit left after all costs"
+          "text": "Total money from sales before costs are subtracted"
         },
         {
           "id": "b",
-          "text": "The total money from sales before costs are subtracted"
+          "text": "The profit left after all costs and taxes are paid"
         },
         {
           "id": "c",
-          "text": "The dividends paid to shareholders"
+          "text": "The dividends paid to shareholders during the quarter"
         },
         {
           "id": "d",
-          "text": "The company's market cap"
+          "text": "The company's market cap at the end of the quarter"
         }
       ],
-      "answer": "b",
+      "answer": "a",
       "explanation": "Revenue is the top line (total sales); profit is what remains after costs."
     },
     {
@@ -2993,11 +3009,11 @@
       ],
       "difficulty": 1,
       "kind": "mc",
-      "prompt": "Analysts expected Nimbus Cloud (NMBC) to report EPS of $1.10. The company reports $1.25. This is:",
+      "prompt": "Analysts expected Pebble Games (PBGM) to report EPS of $0.62. The company reports $0.55. This is:",
       "options": [
         {
           "id": "a",
-          "text": "A miss"
+          "text": "A beat"
         },
         {
           "id": "b",
@@ -3005,15 +3021,15 @@
         },
         {
           "id": "c",
-          "text": "A beat"
+          "text": "A miss"
         },
         {
           "id": "d",
-          "text": "A guidance cut"
+          "text": "A guidance raise"
         }
       ],
       "answer": "c",
-      "explanation": "Results above the consensus estimate are called a beat."
+      "explanation": "$0.55 is below the $0.62 consensus, so it is a miss even though the company is still profitable."
     },
     {
       "id": "qb-ch6-05",
@@ -3024,27 +3040,27 @@
       ],
       "difficulty": 3,
       "kind": "mc",
-      "prompt": "Meadow Pharma (MDWP) beats this quarter's EPS estimate but lowers its forecast for next year. The shares fall 8%. What is the most likely reason?",
+      "prompt": "Orchard Foods (ORCF) reports profit exactly in line with forecasts but raises next year's guidance well above what analysts expected. The shares jump 6%. What is the most likely reason?",
       "options": [
         {
           "id": "a",
-          "text": "Investors price future expectations, and the guidance cut outweighed the beat"
+          "text": "The market mistook an in-line quarter for a big earnings beat on the day"
         },
         {
           "id": "b",
-          "text": "The market made an error that will be corrected tomorrow"
+          "text": "Raised guidance means the company will pay a larger dividend next month"
         },
         {
           "id": "c",
-          "text": "Beating estimates always makes a stock fall"
+          "text": "Traders who sold before the report had to buy their shares back"
         },
         {
           "id": "d",
-          "text": "The EPS was too high"
+          "text": "Prices look forward, and the outlook improved more than expected"
         }
       ],
-      "answer": "a",
-      "explanation": "Prices reflect expected future profits, so weaker guidance can matter more than one good quarter."
+      "answer": "d",
+      "explanation": "Prices reflect expected future profits, so a much better outlook can lift the price even when the quarter itself was only in line."
     },
     {
       "id": "qb-ch6-06",
@@ -3058,22 +3074,22 @@
       "options": [
         {
           "id": "a",
-          "text": "135"
-        },
-        {
-          "id": "b",
           "text": "0.067"
         },
         {
-          "id": "c",
+          "id": "b",
           "text": "15"
         },
         {
-          "id": "d",
+          "id": "c",
           "text": "48"
+        },
+        {
+          "id": "d",
+          "text": "135"
         }
       ],
-      "answer": "c",
+      "answer": "b",
       "explanation": "P/E = price ÷ EPS = $45 ÷ $3 = 15."
     },
     {
@@ -3085,23 +3101,23 @@
       ],
       "difficulty": 2,
       "kind": "mc",
-      "prompt": "Kestrel Air (KSTL) has a P/E of 40 and Orchard Foods (ORCF) has a P/E of 12. What does this most likely tell you?",
+      "prompt": "Pebble Games (PBGM) has a P/E of 40 and Orchard Foods (ORCF) has a P/E of 12. What does this most likely tell you?",
       "options": [
         {
           "id": "a",
-          "text": "KSTL is the bigger company"
+          "text": "PBGM is the bigger company, since a higher P/E means a higher market value"
         },
         {
           "id": "b",
-          "text": "Investors are paying more per dollar of current earnings for KSTL, often because they expect faster growth"
+          "text": "Investors pay more per dollar of PBGM's earnings, often expecting faster growth"
         },
         {
           "id": "c",
-          "text": "ORCF is guaranteed to rise"
+          "text": "ORCF is the better buy, since a P/E of 12 means its shares are a bargain right now"
         },
         {
           "id": "d",
-          "text": "KSTL's share price must be higher"
+          "text": "PBGM's share price must be higher, since P/E only tracks the share price"
         }
       ],
       "answer": "b",
@@ -3123,15 +3139,15 @@
         },
         {
           "id": "b",
-          "text": "Has very fast revenue growth and a high P/E"
+          "text": "Has very fast revenue growth and trades at a high P/E"
         },
         {
           "id": "c",
-          "text": "Costs less than $10 per share"
+          "text": "Costs less than $10 per share, so it is cheap to buy into"
         },
         {
           "id": "d",
-          "text": "Never pays dividends"
+          "text": "Pays no dividend, so all its profit goes back into the business"
         }
       ],
       "answer": "a",
@@ -3150,22 +3166,22 @@
       "options": [
         {
           "id": "a",
-          "text": "Stocks broadly fall, and fast-growing companies are often hit hardest because their future profits are worth less today"
+          "text": "All stocks rise, because banks earn more on loans when rates go up, and that lifts the market"
         },
         {
           "id": "b",
-          "text": "All stocks rise because banks earn more"
+          "text": "There is no effect, since interest rates only matter to banks and people with mortgages"
         },
         {
           "id": "c",
-          "text": "There is no effect on stock prices"
+          "text": "Defensive stocks such as grocers fall most, as shoppers cut back straight away"
         },
         {
           "id": "d",
-          "text": "Only the central bank's own shares move"
+          "text": "Stocks broadly fall; fast growers often fall most, as distant profits are worth less"
         }
       ],
-      "answer": "a",
+      "answer": "d",
       "explanation": "Higher rates raise borrowing costs and make distant future profits worth less in today's money."
     },
     {
@@ -3181,22 +3197,22 @@
       "options": [
         {
           "id": "a",
-          "text": "Company profits"
+          "text": "The total profits of the companies in an index"
         },
         {
           "id": "b",
-          "text": "The unemployment rate"
+          "text": "The share of people of working age who have a job"
         },
         {
           "id": "c",
-          "text": "A stock market index"
+          "text": "The change in prices consumers pay (inflation)"
         },
         {
           "id": "d",
-          "text": "The change in prices consumers pay (inflation)"
+          "text": "A stock market index of consumer companies"
         }
       ],
-      "answer": "d",
+      "answer": "c",
       "explanation": "CPI tracks the prices of a basket of consumer goods and services, a key inflation measure."
     },
     {
@@ -3207,20 +3223,28 @@
         "jobs_report"
       ],
       "difficulty": 2,
-      "kind": "true_false",
-      "prompt": "A strong jobs report always makes stock prices rise.",
+      "kind": "mc",
+      "prompt": "A jobs report comes in much stronger than expected. How can stocks react?",
       "options": [
         {
-          "id": "t",
-          "text": "True"
+          "id": "a",
+          "text": "They can rise on a stronger economy or fall on fears of higher rates"
         },
         {
-          "id": "f",
-          "text": "False"
+          "id": "b",
+          "text": "They rise, because more jobs lift every company's profits straight away"
+        },
+        {
+          "id": "c",
+          "text": "They fall, because companies must raise all wages on the same day"
+        },
+        {
+          "id": "d",
+          "text": "Nothing happens, since only company news moves share prices"
         }
       ],
-      "answer": "f",
-      "explanation": "It can lift prices, but it can also raise fears of higher interest rates and push them down."
+      "answer": "a",
+      "explanation": "Strong jobs data can lift prices, but it can also raise fears of higher interest rates and push them down."
     },
     {
       "id": "qb-ch6-12",
@@ -3235,15 +3259,15 @@
       "options": [
         {
           "id": "a",
-          "text": "The report must have been fake"
+          "text": "The report must have been wrong, and the company will restate it soon"
         },
         {
           "id": "b",
-          "text": "Record profits are bad news for shareholders"
+          "text": "Record profits are bad news for shareholders because taxes rise with them"
         },
         {
           "id": "c",
-          "text": "The exchange made a pricing error"
+          "text": "The exchange priced the shares wrongly after the report"
         },
         {
           "id": "d",
@@ -3266,22 +3290,22 @@
       "options": [
         {
           "id": "a",
-          "text": "$30"
+          "text": "$54"
         },
         {
           "id": "b",
-          "text": "$33"
-        },
-        {
-          "id": "c",
           "text": "$36"
         },
         {
+          "id": "c",
+          "text": "$33"
+        },
+        {
           "id": "d",
-          "text": "$54"
+          "text": "$30"
         }
       ],
-      "answer": "c",
+      "answer": "b",
       "explanation": "Price = P/E × EPS = 20 × $1.80 = $36. In reality the P/E can change too."
     },
     {
@@ -3302,7 +3326,7 @@
         },
         {
           "id": "b",
-          "text": "A miss on both"
+          "text": "A miss on both, since revenue fell short"
         },
         {
           "id": "c",
@@ -3310,7 +3334,7 @@
         },
         {
           "id": "d",
-          "text": "In line on both"
+          "text": "In line on both, since the gaps are small"
         }
       ],
       "answer": "c",
@@ -3351,22 +3375,22 @@
       "options": [
         {
           "id": "a",
-          "text": "Missing out on gains"
+          "text": "Missing out on large gains if you take time to check the claim before buying"
         },
         {
           "id": "b",
-          "text": "The stock is too liquid to trade"
+          "text": "A pump-and-dump: promoters sell to late buyers and the price collapses"
         },
         {
           "id": "c",
-          "text": "The company will pay a large dividend"
+          "text": "The stock is too liquid for a small trader to get a good price on it"
         },
         {
           "id": "d",
-          "text": "It may be a pump-and-dump, where promoters sell to late buyers and the price collapses"
+          "text": "The company may pay out a large dividend that lowers the share price"
         }
       ],
-      "answer": "d",
+      "answer": "b",
       "explanation": "Hype in thin stocks is a classic manipulation pattern; late buyers are usually left with the losses."
     },
     {
@@ -3382,22 +3406,22 @@
       "options": [
         {
           "id": "a",
-          "text": "Buy immediately before others hear"
+          "text": "Check for an official statement or reliable news; treat it as unconfirmed"
         },
         {
           "id": "b",
-          "text": "Look for an official company announcement or a reliable news source, and treat the rumor as unconfirmed"
+          "text": "Buy immediately, before other investors hear the news and push the price up"
         },
         {
           "id": "c",
-          "text": "Assume it is true because many people are sharing it"
+          "text": "Assume it is true, because so many people are sharing it so quickly online"
         },
         {
           "id": "d",
-          "text": "Put your whole account into PBGM"
+          "text": "Buy a small amount now and add more if the rumor is still spreading tomorrow"
         }
       ],
-      "answer": "b",
+      "answer": "a",
       "explanation": "Rumors are often wrong or deliberate; check primary sources before acting."
     },
     {
@@ -3409,19 +3433,19 @@
       ],
       "difficulty": 3,
       "kind": "mc",
-      "prompt": "Pebble Games (PBGM) rises 10% on a takeover rumor. Four days later, the company denies it. What usually happens next?",
+      "prompt": "Harborline Shipping (HRBL) jumps 15% after an anonymous post claims a takeover. Two days later the company says it has received no approach. What usually happens next?",
       "options": [
         {
           "id": "a",
-          "text": "It keeps rising because rumors are usually true"
+          "text": "It keeps rising, because takeover rumors usually turn out true"
         },
         {
           "id": "b",
-          "text": "The price is unaffected by the denial"
+          "text": "The price is unaffected by the company's statement"
         },
         {
           "id": "c",
-          "text": "Trading stops permanently"
+          "text": "Trading is halted until a regulator investigates"
         },
         {
           "id": "d",
@@ -3467,22 +3491,22 @@
       "options": [
         {
           "id": "a",
-          "text": "NMBC has a P/E of 40 and ORCF 12; NMBC's price assumes strong growth, so a growth disappointment could hit it hard"
+          "text": "ORCF is more expensive, because its earnings are growing more slowly"
         },
         {
           "id": "b",
-          "text": "ORCF is more expensive because its earnings are growing more slowly"
+          "text": "NMBC has a P/E of 4, so it is cheaper than ORCF despite the higher price"
         },
         {
           "id": "c",
-          "text": "NMBC has a P/E of 4"
+          "text": "Both have the same P/E, because their EPS is the same"
         },
         {
           "id": "d",
-          "text": "Both have the same P/E because their EPS is the same"
+          "text": "NMBC's P/E is 40 and ORCF's 12; NMBC's price assumes strong growth"
         }
       ],
-      "answer": "a",
+      "answer": "d",
       "explanation": "$80 ÷ $2 = 40 and $24 ÷ $2 = 12. A high P/E bakes in expected growth, which may not happen."
     },
     {
@@ -3497,22 +3521,22 @@
       "options": [
         {
           "id": "a",
-          "text": "Trading in the direction of an established trend and staying in while it lasts"
+          "text": "Buying after big drops and expecting a quick bounce to the average"
         },
         {
           "id": "b",
-          "text": "Buying after big drops and expecting a bounce"
+          "text": "Buying only on the day of a news release, then selling the next day"
         },
         {
           "id": "c",
-          "text": "Buying only on the day of a news release"
+          "text": "Buying whichever stock fell most this week, since it has room to rise"
         },
         {
           "id": "d",
-          "text": "Picking stocks at random"
+          "text": "Trading in the direction of an established trend while it lasts"
         }
       ],
-      "answer": "a",
+      "answer": "d",
       "explanation": "Trend followers ride persistent moves and exit when the trend ends."
     },
     {
@@ -3527,19 +3551,19 @@
       "options": [
         {
           "id": "a",
-          "text": "Buys when the price breaks above resistance"
+          "text": "Buys when the price breaks out above resistance on strong volume and holds it"
         },
         {
           "id": "b",
-          "text": "Buys when the price has fallen unusually far below its average, expecting a move back toward it"
+          "text": "Buys when price is stretched far below its average, expecting a return"
         },
         {
           "id": "c",
-          "text": "Holds every stock forever"
+          "text": "Holds every position for years, ignoring short-term swings"
         },
         {
           "id": "d",
-          "text": "Copies trades posted by influencers"
+          "text": "Copies trades posted by popular accounts as soon as they appear"
         }
       ],
       "answer": "b",
@@ -3557,22 +3581,22 @@
       "options": [
         {
           "id": "a",
-          "text": "In the middle of a range"
+          "text": "When price moves beyond a clear range or resistance, ideally on strong volume"
         },
         {
           "id": "b",
-          "text": "Right after an earnings miss"
+          "text": "Right after an earnings miss, when the price has dropped to its cheapest level"
         },
         {
           "id": "c",
-          "text": "When the price moves beyond a well-defined range or resistance, ideally on strong volume"
+          "text": "In the middle of a range, where the price is neither high nor low"
         },
         {
           "id": "d",
-          "text": "At a random time each week"
+          "text": "On a fixed day each week, so emotions do not affect the timing"
         }
       ],
-      "answer": "c",
+      "answer": "a",
       "explanation": "Breakout traders wait for the price to leave a base, with volume as confirmation."
     },
     {
@@ -3588,22 +3612,22 @@
       "options": [
         {
           "id": "a",
-          "text": "A strong, persistent trend"
+          "text": "A strong, persistent trend that keeps making new highs"
         },
         {
           "id": "b",
-          "text": "A sideways range with clear support and resistance"
+          "text": "A sharp crash with lower lows each day and heavy volume"
         },
         {
           "id": "c",
-          "text": "A sharp crash with lower lows each day"
+          "text": "The day after a big breakout on record volume"
         },
         {
           "id": "d",
-          "text": "The day after a big breakout"
+          "text": "A sideways range with clear support and resistance"
         }
       ],
-      "answer": "b",
+      "answer": "d",
       "explanation": "Mean reversion needs prices that swing back and forth around a level; trends keep stretching further."
     },
     {
@@ -3619,22 +3643,22 @@
       "options": [
         {
           "id": "a",
-          "text": "+$80"
+          "text": "+$400"
         },
         {
           "id": "b",
-          "text": "-$80"
-        },
-        {
-          "id": "c",
           "text": "+$210"
         },
         {
+          "id": "c",
+          "text": "+$80"
+        },
+        {
           "id": "d",
-          "text": "+$400"
+          "text": "-$80"
         }
       ],
-      "answer": "a",
+      "answer": "c",
       "explanation": "0.35 × $600 - 0.65 × $200 = $210 - $130 = +$80. Big winners can make up for a low win rate."
     },
     {
@@ -3673,19 +3697,19 @@
       "options": [
         {
           "id": "a",
-          "text": "The strategy is working as designed"
+          "text": "The strategy is working as designed and just needs more patience"
         },
         {
           "id": "b",
-          "text": "This is a classic breakout strategy"
+          "text": "A classic breakout strategy, buying each time the price leaves its range"
         },
         {
           "id": "c",
-          "text": "Mean reversion is being used in a trending market, where cheap keeps getting cheaper"
+          "text": "Mean reversion used in a downtrend, where cheap keeps getting cheaper"
         },
         {
           "id": "d",
-          "text": "This is trend following"
+          "text": "Trend following, since the trader is buying in the direction of the trend"
         }
       ],
       "answer": "c",
@@ -3703,22 +3727,22 @@
       "options": [
         {
           "id": "a",
-          "text": "A guarantee that a strategy will work"
+          "text": "Testing a strategy's rules on past prices to see how it would have done"
         },
         {
           "id": "b",
-          "text": "Testing a strategy's rules on past price data to see how it would have performed"
+          "text": "Proof that a strategy will keep working, based on past performance"
         },
         {
           "id": "c",
-          "text": "Trading real money to see what happens"
+          "text": "Trading with real money in small size to see what happens before scaling up"
         },
         {
           "id": "d",
-          "text": "Asking friends whether a strategy sounds good"
+          "text": "Asking other traders whether a strategy sounds good before trying it"
         }
       ],
-      "answer": "b",
+      "answer": "a",
       "explanation": "A backtest shows past behavior of fixed rules; it does not guarantee future results."
     },
     {
@@ -3733,22 +3757,22 @@
       "options": [
         {
           "id": "a",
-          "text": "The win rate is too high to be legal"
+          "text": "The win rate is too high to be realistic, so the data must be wrong"
         },
         {
           "id": "b",
-          "text": "Six trades are far too few to tell skill from luck"
+          "text": "Nothing; 83% proves an edge"
         },
         {
           "id": "c",
-          "text": "Nothing; 83% is proof of an edge"
+          "text": "It should now be traded at maximum size while it works"
         },
         {
           "id": "d",
-          "text": "It should be traded at maximum size"
+          "text": "Six trades are far too few to tell skill from luck"
         }
       ],
-      "answer": "b",
+      "answer": "d",
       "explanation": "With so few trades, a lucky run looks like an edge; you need a much larger sample."
     },
     {
@@ -3763,22 +3787,22 @@
       "options": [
         {
           "id": "a",
-          "text": "Overfitting: the rules were tuned to random noise in the past data"
+          "text": "Bad luck only; the rules are fine and will recover on their own"
         },
         {
           "id": "b",
-          "text": "Bad luck only; the rules are fine"
+          "text": "Overfitting: the rules were tuned to random noise in past data"
         },
         {
           "id": "c",
-          "text": "The sample was too large"
+          "text": "The sample was too large, so the results were diluted by old data"
         },
         {
           "id": "d",
-          "text": "The market changed its trading days"
+          "text": "The market changed its rules, so Tuesday trading no longer works"
         }
       ],
-      "answer": "a",
+      "answer": "b",
       "explanation": "Very specific rules that fit the past perfectly often capture noise that does not repeat."
     },
     {
@@ -3794,22 +3818,22 @@
       "options": [
         {
           "id": "a",
-          "text": "$150"
-        },
-        {
-          "id": "b",
           "text": "-$40"
         },
         {
-          "id": "c",
+          "id": "b",
           "text": "$40"
+        },
+        {
+          "id": "c",
+          "text": "$150"
         },
         {
           "id": "d",
           "text": "$2,000"
         }
       ],
-      "answer": "c",
+      "answer": "b",
       "explanation": "(20 × $250 - 30 × $100) ÷ 50 = ($5,000 - $3,000) ÷ 50 = $40."
     },
     {
@@ -3824,19 +3848,19 @@
       "options": [
         {
           "id": "a",
-          "text": "Showing friends your winning trades"
+          "text": "Keeping a record of winning trades to show other people your skill"
         },
         {
           "id": "b",
-          "text": "Recording only the trades that made money"
+          "text": "Recording only the trades that made money, so you can repeat what worked"
         },
         {
           "id": "c",
-          "text": "Recording each trade's plan, reason, result and emotions so you can find patterns and improve"
+          "text": "Recording each trade's plan, result and emotions to find patterns"
         },
         {
           "id": "d",
-          "text": "Predicting tomorrow's prices"
+          "text": "Writing down predictions for tomorrow's prices to test your instincts"
         }
       ],
       "answer": "c",
@@ -3852,26 +3876,26 @@
       ],
       "difficulty": 3,
       "kind": "mc",
-      "prompt": "Pebble Games (PBGM) has ranged between $11 and $13. You plan a buy stop at $13.10, a stop-loss at $12.40 and a measured-move target. What are the target and the approximate reward-to-risk?",
+      "prompt": "Pebble Games (PBGM) has ranged between $11 and $13. You plan to buy at $13.10 after a close above $13, with a stop-loss at $12.40 and a measured-move target. What are the target and the approximate reward-to-risk?",
       "options": [
         {
           "id": "a",
-          "text": "$15; about 1:2.7"
+          "text": "$15; about 2.7:1"
         },
         {
           "id": "b",
-          "text": "$14; about 1.3:1"
+          "text": "$15; about 1:2.7"
         },
         {
           "id": "c",
-          "text": "$17; about 5.6:1"
+          "text": "$14; about 1.3:1"
         },
         {
           "id": "d",
-          "text": "$15; about 2.7:1"
+          "text": "$17; about 5.6:1"
         }
       ],
-      "answer": "d",
+      "answer": "a",
       "explanation": "Target = $13 + $2 range = $15. Reward $1.90 ÷ risk $0.70 ≈ 2.7:1."
     },
     {
@@ -3887,7 +3911,7 @@
       "options": [
         {
           "id": "a",
-          "text": "To guarantee selling at the exact top"
+          "text": "To sell at the exact top of the move without having to watch the chart"
         },
         {
           "id": "b",
@@ -3895,11 +3919,11 @@
         },
         {
           "id": "c",
-          "text": "To avoid using stop-losses"
+          "text": "To avoid placing a stop-loss until the trade is already in profit"
         },
         {
           "id": "d",
-          "text": "To let winners run while locking in part of the gain if the trend ends"
+          "text": "To let winners run while locking in part of the gain"
         }
       ],
       "answer": "d",
@@ -3940,22 +3964,22 @@
       "options": [
         {
           "id": "a",
-          "text": "Mean reversion, buying at range lows and selling at range highs"
+          "text": "Trend following: buy pullbacks with a stop below the last higher low"
         },
         {
           "id": "b",
-          "text": "Sitting out, because only ranges can be traded"
+          "text": "Mean reversion: buy at the range lows and sell at the range highs each time"
         },
         {
           "id": "c",
-          "text": "Selling every rally as overbought"
+          "text": "Sitting out, because only sideways ranges can be traded safely"
         },
         {
           "id": "d",
-          "text": "Trend following, buying pullbacks with a stop below the last higher low"
+          "text": "Selling every rally as overbought, since the price has risen so far"
         }
       ],
-      "answer": "d",
+      "answer": "a",
       "explanation": "Higher highs, higher lows and a rising MA describe an uptrend, which suits trend following."
     },
     {
@@ -3971,22 +3995,22 @@
       "options": [
         {
           "id": "a",
-          "text": "+0.125R"
-        },
-        {
-          "id": "b",
-          "text": "-0.10R"
-        },
-        {
-          "id": "c",
           "text": "+0.675R"
         },
         {
-          "id": "d",
+          "id": "b",
           "text": "+0.5R"
+        },
+        {
+          "id": "c",
+          "text": "+0.125R"
+        },
+        {
+          "id": "d",
+          "text": "-0.10R"
         }
       ],
-      "answer": "a",
+      "answer": "c",
       "explanation": "0.45 × 1.5R - 0.55 × 1R = 0.675R - 0.55R = +0.125R."
     },
     {
@@ -3996,20 +4020,28 @@
         "backtesting"
       ],
       "difficulty": 1,
-      "kind": "true_false",
-      "prompt": "A backtest with excellent results proves that a strategy will make money in the future.",
+      "kind": "mc",
+      "prompt": "A backtest of your rules shows excellent results over three years of past data. What can you conclude?",
       "options": [
         {
-          "id": "t",
-          "text": "True"
+          "id": "a",
+          "text": "The rules will make money in the future, since three years is a long test"
         },
         {
-          "id": "f",
-          "text": "False"
+          "id": "b",
+          "text": "The rules worked on that data; luck or overfitting could still explain it"
+        },
+        {
+          "id": "c",
+          "text": "The rules are overfitted, since good backtests are a sign of curve-fitting"
+        },
+        {
+          "id": "d",
+          "text": "Nothing at all, because past prices say nothing about trading rules"
         }
       ],
-      "answer": "f",
-      "explanation": "Past results can come from luck or overfitting; markets change."
+      "answer": "b",
+      "explanation": "Past results can come from luck or overfitting, and markets change. Test on data you did not use to build the rules, and keep journaling."
     },
     {
       "id": "qb-ch7-19",
@@ -4048,19 +4080,19 @@
       "options": [
         {
           "id": "a",
-          "text": "Stop keeping a journal"
+          "text": "Stop keeping the journal"
         },
         {
           "id": "b",
-          "text": "Double your size on low-volume breakouts to win it back"
+          "text": "Take low-volume breakouts at double size, so the winners make up the losses"
         },
         {
           "id": "c",
-          "text": "Give up breakout trading forever"
+          "text": "Give up breakout trading, because a dozen losing trades prove it cannot work"
         },
         {
           "id": "d",
-          "text": "Add a rule to skip breakouts without above-average volume, then keep collecting data to confirm it"
+          "text": "Add a rule to skip low-volume breakouts and keep testing it"
         }
       ],
       "answer": "d",
@@ -4078,22 +4110,22 @@
       "options": [
         {
           "id": "a",
-          "text": "Fear of missing out, which pushes people to chase moves without a plan"
+          "text": "A type of order that fills at the opening price on the following day"
         },
         {
           "id": "b",
-          "text": "A type of order that fills at the open"
-        },
-        {
-          "id": "c",
           "text": "A rule for sizing positions"
         },
         {
+          "id": "c",
+          "text": "Fear of missing out: chasing moves without a plan"
+        },
+        {
           "id": "d",
-          "text": "A chart pattern at the top of a trend"
+          "text": "A chart pattern that forms at the top of a long uptrend, before a fall"
         }
       ],
-      "answer": "a",
+      "answer": "c",
       "explanation": "FOMO is the urge to jump in because others seem to be profiting."
     },
     {
@@ -4109,22 +4141,22 @@
       "options": [
         {
           "id": "a",
-          "text": "Buy now at full size before it goes higher"
+          "text": "Don't chase; trade only if an entry, stop and size fit your plan"
         },
         {
           "id": "b",
-          "text": "Do not chase; trade only if you can set an entry, a stop and a size that fit your plan"
+          "text": "Buy now at full size, since a move this strong usually keeps going for weeks"
         },
         {
           "id": "c",
-          "text": "Use your emergency savings to buy more"
+          "text": "Buy a small amount now and decide on a stop later if it starts to fall"
         },
         {
           "id": "d",
-          "text": "Buy now and decide on a stop later"
+          "text": "Wait for it to double before buying, to be sure the trend is real"
         }
       ],
-      "answer": "b",
+      "answer": "a",
       "explanation": "Extended moves can reverse sharply; the plan comes before the trade."
     },
     {
@@ -4139,22 +4171,22 @@
       "options": [
         {
           "id": "a",
-          "text": "Enjoy small losses"
+          "text": "Avoid every trade that carries any chance of losing money at all"
         },
         {
           "id": "b",
-          "text": "Avoid all trading"
+          "text": "Enjoy taking small losses"
         },
         {
           "id": "c",
-          "text": "Feel losses more strongly than gains of the same size"
+          "text": "Prefer volatile stocks because their losses recover faster"
         },
         {
           "id": "d",
-          "text": "Prefer volatile stocks"
+          "text": "Feel losses more strongly than gains of the same size"
         }
       ],
-      "answer": "c",
+      "answer": "d",
       "explanation": "Losses hurt more than equal gains feel good, which can lead to holding losers too long."
     },
     {
@@ -4165,27 +4197,27 @@
       ],
       "difficulty": 2,
       "kind": "mc",
-      "prompt": "The disposition effect describes traders who:",
+      "prompt": "Lena holds two stocks: one is up 8%, the other is down 15% and below her planned stop. She sells the winner and keeps the loser \"until it comes back\". Which habit is this?",
       "options": [
         {
           "id": "a",
-          "text": "Hold winners and cut losers quickly"
+          "text": "Fear of missing out (FOMO)"
         },
         {
           "id": "b",
-          "text": "Sell winners too early and hold losers too long"
+          "text": "The disposition effect"
         },
         {
           "id": "c",
-          "text": "Spread money across many sectors"
+          "text": "Overconfidence"
         },
         {
           "id": "d",
-          "text": "Always use stop-losses"
+          "text": "Revenge trading after a loss"
         }
       ],
       "answer": "b",
-      "explanation": "Locking in small gains feels good and taking losses feels bad, so traders do the opposite of letting winners run."
+      "explanation": "Selling winners early and holding losers too long is the disposition effect; her plan said to exit the loser."
     },
     {
       "id": "qb-ch8-05",
@@ -4203,18 +4235,18 @@
         },
         {
           "id": "b",
-          "text": "Revenge trading"
+          "text": "Diversification"
         },
         {
           "id": "c",
-          "text": "Diversification"
+          "text": "Revenge trading"
         },
         {
           "id": "d",
           "text": "Mean reversion"
         }
       ],
-      "answer": "b",
+      "answer": "c",
       "explanation": "Sizing up to recover a loss is revenge trading; it increases risk exactly when judgment is worst."
     },
     {
@@ -4252,22 +4284,22 @@
       "options": [
         {
           "id": "a",
-          "text": "She will pay lower fees"
+          "text": "Overconfidence: the streak may be luck, and bigger size magnifies the next loss"
         },
         {
           "id": "b",
-          "text": "There is no danger; a streak proves skill"
+          "text": "She will pay higher fees, which is the only real cost of trading larger"
         },
         {
           "id": "c",
-          "text": "Overconfidence: a short streak may be luck, and the larger size magnifies the next loss"
+          "text": "There is no real danger, since five straight wins show that her method works"
         },
         {
           "id": "d",
-          "text": "She will become too diversified"
+          "text": "She will become too diversified, because larger trades spread across more stocks"
         }
       ],
-      "answer": "c",
+      "answer": "a",
       "explanation": "Short streaks happen by chance; raising size on a feeling breaks the risk plan."
     },
     {
@@ -4283,22 +4315,22 @@
       "options": [
         {
           "id": "a",
-          "text": "A $460, B $180"
-        },
-        {
-          "id": "b",
           "text": "Both $500"
         },
         {
-          "id": "c",
+          "id": "b",
           "text": "A $460, B $420"
         },
         {
-          "id": "d",
+          "id": "c",
           "text": "A $40, B $320"
+        },
+        {
+          "id": "d",
+          "text": "A $460, B $180"
         }
       ],
-      "answer": "a",
+      "answer": "d",
       "explanation": "A: $500 - 10 × $4 = $460. B: $500 - 80 × $4 = $180. Overtrading drains returns through fees."
     },
     {
@@ -4313,22 +4345,22 @@
       "options": [
         {
           "id": "a",
-          "text": "A random trade with no stop that happened to make $500"
+          "text": "A trade with no plan or stop that happened to make $500 in one day"
         },
         {
           "id": "b",
-          "text": "A trade taken on a tip that broke even"
+          "text": "A planned, correctly sized trade with a stop that lost a little"
         },
         {
           "id": "c",
-          "text": "A planned, correctly sized trade with a stop, which was stopped out for a small loss"
+          "text": "A trade taken on a tip from a friend that broke even after fees"
         },
         {
           "id": "d",
           "text": "A trade where the stop was moved lower and the price luckily recovered"
         }
       ],
-      "answer": "c",
+      "answer": "b",
       "explanation": "Judge decisions by the process; a good process can lose and a bad one can win by luck."
     },
     {
@@ -4339,7 +4371,7 @@
       ],
       "difficulty": 2,
       "kind": "true_false",
-      "prompt": "A trade that made money must have been a good decision.",
+      "prompt": "You can judge whether a trade was a good decision from its profit or loss alone.",
       "options": [
         {
           "id": "t",
@@ -4366,19 +4398,19 @@
       "options": [
         {
           "id": "a",
-          "text": "One very large winning trade"
+          "text": "One very large winning trade that made more than a month of salary"
         },
         {
           "id": "b",
-          "text": "A streak of three winning trades"
+          "text": "A streak of five winning trades in a row during a strong market"
         },
         {
           "id": "c",
-          "text": "A friend's opinion of your trading"
+          "text": "Praise for your trading from friends who also trade the market"
         },
         {
           "id": "d",
-          "text": "Consistent results over a large number of trades that followed the same rules"
+          "text": "Consistent results over many trades that followed the same rules"
         }
       ],
       "answer": "d",
@@ -4397,19 +4429,19 @@
       "options": [
         {
           "id": "a",
-          "text": "Sell NMBC, whose planned stop has already been broken, and keep ORCF while its trend holds"
+          "text": "Sell NMBC, whose planned stop is already broken, and keep ORCF while it trends"
         },
         {
           "id": "b",
-          "text": "Sell ORCF to lock in the gain and hold NMBC until it gets back to $50"
+          "text": "Sell ORCF to lock in the gain, and hold NMBC until it climbs back to your $50 cost"
         },
         {
           "id": "c",
-          "text": "Sell half of each to feel balanced"
+          "text": "Sell half of each position so that both trades feel balanced"
         },
         {
           "id": "d",
-          "text": "Buy more NMBC to lower your average price"
+          "text": "Buy more NMBC to lower your average price, then sell ORCF"
         }
       ],
       "answer": "a",
@@ -4432,18 +4464,18 @@
         },
         {
           "id": "b",
-          "text": "About the same"
-        },
-        {
-          "id": "c",
           "text": "About 5 times"
         },
         {
-          "id": "d",
+          "id": "c",
           "text": "About 50 times"
+        },
+        {
+          "id": "d",
+          "text": "About the same"
         }
       ],
-      "answer": "c",
+      "answer": "b",
       "explanation": "$500 ÷ $98 ≈ 5.1, so roughly five times the planned risk, which is revenge sizing."
     },
     {
@@ -4458,7 +4490,7 @@
       "options": [
         {
           "id": "a",
-          "text": "Checking how many people online are buying"
+          "text": "Checking how many people online are buying the same stock today"
         },
         {
           "id": "b",
@@ -4466,14 +4498,14 @@
         },
         {
           "id": "c",
-          "text": "Seeing whether the stock rose yesterday"
+          "text": "A plan: the reason, the exit if wrong, and the size"
         },
         {
           "id": "d",
-          "text": "A plan with the reason, the exit if wrong, and the position size"
+          "text": "Seeing whether the stock rose yesterday, so you know the trend"
         }
       ],
-      "answer": "d",
+      "answer": "c",
       "explanation": "A written plan sets the reason, the exit and the size before emotions get involved."
     },
     {
@@ -4511,22 +4543,22 @@
       "options": [
         {
           "id": "a",
-          "text": "Following the plan after a loss"
+          "text": "Following the plan exactly after a loss, even when it feels wrong"
         },
         {
           "id": "b",
-          "text": "Taking a short break after a loss"
+          "text": "Rushing into trades that break their rules after losses, feeling angry"
         },
         {
           "id": "c",
-          "text": "Reviewing the journal at the end of the day"
+          "text": "Reviewing the journal at the end of every day, including the losing trades"
         },
         {
           "id": "d",
-          "text": "Quickly taking trades that break their rules after losses, while feeling angry or rushed"
+          "text": "Taking a short break after two losses in a row"
         }
       ],
-      "answer": "d",
+      "answer": "b",
       "explanation": "Tilt is emotional, rule-breaking trading, often right after losses."
     },
     {
@@ -4542,22 +4574,22 @@
       "options": [
         {
           "id": "a",
-          "text": "6.25%"
+          "text": "50%"
         },
         {
           "id": "b",
-          "text": "12.5%"
-        },
-        {
-          "id": "c",
           "text": "25%"
         },
         {
+          "id": "c",
+          "text": "12.5%"
+        },
+        {
           "id": "d",
-          "text": "50%"
+          "text": "6.25%"
         }
       ],
-      "answer": "a",
+      "answer": "d",
       "explanation": "0.5 × 0.5 × 0.5 × 0.5 = 0.0625. Over hundreds of trades, streaks like this are expected, not a sign the strategy broke."
     },
     {
@@ -4573,22 +4605,22 @@
       "options": [
         {
           "id": "a",
-          "text": "Chase it at $62 so you do not miss more"
+          "text": "Chase it at $62 so you do not miss even more of the move"
         },
         {
           "id": "b",
-          "text": "Let it go or wait for your planned setup; missing a move is not a loss"
+          "text": "Buy twice your usual size to make up for the move you missed"
         },
         {
           "id": "c",
-          "text": "Buy double your usual size to make up for the missed move"
+          "text": "Let it go or wait for your planned setup; missing a move costs nothing"
         },
         {
           "id": "d",
-          "text": "Buy and remove your stop"
+          "text": "Buy at $62 and put your stop at $55, the price where you planned to enter"
         }
       ],
-      "answer": "b",
+      "answer": "c",
       "explanation": "Missing a trade costs nothing; chasing an extended move breaks the plan."
     },
     {
@@ -4603,22 +4635,22 @@
       "options": [
         {
           "id": "a",
-          "text": "Taking a planned stop-loss"
+          "text": "Moving a stop lower to avoid taking a planned loss"
         },
         {
           "id": "b",
-          "text": "Sizing each trade by the 1% rule"
+          "text": "Taking a planned stop-loss as soon as the price reaches it"
         },
         {
           "id": "c",
-          "text": "Keeping a trade journal"
+          "text": "Sizing each trade by the 1% rule, even after a losing day"
         },
         {
           "id": "d",
-          "text": "Moving a stop lower to avoid taking a planned loss"
+          "text": "Keeping a trade journal"
         }
       ],
-      "answer": "d",
+      "answer": "a",
       "explanation": "Avoiding the pain of a realized loss leads traders to widen stops and hold losers."
     },
     {
@@ -4630,7 +4662,7 @@
       ],
       "difficulty": 1,
       "kind": "true_false",
-      "prompt": "If you lose money while following a well-tested plan, you should always abandon the plan immediately.",
+      "prompt": "After one losing trade that followed a well-tested plan, you should drop the plan and try a new one.",
       "options": [
         {
           "id": "t",

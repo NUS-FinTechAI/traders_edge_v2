@@ -71,22 +71,22 @@
           "options": [
             {
               "id": "a",
-              "text": "$44.00"
+              "text": "$41.50"
             },
             {
               "id": "b",
-              "text": "$210.00"
-            },
-            {
-              "id": "c",
               "text": "$42.00"
             },
             {
+              "id": "c",
+              "text": "$44.00"
+            },
+            {
               "id": "d",
-              "text": "$41.50"
+              "text": "$210.00"
             }
           ],
-          "answer": "c",
+          "answer": "b",
           "explanation": "$40 + $42 + $41 + $43 + $44 = $210, and $210 ÷ 5 = $42.00."
         },
         {
@@ -96,22 +96,22 @@
           "options": [
             {
               "id": "a",
-              "text": "20-day EMA"
-            },
-            {
-              "id": "b",
               "text": "20-day SMA"
             },
             {
-              "id": "c",
+              "id": "b",
               "text": "50-day SMA"
             },
             {
-              "id": "d",
+              "id": "c",
               "text": "200-day SMA"
+            },
+            {
+              "id": "d",
+              "text": "20-day EMA"
             }
           ],
-          "answer": "a",
+          "answer": "d",
           "explanation": "Shorter averages react faster, and an EMA weights recent closes more than an SMA of the same length."
         },
         {
@@ -138,22 +138,22 @@
           "options": [
             {
               "id": "a",
-              "text": "Uptrend: buy now"
+              "text": "Downtrend: be cautious about buying"
             },
             {
               "id": "b",
-              "text": "Sideways range: buy the dip"
+              "text": "Uptrend: buy now"
             },
             {
               "id": "c",
-              "text": "The average is wrong and should be ignored"
+              "text": "Sideways range: buy the dip"
             },
             {
               "id": "d",
-              "text": "Downtrend: be cautious about buying"
+              "text": "Oversold: the price is due to bounce back to $78"
             }
           ],
-          "answer": "d",
+          "answer": "a",
           "explanation": "Price below a falling average is the textbook downtrend reading."
         },
         {
@@ -163,22 +163,22 @@
           "options": [
             {
               "id": "a",
-              "text": "Resistance"
+              "text": "A ceiling (resistance)"
             },
             {
               "id": "b",
-              "text": "Dynamic support"
+              "text": "A sign the trend has ended"
             },
             {
               "id": "c",
-              "text": "A guaranteed floor"
+              "text": "Dynamic support"
             },
             {
               "id": "d",
-              "text": "A sell signal"
+              "text": "A death cross"
             }
           ],
-          "answer": "b",
+          "answer": "c",
           "explanation": "A rising MA often behaves like a moving floor in a trend, but it can still break."
         }
       ],
@@ -243,11 +243,11 @@
           "options": [
             {
               "id": "a",
-              "text": "A bearish crossover"
+              "text": "A bullish crossover"
             },
             {
               "id": "b",
-              "text": "A bullish crossover"
+              "text": "A bearish crossover"
             },
             {
               "id": "c",
@@ -255,10 +255,10 @@
             },
             {
               "id": "d",
-              "text": "A volume signal"
+              "text": "A volume confirmation signal"
             }
           ],
-          "answer": "b",
+          "answer": "a",
           "explanation": "Fast crossing above slow means recent prices are higher than older ones."
         },
         {
@@ -268,22 +268,22 @@
           "options": [
             {
               "id": "a",
-              "text": "Price reaching a record high"
+              "text": "Price closing at a record high above all its averages"
             },
             {
               "id": "b",
-              "text": "The 50-day MA crossing below the 200-day MA"
+              "text": "The 50-day MA crossing above the 200-day MA"
             },
             {
               "id": "c",
-              "text": "RSI rising above 70"
+              "text": "The 50-day MA crossing below the 200-day MA"
             },
             {
               "id": "d",
-              "text": "The 50-day MA crossing above the 200-day MA"
+              "text": "RSI rising above 70"
             }
           ],
-          "answer": "d",
+          "answer": "b",
           "explanation": "Golden cross = 50 above 200; the opposite is a death cross."
         },
         {
@@ -293,22 +293,22 @@
           "options": [
             {
               "id": "a",
-              "text": "A string of small losses from whipsaw, plus fees"
+              "text": "Steady profits on every cross"
             },
             {
               "id": "b",
-              "text": "Steady profits from each cross"
+              "text": "About breakeven, because the wins and losses cancel out exactly"
             },
             {
               "id": "c",
-              "text": "No costs, because crosses are free signals"
+              "text": "A big gain on the seventh cross, which finally starts a trend"
             },
             {
               "id": "d",
-              "text": "A guaranteed breakout on the seventh cross"
+              "text": "A string of small losses from whipsaw, plus fees"
             }
           ],
-          "answer": "a",
+          "answer": "d",
           "explanation": "In a range, crosses come late and reverse quickly, so each one tends to lose a little."
         },
         {
@@ -335,22 +335,22 @@
           "options": [
             {
               "id": "a",
-              "text": "A tight sideways range"
-            },
-            {
-              "id": "b",
-              "text": "The day of a big surprise headline"
-            },
-            {
-              "id": "c",
               "text": "A steady trend with a clearly sloping slow MA"
             },
             {
+              "id": "b",
+              "text": "A tight sideways range where the averages keep crossing"
+            },
+            {
+              "id": "c",
+              "text": "The day of a big surprise headline"
+            },
+            {
               "id": "d",
-              "text": "Every market works equally well"
+              "text": "A quiet market where the slow MA is flat and volume is low"
             }
           ],
-          "answer": "c",
+          "answer": "a",
           "explanation": "Crossovers need a trend long enough to pay for the late entry and exit."
         }
       ],
@@ -426,14 +426,14 @@
             },
             {
               "id": "c",
-              "text": "Impossible, since RSI starts at 50"
+              "text": "Oversold"
             },
             {
               "id": "d",
-              "text": "Oversold"
+              "text": "Bearish divergence"
             }
           ],
-          "answer": "d",
+          "answer": "c",
           "explanation": "Below 30 is the conventional oversold zone."
         },
         {
@@ -443,22 +443,22 @@
           "options": [
             {
               "id": "a",
-              "text": "0"
-            },
-            {
-              "id": "b",
-              "text": "50"
-            },
-            {
-              "id": "c",
               "text": "100"
             },
             {
-              "id": "d",
+              "id": "b",
               "text": "70"
+            },
+            {
+              "id": "c",
+              "text": "50"
+            },
+            {
+              "id": "d",
+              "text": "0"
             }
           ],
-          "answer": "b",
+          "answer": "c",
           "explanation": "RS = 0.40 ÷ 0.40 = 1, so RSI = 100 − 100 ÷ 2 = 50."
         },
         {
@@ -485,22 +485,22 @@
           "options": [
             {
               "id": "a",
-              "text": "A bullish divergence"
+              "text": "A bullish divergence: the lower RSI peak is a buying chance"
             },
             {
               "id": "b",
-              "text": "Confirmation that the trend is strengthening"
+              "text": "Confirmation the uptrend is stronger"
             },
             {
               "id": "c",
-              "text": "A bearish divergence: upward momentum is fading"
+              "text": "An oversold reading, since RSI fell from 78 to 64"
             },
             {
               "id": "d",
-              "text": "An oversold signal"
+              "text": "A bearish divergence: upward momentum is fading"
             }
           ],
-          "answer": "c",
+          "answer": "d",
           "explanation": "Higher price high with a lower RSI high is the classic bearish divergence."
         },
         {
@@ -510,11 +510,11 @@
           "options": [
             {
               "id": "a",
-              "text": "In a sideways range"
+              "text": "In a strong trend"
             },
             {
               "id": "b",
-              "text": "In a strong one-way trend"
+              "text": "In a sideways range"
             },
             {
               "id": "c",
@@ -522,10 +522,10 @@
             },
             {
               "id": "d",
-              "text": "It never works in any market"
+              "text": "When RSI has stayed above 70 for weeks"
             }
           ],
-          "answer": "a",
+          "answer": "b",
           "explanation": "In ranges, momentum extremes tend to reverse; in trends they can persist."
         }
       ],
@@ -593,7 +593,7 @@
           "options": [
             {
               "id": "a",
-              "text": "−1.50"
+              "text": "170.50"
             },
             {
               "id": "b",
@@ -601,14 +601,14 @@
             },
             {
               "id": "c",
-              "text": "170.50"
+              "text": "0"
             },
             {
               "id": "d",
-              "text": "0"
+              "text": "−1.50"
             }
           ],
-          "answer": "a",
+          "answer": "d",
           "explanation": "MACD = 12-day EMA − 26-day EMA = 84.50 − 86.00 = −1.50."
         },
         {
@@ -618,48 +618,48 @@
           "options": [
             {
               "id": "a",
-              "text": "The 26-day SMA of price"
-            },
-            {
-              "id": "b",
-              "text": "The 200-day moving average"
-            },
-            {
-              "id": "c",
               "text": "A 9-day EMA of the MACD line"
             },
             {
+              "id": "b",
+              "text": "The 26-day SMA of price"
+            },
+            {
+              "id": "c",
+              "text": "The 200-day moving average of price"
+            },
+            {
               "id": "d",
-              "text": "RSI divided by two"
+              "text": "The 12-day EMA minus the 9-day EMA"
             }
           ],
-          "answer": "c",
+          "answer": "a",
           "explanation": "The signal line smooths MACD with a 9-day EMA."
         },
         {
           "id": "q3",
           "kind": "mc",
-          "prompt": "MACD is +0.80 and the signal line is +1.10. What does the histogram show?",
+          "prompt": "MACD is +0.45 and the signal line is +0.70. What does the histogram show?",
           "options": [
             {
               "id": "a",
-              "text": "+1.90"
+              "text": "−1.15"
             },
             {
               "id": "b",
-              "text": "−0.30"
+              "text": "−0.25"
             },
             {
               "id": "c",
-              "text": "+0.30"
+              "text": "+0.25"
             },
             {
               "id": "d",
-              "text": "−1.90"
+              "text": "+1.15"
             }
           ],
           "answer": "b",
-          "explanation": "Histogram = MACD − signal = 0.80 − 1.10 = −0.30."
+          "explanation": "Histogram = MACD − signal = 0.45 − 0.70 = −0.25."
         },
         {
           "id": "q4",
@@ -689,18 +689,18 @@
             },
             {
               "id": "b",
-              "text": "A crash is guaranteed tomorrow"
+              "text": "The trend has already reversed, so sell at once"
             },
             {
               "id": "c",
-              "text": "Volume must be rising"
+              "text": "Upward momentum is fading; watch for a turn"
             },
             {
               "id": "d",
-              "text": "Upward momentum is fading; watch for a turn"
+              "text": "Volume must be rising, which confirms the trend"
             }
           ],
-          "answer": "d",
+          "answer": "c",
           "explanation": "Shrinking positive bars mean MACD is closing in on its signal line: momentum is slowing."
         }
       ],
@@ -761,22 +761,22 @@
           "options": [
             {
               "id": "a",
-              "text": "RSI, MACD and a 10/30 crossover all turning bullish on the same day"
+              "text": "RSI, MACD, a 10/30 crossover and a golden cross all flashing buy on the same day, after a long rally"
             },
             {
               "id": "b",
-              "text": "An uptrend above a rising 20-day MA, a pullback to old resistance now acting as support, and rising volume on the bounce"
+              "text": "The 10-day, 20-day, 50-day and 200-day moving averages all pointing up together for the first time"
             },
             {
               "id": "c",
-              "text": "A tip from a friend plus one green candle"
+              "text": "RSI rising from 45 to 60 while the MACD histogram grows and the price crosses its 10-day EMA"
             },
             {
               "id": "d",
-              "text": "Three different moving averages pointing up"
+              "text": "An uptrend above a rising 20-day MA, a pullback to old resistance now support, and rising volume"
             }
           ],
-          "answer": "b",
+          "answer": "d",
           "explanation": "Trend, a price level and volume are different kinds of evidence; three momentum tools mostly repeat each other."
         },
         {
@@ -803,48 +803,48 @@
           "options": [
             {
               "id": "a",
-              "text": "A 10/30 moving-average crossover"
+              "text": "RSI readings near 30 and 70 at the range edges"
             },
             {
               "id": "b",
-              "text": "MACD zero-line crosses"
+              "text": "A 10/30 moving-average crossover, entering on each cross"
             },
             {
               "id": "c",
-              "text": "RSI readings near 30 and 70 at the range edges"
+              "text": "MACD zero-line crosses, buying each time MACD turns positive"
             },
             {
               "id": "d",
               "text": "Waiting for a golden cross"
             }
           ],
-          "answer": "c",
+          "answer": "a",
           "explanation": "Oscillators suit ranges; trend tools whipsaw there."
         },
         {
           "id": "q4",
           "kind": "mc",
-          "prompt": "You find a setup at $50 with a stop at $48. Your account is $10,000 and you risk 1% per trade. How many shares?",
+          "prompt": "You find a setup at $64 with a stop at $60. Your account is $12,000 and you risk 1% per trade. How many shares?",
           "options": [
             {
               "id": "a",
-              "text": "20"
-            },
-            {
-              "id": "b",
-              "text": "100"
-            },
-            {
-              "id": "c",
               "text": "200"
             },
             {
+              "id": "b",
+              "text": "120"
+            },
+            {
+              "id": "c",
+              "text": "30"
+            },
+            {
               "id": "d",
-              "text": "50"
+              "text": "20"
             }
           ],
-          "answer": "d",
-          "explanation": "1% of $10,000 = $100 risk; $100 ÷ $2 per share = 50 shares."
+          "answer": "c",
+          "explanation": "1% of $12,000 = $120; $120 ÷ $4 = 30 shares."
         },
         {
           "id": "q5",
@@ -853,22 +853,22 @@
           "options": [
             {
               "id": "a",
-              "text": "Indicator overload feeding confirmation bias"
+              "text": "Healthy confluence among signals"
             },
             {
               "id": "b",
-              "text": "Healthy confluence"
+              "text": "Indicator overload: picking whichever line agrees with you"
             },
             {
               "id": "c",
-              "text": "A backtest"
+              "text": "A backtest, because the indicators were checked against past prices"
             },
             {
               "id": "d",
-              "text": "Good risk management"
+              "text": "Good risk management, since every trade is checked several ways"
             }
           ],
-          "answer": "a",
+          "answer": "b",
           "explanation": "More lines make it easier to cherry-pick the one that agrees with you."
         }
       ],

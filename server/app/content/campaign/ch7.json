@@ -72,11 +72,11 @@
           "options": [
             {
               "id": "a",
-              "text": "$67.00"
+              "text": "$60.00"
             },
             {
               "id": "b",
-              "text": "$73.50"
+              "text": "$67.00"
             },
             {
               "id": "c",
@@ -84,7 +84,7 @@
             },
             {
               "id": "d",
-              "text": "$60.00"
+              "text": "$73.50"
             }
           ],
           "answer": "c",
@@ -97,22 +97,22 @@
           "options": [
             {
               "id": "a",
-              "text": "+0.40R per trade"
-            },
-            {
-              "id": "b",
               "text": "+1.00R per trade"
             },
             {
+              "id": "b",
+              "text": "+0.60R per trade"
+            },
+            {
               "id": "c",
-              "text": "−0.20R per trade"
+              "text": "+0.40R per trade"
             },
             {
               "id": "d",
-              "text": "+0.60R per trade"
+              "text": "−0.20R per trade"
             }
           ],
-          "answer": "a",
+          "answer": "c",
           "explanation": "0.40 × 2.5 − 0.60 × 1 = 1.00 − 0.60 = +0.40R."
         },
         {
@@ -122,19 +122,19 @@
           "options": [
             {
               "id": "a",
-              "text": "Buy after the sixth green day in a row"
+              "text": "Buy after the sixth green day in a row, once the uptrend is clearly proven to everyone"
             },
             {
               "id": "b",
-              "text": "Buy on the first red day of a downtrend"
+              "text": "Buy the first red day of any dip, before you know where the low is"
             },
             {
               "id": "c",
-              "text": "Buy at a random time"
+              "text": "Buy a new 20-day high on the day it happens, with a stop 1% below"
             },
             {
               "id": "d",
-              "text": "Buy as price turns up from a pullback to the rising 20-day MA, stop below the pullback low"
+              "text": "Buy as it turns up from a pullback to the rising 20-day MA, stop below the low"
             }
           ],
           "answer": "d",
@@ -164,11 +164,11 @@
           "options": [
             {
               "id": "a",
-              "text": "In long, steady trends"
+              "text": "In choppy sideways markets"
             },
             {
               "id": "b",
-              "text": "In choppy sideways markets"
+              "text": "In long, steady trends"
             },
             {
               "id": "c",
@@ -179,7 +179,7 @@
               "text": "In strong bull markets"
             }
           ],
-          "answer": "b",
+          "answer": "a",
           "explanation": "Ranges trigger entries that quickly reverse into stops."
         }
       ],
@@ -239,7 +239,7 @@
           "options": [
             {
               "id": "a",
-              "text": "Buy at $49.80 near the top"
+              "text": "Buy at $49.80 near the top, as the range is about to break"
             },
             {
               "id": "b",
@@ -247,11 +247,11 @@
             },
             {
               "id": "c",
-              "text": "Buy at $51 after it leaves the range"
+              "text": "Buy at $51 above the range"
             },
             {
               "id": "d",
-              "text": "Buy at $47.50 with no stop"
+              "text": "Buy at $47.50 in the middle, with a stop at $44.40"
             }
           ],
           "answer": "b",
@@ -264,7 +264,7 @@
           "options": [
             {
               "id": "a",
-              "text": "1:1"
+              "text": "4:1"
             },
             {
               "id": "b",
@@ -272,14 +272,14 @@
             },
             {
               "id": "c",
-              "text": "0.25:1"
+              "text": "1:1"
             },
             {
               "id": "d",
-              "text": "4:1"
+              "text": "0.25:1"
             }
           ],
-          "answer": "d",
+          "answer": "a",
           "explanation": "Reward $4.00 ÷ risk $1.00 = 4:1."
         },
         {
@@ -306,22 +306,22 @@
           "options": [
             {
               "id": "a",
-              "text": "Exit: the range idea is broken"
+              "text": "Buy more, since the price is now even cheaper"
             },
             {
               "id": "b",
-              "text": "Buy more at the lower price"
+              "text": "Hold and wait for it to come back into the range"
             },
             {
               "id": "c",
-              "text": "Remove the stop and wait"
+              "text": "Move the stop lower"
             },
             {
               "id": "d",
-              "text": "Move the stop further down"
+              "text": "Exit: the range idea is broken"
             }
           ],
-          "answer": "a",
+          "answer": "d",
           "explanation": "The trade only made sense while the range held."
         },
         {
@@ -331,22 +331,22 @@
           "options": [
             {
               "id": "a",
-              "text": "A low win rate with a few huge winners"
+              "text": "Frequent small wins, with stops to prevent rare large losses"
             },
             {
               "id": "b",
-              "text": "It never loses"
+              "text": "A low win rate, with a few huge winners paying for many small losses"
             },
             {
               "id": "c",
-              "text": "More frequent but smaller wins, with stops to prevent rare large losses"
+              "text": "Mostly large wins, since every range eventually snaps back"
             },
             {
               "id": "d",
-              "text": "It only works in strong uptrends"
+              "text": "It only works in strong uptrends, buying each new high"
             }
           ],
-          "answer": "c",
+          "answer": "a",
           "explanation": "Range trades take quick, modest profits; the danger is an unprotected loss."
         }
       ],
@@ -408,26 +408,26 @@
         {
           "id": "q1",
           "kind": "mc",
-          "prompt": "Kestrel Air has a base between $36 and $40. Where would a breakout trader place a buy stop?",
+          "prompt": "Kestrel Air has a base between $36 and $40. At a real broker, where would a breakout trader place a buy stop?",
           "options": [
             {
               "id": "a",
-              "text": "$36.20"
-            },
-            {
-              "id": "b",
-              "text": "$38.00"
-            },
-            {
-              "id": "c",
               "text": "$46.00"
             },
             {
-              "id": "d",
+              "id": "b",
               "text": "$40.30"
+            },
+            {
+              "id": "c",
+              "text": "$38.00"
+            },
+            {
+              "id": "d",
+              "text": "$36.20"
             }
           ],
-          "answer": "d",
+          "answer": "b",
           "explanation": "Just above resistance, so it only fills on a real break."
         },
         {
@@ -437,22 +437,22 @@
           "options": [
             {
               "id": "a",
-              "text": "A confirmed breakout"
+              "text": "A confirmed breakout, since it did trade above $40"
             },
             {
               "id": "b",
-              "text": "A likely false breakout; the stop inside the base limits the loss"
+              "text": "A confirmed breakout that is simply resting before the next leg"
             },
             {
               "id": "c",
-              "text": "A gap up"
+              "text": "A buying chance: a dip back under $40 is the cheapest entry yet"
             },
             {
               "id": "d",
-              "text": "A reason to buy more"
+              "text": "A likely false breakout; the stop in the base limits the loss"
             }
           ],
-          "answer": "b",
+          "answer": "d",
           "explanation": "Light volume and a close back in the base are the marks of a failed break."
         },
         {
@@ -462,11 +462,11 @@
           "options": [
             {
               "id": "a",
-              "text": "$42"
+              "text": "$40.40"
             },
             {
               "id": "b",
-              "text": "$48"
+              "text": "$42"
             },
             {
               "id": "c",
@@ -474,7 +474,7 @@
             },
             {
               "id": "d",
-              "text": "$40.40"
+              "text": "$48"
             }
           ],
           "answer": "c",
@@ -483,7 +483,7 @@
         {
           "id": "q4",
           "kind": "true_false",
-          "prompt": "True or false: a buy stop placed above resistance fills only if price rises to that level.",
+          "prompt": "True or false: at a real broker, a buy stop placed above resistance fills only if price rises to that level.",
           "options": [
             {
               "id": "t",
@@ -495,7 +495,7 @@
             }
           ],
           "answer": "t",
-          "explanation": "That is what makes it a breakout entry rather than a guess."
+          "explanation": "That is what makes it a breakout entry rather than a guess. This game has no buy stops, so you buy after a close above the level instead."
         },
         {
           "id": "q5",
@@ -504,19 +504,19 @@
           "options": [
             {
               "id": "a",
-              "text": "Wait for a pullback toward the breakout level, or skip the trade"
+              "text": "Wait for a pullback toward the breakout level, or skip it"
             },
             {
               "id": "b",
-              "text": "Chase it now with full size"
+              "text": "Chase it now at full size before it runs even further"
             },
             {
               "id": "c",
-              "text": "Remove all stops"
+              "text": "Buy now, but place the stop back inside the old base to be safe"
             },
             {
               "id": "d",
-              "text": "Buy more each day it rises"
+              "text": "Buy a little more each day it rises, to average into the move"
             }
           ],
           "answer": "a",
@@ -584,22 +584,22 @@
           "options": [
             {
               "id": "a",
-              "text": "Range: buy near $60 with a stop below, sell toward $65"
+              "text": "Trend: buy each new high and hold it with a trailing stop"
             },
             {
               "id": "b",
-              "text": "Trend: trend following with a trailing stop"
+              "text": "Breakdown: stay in cash until the price makes a lower low"
             },
             {
               "id": "c",
-              "text": "Breakdown: buy every dip"
+              "text": "Range: buy near $60 with a stop below, sell toward $65"
             },
             {
               "id": "d",
-              "text": "Bubble: chase the highs"
+              "text": "Breakout: buy now, since five weeks of base is long enough"
             }
           ],
-          "answer": "a",
+          "answer": "c",
           "explanation": "A flat MA and repeated turns at the same levels define a range."
         },
         {
@@ -609,22 +609,22 @@
           "options": [
             {
               "id": "a",
-              "text": "Buy the most oversold day"
+              "text": "Buy the most oversold day, since it is likely to bounce"
             },
             {
               "id": "b",
-              "text": "Add a little more every day"
-            },
-            {
-              "id": "c",
               "text": "Stay mostly in cash and wait for the trend to change"
             },
             {
+              "id": "c",
+              "text": "Add a little each day to build a position at lower prices"
+            },
+            {
               "id": "d",
-              "text": "Scalp it with frequent market orders"
+              "text": "Trade it often with market orders to catch the bounces"
             }
           ],
-          "answer": "c",
+          "answer": "b",
           "explanation": "In a breakdown, a long-only trader protects capital by waiting."
         },
         {
@@ -651,22 +651,22 @@
           "options": [
             {
               "id": "a",
-              "text": "The trend is speeding up"
+              "text": "The trend is speeding up, so add size on the next breakout"
             },
             {
               "id": "b",
-              "text": "The market may be turning into a range; reduce size"
+              "text": "Buy more, since two failures make the third breakout likely"
             },
             {
               "id": "c",
-              "text": "You should buy more"
+              "text": "Nothing has changed while the price is above its MA"
             },
             {
               "id": "d",
-              "text": "Nothing has changed"
+              "text": "The market may be turning into a range; reduce size"
             }
           ],
-          "answer": "b",
+          "answer": "d",
           "explanation": "A flattening MA and failed breakouts are classic signs of a regime change."
         },
         {
@@ -684,14 +684,14 @@
             },
             {
               "id": "c",
-              "text": "Staying in cash forever"
+              "text": "Trend following with a trailing stop"
             },
             {
               "id": "d",
-              "text": "Trend following with a trailing stop"
+              "text": "Staying in cash until the price forms a sideways range"
             }
           ],
-          "answer": "d",
+          "answer": "c",
           "explanation": "In a clear trend, trend tools lead."
         }
       ],
@@ -758,7 +758,7 @@
           "options": [
             {
               "id": "a",
-              "text": "+$100"
+              "text": "−$20"
             },
             {
               "id": "b",
@@ -766,11 +766,11 @@
             },
             {
               "id": "c",
-              "text": "−$20"
+              "text": "+$40"
             },
             {
               "id": "d",
-              "text": "+$40"
+              "text": "+$100"
             }
           ],
           "answer": "b",
@@ -783,22 +783,22 @@
           "options": [
             {
               "id": "a",
-              "text": "It is a proven edge"
-            },
-            {
-              "id": "b",
-              "text": "Increase size five times"
-            },
-            {
-              "id": "c",
               "text": "Encouraging, but too small a sample; keep testing"
             },
             {
+              "id": "b",
+              "text": "It is a proven edge, since 90% is an excellent win rate"
+            },
+            {
+              "id": "c",
+              "text": "Raise the size now, while the strategy is working well"
+            },
+            {
               "id": "d",
-              "text": "Stop testing and trade it live with everything"
+              "text": "Drop it, since a 90% rate means it is overfitted"
             }
           ],
-          "answer": "c",
+          "answer": "a",
           "explanation": "Ten trades can easily be distorted by luck."
         },
         {
@@ -825,22 +825,22 @@
           "options": [
             {
               "id": "a",
-              "text": "Rules that work across many stocks and years"
+              "text": "Rules that keep working across many different stocks, years and market conditions"
             },
             {
               "id": "b",
-              "text": "Including fees in the test"
+              "text": "Very specific rules that fit one stock's past but fail on new data"
             },
             {
               "id": "c",
-              "text": "Keeping a trade journal"
+              "text": "Including fees and the spread in every test trade"
             },
             {
               "id": "d",
-              "text": "Very specific rules tuned to one stock's past that fail on new data"
+              "text": "Keeping a journal of every trade the rules produce"
             }
           ],
-          "answer": "d",
+          "answer": "b",
           "explanation": "Rules that only fit the data they were built on rarely hold up."
         },
         {
@@ -850,22 +850,22 @@
           "options": [
             {
               "id": "a",
-              "text": "\"Breakout setup, entry $40.30, stop $38.70, 60 shares, −1R, followed plan; volume was light.\""
+              "text": "\"Up $300 this week. Great trading, keep doing whatever I did.\""
             },
             {
               "id": "b",
-              "text": "\"Lost money.\""
+              "text": "\"The market is rigged against small traders, so results do not matter.\""
             },
             {
               "id": "c",
-              "text": "\"The market is rigged.\""
+              "text": "\"Bought Kestrel Air because it felt strong. Lost money. Next time, buy more.\""
             },
             {
               "id": "d",
-              "text": "\"Should have bought more.\""
+              "text": "\"Breakout, entry $40.30, stop $38.70, 60 shares, −1R, followed plan.\""
             }
           ],
-          "answer": "a",
+          "answer": "d",
           "explanation": "It records the setup, plan, result and process, which is what you can learn from."
         }
       ],
