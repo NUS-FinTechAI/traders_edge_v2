@@ -1,4 +1,4 @@
-"""The 16 process badges (game-spec §B6). Proxies for data the engine does not keep are described in cosmetics.json."""
+"""The 16 process badges (game-spec §B6). Conditions are described to players in cosmetics.json."""
 
 from datetime import timedelta
 
@@ -131,23 +131,30 @@ def _orders_before_sale_ok(orders):
     return checked > 0
 
 
+def standing_orders(orders):
+    """Orders that were not cancelled on the tick they were placed."""
+    return [order for order in orders if order.cancelled_tick is None or order.cancelled_tick > order.tick]
+
+
 def match_badges(game, participant, result, orders, ticks):
-    """Badges judged on the match being settled."""
+    """Badges judged on the match being settled. None needs a profit-ranked win."""
     finished = not result['forfeited']
     stats = result['stats']
+    orders = standing_orders(orders)
     bought = {order.symbol for order in orders if order.side == 'buy'}
     stopped = {order.symbol for order in orders if order.type == 'stop'}
+    kept_plan = bool(result.get('plan_review') and result['plan_review']['kept_loss_limit'])
     scenario = game.scenario_id
     earned = set()
     if finished and participant.plan and stats['trades'] >= 1:
         earned.add('first-plan')
     if finished and bought and bought <= stopped and stats['max_drawdown_pct'] <= 2:
         earned.add('risk-manager')
-    if result['won'] and ('chop' in scenario or 'range' in scenario) and stats['fees'] < 30:
+    if finished and ('chop' in scenario or 'range' in scenario) and stats['trades'] >= 3 and stats['fees'] < 30:
         earned.add('fee-fighter')
     if finished and len(orders) >= 3 and _orders_before_sale_ok(orders):
         earned.add('cool-head')
-    if result['won'] and all(order.tick >= 0.4 * ticks for order in orders):
+    if finished and orders and kept_plan and all(order.tick >= 0.4 * ticks for order in orders):
         earned.add('patient-trader')
     return earned
 

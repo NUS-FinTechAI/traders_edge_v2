@@ -256,6 +256,8 @@ class Match:
         if order.status == 'open':
             self._release(book, order)
             order.status, order.cancelled_tick = 'cancelled', t
+            if t == order.tick:
+                book.placed[order.type] -= 1
         return order
 
     def validate(self, order):
@@ -296,20 +298,22 @@ class Match:
             raise OrderRejected(f'All your {order.symbol} shares are already reserved by open sell orders.')
         if order.qty > available:
             raise OrderRejected(f'Not enough shares: you can sell up to {available} {order.symbol}.')
-        if order.type == 'market':
-            value = self.rules.bid(close) * order.qty
-            if value - self.rules.fee(value) + book.available_cash() < 0:
-                raise OrderRejected(f'Not enough cash to pay the {usd(self.rules.fee(value))} fee.')
+        price = {'market': self.rules.bid(close), 'limit': order.limit_price,
+                 'stop': money((order.stop_price or ZERO) * (1 - self.rules.half_spread))}[order.type]
+        value = price * order.qty
+        if value - self.rules.fee(value) + book.available_cash() < 0:
+            raise OrderRejected(f'Not enough cash to pay the {usd(self.rules.fee(value))} fee.')
 
     def place(self, order):
-        """Validate and apply a human order at the current tick."""
+        """Validate and apply a human order at the current tick. `placed` counts orders not cancelled on their own tick."""
         self.validate(order)
         book, t = self.books[order.participant_id], self.processed
         book.orders[order.id] = order
-        book.placed[order.type] += 1
         if order.cancelled_tick == order.tick:
             order.status = 'cancelled'
-        elif order.type == 'market':
+            return order
+        book.placed[order.type] += 1
+        if order.type == 'market':
             self._market(book, order.id, order.symbol, order.side, order.qty, t)
             order.status, order.filled_tick = 'filled', t
         elif order.side == 'buy':

@@ -29,6 +29,15 @@ class CampaignCheck(Base):
     first_option_id: Mapped[str] = mapped_column(String(100))
     first_correct: Mapped[bool] = mapped_column(Boolean)
     solved: Mapped[bool] = mapped_column(Boolean)
+    run_first_correct: Mapped[bool | None] = mapped_column(Boolean)
+    run_solved: Mapped[bool] = mapped_column(Boolean, default=False)
+
+
+class DailySeed(Base):
+    __tablename__ = 'daily_seeds'
+    day: Mapped[str] = mapped_column(String(10), primary_key=True)
+    seed: Mapped[int] = mapped_column(Integer)
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
 
 
 class BossResult(Base):

@@ -26,6 +26,7 @@ class Player(BaseModel):
     id: str
     display_name: str
     avatar_id: str
+    avatar_image: str | None = Field(description='Art key of the equipped avatar')
     title_id: str | None
     title: str
     level: int
@@ -84,6 +85,7 @@ class CollectionBadge(BaseModel):
 class CollectionItem(BaseModel):
     id: str
     name: str
+    image: str | None = Field(default=None, description='Art key for avatars; null for titles')
     owned: bool
     equipped: bool
     how: str

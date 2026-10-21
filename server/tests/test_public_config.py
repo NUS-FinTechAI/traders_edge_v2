@@ -46,8 +46,6 @@ class PublicConfigTests(unittest.TestCase):
     def test_config_exposes_only_public_fields_when_private_settings_are_populated(self):
         client = self.client(
             cookie_name='private-cookie-name', session_days=14,
-            instructor_firebase_uids=('private-firebase-uid',),
-            instructor_profile_ids=('private-profile-id',),
             research_enabled=True, research_policy_version='private-policy',
             research_policy_text='Study consent text',
         )

@@ -377,8 +377,6 @@ Adventure overview, module map and level briefing reads declare response schemas
 | `ALLOWED_ORIGINS`          | The two local client origins                     | Comma-separated exact browser origins                                           |
 | `FIREBASE_PROJECT_ID`      | Unset                                            | Required when Firebase authentication is enabled                                |
 | `AUTO_MIGRATE`             | `true` locally, `false` in production            | Apply ordered pending migrations at startup                                     |
-| `INSTRUCTOR_FIREBASE_UIDS` | Empty                                            | Comma-separated verified Firebase UIDs authorized to host quiz rooms            |
-| `INSTRUCTOR_PROFILE_IDS`   | Empty                                            | Development-only exact profile IDs; ignored for production instructor authority |
 | `RESEARCH_ENABLED`         | `false`                                          | Enable study enrollment only after the required ethics/privacy approval         |
 | `RESEARCH_POLICY_VERSION`  | Unset                                            | Required nonblank, unpadded 1–80 character version when enrollment is enabled   |
 | `RESEARCH_POLICY_TEXT`     | Unset                                            | Required exact consent text; its UTF-8 SHA-256 digest binds fresh acceptance    |

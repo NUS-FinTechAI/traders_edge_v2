@@ -31,6 +31,14 @@ def cross_references(content, scenarios):
         fail('quiz_bank.json', f'reuses lesson check questions: {", ".join(reused)}')
 
 
+def without_bonus_missions(content, scenarios):
+    """Lesson and boss scenarios (by `balance` or by campaign use) with no bonus mission, so no special star can be earned."""
+    used = {chapter[key] for chapter in content.campaign.chapters for key in ('boss', 'gate') if chapter[key]}
+    used |= {level['practice'] for chapter in content.campaign.chapters for level in chapter['levels']}
+    return sorted(key for key, scenario in scenarios.items()
+                  if (scenario.get('balance') in ('lesson', 'boss') or key in used) and not scenario['missions']['bonus'])
+
+
 def main():
     try:
         load_bots()
@@ -40,6 +48,8 @@ def main():
     except (ContentError, ScenarioError) as error:
         print(f'Content is invalid: {error}', file=sys.stderr)
         return 1
+    for scenario_id in without_bonus_missions(content, scenarios):
+        print(f'Warning: {scenario_id} has no bonus mission, so its special star cannot be earned', file=sys.stderr)
     print(f'Content is valid: {len(scenarios)} scenarios, {len(content.campaign.chapters)} chapters, '
           f'{len(content.quiz.questions)} quiz questions, {len(content.cosmetics.items)} cosmetics.')
     return 0

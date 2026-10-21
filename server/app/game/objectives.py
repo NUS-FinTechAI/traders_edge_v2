@@ -11,6 +11,7 @@ from app.game.engine import HUNDRED, usd
 
 MILESTONES = {'trades_min', 'use_order', 'stop_loss_set', 'min_holdings', 'sold_after_news', 'bought_after_news', 'held_between'}
 RULES = {'trades_max', 'max_drawdown', 'max_position', 'no_buy_between', 'max_position_before', 'kept_plan'}
+PENDING = {'Not yet'}
 
 
 def _pct(value):
@@ -130,6 +131,8 @@ def evaluate(match, pid, plan, final=False):
             else:
                 met, progress = check(mission, match, pid, plan)
                 state = _state(mission['type'], met, final)
+                if final and not met and progress in PENDING:
+                    progress = 'Missed'
             missions.append({'id': mission['id'], 'tier': tier, 'text': mission['text'], 'done': state == 'done',
                              'state': state, 'progress': progress})
     return missions

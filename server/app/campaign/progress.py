@@ -49,8 +49,8 @@ class Progress:
         return self.unlocked_by(chapter) is not None
 
     def preview_played(self, chapter):
-        row = self.boss(chapter['id'], 'preview')
-        return bool(row and row.attempts)
+        """Played to the last day without forfeiting (stored as `won` on the preview row)."""
+        return self.won(chapter['id'], 'preview')
 
     def level_locked_reason(self, level_id):
         chapter, number = self.campaign.levels[level_id]

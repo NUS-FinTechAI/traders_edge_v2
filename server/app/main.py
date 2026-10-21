@@ -3,7 +3,7 @@ from contextlib import asynccontextmanager
 import hashlib
 from weakref import WeakValueDictionary
 
-from fastapi import FastAPI, Request
+from fastapi import Depends, FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from sqlalchemy.exc import IntegrityError
@@ -14,9 +14,9 @@ from app.db import Database
 from app.auth import router as auth_router
 from app.public_config import router as public_config_router
 from app.campaign.api import router as campaign_router
-from app.campaign.games import resolve_game
+from app.campaign.games import before_start, resolve_game
 from app.campaign.settlement import settle_game
-from app.content.bundle import Content, load_content
+from app.content.bundle import Content, load_content, require_approved_content
 from app.game.api import router as games_router
 from app.multiplayer.api import router as multiplayer_router
 from app.player.api import router as player_router
@@ -61,8 +61,12 @@ def create_app(settings: Settings | None = None, content: Content | None = None)
     async def settle(db, profile, game, participant, result):
         return await settle_game(application.state.content, db, profile, game, participant, result)
 
+    async def check_start(db, profile, game):
+        await before_start(application.state.content, db, profile, game)
+
     application.state.resolve_game = resolve
     application.state.settle_game = settle
+    application.state.before_start = check_start
     locks = WeakValueDictionary()
     application.add_middleware(CORSMiddleware, allow_origins=list(settings.allowed_origins), allow_credentials=True, allow_methods=['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'], allow_headers=['Content-Type', 'Authorization'])
 
@@ -103,11 +107,12 @@ def create_app(settings: Settings | None = None, content: Content | None = None)
 
     application.include_router(auth_router)
     application.include_router(public_config_router)
-    application.include_router(games_router)
+    approved = [Depends(require_approved_content)]
+    application.include_router(games_router, dependencies=approved)
     application.include_router(campaign_router)
     application.include_router(player_router)
-    application.include_router(quiz_router)
-    application.include_router(multiplayer_router)
+    application.include_router(quiz_router, dependencies=approved)
+    application.include_router(multiplayer_router, dependencies=approved)
     application.include_router(research_router)
     return application
 

@@ -1,3 +1,4 @@
+from datetime import timedelta
 import unittest
 from unittest.mock import patch
 
@@ -5,9 +6,9 @@ from sqlalchemy import func, select
 
 from app.economy_models import EconomyEvent
 from app.game.models import Game, GameParticipant
-from app.multiplayer import elo
-from app.multiplayer.models import Rating
-from progression_fixtures import AppCase
+from app.multiplayer import elo, service
+from app.multiplayer.models import QueueEntry, Rating
+from progression_fixtures import AppCase, result
 
 COOKIE = 'traders_edge_session'
 PLAN = {'strategy': 'trend', 'max_loss_pct': 10}
@@ -136,23 +137,88 @@ class MultiplayerTests(AppCase):
         self.assertEqual(host_view['game_id'], matched['game_id'])
         game = self.client.get(f'/api/games/{matched["game_id"]}').json()
         self.assertEqual((game['mode'], [entry['kind'] for entry in game['leaderboard']]), ('ranked', ['human', 'human']))
-        self.assertEqual(self.client.delete('/api/matchmaking').status_code, 204)
+
+    def test_leaving_the_queue_after_a_match_started_is_refused(self):
+        _, matched, _ = self.ranked_pair()
+
+        left = self.client.delete('/api/matchmaking')
+
+        self.assertEqual((left.status_code, left.json()['detail']), (409, 'Your match has started'))
+        self.assertEqual(self.client.get('/api/matchmaking').json()['game_id'], matched['game_id'])
+
+    def test_leaving_while_searching_returns_to_idle(self):
+        self.win_boss('ch3')
+        self.client.post('/api/matchmaking', json={})
+
+        left = self.client.delete('/api/matchmaking')
+
+        self.assertEqual(left.status_code, 204)
         self.assertEqual(self.client.get('/api/matchmaking').json()['status'], 'idle')
 
-    def finish_ranked(self, game_id, name, order=False):
+    def add_searching_entry(self, user_id, created_at):
+        async def add(db):
+            db.add(QueueEntry(user_id=user_id, status='searching', created_at=created_at))
+        self.run_db(add)
+
+    def test_polling_pairs_a_search_with_a_rival_who_joined_without_being_paired(self):
+        self.win_boss('ch3')
+        self.client.post('/api/matchmaking', json={})
+        rival = self.add_user('rival')
+        self.add_searching_entry(rival, self.now)
+        self.act_as('host')
+
+        polled = self.client.get('/api/matchmaking').json()
+
+        self.assertEqual(polled['status'], 'matched')
+        self.act_as('rival')
+        self.assertEqual(self.client.get('/api/matchmaking').json()['game_id'], polled['game_id'])
+
+    def test_searches_older_than_two_minutes_are_idle_and_never_paired(self):
+        stale = self.add_user('stale')
+        self.add_searching_entry(stale, self.now - timedelta(minutes=2, seconds=1))
+        stale_view = self.client.get('/api/matchmaking').json()
+        self.act_as('host')
+        self.win_boss('ch3')
+
+        joined = self.client.post('/api/matchmaking', json={}).json()
+
+        self.assertEqual(stale_view['status'], 'idle')
+        self.assertEqual((joined['status'], joined['game_id']), ('searching', None))
+
+    def test_lobby_bots_fill_from_the_default_roster_when_the_scenario_lists_too_few(self):
+        with patch('app.multiplayer.service.load_scenarios', return_value={'practice-trend-rider': {'bots': ['hodl-hannah']}}):
+            bots = service.lobby_bots('practice-trend-rider', 3)
+
+        self.assertEqual(bots, ['hodl-hannah', 'momentum-max-pro', 'value-vera-pro'])
+
+    def finish_ranked(self, game_id, name, qty=0):
         self.act_as(name)
         self.client.post(f'/api/games/{game_id}/start', json={'plan': PLAN})
-        if order:
+        if qty:
             symbol = self.client.get(f'/api/games/{game_id}').json()['assets'][0]['symbol']
             placed = self.client.post(f'/api/games/{game_id}/orders', json={'client_order_id': 'ranked-order-1', 'symbol': symbol, 'side': 'buy',
-                                                                            'type': 'market', 'qty': 20})
+                                                                            'type': 'market', 'qty': qty})
             self.assertEqual(placed.status_code, 200, placed.text)
+
+    def test_win_against_an_idle_opponent_who_left_early_pays_only_participation_rewards(self):
+        _, matched, _ = self.ranked_pair()
+        game_id = matched['game_id']
+        self.finish_ranked(game_id, 'host', qty=20)
+        self.act_as('rival')
+        self.client.post(f'/api/games/{game_id}/finish', json={'forfeit': True})
+        self.ms += 200 * 3000
+        self.act_as('host')
+
+        host = self.client.post(f'/api/games/{game_id}/finish', json={}).json()
+
+        self.assertTrue(host['won'])
+        self.assertEqual((host['rewards']['xp'], host['rewards']['gems']), (10, 5))
 
     def test_ranked_results_rate_every_human_once_and_pay_gems(self):
         _, matched, _ = self.ranked_pair()
         game_id = matched['game_id']
-        self.finish_ranked(game_id, 'host', order=True)
-        self.finish_ranked(game_id, 'rival')
+        self.finish_ranked(game_id, 'host', qty=20)
+        self.finish_ranked(game_id, 'rival', qty=10)
         self.ms += 200 * 3000
         self.act_as('host')
         host = self.client.post(f'/api/games/{game_id}/finish', json={}).json()
@@ -173,9 +239,16 @@ class MultiplayerTests(AppCase):
         self.assertEqual((values[host_id][1], values[rival_id][1]), (1, 1))
         self.assertEqual((winner['rewards']['xp'], winner['rewards']['gems']), (20, 25))
         self.assertEqual(loser['rewards']['xp'], 10)
-        self.assertEqual(loser['rewards']['gems'], 5 if loser is host else 0)
+        self.assertEqual(loser['rewards']['gems'], 5)
         ranked = self.client.get('/api/leaderboards/ranked').json()
         self.assertEqual(ranked['me']['value'], values[rival_id][0])
+
+    def test_ranked_xp_and_gems_pay_for_at_most_five_matches_a_day(self):
+        with patch('app.campaign.settlement.contested', return_value=True):
+            settled = [self.settle('ranked', result(won=True), game_id=f'ranked-{n}')['rewards'] for n in range(6)]
+
+        self.assertEqual([reward['xp'] for reward in settled], [20, 20, 20, 20, 20, 0])
+        self.assertEqual([reward['gems'] for reward in settled], [25, 15, 15, 15, 15, 0])
 
     def test_private_games_never_change_ratings(self):
         lobby = self.client.post('/api/lobbies', json={}).json()

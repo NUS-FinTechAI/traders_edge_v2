@@ -62,6 +62,7 @@ async def player_data(db, content, profile):
     title = content.cosmetics.items.get(profile.equipped_title_id)
     return {
         'id': profile.id, 'display_name': profile.display_name, 'avatar_id': profile.equipped_avatar_id or DEFAULT_AVATAR,
+        'avatar_image': content.cosmetics.image(profile.equipped_avatar_id or DEFAULT_AVATAR),
         'title_id': profile.equipped_title_id, 'title': title['name'] if title else rank_name(level), 'level': level,
         'rank_name': rank_name(level), 'xp': xp, 'xp_into_level': into, 'xp_for_next_level': needed,
         'wallet': {'doubloons': ledger.doubloons(wallet, instant), 'doubloons_week_ends_at': ledger.week_ends_at(instant).isoformat(),
@@ -163,8 +164,8 @@ async def collection(db, content, profile):
     equipped = {profile.equipped_avatar_id or DEFAULT_AVATAR, profile.equipped_title_id}
 
     def entries(kind):
-        return [{'id': item['id'], 'name': item['name'], 'owned': item['id'] in owned, 'equipped': item['id'] in equipped, 'how': _how(item)}
-                for item in content.cosmetics.of(kind)]
+        return [{'id': item['id'], 'name': item['name'], 'image': item.get('image'), 'owned': item['id'] in owned,
+                 'equipped': item['id'] in equipped, 'how': _how(item)} for item in content.cosmetics.of(kind)]
     progress = await load_progress(db, content.campaign, profile.id)
     levels = [level['id'] for chapter in content.campaign.chapters for level in chapter['levels']]
     profits = [row for row in await db.scalars(select(CampaignProgress.best_profit).where(CampaignProgress.user_id == profile.id))]

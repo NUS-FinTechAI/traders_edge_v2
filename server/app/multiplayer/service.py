@@ -1,15 +1,16 @@
 """Private lobbies and the ranked queue. Matches run on app.game; lobbies only gather players."""
 
+from datetime import timedelta
 import secrets
 
 from fastapi import HTTPException
-from sqlalchemy import delete, func, select
+from sqlalchemy import delete, func, select, text
 
 from app.campaign.progress import load_progress
 from app.codes import new_code, normalise
 from app.db import Profile
 from app.game.models import GameParticipant
-from app.game.scenario import load_scenarios
+from app.game.scenario import load_bots, load_scenarios
 from app.game.service import create_multiplayer_game
 from app.multiplayer import elo
 from app.multiplayer.models import Lobby, LobbyMember, QueueEntry, Rating
@@ -18,7 +19,21 @@ from app.player.service import DEFAULT_AVATAR
 
 MIN_PLAYERS = 2
 MAX_MEMBERS = 30
+MAX_LOBBY_BOTS = 3
+LOBBY_ROSTER = ('momentum-max-pro', 'value-vera-pro', 'hodl-hannah')
 RANKED_LOCKED = 'Win the Chapter 3 boss to unlock ranked matches'
+SEARCH_EXPIRES = timedelta(minutes=2)
+PAIRING_LOCK = 724_190_331
+
+
+def lobby_bots(scenario_id, count):
+    """The scenario's own bots first, then the default lobby roster, up to `count` distinct opponents."""
+    known = load_bots()
+    chosen = []
+    for bot_id in (*load_scenarios()[scenario_id]['bots'], *LOBBY_ROSTER):
+        if bot_id in known and bot_id not in chosen and len(chosen) < count:
+            chosen.append(bot_id)
+    return chosen
 
 
 def ranked_pool():
@@ -52,7 +67,7 @@ async def create_lobby(db, profile, body):
     scenario_id = body.scenario_id or secrets.choice(ranked_pool() or pool)
     if scenario_id not in pool:
         raise HTTPException(404, 'That market is not available for lobbies')
-    bots = min(body.bots, len(load_scenarios()[scenario_id]['bots']))
+    bots = len(lobby_bots(scenario_id, min(body.bots, MAX_LOBBY_BOTS)))
     lobby = Lobby(code=await new_code(db, Lobby), host_user_id=profile.id, scenario_id=scenario_id, bots=bots, status='open',
                   created_at=ledger.current())
     db.add(lobby)
@@ -105,7 +120,7 @@ async def start_lobby(db, profile, lobby_id):
     if len(players) < MIN_PLAYERS:
         raise HTTPException(409, f'At least {MIN_PLAYERS} players are needed to start')
     players.sort(key=lambda person: person.id != lobby.host_user_id)
-    bots = load_scenarios()[lobby.scenario_id]['bots'][:lobby.bots]
+    bots = lobby_bots(lobby.scenario_id, lobby.bots)
     game = await create_multiplayer_game(db, lobby.scenario_id, 'private', players, bots, lobby.id)
     lobby.status, lobby.game_id = 'started', game.id
     await db.flush()
@@ -134,47 +149,83 @@ async def _match_view(db, entry, profile, locked_reason):
             'locked_reason': locked_reason}
 
 
+def expired(entry, instant):
+    """A search older than SEARCH_EXPIRES is abandoned: it is never paired and reads as idle."""
+    return entry.status == 'searching' and ledger.utc(entry.created_at) <= instant - SEARCH_EXPIRES
+
+
+async def _entry(db, user_id):
+    return await db.scalar(select(QueueEntry).where(QueueEntry.user_id == user_id).execution_options(populate_existing=True))
+
+
 async def _current_entry(db, profile, clear=False):
-    """The player's queue entry, ignoring a matched entry whose game this player already finished (removed when `clear`)."""
-    entry = await db.get(QueueEntry, profile.id)
-    if entry and entry.status == 'matched':
-        finished = await db.scalar(select(GameParticipant.result.is_not(None)).where(GameParticipant.game_id == entry.game_id,
-                                                                                     GameParticipant.user_id == profile.id))
-        if finished:
-            if clear:
-                await db.delete(entry)
-                await db.flush()
-            return None
+    """The player's live queue entry: a finished match or an expired search reads as none (and is removed when `clear`)."""
+    entry = await _entry(db, profile.id)
+    if entry is None:
+        return None
+    gone = expired(entry, ledger.current())
+    if entry.status == 'matched':
+        gone = await db.scalar(select(GameParticipant.result.is_not(None)).where(GameParticipant.game_id == entry.game_id,
+                                                                                 GameParticipant.user_id == profile.id))
+    if gone:
+        if clear:
+            await db.delete(entry)
+            await db.flush()
+        return None
+    return entry
+
+
+async def _pairing_lock(db):
+    """One pairing at a time across workers. SQLite already serialises writers with BEGIN IMMEDIATE."""
+    if db.get_bind().dialect.name == 'postgresql':
+        await db.execute(text('SELECT pg_advisory_xact_lock(:key)'), {'key': PAIRING_LOCK})
+
+
+async def _pair(db, profile):
+    """Pair the player's search with the oldest live rival under the global lock. Returns the refreshed entry."""
+    await _pairing_lock(db)
+    entry = await _current_entry(db, profile)
+    if entry is None or entry.status != 'searching':
+        return entry
+    instant = ledger.current()
+    rivals = await db.scalars(select(QueueEntry).where(QueueEntry.status == 'searching', QueueEntry.user_id != profile.id)
+                              .order_by(QueueEntry.created_at, QueueEntry.user_id).execution_options(populate_existing=True))
+    rival = next((item for item in rivals if not expired(item, instant)), None)
+    if rival is None:
+        return entry
+    pool = ranked_pool() or sorted(key for key in load_scenarios() if key.startswith('practice-'))
+    if not pool:
+        raise HTTPException(503, 'No ranked markets are available yet')
+    players = [await db.get(Profile, rival.user_id), profile]
+    game = await create_multiplayer_game(db, secrets.choice(pool), 'ranked', players, [], None)
+    for item in (rival, entry):
+        item.status, item.game_id = 'matched', game.id
+    await db.flush()
     return entry
 
 
 async def get_match(db, content, profile):
-    return await _match_view(db, await _current_entry(db, profile), profile, await ranked_locked_reason(db, content, profile))
+    """Poll the queue; a live search also tries to pair here."""
+    entry = await _current_entry(db, profile)
+    if entry is not None and entry.status == 'searching':
+        entry = await _pair(db, profile)
+    return await _match_view(db, entry, profile, await ranked_locked_reason(db, content, profile))
 
 
 async def join_queue(db, content, profile):
     reason = await ranked_locked_reason(db, content, profile)
     if reason:
         raise HTTPException(403, reason)
-    entry = await _current_entry(db, profile, clear=True)
-    if entry is None:
-        entry = QueueEntry(user_id=profile.id, status='searching', created_at=ledger.current())
-        db.add(entry)
+    if await _current_entry(db, profile, clear=True) is None:
+        db.add(QueueEntry(user_id=profile.id, status='searching', created_at=ledger.current()))
         await db.flush()
-    if entry.status == 'searching':
-        rival = await db.scalar(select(QueueEntry).where(QueueEntry.status == 'searching', QueueEntry.user_id != profile.id)
-                                .order_by(QueueEntry.created_at, QueueEntry.user_id).limit(1).with_for_update())
-        if rival is not None:
-            pool = ranked_pool() or sorted(key for key in load_scenarios() if key.startswith('practice-'))
-            if not pool:
-                raise HTTPException(503, 'No ranked markets are available yet')
-            players = [await db.get(Profile, rival.user_id), profile]
-            game = await create_multiplayer_game(db, secrets.choice(pool), 'ranked', players, [], None)
-            for item in (rival, entry):
-                item.status, item.game_id = 'matched', game.id
-            await db.flush()
-    return await _match_view(db, entry, profile, None)
+    return await _match_view(db, await _pair(db, profile), profile, None)
 
 
 async def leave_queue(db, profile):
+    """Stop searching. A match that has started cannot be left from the queue."""
+    await _pairing_lock(db)
+    entry = await _current_entry(db, profile, clear=True)
+    if entry is not None and entry.status == 'matched':
+        raise HTTPException(409, 'Your match has started')
     await db.execute(delete(QueueEntry).where(QueueEntry.user_id == profile.id))

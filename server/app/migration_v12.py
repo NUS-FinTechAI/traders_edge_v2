@@ -25,6 +25,8 @@ campaign_checks = Table(
     Column('first_option_id', String(100), nullable=False),
     Column('first_correct', Boolean, nullable=False),
     Column('solved', Boolean, nullable=False),
+    Column('run_first_correct', Boolean, nullable=True),
+    Column('run_solved', Boolean, nullable=False),
 )
 boss_results = Table(
     'boss_results', metadata,
@@ -105,8 +107,14 @@ ratings = Table(
     Column('wins', Integer, nullable=False),
     Column('updated_at', DateTime(timezone=True), nullable=False),
 )
+daily_seeds = Table(
+    'daily_seeds', metadata,
+    Column('day', String(10), primary_key=True),
+    Column('seed', Integer, nullable=False),
+    Column('created_at', DateTime(timezone=True), nullable=False),
+)
 TABLES = (campaign_progress, campaign_checks, boss_results, quiz_rooms, quiz_room_members, quiz_attempts, lobbies, lobby_members,
-          matchmaking_queue, ratings)
+          matchmaking_queue, ratings, daily_seeds)
 
 
 async def upgrade(connection):

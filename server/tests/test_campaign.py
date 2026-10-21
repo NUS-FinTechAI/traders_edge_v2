@@ -4,6 +4,7 @@ from unittest.mock import patch
 
 from sqlalchemy import func, select
 
+from app.campaign import views
 from app.campaign.content import validate_campaign, validate_chapter
 from app.campaign.models import CampaignProgress
 from app.content.checks import ContentError
@@ -14,6 +15,28 @@ from progression_fixtures import CAMPAIGN, AppCase, fixture_content, result
 
 def nodes(client, chapter_id):
     return {node['id']: node for node in client.get(f'/api/campaign/chapters/{chapter_id}').json()['nodes']}
+
+
+class CheckOptionOrderTests(unittest.TestCase):
+    question = {'id': 'q1', 'kind': 'mc', 'options': [{'id': key, 'text': key.upper()} for key in 'abcde']}
+
+    def order(self, user_id, level_id='ch1-l1', question=None):
+        return [option['id'] for option in views.shuffled_options(question or self.question, user_id, level_id)]
+
+    def test_order_is_stable_for_a_player_and_level(self):
+        self.assertEqual(self.order('player-1'), self.order('player-1'))
+        self.assertEqual(sorted(self.order('player-1')), list('abcde'))
+
+    def test_order_varies_between_players(self):
+        self.assertGreater(len({tuple(self.order(f'player-{n}')) for n in range(10)}), 1)
+
+    def test_signed_out_views_use_one_fixed_order(self):
+        self.assertEqual(self.order(None), self.order(None))
+
+    def test_true_false_keeps_its_authored_order(self):
+        question = {'id': 'q2', 'kind': 'true_false', 'options': [{'id': 't', 'text': 'True'}, {'id': 'f', 'text': 'False'}]}
+
+        self.assertEqual({tuple(self.order(f'player-{n}', question=question)) for n in range(10)}, {('t', 'f')})
 
 
 class CampaignContentTests(unittest.TestCase):
@@ -93,7 +116,8 @@ class CampaignTests(AppCase):
         self.assertEqual(partial['ch1-l5']['state'], 'open')
         self.assertEqual(partial['ch1-boss']['state'], 'locked')
         self.assertEqual(partial['ch1-l3-reward']['state'], 'done')
-        self.assertEqual(partial['ch1-l3-reward']['reward'], {'kind': 'avatar', 'id': 'avatar-ch1-explorer', 'name': 'Explorer Parrot'})
+        self.assertEqual(partial['ch1-l3-reward']['reward'], {'kind': 'avatar', 'id': 'avatar-ch1-explorer', 'name': 'Explorer Parrot',
+                                                               'image': 'parrot'})
         self.assertEqual(full['ch1-boss']['state'], 'open')
         self.assertEqual(list(full)[:5], ['ch1-preview', 'ch1-l1', 'ch1-l2', 'ch1-l3', 'ch1-l3-reward'])
 
@@ -107,7 +131,7 @@ class CampaignTests(AppCase):
         self.assertEqual([chapter['state'] for chapter in campaign['chapters']], ['complete', 'open', 'locked'])
         self.assertEqual(campaign['chapters'][1]['unlocked_by'], 'boss')
         self.assertEqual(campaign['next']['node_id'], 'ch2-preview')
-        self.assertIn({'id': 'avatar-guide-1', 'kind': 'avatar', 'name': 'Harbor Guide'}, settled['rewards']['items'])
+        self.assertIn({'id': 'avatar-guide-1', 'kind': 'avatar', 'name': 'Harbor Guide', 'image': 'guide-1'}, settled['rewards']['items'])
 
     def test_gate_win_skips_ahead_without_marking_earlier_chapters(self):
         settled = self.win_boss('ch3', kind='gate')
@@ -133,15 +157,29 @@ class CampaignTests(AppCase):
         retry = self.client.post('/api/campaign/levels/ch1-l1/check', json={'question_id': 'q1', 'option_id': 'a'}).json()
         self.client.post('/api/campaign/levels/ch1-l1/check', json={'question_id': 'q2', 'option_id': 'f'})
         completed = self.client.post('/api/campaign/levels/ch1-l1/check/complete').json()
-        repeated = self.client.post('/api/campaign/levels/ch1-l1/check/complete').json()
         level = self.client.get('/api/campaign/levels/ch1-l1').json()
 
         self.assertEqual(wrong, {'correct': False, 'correct_option_id': 'a', 'explanation': 'A is right.', 'first_try': True})
         self.assertEqual((retry['correct'], retry['first_try']), (True, False))
-        self.assertEqual(completed, {'first_try_correct': 1, 'total': 2, 'xp': 10, 'practice_unlocked': True})
-        self.assertEqual(repeated['xp'], 0)
+        self.assertEqual(completed, {'first_try_correct': 1, 'first_ever_correct': 1, 'total': 2, 'xp': 10, 'practice_unlocked': True})
         self.assertEqual(level['progress'], {'check_done': True, 'check_best': 1, 'normal_star': False, 'special_star': False, 'plays': 0})
         self.assertNotIn('answer', level['check'][0])
+
+    def test_replayed_check_reports_this_runs_first_try_accuracy(self):
+        self.play_preview('ch1')
+        for option in ('b', 'a'):
+            self.client.post('/api/campaign/levels/ch1-l1/check', json={'question_id': 'q1', 'option_id': option})
+        self.client.post('/api/campaign/levels/ch1-l1/check', json={'question_id': 'q2', 'option_id': 'f'})
+        self.client.post('/api/campaign/levels/ch1-l1/check/complete')
+        unanswered = self.client.post('/api/campaign/levels/ch1-l1/check/complete')
+
+        answers = [self.client.post('/api/campaign/levels/ch1-l1/check', json={'question_id': q, 'option_id': o}).json()
+                   for q, o in (('q1', 'a'), ('q2', 'f'))]
+        replay = self.client.post('/api/campaign/levels/ch1-l1/check/complete').json()
+
+        self.assertEqual(unanswered.status_code, 409)
+        self.assertEqual([answer['first_try'] for answer in answers], [True, True])
+        self.assertEqual((replay['first_try_correct'], replay['first_ever_correct'], replay['xp']), (2, 1, 0))
 
     def test_check_completion_requires_every_question_solved(self):
         self.play_preview('ch1')
@@ -195,7 +233,7 @@ class CampaignTests(AppCase):
         chapter = self.client.get('/api/campaign').json()['chapters'][0]
 
         self.assertEqual(settled['stars'], {'normal': True, 'special': True})
-        self.assertIn({'id': 'title-steady-hand', 'kind': 'title', 'name': 'Steady Hand'}, settled['rewards']['items'])
+        self.assertIn({'id': 'title-steady-hand', 'kind': 'title', 'name': 'Steady Hand', 'image': None}, settled['rewards']['items'])
         self.assertEqual(chapter['stars'], 12)
         self.assertIn('badge-explorer', [badge['id'] for badge in settled['rewards']['badges']])
 
@@ -205,6 +243,14 @@ class CampaignTests(AppCase):
 
         self.assertEqual((first['rewards']['xp'], second['rewards']['xp']), (10, 0))
         self.assertEqual(nodes(self.client, 'ch1')['ch1-preview']['attempts'], 2)
+
+    def test_forfeited_preview_records_an_attempt_but_keeps_level_one_locked(self):
+        settled = self.settle('boss', result(forfeited=True), chapter_id='ch1', boss='preview', game_id='preview-left')
+        map_nodes = nodes(self.client, 'ch1')
+
+        self.assertEqual(settled['rewards']['xp'], 0)
+        self.assertEqual((map_nodes['ch1-preview']['attempts'], map_nodes['ch1-preview']['state']), (1, 'open'))
+        self.assertEqual(map_nodes['ch1-l1']['state'], 'locked')
 
     def test_practice_xp_stops_after_three_matches_a_day(self):
         awarded = [self.settle('practice', result(), game_id=f'practice-{n}')['rewards']['xp'] for n in range(4)]
@@ -261,6 +307,16 @@ class CampaignGameTests(AppCase):
         self.assertEqual(locked_preview.status_code, 403)
         self.assertEqual((gate.status_code, gate.json()['scenario']['id']), (201, 'practice-choppy-range'))
         self.assertEqual(no_gate.status_code, 403)
+
+    def test_gate_boss_is_refused_once_the_chapter_is_open(self):
+        self.win_boss('ch2', kind='gate')
+
+        replay = self.create(mode='boss', chapter_id='ch2', boss='gate')
+        self.win_boss('ch2')
+        bosses = self.client.get('/api/bosses').json()['bosses']
+
+        self.assertEqual((replay.status_code, replay.json()['detail']), (409, 'This chapter is already open'))
+        self.assertNotIn(('ch3', 'gate'), [(entry['chapter_id'], entry['kind']) for entry in bosses])
 
     def test_practice_uses_the_requested_number_of_scenario_bots(self):
         one = self.create(mode='practice', scenario_id='practice-choppy-range', bots=1).json()

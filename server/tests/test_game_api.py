@@ -8,7 +8,7 @@ from sqlalchemy import func, inspect, select, text
 from app.config import Settings
 from app.db import Profile
 from app.game import service
-from app.game.models import GameEvent, GameOrder
+from app.game.models import Game, GameEvent, GameOrder
 from app.main import create_app
 from app.migration_v11 import upgrade
 from progression_fixtures import fixture_content, use_fixture_scenarios
@@ -302,6 +302,74 @@ class GameApiTests(unittest.TestCase):
         self.assertEqual(planned['me']['plan'], PLAN)
         self.assertEqual(clock.status_code, 403)
 
+    def multiplayer_game(self):
+        other = self.switch_user()
+
+        async def create():
+            async with self.app.state.db.sessions.begin() as db:
+                profiles = [await db.get(Profile, other), await db.get(Profile, self.user_id)]
+                game = await service.create_multiplayer_game(db, SCENARIO, 'private', profiles, [], 'lobby-1')
+                return game.id
+        return self.client.portal.call(create)
+
+    def test_multiplayer_orders_need_a_plan_first(self):
+        game_id = self.multiplayer_game()
+
+        unplanned = self.order(game_id)
+        self.client.post(f'/api/games/{game_id}/start', json={'plan': PLAN})
+        planned = self.order(game_id)
+
+        self.assertEqual((unplanned.status_code, unplanned.json()), (422, {'detail': 'Choose your game plan before trading.'}))
+        self.assertEqual(planned.status_code, 200, planned.text)
+
+    def test_multiplayer_plan_is_accepted_only_in_the_first_three_days(self):
+        game_id = self.multiplayer_game()
+        self.now += 3 * 3000
+
+        late = self.client.post(f'/api/games/{game_id}/start', json={'plan': PLAN})
+
+        self.assertEqual((late.status_code, late.json()['detail']), (409, 'The game plan must be set in the first 3 days of the match.'))
+
+    def test_order_response_state_equals_the_next_read(self):
+        game = self.started()
+        self.advance(3)
+
+        placed = self.order(game['id']).json()
+        read = self.client.get(f'/api/games/{game["id"]}').json()
+
+        self.assertEqual({**placed['state'], 'server_time': 0}, {**read, 'server_time': 0})
+        self.assertEqual(placed['order'], read['me']['orders'][0])
+
+    def test_sub_cent_prices_are_rejected_by_validation(self):
+        game = self.started()
+
+        tiny = self.order(game['id'], type='limit', limit_price=0.004)
+        fraction = self.order(game['id'], key='order-0002', type='limit', limit_price=12.345)
+        cents = self.order(game['id'], key='order-0003', type='limit', limit_price=12.34)
+
+        self.assertEqual((tiny.status_code, fraction.status_code), (422, 422))
+        self.assertIn('whole cents', fraction.text)
+        self.assertEqual(cents.status_code, 200, cents.text)
+
+    def test_solo_match_without_opponents_is_never_a_win(self):
+        async def resolve(db, profile, request):
+            return service.GameSpec(SCENARIO, 'practice', bot_ids=[])
+        self.app.state.resolve_game = resolve
+        game = self.started()
+        self.advance(100)
+
+        result = self.client.post(f'/api/games/{game["id"]}/finish', json={}).json()
+
+        self.assertEqual((result['won'], result['rank'], result['of']), (False, 1, 1))
+
+    def test_leaving_after_the_last_day_finishes_normally(self):
+        game = self.started()
+        self.advance(100)
+
+        result = self.client.post(f'/api/games/{game["id"]}/finish', json={'forfeit': True}).json()
+
+        self.assertFalse(result['forfeited'])
+
     def test_since_returns_only_newer_bars(self):
         game = self.started()
         self.advance(5)
@@ -317,6 +385,31 @@ class GameApiTests(unittest.TestCase):
         games = self.client.get('/api/games').json()['games']
 
         self.assertEqual([(g['id'], g['status'], g['tick'], g['title']) for g in games], [(game['id'], 'running', 4, 'Trend Rider')])
+
+    def make_stale(self, game_id):
+        async def change():
+            async with self.app.state.db.sessions.begin() as db:
+                (await db.get(Game, game_id)).scenario_version = 0
+        self.client.portal.call(change)
+
+    def test_match_on_a_changed_scenario_is_left_out_of_the_active_list(self):
+        game = self.started()
+        self.make_stale(game['id'])
+
+        self.assertEqual(self.client.get('/api/games').json(), {'games': []})
+        self.assertEqual(self.client.get(f'/api/games/{game["id"]}').status_code, 409)
+
+    def test_match_on_a_changed_scenario_can_still_be_closed_without_rewards(self):
+        game = self.started()
+        self.make_stale(game['id'])
+
+        closed = self.client.post(f'/api/games/{game["id"]}/finish', json={})
+        stored = self.client.get(f'/api/games/{game["id"]}/result')
+
+        self.assertEqual(closed.status_code, 200, closed.text)
+        self.assertEqual((closed.json()['forfeited'], closed.json()['won'], closed.json()['rewards']['xp']), (True, False, 0))
+        self.assertEqual(closed.json()['debrief'], service.STALE_DEBRIEF)
+        self.assertEqual(stored.json(), closed.json())
 
     def test_migration_repeat_keeps_populated_game_tables(self):
         game = self.started()

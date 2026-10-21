@@ -16,9 +16,13 @@ User = Annotated[Profile, Depends(current_profile)]
 GameId = Annotated[str, Path(max_length=36)]
 
 
-@router.post('', status_code=201, response_model=GameState, operation_id='createGame')
+@router.post('', status_code=201, response_model=GameState, operation_id='createGame',
+             responses={409: {'model': OrderRejection, 'description': 'This match cannot be created now; `detail` says why'}})
 async def create_game(body: CreateGame, request: Request, db: DB, user: User):
-    spec = await request.app.state.resolve_game(db, user, body)
+    try:
+        spec = await request.app.state.resolve_game(db, user, body)
+    except service.Refused as refusal:
+        return JSONResponse(status_code=refusal.status, content={'detail': refusal.detail})
     game = await service.create_game(db, user, spec)
     return await service.state(db, user, game.id)
 
@@ -34,8 +38,8 @@ async def get_game(game_id: GameId, db: DB, user: User, since: Annotated[int | N
 
 
 @router.post('/{game_id}/start', response_model=GameState, operation_id='startGame')
-async def start_game(game_id: GameId, body: StartGame, db: DB, user: User):
-    return await service.start(db, user, game_id, body.plan.model_dump())
+async def start_game(game_id: GameId, body: StartGame, request: Request, db: DB, user: User):
+    return await service.start(db, user, game_id, body.plan.model_dump(), getattr(request.app.state, 'before_start', service.before_start))
 
 
 @router.post('/{game_id}/clock', response_model=GameState, operation_id='controlGameClock')

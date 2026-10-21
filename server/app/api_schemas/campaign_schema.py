@@ -11,6 +11,7 @@ class Reward(BaseModel):
     kind: Literal['avatar', 'title', 'badge']
     id: str
     name: str
+    image: str | None = Field(default=None, description='Art key for avatars (e.g. "parrot"); null when the item has no art')
 
 
 class Gate(BaseModel):
@@ -138,11 +139,12 @@ class CheckAnswer(BaseModel):
     correct: bool
     correct_option_id: str
     explanation: str
-    first_try: bool
+    first_try: bool = Field(description='The first answer to this question in the current run of the check')
 
 
 class CheckComplete(BaseModel):
-    first_try_correct: int
+    first_try_correct: int = Field(description='Questions answered right on the first try in this run')
+    first_ever_correct: int = Field(description="Questions answered right on the player's first-ever try (kept for research)")
     total: int
     xp: int
     practice_unlocked: bool
@@ -219,4 +221,5 @@ class Daily(BaseModel):
     attempts_today: int
     cooldown_until: str | None
     refresh_cost_gems: int
+    active_game_id: str | None = Field(description="Today's unfinished daily match to resume; a new daily is refused while it is open")
     week: DailyWeek

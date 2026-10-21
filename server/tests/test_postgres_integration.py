@@ -14,13 +14,15 @@ from sqlalchemy import func, select, text
 from sqlalchemy.engine import make_url
 
 from app.auth import current_profile, token_hash
+from app.campaign.models import BossResult
 from app.config import Settings
 from app.db import Database, LearningActivity, Profile, SessionToken, XPLedger, now
+from app.game.models import Game
 from app.main import create_app
 from app.migrations import MIGRATIONS
 from app.player import ledger
 from app.research_models import ResearchCommand
-from progression_fixtures import fixture_content
+from progression_fixtures import fixture_content, use_fixture_scenarios
 from test_migrations import populate_before_v12, snapshot
 
 
@@ -104,6 +106,29 @@ class PostgreSQLIntegrationTests(unittest.IsolatedAsyncioTestCase):
         async with self.database.sessions() as db:
             self.assertEqual(await db.scalar(select(func.sum(XPLedger.amount))), 20)
             self.assertEqual(await db.scalar(select(func.count()).select_from(LearningActivity)), 2)
+
+    async def test_two_players_joining_ranked_at_once_on_different_workers_share_one_match(self):
+        use_fixture_scenarios(self)
+        await self.database.migrate()
+        workers = [create_app(self.settings, fixture_content()), create_app(self.settings, fixture_content())]
+        async with AsyncExitStack() as stack:
+            for app in workers:
+                await stack.enter_async_context(app.router.lifespan_context(app))
+            clients = [await stack.enter_async_context(httpx.AsyncClient(transport=httpx.ASGITransport(app=app), base_url='http://localhost',
+                                                                         headers={'Origin': 'http://localhost:5173'})) for app in workers]
+            users = [(await client.post('/api/session')).json()['profile_id'] for client in clients]
+            async with self.database.sessions.begin() as db:
+                db.add_all([BossResult(user_id=user, chapter_id='ch3', kind='boss', won=True, attempts=1) for user in users])
+
+            joined = await asyncio.wait_for(asyncio.gather(*(client.post('/api/matchmaking', json={}) for client in clients)), 10)
+            polled = [(await client.get('/api/matchmaking')).json() for client in clients]
+
+        self.assertEqual([response.status_code for response in joined], [200, 200])
+        self.assertEqual(sorted(response.json()['status'] for response in joined), ['matched', 'searching'])
+        self.assertEqual([view['status'] for view in polled], ['matched', 'matched'])
+        self.assertEqual(polled[0]['game_id'], polled[1]['game_id'])
+        async with self.database.sessions() as db:
+            self.assertEqual(await db.scalar(select(func.count()).select_from(Game)), 1)
 
     async def test_command_race_across_workers_replays_after_restart(self):
         await self.database.migrate()

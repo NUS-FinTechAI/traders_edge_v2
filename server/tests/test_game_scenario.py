@@ -86,6 +86,9 @@ class ScenarioValidationTests(unittest.TestCase):
     def test_unknown_bot_is_rejected(self):
         self.assertRejected(scenario(bots=['nobody']), "'nobody' is not in bots.json")
 
+    def test_unknown_balance_lists_every_allowed_value(self):
+        self.assertRejected(scenario(balance='quiz'), 'must be "boss", "daily", "lesson" or null')
+
     def test_boss_needs_a_bot(self):
         self.assertRejected(scenario(balance='boss'), 'needs at least one bot')
 
