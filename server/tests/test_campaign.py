@@ -312,8 +312,11 @@ class CampaignGameTests(AppCase):
         self.win_boss('ch2', kind='gate')
 
         replay = self.create(mode='boss', chapter_id='ch2', boss='gate')
+        self.win_boss('ch2')
+        bosses = self.client.get('/api/bosses').json()['bosses']
 
         self.assertEqual((replay.status_code, replay.json()['detail']), (409, 'This chapter is already open'))
+        self.assertNotIn(('ch3', 'gate'), [(entry['chapter_id'], entry['kind']) for entry in bosses])
 
     def test_practice_uses_the_requested_number_of_scenario_bots(self):
         one = self.create(mode='practice', scenario_id='practice-choppy-range', bots=1).json()

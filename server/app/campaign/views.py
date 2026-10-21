@@ -125,7 +125,7 @@ def archive(progress, campaign):
 def bosses(progress, campaign):
     entries = []
     for chapter in campaign.chapters:
-        if chapter['gate']:
+        if chapter['gate'] and progress.unlocked_by(chapter) in (None, 'gate'):
             won = progress.won(chapter['id'], 'gate')
             entries.append({'chapter_id': chapter['id'], 'kind': 'gate', 'scenario_id': chapter['gate'],
                             'title': scenario_title(chapter['gate'], f'Chapter {chapter["number"]} Gate'),
