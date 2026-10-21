@@ -12,6 +12,7 @@ const profile: UserProfile = {
   id: 'learner-id',
   display_name: 'Learner',
   avatar_id: 'avatar-starter-1',
+  avatar_image: null,
   title: 'Rookie Trader',
   title_id: null,
   level: 1,

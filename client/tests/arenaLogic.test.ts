@@ -59,6 +59,7 @@ function result(
     plan_review: null,
     decision_score: 50,
     decision_breakdown: { missions: 20, plan: 25, risk: 0, overtrading: 5 },
+    decision_max: { missions: 40, plan: 25, risk: 25, overtrading: 10 },
     key_moments: [],
     stats: {
       trades: 0,

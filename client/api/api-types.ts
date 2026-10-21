@@ -167,7 +167,10 @@ export interface components {
       correct_option_id: string
       /** Explanation */
       explanation: string
-      /** First Try */
+      /**
+       * First Try
+       * @description The first answer to this question in the current run of the check
+       */
       first_try: boolean
     }
     /** CheckAnswerBody */
@@ -179,7 +182,15 @@ export interface components {
     }
     /** CheckComplete */
     CheckComplete: {
-      /** First Try Correct */
+      /**
+       * First Ever Correct
+       * @description Questions answered right on the player's first-ever try (kept for research)
+       */
+      first_ever_correct: number
+      /**
+       * First Try Correct
+       * @description Questions answered right on the first try in this run
+       */
       first_try_correct: number
       /** Practice Unlocked */
       practice_unlocked: boolean
@@ -245,6 +256,11 @@ export interface components {
       how: string
       /** Id */
       id: string
+      /**
+       * Image
+       * @description Art key for avatars; null for titles
+       */
+      image?: string | null
       /** Name */
       name: string
       /** Owned */
@@ -322,6 +338,11 @@ export interface components {
     }
     /** Daily */
     Daily: {
+      /**
+       * Active Game Id
+       * @description Today's unfinished daily match to resume; a new daily is refused while it is open
+       */
+      active_game_id: string | null
       /** Attempts Today */
       attempts_today: number
       /** Cooldown Until */
@@ -454,6 +475,8 @@ export interface components {
       /** Debrief */
       debrief: string
       decision_breakdown: components['schemas']['DecisionBreakdown']
+      /** @description Points available per component; 0 marks a component left out because the player could not act on it (the others are rescaled to 100) */
+      decision_max: components['schemas']['DecisionBreakdown']
       /**
        * Decision Score
        * @description Unvalidated 0-100 process score; never decides a win
@@ -950,6 +973,11 @@ export interface components {
     Player: {
       /** Avatar Id */
       avatar_id: string
+      /**
+       * Avatar Image
+       * @description Art key of the equipped avatar
+       */
+      avatar_image: string | null
       /** Display Name */
       display_name: string
       /** Id */
@@ -1285,6 +1313,11 @@ export interface components {
       /** Id */
       id: string
       /**
+       * Image
+       * @description Art key for avatars (e.g. "parrot"); null when the item has no art
+       */
+      image?: string | null
+      /**
        * Kind
        * @enum {string}
        */
@@ -1303,6 +1336,8 @@ export interface components {
     RewardItem: {
       /** Id */
       id: string
+      /** Image */
+      image?: string | null
       /** Kind */
       kind: string
       /** Name */
