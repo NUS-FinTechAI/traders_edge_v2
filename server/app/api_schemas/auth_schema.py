@@ -13,22 +13,3 @@ class GuestSession(Payload):
     @field_serializer('expires_at')
     def serialize_expiry(self, value: datetime) -> str:
         return value.isoformat()
-
-
-class UserProfile(Payload):
-    id: str
-    display_name: str
-    leaderboard_opt_in: bool
-    analytics_opt_in: bool
-    xp: int
-    completed_lesson_ids: list[str]
-    mastered_module_ids: list[str]
-    activity_days: list[str]
-    activity_timezone: Literal['UTC']
-    due_review_count: int
-    learning_only: bool
-    learning_xp: int
-    game_xp: int
-    player_level: int
-    player_level_policy: Literal['100-xp-per-level-1']
-    xp_basis: Literal['learning and game events']
