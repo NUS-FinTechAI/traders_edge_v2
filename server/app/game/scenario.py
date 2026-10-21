@@ -220,7 +220,7 @@ def validate_scenario(data, bots, where='scenario'):
     if data['max_position_pct'] is not None:
         _range(where + '.max_position_pct', data['max_position_pct'], 1, 100)
     if data.get('balance') is not None and data['balance'] not in BALANCE:
-        _fail(where + '.balance', 'must be "boss", "lesson" or null')
+        _fail(where + '.balance', 'must be "boss", "daily", "lesson" or null')
     _list(where + '.tools', data['tools'], 1, len(TOOLS))
     for tool in data['tools']:
         if tool not in TOOLS:

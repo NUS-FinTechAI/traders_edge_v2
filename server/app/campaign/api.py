@@ -10,10 +10,12 @@ from app.auth import current_profile, optional_profile
 from app.campaign import daily, views
 from app.campaign.models import CampaignCheck
 from app.campaign.progress import LEVEL_XP, load_progress, progress_row
+from app.content.bundle import require_approved_content
 from app.db import Profile, get_db
 from app.player import badges, ledger
 
 router = APIRouter(prefix='/api', tags=['campaign'])
+APPROVED = [Depends(require_approved_content)]
 DB = Annotated[AsyncSession, Depends(get_db, scope='function')]
 User = Annotated[Profile, Depends(current_profile)]
 Visitor = Annotated[Profile | None, Depends(optional_profile)]
@@ -51,7 +53,7 @@ def level_or_404(request, level_id):
     return content(request).campaign.level(level_id)
 
 
-@router.get('/campaign/levels/{level_id}', response_model=Level, operation_id='getLevel')
+@router.get('/campaign/levels/{level_id}', response_model=Level, operation_id='getLevel', dependencies=APPROVED)
 async def get_level(level_id: Id, request: Request, db: DB, user: Visitor):
     level_or_404(request, level_id)
     progress = await progress_for(request, db, user)
@@ -69,7 +71,7 @@ async def open_level(request, db, user, level_id):
     return level
 
 
-@router.post('/campaign/levels/{level_id}/check', response_model=CheckAnswer, operation_id='answerCheck')
+@router.post('/campaign/levels/{level_id}/check', response_model=CheckAnswer, operation_id='answerCheck', dependencies=APPROVED)
 async def answer_check(level_id: Id, body: CheckAnswerBody, request: Request, db: DB, user: User):
     level = await open_level(request, db, user, level_id)
     question = next((q for q in level['check'] if q['id'] == body.question_id), None)
@@ -92,7 +94,7 @@ async def answer_check(level_id: Id, body: CheckAnswerBody, request: Request, db
     return {'correct': correct, 'correct_option_id': question['answer'], 'explanation': question['explanation'], 'first_try': first_try}
 
 
-@router.post('/campaign/levels/{level_id}/check/complete', response_model=CheckComplete, operation_id='completeCheck')
+@router.post('/campaign/levels/{level_id}/check/complete', response_model=CheckComplete, operation_id='completeCheck', dependencies=APPROVED)
 async def complete_check(level_id: Id, request: Request, db: DB, user: User):
     level = await open_level(request, db, user, level_id)
     rows = {row.question_id: row for row in await db.scalars(select(CampaignCheck).where(CampaignCheck.user_id == user.id,
@@ -132,12 +134,12 @@ async def get_practice():
     return views.practice_scenarios()
 
 
-@router.get('/daily', response_model=Daily, operation_id='getDaily')
+@router.get('/daily', response_model=Daily, operation_id='getDaily', dependencies=APPROVED)
 async def get_daily(request: Request, db: DB, user: User):
     return await daily.view(db, user.id, await progress_for(request, db, user), ledger.current())
 
 
-@router.post('/daily/refresh', response_model=Daily, operation_id='refreshDaily')
+@router.post('/daily/refresh', response_model=Daily, operation_id='refreshDaily', dependencies=APPROVED)
 async def refresh_daily(request: Request, db: DB, user: User):
     instant = ledger.current()
     await daily.refresh(db, user.id, instant)

@@ -1,0 +1,4 @@
+{
+  "status": "authored_requires_independent_review",
+  "notes": "Lessons, checks, scenarios, quiz items and badge rules are authored and validated by code only. Production refuses gameplay until an independent financial and pedagogical review sets the status to approved."
+}
