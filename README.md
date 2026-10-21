@@ -33,7 +33,6 @@ npm run build
 npm test
 uv run --project server --extra test --locked python -m unittest discover -s server/tests
 uv run --project server --extra test --locked python -m app.content.validate
-uv run --project server --extra test --locked python -m unittest app.content.test_catalog
 ```
 
 Run checks against the exact working tree. Run the explicit disposable PostgreSQL suite for live database evidence; local container startup is separate from hosted deployment and real Firebase verification. See [repository conventions](AGENTS.md), [contributing](CONTRIBUTING.md) and the [source index](docs/source/README.md).

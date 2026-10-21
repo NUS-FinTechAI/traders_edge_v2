@@ -1,129 +1,57 @@
-
-from app.api_schemas.shared_schema import BaseCommand
-from app.api_schemas.order_schema import SubmitOrder
-from datetime import datetime
 from typing import Literal
-from pydantic import Field, field_validator
-from app.api_schemas.challenge_schema import ChallengeAwards
-from app.api_schemas.simulation_schema import SimulationObservation
+
+from pydantic import BaseModel, Field
+
 from app.api_schemas.shared_schema import Payload
 
 
-class TickCommand(BaseCommand):
-    expected_tick: int = Field(ge=0, le=29, strict=True)
+class CreateLobby(Payload):
+    scenario_id: str | None = Field(default=None, max_length=120, pattern=r'^[a-z0-9]+(-[a-z0-9]+)*$')
+    bots: int = Field(default=0, ge=0, le=3)
 
 
-class TickOrder(SubmitOrder):
-    expected_tick: int = Field(ge=0, le=29, strict=True)
+class JoinLobby(Payload):
+    code: str = Field(min_length=6, max_length=6)
 
 
-class JoinMultiplayerLobby(BaseCommand):
-    code: str = Field(min_length=16, max_length=16, pattern=r'^[A-F0-9]{16}$')
-
-
-class AbandonMultiplayerMatch(BaseCommand):
-    pass
-
-
-class JoinMultiplayerMatchmaking(BaseCommand):
-    pass
-
-
-class CreateMultiplayerLobby(BaseCommand):
-    pass
-
-class StartMultiplayerMatch(BaseCommand):
-    pass
-
-
-type MultiplayerMode = Literal['private', 'public_ranked']
-type MultiplayerStatus = Literal['waiting', 'active', 'finished', 'cancelled']
-
-
-class MultiplayerPolicy(Payload):
-    version: str
+class LobbyScenario(BaseModel):
+    id: str
+    title: str
     ticks: int
-    starting_value: str
-    profit: str
-    ties: str
-    liquidity: str
-    advance: str
-    disconnect: str
-    forfeit: str
-    rating: str
-    provenance: str
 
 
-class MultiplayerParticipant(Payload):
+class LobbyMember(BaseModel):
     user_id: str
-    display_name: str
-    ready: bool
-    forfeit: bool
-    departed: bool
-    completed: bool
+    name: str
+    avatar_id: str
+    is_host: bool
 
 
-class MultiplayerResultEntry(Payload):
-    user_id: str
-    display_name: str
-    forfeit: bool
-    profit: str
-    final_value: str
-    fees: str
-    rank: int
-    win: bool
-    rating_before: int | None = None
-    rating_delta: int | None = None
-    rating_after: int | None = None
-
-
-class MultiplayerResult(Payload):
-    leaderboard: list[MultiplayerResultEntry]
-    final_tick: int
-    policy_version: str
-
-
-class MultiplayerResponse(Payload):
+class Lobby(BaseModel):
     id: str
+    code: str
     host_id: str
-    mode: MultiplayerMode
-    status: MultiplayerStatus
-    policy: MultiplayerPolicy
-    version: str
-    attempt_number: int
-    player: SimulationObservation | None
-    participants: list[MultiplayerParticipant]
-    result: MultiplayerResult | None
-    awards: ChallengeAwards | None
-    join_code: str | None = None
+    is_host: bool
+    status: Literal['open', 'started', 'closed']
+    scenario: LobbyScenario
+    members: list[LobbyMember]
+    bots: int
+    game_id: str | None
+    max_members: int
 
 
-class MultiplayerSummary(Payload):
-    id: str
-    mode: MultiplayerMode
-    status: MultiplayerStatus
-    created_at: str
-    updated_at: str
-
-    @field_validator('created_at', 'updated_at', mode='before')
-    @classmethod
-    def timestamp(cls, value):
-        return value.isoformat() if isinstance(value, datetime) else value
+class LobbyScenarioDetail(LobbyScenario):
+    briefing: str
 
 
-class MultiplayerListResponse(Payload):
-    matches: list[MultiplayerSummary]
+class LobbyScenarios(BaseModel):
+    scenarios: list[LobbyScenarioDetail]
 
 
-class MultiplayerRatingEntry(Payload):
-    user_id: str
-    display_name: str
+class Match(BaseModel):
+    status: Literal['idle', 'searching', 'matched']
+    game_id: str | None
     rating: int
-    matches: int
-
-
-class MultiplayerLeaderboardResponse(Payload):
-    policy_version: str
-    players: list[MultiplayerRatingEntry]
-    your_rating: int
-    your_matches: int
+    tier: str
+    waiting_since: str | None
+    locked_reason: str | None

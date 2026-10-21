@@ -1,174 +1,90 @@
-
-from app.api_schemas.shared_schema import BaseCommand
-from pydantic import Field
-from app.api_schemas.learning_schema import Answer
-from app.api_schemas.shared_schema import Payload
-from datetime import datetime
 from typing import Literal
-from pydantic import field_validator
+
+from pydantic import BaseModel, Field
+
+from app.api_schemas.shared_schema import Payload
+
+TOPIC = r'^[a-z0-9]+(-[a-z0-9]+)*$'
 
 
-class StartQuizAttempt(BaseCommand):
-    module_id: str | None = Field(default=None, min_length=1, max_length=120)
-    room_id: str | None = Field(default=None, min_length=1, max_length=36)
+class QuizTopic(BaseModel):
+    id: str
+    kind: Literal['chapter', 'review', 'mixed']
+    title: str
+    questions: int
+    best: int | None = Field(description='Most correct answers in one completed attempt')
+    passed: bool
+    locked: bool
 
 
-class StartQuizRoom(BaseCommand):
-    pass
+class QuizRoomSummary(BaseModel):
+    id: str
+    title: str
+    code: str
+    is_host: bool
+    members: int
 
 
-class CloseQuizRoom(BaseCommand):
-    pass
+class QuizList(BaseModel):
+    topics: list[QuizTopic]
+    rooms: list[QuizRoomSummary]
 
 
-class QuizResponse(BaseCommand):
-    answer: Answer
+class StartQuiz(Payload):
+    topic_id: str | None = Field(default=None, min_length=1, max_length=40, pattern=TOPIC)
+    room_code: str | None = Field(default=None, min_length=6, max_length=6)
 
 
-class CreateQuizRoom(BaseCommand):
-    title: str = Field(min_length=2, max_length=80)
-    question_ids: list[str] = Field(min_length=1, max_length=20)
-    attempt_limit: int = Field(default=1, ge=1, le=3, strict=True)
-
-
-class JoinQuizRoom(BaseCommand):
-    join_code: str = Field(pattern=r'^[A-Z2-9]{8}$')
-
-
-class QuizOption(Payload):
+class QuizOption(BaseModel):
     id: str
     text: str
 
 
-class QuizQuestion(Payload):
+class QuizFeedback(BaseModel):
+    option_id: str
+    correct: bool
+    correct_option_id: str
+    explanation: str
+
+
+class QuizQuestion(BaseModel):
     id: str
     prompt: str
     options: list[QuizOption]
+    answered: QuizFeedback | None
 
 
-class QuizForm(Payload):
-    module_id: str
+class QuizAttempt(BaseModel):
+    id: str
     title: str
-    question_count: int
-    attempt_limit: int
-    pass_rule: str
-    passing_xp: int
-    source_basis: list[str]
-
-
-class QuizFormsResponse(Payload):
-    content_version: str
-    policy_version: str
-    instructor_authorized: bool
-    forms: list[QuizForm]
-
-
-class QuizBankQuestion(QuizQuestion):
-    module_id: str
-
-
-class QuizBankResponse(Payload):
-    content_version: str
-    questions: list[QuizBankQuestion]
-
-
-class QuizFeedback(Payload):
-    question_id: str
-    correct: bool
-    selected_option_id: str
-    correct_option_id: str
-    explanation: str
-    confidence: int | None
-
-
-class QuizFirstAnswer(Answer):
-    recorded_at: str
-
-
-class QuizResult(Payload):
-    score: int
-    passed: bool
-    critical_passed: bool
-    feedback: list[QuizFeedback]
-    first_answers: list[QuizFirstAnswer]
-    xp_earned: int
-
-
-class QuizProgress(Payload):
-    answered: int
-    total: int
-
-
-class QuizAttemptResponse(Payload):
-    id: str
-    quiz_id: str
     room_id: str | None
-    content_version: str
-    policy_version: str
-    attempt_number: int
-    status: Literal['active', 'completed']
-    current_question: QuizQuestion | None
-    progress: QuizProgress
-    result: QuizResult | None
-    title: str | None = None
-    completed_questions: list[QuizQuestion] | None = None
-
-
-class QuizAttemptSummary(Payload):
-    id: str
-    room_id: str | None
-    quiz_id: str
-    content_version: str
-    attempt_number: int
-    status: Literal['active', 'completed']
-    created_at: str
-    title: str | None = None
-
-    @field_validator('created_at', mode='before')
-    @classmethod
-    def timestamp(cls, value):
-        return value.isoformat() if isinstance(value, datetime) else value
-
-
-class QuizAttemptList(Payload):
-    attempts: list[QuizAttemptSummary]
-
-
-class QuizRoomResponse(Payload):
-    id: str
-    host_id: str
-    title: str
-    join_code: str
-    status: Literal['waiting', 'started', 'closed']
-    content_version: str
-    policy_version: str
-    attempt_limit: int
-    question_count: int
-    member_count: int
-    capacity: int
-    private: Literal[True]
-    xp_rewards: Literal[False]
-    can_manage: bool | None = None
-
-
-class QuizRoomList(Payload):
-    rooms: list[QuizRoomResponse]
-
-
-class QuizReportedAttempt(Payload):
-    id: str
-    attempt_number: int
-    status: Literal['active', 'completed']
-    result: QuizResult | None
-
-
-class QuizReportedStudent(Payload):
-    user_id: str
-    display_name: str
-    attempts: list[QuizReportedAttempt]
-
-
-class QuizRoomReport(Payload):
-    room: QuizRoomResponse
+    status: Literal['active', 'complete']
     questions: list[QuizQuestion]
-    students: list[QuizReportedStudent]
+    score: int
+    total: int
+    passed: bool | None
+    xp: int
+
+
+class QuizAnswer(Payload):
+    question_id: str = Field(min_length=1, max_length=120)
+    option_id: str = Field(min_length=1, max_length=100)
+    confidence: Literal['sure', 'think', 'guess'] | None = None
+
+
+class CreateQuizRoom(Payload):
+    topic_id: str = Field(min_length=1, max_length=40, pattern=TOPIC)
+    title: str = Field(min_length=1, max_length=80)
+
+
+class QuizRoomResult(BaseModel):
+    name: str
+    score: int | None
+    total: int
+    finished: bool
+
+
+class QuizRoom(QuizRoomSummary):
+    topic_title: str
+    results: list[QuizRoomResult]
+    my_attempt_id: str | None

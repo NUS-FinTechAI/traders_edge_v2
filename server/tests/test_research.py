@@ -1,5 +1,4 @@
 from concurrent.futures import ThreadPoolExecutor
-from copy import deepcopy
 from dataclasses import replace
 import os
 import hashlib
@@ -12,16 +11,13 @@ from fastapi.testclient import TestClient
 from sqlalchemy import text
 
 from app.config import Settings
-from app.db import Attempt, LearningRun, LearningRunCommand, now
+from app.db import now
+from app.game.models import Game, GameEvent, GameParticipant
 from app.main import create_app
 from app.migration_v10 import upgrade
 from app.research_models import ResearchCommand, ResearchParticipant
-from app.challenges import core
-from app.challenges.models import ChallengeAttempt
-from app.simulation import engine
-from test_learning import fixture_catalog
+from progression_fixtures import fixture_content
 from test_postgres_integration import checked_url
-from test_simulation import order
 
 
 class ResearchTests(unittest.TestCase):
@@ -40,7 +36,7 @@ class ResearchTests(unittest.TestCase):
                 connection.execute(sql.SQL('CREATE SCHEMA {}').format(sql.Identifier(self.schema)))
             database_url = self.base_url.update_query_dict({'options': f'-csearch_path={self.schema}'}).render_as_string(hide_password=False)
         self.settings = Settings(database_url=database_url)
-        self.content = fixture_catalog()
+        self.content = fixture_content()
         self.app = self.application(self.settings)
         self.client = TestClient(self.app, headers={'Origin': 'http://localhost:5173'})
         self.client.__enter__()
@@ -87,36 +83,6 @@ class ResearchTests(unittest.TestCase):
                         {'research_policy_version': 'a' * 81}, {'research_policy_text': None}, {'research_policy_text': ' '}):
             with self.subTest(changes=changes), self.assertRaises(ValueError):
                 replace(settings, **changes).validate()
-
-    def test_real_paid_daily_retry_export_preserves_its_receipt_and_observations(self):
-        from app.economy_models import EconomyAccount
-        first = self.client.post('/api/challenges', json={'mode': 'daily', 'idempotency_key': 'research-daily-first'})
-        self.assertEqual(first.status_code, 201, first.text)
-        identifier = first.json()['id']
-        abandoned = self.client.post('/api/challenges/' + identifier + '/abandon', json={'idempotency_key': 'research-daily-abandon'})
-        self.assertEqual(abandoned.status_code, 200, abandoned.text)
-        async def fund_fixture():
-            async with self.app.state.db.sessions.begin() as db:
-                (await db.get(EconomyAccount, self.user_id)).premium_balance = 10
-        self.client.portal.call(fund_fixture)
-        paid = self.client.post('/api/me/economy/daily-refresh', json={'idempotency_key': 'research-paid-refresh'})
-        self.assertEqual(paid.status_code, 200, paid.text)
-        retry = self.client.post('/api/challenges', json={'mode': 'daily', 'idempotency_key': 'research-daily-retry'})
-        self.assertEqual(retry.status_code, 201, retry.text)
-        second = retry.json()['id']
-        advanced = self.client.post('/api/challenges/' + second + '/advance', json={'steps': 1, 'idempotency_key': 'research-daily-observe'})
-        self.assertEqual(advanced.status_code, 200, advanced.text)
-        exported = self.export('ai-challenges')
-        self.assertEqual(exported.status_code, 200, exported.text)
-        records = {record['id']: record for record in exported.json()['records']}
-        self.assertFalse(records[identifier]['retry_context']['premium_retry'])
-        self.assertTrue(records[second]['retry_context']['premium_retry'])
-        self.assertEqual(records[second]['retry_context']['refresh_event_key'], 'refresh:research-paid-refresh')
-        self.assertEqual(records[second]['attempt_number'], 2)
-        self.assertEqual(records[second]['events'][0]['before']['tick'], 0)
-        self.assertEqual(records[second]['events'][0]['after']['tick'], 1)
-        self.assertNotIn('"seed"', exported.text)
-        self.assertEqual(self.client.get('/api/me/economy').json()['premium_balance'], 0)
 
     def test_disabled_policy_explicit_acceptance_and_no_implicit_enrollment(self):
         initial = self.client.get('/api/me/research').json()
@@ -230,132 +196,69 @@ class ResearchTests(unittest.TestCase):
                 return await db.get(ResearchCommand, (self.user_id, 'failed-metadata-key'))
         self.assertIsNone(self.client.portal.call(receipt))
 
-    def test_learning_run_export_preserves_first_retry_audit_and_observed_tasks_only(self):
-        stamp = now()
-        tasks = [{'id': f'step-{index}', 'type': 'choice', 'prompt': 'Observed' if index < 2 else 'UNSEEN_FUTURE_PROMPT',
-            'options': [{'id': 'a', 'text': 'Observed option', 'nested': {'correct': 'PRIVATE_KEY'}}, {'id': 'b', 'text': 'Other option'}],
-            'correct_option_id': 'PRIVATE_KEY', 'explanation': 'PRIVATE_FEEDBACK'} for index in range(3)]
-        responses = [{'step_id': 'step-0', 'answer': {'option_id': 'b', 'confidence': 20}, 'correct': False},
-                     {'step_id': 'step-0', 'answer': {'option_id': 'a', 'confidence': 70}, 'correct': True}]
-        audit = {'tick': 10, 'engine_version': 1, 'session_fees': '1.00', 'price_limit_guarantees_fill': False,
-            'no_order_reason': None, 'orders': [{'order_id': 'order-1', 'filled_quantity': 1, 'status': 'filled', 'limit_price': '40.00'}]}
+    def insert_game(self, user_id, game_id, events):
         async def insert():
             async with self.app.state.db.sessions.begin() as db:
-                db.add(LearningRun(id='owned-run', user_id=self.user_id, purpose='practice', module_id='m1', level_id='m1-l1',
-                    content_version='edition', status='active', snapshot_json={'tasks': tasks, 'seed': 'PRIVATE_SEED'},
-                    state_json={'position': 1, 'responses': responses, 'first_responses': {'step-0': responses[0]}, 'result': {'score_percent': 100}}))
-                db.add(LearningRun(id='audit-run', user_id=self.user_id, purpose='practice', module_id='m5', level_id='m5-l1',
-                    content_version='edition', status='completed', snapshot_json={'tasks': []},
-                    state_json={'position': 0, 'responses': [{'step_id': 'audit', 'answer': {'audit': audit}, 'correct': True}], 'first_responses': {},
-                        'result': {'score_percent': 100, 'profile': {'private': 'PRIVATE_PROFILE'}, 'feedback': 'PRIVATE_FEEDBACK'}}))
+                db.add(Game(id=game_id, mode='daily', scenario_id='practice-trend-rider', scenario_version=1, seed=12345, status='settled',
+                            clock={}, context={'day': '2026-10-19', 'seed': 12345}, host_user_id=user_id))
                 await db.flush()
-                db.add(LearningRunCommand(user_id=self.user_id, key='owned-run-receipt', run_id='owned-run', request_hash='a' * 64,
-                    response={'progress': {'completed_steps': 1, 'total_steps': 3}, 'private': 'PRIVATE_RECEIPT'}, created_at=stamp))
+                db.add(GameParticipant(id=game_id + '-me', game_id=game_id, user_id=user_id, display_name='Me', forfeited=False))
+                db.add(GameParticipant(id=game_id + '-bot', game_id=game_id, bot_id='hodl-hannah', display_name='Bot', forfeited=False))
+                await db.flush()
+                stamp = now()
+                for identifier, kind in events:
+                    db.add(GameEvent(id=identifier, game_id=game_id, participant_id=game_id + '-me', tick=1, kind=kind, created_at=stamp,
+                                     payload={'context': {'day': '2026-10-19', 'seed': 12345}, 'observed': {'cash': 10000}}))
+                db.add(GameEvent(id=game_id + '-bot-event', game_id=game_id, participant_id=game_id + '-bot', tick=1, kind='order',
+                                 payload={'secret': 'BOT_STRATEGY'}, created_at=stamp))
         self.client.portal.call(insert)
-        response = self.export('learning-runs')
-        self.assertEqual(response.status_code, 200, response.text)
-        records = {row['id']: row for row in response.json()['records']}
-        run = records['owned-run']
-        self.assertEqual([task['id'] for task in run['observed_tasks']], ['step-0', 'step-1'])
-        self.assertEqual(run['first_responses']['step-0']['answer']['option_id'], 'b')
-        self.assertEqual([entry['first_response'] for entry in run['responses']], [True, False])
-        self.assertIsNone(run['result'])
-        self.assertEqual(run['command_timestamps'][0]['progress']['completed_steps'], 1)
-        self.assertEqual(records['audit-run']['responses'][0]['answer']['audit'], audit)
-        for hidden in ('PRIVATE_', 'UNSEEN_FUTURE_PROMPT', 'correct_option_id', '"correct"'):
-            self.assertNotIn(hidden, response.text)
 
-    def test_real_diagnostic_submission_exports_first_answer_without_unseen_form(self):
-        from app.content.catalog import load_catalog
-        content = load_catalog()
-        self.app.state.catalog = content
-        module = content['modules'][0]
-        started = self.client.post(f"/api/modules/{module['id']}/diagnostic-runs", json={'idempotency_key': 'real-diagnostic-start'})
-        self.assertEqual(started.status_code, 200, started.text)
-        task = module['entry_tasks'][0]
-        wrong = next(option['id'] for option in task['options'] if option['id'] != task['correct_option_id'])
-        submitted = self.client.post(f"/api/learning-runs/{started.json()['id']}/steps/{task['id']}/submit", json={
-            'idempotency_key': 'real-diagnostic-response', 'answer': {'option_id': wrong, 'confidence': 90}})
-        self.assertEqual(submitted.status_code, 200, submitted.text)
-        exported = self.export('learning-runs').json()['records'][0]
-        self.assertEqual(exported['first_responses'][task['id']]['answer']['option_id'], wrong)
-        self.assertEqual(exported['responses'][0]['answer']['confidence'], 90)
-        self.assertEqual([observed['id'] for observed in exported['observed_tasks']], [task['id'], module['entry_tasks'][1]['id']])
-        self.assertIsNone(exported['result'])
-        self.assertEqual(len(exported['command_timestamps']), 2)
-        self.assertNotIn(module['entry_tasks'][2]['id'], str(exported))
+    def switch_user(self):
+        self.client.cookies.clear()
+        self.user_id = self.client.post('/api/session').json()['profile_id']
 
-    def test_challenge_export_actual_observations_plans_paid_retries_and_final_result(self):
-        snapshot = core.new_snapshot(7, 'rising', 2)
-        before = engine.public_view(snapshot['human'])
-        payload = order(quantity=1)
-        engine.submit_order(snapshot['human'], payload)
-        core.record_event(snapshot, 'order', payload, before)
-        snapshot['events'][0]['attempt_number'] = 2
-        before_advance = engine.public_view(snapshot['human'])
-        core.advance(snapshot, 1)
-        core.record_event(snapshot, 'advance', {'steps': 1}, before_advance)
-        snapshot['events'][1]['attempt_number'] = 2
-        snapshot['research'] = {'premium_retry': True, 'daily_date': '2026-10-06', 'refresh_event_key': 'daily-refresh:receipt', 'secret': 'PRIVATE_RECEIPT'}
-        snapshot['events'][0]['before']['seed'] = 'PRIVATE_SEED'
-        snapshot['events'][0]['before']['history']['NORTH'] += ['UNSEEN_FUTURE_PRICE'] * 29
-        snapshot['policy']['answer'] = 'PRIVATE_KEY'
-        completed = deepcopy(snapshot)
-        for _ in range(6):
-            core.advance(completed, 5)
-        result = core.complete(completed, 'I reviewed the entire common market and my planned actions.')
-        async def insert():
-            async with self.app.state.db.sessions.begin() as db:
-                for identifier, state, status, outcome in [('active-ai', snapshot, 'active', result), ('finished-ai', completed, 'completed', result)]:
-                    db.add(ChallengeAttempt(id=identifier, user_id=self.user_id, challenge_id='daily:2026-10-06', attempt_number=2,
-                        mode='daily', module_id=None, version=core.VERSION, status=status, snapshot_json=state, result_json=outcome))
-        self.client.portal.call(insert)
-        response = self.export('ai-challenges')
-        self.assertEqual(response.status_code, 200, response.text)
-        records = {row['id']: row for row in response.json()['records']}
-        active = records['active-ai']
-        self.assertFalse(active['first_attempt'])
-        self.assertIsNone(active['result'])
-        self.assertEqual(active['retry_context'], {key: snapshot['research'][key] for key in ('premium_retry', 'daily_date', 'refresh_event_key')})
-        self.assertEqual(active['events'][0]['payload']['plan'], payload['plan'])
-        self.assertEqual(active['events'][0]['after']['orders'][0]['plan'], {**payload['plan'], 'max_loss': '1000.00'})
-        self.assertEqual(len(active['events'][0]['before']['history']['NORTH']), 1)
-        position = active['events'][1]['after']['positions'][0]
-        self.assertEqual(position['unrealized_profit'], engine.money(engine.amount(position['value']) - engine.amount(position['cost'])))
-        self.assertIn('weight_percent', position)
-        self.assertIn('realized', position)
-        self.assertEqual(len(records['finished-ai']['result']['leaderboard']), 3)
-        for hidden in ('PRIVATE_', 'UNSEEN_FUTURE_PRICE', '"seed"', '"prices"', '"strategy"', '"agents"'):
-            self.assertNotIn(hidden, response.text)
+    def test_game_event_export_pages_owned_events_without_seeds_or_bot_records(self):
+        self.insert_game(self.user_id, 'game-one', [('event-c', 'finish'), ('event-a', 'start'), ('event-b', 'order')])
 
-    def test_owned_export_keyset_pagination_limits_and_foreign_cursor(self):
-        stamp = now()
-        async def insert(user_id, identifiers):
-            async with self.app.state.db.sessions.begin() as db:
-                for identifier in identifiers:
-                    db.add(Attempt(id=identifier, user_id=user_id, kind='lesson', target_id='m1-l1', idempotency_key=identifier,
-                        request_hash='a' * 64, answers=[{'question_id': 'q1', 'option_id': 'a', 'confidence': 60, 'correct': 'PRIVATE_KEY'}],
-                        reflection='My recorded rationale.', score=100, passed=True, result={'passed': True, 'private': 'PRIVATE_KEY'}, created_at=stamp))
-        self.client.portal.call(insert, self.user_id, ['attempt-c', 'attempt-a', 'attempt-b'])
-        first = self.export('learning-attempts', limit=2)
-        self.assertEqual([row['id'] for row in first.json()['records']], ['attempt-a', 'attempt-b'])
-        self.assertEqual(first.json()['next_cursor'], 'attempt-b')
-        second = self.export('learning-attempts', limit=2, cursor='attempt-b')
-        self.assertEqual([row['id'] for row in second.json()['records']], ['attempt-c'])
+        first = self.export('game-events', limit=2)
+        second = self.export('game-events', limit=2, cursor=first.json()['next_cursor'])
+
+        self.assertEqual(first.status_code, 200, first.text)
+        self.assertEqual([row['id'] for row in first.json()['records']], ['event-a', 'event-b'])
+        self.assertEqual([row['id'] for row in second.json()['records']], ['event-c'])
         self.assertIsNone(second.json()['next_cursor'])
-        self.assertNotIn('PRIVATE_KEY', first.text)
+        self.assertEqual(first.json()['records'][0]['payload'], {'context': {'day': '2026-10-19'}, 'observed': {'cash': 10000}})
+        self.assertNotIn('12345', first.text + second.text)
+        self.assertNotIn('BOT_STRATEGY', first.text + second.text)
         self.assertEqual(first.headers['cache-control'], 'no-store')
         self.assertIn('attachment;', first.headers['content-disposition'])
+
+    def test_export_rejects_bad_limits_kinds_and_foreign_cursors(self):
+        self.insert_game(self.user_id, 'game-one', [('event-a', 'start')])
         for limit in (0, 101):
-            self.assertEqual(self.export('learning-attempts', limit=limit).status_code, 422)
-        self.assertEqual(self.export('unsupported-kind').status_code, 422)
+            self.assertEqual(self.export('game-events', limit=limit).status_code, 422)
+        self.assertEqual(self.export('learning-runs').status_code, 422)
+        self.switch_user()
+        self.assertEqual(self.export('game-events', cursor='event-a').status_code, 404)
+        self.assertEqual(self.export('game-events').json()['records'], [])
         self.client.cookies.clear()
-        foreign = self.client.post('/api/session').json()['profile_id']
-        self.client.portal.call(insert, foreign, ['foreign-attempt'])
-        self.assertEqual(self.export('learning-attempts', cursor='attempt-a').status_code, 404)
-        self.assertEqual([row['id'] for row in self.export('learning-attempts').json()['records']], ['foreign-attempt'])
-        self.client.cookies.clear()
-        self.assertEqual(self.export('learning-attempts').status_code, 401)
+        self.assertEqual(self.export('game-events').status_code, 401)
+
+    def test_campaign_and_quiz_exports_hold_only_the_players_records(self):
+        attempt = self.client.post('/api/quizzes/attempts', json={'topic_id': 'chapter-1'}).json()
+        question = attempt['questions'][0]
+        self.client.post(f'/api/quizzes/attempts/{attempt["id"]}/answers',
+                         json={'question_id': question['id'], 'option_id': question['options'][0]['id'], 'confidence': 'sure'})
+
+        quizzes = self.export('quiz-attempts').json()['records']
+        campaign = self.export('campaign-progress').json()
+
+        self.assertEqual([row['id'] for row in quizzes], [attempt['id']])
+        self.assertEqual(list(quizzes[0]['answers']), [question['id']])
+        self.assertEqual(quizzes[0]['answers'][question['id']]['confidence'], 'sure')
+        self.assertEqual(campaign['records'], [])
+        self.switch_user()
+        self.assertEqual(self.export('quiz-attempts').json()['records'], [])
 
     def test_migration_is_repeatable_and_preserves_populated_records(self):
         self.post('metadata', 'retained-metadata', prior_knowledge='experienced')
