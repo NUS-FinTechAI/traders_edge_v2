@@ -38,6 +38,36 @@ export function EmptyState({
 }
 
 export function ErrorState({
+  title = 'Something went wrong',
+  message,
+  onRetry,
+  action,
+}: {
+  title?: string
+  message: string
+  onRetry?: () => void
+  /** A way out when retrying cannot help, such as a link elsewhere. */
+  action?: ReactNode
+}) {
+  return (
+    <div className={styles.state} role="alert">
+      <span className={styles.stateIcon}>
+        <Icon name="info" size={28} />
+      </span>
+      <h3>{title}</h3>
+      <p>{message}</p>
+      {onRetry && (
+        <Button variant="secondary" icon="refresh" onClick={onRetry}>
+          Try again
+        </Button>
+      )}
+      {action}
+    </div>
+  )
+}
+
+/** Compact error shown above data that is still on screen. */
+export function InlineError({
   message,
   onRetry,
 }: {
@@ -45,18 +75,15 @@ export function ErrorState({
   onRetry?: () => void
 }) {
   return (
-    <div className={styles.state} role="alert">
-      <span className={styles.stateIcon}>
-        <Icon name="info" size={28} />
-      </span>
-      <h3>Something went wrong</h3>
-      <p>{message}</p>
+    <p className={styles.inlineError} role="alert">
+      <Icon name="info" size={16} />
+      <span>{message}</span>
       {onRetry && (
-        <Button variant="secondary" icon="refresh" onClick={onRetry}>
+        <Button variant="ghost" size="sm" icon="refresh" onClick={onRetry}>
           Try again
         </Button>
       )}
-    </div>
+    </p>
   )
 }
 

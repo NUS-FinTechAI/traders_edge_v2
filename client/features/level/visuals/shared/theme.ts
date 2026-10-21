@@ -14,6 +14,8 @@ export const C = {
   gain: 'var(--gain)',
   gainSoft: 'var(--gain-soft)',
   loss: 'var(--loss)',
+  candleUp: 'var(--candle-up)',
+  candleDown: 'var(--candle-down)',
   lossSoft: 'var(--loss-soft)',
   info: 'var(--info)',
   infoSoft: 'var(--info-soft)',

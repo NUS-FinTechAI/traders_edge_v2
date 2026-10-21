@@ -1,9 +1,10 @@
 import { useEffect, useId, useRef, useState, type FormEvent } from 'react'
-import type {
-  GameState,
-  OrderRequest,
-  OrderType,
-  Side,
+import {
+  newOrderKey,
+  type GameState,
+  type OrderRequest,
+  type OrderType,
+  type Side,
 } from '../../../services/gameService.ts'
 import Button from '../../../ui/Button.tsx'
 import Icon from '../../../ui/Icon.tsx'
@@ -14,7 +15,9 @@ import {
   availableShares,
   estimate,
   executionPrice,
+  hasCents,
   heldShares,
+  money,
   maxAffordable,
   positionCapQty,
   riskIfStopped,
@@ -43,6 +46,12 @@ function roundPrice(value: number): string {
   return value.toFixed(2)
 }
 
+/** Prices are dollars and cents; round a typed value to two decimals. */
+function toCents(text: string): string {
+  const value = parse(text)
+  return value > 0 ? roundPrice(money(value)) : text
+}
+
 export default function TradeTicket({
   state,
   symbol,
@@ -63,6 +72,9 @@ export default function TradeTicket({
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const qtyRef = useRef<HTMLInputElement>(null)
+  // One idempotency key per draft: a retry after a lost reply reuses it, so
+  // the server returns the original order instead of placing a second one.
+  const draftKey = useRef<{ draft: string; key: string } | null>(null)
   const id = useId()
 
   useEffect(() => {
@@ -92,7 +104,7 @@ export default function TradeTicket({
   const held = heldShares(me, symbol)
   const sellable = availableShares(me, symbol)
   const affordable = maxAffordable(cash, unit, scenario)
-  const capRoom = positionCapQty(me, symbol, unit, scenario.max_position_pct)
+  const capRoom = positionCapQty(me, symbol, last, scenario.max_position_pct)
   const maxQty = side === 'buy' ? Math.min(affordable, capRoom) : sellable
   const qty = Math.floor(parse(qtyText))
   const preview = estimate(side, qty > 0 ? qty : 0, unit, scenario)
@@ -112,6 +124,8 @@ export default function TradeTicket({
   else if (activeType === 'limit' && !(limit! > 0))
     reason = 'Enter a limit price'
   else if (activeType === 'stop' && !(stop! > 0)) reason = 'Enter a stop price'
+  else if ((limit ?? stop ?? 0) > 0 && !hasCents((limit ?? stop)!))
+    reason = 'Prices use dollars and cents (at most two decimals)'
   else if (activeType === 'stop' && stop! >= last)
     reason = 'A stop-loss goes below the current price'
   else if (side === 'buy' && qty > capRoom)
@@ -121,6 +135,8 @@ export default function TradeTicket({
     reason = `You can sell up to ${sellable}`
   else if (attachedStop !== null && !(attachedStop > 0 && attachedStop < unit))
     reason = 'The stop-loss must be below your buy price'
+  else if (attachedStop !== null && !hasCents(attachedStop))
+    reason = 'Prices use dollars and cents (at most two decimals)'
 
   const verb = side === 'buy' ? 'Buy' : 'Sell'
   const confirm =
@@ -136,8 +152,13 @@ export default function TradeTicket({
     const order: OrderRequest = { symbol, side, type: activeType, qty }
     if (activeType === 'limit') order.limit_price = limit
     if (activeType === 'stop') order.stop_price = stop
+    const draft = JSON.stringify(order)
+    if (draftKey.current?.draft !== draft)
+      draftKey.current = { draft, key: newOrderKey() }
+    order.client_order_id = draftKey.current.key
     try {
       await onPlace(order, attachedStop)
+      draftKey.current = null
     } catch (caught) {
       setError(errorText(caught))
     } finally {
@@ -271,6 +292,7 @@ export default function TradeTicket({
             step={0.01}
             value={priceText}
             onChange={(event) => setPriceText(event.target.value)}
+            onBlur={() => setPriceText(toCents(priceText))}
           />
         </div>
       )}
@@ -285,6 +307,11 @@ export default function TradeTicket({
             />
             <span>Attach stop-loss</span>
           </label>
+          {attach && activeType === 'limit' && (
+            <p className={styles.costNote}>
+              Your stop-loss will be placed when your buy fills.
+            </p>
+          )}
           {attach && (
             <div className={styles.field}>
               <label htmlFor={`${id}-stop`} className={styles.label}>
@@ -299,6 +326,7 @@ export default function TradeTicket({
                 step={0.01}
                 value={stopText}
                 onChange={(event) => setStopText(event.target.value)}
+                onBlur={() => setStopText(toCents(stopText))}
               />
             </div>
           )}

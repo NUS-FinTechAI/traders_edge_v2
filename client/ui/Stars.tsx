@@ -7,9 +7,12 @@ interface StarsProps {
   size?: number
 }
 
-/** A level's normal (gold) and special (gem) stars with a text equivalent. */
+/**
+ * A level's Star (standard mission, gold) and Bonus star (bonus mission, gem):
+ * filled when earned, hollow when not, with a text equivalent.
+ */
 export default function Stars({ normal, special, size = 18 }: StarsProps) {
-  const label = `${normal ? 'Normal star earned' : 'Normal star not earned'}, ${special ? 'special star earned' : 'special star not earned'}`
+  const label = `Star ${normal ? 'earned' : 'not earned'}, bonus star ${special ? 'earned' : 'not earned'}`
   return (
     <span className={styles.stars} role="img" aria-label={label}>
       <Icon

@@ -1,6 +1,9 @@
 import authService, { type UserProfile } from '../services/authService.ts'
 import configService, { type PublicConfig } from '../services/configService.ts'
-import { HttpError } from '../services/httpService.ts'
+import httpService, { HttpError } from '../services/httpService.ts'
+
+type AuthSource = Pick<typeof authService, 'getProfile' | 'logout'> &
+  Partial<Pick<typeof authService, 'subscribe' | 'getUser'>>
 
 export interface AuthSnapshot {
   user: UserProfile | null
@@ -19,7 +22,7 @@ export class AuthController {
     signingOut: false,
   }
   private readonly listeners = new Set<() => void>()
-  private readonly auth: Pick<typeof authService, 'getProfile' | 'logout'>
+  private readonly auth: AuthSource
   private readonly config: Pick<typeof configService, 'getConfig'>
   private startup?: Promise<void>
   private pendingProfile?: Promise<UserProfile | null>
@@ -27,11 +30,30 @@ export class AuthController {
   private revision = 0
 
   constructor(
-    auth: Pick<typeof authService, 'getProfile' | 'logout'> = authService,
+    auth: AuthSource = authService,
     config: Pick<typeof configService, 'getConfig'> = configService,
   ) {
     this.auth = auth
     this.config = config
+    // Route guards verify the session through the auth service; follow it so
+    // an expired session cannot leave the provider claiming "signed-in".
+    auth.subscribe?.(() => this.follow(auth.getUser?.() ?? null))
+  }
+
+  private follow(user: UserProfile | null): void {
+    if (this.pendingLogout) return
+    if (user) {
+      if (this.snapshot.user !== user)
+        this.update({ user, status: 'signed-in', error: '' })
+    } else {
+      this.expire()
+    }
+  }
+
+  /** Mark a signed-in session as ended after the server answered 401. */
+  expire = (): void => {
+    if (this.snapshot.status !== 'signed-in' || this.pendingLogout) return
+    this.update({ user: null, status: 'signed-out', error: '' })
   }
 
   getSnapshot = (): AuthSnapshot => this.snapshot
@@ -137,3 +159,5 @@ export class AuthController {
 }
 
 export const authController = new AuthController()
+
+httpService.onUnauthorized(() => authController.expire())

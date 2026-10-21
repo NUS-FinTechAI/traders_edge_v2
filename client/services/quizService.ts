@@ -9,13 +9,6 @@ export type QuizRoomSummary = Schemas['QuizRoomSummary']
 
 export type QuizRoom = Schemas['QuizRoom']
 
-export interface QuizAnswer {
-  option_id: string
-  correct: boolean
-  correct_option_id: string
-  explanation: string
-}
-
 export type QuizQuestion = Schemas['QuizQuestion']
 
 export type QuizAttempt = Schemas['QuizAttempt']

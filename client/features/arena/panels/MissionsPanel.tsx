@@ -52,13 +52,15 @@ export function MissionList({
             className={
               mission.tier === 'bonus' ? styles.tierBonus : styles.tierBasic
             }
-            aria-label={mission.tier === 'bonus' ? 'Bonus mission' : 'Mission'}
+            aria-label={
+              mission.tier === 'bonus' ? 'Bonus star mission' : 'Star mission'
+            }
             role="img"
           >
             <Icon
               name={mission.tier === 'bonus' ? 'sparkle' : 'star'}
               size={18}
-              filled
+              filled={showState && mission.done}
             />
           </span>
           <span className={styles.missionText}>{mission.text}</span>

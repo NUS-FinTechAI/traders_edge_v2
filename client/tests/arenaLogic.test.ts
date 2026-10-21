@@ -3,8 +3,14 @@ import { test } from 'node:test'
 import {
   chapterOf,
   equitySeries,
+  executionPrice,
+  fee,
+  hasCents,
   levelOf,
   maxAffordable,
+  money,
+  positionCapQty,
+  quote,
   rankHeadline,
   riskIfStopped,
 } from '../features/arena/arenaLogic.ts'
@@ -15,7 +21,12 @@ import {
   rsi,
   sma,
 } from '../features/arena/chart/indicators.ts'
-import type { GameResult, LeaderboardEntry } from '../services/gameService.ts'
+import type {
+  GameResult,
+  LeaderboardEntry,
+  Me,
+  Order,
+} from '../services/gameService.ts'
 
 const scenario = { fee: { rate: 0.001, min: 1 }, spread: 0.002 }
 
@@ -91,7 +102,7 @@ test('max affordable shares are zero without cash or price', () => {
 test('risk if stopped includes the exit spread and both fees', () => {
   const risk = riskIfStopped(10, 50, 45, scenario, 10000)
 
-  const exit = 45 * (1 - 0.001)
+  const exit = 44.96
   const expected = 10 * (50 - exit) + 1 + 1
   assert.ok(Math.abs(risk.amount - expected) < 1e-9)
   assert.ok(Math.abs(risk.pct - expected / 100) < 1e-9)
@@ -226,4 +237,83 @@ test('MACD histogram is the line minus its signal', () => {
 test('nice ticks use round steps inside the range', () => {
   assert.deepEqual(niceTicks(48.3, 52.9, 5), [49, 50, 51, 52])
   assert.deepEqual(niceTicks(0, 100, 5), [0, 25, 50, 75, 100])
+})
+
+test('money rounds halves away from zero to cents', () => {
+  assert.equal(money(1.005), 1.01)
+  assert.equal(money(2.675), 2.68)
+  assert.equal(money(-1.005), -1.01)
+  assert.equal(money(10.004), 10)
+})
+
+test('quotes and fees are rounded to cents like the server', () => {
+  assert.deepEqual(quote(50.25, 0.002), { bid: 50.2, ask: 50.3 })
+  assert.equal(fee(1234.5, { fee: { rate: 0.001, min: 1 } }), 1.23)
+  assert.equal(fee(500, { fee: { rate: 0.001, min: 1 } }), 1)
+})
+
+test('a limit buy is costed at its limit price, not the ask', () => {
+  assert.equal(executionPrice('buy', 'limit', 50, scenario, 48), 48)
+  assert.equal(executionPrice('buy', 'limit', 50, scenario, 55), 55)
+  assert.equal(executionPrice('buy', 'market', 50, scenario), 50.05)
+  assert.equal(
+    executionPrice('sell', 'stop', 50, scenario, undefined, 45),
+    44.96,
+  )
+})
+
+test('prices with more than two decimals are flagged', () => {
+  assert.equal(hasCents(12.34), true)
+  assert.equal(hasCents(0.29), true)
+  assert.equal(hasCents(12.345), false)
+})
+
+function me(overrides: Partial<Me> = {}): Me {
+  return {
+    participant_id: 'p1',
+    cash: 10000,
+    available_cash: 10000,
+    equity: 10000,
+    profit: 0,
+    profit_pct: 0,
+    positions: [],
+    orders: [],
+    fills: [],
+    max_drawdown_pct: 0,
+    plan: null,
+    ...overrides,
+  }
+}
+
+function order(overrides: Partial<Order>): Order {
+  return {
+    id: 'o1',
+    client_order_id: 'key-0001',
+    symbol: 'LEAF',
+    side: 'buy',
+    type: 'limit',
+    qty: 10,
+    limit_price: 48,
+    stop_price: null,
+    status: 'open',
+    tick: 1,
+    ...overrides,
+  }
+}
+
+test('the position cap counts held shares and resting buys at the close', () => {
+  const account = me({
+    positions: [
+      { symbol: 'LEAF', qty: 20, avg_price: 45, value: 1000, unrealized: 0 },
+    ],
+    orders: [
+      order({ qty: 10 }),
+      order({ id: 'o2', qty: 5, status: 'filled' }),
+      order({ id: 'o3', qty: 7, side: 'sell' }),
+    ],
+  })
+
+  assert.equal(positionCapQty(account, 'LEAF', 50, 25), 20)
+  assert.equal(positionCapQty(account, 'LEAF', 50, 10), 0)
+  assert.equal(positionCapQty(account, 'LEAF', 50, null), Infinity)
 })

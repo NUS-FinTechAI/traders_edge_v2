@@ -8,6 +8,7 @@ import {
   type Lobby,
 } from '../../services/lobbyService.ts'
 import Avatar from '../../ui/Avatar.tsx'
+import { itemImage } from '../../ui/avatarImage.ts'
 import Button, { ButtonLink } from '../../ui/Button.tsx'
 import Chip from '../../ui/Chip.tsx'
 import CopyButton from '../../ui/CopyButton.tsx'
@@ -15,10 +16,11 @@ import Emblem from '../../ui/Emblem.tsx'
 import Icon from '../../ui/Icon.tsx'
 import PageHeader from '../../ui/PageHeader.tsx'
 import ResourceView from '../../ui/ResourceView.tsx'
-import { EmptyState } from '../../ui/States.tsx'
+import { EmptyState, InlineError } from '../../ui/States.tsx'
 import { usePolling } from '../../ui/hooks.ts'
 import { useToast } from '../../ui/toastContext.ts'
 import useResource, { errorText } from '../../ui/useResource.ts'
+import { rememberLobby } from './lobbyMemory.ts'
 import styles from './Lobby.module.css'
 
 function LobbyRoom({
@@ -49,6 +51,7 @@ function LobbyRoom({
     setBusy(true)
     try {
       await leaveLobby(lobby.id)
+      rememberLobby(null)
       void navigate('/multiplayer')
     } catch (error) {
       notify(errorText(error), 'error')
@@ -92,7 +95,11 @@ function LobbyRoom({
         <ul className={styles.list}>
           {lobby.members.map((member) => (
             <li key={member.user_id} className={styles.member}>
-              <Avatar id={member.avatar_id} size={44} />
+              <Avatar
+                id={member.avatar_id}
+                image={itemImage(member)}
+                size={44}
+              />
               <span className={styles.memberName}>
                 {member.name}
                 {member.user_id === user?.id && (
@@ -164,16 +171,27 @@ export default function LobbyPage() {
   const navigate = useNavigate()
   const resource = useResource((signal) => getLobby(lobbyId, signal), [lobbyId])
   const [latest, setLatest] = useState<Lobby | null>(null)
+  const [pollError, setPollError] = useState<string | null>(null)
   const lobby = latest?.id === lobbyId ? latest : (resource.data ?? null)
   const open = lobby?.status === 'open'
 
   usePolling(
-    () => {
-      getLobby(lobbyId).then(setLatest, () => {})
+    async () => {
+      try {
+        setLatest(await getLobby(lobbyId))
+        setPollError(null)
+      } catch (error) {
+        setPollError(errorText(error))
+      }
     },
     2000,
     open,
   )
+
+  useEffect(() => {
+    if (lobby?.status === 'open') rememberLobby(lobby.id)
+    else if (lobby) rememberLobby(null)
+  }, [lobby])
 
   useEffect(() => {
     if (lobby?.game_id)
@@ -188,6 +206,9 @@ export default function LobbyPage() {
         back={{ to: '/multiplayer', label: 'Multiplayer' }}
         title="Private lobby"
       />
+      {pollError && open && (
+        <InlineError message={`Reconnecting to the lobby… ${pollError}`} />
+      )}
       <ResourceView resource={resource} label="Opening the lobby…">
         {() =>
           lobby && lobby.status === 'closed' ? (

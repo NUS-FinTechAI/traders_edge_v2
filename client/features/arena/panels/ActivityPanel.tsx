@@ -4,7 +4,6 @@ import Button from '../../../ui/Button.tsx'
 import { Delta } from '../../../ui/Chip.tsx'
 import Tabs from '../../../ui/Tabs.tsx'
 import { formatMoney } from '../../../ui/format.ts'
-import { dayNumber } from '../arenaLogic.ts'
 import styles from './panels.module.css'
 
 type View = 'positions' | 'orders' | 'fills'
@@ -174,7 +173,7 @@ export default function ActivityPanel({
                 {fills.map((fill, n) => (
                   <tr key={`${fill.order_id}-${n}`}>
                     <th scope="row" className="num">
-                      {dayNumber(fill.t)}
+                      {fill.t}
                     </th>
                     <td>
                       <SideTag side={fill.side} />

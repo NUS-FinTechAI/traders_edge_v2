@@ -8,19 +8,24 @@
   --surface-3: #26402f;
   --border: #2c4638;
   --border-strong: #3e5e4c;
+  /* Form controls need a 3:1 boundary against the surfaces they sit on. */
+  --border-input: #6a957c;
 
   --text: #f2ead3;
   --text-muted: #a9b8a9;
-  --text-dim: #7d8f80;
+  --text-dim: #98ab9c;
 
   --primary: #1f7a52;
-  --primary-hover: #248c5e;
+  /* Darker on hover so white text keeps at least 4.5:1. */
+  --primary-hover: #1a6b47;
   --on-primary: #ffffff;
 
   --gold: #e0b654;
   --gold-soft: #3a3220;
   --gem: #8e72d6;
   --gem-soft: #2a2440;
+  /* --gem is for fills and icons; text uses the lighter shade. */
+  --gem-text: #a891ea;
   --cash: #5fbf8a;
   --cash-soft: #1d3a2b;
 
@@ -32,6 +37,10 @@
   --info-soft: #18323d;
   --warning: #e8a23a;
   --warning-soft: #3b2c15;
+
+  /* Chart candles; candle themes and colour palettes override these. */
+  --candle-up: var(--gain);
+  --candle-down: var(--loss);
 
   --radius-sm: 8px;
   --radius: 12px;

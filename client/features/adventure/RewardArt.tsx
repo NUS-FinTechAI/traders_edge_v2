@@ -1,5 +1,6 @@
 import type { Reward } from '../../services/campaignService.ts'
 import Avatar from '../../ui/Avatar.tsx'
+import { itemImage } from '../../ui/avatarImage.ts'
 import Emblem from '../../ui/Emblem.tsx'
 
 /** The picture for a map reward: the avatar itself, or a title/badge emblem. */
@@ -12,7 +13,8 @@ export default function RewardArt({
   size: number
   earned: boolean
 }) {
-  if (reward.kind === 'avatar') return <Avatar id={reward.id} size={size} />
+  if (reward.kind === 'avatar')
+    return <Avatar id={reward.id} image={itemImage(reward)} size={size} />
   return (
     <Emblem
       name={reward.kind === 'title' ? 'scroll' : 'medal'}

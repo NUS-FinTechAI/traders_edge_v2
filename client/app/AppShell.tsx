@@ -13,6 +13,9 @@ import Icon, { type IconName } from '../ui/Icon.tsx'
 import { ButtonLink } from '../ui/Button.tsx'
 import { ToastProvider } from '../ui/Toast.tsx'
 import Avatar from '../ui/Avatar.tsx'
+import { playerAvatarImage } from '../ui/avatarImage.ts'
+import usePageTitle from './usePageTitle.ts'
+import ThemeApplier from './ThemeApplier.tsx'
 import { usePlayer } from './PlayerContext.ts'
 import PlayerProvider from './PlayerProvider.tsx'
 import styles from './AppShell.module.css'
@@ -57,25 +60,28 @@ function Hud() {
               <Chip
                 tone="flame"
                 icon="flame"
-                aria-label={`${player.streak.days} day streak`}
+                role="img"
+                aria-label={`${player.streak.days}-day streak`}
               >
                 <span className="num" aria-hidden="true">
                   {player.streak.days}
                 </span>
               </Chip>
+              <CurrencyChip kind="doubloons" amount={player.wallet.doubloons} />
               <span className={styles.hideSmall}>
-                <CurrencyChip
-                  kind="doubloons"
-                  amount={player.wallet.doubloons}
-                />
+                <CurrencyChip kind="gems" amount={player.wallet.gems} />
               </span>
-              <CurrencyChip kind="gems" amount={player.wallet.gems} />
               <NavLink
                 to="/profile"
                 className={styles.hudAvatar}
                 aria-label={`Profile, level ${player.level}`}
               >
-                <Avatar id={player.avatar_id} size={36} level={player.level} />
+                <Avatar
+                  id={player.avatar_id}
+                  image={playerAvatarImage(player)}
+                  size={36}
+                  level={player.level}
+                />
               </NavLink>
             </>
           ) : (
@@ -116,10 +122,12 @@ export default function AppShell() {
   // Lessons and quizzes hide the HUD and navigation so one task fills the screen.
   const focus = /^\/(level|quiz\/attempt)\//.test(pathname)
   const chrome = !immersive && !focus
+  usePageTitle(pathname)
   return (
     <AuthProvider>
       <PlayerProvider>
         <ToastProvider>
+          <ThemeApplier />
           <div
             className={
               immersive ? styles.immersive : focus ? styles.focus : styles.shell

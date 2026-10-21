@@ -253,7 +253,7 @@
   gap: 6px;
   min-height: 44px;
   padding: 0 var(--space-4);
-  border: 1px solid var(--border-strong);
+  border: 1px solid var(--border-input);
   border-radius: var(--radius-pill);
   background: var(--bg-elev);
   font-weight: 700;
@@ -302,4 +302,33 @@
   color: var(--text-dim);
   font-size: var(--text-xs);
   text-align: center;
+}
+
+.choiceText {
+  display: grid;
+  gap: 1px;
+  padding: var(--space-1) 0;
+  line-height: 1.2;
+}
+
+.choiceHint {
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+  font-weight: 600;
+}
+
+.choice > span:has(.choiceHint) {
+  border-radius: var(--radius);
+}
+
+.liveNote {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid #2a5466;
+  border-radius: var(--radius);
+  background: var(--info-soft);
+  font-weight: 700;
 }

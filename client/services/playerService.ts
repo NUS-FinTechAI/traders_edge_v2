@@ -24,13 +24,6 @@ export interface DailyLoginClaim {
   player: Player
 }
 
-export interface StreakDay {
-  date: string
-  claimed: boolean
-  xp: number
-  doubloons: number
-}
-
 export type Activity = Schemas['Activity']
 
 export type CollectionItem = Schemas['CollectionItem']

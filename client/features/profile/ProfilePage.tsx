@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { usePlayer } from '../../app/PlayerContext.ts'
+import RequirePlayer from '../../app/RequirePlayer.tsx'
 import useAuth from '../../hooks/useAuth.ts'
 import {
   getActivity,
@@ -10,12 +11,12 @@ import {
   type Player,
 } from '../../services/playerService.ts'
 import Avatar from '../../ui/Avatar.tsx'
+import { playerAvatarImage } from '../../ui/avatarImage.ts'
 import Button, { ButtonLink } from '../../ui/Button.tsx'
 import Chip from '../../ui/Chip.tsx'
 import Icon from '../../ui/Icon.tsx'
 import ProgressBar from '../../ui/ProgressBar.tsx'
 import ResourceView from '../../ui/ResourceView.tsx'
-import { Loading } from '../../ui/States.tsx'
 import { formatCount } from '../../ui/format.ts'
 import { useToast } from '../../ui/toastContext.ts'
 import useResource, { errorText } from '../../ui/useResource.ts'
@@ -41,7 +42,11 @@ function LevelRing({ player }: { player: Player }) {
         />
       </svg>
       <span className={styles.ringAvatar}>
-        <Avatar id={player.avatar_id} size={96} />
+        <Avatar
+          id={player.avatar_id}
+          image={playerAvatarImage(player)}
+          size={96}
+        />
       </span>
       <span className={styles.ringLevel}>Lv {player.level}</span>
     </div>
@@ -220,11 +225,16 @@ function Settings({ player }: { player: Player }) {
 }
 
 export default function ProfilePage() {
-  const { player } = usePlayer()
+  return (
+    <RequirePlayer label="Loading your profile…">
+      {(player) => <Profile player={player} />}
+    </RequirePlayer>
+  )
+}
+
+function Profile({ player }: { player: Player }) {
   const collection = useResource(getCollection)
   const activity = useResource(getActivity)
-
-  if (!player) return <Loading label="Loading your profile…" />
   const pct = Math.round(
     (player.xp_into_level / Math.max(1, player.xp_for_next_level)) * 100,
   )
@@ -238,7 +248,7 @@ export default function ProfilePage() {
           <p className={styles.rank}>
             {player.rank_name} · Level {player.level}
           </p>
-          {player.title && (
+          {player.title && player.title !== player.rank_name && (
             <Chip tone="gem" icon="scroll">
               {player.title}
             </Chip>

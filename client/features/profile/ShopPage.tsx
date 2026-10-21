@@ -1,11 +1,14 @@
 import { useState } from 'react'
 import { usePlayer } from '../../app/PlayerContext.ts'
+import RequirePlayer from '../../app/RequirePlayer.tsx'
 import {
   getShop,
   purchase,
+  type Player,
   type ShopItem,
 } from '../../services/playerService.ts'
 import Avatar from '../../ui/Avatar.tsx'
+import { itemImage } from '../../ui/avatarImage.ts'
 import Button from '../../ui/Button.tsx'
 import Chip, { CurrencyChip } from '../../ui/Chip.tsx'
 import Emblem from '../../ui/Emblem.tsx'
@@ -14,7 +17,7 @@ import Modal from '../../ui/Modal.tsx'
 import PageHeader from '../../ui/PageHeader.tsx'
 import ProgressBar from '../../ui/ProgressBar.tsx'
 import ResourceView from '../../ui/ResourceView.tsx'
-import { EmptyState, Loading, SectionHeader } from '../../ui/States.tsx'
+import { EmptyState, SectionHeader } from '../../ui/States.tsx'
 import { formatCount, formatShortDate } from '../../ui/format.ts'
 import { useToast } from '../../ui/toastContext.ts'
 import useResource, { errorText } from '../../ui/useResource.ts'
@@ -22,8 +25,23 @@ import styles from './Shop.module.css'
 
 const KIND_LABEL = { avatar: 'Avatar', title: 'Title', theme: 'Candle theme' }
 
+const KIND_TEXT = {
+  avatar: 'A portrait for your profile, lobbies and leaderboards.',
+  title: 'A title shown under your name.',
+  theme: 'New colours for chart candles. Equip it in Profile → Themes.',
+}
+
+/** The item's own description; "how to get it" text is no use inside the shop. */
+function itemText(item: ShopItem): string {
+  const text = item.description.trim()
+  return !text || /^buy it in the shop/i.test(text)
+    ? KIND_TEXT[item.kind]
+    : text
+}
+
 function ItemArt({ item, size }: { item: ShopItem; size: number }) {
-  if (item.kind === 'avatar') return <Avatar id={item.id} size={size} />
+  if (item.kind === 'avatar')
+    return <Avatar id={item.id} image={itemImage(item)} size={size} />
   return (
     <Emblem
       name={item.kind === 'title' ? 'scroll' : 'candles'}
@@ -44,13 +62,19 @@ function Price({ item }: { item: ShopItem }) {
 }
 
 export default function ShopPage() {
-  const { player, refreshPlayer } = usePlayer()
+  return (
+    <RequirePlayer label="Opening the shop…">
+      {(player) => <Shop player={player} />}
+    </RequirePlayer>
+  )
+}
+
+function Shop({ player }: { player: Player }) {
+  const { refreshPlayer } = usePlayer()
   const notify = useToast()
   const shop = useResource(getShop)
   const [confirm, setConfirm] = useState<ShopItem | null>(null)
   const [busy, setBusy] = useState(false)
-
-  if (!player) return <Loading label="Opening the shop…" />
 
   const balance = (item: ShopItem) =>
     item.currency === 'gems' ? player.wallet.gems : player.wallet.doubloons
@@ -97,7 +121,7 @@ export default function ShopPage() {
       <PageHeader
         back={{ to: '/profile', label: 'Profile' }}
         title="Shop"
-        subtitle="Cosmetics only. Nothing here changes a match."
+        subtitle="Cosmetics only. Nothing here changes a match. Win ranked matches to earn Gems."
         actions={
           <div className={styles.wallet}>
             <CurrencyChip kind="doubloons" amount={player.wallet.doubloons} />
@@ -123,7 +147,7 @@ export default function ShopPage() {
                     <h2 id={`weekly-${item.id}`} className={styles.weeklyTitle}>
                       {item.name}
                     </h2>
-                    <p className={styles.muted}>{item.description}</p>
+                    <p className={styles.muted}>{itemText(item)}</p>
                     <div className={styles.track}>
                       <div className={styles.trackText}>
                         <span className="num">
@@ -169,7 +193,7 @@ export default function ShopPage() {
                         <ItemArt item={item} size={72} />
                         <p className={styles.kind}>{KIND_LABEL[item.kind]}</p>
                         <h3 className={styles.itemName}>{item.name}</h3>
-                        <p className={styles.itemText}>{item.description}</p>
+                        <p className={styles.itemText}>{itemText(item)}</p>
                         <div className={styles.itemFoot}>
                           {!item.owned && <Price item={item} />}
                           {buyAction(item)}

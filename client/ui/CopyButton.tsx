@@ -14,10 +14,15 @@ export default function CopyButton({
       variant="secondary"
       icon="copy"
       onClick={() => {
-        navigator.clipboard.writeText(text).then(
-          () => notify('Copied', 'success'),
-          () => notify('Copy failed. Select the code and copy it.', 'error'),
-        )
+        const fallback = () =>
+          notify(`Copying isn’t available here. The code is ${text}.`, 'info')
+        if (!navigator.clipboard?.writeText) {
+          fallback()
+          return
+        }
+        navigator.clipboard
+          .writeText(text)
+          .then(() => notify('Copied', 'success'), fallback)
       }}
     >
       {label}

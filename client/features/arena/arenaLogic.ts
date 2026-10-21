@@ -12,11 +12,6 @@ import type {
 } from '../../services/gameService.ts'
 import { formatMoney } from '../../ui/format.ts'
 
-/** "Day N" is tick N, as scenario authors write it; history days are negative. */
-export function dayNumber(t: number): number {
-  return t
-}
-
 export function currentDay(state: Pick<GameState, 'tick' | 'ticks'>): number {
   return Math.max(0, Math.min(state.tick, state.ticks))
 }
@@ -29,24 +24,33 @@ export function isEnded(state: GameState): boolean {
   )
 }
 
-export function isPaused(state: GameState): boolean {
-  return state.paused
-}
-
 export function isMultiplayer(state: Pick<GameState, 'mode'>): boolean {
   return state.mode === 'private' || state.mode === 'ranked'
 }
 
+/** Round to cents, halves away from zero, like the server's `money()`. */
+export function money(value: number): number {
+  const cents = Math.round(Number((Math.abs(value) * 100).toPrecision(12)))
+  return (Math.sign(value) * cents) / 100
+}
+
 export function fee(value: number, scenario: Pick<Scenario, 'fee'>): number {
   if (value <= 0) return 0
-  return Math.max(scenario.fee.min, scenario.fee.rate * value)
+  return Math.max(scenario.fee.min, money(scenario.fee.rate * value))
 }
 
 export function quote(price: number, spread: number) {
-  return { bid: price * (1 - spread / 2), ask: price * (1 + spread / 2) }
+  return {
+    bid: money(price * (1 - spread / 2)),
+    ask: money(price * (1 + spread / 2)),
+  }
 }
 
-/** Price a new order is expected to execute at. */
+/**
+ * Price a new order is costed at, as the server validates it: market buys at
+ * the ask, market sells at the bid, limit orders at their limit (cash for a
+ * limit buy is reserved at the limit), stops at the stop less half the spread.
+ */
 export function executionPrice(
   side: Side,
   type: OrderType,
@@ -56,13 +60,15 @@ export function executionPrice(
   stopPrice?: number,
 ): number {
   const { bid, ask } = quote(price, scenario.spread)
-  if (type === 'limit' && limitPrice) {
-    return side === 'buy'
-      ? Math.min(limitPrice, ask)
-      : Math.max(limitPrice, bid)
-  }
-  if (type === 'stop' && stopPrice) return stopPrice * (1 - scenario.spread / 2)
+  if (type === 'limit' && limitPrice) return limitPrice
+  if (type === 'stop' && stopPrice)
+    return money(stopPrice * (1 - scenario.spread / 2))
   return side === 'buy' ? ask : bid
+}
+
+/** True when a typed price has at most two decimal places. */
+export function hasCents(value: number): boolean {
+  return Math.abs(value * 100 - Math.round(value * 100)) < 1e-6
 }
 
 export function estimate(
@@ -118,17 +124,24 @@ export function maxAffordable(
   return qty
 }
 
-/** Extra shares allowed by a per-position cap, or Infinity without one. */
+/**
+ * Extra shares allowed by a per-position cap, or Infinity without one. Like
+ * the server, held shares plus resting buys plus the new order are valued at
+ * the last close against current equity.
+ */
 export function positionCapQty(
   me: Me,
   symbol: string,
-  unitPrice: number,
+  close: number,
   maxPositionPct: number | null,
 ): number {
-  if (maxPositionPct === null || unitPrice <= 0) return Infinity
-  const current = me.positions.find((p) => p.symbol === symbol)?.value ?? 0
-  const room = (maxPositionPct / 100) * me.equity - current
-  return Math.max(0, Math.floor(room / unitPrice))
+  if (maxPositionPct === null || close <= 0 || me.equity <= 0) return Infinity
+  const pending = openOrders(me.orders)
+    .filter((order) => order.side === 'buy' && order.symbol === symbol)
+    .reduce((sum, order) => sum + order.qty, 0)
+  const limit = (maxPositionPct / 100) * me.equity
+  const total = Math.floor(limit / close + 1e-9)
+  return Math.max(0, total - heldShares(me, symbol) - pending)
 }
 
 /** Loss if a buy at `entry` is stopped out at `stop`, fees included. */
@@ -139,7 +152,7 @@ export function riskIfStopped(
   scenario: Pick<Scenario, 'fee' | 'spread'>,
   equity: number,
 ) {
-  const exit = stop * (1 - scenario.spread / 2)
+  const exit = money(stop * (1 - scenario.spread / 2))
   const amount =
     qty * (entry - exit) +
     fee(qty * entry, scenario) +
@@ -251,7 +264,5 @@ export function keyMoments(
       order: 1,
     })),
   ].sort((a, b) => a.t - b.t || a.order - b.order)
-  return moments
-    .slice(0, limit)
-    .map(({ t, text }) => `Day ${dayNumber(t)}: ${text}`)
+  return moments.slice(0, limit).map(({ t, text }) => `Day ${t}: ${text}`)
 }

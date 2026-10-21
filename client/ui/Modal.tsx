@@ -43,7 +43,9 @@ export default function Modal({
       }}
     >
       {open && (
-        <>
+        // The dialog itself has no padding, so a click whose target is the
+        // dialog element can only be on the backdrop.
+        <div className={styles.modalInner}>
           <h2
             id={titleId}
             className={hideTitle ? 'visually-hidden' : styles.modalTitle}
@@ -58,7 +60,7 @@ export default function Modal({
             onClick={onClose}
           />
           {children}
-        </>
+        </div>
       )}
     </dialog>
   )

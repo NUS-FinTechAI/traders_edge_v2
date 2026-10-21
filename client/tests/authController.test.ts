@@ -13,10 +13,10 @@ const profile: UserProfile = {
   display_name: 'Learner',
   avatar_id: 'avatar-starter-1',
   avatar_image: null,
-  title: 'Rookie Trader',
+  title: 'Deckhand',
   title_id: null,
   level: 1,
-  rank_name: 'Rookie Trader',
+  rank_name: 'Deckhand',
   xp: 0,
   xp_into_level: 0,
   xp_for_next_level: 100,
@@ -189,4 +189,47 @@ test('application startup fetches config once and profile once despite repeated 
   await Promise.all([controller.initialize(), controller.initialize()])
   assert.deepEqual(requests, ['/api/config', '/api/me'])
   assert.equal(controller.getSnapshot().status, 'signed-in')
+})
+
+test('an expired session found by a route guard signs the provider out', async (t) => {
+  let expired = false
+  t.mock.method(
+    globalThis,
+    'fetch',
+    async (input: Parameters<typeof fetch>[0]) => {
+      const path = new URL(String(input)).pathname
+      if (path === '/api/config') return Response.json(config)
+      return expired
+        ? Response.json({ detail: 'Session expired' }, { status: 401 })
+        : Response.json(profile)
+    },
+  )
+  const http = new HttpService({ baseUrl: 'http://localhost:8000' })
+  const auth = new AuthService(http)
+  const controller = new AuthController(auth, new ConfigService(http))
+  await controller.initialize()
+  assert.equal(controller.getSnapshot().status, 'signed-in')
+
+  expired = true
+  const authenticated = await auth.isAuthenticated()
+
+  assert.equal(authenticated, false)
+  assert.equal(controller.getSnapshot().status, 'signed-out')
+  assert.equal(controller.getSnapshot().user, null)
+})
+
+test('expiring a signed-in session reports signed-out once', async () => {
+  const controller = new AuthController(
+    { getProfile: async () => profile, logout: async () => {} },
+    { getConfig: async () => config },
+  )
+  await controller.initialize()
+  let notifications = 0
+  controller.subscribe(() => notifications++)
+
+  controller.expire()
+  controller.expire()
+
+  assert.equal(controller.getSnapshot().status, 'signed-out')
+  assert.equal(notifications, 1)
 })

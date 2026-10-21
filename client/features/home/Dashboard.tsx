@@ -1,17 +1,18 @@
-import { usePlayer } from '../../app/PlayerContext.ts'
+import RequirePlayer from '../../app/RequirePlayer.tsx'
 import { getCampaign, type Campaign } from '../../services/campaignService.ts'
 import { getDaily } from '../../services/dailyService.ts'
 import { getActivity, type Player } from '../../services/playerService.ts'
 import Avatar from '../../ui/Avatar.tsx'
+import { playerAvatarImage } from '../../ui/avatarImage.ts'
 import { ButtonLink } from '../../ui/Button.tsx'
 import Emblem, { type EmblemTone } from '../../ui/Emblem.tsx'
 import type { EmblemName } from '../../ui/emblemArt.tsx'
 import ProgressBar from '../../ui/ProgressBar.tsx'
 import ResourceView from '../../ui/ResourceView.tsx'
-import { Loading } from '../../ui/States.tsx'
 import { formatCount } from '../../ui/format.ts'
 import useResource from '../../ui/useResource.ts'
 import DailyCard from '../play/DailyCard.tsx'
+import ResumeMatches from '../play/ResumeMatches.tsx'
 import StreakCard from './StreakCard.tsx'
 import styles from './Home.module.css'
 
@@ -63,7 +64,12 @@ function Welcome({ player }: { player: Player }) {
   )
   return (
     <section className={styles.welcome} aria-labelledby="welcome-title">
-      <Avatar id={player.avatar_id} size={64} level={player.level} />
+      <Avatar
+        id={player.avatar_id}
+        image={playerAvatarImage(player)}
+        size={64}
+        level={player.level}
+      />
       <div className={styles.welcomeText}>
         <h1 id="welcome-title" className={styles.welcomeTitle}>
           Welcome back, {player.display_name}
@@ -136,16 +142,22 @@ function ContinueCard({ campaign }: { campaign: Campaign }) {
 }
 
 export default function Dashboard() {
-  const { player } = usePlayer()
+  return (
+    <RequirePlayer label="Loading your camp…">
+      {(player) => <Camp player={player} />}
+    </RequirePlayer>
+  )
+}
+
+function Camp({ player }: { player: Player }) {
   const activity = useResource(getActivity)
   const campaign = useResource(getCampaign)
   const daily = useResource(getDaily)
 
-  if (!player) return <Loading label="Loading your camp…" />
-
   return (
     <div className={styles.dashboard}>
       <Welcome player={player} />
+      <ResumeMatches />
       <StreakCard
         player={player}
         activity={activity.data}

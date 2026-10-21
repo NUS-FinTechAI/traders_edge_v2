@@ -34,7 +34,7 @@ export function TierCrest({
 }) {
   return (
     <Emblem
-      name="gem"
+      name="shield"
       tone={look(tier).emblem}
       size={size}
       shape="circle"

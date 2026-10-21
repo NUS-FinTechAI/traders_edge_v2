@@ -1,5 +1,7 @@
+import { usePlayer } from '../../../app/PlayerContext.ts'
 import type { LeaderboardEntry } from '../../../services/gameService.ts'
 import Avatar from '../../../ui/Avatar.tsx'
+import { playerAvatarImage } from '../../../ui/avatarImage.ts'
 import { Delta } from '../../../ui/Chip.tsx'
 import { ordinal } from '../arenaLogic.ts'
 import Panel from './Panel.tsx'
@@ -12,6 +14,7 @@ export function Standings({
   entries: LeaderboardEntry[]
   podium?: boolean
 }) {
+  const { player } = usePlayer()
   const ordered = [...entries].sort((a, b) => a.rank - b.rank)
   return (
     <ol
@@ -31,7 +34,15 @@ export function Standings({
           >
             {entry.rank}
           </span>
-          <Avatar id={entry.avatar || entry.name} size={podium ? 40 : 32} />
+          {entry.is_me && player ? (
+            <Avatar
+              id={player.avatar_id}
+              image={playerAvatarImage(player)}
+              size={podium ? 40 : 32}
+            />
+          ) : (
+            <Avatar id={entry.avatar || entry.name} size={podium ? 40 : 32} />
+          )}
           <span className={styles.rivalName}>
             <strong>
               {entry.name}
