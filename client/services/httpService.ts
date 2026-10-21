@@ -47,6 +47,7 @@ export interface HttpRequestOptions extends RequestOptions {
 export class HttpService {
   private readonly baseUrl: URL
   private readonly config: HttpServiceOptions
+  private readonly unauthorizedListeners = new Set<(error: HttpError) => void>()
 
   constructor(config: HttpServiceOptions) {
     this.baseUrl = new URL(config.baseUrl)
@@ -61,6 +62,14 @@ export class HttpService {
       this.baseUrl.hash
     ) {
       throw new TypeError('The API base URL must be an HTTP(S) origin')
+    }
+  }
+
+  /** Subscribe to 401 responses from authenticated requests. */
+  onUnauthorized(listener: (error: HttpError) => void): () => void {
+    this.unauthorizedListeners.add(listener)
+    return () => {
+      this.unauthorizedListeners.delete(listener)
     }
   }
 
@@ -206,16 +215,17 @@ export class HttpService {
       details,
     )
 
-    if (
-      response.status === 401 &&
-      authenticated &&
-      this.config.onUnauthorized
-    ) {
-      try {
-        this.config.onUnauthorized(error)
-      } catch {
-        // A subscriber failure must not replace the server's authentication error.
-        throw error
+    if (response.status === 401 && authenticated) {
+      const listeners = [
+        ...(this.config.onUnauthorized ? [this.config.onUnauthorized] : []),
+        ...this.unauthorizedListeners,
+      ]
+      for (const listener of listeners) {
+        try {
+          listener(error)
+        } catch {
+          // A subscriber failure must not replace the server's authentication error.
+        }
       }
     }
     throw error

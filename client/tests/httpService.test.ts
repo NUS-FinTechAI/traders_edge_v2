@@ -103,3 +103,21 @@ test('unsafe destinations fail before obtaining credentials or making requests',
     assert.throws(() => new HttpService({ baseUrl: origin }), TypeError)
   }
 })
+
+test('unauthorized listeners hear 401 responses from authenticated requests', async (t) => {
+  t.mock.method(globalThis, 'fetch', async () =>
+    Response.json({ detail: 'Session expired' }, { status: 401 }),
+  )
+  const http = new HttpService({ baseUrl })
+  const heard: (number | null)[] = []
+  const unsubscribe = http.onUnauthorized((error) => heard.push(error.status))
+
+  await assert.rejects(http.request('/api/me'), { status: 401 })
+  await assert.rejects(http.request('/api/me', { auth: 'none' }), {
+    status: 401,
+  })
+  unsubscribe()
+  await assert.rejects(http.request('/api/me'), { status: 401 })
+
+  assert.deepEqual(heard, [401])
+})

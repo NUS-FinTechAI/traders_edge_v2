@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent } from 'react'
+import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import useAuth from '../../hooks/useAuth.ts'
 import authService from '../../services/authService.ts'
@@ -70,28 +70,60 @@ export default function LoginPage() {
   const { config, status, error: authError, refreshUser, retry } = useAuth()
   const notify = useToast()
   const [busy, setBusy] = useState(false)
-  const [identityReady, setIdentityReady] = useState(false)
+  /** The sign-in method whose identity step already succeeded, if any. */
+  const [identityReady, setIdentityReady] = useState<string | null>(null)
   const [emailForm, setEmailForm] = useState(false)
   const [register, setRegister] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const verified = useRef(false)
+  const [verifying, setVerifying] = useState(false)
 
+  // A stale "signed-in" state (for example an expired cookie) must not bounce
+  // back to a protected page, so confirm the session before leaving.
   useEffect(() => {
-    if (status === 'signed-in') void navigate(destination, { replace: true })
-  }, [status, navigate, destination])
+    if (status !== 'signed-in') return
+    if (verified.current) {
+      void navigate(destination, { replace: true })
+      return
+    }
+    let active = true
+    setVerifying(true)
+    refreshUser().then(
+      (profile) => {
+        if (!active) return
+        setVerifying(false)
+        if (profile) {
+          verified.current = true
+          void navigate(destination, { replace: true })
+        }
+      },
+      () => {
+        if (active) setVerifying(false)
+      },
+    )
+    return () => {
+      active = false
+    }
+  }, [status, navigate, destination, refreshUser])
 
-  async function signIn(action?: () => Promise<unknown>) {
+  async function signIn(method: string, action: () => Promise<unknown>) {
     if (busy) return
     setBusy(true)
     try {
-      if (action && !identityReady) {
+      // Retrying after only the session check failed skips the identity step.
+      if (identityReady !== method) {
+        setIdentityReady(null)
         await action()
-        setIdentityReady(true)
+        setIdentityReady(method)
       }
       const profile = await refreshUser()
-      if (!profile)
+      if (!profile) {
+        setIdentityReady(null)
         throw new HttpError('Sign-in could not be verified', 'http', 401)
+      }
+      verified.current = true
     } catch (error) {
       notify(errorMessage(error), 'error')
       setBusy(false)
@@ -100,14 +132,15 @@ export default function LoginPage() {
 
   function submitEmail(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    void signIn(() =>
+    void signIn(register ? 'register' : 'email', () =>
       register
         ? firebaseService.createAccount(email, password)
         : firebaseService.signInWithEmail(email, password),
     )
   }
 
-  if (status === 'loading') return <Loading label="Getting things ready…" />
+  if (status === 'loading' || verifying)
+    return <Loading label="Getting things ready…" />
   if (!config && status === 'unavailable')
     return (
       <ErrorState
@@ -140,7 +173,7 @@ export default function LoginPage() {
               block
               icon="play"
               disabled={busy}
-              onClick={() => void signIn(() => authService.startGuestSession())}
+              onClick={() => void signIn('guest', () => authService.startGuestSession())}
             >
               {busy ? 'Setting up…' : 'Start playing'}
             </Button>
@@ -156,7 +189,7 @@ export default function LoginPage() {
               disabled={busy}
               className={styles.google}
               onClick={() =>
-                void signIn(() => firebaseService.signInWithGoogle())
+                void signIn('google', () => firebaseService.signInWithGoogle())
               }
             >
               <GoogleMark />
@@ -167,7 +200,10 @@ export default function LoginPage() {
                 variant="ghost"
                 block
                 disabled={busy}
-                onClick={() => setEmailForm(true)}
+                onClick={() => {
+                  setEmailForm(true)
+                  setIdentityReady(null)
+                }}
               >
                 Use email instead
               </Button>
@@ -184,7 +220,10 @@ export default function LoginPage() {
                     required
                     disabled={busy}
                     value={email}
-                    onChange={(event) => setEmail(event.target.value)}
+                    onChange={(event) => {
+                      setEmail(event.target.value)
+                      setIdentityReady(null)
+                    }}
                   />
                 </label>
                 <label className={styles.field}>
@@ -198,7 +237,10 @@ export default function LoginPage() {
                     minLength={register ? 8 : undefined}
                     disabled={busy}
                     value={password}
-                    onChange={(event) => setPassword(event.target.value)}
+                    onChange={(event) => {
+                      setPassword(event.target.value)
+                      setIdentityReady(null)
+                    }}
                   />
                 </label>
                 <label className={styles.check}>
@@ -219,6 +261,7 @@ export default function LoginPage() {
                   onClick={() => {
                     setRegister(!register)
                     setPassword('')
+                    setIdentityReady(null)
                   }}
                 >
                   {register
