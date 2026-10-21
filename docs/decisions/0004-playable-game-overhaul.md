@@ -39,11 +39,11 @@ every order a form and works against a one-click order ticket.
   (`server/app/quiz`), multiplayer (`server/app/multiplayer`) and a new React
   client. Migrations 11 and 12 add the new tables.
 - The GDD governs gameplay. The curriculum follows the
-  [curriculum spec](../curriculum/game-spec.md): 8 chapters × 5 levels, each
+  [curriculum spec](../content/curriculum-spec.md): 8 chapters × 5 levels, each
   level with lesson cards, a check and a trading mission, plus a Preview
   Battle, a Gate Boss and a Chapter Boss per chapter. Where the spec and the
-  [architecture document](../game-architecture.md) differ, the architecture
-  document records what was built.
+  [reference docs](../README.md#reference) differ, the reference
+  docs record what was built.
 - One game plan per match, chosen in the briefing: a strategy and a maximum
   loss. Orders are one click. The ticket shows the risk if a stop-loss is hit.
   Results compare the plan with what happened.
@@ -91,7 +91,7 @@ every order a form and works against a one-click order ticket.
 ## Basis
 
 The owner's feedback and the [game design document](../game-design.md); the
-[curriculum spec](../curriculum/game-spec.md); the implementation in
+[curriculum spec](../content/curriculum-spec.md); the implementation in
 `server/app/game`, `server/app/campaign`, `server/app/player`,
 `server/app/quiz`, `server/app/multiplayer` and `client/`; and
 `server/tests/test_game_balance.py`.

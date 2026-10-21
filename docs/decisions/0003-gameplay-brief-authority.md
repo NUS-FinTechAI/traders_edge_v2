@@ -2,7 +2,7 @@
 
 Status: accepted by owner on 6 October 2026. Superseded in part by [ADR 0004](0004-playable-game-overhaul.md): the [game design document](../game-design.md) now governs gameplay, matches use one game plan per match instead of a written plan per order, and classroom quiz rooms no longer use a server instructor allowlist. The brief file linked below is no longer in `docs/source/`.
 
-The supplied [game design brief](../source/traders-edge-game-design-brief.txt) defines the intended backend direction. The owner explicitly instructed implementation after being shown its conflicts with the earlier supervisor summary. Preserve both source documents verbatim; this decision supersedes only the conflicting gameplay rules.
+The supplied game design brief (`docs/source/traders-edge-game-design-brief.txt`, removed in `471db88` and kept in git history) defines the intended backend direction. The owner explicitly instructed implementation after being shown its conflicts with the earlier supervisor summary. Preserve both source documents verbatim; this decision supersedes only the conflicting gameplay rules.
 
 Implement shared synthetic challenges against AI and human participants, chapter entry/exit boss fights including early entry, profit-ranked challenge results, daily victories, separate login rewards, weekly cosmetic currency, ranked-earned premium currency and classroom modes. Challenge profit is final cash plus end-of-challenge holdings value minus starting value, including execution fees already charged by the engine. Results determine game outcomes; decision evidence remains separate and is not a validated learning rubric.
 
