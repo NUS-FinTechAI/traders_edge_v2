@@ -1,59 +1,68 @@
 # Stored data
 
-Learning models live in `server/app/db.py`; `challenges/models.py`, `economy_models.py`, `gameplay.py` and `quizzes/models.py`, `multiplayer/models.py` and `research_models.py` define the additional game, quiz and study-metadata models. SQLite stores local development data in `server/data/learning.db`; the production configuration requires PostgreSQL. The authored catalog is versioned JSON in source control, not mutable learner data.
+SQLite stores local development data in `server/data/learning.db`; production
+requires PostgreSQL. Authored content (chapters, scenarios, bots, quiz bank,
+cosmetics) is JSON in source control, not database data. Match state is not
+stored: it is rebuilt on each read from the scenario, the seed and the stored
+orders.
 
-| Table                        | Identity and purpose                                                                                                                                                 |
-| ---------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `schema_versions`            | Ordered migration number and application time                                                                                                                        |
-| `profiles`                   | UUID, optional unique Firebase identity, pseudonym, privacy preferences and nullable equipped avatar/title IDs                                                       |
-| `sessions`                   | Hashed guest token, owner and expiry; raw token stays in the cookie                                                                                                  |
-| `attempts`                   | Owner, target, selected answers/confidence, reflection, grade and returned feedback; unique owner/request key                                                        |
-| `lesson_completions`         | One record per owner/lesson, linked to the passing attempt                                                                                                           |
-| `mastered_modules`           | One record per owner/module, linked to the passing check; name does not imply a competence certification                                                             |
-| `review_queue`               | One review per owner/lesson, with due and completion timestamps                                                                                                      |
-| `xp_ledger`                  | Unique owner/event key, amount and learning or `game:` reason                                                                                                        |
-| `learning_activity`          | One UTC learning day per owner, recorded when learning XP is awarded                                                                                                 |
-| `journal_entries`            | Private text and optional lesson reference                                                                                                                           |
-| `aggregate_events`           | Consented daily event counts without learner IDs or free text                                                                                                        |
-| `simulation_sessions`        | Owner, mode, scenario kind and versioned private JSON snapshot                                                                                                       |
-| `simulation_commands`        | Unique owner/command key, target session, request hash and committed public response                                                                                 |
-| `learning_runs`              | Owner, purpose, module/level, content version, active/completed status, private pinned tasks/rubric, current position, first responses, retries, feedback and result |
-| `learning_run_commands`      | Unique owner/command key, run, canonical request hash and exact committed public response, including bound-session creation                                          |
-| `reward_grants`              | Unique owner/item, rule version, immutable public definition snapshot, evidence and creation time                                                                    |
-| `reward_commands`            | Unique owner/key in a separate reward namespace, request hash and exact committed claim/equipment response                                                           |
-| `challenge_attempts`         | Owner, shared challenge/form ID, numbered attempt, mode/chapter, version, status, private player/opponent snapshot and final result                                  |
-| `challenge_commands`         | Unique owner/key, attempt, canonical request hash and exact committed challenge response                                                                             |
-| `economy_accounts`           | Owner wallet, earning week, nonnegative Stocks/premium balances, separate login streak and daily cooldown/refresh pointer                                            |
-| `economy_events`             | Unique owner/server event, policy version, currency/XP deltas, private context and exact settlement receipt                                                          |
-| `economy_commands`           | Unique owner/key, canonical request hash and exact committed login/refresh/purchase response                                                                         |
-| `game_challenge_definitions` | Shared private chapter/daily parameters persisted once under their stable versioned form ID                                                                          |
-| `chapter_access`             | Owner/chapter access linked to the verified winning challenge, separate from learning mastery                                                                        |
-| `chapter_boss_completions`   | Owner/chapter/purpose completion linked to its winning challenge                                                                                                     |
-| `quiz_rooms`                 | Instructor host, join code, title, edition, state, attempt limit and private pinned question/approval snapshot                                                       |
-| `quiz_members`               | Room/student membership and server UTC join time                                                                                                                     |
-| `quiz_attempts`              | Owner, optional room, form/edition, numbered attempt, private pinned questions, frozen first answers and final result                                                |
-| `quiz_commands`              | Unique owner/key, canonical request hash and exact committed quiz command response                                                                                   |
-| `multiplayer_lobbies`        | Shared host/mode/status, hashed private join code, version, pinned private participant states/approval and frozen final result                                       |
-| `multiplayer_members`        | Lobby/owner participation, attempt number and join time                                                                                                              |
-| `multiplayer_ratings`        | Public participant Elo and settled match count                                                                                                                       |
-| `multiplayer_queues`         | Persistent queue anchor serializing empty public matchmaking and pairing                                                                                             |
-| `multiplayer_join_throttle`  | Owner's join-attempt window and count                                                                                                                                |
-| `multiplayer_commands`       | Unique owner/key, lobby, canonical request hash and exact committed response                                                                                         |
-| `research_participants`      | Owner, frozen first/current self-report, accepted policy version/text, consent and withdrawal UTC timestamps                                                         |
-| `research_commands`          | Unique owner/key, canonical request hash and exact committed metadata/acceptance/withdrawal receipt                                                                  |
+## Tables in use
 
-Attempts retain the response used at submission, so an idempotent replay returns the original result. New learning-run commands check replay before current content/prerequisite/rubric resolution. A changed operation, target or payload under that key conflicts. New runs pin grading content and keep first responses separate from retries; completed runs also create an `Attempt`. Legacy records remain unchanged and are labeled as legacy where projected. No diagnostic or bonus evidence is fabricated. A first recorded diagnostic is not proof of no prior exposure.
+| Table                                        | Migration | Model                              | Purpose                                                                                         |
+| -------------------------------------------- | --------- | ---------------------------------- | ----------------------------------------------------------------------------------------------- |
+| `schema_versions`                            | runner    | `db.SchemaVersion`                 | Applied migration numbers                                                                       |
+| `profiles`                                   | 1 (+4)    | `db.Profile`                       | Player id, optional Firebase uid, display name, leaderboard opt-in, equipped avatar and title   |
+| `sessions`                                   | 1         | `db.SessionToken`                  | Hashed guest token, owner and expiry                                                            |
+| `xp_ledger`                                  | 1         | `db.XPLedger`                      | One row per (player, event key): XP amount and reason                                           |
+| `learning_activity`                          | 1         | `db.LearningActivity`              | One row per player per UTC day with activity (heatmap)                                          |
+| `reward_grants`                              | 4         | `db.RewardGrant`                   | One row per owned avatar, title, theme or badge, with a snapshot and evidence                   |
+| `economy_accounts`                           | 6         | `economy_models.EconomyAccount`    | Wallet: Doubloons and week, Gems, login streak, daily cooldown, pending refresh key             |
+| `economy_events`                             | 6         | `economy_models.EconomyEvent`      | One row per (player, event key): currency deltas and context; also settlement and Elo markers   |
+| `research_participants`, `research_commands` | 10        | `research_models`                  | Study metadata, consent and withdrawal; command receipts                                        |
+| `games`                                      | 11        | `game.models.Game`                 | Mode, scenario id and version, seed, status, clock, context, chapter/level, boss kind, lobby    |
+| `game_participants`                          | 11        | `game.models.GameParticipant`      | Humans and bots in a match; plan, stored result, forfeit                                        |
+| `game_orders`                                | 11        | `game.models.GameOrder`            | Human orders with tick, type, prices, placement sequence, cancel tick; unique `client_order_id` |
+| `game_events`                                | 11        | `game.models.GameEvent`            | Research log of human commands with observed context                                            |
+| `campaign_progress`                          | 12        | `campaign.models.CampaignProgress` | Per level (and `<chapter>-boss`): check result, stars, best profit, plays                       |
+| `campaign_checks`                            | 12        | `campaign.models.CampaignCheck`    | First answer to each check question and whether it is now solved                                |
+| `boss_results`                               | 12        | `campaign.models.BossResult`       | Per chapter and kind (`preview`, `gate`, `boss`): won, best profit, attempts, first win time    |
+| `quiz_attempts_v2`                           | 12        | `quiz.models.QuizAttempt`          | Questions and option order, answers with confidence, score, pass, XP                            |
+| `quiz_rooms_v2`, `quiz_room_members_v2`      | 12        | `quiz.models`                      | Classroom rooms with join code and their members                                                |
+| `lobbies`, `lobby_members`                   | 12        | `multiplayer.models`               | Private lobbies, chosen scenario and bot count, members, started game                           |
+| `matchmaking_queue`                          | 12        | `multiplayer.models.QueueEntry`    | Ranked queue entry and matched game                                                             |
+| `ratings`                                    | 12        | `multiplayer.models.Rating`        | Elo rating, matches and wins                                                                    |
 
-Standard stars project required completion; bonus stars project successful optional runs. They are not extra XP or a cosmetic-inventory table. Content IDs remain stable; correcting a lesson requires reviewing the content edition and stored-history implications. Keep private snapshots out of public responses. The workflow reads owner-filtered run summaries once and loads a complete snapshot only for its active resume run.
+## Idempotency
 
-Ownership filters protect attempts, journal and reviews. The learning leaderboard exposes only opted-in pseudonyms and learning XP; game XP is excluded. Game outcomes, currency, login streaks and player level are separate projections. Public human multiplayer persists its separate Elo/rated-match records. Reflections are recorded, not automatically assessed. Opting out of analytics stops future counting; already anonymous aggregate counts cannot be attributed for deletion. Three owned evidence downloads now exist; full account export/deletion and approved research retention remain separate work, not implied by journal deletion or consent withdrawal.
+Rewards are keyed, not counted: an `xp_ledger` or `economy_events` row with
+the same (player, key) is never written twice, and `reward_grants` holds one
+row per owned item. Settlement stores the result on `game_participants.result`
+and a `game:<id>` event with the hook's response, so a repeated `finish`
+returns the same result. Orders are unique per (participant, `client_order_id`).
+The key formats are listed in the
+[build contract](game-architecture.md#settlement).
 
-The ordered migration runner applies frozen numbered migrations in order. Version 1 creates learning/snapshot tables; version 2 adds simulation commands; version 3 adds only learning runs/commands. Version 4 adds only `reward_grants`, `reward_commands` and nullable `profiles.equipped_avatar_id`/`equipped_title_id`. Migrations 1–3 are untouched. The populated-upgrade regression seeds all 14 prior data tables, including deterministic simulation state and a committed command response. It compares every original column and full rowset after upgrade and repeat migration; the new equipment columns remain nullable. Versions 5–8 append challenge attempts/commands, economy accounts/events/commands, common chapter/daily definitions plus chapter access/boss evidence, and quiz rooms/members/attempts/commands. Version 9 appends six multiplayer tables and version 10 appends `research_participants`/`research_commands`. Earlier numbered migrations remain frozen; new game, quiz and study records never fabricate older learning evidence. Future schema changes need an appended migration; editing models does not upgrade a database. Back up first. Run `uv run --project server --locked python -m app.db`, then start with automatic migration disabled to check the expected version. Mutations commit evidence, progression, awards and command response atomically under uniqueness/transaction protections.
+## Legacy tables
 
-Review runs pin review/lesson IDs, questions, interval and rubric in existing JSON; no extra review table is introduced. Bound `m05-l01` runs pin the binding and link `state_json.simulation_session_id` reciprocally to the session's private `bound_policy.run_id`. Audit evidence stays in run/attempt JSON; successful review retains a pre-finish observation separately from finished cancellation. Fresh audits echo a public-state `observation_token` that changes after same-tick order mutations and excludes hidden future state. Committed historical tokenless audits replay before fresh validation; optional missing-token serialization preserves their old hashes. `StepAnswer` stays unchanged for historical request hashes. Session-list summaries expose nullable `learning_run_id`, not private snapshots.
+Migrations 1–10 also created the tables of the removed learning-run system
+(for example attempts, lesson completions, review queue, journals, simulation
+sessions and commands, learning runs, challenge attempts, the old quiz and
+multiplayer tables). They remain in the schema because deployed migrations are
+never rewritten, but no code reads or writes them. Earlier learner records were
+not converted into campaign progress.
 
-AI challenge snapshots pin private market paths, opponent state, policy and publication approval; only observed owner state and completed public results are projected. Boss victories grant chapter access without rewriting mastery. Daily parameters are shared by UTC date, and economic settlement derives from internal persisted results rather than client claims. Game currency, shop grants and exact award receipts commit with the owning challenge transaction; login/game XP never inserts learning days. Quiz snapshots pin question edition, policy and publication approval, preserve first answers, and expose final feedback only after the whole form. Private room reports are host-owned and disclose no active student answers. Shared multiplayer snapshots pin approval and observed owner states; queue/lobby/rating locks protect pairing, synchronization and once-only final settlement. Public rewards commit with the finishing player's reflection; private matches award no XP/currency/rating. Research metadata separately retains configured policy acceptance and withdrawal, with exact receipt replay; its three owner downloads omit hidden keys/futures and peer plans. These records do not establish approved recruitment, retention, cohort analysis or complete account export/deletion.
+## Migrations
 
-Reward commands have their own namespace. Owned grants retain rule/public-definition/evidence snapshots after retirement. Equipment slot ownership/kind is checked by the service; the two nullable profile columns are not new foreign keys. Claims/equipment neither mint XP nor insert learning days. Calendar windows are bounded, while current/longest streaks derive from all recorded UTC learning-day history.
+`server/app/migrations.py` applies 1–12 in order, records each in
+`schema_versions`, and rejects gaps or future versions. Changing a model does
+not change a database; add a new numbered migration. With
+`AUTO_MIGRATE=false` run `uv run --project server --locked python -m app.db`
+first; the API refuses to start on a version mismatch. `server/tests/test_migrations.py`
+checks a fresh migration and that upgrading a populated database to 12 keeps
+every existing row.
 
-Mutation authentication reloads its locked profile with `populate_existing=True` so an ORM identity-map object cannot retain stale consent/profile fields; a vanished profile returns 401. `test_auth_consistency.py` exercises these semantics with SQLite/mocked Firebase. The guarded live `test_postgres_integration.py` suite separately verifies actual lock waiting/refresh, cross-profile aggregate increments, populated-row preservation and replay across workers/restart. PostgreSQL 16 and local production-configured container startup passed on 6 October 2026; real Firebase sign-in, hosted deployment and learning outcomes remain unverified. See [deployment evidence](deployment.md).
+## Privacy
+
+Every player-owned read is filtered by the authenticated profile. Leaderboards
+show only opted-in display names. The research export omits the daily shared
+seed. There is no account deletion or retention policy yet.

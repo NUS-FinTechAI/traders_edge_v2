@@ -1,31 +1,64 @@
-# Multiplayer backend contract
+# Multiplayer
 
-Portfolio valuation and joint ranking reuse `server/app/competition.py` with AI challenges. Multiplayer explicitly selects forfeiture grouping, keeping every finisher above every forfeiter; winner selection, Elo and settlement remain multiplayer policies. Result fields, policy versions and saved command receipts retain their existing contracts.
+Multiplayer is implemented in `server/app/multiplayer/`. Lobbies and the
+ranked queue only gather players; the match itself runs on the trading engine
+(`app.game.service.create_multiplayer_game`) like every other mode.
 
-`shared-multiplayer-1` implements private code lobbies and public paired matchmaking. Private lobbies accept two to eight distinct players; only the host starts, and joining closes at start. Codes contain 64 random bits, are stored as hashes and are disclosed only in the creator's committed response. Joining allows twelve attempts per authenticated profile per ten-minute window, including unknown codes. A waiting host's departure closes the lobby. Other waiting players can leave and rejoin; retained departures count toward the eight distinct-player limit.
+## Shared match rules
 
-Public matchmaking pairs two players automatically under a shared database queue lock. Joining the queue again resumes the player's existing waiting or active public match. Match state mutations lock the shared lobby row, in addition to authentication's existing owner lock. Participant ratings are created during their own joins; final settlement locks existing rating rows in identifier order and does not lock another player's profile. This avoids cross-player lock cycles, including implicit foreign-key locks from first-time rating creation.
+- The match starts running as soon as it is created; there is no briefing
+  wait. Each player may submit a plan once with `POST /api/games/{id}/start`.
+- The clock is fixed at 3 s per market day. Pause, step and speed return 403.
+- Every player sees the same seeded market and trades only their own book.
+  Players see each other's profit and rank on the leaderboard, not their
+  orders.
+- A player who disconnects keeps their positions and is ranked normally.
+  Leaving with `forfeit: true` ranks them last and cancels their open orders.
+- Each player calls `finish` after the last day to settle their own result.
 
-Fresh private lobby creation and joining require structured mastery of chapters 1–4. Public matchmaking requires chapters 1–9. Profit-based early chapter access does not fabricate this mastery or bypass these practice prerequisites. The registered completion policy grants 10 game XP and 10 premium for a unique public winner, or 5 premium for another finisher; ties grant 5 premium each. These awards retain the separate economy policy and never create learning activity or mastery.
+## Private lobbies
 
-Every participant receives the same 10,000 simulated units, four synthetic assets, 30-observation market path and equal independent execution capacity. All orders require the existing written plan and retain the engine's fees, spread, slippage, partial fills, exposure cap and restrictions on leverage and shorting. Profit uses final cash plus remaining holdings valued at the final mid price, minus starting value; cash already includes paid fees. A readiness barrier advances one observation only after all eligible players confirm. Confirmed players cannot modify orders until the next observation. Public responses expose only the owner's portfolio and observed market history; another player's plans and private path remain hidden.
+- No prerequisite, so a teacher can run a class session.
+- `GET /api/lobbies/scenarios` lists the markets a host can choose: the four
+  `mp-*` scenarios and the five `practice-*` scenarios. With no choice the
+  server picks a random `mp-*` market.
+- `POST /api/lobbies {scenario_id?, bots: 0–3}` creates an open lobby with a
+  six-character join code. AI opponents come from the chosen scenario's own bot
+  list, so `mp-*` markets get none and only `practice-*` markets can add bots.
+- `POST /api/lobbies/join {code}` joins while the lobby is open, up to 30
+  members.
+- `POST /api/lobbies/{id}/start` (host only, at least 2 humans) creates a
+  `private` game and stores its id on the lobby. Members poll
+  `GET /api/lobbies/{id}` every 2 s and move to the game when `game_id`
+  appears.
+- `POST /api/lobbies/{id}/leave` removes a member; the host leaving an open
+  lobby closes it.
+- Private matches give no XP, currency, rating, badges or activity day.
 
-Disconnection preserves the match for resumption without a hidden deadline. Explicit abandonment before the final observation forfeits participation and cancels outstanding orders. Forfeited portfolios continue to be valued at common observations, but every finisher ranks above every forfeiter. All players forfeiting cancels the match without rating. A remaining player may continue to the final observation alone. A public forfeiter must wait for that match to finish or cancel before entering another public match.
+## Ranked matchmaking
 
-Results freeze at tick 29, before personal reflections. Ranks use descending profit with joint ranks for ties; only a unique eligible first place wins. Public pairs use Elo with an initial rating of 1,000 and K=32. The first identifier's adjustment uses half-up integer rounding and the second receives the opposite adjustment. A tie uses actual score 0.5. Rating settles once with the final result. Late abandonment cannot alter that result. The global leaderboard lists public participants with completed rated matches, by rating rather than a single match's profit.
+- Unlocks after winning the Chapter 3 boss; otherwise `POST /api/matchmaking`
+  returns 403 and `GET` reports the `locked_reason`.
+- Joining the queue pairs the player with the longest-waiting other player at
+  once, if there is one, in a `ranked` game on a random `mp-*` market with no
+  AI. Otherwise the player waits (`searching`) and polls `GET /api/matchmaking`
+  every 2 s. `DELETE` leaves the queue.
+- Rewards on settlement (no forfeit): XP for a win or a loss, and Gems as set
+  out in [economy](economy.md#ranked-gems). Private matches pay nothing.
 
-Private matches grant no XP, premium currency or rating. Public rewards are handled once for the authenticated player after a final reflection, through a transactional completion handler; a forfeiter cannot claim completion. Command replay returns the exact saved response before fresh version or state checks. If the handler fails, reflection, award metadata and command all roll back. Match results and rating remain committed from the earlier final observation.
+## Elo
 
-Migration 9 adds lobby, membership, command, queue-anchor, rating and join-throttle tables. Decisions retain server UTC time, numbered participation and before/after public observations. These are operational records; this feature does not implement instructor permissions, research consent or participant export/deletion. Rating, duration, disconnection and matchmaking policies are versioned implementation defaults, not validated competition balance or measures of learning.
+Ratings start at 1000 with K = 32. When the first non-forfeiting player
+settles a ranked match, `multiplayer/elo.py` rates every human in it once,
+pairwise against every other human, using that result's ranks; equal profit is
+a draw. The change is rounded to a whole number and an `elo:<game>` event
+prevents a second rating. Tiers: Bronze below 1100, Silver below 1300, Gold
+below 1500, Platinum below 1700, Diamond from 1700. `GET
+/api/leaderboards/ranked` lists opted-in players by rating.
 
-Orders, cancellations and readiness commands require the last observed `expected_tick`; stale commands return 409 before changing state. Persist that field with the command key for exact retry. Saved matches pin the server catalog approval decision; production blocks unapproved or missing pins for fresh access independently of optional access handlers. Committed commands continue replaying before this gate.
+## Limits
 
-## Browser multiplayer
-
-The authenticated `/multiplayer` hub lists owned saved matches, private creation/joining, public pairing and the public Elo leaderboard. It derives the displayed private/public prerequisite checks from the current chapter catalog and the signed-in profile; the server still authorizes every entry. `/multiplayer/:lobbyId` resumes an owned lobby or match. Hosts retain their creator-only join code in an owner-scoped browser journal so a fresh read does not lose it.
-
-The match page reuses the shared trading workspace for observed prices/history, cash, holdings, plans, orders and fills. Every order includes the full prior written plan. Readiness locks order entry until the next shared observation. Waiting lobbies and ready participants make at most twelve read-only checks, five seconds apart while the tab is visible; manual refresh remains available. Polling never places orders, confirms readiness or repeats a mutation.
-
-All mutations save their exact payload, observation tick and command key before sending. An unconfirmed action blocks another mutation and exposes an explicit same-key confirmation control, including after reload. An owner-scoped Web Lock serializes commands and receipt acknowledgement across tabs; a browser without Web Locks cannot send mutations. A definitive stale rejection refreshes the observation and requires a new user decision; it never readies the next observation automatically. Confirmed receipts are followed by a fresh owned read because their saved response may be older than the live match. Storage failures prevent sending an unrepeatable command, and journals are isolated by authenticated owner. The hub refreshes the current owned profile with mode access; failed optional match-list or rating reads leave eligible mode entry available.
-
-Final profit standings and public Elo changes display the server's frozen result. Personal reflection settles the existing public reward once; private reflections grant no XP, currency or rating. Leaving/forfeiting requires a second explicit browser confirmation. Typed response schemas cover the multiplayer reads and mutations without changing stored receipts, underlying progression, accounting or reward policies. This browser slice does not implement instructor controls, participant research approval or advanced instruments.
+Two-player pairing has no rating-based matching, and there is no reconnection
+timer or abandonment penalty beyond the forfeit rule. Rating reflects match
+results only; it is not a measure of learning. Multiplayer has not been
+checked on a hosted deployment.

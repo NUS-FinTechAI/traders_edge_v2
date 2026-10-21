@@ -1,59 +1,88 @@
-# Simulation engine
+# Engine model
 
-The pure engine is in `server/app/simulation/engine.py`. It models a controlled, synthetic, long-only market. It is not historical data or an exchange emulator. API ownership, mastery gates, persistence and idempotency belong to the transport/storage layer; the pure engine does not authenticate callers.
+The trading engine is `server/app/game/`. It models a synthetic, long-only
+market of fictional companies. It is not historical data or an exchange
+emulator. The exact formulas are in the
+[build contract](game-architecture.md#engine-model); this page summarises them
+and states the limits.
 
-## Scenario and privacy
+## A match is a replay
 
-A private seed creates independent paths for four fictional assets over 120 observations by default. Supported packs are rising, falling, sideways and volatile. Each uses its own random generator; creating a second session does not change the first. Version 1 snapshots serialize to JSON and resume the same path and order queue. Keep the seed, pack direction, complete price series and future liquidity server-side. `public_view` returns observations only through the current step.
+A match is a pure function of `(scenario, seed, participants, human orders,
+current tick)`. On every read the server regenerates the price path, replays
+the stored human orders and the deterministic bots up to the current tick, and
+returns the public state. Only commands (start, clock, order, cancel, finish)
+write to the database. A scenario whose `version` changed since the match was
+created refuses to load (409), so a stored match always replays the same way.
 
-## Orders and accounting
+## Market
 
-Every order requires a written reason, risk, reconsideration condition, position-size explanation and positive planned loss boundary. Text validation establishes presence, not the quality of a financial thesis. The boundary records intention; it is not a guaranteed execution loss limit.
+`market.py` builds daily OHLCV bars for ticks `−history … ticks−1` from
+`random.Random(seed)`:
 
-Orders execute on a subsequent observation. Market orders cross the spread. Limits execute only when the quoted side reaches the limit and never receive a worse price. Stops trigger on the mid-price and then execute as market orders; gaps can produce a worse fill than the trigger. Shared per-asset capacity creates partial fills in submission order. Cancelling releases unfilled cash/share reservations; reaching the last observation expires outstanding orders.
+- a market factor per day from the regime's drift and volatility;
+- each asset's return = its drift + beta × factor + its own noise + any news
+  effect;
+- news effects spread a total move over several days, front-loaded, and can
+  open with a gap;
+- highs, lows and volume are derived from the day's move.
 
-The spread is 0.2% of mid-price. Slippage adds up to 0.05% of the quote according to the fraction of that step's capacity consumed by the fill. Commission is 0.1% of each fill's notional plus 0.25 once on the order's first fill. Amounts are rounded to cents. The minimum example asset price is 1.00. These are explicit teaching assumptions, not a broker's fee schedule.
+Prices are rounded to cents. Scenarios are authored JSON; there is no live or
+downloaded market data.
 
-Cash and positions cannot go negative. Open buy orders reserve estimated cash; market/stop reservations use a 5% quote buffer. A price gap can reduce a fill or reject the unfilled order when cash/exposure is insufficient. Long exposure to each asset is capped at 25% of current portfolio value when submitting and filling buys. Price movement after purchase can move the weight above 25%; the system does not silently rebalance. No margin, leverage, shorting, live data or automatic liquidation is implemented in this engine.
+## Time
 
-## Review
+The server owns the clock. A tick is one market day. Solo matches run at 2 s
+per day at 1× (1 s at 2×, 0.5 s at 4×) and can be paused and stepped one day
+at a time while paused. Multiplayer runs at 3 s per day with no pause. The
+current tick is derived from the stored anchor and the server time, so a
+reconnecting player sees the same state as one who never left. The tick
+counter reads "Day N of M"; there is no countdown timer.
 
-The public view includes cash, positions, filled orders, fees, concentration, current equity and maximum observed drawdown. A passive equal-value basket provides context. It assumes fractional units and is gross of fees; that difference is labelled. Neither final balance nor excess return is a competence score or reward input.
+## Orders
 
-In an ordinary unbound sandbox, a learner may finish after observing at least ten steps with a written reflection, including a decision to make no trade. The bound lesson instead requires the structured audit described below. Ending cancels open orders. Reflection text is retained for the learner; it is not automatically graded as evidence of high-quality reasoning. Future unseen observations remain private even after an early end.
+| Type      | Placement                                           | Fill                                                                                            |
+| --------- | --------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| Market    | Buy or sell at the current day                      | Immediately at the close ± half the spread (the price the player saw)                           |
+| Limit     | Buy below or sell above; reserves cash or shares    | On a later day when the bar reaches the limit, at the limit or a better open                    |
+| Stop-loss | Sell only, below the current price; reserves shares | On a later day when the low reaches the stop, at the stop or a worse open, less half the spread |
 
-## Implemented bound lesson: m05-l01
+Every fill pays a fee of 0.1 % of the order value, minimum $1, in every
+shipped scenario, plus the spread (0.1 % in most scenarios; some lesson and
+boss markets use 0.6 % or 1 %). The scenario's `allow` field enables limit
+and stop orders only after they are taught. An optional `max_position_pct`
+caps the share of equity in one symbol. Cash and holdings never go negative.
+Open orders can be cancelled; a cancel at day _c_ happens after that day's bar,
+so the order could still fill on day _c_.
 
-Local, unreleased integration adds one final graded `simulation` step after `m05-l01` knowledge cards. `bindings.py` pins `m05-l01-limit-audit-v1`; `lesson_api.py` binds, resumes and reviews it through the learning-run routes. See the [canonical endpoint/audit contract](../server/README.md#bound-m05-l01-simulation); ordinary `StepAnswer` remains unchanged for request-hash compatibility.
+Within a day the engine processes, in order: resting orders against the bar,
+then cancels, then new human orders in placement order, then bots (market
+orders only, deciding on what they could see, optionally with a reaction
+delay). Equity and drawdown are recorded at each close.
 
-This uses the actual four-symbol engine (`NORTH`, `HARBOR`, `PLAIN`, `COVE`) with a private 30-observation path, final tick 29. Only optional NORTH buy limits are permitted: at or below opening ask, unit-price cap excluding fees, quantity at most five and at most two orders including cancelled ones. Advance at most two observations per command and observe at least ten before review. Every actual order needs its full prior written plan. No investment thesis is supplied; observing without orders is a valid educational decision, not a recommendation.
+## Results
 
-Success requires an accurate audit of every recorded order's status, filled quantity and submitted limit, plus session fees and `price_limit_guarantees_fill: false`. With no orders, verify `no_thesis_supplied` or `current_ask_above_cap` against the current NORTH **ask**, not midpoint/earlier quote. With orders the reason is null. Incorrect audits return specific issues and permit new-key correction; a missing/stale `observation_token` or stale tick/engine returns 409 before evidence. The returned token hashes only public observed engine state and changes for same-tick order placement/cancellation. Historical committed tokenless audits replay unchanged; fresh audits require the token. No trade, fill, order count or profit earns completion. The normal once-only lesson award follows a passed audit; bonus remains separate.
+At the end, profit is final equity (cash plus holdings at the last close)
+minus starting cash. Ranks share equal profits; forfeits rank last. The result
+adds the plan review (worst drawdown against the chosen maximum loss),
+missions, an equal-weight buy-and-hold comparison, trade and fee stats, up to
+five key moments and the unvalidated decision score, a 0–100 process score
+with a per-part breakdown (`server/app/game/review.py`; current formula in the
+build contract).
 
-Ordinary order/advance/cancel routes validate the reciprocal binding and restrictions. Raw debrief and fresh post-finish mutations return 409. Success preserves `audited_observation` and feedback phase `before_finish_cancellation`, then finishes/cancels pending remainders: the audited pre-cancel state is not the finished order state. GET resumes either through the run or ordinary session route; session lists add nullable `learning_run_id`. Same-key bind/review and ordinary commands replay before fresh gates or retired-version checks. Seed, source kind and futures remain private.
+## Not modelled
 
-## Implemented four-path practice: m09-l03
-
-Edition `2026-10-20.1` adds one final `simulation` task after the existing Module 9 record cards. A new run pins `interactive-3` and `m09-l03-four-path-review-v1`. Four sequential 20-observation sessions reuse engine version 1 and existing run/session/command storage. Each has a distinct generator profile, with privately shuffled scheduling and pinned private seeds. Public labels remain Path 1–4 until each path closes. A closed summary may disclose its configured profile; positive drift does not guarantee an observed gain.
-
-Every fresh bind requires structured mastery of the first eight modules, including with boss-earned access. The fictional brief caps each path at eight recorded orders including cancellations, each order at five units, held units plus pending buys at ten per asset and a declared loss boundary at 100 units. The ordinary order route enforces these alongside the unchanged engine's cash, exposure, fees, plan and long-only checks. They are case facts, not personal risk advice. The case supplies no investment thesis, so no-order practice is valid with that supported reason. No order, fill or positive return is necessary for completion.
-
-At observation 19, a dedicated audit checks actual order statuses and requested/filled/remaining quantities, held units, cash, fees and the labelled gross passive basket. It verifies the stated limitations on interpreting profit and a declared loss boundary. It also rejects recorded quantity, declared-loss, missing-plan and held-unit breaches even when a path made a profit. It does not interpret free-text quality, validate suitability or certify a complete risk process. The learner supplies the audit; the product must not silently copy answers from observations.
-
-Each passing audit closes one path. The fourth completes the existing lesson once through its normal award; intermediate paths add no XP. Failed audits preserve first responses and permit specific correction. Latest observed-state tokens, reciprocal links, ordinary-route policy, raw-debrief rejection, exact replay, restart and the active-session cap remain enforced. The separate `scenario_set` projection and audit payload preserve the old `m05-l01` wire contract and `StepAnswer` hashes. See the [server contract](../server/README.md#bound-m09-l03-four-path-practice).
-
-New bind commands include the observed `case_id` as well as their key. An uncommitted earlier-path retry cannot create the next path after another tab finishes; committed commands still replay their original response first. The eight-order bound includes cancellations and limits the manual record workload, while the unchanged generic transport still permits at most 100 orders and `m05-l01` permits two.
-
-Other lesson bindings, held-out Module 9 exit/review scenarios, news/tutorials and advanced execution remain pending. This is not a full v1 scenario port, semantic plan assessment, real-market validation or learning-efficacy evidence. Content publication remains blocked pending independent approval.
+Shorting, leverage, margin, buy-stop and stop-limit orders, partial fills,
+order-book depth and queue position, per-asset spreads (one spread per
+scenario), slippage beyond the spread, dividends, splits, taxes and
+settlement periods. These are deliberate simplifications for a beginner game,
+not claims about real markets.
 
 ## Verification
 
-The engine tests cover independent deterministic seeds, hidden futures, required plans, quantity and exposure checks, exact fill/fee arithmetic, partial fills, limit protection, stop gaps, cancellation reservations, shared liquidity, JSON resume, expiry, no-trade reflection and nonnegative holdings/cash. This test scope does not establish real-market fidelity or learner outcomes.
-
-## Saved sessions and API
-
-`POST /api/simulations` starts `guided` practice after the first four module mastery checks or `endless` practice after the first nine. Both accept an `idempotency_key`. Endless means repeatable bounded scenarios; it does not imply a continuously running market. Up to three unfinished scenarios may be retained at once.
-
-List or resume owned sessions with `GET /api/simulations` and `GET /api/simulations/{id}`. Submit orders to `/{id}/orders`, observations to `/{id}/advance`, cancellation to `/{id}/orders/{order_id}/cancel`, and reflection to `/{id}/debrief`. Every mutation requires a request key. An unchanged retry returns the original committed response, including after an application restart; reusing the key for a different action returns 409. An order payload contains `symbol`, `side`, `type`, whole-number `quantity`, a decimal-string `price` for limits/stops, and the five plan fields described above. Advancing accepts `steps` from 1 to 5. Debrief accepts a 30–1500-character reflection.
-
-Session ownership is enforced on every command. Private snapshots and command results commit atomically. Saved engine versions are checked before use; fresh reads/writes of incompatible versions return 409 instead of silently changing a path. Committed same-key commands replay before that compatibility check. Migration 2 creates the command ledger and preserves existing learning records. API tests cover mastery gates, ownership, replay, concurrent requests, restarts, migration, plan validation, cancellation and no-trade reflection without trading XP.
+`server/tests/test_game_market.py`, `test_game_engine.py`,
+`test_game_clock.py`, `test_game_bots.py`, `test_game_objectives.py`,
+`test_game_scenario.py`, `test_game_api.py` and `test_game_balance.py` cover
+determinism, fills and fees, reservations, rejections, the clock, bots,
+missions, validation, the API and balance. They do not establish real-market
+fidelity or learning outcomes.
