@@ -1,0 +1,310 @@
+{
+  "id": "ch3",
+  "number": 3,
+  "title": "Fixture Chapter 3",
+  "region": "Region 3",
+  "tagline": "Fixture tagline.",
+  "icon": "compass",
+  "boss": "practice-trend-rider",
+  "gate": "practice-choppy-range",
+  "boss_reward": {
+    "kind": "avatar",
+    "id": "avatar-guide-3"
+  },
+  "levels": [
+    {
+      "id": "ch3-l1",
+      "title": "Fixture Lesson 3.1",
+      "summary": "Fixture summary 3.1.",
+      "objectives": [
+        "Objective 3.1"
+      ],
+      "terms": [
+        {
+          "term": "Term 3.1",
+          "definition": "Definition 3.1."
+        }
+      ],
+      "cards": [
+        {
+          "title": "Card",
+          "body": "Fixture card body.",
+          "visual": "order-book"
+        }
+      ],
+      "check": [
+        {
+          "id": "q1",
+          "kind": "mc",
+          "prompt": "Fixture question 3.1.1",
+          "options": [
+            {
+              "id": "a",
+              "text": "Right"
+            },
+            {
+              "id": "b",
+              "text": "Wrong"
+            }
+          ],
+          "answer": "a",
+          "explanation": "A is right."
+        },
+        {
+          "id": "q2",
+          "kind": "true_false",
+          "prompt": "Fixture question 3.1.2",
+          "options": [
+            {
+              "id": "t",
+              "text": "True"
+            },
+            {
+              "id": "f",
+              "text": "False"
+            }
+          ],
+          "answer": "f",
+          "explanation": "It is false."
+        }
+      ],
+      "practice": "practice-trend-rider"
+    },
+    {
+      "id": "ch3-l2",
+      "title": "Fixture Lesson 3.2",
+      "summary": "Fixture summary 3.2.",
+      "objectives": [
+        "Objective 3.2"
+      ],
+      "terms": [
+        {
+          "term": "Term 3.2",
+          "definition": "Definition 3.2."
+        }
+      ],
+      "cards": [
+        {
+          "title": "Card",
+          "body": "Fixture card body.",
+          "visual": "order-book"
+        }
+      ],
+      "check": [
+        {
+          "id": "q1",
+          "kind": "mc",
+          "prompt": "Fixture question 3.2.1",
+          "options": [
+            {
+              "id": "a",
+              "text": "Right"
+            },
+            {
+              "id": "b",
+              "text": "Wrong"
+            }
+          ],
+          "answer": "a",
+          "explanation": "A is right."
+        },
+        {
+          "id": "q2",
+          "kind": "true_false",
+          "prompt": "Fixture question 3.2.2",
+          "options": [
+            {
+              "id": "t",
+              "text": "True"
+            },
+            {
+              "id": "f",
+              "text": "False"
+            }
+          ],
+          "answer": "f",
+          "explanation": "It is false."
+        }
+      ],
+      "practice": "practice-trend-rider"
+    },
+    {
+      "id": "ch3-l3",
+      "title": "Fixture Lesson 3.3",
+      "summary": "Fixture summary 3.3.",
+      "objectives": [
+        "Objective 3.3"
+      ],
+      "terms": [
+        {
+          "term": "Term 3.3",
+          "definition": "Definition 3.3."
+        }
+      ],
+      "cards": [
+        {
+          "title": "Card",
+          "body": "Fixture card body.",
+          "visual": "order-book"
+        }
+      ],
+      "check": [
+        {
+          "id": "q1",
+          "kind": "mc",
+          "prompt": "Fixture question 3.3.1",
+          "options": [
+            {
+              "id": "a",
+              "text": "Right"
+            },
+            {
+              "id": "b",
+              "text": "Wrong"
+            }
+          ],
+          "answer": "a",
+          "explanation": "A is right."
+        },
+        {
+          "id": "q2",
+          "kind": "true_false",
+          "prompt": "Fixture question 3.3.2",
+          "options": [
+            {
+              "id": "t",
+              "text": "True"
+            },
+            {
+              "id": "f",
+              "text": "False"
+            }
+          ],
+          "answer": "f",
+          "explanation": "It is false."
+        }
+      ],
+      "practice": "practice-trend-rider",
+      "reward": {
+        "kind": "avatar",
+        "id": "avatar-ch3-lookout"
+      }
+    },
+    {
+      "id": "ch3-l4",
+      "title": "Fixture Lesson 3.4",
+      "summary": "Fixture summary 3.4.",
+      "objectives": [
+        "Objective 3.4"
+      ],
+      "terms": [
+        {
+          "term": "Term 3.4",
+          "definition": "Definition 3.4."
+        }
+      ],
+      "cards": [
+        {
+          "title": "Card",
+          "body": "Fixture card body.",
+          "visual": "order-book"
+        }
+      ],
+      "check": [
+        {
+          "id": "q1",
+          "kind": "mc",
+          "prompt": "Fixture question 3.4.1",
+          "options": [
+            {
+              "id": "a",
+              "text": "Right"
+            },
+            {
+              "id": "b",
+              "text": "Wrong"
+            }
+          ],
+          "answer": "a",
+          "explanation": "A is right."
+        },
+        {
+          "id": "q2",
+          "kind": "true_false",
+          "prompt": "Fixture question 3.4.2",
+          "options": [
+            {
+              "id": "t",
+              "text": "True"
+            },
+            {
+              "id": "f",
+              "text": "False"
+            }
+          ],
+          "answer": "f",
+          "explanation": "It is false."
+        }
+      ],
+      "practice": "practice-trend-rider"
+    },
+    {
+      "id": "ch3-l5",
+      "title": "Fixture Lesson 3.5",
+      "summary": "Fixture summary 3.5.",
+      "objectives": [
+        "Objective 3.5"
+      ],
+      "terms": [
+        {
+          "term": "Term 3.5",
+          "definition": "Definition 3.5."
+        }
+      ],
+      "cards": [
+        {
+          "title": "Card",
+          "body": "Fixture card body.",
+          "visual": "order-book"
+        }
+      ],
+      "check": [
+        {
+          "id": "q1",
+          "kind": "mc",
+          "prompt": "Fixture question 3.5.1",
+          "options": [
+            {
+              "id": "a",
+              "text": "Right"
+            },
+            {
+              "id": "b",
+              "text": "Wrong"
+            }
+          ],
+          "answer": "a",
+          "explanation": "A is right."
+        },
+        {
+          "id": "q2",
+          "kind": "true_false",
+          "prompt": "Fixture question 3.5.2",
+          "options": [
+            {
+              "id": "t",
+              "text": "True"
+            },
+            {
+              "id": "f",
+              "text": "False"
+            }
+          ],
+          "answer": "f",
+          "explanation": "It is false."
+        }
+      ],
+      "practice": "practice-trend-rider"
+    }
+  ]
+}
