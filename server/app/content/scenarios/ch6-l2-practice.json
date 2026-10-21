@@ -1,0 +1,185 @@
+{
+  "id": "ch6-l2-practice",
+  "version": 1,
+  "title": "Priced for Perfection",
+  "briefing": "Nimbus Cloud trades at about 60 times earnings; Harborline Shipping at about 8. Both report on day 15. Which one has more to lose from a small disappointment?",
+  "objective": "High-P/E growth stocks carry high expectations; a small miss can hit them hard.",
+  "debrief": "Both companies came in slightly below estimates on day 15. Nimbus Cloud, priced for fast growth at a P/E near 60, gapped down and kept sliding as buyers rethought the growth story. Harborline, already cheap at a P/E near 8, barely moved and later raised its dividend on day 22. A disciplined player kept the expensive stock small going into the report and let the cheap, steady one do the work.",
+  "difficulty": 2,
+  "ticks": 30,
+  "history": 20,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": true,
+    "stop": true
+  },
+  "max_position_pct": null,
+  "balance": "lesson",
+  "tools": [
+    "candles",
+    "volume",
+    "sma"
+  ],
+  "market": {
+    "vol": 0.005
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 30,
+      "market_drift": 0.0005,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "NMBC",
+      "name": "Nimbus Cloud",
+      "sector": "Technology",
+      "blurb": "Rents cloud servers to businesses. Shares trade at about 60 times earnings.",
+      "price": 90,
+      "drift": 0.003,
+      "beta": 1.2,
+      "vol": 0.014,
+      "base_volume": 30000
+    },
+    {
+      "symbol": "HRBL",
+      "name": "Harborline Shipping",
+      "sector": "Shipping",
+      "blurb": "Moves containers between major ports. Shares trade at about 8 times earnings.",
+      "price": 22,
+      "drift": 0.0015,
+      "beta": 0.7,
+      "vol": 0.01,
+      "base_volume": 18000
+    }
+  ],
+  "news": [
+    {
+      "id": "report-dates",
+      "tick": 3,
+      "headline": "Nimbus Cloud and Harborline Shipping both report on day 15",
+      "body": "Analysts expect Nimbus Cloud sales to grow 30% and Harborline profit to stay flat.",
+      "tone": "neutral",
+      "kind": "earnings",
+      "symbols": [
+        "NMBC",
+        "HRBL"
+      ],
+      "effects": []
+    },
+    {
+      "id": "nmbc-results",
+      "tick": 15,
+      "headline": "Nimbus Cloud sales grow 28%, just short of the 30% expected",
+      "body": "Growth is still fast, but slower than the shares had assumed.",
+      "tone": "negative",
+      "kind": "earnings",
+      "symbols": [
+        "NMBC"
+      ],
+      "effects": [
+        {
+          "symbol": "NMBC",
+          "move": -0.12,
+          "ticks": 1,
+          "gap": true
+        },
+        {
+          "symbol": "NMBC",
+          "move": -0.06,
+          "ticks": 8,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "hrbl-results",
+      "tick": 15,
+      "headline": "Harborline profit comes in slightly below estimates",
+      "body": "Shipping volumes were steady; fuel costs were a little higher than expected.",
+      "tone": "negative",
+      "kind": "earnings",
+      "symbols": [
+        "HRBL"
+      ],
+      "effects": [
+        {
+          "symbol": "HRBL",
+          "move": -0.02,
+          "ticks": 1,
+          "gap": true
+        }
+      ]
+    },
+    {
+      "id": "hrbl-dividend",
+      "tick": 22,
+      "headline": "Harborline raises its dividend by 10%",
+      "body": "The company says its cash flow can support a higher payout.",
+      "tone": "positive",
+      "kind": "company",
+      "symbols": [
+        "HRBL"
+      ],
+      "effects": [
+        {
+          "symbol": "HRBL",
+          "move": 0.04,
+          "ticks": 3,
+          "gap": false
+        }
+      ]
+    }
+  ],
+  "bots": [
+    "value-vera-rookie"
+  ],
+  "missions": {
+    "basic": [
+      {
+        "id": "small-growth",
+        "type": "max_position_before",
+        "params": {
+          "tick": 15,
+          "pct": 20,
+          "symbol": "NMBC"
+        },
+        "text": "Keep Nimbus Cloud under 20% of your portfolio going into its day-15 report"
+      },
+      {
+        "id": "hold-value",
+        "type": "hold_at_end",
+        "params": {
+          "symbol": "HRBL"
+        },
+        "text": "Hold Harborline Shipping at the end"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "profit",
+        "type": "profit_min",
+        "params": {
+          "amount": 150
+        },
+        "text": "Finish at least $150 in profit"
+      },
+      {
+        "id": "beat-vera",
+        "type": "beat_bot",
+        "params": {
+          "bot_id": "value-vera-rookie"
+        },
+        "text": "Finish ahead of Value Vera"
+      }
+    ]
+  }
+}

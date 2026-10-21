@@ -1,0 +1,68 @@
+:root {
+  color-scheme: dark;
+
+  --bg: #0d1714;
+  --bg-elev: #12201b;
+  --surface: #172821;
+  --surface-2: #1e3329;
+  --surface-3: #26402f;
+  --border: #2c4638;
+  --border-strong: #3e5e4c;
+
+  --text: #f2ead3;
+  --text-muted: #a9b8a9;
+  --text-dim: #7d8f80;
+
+  --primary: #1f7a52;
+  --primary-hover: #248c5e;
+  --on-primary: #ffffff;
+
+  --gold: #e0b654;
+  --gold-soft: #3a3220;
+  --gem: #8e72d6;
+  --gem-soft: #2a2440;
+  --cash: #5fbf8a;
+  --cash-soft: #1d3a2b;
+
+  --gain: #46c384;
+  --gain-soft: #173a29;
+  --loss: #f0705f;
+  --loss-soft: #3d1f1b;
+  --info: #5ba8c8;
+  --info-soft: #18323d;
+  --warning: #e8a23a;
+  --warning-soft: #3b2c15;
+
+  --radius-sm: 8px;
+  --radius: 12px;
+  --radius-lg: 16px;
+  --radius-pill: 999px;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+
+  --font:
+    ui-rounded, 'SF Pro Rounded', 'Segoe UI', system-ui, -apple-system,
+    sans-serif;
+  --font-num: ui-monospace, 'SF Mono', 'Cascadia Mono', Menlo, monospace;
+
+  --text-xs: 12px;
+  --text-sm: 14px;
+  --text-md: 16px;
+  --text-lg: 20px;
+  --text-xl: 24px;
+  --text-2xl: 32px;
+
+  --shadow: 0 1px 0 #0006, 0 8px 24px #0005;
+  --focus: 0 0 0 3px var(--gold);
+
+  --hud-height: 60px;
+  --nav-height: 64px;
+  --content-width: 1180px;
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+}

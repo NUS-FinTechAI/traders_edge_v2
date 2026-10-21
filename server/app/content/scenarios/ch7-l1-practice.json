@@ -1,0 +1,154 @@
+{
+  "id": "ch7-l1-practice",
+  "version": 1,
+  "title": "Buy the Pullback",
+  "briefing": "Nimbus Cloud is in a steady uptrend. Instead of chasing green days, wait for a pullback toward the rising average, then join the trend with a stop.",
+  "objective": "Trend following: enter on pullbacks, trail the exit, let the trend do the work.",
+  "debrief": "Nimbus Cloud kept making higher highs and higher lows. The share sale on day 7 and the price-target cut on day 20 were pullbacks toward the rising 20-day average, the low-risk places to join. The warning about slower sign-ups on day 29 finally broke the trend, and a trailing exit got out with most of the gain. A disciplined player bought a pullback, protected it with a stop and let the trend, not the news feed, decide the exit.",
+  "difficulty": 3,
+  "ticks": 36,
+  "history": 30,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": true,
+    "stop": true
+  },
+  "max_position_pct": null,
+  "balance": "lesson",
+  "tools": [
+    "candles",
+    "volume",
+    "sma",
+    "ema"
+  ],
+  "market": {
+    "vol": 0.005
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 36,
+      "market_drift": 0.001,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "NMBC",
+      "name": "Nimbus Cloud",
+      "sector": "Technology",
+      "blurb": "Rents cloud servers and storage to businesses.",
+      "price": 40,
+      "drift": 0.011,
+      "beta": 1.0,
+      "vol": 0.01,
+      "base_volume": 30000
+    }
+  ],
+  "news": [
+    {
+      "id": "nmbc-share-sale",
+      "tick": 7,
+      "headline": "An early investor sells part of its Nimbus Cloud stake",
+      "body": "The investor says it is taking profits after a strong year.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "NMBC"
+      ],
+      "effects": [
+        {
+          "symbol": "NMBC",
+          "move": -0.06,
+          "ticks": 3,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "nmbc-target-cut",
+      "tick": 20,
+      "headline": "Analyst trims Nimbus Cloud price target on valuation",
+      "body": "The analyst still rates the shares a buy but says the price already reflects much of the growth.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "NMBC"
+      ],
+      "effects": [
+        {
+          "symbol": "NMBC",
+          "move": -0.05,
+          "ticks": 3,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "nmbc-slowdown",
+      "tick": 29,
+      "headline": "Nimbus Cloud warns new customer sign-ups are slowing",
+      "body": "The company says some businesses are delaying moves to the cloud.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "NMBC"
+      ],
+      "effects": [
+        {
+          "symbol": "NMBC",
+          "move": -0.18,
+          "ticks": 5,
+          "gap": false
+        }
+      ]
+    }
+  ],
+  "bots": [
+    "momentum-max-rookie"
+  ],
+  "missions": {
+    "basic": [
+      {
+        "id": "buy-pullback",
+        "type": "bought_after_news",
+        "params": {
+          "news_id": "nmbc-share-sale",
+          "within": 4
+        },
+        "text": "Buy Nimbus Cloud on the pullback (within 4 days of the day-7 headline)"
+      },
+      {
+        "id": "stop",
+        "type": "stop_loss_set",
+        "params": {},
+        "text": "Protect the position with a stop-loss"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "trend-exit",
+        "type": "exited_by",
+        "params": {
+          "symbol": "NMBC",
+          "tick": 33
+        },
+        "text": "Be out of Nimbus Cloud by day 33, after the trend breaks"
+      },
+      {
+        "id": "beat-max",
+        "type": "beat_bot",
+        "params": {
+          "bot_id": "momentum-max-rookie"
+        },
+        "text": "Finish ahead of Momentum Max"
+      }
+    ]
+  }
+}

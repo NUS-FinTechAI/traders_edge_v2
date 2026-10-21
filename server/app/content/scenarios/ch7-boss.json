@@ -1,0 +1,252 @@
+{
+  "id": "ch7-boss",
+  "version": 1,
+  "title": "Regime Shift",
+  "briefing": "Three specialists, three styles: Momentum Max, Value Vera and Breakout Bea. The market will change character twice. Whoever adapts wins.",
+  "objective": "Identify the regime and switch strategy: trend, then chop, then breakdown, plus one real breakout.",
+  "debrief": "Nimbus Cloud trended for two weeks, then chopped from day 14 with two partnership rumors that faded (days 17 and 23), then broke down after losing a major client on day 29. Each specialist won one phase and gave it back in the others. Meanwhile Kestrel Air drifted lower in a quiet base until its national contract on day 30 sent it out on heavy volume. A disciplined player rode the early trend, cut exposure in the chop, was in cash for the breakdown and caught the confirmed Kestrel Air breakout.",
+  "difficulty": 4,
+  "ticks": 40,
+  "history": 30,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": true,
+    "stop": true
+  },
+  "max_position_pct": null,
+  "balance": "boss",
+  "tools": [
+    "candles",
+    "volume",
+    "sma",
+    "ema",
+    "rsi"
+  ],
+  "market": {
+    "vol": 0.005
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 14,
+      "market_drift": 0.008,
+      "vol_mult": 1.0
+    },
+    {
+      "from": 14,
+      "to": 28,
+      "market_drift": 0.0,
+      "vol_mult": 1.4
+    },
+    {
+      "from": 28,
+      "to": 40,
+      "market_drift": -0.016,
+      "vol_mult": 1.4
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "NMBC",
+      "name": "Nimbus Cloud",
+      "sector": "Technology",
+      "blurb": "Rents cloud servers and storage to businesses.",
+      "price": 40,
+      "drift": 0.0,
+      "beta": 1.4,
+      "vol": 0.012,
+      "base_volume": 30000
+    },
+    {
+      "symbol": "KSTR",
+      "name": "Kestrel Air",
+      "sector": "Airlines",
+      "blurb": "Flies short routes between regional cities.",
+      "price": 46,
+      "drift": -0.005,
+      "beta": 0.2,
+      "vol": 0.009,
+      "base_volume": 26000
+    }
+  ],
+  "news": [
+    {
+      "id": "nmbc-partner-rumor",
+      "tick": 17,
+      "headline": "Nimbus Cloud shares pop on partnership chatter",
+      "body": "Unconfirmed reports say a large software firm may partner with Nimbus.",
+      "tone": "positive",
+      "kind": "rumor",
+      "symbols": [
+        "NMBC"
+      ],
+      "effects": [
+        {
+          "symbol": "NMBC",
+          "move": 0.05,
+          "ticks": 2,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "nmbc-partner-unconfirmed",
+      "tick": 19,
+      "headline": "Nimbus Cloud partnership talk remains unconfirmed",
+      "body": "Neither company has commented on the reports.",
+      "tone": "neutral",
+      "kind": "company",
+      "symbols": [
+        "NMBC"
+      ],
+      "effects": [
+        {
+          "symbol": "NMBC",
+          "move": -0.06,
+          "ticks": 3,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "nmbc-partner-rumor-2",
+      "tick": 23,
+      "headline": "New report revives Nimbus Cloud partnership talk",
+      "body": "A trade blog repeats the claim, again without a named source.",
+      "tone": "positive",
+      "kind": "rumor",
+      "symbols": [
+        "NMBC"
+      ],
+      "effects": [
+        {
+          "symbol": "NMBC",
+          "move": 0.045,
+          "ticks": 2,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "nmbc-partner-denied",
+      "tick": 25,
+      "headline": "Software firm says it has no plans to partner with Nimbus",
+      "body": "The firm says it is building its own cloud service.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "NMBC"
+      ],
+      "effects": [
+        {
+          "symbol": "NMBC",
+          "move": -0.06,
+          "ticks": 3,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "nmbc-client-loss",
+      "tick": 29,
+      "headline": "Nimbus Cloud loses a major client to a rival",
+      "body": "The client made up about 6% of Nimbus's sales.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "NMBC"
+      ],
+      "effects": [
+        {
+          "symbol": "NMBC",
+          "move": -0.15,
+          "ticks": 1,
+          "gap": true
+        },
+        {
+          "symbol": "NMBC",
+          "move": -0.12,
+          "ticks": 6,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "kstr-contract",
+      "tick": 30,
+      "headline": "Kestrel Air wins the national carrier contract for regional routes",
+      "body": "The ten-year deal guarantees government business on 20 routes.",
+      "tone": "positive",
+      "kind": "company",
+      "symbols": [
+        "KSTR"
+      ],
+      "effects": [
+        {
+          "symbol": "KSTR",
+          "move": 0.09,
+          "ticks": 1,
+          "gap": true
+        },
+        {
+          "symbol": "KSTR",
+          "move": 0.18,
+          "ticks": 9,
+          "gap": false
+        }
+      ]
+    }
+  ],
+  "bots": [
+    "momentum-max-elite",
+    "value-vera-elite",
+    "breakout-bea-elite"
+  ],
+  "missions": {
+    "basic": [
+      {
+        "id": "win",
+        "type": "rank_max",
+        "params": {
+          "rank": 1
+        },
+        "text": "Finish first, ahead of Momentum Max, Value Vera and Breakout Bea"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "cut-chop",
+        "type": "no_buy_between",
+        "params": {
+          "from": 15,
+          "to": 27
+        },
+        "text": "Make no new buys during the chop (days 15 to 27)"
+      },
+      {
+        "id": "exit-breakdown",
+        "type": "exited_by",
+        "params": {
+          "symbol": "NMBC",
+          "tick": 31
+        },
+        "text": "Be out of Nimbus Cloud by day 31, after the lower low"
+      },
+      {
+        "id": "catch-break",
+        "type": "bought_after_news",
+        "params": {
+          "news_id": "kstr-contract",
+          "within": 2
+        },
+        "text": "Buy Kestrel Air within 2 days of its high-volume breakout"
+      }
+    ]
+  }
+}

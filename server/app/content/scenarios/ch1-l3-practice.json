@@ -1,0 +1,131 @@
+{
+  "id": "ch1-l3-practice",
+  "version": 1,
+  "title": "Forum Fever",
+  "briefing": "An online forum is getting excited about Pebble Games. Set your game plan before you start, and stick to it when the hype arrives.",
+  "objective": "A trade needs a reason, an exit and a maximum loss. Chasing hype with no plan is gambling.",
+  "debrief": "On day 9 a forum post shouted \"to the moon!\" and Pebble Games jumped about 9% in three days with no new facts. On day 13 the company said nothing had changed, and the price fell back below where the hype started. Panic Pete bought the excitement and sold the drop. A plan with a reason and a maximum loss kept disciplined players out of the chase.",
+  "difficulty": 1,
+  "ticks": 28,
+  "history": 20,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": false,
+    "stop": false
+  },
+  "max_position_pct": null,
+  "tools": [
+    "candles"
+  ],
+  "market": {
+    "vol": 0.005
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 28,
+      "market_drift": 0.0005,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "PBGM",
+      "name": "Pebble Games",
+      "sector": "Communication services",
+      "blurb": "Makes puzzle and adventure games for phones and consoles.",
+      "price": 18,
+      "drift": 0.001,
+      "beta": 1.0,
+      "vol": 0.015,
+      "base_volume": 50000
+    }
+  ],
+  "news": [
+    {
+      "id": "pbgm-forum",
+      "tick": 9,
+      "headline": "Forum post: \"Pebble Games to the moon!\"",
+      "body": "A popular forum post claims Pebble Games is about to soar. It gives no source and no numbers.",
+      "tone": "positive",
+      "kind": "hype",
+      "symbols": [
+        "PBGM"
+      ],
+      "effects": [
+        {
+          "symbol": "PBGM",
+          "move": 0.09,
+          "ticks": 3,
+          "gap": true
+        }
+      ]
+    },
+    {
+      "id": "pbgm-denial",
+      "tick": 13,
+      "headline": "Pebble Games: no new deal, sales in line with plan",
+      "body": "Asked about the online rumours, Pebble Games said it has no new deal and that sales are on plan.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "PBGM"
+      ],
+      "effects": [
+        {
+          "symbol": "PBGM",
+          "move": -0.13,
+          "ticks": 4,
+          "gap": true
+        }
+      ]
+    }
+  ],
+  "bots": [
+    "panic-pete-rookie"
+  ],
+  "missions": {
+    "basic": [
+      {
+        "id": "m1",
+        "type": "trades_min",
+        "params": {
+          "n": 1
+        },
+        "text": "Make at least one trade"
+      },
+      {
+        "id": "m2",
+        "type": "kept_plan",
+        "params": {},
+        "text": "Keep your worst drop within your plan's maximum loss"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "b1",
+        "type": "no_buy_between",
+        "params": {
+          "from": 9,
+          "to": 12
+        },
+        "text": "Don't chase the forum hype: no buys on days 9-12"
+      },
+      {
+        "id": "b2",
+        "type": "beat_bot",
+        "params": {
+          "bot_id": "panic-pete-rookie"
+        },
+        "text": "Finish ahead of Panic Pete"
+      }
+    ]
+  },
+  "balance": "lesson"
+}

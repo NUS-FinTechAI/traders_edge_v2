@@ -1,0 +1,140 @@
+{
+  "id": "ch3-l2-practice",
+  "version": 1,
+  "title": "Confirm the Turn",
+  "briefing": "Tidal Power keeps making lower lows. A bounce will tempt you. Wait for the next candles to confirm before you buy.",
+  "objective": "Reversal patterns are clues, not promises. Wait for confirmation.",
+  "debrief": "Tidal Power fell steadily. A bounce on day 6, fuelled by takeover chatter, looked like a turn but failed, and the lower lows continued. Value Vera bought after red candles and kept catching the fall. The real turn came on day 13, when the regulator approved a rate rise and higher closes followed. Waiting for that confirmation avoided the falling knife.",
+  "difficulty": 2,
+  "ticks": 30,
+  "history": 20,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": true,
+    "stop": true
+  },
+  "max_position_pct": null,
+  "tools": [
+    "candles",
+    "volume"
+  ],
+  "market": {
+    "vol": 0.005
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 13,
+      "market_drift": -0.005,
+      "vol_mult": 1.0
+    },
+    {
+      "from": 13,
+      "to": 30,
+      "market_drift": 0.006,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "TDLP",
+      "name": "Tidal Power",
+      "sector": "Utilities",
+      "blurb": "Runs wind and solar farms that sell power to the grid.",
+      "price": 30,
+      "drift": -0.002,
+      "beta": 0.8,
+      "vol": 0.012,
+      "base_volume": 30000
+    }
+  ],
+  "news": [
+    {
+      "id": "tdlp-chatter",
+      "tick": 6,
+      "headline": "Online chatter: is Tidal Power a takeover target?",
+      "body": "Posts online suggest a rival could bid for Tidal Power. Neither company has commented.",
+      "tone": "positive",
+      "kind": "rumor",
+      "symbols": [
+        "TDLP"
+      ],
+      "effects": [
+        {
+          "symbol": "TDLP",
+          "move": 0.03,
+          "ticks": 2,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "tdlp-rates",
+      "tick": 13,
+      "headline": "Regulator approves Tidal Power's rate rise",
+      "body": "Tidal Power can raise the price it charges for electricity by 6% from next month.",
+      "tone": "positive",
+      "kind": "company",
+      "symbols": [
+        "TDLP"
+      ],
+      "effects": [
+        {
+          "symbol": "TDLP",
+          "move": 0.08,
+          "ticks": 5,
+          "gap": false
+        }
+      ]
+    }
+  ],
+  "bots": [
+    "value-vera-rookie"
+  ],
+  "missions": {
+    "basic": [
+      {
+        "id": "m1",
+        "type": "no_buy_between",
+        "params": {
+          "from": 0,
+          "to": 12
+        },
+        "text": "Don't buy while the downtrend makes lower lows (days 0-12)"
+      },
+      {
+        "id": "m2",
+        "type": "trades_min",
+        "params": {
+          "n": 1
+        },
+        "text": "Buy once the turn is confirmed"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "b1",
+        "type": "beat_bot",
+        "params": {
+          "bot_id": "value-vera-rookie"
+        },
+        "text": "Finish ahead of Value Vera"
+      },
+      {
+        "id": "b2",
+        "type": "profit_min",
+        "params": {
+          "amount": 1
+        },
+        "text": "Finish with a profit"
+      }
+    ]
+  },
+  "balance": "lesson"
+}

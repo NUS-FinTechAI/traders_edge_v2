@@ -1,0 +1,180 @@
+{
+  "id": "ch3-boss",
+  "version": 1,
+  "title": "Range Breaker",
+  "briefing": "Lumen Bikes has spent weeks in a tight range near $50. Momentum Max and Breakout Bea are both waiting for it to break out. Only one breakout on this chart is real.",
+  "objective": "Read the chart: buy the confirmed breakout, skip the rumour spike, and exit when the trend breaks.",
+  "debrief": "Lumen Bikes broke out of its range on day 2 when orders doubled, closing strongly on heavy volume, then climbed in a clean uptrend of higher highs and higher lows. On day 20 an unconfirmed takeover rumour pushed it to a new high, and Breakout Bea bought it. The denial on day 21 gapped it down, and the chart turned to lower highs and lower lows. Buying the confirmed breakout with a trailing stop, and skipping the rumour spike, beat both opponents.",
+  "difficulty": 3,
+  "ticks": 32,
+  "history": 20,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": true,
+    "stop": true
+  },
+  "max_position_pct": null,
+  "tools": [
+    "candles",
+    "volume"
+  ],
+  "market": {
+    "vol": 0.002
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 2,
+      "market_drift": 0.0,
+      "vol_mult": 1.0
+    },
+    {
+      "from": 2,
+      "to": 20,
+      "market_drift": 0.01,
+      "vol_mult": 1.0
+    },
+    {
+      "from": 20,
+      "to": 22,
+      "market_drift": 0.0,
+      "vol_mult": 1.0
+    },
+    {
+      "from": 22,
+      "to": 32,
+      "market_drift": -0.015,
+      "vol_mult": 1.2
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "LUMB",
+      "name": "Lumen Bikes",
+      "sector": "Consumer discretionary",
+      "blurb": "Designs and sells e-bikes for city commuters.",
+      "price": 50,
+      "drift": 0.0,
+      "beta": 1.0,
+      "vol": 0.01,
+      "base_volume": 40000
+    }
+  ],
+  "news": [
+    {
+      "id": "lumb-double",
+      "tick": 2,
+      "headline": "Lumen Bikes orders double as city e-bike schemes expand",
+      "body": "Three large cities have ordered Lumen e-bikes for their rental schemes, doubling the company's order book.",
+      "tone": "positive",
+      "kind": "earnings",
+      "symbols": [
+        "LUMB"
+      ],
+      "effects": [
+        {
+          "symbol": "LUMB",
+          "move": 0.05,
+          "ticks": 2,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "lumb-rumour",
+      "tick": 20,
+      "headline": "Unconfirmed report: car maker eyes takeover of Lumen Bikes",
+      "body": "A blog claims a car maker wants to buy Lumen Bikes. It names no sources.",
+      "tone": "positive",
+      "kind": "rumor",
+      "symbols": [
+        "LUMB"
+      ],
+      "effects": [
+        {
+          "symbol": "LUMB",
+          "move": 0.03,
+          "ticks": 1,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "lumb-denial",
+      "tick": 21,
+      "headline": "Lumen Bikes: \"We are not in takeover talks\"",
+      "body": "Lumen Bikes says the report is wrong and no one has approached the company.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "LUMB"
+      ],
+      "effects": [
+        {
+          "symbol": "LUMB",
+          "move": -0.05,
+          "ticks": 2,
+          "gap": true
+        }
+      ]
+    }
+  ],
+  "bots": [
+    "momentum-max-elite",
+    "breakout-bea-rookie"
+  ],
+  "missions": {
+    "basic": [
+      {
+        "id": "m1",
+        "type": "rank_max",
+        "params": {
+          "rank": 1
+        },
+        "text": "Finish 1st"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "b1",
+        "type": "bought_after_news",
+        "params": {
+          "news_id": "lumb-double",
+          "within": 2
+        },
+        "text": "Buy within 2 days of the confirmed breakout news"
+      },
+      {
+        "id": "b2",
+        "type": "no_buy_between",
+        "params": {
+          "from": 20,
+          "to": 21
+        },
+        "text": "Don't buy the day-20 rumour spike (no buys on days 20-21)"
+      },
+      {
+        "id": "b3",
+        "type": "stop_loss_set",
+        "params": {},
+        "text": "Protect your trade with a stop-loss"
+      },
+      {
+        "id": "b4",
+        "type": "exited_by",
+        "params": {
+          "symbol": "LUMB",
+          "tick": 24
+        },
+        "text": "Be out of Lumen Bikes by day 24, after the trend breaks"
+      }
+    ]
+  },
+  "balance": "boss"
+}

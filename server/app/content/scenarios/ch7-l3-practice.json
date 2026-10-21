@@ -1,0 +1,159 @@
+{
+  "id": "ch7-l3-practice",
+  "version": 1,
+  "title": "Base and Break",
+  "briefing": "Kestrel Air has been stuck between about $36 and $40 for a month. Breakouts are coming, but not every move above $40 will be real.",
+  "objective": "Breakout trading: wait for a close above the base on strong volume, and keep the stop inside the base.",
+  "debrief": "Kestrel Air built a tight base. On day 10, travel chatter nudged it above $40 on light volume, and it slid back inside the base when the chatter faded on day 13: a false breakout. On day 20, record bookings and twelve new routes sent it through $40 on heavy volume, and it kept going. A disciplined player skipped the quiet poke, bought the confirmed break and kept a stop back inside the base.",
+  "difficulty": 3,
+  "ticks": 34,
+  "history": 30,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": true,
+    "stop": true
+  },
+  "max_position_pct": null,
+  "balance": "lesson",
+  "tools": [
+    "candles",
+    "volume",
+    "sma"
+  ],
+  "market": {
+    "vol": 0.005
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 34,
+      "market_drift": 0.0,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "KSTR",
+      "name": "Kestrel Air",
+      "sector": "Airlines",
+      "blurb": "Flies short routes between regional cities.",
+      "price": 38,
+      "drift": 0.0,
+      "beta": 0.5,
+      "vol": 0.009,
+      "base_volume": 26000
+    }
+  ],
+  "news": [
+    {
+      "id": "kstr-chatter",
+      "tick": 10,
+      "headline": "Kestrel Air edges up on travel-demand chatter",
+      "body": "Online travel forums say summer bookings look busy. The airline has not commented.",
+      "tone": "neutral",
+      "kind": "rumor",
+      "symbols": [
+        "KSTR"
+      ],
+      "effects": [
+        {
+          "symbol": "KSTR",
+          "move": 0.045,
+          "ticks": 3,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "kstr-chatter-fades",
+      "tick": 13,
+      "headline": "No new routes announced; Kestrel Air drifts back",
+      "body": "The airline's monthly update contained no surprises.",
+      "tone": "neutral",
+      "kind": "company",
+      "symbols": [
+        "KSTR"
+      ],
+      "effects": [
+        {
+          "symbol": "KSTR",
+          "move": -0.06,
+          "ticks": 3,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "kstr-breakout",
+      "tick": 20,
+      "headline": "Kestrel Air reports record bookings and adds 12 routes",
+      "body": "Advance bookings are up 25% on last year. The new routes start next month.",
+      "tone": "positive",
+      "kind": "company",
+      "symbols": [
+        "KSTR"
+      ],
+      "effects": [
+        {
+          "symbol": "KSTR",
+          "move": 0.06,
+          "ticks": 1,
+          "gap": true
+        },
+        {
+          "symbol": "KSTR",
+          "move": 0.08,
+          "ticks": 10,
+          "gap": false
+        }
+      ]
+    }
+  ],
+  "bots": [
+    "breakout-bea-rookie"
+  ],
+  "missions": {
+    "basic": [
+      {
+        "id": "buy-break",
+        "type": "bought_after_news",
+        "params": {
+          "news_id": "kstr-breakout",
+          "within": 2
+        },
+        "text": "Buy Kestrel Air within 2 days of the high-volume breakout"
+      },
+      {
+        "id": "stop",
+        "type": "stop_loss_set",
+        "params": {},
+        "text": "Keep a stop-loss back inside the base"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "skip-fake",
+        "type": "no_buy_between",
+        "params": {
+          "from": 10,
+          "to": 13
+        },
+        "text": "Skip the light-volume poke above $40 (days 10 to 13)"
+      },
+      {
+        "id": "profit",
+        "type": "profit_min",
+        "params": {
+          "amount": 300
+        },
+        "text": "Finish at least $300 in profit"
+      }
+    ]
+  }
+}

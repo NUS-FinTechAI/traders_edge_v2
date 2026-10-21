@@ -1,0 +1,295 @@
+{
+  "id": "ch5-boss",
+  "version": 1,
+  "title": "Signal & Noise",
+  "briefing": "Value Vera trusts her oscillators. Momentum Max trusts his averages. One of these charts is about to trend and the other is stuck in a range. Bring the right tool to each.",
+  "objective": "Use trend tools in a trend and RSI in a range; know when each one misleads.",
+  "debrief": "Lumen Bikes' sold-out commuter bike (day 5) and raised delivery forecast (day 14) drove a strong trend, with RSI above 70 for most of two weeks: oscillator signals said \"sell\" far too early. Tidal Power stayed in a range; its sharp dips on days 4 and 13 pushed RSI under 30 and bounced, while Momentum Max's average signals bought the bounces late and sold the dips. The battery shortage (day 26) ended the Lumen Bikes trend and the price cap (day 33) broke the Tidal Power range. A disciplined player held Lumen Bikes above its 20-day EMA, sold when it closed below, and bought Tidal Power only near the range floor.",
+  "difficulty": 3,
+  "ticks": 36,
+  "history": 30,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": true,
+    "stop": true
+  },
+  "max_position_pct": null,
+  "balance": "boss",
+  "tools": [
+    "candles",
+    "volume",
+    "sma",
+    "ema",
+    "rsi",
+    "macd"
+  ],
+  "market": {
+    "vol": 0.005
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 36,
+      "market_drift": 0.0005,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "LUMB",
+      "name": "Lumen Bikes",
+      "sector": "Consumer discretionary",
+      "blurb": "Designs and sells electric bikes and spare batteries.",
+      "price": 50,
+      "drift": 0.0005,
+      "beta": 1.2,
+      "vol": 0.011,
+      "base_volume": 24000
+    },
+    {
+      "symbol": "TDLP",
+      "name": "Tidal Power",
+      "sector": "Utilities",
+      "blurb": "Generates renewable electricity from offshore wind and tidal farms.",
+      "price": 30,
+      "drift": 0.0,
+      "beta": 0.2,
+      "vol": 0.008,
+      "base_volume": 18000
+    }
+  ],
+  "news": [
+    {
+      "id": "tdlp-low-wind",
+      "tick": 4,
+      "headline": "Low winds cut Tidal Power's output",
+      "body": "A still week left several wind farms idle.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "TDLP"
+      ],
+      "effects": [
+        {
+          "symbol": "TDLP",
+          "move": -0.1,
+          "ticks": 2,
+          "gap": true
+        }
+      ]
+    },
+    {
+      "id": "lumb-sell-out",
+      "tick": 5,
+      "headline": "Lumen Bikes' new commuter bike sells out in a week",
+      "body": "Stores report waiting lists; the company is adding a second production shift.",
+      "tone": "positive",
+      "kind": "company",
+      "symbols": [
+        "LUMB"
+      ],
+      "effects": [
+        {
+          "symbol": "LUMB",
+          "move": 0.3,
+          "ticks": 10,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "tdlp-winds-return",
+      "tick": 6,
+      "headline": "Winds return; Tidal Power output recovers",
+      "body": "Output is back to its seasonal average.",
+      "tone": "positive",
+      "kind": "company",
+      "symbols": [
+        "TDLP"
+      ],
+      "effects": [
+        {
+          "symbol": "TDLP",
+          "move": 0.1,
+          "ticks": 3,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "tdlp-maintenance",
+      "tick": 13,
+      "headline": "Tidal Power takes a turbine field offline for maintenance",
+      "body": "Planned work will cut output for about a week.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "TDLP"
+      ],
+      "effects": [
+        {
+          "symbol": "TDLP",
+          "move": -0.1,
+          "ticks": 2,
+          "gap": true
+        }
+      ]
+    },
+    {
+      "id": "lumb-forecast",
+      "tick": 14,
+      "headline": "Lumen Bikes raises its delivery forecast",
+      "body": "The company now expects to deliver 15% more bikes this year than it said in spring.",
+      "tone": "positive",
+      "kind": "earnings",
+      "symbols": [
+        "LUMB"
+      ],
+      "effects": [
+        {
+          "symbol": "LUMB",
+          "move": 0.15,
+          "ticks": 8,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "tdlp-restart",
+      "tick": 15,
+      "headline": "Tidal Power finishes maintenance early",
+      "body": "The turbine field is back at full output.",
+      "tone": "positive",
+      "kind": "company",
+      "symbols": [
+        "TDLP"
+      ],
+      "effects": [
+        {
+          "symbol": "TDLP",
+          "move": 0.1,
+          "ticks": 3,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "lumb-battery-shortage",
+      "tick": 26,
+      "headline": "Lumen Bikes warns of a battery shortage",
+      "body": "A supplier problem may slow deliveries over the summer.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "LUMB"
+      ],
+      "effects": [
+        {
+          "symbol": "LUMB",
+          "move": -0.22,
+          "ticks": 6,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "lumb-shortage-longer",
+      "tick": 31,
+      "headline": "Lumen Bikes' battery shortage to last into next quarter",
+      "body": "The company says some orders will be delayed by up to two months.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "LUMB"
+      ],
+      "effects": [
+        {
+          "symbol": "LUMB",
+          "move": -0.17,
+          "ticks": 4,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "tdlp-price-cap",
+      "tick": 33,
+      "headline": "Regulator caps the price renewable producers can charge",
+      "body": "The cap starts next quarter and cuts expected profits across the sector.",
+      "tone": "negative",
+      "kind": "macro",
+      "symbols": [
+        "TDLP"
+      ],
+      "effects": [
+        {
+          "symbol": "TDLP",
+          "move": -0.15,
+          "ticks": 2,
+          "gap": true
+        }
+      ]
+    }
+  ],
+  "bots": [
+    "value-vera-pro",
+    "momentum-max-elite"
+  ],
+  "missions": {
+    "basic": [
+      {
+        "id": "win",
+        "type": "rank_max",
+        "params": {
+          "rank": 1
+        },
+        "text": "Finish first, ahead of Value Vera and Momentum Max"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "hold-trend",
+        "type": "held_between",
+        "params": {
+          "symbol": "LUMB",
+          "from": 8,
+          "to": 24
+        },
+        "text": "Hold Lumen Bikes from day 8 to day 24 while it stays above its 20-day EMA"
+      },
+      {
+        "id": "trend-exit",
+        "type": "exited_by",
+        "params": {
+          "symbol": "LUMB",
+          "tick": 30
+        },
+        "text": "Be out of Lumen Bikes by day 30, after the trend breaks"
+      },
+      {
+        "id": "range-low",
+        "type": "bought_after_news",
+        "params": {
+          "news_id": "tdlp-maintenance",
+          "within": 3
+        },
+        "text": "Buy Tidal Power near the range floor (within 3 days of the day-13 headline)"
+      },
+      {
+        "id": "range-break",
+        "type": "exited_by",
+        "params": {
+          "symbol": "TDLP",
+          "tick": 33
+        },
+        "text": "Be out of Tidal Power by day 33, when the range breaks"
+      }
+    ]
+  }
+}

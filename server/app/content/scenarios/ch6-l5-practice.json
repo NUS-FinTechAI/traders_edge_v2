@@ -1,0 +1,173 @@
+{
+  "id": "ch6-l5-practice",
+  "version": 1,
+  "title": "The Pump",
+  "briefing": "An anonymous post claims Harborline Shipping is about to be bought out. The stock is thinly traded and volume is spiking. Check your sources before you act.",
+  "objective": "Recognize a rumor-driven pump-and-dump and stay out of it.",
+  "debrief": "An anonymous post on day 6 claimed a takeover at double the price, and \"to the moon\" posts on day 8 pulled in more buyers, all with no company statement. On day 11 Harborline said it was not in talks with anyone, and the price fell below where the rumor started. Orchard Foods kept climbing slowly the whole time. A disciplined player ignored the unconfirmed rumor and stayed with the steady stock.",
+  "difficulty": 2,
+  "ticks": 30,
+  "history": 20,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": true,
+    "stop": true
+  },
+  "max_position_pct": null,
+  "balance": "lesson",
+  "tools": [
+    "candles",
+    "volume",
+    "sma"
+  ],
+  "market": {
+    "vol": 0.005
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 30,
+      "market_drift": 0.0005,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "HRBL",
+      "name": "Harborline Shipping",
+      "sector": "Shipping",
+      "blurb": "Moves containers between smaller ports. A small company whose shares trade thinly.",
+      "price": 14,
+      "drift": 0.0,
+      "beta": 0.8,
+      "vol": 0.015,
+      "base_volume": 8000
+    },
+    {
+      "symbol": "ORCF",
+      "name": "Orchard Foods",
+      "sector": "Consumer staples",
+      "blurb": "Runs a chain of neighborhood grocery stores.",
+      "price": 40,
+      "drift": 0.0025,
+      "beta": 0.5,
+      "vol": 0.009,
+      "base_volume": 20000
+    }
+  ],
+  "news": [
+    {
+      "id": "hrbl-rumor",
+      "tick": 6,
+      "headline": "Anonymous post: \"Harborline to be bought at double the price\"",
+      "body": "The post gives no source. Harborline has made no statement.",
+      "tone": "positive",
+      "kind": "rumor",
+      "symbols": [
+        "HRBL"
+      ],
+      "effects": [
+        {
+          "symbol": "HRBL",
+          "move": 0.12,
+          "ticks": 2,
+          "gap": true
+        }
+      ]
+    },
+    {
+      "id": "hrbl-moon",
+      "tick": 8,
+      "headline": "\"Harborline to the moon\" trends on social media",
+      "body": "Thousands of posts repeat the takeover claim. None link to an official source.",
+      "tone": "positive",
+      "kind": "hype",
+      "symbols": [
+        "HRBL"
+      ],
+      "effects": [
+        {
+          "symbol": "HRBL",
+          "move": 0.08,
+          "ticks": 3,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "hrbl-denial",
+      "tick": 11,
+      "headline": "Harborline: \"We are not in talks with anyone\"",
+      "body": "The company says it knows of no takeover approach and will not comment on online rumors.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "HRBL"
+      ],
+      "effects": [
+        {
+          "symbol": "HRBL",
+          "move": -0.25,
+          "ticks": 3,
+          "gap": true
+        },
+        {
+          "symbol": "HRBL",
+          "move": -0.05,
+          "ticks": 6,
+          "gap": false
+        }
+      ]
+    }
+  ],
+  "bots": [
+    "panic-pete-rookie"
+  ],
+  "missions": {
+    "basic": [
+      {
+        "id": "no-pump",
+        "type": "no_buy_between",
+        "params": {
+          "from": 6,
+          "to": 11
+        },
+        "text": "Make no buys while the takeover rumor runs (days 6 to 11)"
+      },
+      {
+        "id": "profit",
+        "type": "profit_min",
+        "params": {
+          "amount": 1
+        },
+        "text": "Finish with a profit"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "steady",
+        "type": "held_between",
+        "params": {
+          "symbol": "ORCF",
+          "from": 3,
+          "to": 25
+        },
+        "text": "Keep a position in Orchard Foods from day 3 to day 25"
+      },
+      {
+        "id": "beat-pete",
+        "type": "beat_bot",
+        "params": {
+          "bot_id": "panic-pete-rookie"
+        },
+        "text": "Finish ahead of Panic Pete"
+      }
+    ]
+  }
+}

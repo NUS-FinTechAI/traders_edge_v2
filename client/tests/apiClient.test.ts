@@ -12,18 +12,18 @@ test('typed endpoint encodes each path parameter and includes authentication', a
     }),
   )
   const fetchMock = t.mock.method(globalThis, 'fetch', async () =>
-    Response.json({ id: 'attempt' }),
+    Response.json({ id: 'game' }),
   )
 
-  const result = await client.call(apiEndpoints.getChallenge, {
-    path: { attempt_id: 'a/b ?#%' },
+  const result = await client.call(apiEndpoints.getGameResult, {
+    path: { game_id: 'a/b ?#%' },
   })
 
-  assert.deepEqual(result, { id: 'attempt' })
+  assert.deepEqual(result, { id: 'game' })
   const [url, init] = fetchMock.mock.calls[0].arguments
   assert.equal(
     String(url),
-    'http://localhost:8000/api/challenges/a%2Fb%20%3F%23%25',
+    'http://localhost:8000/api/games/a%2Fb%20%3F%23%25/result',
   )
   assert.equal(init?.method, 'GET')
   assert.equal(init?.credentials, 'include')
@@ -38,14 +38,17 @@ test('typed endpoint serializes query parameters', async (t) => {
     new HttpService({ baseUrl: 'http://localhost:8000' }),
   )
   const fetchMock = t.mock.method(globalThis, 'fetch', async () =>
-    Response.json({ entries: [] }),
+    Response.json({}),
   )
 
-  await client.call(apiEndpoints.listJournal, { query: { limit: 12 } })
+  await client.call(apiEndpoints.getGame, {
+    path: { game_id: 'game-1' },
+    query: { since: 12 },
+  })
 
   assert.equal(
     String(fetchMock.mock.calls[0].arguments[0]),
-    'http://localhost:8000/api/journal?limit=12',
+    'http://localhost:8000/api/games/game-1?since=12',
   )
 })
 
@@ -57,12 +60,12 @@ test('typed mutation sends its generated method and body', async (t) => {
     Response.json({ id: 'learner' }),
   )
 
-  await client.call(apiEndpoints.updateProfile, {
+  await client.call(apiEndpoints.updateMe, {
     body: { display_name: 'Learner' },
   })
 
   const [url, init] = fetchMock.mock.calls[0].arguments
-  assert.equal(String(url), 'http://localhost:8000/api/me/profile')
+  assert.equal(String(url), 'http://localhost:8000/api/me')
   assert.equal(init?.method, 'PATCH')
   assert.deepEqual(JSON.parse(String(init?.body)), { display_name: 'Learner' })
 })
@@ -93,7 +96,7 @@ test('typed calls preserve cancellation and do not fetch after abort', async (t)
   controller.abort()
 
   await assert.rejects(
-    client.call(apiEndpoints.getProfile, { signal: controller.signal }),
+    client.call(apiEndpoints.getMe, { signal: controller.signal }),
     { kind: 'aborted' },
   )
 
@@ -108,7 +111,7 @@ test('typed calls preserve HTTP failures without retrying', async (t) => {
     Response.json({ detail: 'Unavailable' }, { status: 503 }),
   )
 
-  await assert.rejects(client.call(apiEndpoints.getProfile), {
+  await assert.rejects(client.call(apiEndpoints.getMe), {
     kind: 'http',
     status: 503,
   })
@@ -125,8 +128,7 @@ test('dot-segment path values are rejected before fetching', (t) => {
   )
 
   assert.throws(
-    () =>
-      client.call(apiEndpoints.getChallenge, { path: { attempt_id: '..' } }),
+    () => client.call(apiEndpoints.getGameResult, { path: { game_id: '..' } }),
     TypeError,
   )
 

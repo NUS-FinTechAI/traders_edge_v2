@@ -1,0 +1,161 @@
+{
+  "id": "ch8-l2-practice",
+  "version": 1,
+  "title": "Cut It, Let It Run",
+  "briefing": "You will own a loser and a winner in this match. Most people sell the winner to feel good and keep the loser hoping it comes back. Do the opposite.",
+  "objective": "Counter loss aversion: cut losing positions at the planned exit and let winners run.",
+  "debrief": "Kestrel Air was fined for delays on day 6 and kept sliding as fuel costs rose; every day of hoping cost more. Meadow Pharma won approval for its allergy drug on day 10 and kept climbing. A disciplined player sold Kestrel Air near the planned exit, kept Meadow Pharma with a trailing stop, and finished well ahead of anyone who did it the other way round.",
+  "difficulty": 3,
+  "ticks": 30,
+  "history": 20,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": true,
+    "stop": true
+  },
+  "max_position_pct": null,
+  "balance": "lesson",
+  "tools": [
+    "candles",
+    "volume",
+    "sma",
+    "rsi"
+  ],
+  "market": {
+    "vol": 0.005
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 30,
+      "market_drift": 0.0005,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "KSTR",
+      "name": "Kestrel Air",
+      "sector": "Airlines",
+      "blurb": "Flies short routes between regional cities.",
+      "price": 45,
+      "drift": 0.0,
+      "beta": 1.0,
+      "vol": 0.013,
+      "base_volume": 26000
+    },
+    {
+      "symbol": "MDWP",
+      "name": "Meadow Pharma",
+      "sector": "Pharmaceuticals",
+      "blurb": "Develops and sells prescription medicines.",
+      "price": 60,
+      "drift": 0.005,
+      "beta": 0.7,
+      "vol": 0.01,
+      "base_volume": 20000
+    }
+  ],
+  "news": [
+    {
+      "id": "kstr-fine",
+      "tick": 6,
+      "headline": "Kestrel Air fined for repeated delays; fuel costs keep rising",
+      "body": "The regulator fined the airline and warned of tighter rules. Fuel prices rose for a fourth week.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "KSTR"
+      ],
+      "effects": [
+        {
+          "symbol": "KSTR",
+          "move": -0.06,
+          "ticks": 1,
+          "gap": true
+        },
+        {
+          "symbol": "KSTR",
+          "move": -0.15,
+          "ticks": 16,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "mdwp-approval",
+      "tick": 10,
+      "headline": "Meadow Pharma's allergy drug wins approval",
+      "body": "The medicine can now be sold nationwide from next month.",
+      "tone": "positive",
+      "kind": "company",
+      "symbols": [
+        "MDWP"
+      ],
+      "effects": [
+        {
+          "symbol": "MDWP",
+          "move": 0.05,
+          "ticks": 1,
+          "gap": true
+        },
+        {
+          "symbol": "MDWP",
+          "move": 0.05,
+          "ticks": 8,
+          "gap": false
+        }
+      ]
+    }
+  ],
+  "bots": [
+    "value-vera-rookie"
+  ],
+  "missions": {
+    "basic": [
+      {
+        "id": "cut-loser",
+        "type": "exited_by",
+        "params": {
+          "symbol": "KSTR",
+          "tick": 12
+        },
+        "text": "Sell Kestrel Air by day 12: cut the loser"
+      },
+      {
+        "id": "run-winner",
+        "type": "held_between",
+        "params": {
+          "symbol": "MDWP",
+          "from": 8,
+          "to": 26
+        },
+        "text": "Hold Meadow Pharma from day 8 to day 26: let the winner run"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "small-drop",
+        "type": "max_drawdown",
+        "params": {
+          "pct": 5
+        },
+        "text": "Keep your worst drop under 5%"
+      },
+      {
+        "id": "beat-vera",
+        "type": "beat_bot",
+        "params": {
+          "bot_id": "value-vera-rookie"
+        },
+        "text": "Finish ahead of Value Vera"
+      }
+    ]
+  }
+}

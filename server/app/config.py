@@ -13,8 +13,6 @@ class Settings:
     cookie_name: str = 'traders_edge_session'
     firebase_project_id: str | None = None
     auto_migrate: bool = True
-    instructor_firebase_uids: tuple[str, ...] = ()
-    instructor_profile_ids: tuple[str, ...] = ()
     research_enabled: bool = False
     research_policy_version: str | None = None
     research_policy_text: str | None = None
@@ -30,8 +28,6 @@ class Settings:
             allowed_origins=tuple(x.strip() for x in os.getenv('ALLOWED_ORIGINS', ','.join(default.allowed_origins)).split(',') if x.strip()),
             firebase_project_id=os.getenv('FIREBASE_PROJECT_ID'),
             auto_migrate=os.getenv('AUTO_MIGRATE', 'false' if production else 'true').lower() == 'true',
-            instructor_firebase_uids=tuple(x.strip() for x in os.getenv('INSTRUCTOR_FIREBASE_UIDS', '').split(',') if x.strip()),
-            instructor_profile_ids=() if production else tuple(x.strip() for x in os.getenv('INSTRUCTOR_PROFILE_IDS', '').split(',') if x.strip()),
             research_enabled=os.getenv('RESEARCH_ENABLED', 'false').lower() == 'true',
             research_policy_version=os.getenv('RESEARCH_POLICY_VERSION'),
             research_policy_text=os.getenv('RESEARCH_POLICY_TEXT'),

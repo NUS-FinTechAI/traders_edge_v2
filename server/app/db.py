@@ -4,7 +4,7 @@ from pathlib import Path
 import uuid
 
 from fastapi import Request
-from sqlalchemy import Boolean, DateTime, ForeignKey, Integer, JSON, String, Text, UniqueConstraint, event, select, text
+from sqlalchemy import Boolean, DateTime, ForeignKey, Integer, JSON, String, event, select, text
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker, create_async_engine
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
@@ -52,49 +52,6 @@ class SessionToken(Base):
     expires_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
 
 
-class Attempt(Base):
-    __tablename__ = 'attempts'
-    __table_args__ = (UniqueConstraint('user_id', 'idempotency_key'),)
-    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=uid)
-    user_id: Mapped[str] = mapped_column(ForeignKey('profiles.id'), index=True)
-    kind: Mapped[str] = mapped_column(String(20))
-    target_id: Mapped[str] = mapped_column(String(120))
-    idempotency_key: Mapped[str] = mapped_column(String(100))
-    request_hash: Mapped[str] = mapped_column(String(64))
-    answers: Mapped[list] = mapped_column(JSON)
-    reflection: Mapped[str] = mapped_column(Text)
-    score: Mapped[int] = mapped_column(Integer)
-    passed: Mapped[bool] = mapped_column(Boolean)
-    result: Mapped[dict] = mapped_column(JSON)
-    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
-
-
-class LessonCompletion(Base):
-    __tablename__ = 'lesson_completions'
-    user_id: Mapped[str] = mapped_column(ForeignKey('profiles.id'), primary_key=True)
-    lesson_id: Mapped[str] = mapped_column(String(120), primary_key=True)
-    attempt_id: Mapped[str] = mapped_column(ForeignKey('attempts.id'))
-    completed_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
-
-
-class MasteredModule(Base):
-    __tablename__ = 'mastered_modules'
-    user_id: Mapped[str] = mapped_column(ForeignKey('profiles.id'), primary_key=True)
-    module_id: Mapped[str] = mapped_column(String(120), primary_key=True)
-    attempt_id: Mapped[str] = mapped_column(ForeignKey('attempts.id'))
-    mastered_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
-
-
-class ReviewItem(Base):
-    __tablename__ = 'review_queue'
-    __table_args__ = (UniqueConstraint('user_id', 'lesson_id'),)
-    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=uid)
-    user_id: Mapped[str] = mapped_column(ForeignKey('profiles.id'), index=True)
-    lesson_id: Mapped[str] = mapped_column(String(120))
-    due_at: Mapped[datetime] = mapped_column(DateTime(timezone=True))
-    completed_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
-
-
 class XPLedger(Base):
     __tablename__ = 'xp_ledger'
     user_id: Mapped[str] = mapped_column(ForeignKey('profiles.id'), primary_key=True)
@@ -110,58 +67,6 @@ class LearningActivity(Base):
     day: Mapped[str] = mapped_column(String(10), primary_key=True)
 
 
-class JournalEntry(Base):
-    __tablename__ = 'journal_entries'
-    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=uid)
-    user_id: Mapped[str] = mapped_column(ForeignKey('profiles.id'), index=True)
-    text: Mapped[str] = mapped_column(Text)
-    lesson_id: Mapped[str | None] = mapped_column(String(120))
-    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
-
-
-class AggregateEvent(Base):
-    __tablename__ = 'aggregate_events'
-    day: Mapped[str] = mapped_column(String(10), primary_key=True)
-    kind: Mapped[str] = mapped_column(String(30), primary_key=True)
-    count: Mapped[int] = mapped_column(Integer, default=0)
-
-
-class SimulationSession(Base):
-    __tablename__ = 'simulation_sessions'
-    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=uid)
-    user_id: Mapped[str] = mapped_column(ForeignKey('profiles.id'), index=True)
-    mode: Mapped[str] = mapped_column(String(30))
-    scenario_kind: Mapped[str] = mapped_column(String(40))
-    version: Mapped[int] = mapped_column(Integer, default=1)
-    snapshot_json: Mapped[dict] = mapped_column(JSON)
-    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now, onupdate=now)
-
-
-class LearningRun(Base):
-    __tablename__ = 'learning_runs'
-    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=uid)
-    user_id: Mapped[str] = mapped_column(ForeignKey('profiles.id'), index=True)
-    purpose: Mapped[str] = mapped_column(String(20))
-    module_id: Mapped[str] = mapped_column(String(120))
-    level_id: Mapped[str | None] = mapped_column(String(120))
-    content_version: Mapped[str] = mapped_column(String(120))
-    status: Mapped[str] = mapped_column(String(20))
-    snapshot_json: Mapped[dict] = mapped_column(JSON)
-    state_json: Mapped[dict] = mapped_column(JSON)
-    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
-    updated_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now, onupdate=now)
-
-
-class LearningRunCommand(Base):
-    __tablename__ = 'learning_run_commands'
-    user_id: Mapped[str] = mapped_column(ForeignKey('profiles.id'), primary_key=True)
-    key: Mapped[str] = mapped_column(String(100), primary_key=True)
-    run_id: Mapped[str] = mapped_column(ForeignKey('learning_runs.id'), index=True)
-    request_hash: Mapped[str] = mapped_column(String(64))
-    response: Mapped[dict] = mapped_column(JSON)
-    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
-
-
 class RewardGrant(Base):
     __tablename__ = 'reward_grants'
     user_id: Mapped[str] = mapped_column(ForeignKey('profiles.id'), primary_key=True)
@@ -169,15 +74,6 @@ class RewardGrant(Base):
     rule_version: Mapped[str] = mapped_column(String(40))
     public_snapshot: Mapped[dict] = mapped_column(JSON)
     evidence: Mapped[list] = mapped_column(JSON)
-    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
-
-
-class RewardCommand(Base):
-    __tablename__ = 'reward_commands'
-    user_id: Mapped[str] = mapped_column(ForeignKey('profiles.id'), primary_key=True)
-    key: Mapped[str] = mapped_column(String(100), primary_key=True)
-    request_hash: Mapped[str] = mapped_column(String(64))
-    response: Mapped[dict] = mapped_column(JSON)
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
 
 

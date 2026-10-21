@@ -1,0 +1,885 @@
+{
+  "id": "ch6",
+  "number": 6,
+  "title": "News & Fundamentals",
+  "region": "News Coast",
+  "tagline": "Earnings, valuation, macro data and hype: why prices react to surprises, not headlines.",
+  "icon": "quill",
+  "boss": "ch6-boss",
+  "gate": "ch5-boss",
+  "boss_reward": {
+    "kind": "avatar",
+    "id": "avatar-guide-6"
+  },
+  "levels": [
+    {
+      "id": "ch6-l1",
+      "title": "Earnings Reports",
+      "summary": "EPS, revenue and guidance, judged against what was expected.",
+      "objectives": [
+        "Read revenue and earnings per share (EPS) from an earnings report.",
+        "Judge a beat or a miss against expectations, not against last year.",
+        "Explain why guidance can move a price more than the past quarter."
+      ],
+      "terms": [
+        {
+          "term": "Earnings per share (EPS)",
+          "definition": "Net profit divided by the number of shares."
+        },
+        {
+          "term": "Revenue",
+          "definition": "Total sales before any costs are taken off."
+        },
+        {
+          "term": "Consensus estimate",
+          "definition": "The average forecast of analysts who follow a company."
+        },
+        {
+          "term": "Guidance",
+          "definition": "Management's own forecast for the next quarter or year."
+        },
+        {
+          "term": "Earnings surprise",
+          "definition": "The gap between reported results and the consensus estimate: a beat or a miss."
+        }
+      ],
+      "cards": [
+        {
+          "title": "The report card",
+          "visual": "earnings",
+          "body": "Every quarter, listed companies report **revenue** (total sales) and **earnings per share** (EPS = net profit ÷ shares). Orchard Foods earning $50 million with 100 million shares has EPS of **$0.50**."
+        },
+        {
+          "title": "Beat or miss",
+          "body": "Analysts publish estimates before the report; their average is the consensus. If Orchard Foods was expected to earn $0.45 and reports $0.50, it **beat**. Prices react to the surprise against expectations, not to whether profit sounds \"good\". A profitable company can still fall on a miss."
+        },
+        {
+          "title": "Guidance",
+          "body": "Management often forecasts the next quarter or year: **guidance**. A beat with guidance raised is the strongest combination. A beat with guidance cut often falls, because prices look forward and the outlook just got worse."
+        },
+        {
+          "title": "Gaps and drift",
+          "visual": "gap-chart",
+          "body": "Reports usually come out outside trading hours, so the price **gaps** at the next open and market orders fill at the gapped price. After a real surprise, price can keep **drifting** the same way for days as investors adjust. Not every gap follows through."
+        },
+        {
+          "title": "Earnings risk",
+          "body": "Holding a large position into a report is a bet on the result. A stop-loss cannot protect you from an overnight gap: a stop at $46 can fill at $41. Many traders cut their size before scheduled reports and decide afterwards."
+        }
+      ],
+      "check": [
+        {
+          "id": "q1",
+          "kind": "mc",
+          "prompt": "Kestrel Air made a net profit of $30 million and has 60 million shares. What is its EPS?",
+          "options": [
+            {
+              "id": "a",
+              "text": "$2.00"
+            },
+            {
+              "id": "b",
+              "text": "$0.20"
+            },
+            {
+              "id": "c",
+              "text": "$0.50"
+            },
+            {
+              "id": "d",
+              "text": "$5.00"
+            }
+          ],
+          "answer": "c",
+          "explanation": "EPS = $30 million ÷ 60 million shares = $0.50."
+        },
+        {
+          "id": "q2",
+          "kind": "mc",
+          "prompt": "Analysts expected Nimbus Cloud to earn $1.10 per share. It reports $1.25. This is:",
+          "options": [
+            {
+              "id": "a",
+              "text": "A beat"
+            },
+            {
+              "id": "b",
+              "text": "A miss"
+            },
+            {
+              "id": "c",
+              "text": "In line"
+            },
+            {
+              "id": "d",
+              "text": "Impossible to judge"
+            }
+          ],
+          "answer": "a",
+          "explanation": "$1.25 is above the $1.10 consensus."
+        },
+        {
+          "id": "q3",
+          "kind": "mc",
+          "prompt": "Nimbus Cloud beats its EPS estimate but cuts next year's guidance. The stock gaps down 8%. What is the most likely reason?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Beats always make a stock fall"
+            },
+            {
+              "id": "b",
+              "text": "The exchange made an error"
+            },
+            {
+              "id": "c",
+              "text": "Fees pushed the price down"
+            },
+            {
+              "id": "d",
+              "text": "Investors cared more about the weaker outlook than the past quarter"
+            }
+          ],
+          "answer": "d",
+          "explanation": "Prices look forward, so a lower forecast can outweigh a good quarter."
+        },
+        {
+          "id": "q4",
+          "kind": "true_false",
+          "prompt": "True or false: a stop-loss guarantees your exit price if a stock gaps down after earnings.",
+          "options": [
+            {
+              "id": "t",
+              "text": "True"
+            },
+            {
+              "id": "f",
+              "text": "False"
+            }
+          ],
+          "answer": "f",
+          "explanation": "If the open is below your stop, the stop fills near the open, not at the stop price."
+        },
+        {
+          "id": "q5",
+          "kind": "mc",
+          "prompt": "Which earnings result is usually the strongest for the share price?",
+          "options": [
+            {
+              "id": "a",
+              "text": "A miss with guidance cut"
+            },
+            {
+              "id": "b",
+              "text": "A beat with guidance raised"
+            },
+            {
+              "id": "c",
+              "text": "In line with no guidance"
+            },
+            {
+              "id": "d",
+              "text": "A beat with guidance cut"
+            }
+          ],
+          "answer": "b",
+          "explanation": "A positive surprise and a better outlook point the same way."
+        }
+      ],
+      "practice": "ch6-l1-practice"
+    },
+    {
+      "id": "ch6-l2",
+      "title": "Valuation Basics",
+      "summary": "P/E, growth versus value, and why high expectations cut both ways.",
+      "objectives": [
+        "Calculate a price-to-earnings (P/E) ratio.",
+        "Compare growth and value stocks.",
+        "Connect market cap, profit and P/E."
+      ],
+      "terms": [
+        {
+          "term": "P/E ratio",
+          "definition": "Share price divided by earnings per share over the last 12 months."
+        },
+        {
+          "term": "Growth stock",
+          "definition": "A company with fast-rising sales or profits, usually on a high P/E."
+        },
+        {
+          "term": "Value stock",
+          "definition": "A company that trades cheaply relative to its profits or assets, usually on a low P/E."
+        },
+        {
+          "term": "Valuation",
+          "definition": "How expensive a company is relative to what it earns or owns."
+        }
+      ],
+      "cards": [
+        {
+          "title": "Price per dollar of profit",
+          "visual": "pe-ratio",
+          "body": "The price-to-earnings ratio (P/E) = share price ÷ EPS over the last 12 months. Orchard Foods at $40 with EPS of $2.00 has a P/E of **20**: buyers pay $20 for each $1 of yearly profit."
+        },
+        {
+          "title": "High or low P/E",
+          "body": "A high P/E usually means investors expect fast profit growth, like Nimbus Cloud at 60. A low P/E can mean slow growth, high risk or a bargain, like Harborline Shipping at 8. The number alone does not tell you which."
+        },
+        {
+          "title": "Growth vs value",
+          "body": "**Growth** stocks have fast-rising sales and high P/Es; **value** stocks trade cheaply against profits or assets. When expectations are high, even a small disappointment can knock a growth stock down hard, because the price was paying for years of future growth."
+        },
+        {
+          "title": "Compare like with like",
+          "body": "Compare a P/E with similar companies and with the company's own history. A utility at 15 and a software firm at 40 may both be fairly priced. A company that is losing money has no meaningful P/E."
+        },
+        {
+          "title": "Market cap again",
+          "visual": "market-cap-compare",
+          "body": "Market cap = price × shares. Market cap ÷ yearly net profit gives the same P/E. A company worth $6 billion that earns $300 million a year has a P/E of **20**."
+        }
+      ],
+      "check": [
+        {
+          "id": "q1",
+          "kind": "mc",
+          "prompt": "Meadow Pharma trades at $90 with EPS of $3.00. What is its P/E?",
+          "options": [
+            {
+              "id": "a",
+              "text": "3"
+            },
+            {
+              "id": "b",
+              "text": "30"
+            },
+            {
+              "id": "c",
+              "text": "27"
+            },
+            {
+              "id": "d",
+              "text": "270"
+            }
+          ],
+          "answer": "b",
+          "explanation": "P/E = $90 ÷ $3.00 = 30."
+        },
+        {
+          "id": "q2",
+          "kind": "mc",
+          "prompt": "Pebble Games trades at a P/E of 45 and Harborline Shipping at 9. What is the most likely explanation?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Pebble Games is certain to fall"
+            },
+            {
+              "id": "b",
+              "text": "Harborline is a guaranteed bargain"
+            },
+            {
+              "id": "c",
+              "text": "Pebble Games must be the smaller company"
+            },
+            {
+              "id": "d",
+              "text": "Investors expect much faster profit growth from Pebble Games"
+            }
+          ],
+          "answer": "d",
+          "explanation": "A high P/E usually reflects high growth expectations, not a guarantee either way."
+        },
+        {
+          "id": "q3",
+          "kind": "mc",
+          "prompt": "A company lost $0.50 per share last year. What is its P/E?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Not meaningful: P/E needs positive earnings"
+            },
+            {
+              "id": "b",
+              "text": "Negative, which means it is cheap"
+            },
+            {
+              "id": "c",
+              "text": "Zero"
+            },
+            {
+              "id": "d",
+              "text": "100"
+            }
+          ],
+          "answer": "a",
+          "explanation": "With losses, price ÷ EPS gives a number that does not measure value."
+        },
+        {
+          "id": "q4",
+          "kind": "true_false",
+          "prompt": "True or false: a company valued at $4 billion that earns $200 million a year has a P/E of 20.",
+          "options": [
+            {
+              "id": "t",
+              "text": "True"
+            },
+            {
+              "id": "f",
+              "text": "False"
+            }
+          ],
+          "answer": "t",
+          "explanation": "$4,000 million ÷ $200 million = 20."
+        },
+        {
+          "id": "q5",
+          "kind": "mc",
+          "prompt": "A high-P/E growth stock reports earnings slightly below expectations. What often happens?",
+          "options": [
+            {
+              "id": "a",
+              "text": "No reaction at all"
+            },
+            {
+              "id": "b",
+              "text": "A guaranteed rise"
+            },
+            {
+              "id": "c",
+              "text": "A large drop, because high expectations were already in the price"
+            },
+            {
+              "id": "d",
+              "text": "The P/E rises, so the price rises"
+            }
+          ],
+          "answer": "c",
+          "explanation": "When the price assumes strong growth, a small miss forces a big rethink."
+        }
+      ],
+      "practice": "ch6-l2-practice"
+    },
+    {
+      "id": "ch6-l3",
+      "title": "Macro Events",
+      "summary": "Interest rates, inflation and jobs data move the whole market at once.",
+      "objectives": [
+        "Explain how interest rates, inflation (CPI) and jobs data move markets.",
+        "Identify which sectors are most sensitive to interest rates.",
+        "Use the event calendar to plan around scheduled releases."
+      ],
+      "terms": [
+        {
+          "term": "Interest rate",
+          "definition": "The cost of borrowing money, set for the economy by the central bank."
+        },
+        {
+          "term": "Inflation",
+          "definition": "The general rise in prices over time."
+        },
+        {
+          "term": "CPI (consumer price index)",
+          "definition": "A monthly measure of the prices of everyday goods and services, used to track inflation."
+        },
+        {
+          "term": "Defensive stock",
+          "definition": "A company whose sales hold up in bad times, such as a grocery chain."
+        },
+        {
+          "term": "Economic calendar",
+          "definition": "The schedule of upcoming data releases and central bank decisions."
+        }
+      ],
+      "cards": [
+        {
+          "title": "The big picture",
+          "visual": "news-impact",
+          "body": "**Macro** data describes the whole economy: central bank interest rate decisions, inflation measured by the consumer price index (CPI), and jobs reports. A big surprise can move almost every stock on the same day, whatever each company is doing."
+        },
+        {
+          "title": "Rates and valuations",
+          "body": "Higher interest rates make borrowing dearer and safe savings more attractive, so investors pay less today for profits far in the future. High-P/E growth stocks and companies with heavy debt tend to fall most on a surprise rate rise."
+        },
+        {
+          "title": "Sector sensitivity",
+          "body": "Tidal Power borrows heavily to build wind farms, so it is rate-sensitive. Kestrel Air swings with fuel prices and the economy. Orchard Foods is **defensive**: people buy groceries in good times and bad, so its sales hold up when the economy slows."
+        },
+        {
+          "title": "Surprise vs expected",
+          "body": "As with earnings, the market reacts to the gap between the forecast and the result. A 0.25% rate rise that everyone expected may barely move prices. An unexpected 0.50% rise can knock the whole market down in one day."
+        },
+        {
+          "title": "The calendar",
+          "body": "Macro releases are scheduled weeks ahead. Check the calendar, avoid opening a large new position just before a release, and remember that an overnight gap can skip past your stop."
+        }
+      ],
+      "check": [
+        {
+          "id": "q1",
+          "kind": "mc",
+          "prompt": "The central bank raises rates by more than forecast. Which is usually hit hardest?",
+          "options": [
+            {
+              "id": "a",
+              "text": "A defensive grocery chain"
+            },
+            {
+              "id": "b",
+              "text": "Cash in your account"
+            },
+            {
+              "id": "c",
+              "text": "Every stock falls by exactly the same amount"
+            },
+            {
+              "id": "d",
+              "text": "A high-P/E cloud software company"
+            }
+          ],
+          "answer": "d",
+          "explanation": "Higher rates reduce what investors pay for distant future profits, which hurts high-P/E stocks most."
+        },
+        {
+          "id": "q2",
+          "kind": "true_false",
+          "prompt": "True or false: a rate rise that everyone expected usually moves prices less than a surprise rise.",
+          "options": [
+            {
+              "id": "t",
+              "text": "True"
+            },
+            {
+              "id": "f",
+              "text": "False"
+            }
+          ],
+          "answer": "t",
+          "explanation": "Expected news is already in the price; surprises are not."
+        },
+        {
+          "id": "q3",
+          "kind": "mc",
+          "prompt": "What does the CPI measure?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Company profits"
+            },
+            {
+              "id": "b",
+              "text": "Changes in the prices of everyday goods and services"
+            },
+            {
+              "id": "c",
+              "text": "The number of people with jobs"
+            },
+            {
+              "id": "d",
+              "text": "The central bank's interest rate"
+            }
+          ],
+          "answer": "b",
+          "explanation": "The consumer price index is the standard inflation gauge."
+        },
+        {
+          "id": "q4",
+          "kind": "mc",
+          "prompt": "Which business is usually the most defensive in an economic slowdown?",
+          "options": [
+            {
+              "id": "a",
+              "text": "An airline"
+            },
+            {
+              "id": "b",
+              "text": "A video game studio"
+            },
+            {
+              "id": "c",
+              "text": "A grocery chain"
+            },
+            {
+              "id": "d",
+              "text": "A container shipping line"
+            }
+          ],
+          "answer": "c",
+          "explanation": "Food demand stays steady when the economy slows."
+        },
+        {
+          "id": "q5",
+          "kind": "mc",
+          "prompt": "A jobs report is due tomorrow morning. What does a careful trader do?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Keeps position size modest and accepts that a gap can skip a stop"
+            },
+            {
+              "id": "b",
+              "text": "Doubles their position size tonight"
+            },
+            {
+              "id": "c",
+              "text": "Removes all stop-losses"
+            },
+            {
+              "id": "d",
+              "text": "Ignores the calendar"
+            }
+          ],
+          "answer": "a",
+          "explanation": "Scheduled events are known risks; size is the main control you have."
+        }
+      ],
+      "practice": "ch6-l3-practice",
+      "reward": {
+        "kind": "title",
+        "id": "title-ch6-fact-checker"
+      }
+    },
+    {
+      "id": "ch6-l4",
+      "title": "Expectations & \"Sell the News\"",
+      "summary": "Priced in, buy the rumor and sell the news, overreaction and drift.",
+      "objectives": [
+        "Explain what \"priced in\" means.",
+        "Recognize buy the rumor, sell the news.",
+        "Tell an overreaction from post-news drift."
+      ],
+      "terms": [
+        {
+          "term": "Priced in",
+          "definition": "Already reflected in the price because investors expected it."
+        },
+        {
+          "term": "Sell the news",
+          "definition": "A price falling when an anticipated event finally happens, as early buyers take profits."
+        },
+        {
+          "term": "Overreaction",
+          "definition": "A first move that goes further than the news justifies and later partly reverses."
+        },
+        {
+          "term": "Post-news drift",
+          "definition": "A price continuing to move in the direction of a genuine surprise for days afterwards."
+        }
+      ],
+      "cards": [
+        {
+          "title": "Priced in",
+          "visual": "news-impact",
+          "body": "Prices reflect what traders already expect. If everyone expects Pebble Games' new game to be a hit, buyers have pushed the price up **before** launch. Good news that only matches expectations adds little."
+        },
+        {
+          "title": "Buy the rumor, sell the news",
+          "body": "Excitement builds into an event, and people who bought early sell when it arrives. Pebble Games rises from $30 to $39 in the ten days before a launch, then falls 8% on launch day, even though reviews are good."
+        },
+        {
+          "title": "Overreaction",
+          "body": "Sometimes the first move goes too far. Harborline gaps down 12% on reports of port delays; the next day the port says the delay is one day. Much of the drop comes back as traders reassess."
+        },
+        {
+          "title": "Drift",
+          "body": "Other times the first move is too small. A true surprise, such as a large beat with raised guidance, can keep drifting the same way for days. Ask: is this news really new, and does it change future profits?"
+        },
+        {
+          "title": "A news checklist",
+          "body": "Before trading news, ask: What was expected? How far has price already moved? Is the reaction bigger than the news justifies? Plan your exit before the event, and cut your size if you hold into it."
+        }
+      ],
+      "check": [
+        {
+          "id": "q1",
+          "kind": "mc",
+          "prompt": "Pebble Games rose 30% in the month before a widely expected launch. The launch goes as expected. What is the most likely reaction?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Little gain or a drop, because the good news was already priced in"
+            },
+            {
+              "id": "b",
+              "text": "Another 30% rise"
+            },
+            {
+              "id": "c",
+              "text": "Trading is halted"
+            },
+            {
+              "id": "d",
+              "text": "The price is certain to double"
+            }
+          ],
+          "answer": "a",
+          "explanation": "An expected outcome adds no surprise, and early buyers may take profits."
+        },
+        {
+          "id": "q2",
+          "kind": "true_false",
+          "prompt": "True or false: \"priced in\" means the price already reflects what investors expect.",
+          "options": [
+            {
+              "id": "t",
+              "text": "True"
+            },
+            {
+              "id": "f",
+              "text": "False"
+            }
+          ],
+          "answer": "t",
+          "explanation": "That is why only the surprise part of news moves prices."
+        },
+        {
+          "id": "q3",
+          "kind": "mc",
+          "prompt": "Harborline gaps down 12% on a rumor of port delays. The next day the port says the delay will last one day. What is most likely?",
+          "options": [
+            {
+              "id": "a",
+              "text": "A further collapse"
+            },
+            {
+              "id": "b",
+              "text": "No price change at all"
+            },
+            {
+              "id": "c",
+              "text": "An overreaction that partly recovers"
+            },
+            {
+              "id": "d",
+              "text": "The stock is removed from the exchange"
+            }
+          ],
+          "answer": "c",
+          "explanation": "When news turns out smaller than feared, part of the first move often reverses."
+        },
+        {
+          "id": "q4",
+          "kind": "mc",
+          "prompt": "Meadow Pharma reports trial results far better than anyone expected and raises its sales forecast. After a +9% gap, what can follow?",
+          "options": [
+            {
+              "id": "a",
+              "text": "It must reverse the same day"
+            },
+            {
+              "id": "b",
+              "text": "The price may keep drifting higher as investors adjust"
+            },
+            {
+              "id": "c",
+              "text": "Nothing more can happen after a gap"
+            },
+            {
+              "id": "d",
+              "text": "The P/E becomes zero"
+            }
+          ],
+          "answer": "b",
+          "explanation": "Genuine surprises that change future profits often show post-news drift."
+        },
+        {
+          "id": "q5",
+          "kind": "mc",
+          "prompt": "You hold a stock into a heavily hyped event. What is the best practice?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Add more just before the event"
+            },
+            {
+              "id": "b",
+              "text": "Remove your stop so it is not hit"
+            },
+            {
+              "id": "c",
+              "text": "Borrow money to buy more"
+            },
+            {
+              "id": "d",
+              "text": "Decide your exit before the event and keep the position modest"
+            }
+          ],
+          "answer": "d",
+          "explanation": "Hyped events can reverse on the day; a plan made in advance avoids an emotional decision."
+        }
+      ],
+      "practice": "ch6-l4-practice"
+    },
+    {
+      "id": "ch6-l5",
+      "title": "Hype, Rumors & Manipulation",
+      "summary": "Spot pump-and-dumps, check sources, and know why insider trading is illegal.",
+      "objectives": [
+        "Recognize the pattern of a pump-and-dump.",
+        "Check the source before acting on a rumor.",
+        "Explain why insider trading is illegal."
+      ],
+      "terms": [
+        {
+          "term": "Pump and dump",
+          "definition": "Promoters hype a stock they own to push the price up, then sell to the late buyers. It is illegal."
+        },
+        {
+          "term": "Market manipulation",
+          "definition": "Deliberately misleading other investors to move a price. It is illegal."
+        },
+        {
+          "term": "Insider trading",
+          "definition": "Trading on important information that has not been made public. It is a crime in most countries."
+        },
+        {
+          "term": "Rumor",
+          "definition": "An unconfirmed claim that has no official source yet."
+        }
+      ],
+      "cards": [
+        {
+          "title": "Pump and dump",
+          "visual": "bubble-cycle",
+          "body": "Promoters buy a cheap, thinly traded stock, then spread exciting claims (\"10x by Friday!\") to pull in buyers. When the price spikes, they sell to the late buyers and the price collapses. This is market manipulation, and it is illegal."
+        },
+        {
+          "title": "Red flags",
+          "body": "Urgency (\"buy before it's too late\"), promised returns, anonymous accounts, no official source, and a sudden volume spike in a small company. Real news names a source you can check, such as the company, a regulator or a known news outlet."
+        },
+        {
+          "title": "Check the source",
+          "body": "Is the claim from a company statement, a regulatory filing or an anonymous post? Unconfirmed rumors are often denied within days, and the price then gives back the jump, sometimes more."
+        },
+        {
+          "title": "Insider trading is illegal",
+          "body": "Trading on important information that is not public, such as an unannounced takeover you heard about from an employee, is **insider trading**. It is a crime in most countries, punished with fines and prison. Passing the tip to a friend who trades is also illegal. Trade only on public information."
+        },
+        {
+          "title": "Social media",
+          "body": "Popular posts can move prices quickly in both directions. Treat them as noise until a checkable source confirms them, and never let a crowd decide your position size."
+        }
+      ],
+      "check": [
+        {
+          "id": "q1",
+          "kind": "mc",
+          "prompt": "An anonymous account posts: \"Pebble Games will be bought out at $60, buy before Friday!\" The stock is $34 on five times normal volume. What is the best response?",
+          "options": [
+            {
+              "id": "a",
+              "text": "Buy as much as you can right away"
+            },
+            {
+              "id": "b",
+              "text": "Treat it as unconfirmed and look for an official source before acting"
+            },
+            {
+              "id": "c",
+              "text": "Borrow money to buy more"
+            },
+            {
+              "id": "d",
+              "text": "Tell your friends to buy too"
+            }
+          ],
+          "answer": "b",
+          "explanation": "Urgency, an anonymous source and a volume spike are classic red flags."
+        },
+        {
+          "id": "q2",
+          "kind": "true_false",
+          "prompt": "True or false: buying shares because a friend at Meadow Pharma told you about unannounced trial results is legal as long as you tell no one else.",
+          "options": [
+            {
+              "id": "t",
+              "text": "True"
+            },
+            {
+              "id": "f",
+              "text": "False"
+            }
+          ],
+          "answer": "f",
+          "explanation": "Trading on material non-public information is insider trading, whoever you tell."
+        },
+        {
+          "id": "q3",
+          "kind": "mc",
+          "prompt": "What is the usual last stage of a pump-and-dump?",
+          "options": [
+            {
+              "id": "a",
+              "text": "The company becomes very profitable"
+            },
+            {
+              "id": "b",
+              "text": "The price settles at the new high"
+            },
+            {
+              "id": "c",
+              "text": "The promoters sell and the price collapses"
+            },
+            {
+              "id": "d",
+              "text": "A regulator guarantees the price"
+            }
+          ],
+          "answer": "c",
+          "explanation": "The scheme only works if the promoters can sell to late buyers."
+        },
+        {
+          "id": "q4",
+          "kind": "mc",
+          "prompt": "Which of these is a red flag?",
+          "options": [
+            {
+              "id": "a",
+              "text": "A company press release with figures"
+            },
+            {
+              "id": "b",
+              "text": "A regulatory filing"
+            },
+            {
+              "id": "c",
+              "text": "A quarterly earnings report"
+            },
+            {
+              "id": "d",
+              "text": "\"Guaranteed 10x, today only\" from an anonymous account"
+            }
+          ],
+          "answer": "d",
+          "explanation": "Promised returns, urgency and no checkable source are warning signs."
+        },
+        {
+          "id": "q5",
+          "kind": "mc",
+          "prompt": "Pebble Games jumps 10% on a takeover rumor. Four days later the company denies it. What is most likely?",
+          "options": [
+            {
+              "id": "a",
+              "text": "The price gives back the rumor gain, possibly more"
+            },
+            {
+              "id": "b",
+              "text": "The price holds its gain"
+            },
+            {
+              "id": "c",
+              "text": "The price doubles"
+            },
+            {
+              "id": "d",
+              "text": "Trading stops forever"
+            }
+          ],
+          "answer": "a",
+          "explanation": "Once the rumor is denied, the reason for the jump is gone."
+        }
+      ],
+      "practice": "ch6-l5-practice"
+    }
+  ]
+}

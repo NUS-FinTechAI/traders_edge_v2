@@ -1,0 +1,570 @@
+{
+  "version": 1,
+  "avatars": [
+    {
+      "id": "avatar-starter-1",
+      "name": "Shipwright",
+      "image": "starter-1",
+      "source": "starter",
+      "how": "Yours from the start."
+    },
+    {
+      "id": "avatar-starter-2",
+      "name": "Sailmaker",
+      "image": "starter-2",
+      "source": "starter",
+      "how": "Yours from the start."
+    },
+    {
+      "id": "avatar-starter-3",
+      "name": "Cartographer",
+      "image": "starter-3",
+      "source": "starter",
+      "how": "Yours from the start."
+    },
+    {
+      "id": "avatar-starter-4",
+      "name": "Lamplighter",
+      "image": "starter-4",
+      "source": "starter",
+      "how": "Yours from the start."
+    },
+    {
+      "id": "avatar-guide-1",
+      "name": "Harbor Guide",
+      "image": "guide-1",
+      "source": "boss",
+      "chapter": 1,
+      "how": "Win the Chapter 1 boss."
+    },
+    {
+      "id": "avatar-guide-2",
+      "name": "Bay Guide",
+      "image": "guide-2",
+      "source": "boss",
+      "chapter": 2,
+      "how": "Win the Chapter 2 boss."
+    },
+    {
+      "id": "avatar-guide-3",
+      "name": "Cliff Guide",
+      "image": "guide-3",
+      "source": "boss",
+      "chapter": 3,
+      "how": "Win the Chapter 3 boss."
+    },
+    {
+      "id": "avatar-guide-4",
+      "name": "Reef Guide",
+      "image": "guide-4",
+      "source": "boss",
+      "chapter": 4,
+      "how": "Win the Chapter 4 boss."
+    },
+    {
+      "id": "avatar-guide-5",
+      "name": "Isle Guide",
+      "image": "guide-5",
+      "source": "boss",
+      "chapter": 5,
+      "how": "Win the Chapter 5 boss."
+    },
+    {
+      "id": "avatar-guide-6",
+      "name": "Coast Guide",
+      "image": "guide-6",
+      "source": "boss",
+      "chapter": 6,
+      "how": "Win the Chapter 6 boss."
+    },
+    {
+      "id": "avatar-guide-7",
+      "name": "Summit Guide",
+      "image": "guide-7",
+      "source": "boss",
+      "chapter": 7,
+      "how": "Win the Chapter 7 boss."
+    },
+    {
+      "id": "avatar-guide-8",
+      "name": "Peak Guide",
+      "image": "guide-8",
+      "source": "boss",
+      "chapter": 8,
+      "how": "Win the Chapter 8 boss."
+    },
+    {
+      "id": "avatar-ch1-explorer",
+      "name": "Explorer Parrot",
+      "image": "parrot",
+      "source": "map",
+      "chapter": 1,
+      "how": "A map reward in Chapter 1: earn the normal star on the level before it."
+    },
+    {
+      "id": "avatar-ch3-lookout",
+      "name": "Lookout Owl",
+      "image": "owl",
+      "source": "map",
+      "chapter": 3,
+      "how": "A map reward in Chapter 3: earn the normal star on the level before it."
+    },
+    {
+      "id": "avatar-ch5-signalist",
+      "name": "Signalist Fox",
+      "image": "fox",
+      "source": "map",
+      "chapter": 5,
+      "how": "A map reward in Chapter 5: earn the normal star on the level before it."
+    },
+    {
+      "id": "avatar-ch8-stoic",
+      "name": "Calm Tortoise",
+      "image": "tortoise",
+      "source": "map",
+      "chapter": 8,
+      "how": "A map reward in Chapter 8: earn the normal star on the level before it."
+    },
+    {
+      "id": "avatar-bull",
+      "name": "Bull",
+      "image": "bull",
+      "source": "shop",
+      "price": {
+        "currency": "gems",
+        "amount": 120
+      },
+      "how": "Buy it in the shop for 120 Gems."
+    },
+    {
+      "id": "avatar-bear",
+      "name": "Bear",
+      "image": "bear",
+      "source": "shop",
+      "price": {
+        "currency": "gems",
+        "amount": 120
+      },
+      "how": "Buy it in the shop for 120 Gems."
+    },
+    {
+      "id": "avatar-owl",
+      "name": "Owl",
+      "image": "owl",
+      "source": "shop",
+      "price": {
+        "currency": "gems",
+        "amount": 120
+      },
+      "how": "Buy it in the shop for 120 Gems."
+    },
+    {
+      "id": "avatar-fox",
+      "name": "Fox",
+      "image": "fox",
+      "source": "shop",
+      "price": {
+        "currency": "gems",
+        "amount": 120
+      },
+      "how": "Buy it in the shop for 120 Gems."
+    },
+    {
+      "id": "avatar-eagle",
+      "name": "Eagle",
+      "image": "eagle",
+      "source": "shop",
+      "price": {
+        "currency": "gems",
+        "amount": 120
+      },
+      "how": "Buy it in the shop for 120 Gems."
+    },
+    {
+      "id": "avatar-whale",
+      "name": "Whale",
+      "image": "whale",
+      "source": "shop",
+      "price": {
+        "currency": "gems",
+        "amount": 120
+      },
+      "how": "Buy it in the shop for 120 Gems."
+    },
+    {
+      "id": "avatar-tortoise",
+      "name": "Tortoise",
+      "image": "tortoise",
+      "source": "shop",
+      "price": {
+        "currency": "gems",
+        "amount": 120
+      },
+      "how": "Buy it in the shop for 120 Gems."
+    },
+    {
+      "id": "avatar-hare",
+      "name": "Hare",
+      "image": "hare",
+      "source": "shop",
+      "price": {
+        "currency": "gems",
+        "amount": 120
+      },
+      "how": "Buy it in the shop for 120 Gems."
+    },
+    {
+      "id": "avatar-shark",
+      "name": "Shark",
+      "image": "shark",
+      "source": "shop",
+      "price": {
+        "currency": "gems",
+        "amount": 120
+      },
+      "how": "Buy it in the shop for 120 Gems."
+    },
+    {
+      "id": "avatar-parrot",
+      "name": "Parrot",
+      "image": "parrot",
+      "source": "shop",
+      "price": {
+        "currency": "gems",
+        "amount": 120
+      },
+      "how": "Buy it in the shop for 120 Gems."
+    },
+    {
+      "id": "avatar-octopus",
+      "name": "Octopus",
+      "image": "octopus",
+      "source": "shop",
+      "price": {
+        "currency": "gems",
+        "amount": 120
+      },
+      "how": "Buy it in the shop for 120 Gems."
+    },
+    {
+      "id": "avatar-lion",
+      "name": "Lion",
+      "image": "lion",
+      "source": "shop",
+      "price": {
+        "currency": "gems",
+        "amount": 120
+      },
+      "how": "Buy it in the shop for 120 Gems."
+    }
+  ],
+  "titles": [
+    {
+      "id": "title-rank-deckhand",
+      "name": "Deckhand",
+      "source": "rank",
+      "level": 1,
+      "how": "Reach player level 1."
+    },
+    {
+      "id": "title-rank-able-seaman",
+      "name": "Able Seaman",
+      "source": "rank",
+      "level": 5,
+      "how": "Reach player level 5."
+    },
+    {
+      "id": "title-rank-navigator",
+      "name": "Navigator",
+      "source": "rank",
+      "level": 10,
+      "how": "Reach player level 10."
+    },
+    {
+      "id": "title-rank-quartermaster",
+      "name": "Quartermaster",
+      "source": "rank",
+      "level": 15,
+      "how": "Reach player level 15."
+    },
+    {
+      "id": "title-rank-first-mate",
+      "name": "First Mate",
+      "source": "rank",
+      "level": 20,
+      "how": "Reach player level 20."
+    },
+    {
+      "id": "title-rank-captain",
+      "name": "Captain",
+      "source": "rank",
+      "level": 30,
+      "how": "Reach player level 30."
+    },
+    {
+      "id": "title-rank-commodore",
+      "name": "Commodore",
+      "source": "rank",
+      "level": 40,
+      "how": "Reach player level 40."
+    },
+    {
+      "id": "title-rank-admiral",
+      "name": "Admiral",
+      "source": "rank",
+      "level": 50,
+      "how": "Reach player level 50."
+    },
+    {
+      "id": "title-steady-hand",
+      "name": "Steady Hand",
+      "source": "boss_special",
+      "chapter": 1,
+      "how": "Earn the special star on the Chapter 1 boss."
+    },
+    {
+      "id": "title-order-master",
+      "name": "Order Master",
+      "source": "boss_special",
+      "chapter": 2,
+      "how": "Earn the special star on the Chapter 2 boss."
+    },
+    {
+      "id": "title-chart-whisperer",
+      "name": "Chart Whisperer",
+      "source": "boss_special",
+      "chapter": 3,
+      "how": "Earn the special star on the Chapter 3 boss."
+    },
+    {
+      "id": "title-reef-survivor",
+      "name": "Reef Survivor",
+      "source": "boss_special",
+      "chapter": 4,
+      "how": "Earn the special star on the Chapter 4 boss."
+    },
+    {
+      "id": "title-signal-seeker",
+      "name": "Signal Seeker",
+      "source": "boss_special",
+      "chapter": 5,
+      "how": "Earn the special star on the Chapter 5 boss."
+    },
+    {
+      "id": "title-headline-reader",
+      "name": "Headline Reader",
+      "source": "boss_special",
+      "chapter": 6,
+      "how": "Earn the special star on the Chapter 6 boss."
+    },
+    {
+      "id": "title-regime-ranger",
+      "name": "Regime Ranger",
+      "source": "boss_special",
+      "chapter": 7,
+      "how": "Earn the special star on the Chapter 7 boss."
+    },
+    {
+      "id": "title-ironmind",
+      "name": "Ironmind",
+      "source": "boss_special",
+      "chapter": 8,
+      "how": "Earn the special star on the Chapter 8 boss."
+    },
+    {
+      "id": "title-ch2-order-taker",
+      "name": "Order Taker",
+      "source": "map",
+      "chapter": 2,
+      "how": "A map reward in Chapter 2: earn the normal star on the level before it."
+    },
+    {
+      "id": "title-ch4-reef-navigator",
+      "name": "Reef Navigator",
+      "source": "map",
+      "chapter": 4,
+      "how": "A map reward in Chapter 4: earn the normal star on the level before it."
+    },
+    {
+      "id": "title-ch6-fact-checker",
+      "name": "Fact Checker",
+      "source": "map",
+      "chapter": 6,
+      "how": "A map reward in Chapter 6: earn the normal star on the level before it."
+    },
+    {
+      "id": "title-ch7-strategist",
+      "name": "Map Strategist",
+      "source": "map",
+      "chapter": 7,
+      "how": "A map reward in Chapter 7: earn the normal star on the level before it."
+    },
+    {
+      "id": "title-colossal-challenger",
+      "name": "Colossal Challenger",
+      "source": "weekly",
+      "weekly": true,
+      "price": {
+        "currency": "stocks",
+        "amount": 1000
+      },
+      "how": "Collect 1,000 Doubloons in one week and buy it in the shop."
+    },
+    {
+      "id": "title-steady-sailor",
+      "name": "Steady Sailor",
+      "source": "shop",
+      "price": {
+        "currency": "gems",
+        "amount": 300
+      },
+      "how": "Buy it in the shop for 300 Gems."
+    },
+    {
+      "id": "title-chart-keeper",
+      "name": "Chart Keeper",
+      "source": "shop",
+      "price": {
+        "currency": "gems",
+        "amount": 300
+      },
+      "how": "Buy it in the shop for 300 Gems."
+    },
+    {
+      "id": "title-quiet-captain",
+      "name": "Quiet Captain",
+      "source": "shop",
+      "price": {
+        "currency": "gems",
+        "amount": 300
+      },
+      "how": "Buy it in the shop for 300 Gems."
+    }
+  ],
+  "themes": [
+    {
+      "id": "theme-candles-ocean",
+      "name": "Ocean candles",
+      "description": "Blue rising candles and orange falling candles.",
+      "source": "shop",
+      "price": {
+        "currency": "gems",
+        "amount": 100
+      }
+    },
+    {
+      "id": "theme-candles-ink",
+      "name": "Ink candles",
+      "description": "Hollow rising candles and filled falling candles on parchment.",
+      "source": "shop",
+      "price": {
+        "currency": "gems",
+        "amount": 100
+      }
+    },
+    {
+      "id": "theme-candles-sunset",
+      "name": "Sunset candles",
+      "description": "Gold rising candles and plum falling candles.",
+      "source": "shop",
+      "price": {
+        "currency": "gems",
+        "amount": 100
+      }
+    },
+    {
+      "id": "theme-palette-colorblind",
+      "name": "Colour-blind-safe palette",
+      "description": "Blue and orange gains and losses, free for everyone.",
+      "source": "free"
+    },
+    {
+      "id": "theme-palette-high-contrast",
+      "name": "High-contrast palette",
+      "description": "Maximum contrast for every chart and label, free for everyone.",
+      "source": "free"
+    }
+  ],
+  "badges": [
+    {
+      "id": "badge-first-steps",
+      "name": "First Steps",
+      "description": "Earn the normal star on the first level of Chapter 1."
+    },
+    {
+      "id": "badge-first-plan",
+      "name": "First Plan",
+      "description": "Finish a match in which you set a game plan and made at least one trade."
+    },
+    {
+      "id": "badge-quick-learner",
+      "name": "Quick Learner",
+      "description": "Answer every check question right on the first try in 10 levels."
+    },
+    {
+      "id": "badge-chart-reader",
+      "name": "Chart Reader",
+      "description": "Win the Chapter 3 boss."
+    },
+    {
+      "id": "badge-risk-manager",
+      "name": "Risk Manager",
+      "description": "Finish a match with a stop-loss order on every stock you bought and a worst drawdown of 2% or less."
+    },
+    {
+      "id": "badge-sniper",
+      "name": "Sniper",
+      "description": "Place 5 limit orders in finished matches and keep them open until they fill or the match ends. A limit order fills only at your price or better."
+    },
+    {
+      "id": "badge-fee-fighter",
+      "name": "Fee Fighter",
+      "description": "Finish a choppy or range-bound market with at least 3 trades and under $30 in fees."
+    },
+    {
+      "id": "badge-cool-head",
+      "name": "Cool Head",
+      "description": "Finish a match with at least 3 orders in which no buy after a sale is larger than the buy before it."
+    },
+    {
+      "id": "badge-patient-trader",
+      "name": "Patient Trader",
+      "description": "Finish a match within your loss limit with at least one order, placing none before 40% of the days had passed."
+    },
+    {
+      "id": "badge-explorer",
+      "name": "Explorer",
+      "description": "Earn every special star in one chapter, including the boss."
+    },
+    {
+      "id": "badge-gatecrasher",
+      "name": "Gatecrasher",
+      "description": "Win any Gate Boss."
+    },
+    {
+      "id": "badge-boss-slayer",
+      "name": "Boss Slayer",
+      "description": "Win every chapter boss."
+    },
+    {
+      "id": "badge-streak-master",
+      "name": "Streak Master",
+      "description": "Claim the login reward 30 days in a row."
+    },
+    {
+      "id": "badge-quiz-master",
+      "name": "Quiz Master",
+      "description": "Score 100% on 10 standalone quizzes."
+    },
+    {
+      "id": "badge-ranked-debut",
+      "name": "Ranked Debut",
+      "description": "Complete 5 ranked matches without leaving early."
+    },
+    {
+      "id": "badge-calibrated",
+      "name": "Calibrated",
+      "description": "Mark 20 or more quiz answers \"Sure\" and get at least 85% of them right."
+    }
+  ]
+}

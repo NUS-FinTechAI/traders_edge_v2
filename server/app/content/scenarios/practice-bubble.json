@@ -1,0 +1,254 @@
+{
+  "id": "practice-bubble",
+  "version": 1,
+  "title": "Bubble Watch",
+  "briefing": "Pebble Games is the stock everyone is talking about. Orchard Foods is the stock nobody is talking about. One of them is about to teach a hard lesson.",
+  "objective": "Recognize a hype bubble: keep size small, exit when it cracks, and do not buy the bounce.",
+  "debrief": "Hype headlines on days 6, 10 and 14 pushed Pebble Games far above any measure of its profits. On day 19 it reversed on record volume, and the share-sale filing on day 20 started a collapse. A brief bounce on day 27 trapped late buyers before the slide resumed. Orchard Foods climbed slowly all the way. A disciplined player rode the hype with limited size, left on the reversal and kept the core in the steady stock.",
+  "difficulty": 3,
+  "ticks": 38,
+  "history": 20,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": true,
+    "stop": true
+  },
+  "max_position_pct": null,
+  "balance": null,
+  "tools": [
+    "candles",
+    "volume",
+    "sma",
+    "ema",
+    "rsi"
+  ],
+  "market": {
+    "vol": 0.005
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 38,
+      "market_drift": 0.0005,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "PBGM",
+      "name": "Pebble Games",
+      "sector": "Video games",
+      "blurb": "Makes console and mobile video games.",
+      "price": 20,
+      "drift": 0.0,
+      "beta": 0.8,
+      "vol": 0.015,
+      "base_volume": 22000
+    },
+    {
+      "symbol": "ORCF",
+      "name": "Orchard Foods",
+      "sector": "Consumer staples",
+      "blurb": "Runs a chain of neighborhood grocery stores.",
+      "price": 40,
+      "drift": 0.003,
+      "beta": 0.4,
+      "vol": 0.008,
+      "base_volume": 20000
+    }
+  ],
+  "news": [
+    {
+      "id": "pbgm-viral",
+      "tick": 6,
+      "headline": "Pebble Games clip goes viral",
+      "body": "A short clip of its next game has been shared millions of times.",
+      "tone": "positive",
+      "kind": "hype",
+      "symbols": [
+        "PBGM"
+      ],
+      "effects": [
+        {
+          "symbol": "PBGM",
+          "move": 0.18,
+          "ticks": 5,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "pbgm-forums",
+      "tick": 10,
+      "headline": "Forums crown Pebble Games \"stock of the year\"",
+      "body": "Posts predict the shares will double again. None cite company figures.",
+      "tone": "positive",
+      "kind": "hype",
+      "symbols": [
+        "PBGM"
+      ],
+      "effects": [
+        {
+          "symbol": "PBGM",
+          "move": 0.15,
+          "ticks": 5,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "pbgm-celebrity",
+      "tick": 14,
+      "headline": "A celebrity says they bought Pebble Games shares",
+      "body": "The post drew millions of views overnight.",
+      "tone": "positive",
+      "kind": "hype",
+      "symbols": [
+        "PBGM"
+      ],
+      "effects": [
+        {
+          "symbol": "PBGM",
+          "move": 0.1,
+          "ticks": 4,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "pbgm-reversal",
+      "tick": 19,
+      "headline": "Pebble Games hits a record, then reverses on record volume",
+      "body": "Heavy selling arrived in the afternoon.",
+      "tone": "neutral",
+      "kind": "company",
+      "symbols": [
+        "PBGM"
+      ],
+      "effects": [
+        {
+          "symbol": "PBGM",
+          "move": 0.04,
+          "ticks": 1,
+          "gap": true
+        },
+        {
+          "symbol": "PBGM",
+          "move": -0.08,
+          "ticks": 1,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "pbgm-share-sale",
+      "tick": 20,
+      "headline": "Pebble Games files to sell new shares at the high price",
+      "body": "The company will raise cash by issuing more stock, diluting existing owners.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "PBGM"
+      ],
+      "effects": [
+        {
+          "symbol": "PBGM",
+          "move": -0.35,
+          "ticks": 6,
+          "gap": true
+        }
+      ]
+    },
+    {
+      "id": "pbgm-bounce",
+      "tick": 27,
+      "headline": "\"Buy the dip,\" say Pebble Games fans",
+      "body": "Forum posts urge holders to buy more. Nothing about the business has changed.",
+      "tone": "positive",
+      "kind": "hype",
+      "symbols": [
+        "PBGM"
+      ],
+      "effects": [
+        {
+          "symbol": "PBGM",
+          "move": 0.07,
+          "ticks": 2,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "pbgm-slide",
+      "tick": 30,
+      "headline": "Analysts say Pebble Games is still expensive after the fall",
+      "body": "Even after the drop, the shares trade far above similar studios.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "PBGM"
+      ],
+      "effects": [
+        {
+          "symbol": "PBGM",
+          "move": -0.15,
+          "ticks": 6,
+          "gap": false
+        }
+      ]
+    }
+  ],
+  "bots": [
+    "panic-pete-pro",
+    "momentum-max-pro",
+    "steady-stella-pro"
+  ],
+  "missions": {
+    "basic": [
+      {
+        "id": "win",
+        "type": "rank_max",
+        "params": {
+          "rank": 1
+        },
+        "text": "Finish first"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "exit",
+        "type": "exited_by",
+        "params": {
+          "symbol": "PBGM",
+          "tick": 22
+        },
+        "text": "Be out of Pebble Games by day 22"
+      },
+      {
+        "id": "no-bounce",
+        "type": "no_buy_between",
+        "params": {
+          "from": 26,
+          "to": 29
+        },
+        "text": "Do not buy the bounce (days 26 to 29)"
+      },
+      {
+        "id": "core",
+        "type": "held_between",
+        "params": {
+          "symbol": "ORCF",
+          "from": 5,
+          "to": 35
+        },
+        "text": "Keep a core position in Orchard Foods from day 5 to day 35"
+      }
+    ]
+  }
+}

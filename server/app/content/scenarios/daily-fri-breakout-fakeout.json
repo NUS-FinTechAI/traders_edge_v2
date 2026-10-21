@@ -1,0 +1,200 @@
+{
+  "id": "daily-fri-breakout-fakeout",
+  "version": 1,
+  "title": "Breakout vs Fakeout",
+  "briefing": "Harborline Shipping and Kestrel Air have both been boxed in for weeks, and Tidal Power keeps sliding. One breakout is coming on strong volume; the other is a quiet poke that will not last. Breakout Bea only trusts volume.",
+  "objective": "Tell a confirmed breakout from a false one using the close and the volume.",
+  "debrief": "Harborline crept above its range from day 4 on port-deal talk and light volume, slipped back when the talk cooled on day 12, then collapsed when the deal fell through on day 20: a false breakout that turned into a breakdown. On day 18 record bookings sent Kestrel Air through resistance on heavy volume, and it kept going. Tidal Power drifted lower all match with no breakout at all. A disciplined player skipped the quiet poke, bought the volume breakout and kept a stop back inside the old range.",
+  "difficulty": 3,
+  "ticks": 30,
+  "history": 30,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": true,
+    "stop": true
+  },
+  "max_position_pct": null,
+  "balance": "daily",
+  "tools": [
+    "candles",
+    "volume",
+    "sma"
+  ],
+  "market": {
+    "vol": 0.005
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 30,
+      "market_drift": 0.0,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "HRBL",
+      "name": "Harborline Shipping",
+      "sector": "Shipping",
+      "blurb": "Moves containers between major ports.",
+      "price": 24,
+      "drift": 0.0,
+      "beta": 0.4,
+      "vol": 0.012,
+      "base_volume": 18000
+    },
+    {
+      "symbol": "KSTR",
+      "name": "Kestrel Air",
+      "sector": "Airlines",
+      "blurb": "Flies short routes between regional cities.",
+      "price": 38,
+      "drift": 0.0,
+      "beta": 0.3,
+      "vol": 0.009,
+      "base_volume": 26000
+    },
+    {
+      "symbol": "TDLP",
+      "name": "Tidal Power",
+      "sector": "Utilities",
+      "blurb": "Generates renewable electricity. Falling wholesale power prices are squeezing its profits.",
+      "price": 38,
+      "drift": -0.01,
+      "beta": 0.5,
+      "vol": 0.01,
+      "base_volume": 18000
+    }
+  ],
+  "news": [
+    {
+      "id": "hrbl-deal-talk",
+      "tick": 4,
+      "headline": "Harborline edges higher on talk of a new port deal",
+      "body": "Trade press reports early discussions. Harborline has not commented.",
+      "tone": "neutral",
+      "kind": "rumor",
+      "symbols": [
+        "HRBL"
+      ],
+      "effects": [
+        {
+          "symbol": "HRBL",
+          "move": 0.03,
+          "ticks": 10,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "hrbl-talk-cools",
+      "tick": 12,
+      "headline": "Harborline port-deal talk cools",
+      "body": "People familiar with the talks say no agreement is close.",
+      "tone": "neutral",
+      "kind": "company",
+      "symbols": [
+        "HRBL"
+      ],
+      "effects": [
+        {
+          "symbol": "HRBL",
+          "move": -0.07,
+          "ticks": 3,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "hrbl-deal-off",
+      "tick": 20,
+      "headline": "Harborline's port deal falls through",
+      "body": "The port operator chose a rival shipping line.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "HRBL"
+      ],
+      "effects": [
+        {
+          "symbol": "HRBL",
+          "move": -0.06,
+          "ticks": 1,
+          "gap": true
+        },
+        {
+          "symbol": "HRBL",
+          "move": -0.45,
+          "ticks": 9,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "kstr-record",
+      "tick": 18,
+      "headline": "Kestrel Air reports record bookings and adds routes",
+      "body": "Advance bookings are up 30% on last year.",
+      "tone": "positive",
+      "kind": "company",
+      "symbols": [
+        "KSTR"
+      ],
+      "effects": [
+        {
+          "symbol": "KSTR",
+          "move": 0.11,
+          "ticks": 1,
+          "gap": true
+        },
+        {
+          "symbol": "KSTR",
+          "move": 0.16,
+          "ticks": 10,
+          "gap": false
+        }
+      ]
+    }
+  ],
+  "bots": [
+    "breakout-bea-pro"
+  ],
+  "missions": {
+    "basic": [
+      {
+        "id": "win",
+        "type": "rank_max",
+        "params": {
+          "rank": 1
+        },
+        "text": "Finish with more profit than your opponent"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "skip-fake",
+        "type": "no_buy_between",
+        "params": {
+          "from": 4,
+          "to": 12
+        },
+        "text": "Skip the light-volume poke in Harborline (days 4 to 12)"
+      },
+      {
+        "id": "catch-real",
+        "type": "bought_after_news",
+        "params": {
+          "news_id": "kstr-record",
+          "within": 2
+        },
+        "text": "Buy Kestrel Air within 2 days of its high-volume breakout"
+      }
+    ]
+  }
+}

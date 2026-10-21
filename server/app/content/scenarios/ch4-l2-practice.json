@@ -1,0 +1,129 @@
+{
+  "id": "ch4-l2-practice",
+  "version": 1,
+  "title": "Room to Breathe",
+  "briefing": "Kestrel Air is trending up, but it wobbles a lot. Place your stop where the trend would be broken, not where a normal wobble reaches.",
+  "objective": "Put stops beyond chart structure and outside the normal daily range. Raise them; never lower them.",
+  "debrief": "Kestrel Air rose but swung about 2% on ordinary days. Stops placed a few cents below the entry were hit by normal wobbles, and the price then carried on up without those players. Stops below the last swing low survived. On day 24 a fuel-cost warning broke the trend: a stop raised under the most recent higher low got out with most of the gain.",
+  "difficulty": 2,
+  "ticks": 34,
+  "history": 20,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": true,
+    "stop": true
+  },
+  "max_position_pct": null,
+  "tools": [
+    "candles"
+  ],
+  "market": {
+    "vol": 0.005
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 34,
+      "market_drift": 0.0005,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "KSTR",
+      "name": "Kestrel Air",
+      "sector": "Industrials",
+      "blurb": "Flies short routes between the region's island cities.",
+      "price": 40,
+      "drift": 0.005,
+      "beta": 1.2,
+      "vol": 0.018,
+      "base_volume": 45000
+    },
+    {
+      "symbol": "TDLP",
+      "name": "Tidal Power",
+      "sector": "Utilities",
+      "blurb": "Runs wind and solar farms that sell power to the grid.",
+      "price": 28,
+      "drift": 0.0015,
+      "beta": 0.4,
+      "vol": 0.008,
+      "base_volume": 30000
+    }
+  ],
+  "news": [
+    {
+      "id": "kstr-fuel",
+      "tick": 24,
+      "headline": "Fuel costs jump; Kestrel Air cuts its forecast",
+      "body": "Kestrel Air says higher fuel prices will cut its profit this year by a quarter.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "KSTR"
+      ],
+      "effects": [
+        {
+          "symbol": "KSTR",
+          "move": -0.06,
+          "ticks": 1,
+          "gap": true
+        },
+        {
+          "symbol": "KSTR",
+          "move": -0.08,
+          "ticks": 5,
+          "gap": false
+        }
+      ]
+    }
+  ],
+  "bots": [],
+  "missions": {
+    "basic": [
+      {
+        "id": "m1",
+        "type": "stop_loss_set",
+        "params": {},
+        "text": "Place a stop-loss below a recent swing low"
+      },
+      {
+        "id": "m2",
+        "type": "held_between",
+        "params": {
+          "symbol": "KSTR",
+          "from": 6,
+          "to": 20
+        },
+        "text": "Stay in Kestrel Air from day 6 to day 20 without being shaken out"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "b1",
+        "type": "exited_by",
+        "params": {
+          "symbol": "KSTR",
+          "tick": 27
+        },
+        "text": "Be out of Kestrel Air by day 27"
+      },
+      {
+        "id": "b2",
+        "type": "profit_min",
+        "params": {
+          "amount": 1
+        },
+        "text": "Finish with a profit"
+      }
+    ]
+  },
+  "balance": "lesson"
+}

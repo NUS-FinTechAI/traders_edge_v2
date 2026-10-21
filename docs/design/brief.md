@@ -2,6 +2,8 @@
 
 Status: design selection reopened on 5 October 2026 after owner rejection of the connected application. The earlier Fieldbook reference is historical. A teammate now owns frontend visual design. Three independent concept branches are unmerged exploration material, not a selected application design. Backend/content work must support the complete workflow without imposing one candidate's appearance.
 
+Historical. This brief targeted the removed learning-run workflow (diagnostics, module exit checks, per-order written plans). The playable game replaced it under [ADR 0004](../decisions/0004-playable-game-overhaul.md); the client's current visual direction and screens are recorded in the [build contract](../game-architecture.md#visual-direction). The audience, accessibility and visual exclusions below still apply.
+
 ## Audience and purpose
 
 Complete beginners learning on a phone, usually in portrait orientation and short sessions. They may not know what an asset, broker, spread or drawdown is. The product teaches reasoning about money, uncertainty and risk before trading. It must feel calm, curious and trustworthy, with clear feedback and time to reconsider.

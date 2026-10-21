@@ -1,101 +1,117 @@
-# Game currency policy 1
+# Economy and progression
 
-The supplied game brief is the product authority for competitive rewards. This
-policy implements its daily victory, login, weekly cosmetic and earned premium
-currency mechanics. It supplies explicit initial defaults where the brief leaves
-amounts or reset rules open. These defaults are versioned product decisions,
-not claims about validated learning outcomes or optimal game balance.
+The player economy is implemented in `server/app/player/` (wallet, XP, streak,
+shop, badges) and the settle hook in `server/app/campaign/settlement.py`. The
+amounts below are product defaults recorded in the
+[build contract](game-architecture.md#progression), not research findings.
+Every award uses a natural unique key, so a repeated request pays nothing.
 
-| Event or purchase                            | Initial policy 1                                              |
-| -------------------------------------------- | ------------------------------------------------------------- |
-| First daily AI victory on a UTC calendar day | 200 Stocks                                                    |
-| Daily login claim                            | 20 Stocks and 5 player XP, once per UTC day                   |
-| Daily challenge completed                    | 20 player XP, once per UTC day across retries                 |
-| Chapter entry or exit boss completed         | 20 player XP, once per chapter and purpose across retries     |
-| Practice AI challenge completed              | 20 player XP per completed challenge                          |
-| Public ranked multiplayer completed          | 10 player XP; 10 premium for a winner, 5 for another finisher |
-| Private lobby or abandoned challenge         | No XP or currency                                             |
-| Daily loss or abandonment                    | Two-hour retry cooldown                                       |
-| Clear an active daily cooldown               | 10 premium                                                    |
-| Weekly Colossal Challenger title             | 1,000 Stocks                                                  |
-| Market observer avatar                       | 100 premium                                                   |
+## Currencies
 
-Stocks are reward currency. They are separate from tradable share quantities and
-each simulation's cash. Premium currency is earned from server-settled public
-ranked results; there is no real-money purchase endpoint. Rating changes belong
-to the public multiplayer service and cannot be submitted to the economy API.
-Learning XP and game XP share the player XP ledger, with game events prefixed
-`game:`. Economy rewards never create learning activity days or qualifying
-lesson/review evidence. Login streaks are a separate count of consecutive UTC
-days on which a login reward was claimed, rather than days on which a trading
-order was submitted.
+| Currency  | Symbol | Where it exists                                           | Earned from                             | Spent on                                       |
+| --------- | ------ | --------------------------------------------------------- | --------------------------------------- | ---------------------------------------------- |
+| Sim cash  | `$`    | Inside one match only ($10,000 in every shipped scenario) | —                                       | Simulated orders                               |
+| Doubloons | gold   | Wallet (`stocks_balance`; the GDD's "Stocks")             | Daily login, first daily win of the day | The weekly title (1,000)                       |
+| Gems      | purple | Wallet (`premium_balance`)                                | Ranked matches only                     | Shop cosmetics; skipping a daily cooldown (20) |
 
-Weeks begin Monday at 00:00 UTC. Unspent Stocks expire at the next Monday;
-premium and owned cosmetics persist. A read immediately projects expired Stocks
-as zero without writing. The next mutation records the expiry and resets the
-stored balance. Old command replays return their original committed response
-without granting rewards for a new day or week. A delayed result from an expired
-week cannot revive its Stocks. Previously earned daily victory markers remain stored.
-The dated daily form must match the actual UTC completion day and current day
-to award Stocks. Finishing yesterday's form today awards no Stocks and leaves
-today's first-victory opportunity available; daily completion XP uses the actual
-completion day. The internal result carries the dated form identifier separately
-from the actual completion timestamp.
+Doubloons expire at Monday 00:00 UTC: the first wallet write of a new week
+zeroes them and records an `expiry:<week>` event. Gems do not expire. Gems are
+never sold for real money; there is no purchase endpoint.
 
-A two-hour defeat cooldown carries across midnight and weekly reset. Clearing
-it consumes premium atomically. Replaying an older successful refresh returns
-the original receipt and cannot clear a newer defeat's cooldown. Waiting two
-hours costs nothing. Abandoning a daily attempt also triggers the cooldown and
-awards nothing, so leaving a losing attempt cannot bypass the retry rules.
+## XP and levels
 
-The weekly title is retained as an owned item with its earning-week suffix and
-snapshot. A later week offers a distinct title grant; the earlier grant remains
-usable in the existing inventory and title equipment slot. The premium avatar
-is a single permanent grant. Buying an already owned item under a new command
-does not debit currency again. Visual keys describe cosmetic identity; artwork
-is not supplied by this backend change.
+| Source                                                  | XP                          |
+| ------------------------------------------------------- | --------------------------- |
+| Level check finished (first time)                       | 10                          |
+| Level normal star / special star (first)                | 20 / 10                     |
+| Preview Battle (first play)                             | 10                          |
+| Gate or Chapter Boss (first win of each)                | 50                          |
+| Daily: finished / won (each once per day)               | 15 / 15                     |
+| Practice match finished (max 3 per day)                 | 10                          |
+| Ranked match: loss / win                                | 10 / 20 (none on a forfeit) |
+| Chapter quiz ≥ 80 % / mixed mastery ≥ 80 % (first pass) | 20 / 50                     |
+| Daily review quiz (once per day)                        | 10                          |
+| Daily login, streak day 1–7                             | 10, 10, 10, 10, 20, 20, 20  |
 
-## Transactions and integration
+No XP is paid per order, trade count or volume. Private lobby matches and
+classroom quiz rooms give no XP.
 
-`ServerChallengeResult` is an internal immutable value constructed from the
-persisted final result by the challenge or public multiplayer service. It is
-never an HTTP request schema. `settle_challenge` runs in the same transaction as
-challenge finalization; rolling back finalization also rolls back wallet, event
-and XP changes. It stores the exact award response under the server attempt ID
-and rejects an altered result for an already settled ID. Private results have
-zero rewards. Rank calculation remains in the public matchmaking service.
+Going from level _L_ to _L_+1 needs `100 + 25·(L−1)` XP; the cap is level 50.
+Each player level maps to a rank name (`RANKS` in `server/app/player/levels.py`),
+and each rank is also a `rank` title in `cosmetics.json` that the player owns
+on reaching its level. The two lists must stay in step; the build contract
+records the current names.
 
-Mutation routes use the existing authenticated profile transaction lock. Wallet
-creation additionally uses an atomic insert and each write locks and refreshes
-the account row, covering workers that concurrently encounter a missing wallet.
-SQLite mutation transactions use the existing immediate write transaction.
-Database constraints prevent negative Stocks, premium or login streak values.
-Unique event and command keys protect daily caps and exact request replay;
-currency debit, item ownership and command receipts commit together.
+## Login streak
 
-The start service must call `daily_can_start` before creating a daily attempt.
-After successfully creating it, `consume_daily_refresh` binds a pending paid
-refresh receipt to that attempt and clears the pending pointer in the same
-transaction. It returns the receipt key for the attempt's research metadata,
-or null for an unpaid start. Failed starts leave the receipt available; repeating
-the same attempt correlation never consumes a later receipt.
-The finish and abandonment services must settle the stored result in their
-existing transaction. API routes provide no client-controlled result or credit
-operation:
+`POST /api/me/daily-login` claims once per UTC day. Claiming on consecutive
+days extends the streak; a missed day restarts it at day 1. Rewards repeat in
+a 7-day cycle:
 
-- `GET /api/me/economy`: current wallet and separate login streak.
-- `POST /api/me/economy/login-claims`: claim today's login reward.
-- `POST /api/me/economy/daily-refresh`: pay to clear an active daily cooldown.
-- `GET /api/me/economy/shop`: the finite policy 1 inventory.
-- `POST /api/me/economy/shop/purchases`: purchase a known item with earned funds.
+| Cycle day | 1   | 2   | 3   | 4   | 5   | 6   | 7   |
+| --------- | --- | --- | --- | --- | --- | --- | --- |
+| Doubloons | 20  | 20  | 20  | 30  | 30  | 30  | 50  |
+| XP        | 10  | 10  | 10  | 10  | 20  | 20  | 20  |
 
-Mutation bodies require an idempotency key and accept only policy version `1`.
-Shop purchase bodies also require the stable shop ID. Exact committed command
-responses are replayed before current-week logic. Keys reused for different
-commands return 409. Unknown items return 404; insufficient currency or absent
-cooldowns return 409; unrecognized body fields return 422.
+A second claim on the same day returns `already_claimed: true`. The streak is
+a login count only; nothing is lost or locked when it breaks.
 
-This policy does not establish a research rubric, participant privacy lifecycle,
-cosmetic artwork, real-money purchases or economic balance evaluation.
+## Ranked Gems
 
-Player profiles retain total `xp` and additionally expose `learning_xp`, `game_xp` and `player_level`. Initial player-level policy is level 1 plus one level per 100 total XP. The opt-in learning leaderboard excludes `game:` events, and learning activity/badges retain their original evidence.
+Ranked settlement (no forfeit) pays Gems for a win, a smaller amount for a
+loss in which the player placed an order, and a bonus for the first ranked win
+of the UTC day. The amounts and any daily caps are `RANKED_GEMS` and related
+constants in `server/app/campaign/settlement.py`; the build contract records
+the current values.
+
+## Activity
+
+Settling a non-private match, finishing a check, finishing a standalone quiz
+and claiming the login reward each record a UTC activity day.
+`GET /api/me/activity` returns the last 365 days with a count of XP events per
+day (for the heatmap), the streak length and the current 7-day reward cycle.
+
+## Shop
+
+`GET /api/shop` lists priced items from `cosmetics.json`;
+`POST /api/shop/purchase {item_id}` buys one once.
+
+| Item                               | Price           |
+| ---------------------------------- | --------------- |
+| 12 animal avatars                  | 120 Gems each   |
+| 3 titles                           | 300 Gems each   |
+| 3 candle colour themes             | 100 Gems each   |
+| Weekly title "Colossal Challenger" | 1,000 Doubloons |
+
+Two accessibility palettes are free. The client does not yet apply any theme
+or palette, so owning one has no visible effect.
+
+## Cosmetics and equipment
+
+`PATCH /api/me` equips an owned avatar or title (or clears the title to show
+the rank). Players own the four starter avatars and the rank titles they have
+reached. Other items come from boss wins (guide avatars), boss special stars
+(chapter titles), map rewards, the shop and the weekly title.
+`GET /api/me/collection` lists badges, avatars and titles with owned and
+equipped state and how to unlock each, plus summary stats.
+
+## Badges
+
+Sixteen badges are earned only and never sold. They reward process rather than
+profit size; the implemented conditions are listed in the
+[build contract](game-architecture.md#progression). Badges are checked after
+each settled non-private match, check completion, standalone quiz and login
+claim.
+
+## Leaderboards
+
+`GET /api/leaderboards/xp` ranks players by total XP and
+`GET /api/leaderboards/ranked` by Elo rating. Both show only players who opted
+in with `leaderboard_opt_in` (default off), list the top 50 and include the
+caller's own rank and value.
+
+## Safety
+
+Rewards never depend on trade count, volume or leverage. The login streak has
+no penalty or countdown. XP, stars, badges and rank show activity and
+completed objectives, not validated trading competence.

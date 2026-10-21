@@ -6,6 +6,7 @@ from fastapi.testclient import TestClient
 
 from app.config import Settings
 from app.main import create_app
+from progression_fixtures import fixture_content
 
 
 class PublicConfigTests(unittest.TestCase):
@@ -15,7 +16,7 @@ class PublicConfigTests(unittest.TestCase):
         if settings.auth_mode == 'firebase':
             self.enterContext(patch('firebase_admin.initialize_app'))
             self.enterContext(patch('firebase_admin.delete_app'))
-        return self.enterContext(TestClient(create_app(settings, {'modules': []})))
+        return self.enterContext(TestClient(create_app(settings, fixture_content())))
 
     def test_guest_config_is_readable_without_a_session(self):
         client = self.client()
@@ -45,8 +46,6 @@ class PublicConfigTests(unittest.TestCase):
     def test_config_exposes_only_public_fields_when_private_settings_are_populated(self):
         client = self.client(
             cookie_name='private-cookie-name', session_days=14,
-            instructor_firebase_uids=('private-firebase-uid',),
-            instructor_profile_ids=('private-profile-id',),
             research_enabled=True, research_policy_version='private-policy',
             research_policy_text='Study consent text',
         )

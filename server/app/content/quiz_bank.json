@@ -1,0 +1,4648 @@
+{
+  "version": "2026-10-20.1",
+  "questions": [
+    {
+      "id": "qb-ch1-01",
+      "chapter": 1,
+      "concepts": [
+        "shares",
+        "ownership"
+      ],
+      "difficulty": 1,
+      "kind": "mc",
+      "prompt": "Kestrel Air (KSTR) has 4,000,000 shares. You own 2,000 of them. What percentage of the company do you own?",
+      "options": [
+        {
+          "id": "a",
+          "text": "5%"
+        },
+        {
+          "id": "b",
+          "text": "0.5%"
+        },
+        {
+          "id": "c",
+          "text": "0.05%"
+        },
+        {
+          "id": "d",
+          "text": "0.005%"
+        }
+      ],
+      "answer": "c",
+      "explanation": "2,000 ÷ 4,000,000 = 0.0005, which is 0.05% of the company."
+    },
+    {
+      "id": "qb-ch1-02",
+      "chapter": 1,
+      "concepts": [
+        "market_cap"
+      ],
+      "difficulty": 1,
+      "kind": "mc",
+      "prompt": "How is a company's market capitalization calculated?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Share price × number of shares"
+        },
+        {
+          "id": "b",
+          "text": "Annual profit × 10"
+        },
+        {
+          "id": "c",
+          "text": "Share price × shares traded today"
+        },
+        {
+          "id": "d",
+          "text": "Total cash in the bank minus debt"
+        }
+      ],
+      "answer": "a",
+      "explanation": "Market cap is share price multiplied by the number of shares, the market's total value for the company."
+    },
+    {
+      "id": "qb-ch1-03",
+      "chapter": 1,
+      "concepts": [
+        "market_cap",
+        "share_price_vs_size"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "Meadow Pharma (MDWP) trades at $15 with 300 million shares. Harborline Shipping (HRBL) trades at $90 with 40 million shares. Which statement is correct?",
+      "options": [
+        {
+          "id": "a",
+          "text": "HRBL is bigger, because its share price is six times higher"
+        },
+        {
+          "id": "b",
+          "text": "MDWP is bigger: about $4.5 billion against $3.6 billion"
+        },
+        {
+          "id": "c",
+          "text": "They are the same size"
+        },
+        {
+          "id": "d",
+          "text": "You cannot compare them without dividend data"
+        }
+      ],
+      "answer": "b",
+      "explanation": "MDWP: $15 × 300M = $4.5B. HRBL: $90 × 40M = $3.6B. A higher share price does not mean a bigger company."
+    },
+    {
+      "id": "qb-ch1-04",
+      "chapter": 1,
+      "concepts": [
+        "brokers",
+        "exchanges"
+      ],
+      "difficulty": 1,
+      "kind": "mc",
+      "prompt": "Which statement best describes a broker?",
+      "options": [
+        {
+          "id": "a",
+          "text": "The regulator that sets the official share price"
+        },
+        {
+          "id": "b",
+          "text": "The company whose shares you are buying"
+        },
+        {
+          "id": "c",
+          "text": "A fund that guarantees you against losses"
+        },
+        {
+          "id": "d",
+          "text": "A firm or app that passes your trades to an exchange and looks after your account"
+        }
+      ],
+      "answer": "d",
+      "explanation": "You trade through a broker, which passes your orders to an exchange and keeps your account."
+    },
+    {
+      "id": "qb-ch1-05",
+      "chapter": 1,
+      "concepts": [
+        "ipo",
+        "why_companies_sell_shares"
+      ],
+      "difficulty": 1,
+      "kind": "true_false",
+      "prompt": "A company raises money from investors when it first sells its shares to the public in an IPO.",
+      "options": [
+        {
+          "id": "t",
+          "text": "True"
+        },
+        {
+          "id": "f",
+          "text": "False"
+        }
+      ],
+      "answer": "t",
+      "explanation": "The IPO is when the company itself sells shares and receives the money; later trades are between investors."
+    },
+    {
+      "id": "qb-ch1-06",
+      "chapter": 1,
+      "concepts": [
+        "supply_and_demand"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "At $30, buyers want 1,000 shares of Tidal Power (TDLP) but sellers are offering 6,000. What is the most likely result?",
+      "options": [
+        {
+          "id": "a",
+          "text": "The price rises because sellers are keen"
+        },
+        {
+          "id": "b",
+          "text": "The price tends to fall until enough buyers are willing to trade"
+        },
+        {
+          "id": "c",
+          "text": "The exchange fixes the price at $30"
+        },
+        {
+          "id": "d",
+          "text": "The company buys the extra shares"
+        }
+      ],
+      "answer": "b",
+      "explanation": "More shares for sale than buyers want at $30 means sellers must accept lower prices to find buyers."
+    },
+    {
+      "id": "qb-ch1-07",
+      "chapter": 1,
+      "concepts": [
+        "gaps"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "Pebble Games (PBGM) closes at $25.00. After overnight news, it opens the next day at $23.00. What happened?",
+      "options": [
+        {
+          "id": "a",
+          "text": "A gap down of 8%"
+        },
+        {
+          "id": "b",
+          "text": "A gap up of 8%"
+        },
+        {
+          "id": "c",
+          "text": "A gap down of $3"
+        },
+        {
+          "id": "d",
+          "text": "A dividend payment"
+        }
+      ],
+      "answer": "a",
+      "explanation": "The open is below the prior close: ($25 - $23) ÷ $25 = 8% gap down."
+    },
+    {
+      "id": "qb-ch1-08",
+      "chapter": 1,
+      "concepts": [
+        "investing_vs_trading"
+      ],
+      "difficulty": 1,
+      "kind": "mc",
+      "prompt": "Leo buys Orchard Foods (ORCF) expecting a price move over the next two weeks, with a planned exit if he is wrong. This is best described as:",
+      "options": [
+        {
+          "id": "a",
+          "text": "Long-term investing"
+        },
+        {
+          "id": "b",
+          "text": "Gambling"
+        },
+        {
+          "id": "c",
+          "text": "Trading"
+        },
+        {
+          "id": "d",
+          "text": "Running the company"
+        }
+      ],
+      "answer": "c",
+      "explanation": "A holding period of days to weeks with a plan and an exit is trading."
+    },
+    {
+      "id": "qb-ch1-09",
+      "chapter": 1,
+      "concepts": [
+        "investing_vs_trading",
+        "gambling"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "Which feature most clearly turns a share purchase into gambling?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Holding the shares for less than a month"
+        },
+        {
+          "id": "b",
+          "text": "Using a limit order instead of a market order"
+        },
+        {
+          "id": "c",
+          "text": "Buying a stock that is more volatile than average"
+        },
+        {
+          "id": "d",
+          "text": "Having no reason, no exit plan and no limit on what you can lose"
+        }
+      ],
+      "answer": "d",
+      "explanation": "Short holding periods and volatile stocks are not gambling by themselves; buying with no reason or exit is."
+    },
+    {
+      "id": "qb-ch1-10",
+      "chapter": 1,
+      "concepts": [
+        "dividends"
+      ],
+      "difficulty": 1,
+      "kind": "mc",
+      "prompt": "What is a dividend?",
+      "options": [
+        {
+          "id": "a",
+          "text": "A payment of part of a company's profits to its shareholders"
+        },
+        {
+          "id": "b",
+          "text": "A fee you pay your broker for each trade"
+        },
+        {
+          "id": "c",
+          "text": "Guaranteed yearly interest on every share"
+        },
+        {
+          "id": "d",
+          "text": "The gain you make when the share price rises"
+        }
+      ],
+      "answer": "a",
+      "explanation": "A dividend is a cash payment from profits; it is not guaranteed and is different from a price gain."
+    },
+    {
+      "id": "qb-ch1-11",
+      "chapter": 1,
+      "concepts": [
+        "dividends"
+      ],
+      "difficulty": 2,
+      "kind": "true_false",
+      "prompt": "Once a company starts paying a dividend, it must keep paying at least the same amount every year.",
+      "options": [
+        {
+          "id": "t",
+          "text": "True"
+        },
+        {
+          "id": "f",
+          "text": "False"
+        }
+      ],
+      "answer": "f",
+      "explanation": "Dividends are decided by the company's board and can be cut or stopped, especially when profits fall."
+    },
+    {
+      "id": "qb-ch1-12",
+      "chapter": 1,
+      "concepts": [
+        "dividends",
+        "dividend_yield"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "Harborline Shipping (HRBL) pays $1.20 per share in dividends each year and trades at $40. What is its dividend yield?",
+      "options": [
+        {
+          "id": "a",
+          "text": "1.2%"
+        },
+        {
+          "id": "b",
+          "text": "3%"
+        },
+        {
+          "id": "c",
+          "text": "30%"
+        },
+        {
+          "id": "d",
+          "text": "4.8%"
+        }
+      ],
+      "answer": "b",
+      "explanation": "Dividend yield = annual dividend ÷ price = $1.20 ÷ $40 = 0.03, or 3%."
+    },
+    {
+      "id": "qb-ch1-13",
+      "chapter": 1,
+      "concepts": [
+        "bull_bear"
+      ],
+      "difficulty": 1,
+      "kind": "mc",
+      "prompt": "A bull market is a period when:",
+      "options": [
+        {
+          "id": "a",
+          "text": "Prices are broadly rising"
+        },
+        {
+          "id": "b",
+          "text": "Prices are broadly falling"
+        },
+        {
+          "id": "c",
+          "text": "Trading is halted"
+        },
+        {
+          "id": "d",
+          "text": "Only dividend-paying stocks go up"
+        }
+      ],
+      "answer": "a",
+      "explanation": "Bull means broadly rising prices; bear means broadly falling prices."
+    },
+    {
+      "id": "qb-ch1-14",
+      "chapter": 1,
+      "concepts": [
+        "bull_bear",
+        "market_index"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "A market index falls from 5,000 to 3,900 over several months. About how far has it fallen, and what is this commonly called?",
+      "options": [
+        {
+          "id": "a",
+          "text": "11%, a normal pullback"
+        },
+        {
+          "id": "b",
+          "text": "28%, a bear market"
+        },
+        {
+          "id": "c",
+          "text": "22%, a bear market"
+        },
+        {
+          "id": "d",
+          "text": "22%, a bull market"
+        }
+      ],
+      "answer": "c",
+      "explanation": "(5,000 - 3,900) ÷ 5,000 = 22%. A fall of 20% or more from a recent high is commonly called a bear market."
+    },
+    {
+      "id": "qb-ch1-15",
+      "chapter": 1,
+      "concepts": [
+        "volatility"
+      ],
+      "difficulty": 1,
+      "kind": "true_false",
+      "prompt": "A highly volatile stock tends to make bigger moves, both up and down, than a calm stock.",
+      "options": [
+        {
+          "id": "t",
+          "text": "True"
+        },
+        {
+          "id": "f",
+          "text": "False"
+        }
+      ],
+      "answer": "t",
+      "explanation": "Volatility measures the size of swings in both directions, not the direction of the trend."
+    },
+    {
+      "id": "qb-ch1-16",
+      "chapter": 1,
+      "concepts": [
+        "profit_and_loss",
+        "fees"
+      ],
+      "difficulty": 3,
+      "kind": "mc",
+      "prompt": "You buy 40 shares of Lumen Bikes (LUMB) at $25 and later sell all of them at $22. Fees total $8. What is your realized P/L?",
+      "options": [
+        {
+          "id": "a",
+          "text": "-$112"
+        },
+        {
+          "id": "b",
+          "text": "-$120"
+        },
+        {
+          "id": "c",
+          "text": "+$128"
+        },
+        {
+          "id": "d",
+          "text": "-$128"
+        }
+      ],
+      "answer": "d",
+      "explanation": "($22 - $25) × 40 = -$120, then subtract $8 of fees: -$128."
+    },
+    {
+      "id": "qb-ch1-17",
+      "chapter": 1,
+      "concepts": [
+        "portfolio_value",
+        "unrealized_pl"
+      ],
+      "difficulty": 3,
+      "kind": "mc",
+      "prompt": "You start a challenge with $10,000 and buy 100 shares of Nimbus Cloud (NMBC) at $40, with no fees. The challenge ends with NMBC closing at $37 and you still holding. What is your total profit?",
+      "options": [
+        {
+          "id": "a",
+          "text": "$0, because you have not sold"
+        },
+        {
+          "id": "b",
+          "text": "-$300"
+        },
+        {
+          "id": "c",
+          "text": "+$9,700"
+        },
+        {
+          "id": "d",
+          "text": "-$3,000"
+        }
+      ],
+      "answer": "b",
+      "explanation": "Portfolio value = $6,000 cash + 100 × $37 = $9,700. Held shares count at the final close, so profit is -$300."
+    },
+    {
+      "id": "qb-ch1-18",
+      "chapter": 1,
+      "concepts": [
+        "market_cap",
+        "share_price_vs_size"
+      ],
+      "difficulty": 3,
+      "kind": "mc",
+      "prompt": "Stock X trades at $400 per share and Stock Y at $8 per share. What can you conclude from this information alone?",
+      "options": [
+        {
+          "id": "a",
+          "text": "X is the larger company"
+        },
+        {
+          "id": "b",
+          "text": "Y is the better bargain as a business"
+        },
+        {
+          "id": "c",
+          "text": "X is more likely to rise"
+        },
+        {
+          "id": "d",
+          "text": "Nothing about which company is bigger, because you need the number of shares"
+        }
+      ],
+      "answer": "d",
+      "explanation": "Company size is market cap (price × shares). Share price alone says nothing about size or value."
+    },
+    {
+      "id": "qb-ch1-19",
+      "chapter": 1,
+      "concepts": [
+        "shares",
+        "ownership"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "Owning ordinary shares in Meadow Pharma (MDWP) typically gives you:",
+      "options": [
+        {
+          "id": "a",
+          "text": "A guaranteed share of profits every quarter"
+        },
+        {
+          "id": "b",
+          "text": "The right to manage the company's daily operations"
+        },
+        {
+          "id": "c",
+          "text": "A small ownership stake, usually with voting rights at shareholder meetings"
+        },
+        {
+          "id": "d",
+          "text": "Your money back if the company fails"
+        }
+      ],
+      "answer": "c",
+      "explanation": "Shareholders own a fraction of the company and usually vote on major matters; returns are not guaranteed."
+    },
+    {
+      "id": "qb-ch1-20",
+      "chapter": 1,
+      "concepts": [
+        "shares",
+        "why_companies_sell_shares"
+      ],
+      "difficulty": 3,
+      "kind": "true_false",
+      "prompt": "When Tidal Power's (TDLP) share price falls 10% on the exchange, the company's own cash balance falls by the same amount.",
+      "options": [
+        {
+          "id": "t",
+          "text": "True"
+        },
+        {
+          "id": "f",
+          "text": "False"
+        }
+      ],
+      "answer": "f",
+      "explanation": "Trades between investors do not move money in or out of the company; the fall lowers its market cap, not its bank balance."
+    },
+    {
+      "id": "qb-ch2-01",
+      "chapter": 2,
+      "concepts": [
+        "bid_ask"
+      ],
+      "difficulty": 1,
+      "kind": "mc",
+      "prompt": "A quote shows Bid $18.40 / Ask $18.46. What does $18.40 represent?",
+      "options": [
+        {
+          "id": "a",
+          "text": "The lowest price a seller will accept"
+        },
+        {
+          "id": "b",
+          "text": "The highest price a buyer is currently offering"
+        },
+        {
+          "id": "c",
+          "text": "The guaranteed price of the next trade"
+        },
+        {
+          "id": "d",
+          "text": "Yesterday's closing price"
+        }
+      ],
+      "answer": "b",
+      "explanation": "The bid is the best price buyers are offering; the ask is the best price sellers will accept."
+    },
+    {
+      "id": "qb-ch2-02",
+      "chapter": 2,
+      "concepts": [
+        "spread"
+      ],
+      "difficulty": 1,
+      "kind": "mc",
+      "prompt": "Orchard Foods (ORCF) is quoted Bid $62.10 / Ask $62.18. What is the spread?",
+      "options": [
+        {
+          "id": "a",
+          "text": "$0.08"
+        },
+        {
+          "id": "b",
+          "text": "$0.18"
+        },
+        {
+          "id": "c",
+          "text": "$62.14"
+        },
+        {
+          "id": "d",
+          "text": "$0.80"
+        }
+      ],
+      "answer": "a",
+      "explanation": "Spread = ask - bid = $62.18 - $62.10 = $0.08. ($62.14 is the mid price.)"
+    },
+    {
+      "id": "qb-ch2-03",
+      "chapter": 2,
+      "concepts": [
+        "market_order",
+        "bid_ask"
+      ],
+      "difficulty": 1,
+      "kind": "true_false",
+      "prompt": "In a liquid stock, a market sell order normally fills at or very near the current bid.",
+      "options": [
+        {
+          "id": "t",
+          "text": "True"
+        },
+        {
+          "id": "f",
+          "text": "False"
+        }
+      ],
+      "answer": "t",
+      "explanation": "Market sells fill against the waiting buyers, starting at the best bid."
+    },
+    {
+      "id": "qb-ch2-04",
+      "chapter": 2,
+      "concepts": [
+        "limit_order"
+      ],
+      "difficulty": 1,
+      "kind": "true_false",
+      "prompt": "A buy limit order at $30 can fill at $30.25 if the market moves quickly.",
+      "options": [
+        {
+          "id": "t",
+          "text": "True"
+        },
+        {
+          "id": "f",
+          "text": "False"
+        }
+      ],
+      "answer": "f",
+      "explanation": "A buy limit fills only at its limit price or lower, never above it."
+    },
+    {
+      "id": "qb-ch2-05",
+      "chapter": 2,
+      "concepts": [
+        "limit_order"
+      ],
+      "difficulty": 1,
+      "kind": "mc",
+      "prompt": "What is the main risk of using a limit order?",
+      "options": [
+        {
+          "id": "a",
+          "text": "It may fill at a much worse price than your limit"
+        },
+        {
+          "id": "b",
+          "text": "It always costs a higher commission"
+        },
+        {
+          "id": "c",
+          "text": "It may never fill if the price does not reach your limit"
+        },
+        {
+          "id": "d",
+          "text": "It turns into a market order after one day"
+        }
+      ],
+      "answer": "c",
+      "explanation": "A limit controls the price but not the fill; if the price never reaches it, you may miss the move."
+    },
+    {
+      "id": "qb-ch2-06",
+      "chapter": 2,
+      "concepts": [
+        "stop_order",
+        "gaps"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "You hold Kestrel Air (KSTR) with a sell stop at $80. It closes at $82, then opens at $74 the next day after bad news. Your stop most likely fills near:",
+      "options": [
+        {
+          "id": "a",
+          "text": "$80"
+        },
+        {
+          "id": "b",
+          "text": "$82"
+        },
+        {
+          "id": "c",
+          "text": "$77"
+        },
+        {
+          "id": "d",
+          "text": "$74"
+        }
+      ],
+      "answer": "d",
+      "explanation": "The price opened below the stop, so the stop triggered at the open and sold near $74. A stop is not a guaranteed price."
+    },
+    {
+      "id": "qb-ch2-07",
+      "chapter": 2,
+      "concepts": [
+        "slippage",
+        "order_book_depth"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "The asks are 300 @ $15.00, 200 @ $15.10 and 500 @ $15.20. You market-buy 500 shares. What is your average price?",
+      "options": [
+        {
+          "id": "a",
+          "text": "$15.00"
+        },
+        {
+          "id": "b",
+          "text": "$15.04"
+        },
+        {
+          "id": "c",
+          "text": "$15.05"
+        },
+        {
+          "id": "d",
+          "text": "$15.10"
+        }
+      ],
+      "answer": "b",
+      "explanation": "(300 × $15.00 + 200 × $15.10) ÷ 500 = ($4,500 + $3,020) ÷ 500 = $15.04."
+    },
+    {
+      "id": "qb-ch2-08",
+      "chapter": 2,
+      "concepts": [
+        "slippage"
+      ],
+      "difficulty": 1,
+      "kind": "mc",
+      "prompt": "What is slippage?",
+      "options": [
+        {
+          "id": "a",
+          "text": "The difference between the price you expected and the price you actually got"
+        },
+        {
+          "id": "b",
+          "text": "A fee the exchange charges on every order"
+        },
+        {
+          "id": "c",
+          "text": "The gap between a day's open and close"
+        },
+        {
+          "id": "d",
+          "text": "The delay before a limit order is cancelled"
+        }
+      ],
+      "answer": "a",
+      "explanation": "Slippage happens when an order fills at a worse price than expected, for example by walking up the order book."
+    },
+    {
+      "id": "qb-ch2-09",
+      "chapter": 2,
+      "concepts": [
+        "stop_limit_order"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "Which statement about a stop-limit order is correct?",
+      "options": [
+        {
+          "id": "a",
+          "text": "It guarantees both a fill and a price"
+        },
+        {
+          "id": "b",
+          "text": "It works exactly like a market order"
+        },
+        {
+          "id": "c",
+          "text": "When triggered it becomes a limit order, so it protects your price but may not fill if the price jumps past the limit"
+        },
+        {
+          "id": "d",
+          "text": "It can only be used to buy"
+        }
+      ],
+      "answer": "c",
+      "explanation": "A stop-limit trades fill certainty for price control: in a gap through the limit, nothing fills."
+    },
+    {
+      "id": "qb-ch2-10",
+      "chapter": 2,
+      "concepts": [
+        "stop_order",
+        "buy_stop"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "Harborline Shipping (HRBL) trades at $34, below resistance at $36. You want to buy only if it breaks above $36. Which order fits?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Buy limit at $36"
+        },
+        {
+          "id": "b",
+          "text": "Sell stop at $36"
+        },
+        {
+          "id": "c",
+          "text": "Market buy now"
+        },
+        {
+          "id": "d",
+          "text": "Buy stop at $36.10"
+        }
+      ],
+      "answer": "d",
+      "explanation": "A buy stop above the price triggers only on a break upward. A buy limit at $36 would fill right away near $34."
+    },
+    {
+      "id": "qb-ch2-11",
+      "chapter": 2,
+      "concepts": [
+        "partial_fills",
+        "liquidity",
+        "slippage"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "Pebble Games (PBGM) is thinly traded. The order book shows 300 shares offered at $20.00 and the next 500 shares at $20.10. You send a market buy for 600 shares. What is your average fill price?",
+      "options": [
+        {
+          "id": "a",
+          "text": "$19.95"
+        },
+        {
+          "id": "b",
+          "text": "$20.00"
+        },
+        {
+          "id": "c",
+          "text": "$20.05"
+        },
+        {
+          "id": "d",
+          "text": "$20.10"
+        }
+      ],
+      "answer": "c",
+      "explanation": "300 shares fill at $20.00 and the other 300 at $20.10: $12,030 ÷ 600 = $20.05. Thin books make large market orders walk up the price."
+    },
+    {
+      "id": "qb-ch2-12",
+      "chapter": 2,
+      "concepts": [
+        "liquidity"
+      ],
+      "difficulty": 1,
+      "kind": "mc",
+      "prompt": "Which stock is the most liquid?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Average volume 3,000 shares a day, spread 1.5%"
+        },
+        {
+          "id": "b",
+          "text": "Average volume 50,000 shares a day, spread 0.4%"
+        },
+        {
+          "id": "c",
+          "text": "Average volume 4,000,000 shares a day, spread 0.02%"
+        },
+        {
+          "id": "d",
+          "text": "Average volume 200 shares a day, spread 3%"
+        }
+      ],
+      "answer": "c",
+      "explanation": "High volume and a tight spread mean many buyers and sellers, so trading in and out costs less."
+    },
+    {
+      "id": "qb-ch2-13",
+      "chapter": 2,
+      "concepts": [
+        "spread",
+        "liquidity"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "Pebble Games (PBGM) is quoted Bid $11.88 / Ask $12.12. What is the spread as a percentage of the mid price?",
+      "options": [
+        {
+          "id": "a",
+          "text": "0.24%"
+        },
+        {
+          "id": "b",
+          "text": "1%"
+        },
+        {
+          "id": "c",
+          "text": "24%"
+        },
+        {
+          "id": "d",
+          "text": "2%"
+        }
+      ],
+      "answer": "d",
+      "explanation": "Spread = $0.24 and mid = $12.00, so $0.24 ÷ $12.00 = 2%."
+    },
+    {
+      "id": "qb-ch2-14",
+      "chapter": 2,
+      "concepts": [
+        "spread",
+        "commissions"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "You buy 200 shares at the ask of $40.10 and immediately sell them at the bid of $40.00. Commission is $2 per trade. What is your total loss?",
+      "options": [
+        {
+          "id": "a",
+          "text": "$20"
+        },
+        {
+          "id": "b",
+          "text": "$22"
+        },
+        {
+          "id": "c",
+          "text": "$4"
+        },
+        {
+          "id": "d",
+          "text": "$24"
+        }
+      ],
+      "answer": "d",
+      "explanation": "Spread cost: 200 × $0.10 = $20. Two commissions: $4. Total loss: $24."
+    },
+    {
+      "id": "qb-ch2-15",
+      "chapter": 2,
+      "concepts": [
+        "commissions"
+      ],
+      "difficulty": 1,
+      "kind": "mc",
+      "prompt": "A broker charges $5 per trade. Ana makes 4 trades a month and Raj makes 60. How much more does Raj pay in commissions each month?",
+      "options": [
+        {
+          "id": "a",
+          "text": "$280"
+        },
+        {
+          "id": "b",
+          "text": "$300"
+        },
+        {
+          "id": "c",
+          "text": "$56"
+        },
+        {
+          "id": "d",
+          "text": "$20"
+        }
+      ],
+      "answer": "a",
+      "explanation": "Raj pays 60 × $5 = $300 and Ana pays 4 × $5 = $20, a difference of $280."
+    },
+    {
+      "id": "qb-ch2-16",
+      "chapter": 2,
+      "concepts": [
+        "slippage",
+        "order_book_depth"
+      ],
+      "difficulty": 3,
+      "kind": "mc",
+      "prompt": "The bids are 400 @ $25.00, 300 @ $24.95 and 500 @ $24.90. You market-sell 1,000 shares. What is your average price?",
+      "options": [
+        {
+          "id": "a",
+          "text": "$25.00"
+        },
+        {
+          "id": "b",
+          "text": "$24.955"
+        },
+        {
+          "id": "c",
+          "text": "$24.95"
+        },
+        {
+          "id": "d",
+          "text": "$24.90"
+        }
+      ],
+      "answer": "b",
+      "explanation": "400 × $25.00 + 300 × $24.95 + 300 × $24.90 = $24,955, divided by 1,000 shares = $24.955."
+    },
+    {
+      "id": "qb-ch2-17",
+      "chapter": 2,
+      "concepts": [
+        "limit_order",
+        "gaps"
+      ],
+      "difficulty": 3,
+      "kind": "mc",
+      "prompt": "You hold Meadow Pharma (MDWP) and place a sell limit at $60. After good news, the next day opens at $61.50, with a high of $62.00 and a low of $60.80. At what price does your order fill?",
+      "options": [
+        {
+          "id": "a",
+          "text": "$60.00"
+        },
+        {
+          "id": "b",
+          "text": "$61.50"
+        },
+        {
+          "id": "c",
+          "text": "$62.00"
+        },
+        {
+          "id": "d",
+          "text": "It does not fill"
+        }
+      ],
+      "answer": "b",
+      "explanation": "A sell limit fills at $60 or better. The day opened above $60, so it fills at the better opening price of $61.50."
+    },
+    {
+      "id": "qb-ch2-18",
+      "chapter": 2,
+      "concepts": [
+        "stop_order",
+        "gaps"
+      ],
+      "difficulty": 3,
+      "kind": "true_false",
+      "prompt": "A stop-loss order guarantees that your loss will be no larger than the distance between your entry and your stop.",
+      "options": [
+        {
+          "id": "t",
+          "text": "True"
+        },
+        {
+          "id": "f",
+          "text": "False"
+        }
+      ],
+      "answer": "f",
+      "explanation": "If the price gaps past the stop, it becomes a market order and fills at the next available price, which can be much worse."
+    },
+    {
+      "id": "qb-ch2-19",
+      "chapter": 2,
+      "concepts": [
+        "liquidity",
+        "slippage"
+      ],
+      "difficulty": 2,
+      "kind": "true_false",
+      "prompt": "In a thinly traded stock with few shares on the order book, a large market order can push your average fill price well away from the best quote.",
+      "options": [
+        {
+          "id": "t",
+          "text": "True"
+        },
+        {
+          "id": "f",
+          "text": "False"
+        }
+      ],
+      "answer": "t",
+      "explanation": "A big order uses up the shares at the best price and walks the book to worse prices."
+    },
+    {
+      "id": "qb-ch2-20",
+      "chapter": 2,
+      "concepts": [
+        "stop_limit_order",
+        "stop_order"
+      ],
+      "difficulty": 3,
+      "kind": "mc",
+      "prompt": "You hold Lumen Bikes (LUMB) at $50. You want to sell if it falls to $47, but you do not want to be filled far below $46.50 in a gap. Which order matches this, and what is its trade-off?",
+      "options": [
+        {
+          "id": "a",
+          "text": "A stop-limit with stop $47 and limit $46.50; if the price gaps below $46.50, it may not fill and you keep holding"
+        },
+        {
+          "id": "b",
+          "text": "A sell stop at $47; it guarantees a fill at exactly $47"
+        },
+        {
+          "id": "c",
+          "text": "A market sell now; it guarantees the best price"
+        },
+        {
+          "id": "d",
+          "text": "A buy limit at $47; it protects the position"
+        }
+      ],
+      "answer": "a",
+      "explanation": "A stop-limit gives price control, but a gap past the limit leaves the order unfilled."
+    },
+    {
+      "id": "qb-ch3-01",
+      "chapter": 3,
+      "concepts": [
+        "candlestick_anatomy"
+      ],
+      "difficulty": 1,
+      "kind": "mc",
+      "prompt": "On a candlestick, what does the body show?",
+      "options": [
+        {
+          "id": "a",
+          "text": "The range between the open and the close"
+        },
+        {
+          "id": "b",
+          "text": "The range between the high and the low"
+        },
+        {
+          "id": "c",
+          "text": "The volume traded"
+        },
+        {
+          "id": "d",
+          "text": "The average price of the day"
+        }
+      ],
+      "answer": "a",
+      "explanation": "The body runs from open to close; the wicks reach the high and the low."
+    },
+    {
+      "id": "qb-ch3-02",
+      "chapter": 3,
+      "concepts": [
+        "candlestick_anatomy"
+      ],
+      "difficulty": 1,
+      "kind": "mc",
+      "prompt": "A daily candle has open $44.00, high $44.60, low $41.90 and close $42.30. What type of candle is it?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Green (bullish)"
+        },
+        {
+          "id": "b",
+          "text": "Red (bearish)"
+        },
+        {
+          "id": "c",
+          "text": "A doji"
+        },
+        {
+          "id": "d",
+          "text": "You cannot tell without volume"
+        }
+      ],
+      "answer": "b",
+      "explanation": "It closed below its open, so it is a red (bearish) candle."
+    },
+    {
+      "id": "qb-ch3-03",
+      "chapter": 3,
+      "concepts": [
+        "candlestick_anatomy",
+        "wicks"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "A candle has open $60.00, high $63.00, low $59.50 and close $61.00. How long is its upper wick?",
+      "options": [
+        {
+          "id": "a",
+          "text": "$3.00"
+        },
+        {
+          "id": "b",
+          "text": "$1.00"
+        },
+        {
+          "id": "c",
+          "text": "$2.00"
+        },
+        {
+          "id": "d",
+          "text": "$0.50"
+        }
+      ],
+      "answer": "c",
+      "explanation": "The upper wick runs from the top of the body (the $61.00 close) to the $63.00 high: $2.00."
+    },
+    {
+      "id": "qb-ch3-04",
+      "chapter": 3,
+      "concepts": [
+        "line_vs_candle"
+      ],
+      "difficulty": 1,
+      "kind": "true_false",
+      "prompt": "A line chart usually connects each period's closing price.",
+      "options": [
+        {
+          "id": "t",
+          "text": "True"
+        },
+        {
+          "id": "f",
+          "text": "False"
+        }
+      ],
+      "answer": "t",
+      "explanation": "Line charts join closes; candlesticks add the open, high and low."
+    },
+    {
+      "id": "qb-ch3-05",
+      "chapter": 3,
+      "concepts": [
+        "doji"
+      ],
+      "difficulty": 1,
+      "kind": "mc",
+      "prompt": "A doji, where the open and close are almost equal, usually signals:",
+      "options": [
+        {
+          "id": "a",
+          "text": "A guaranteed reversal"
+        },
+        {
+          "id": "b",
+          "text": "Strong buying pressure"
+        },
+        {
+          "id": "c",
+          "text": "Heavy volume"
+        },
+        {
+          "id": "d",
+          "text": "Indecision between buyers and sellers"
+        }
+      ],
+      "answer": "d",
+      "explanation": "A tiny body means neither side won the period; it is a clue, not a signal on its own."
+    },
+    {
+      "id": "qb-ch3-06",
+      "chapter": 3,
+      "concepts": [
+        "shooting_star",
+        "candlestick_patterns"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "After a strong uptrend, a candle forms with a small body near its low and an upper wick about three times as long as the body. What is it called?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Hammer"
+        },
+        {
+          "id": "b",
+          "text": "Bullish engulfing"
+        },
+        {
+          "id": "c",
+          "text": "Shooting star"
+        },
+        {
+          "id": "d",
+          "text": "Doji"
+        }
+      ],
+      "answer": "c",
+      "explanation": "A shooting star at the top of an uptrend shows buyers pushed up but sellers drove the price back down."
+    },
+    {
+      "id": "qb-ch3-07",
+      "chapter": 3,
+      "concepts": [
+        "hammer",
+        "candlestick_patterns"
+      ],
+      "difficulty": 3,
+      "kind": "mc",
+      "prompt": "After a decline, which candle fits the hammer definition: a small body in the upper part of the candle and a lower wick two or more times the body's length?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Open $50.00, high $52.00, low $49.80, close $50.20"
+        },
+        {
+          "id": "b",
+          "text": "Open $49.60, high $50.10, low $48.40, close $50.00"
+        },
+        {
+          "id": "c",
+          "text": "Open $50.00, high $51.50, low $48.50, close $50.05"
+        },
+        {
+          "id": "d",
+          "text": "Open $48.50, high $50.30, low $48.40, close $50.20"
+        }
+      ],
+      "answer": "b",
+      "explanation": "Body $0.40, lower wick $1.20 (three times the body) and only $0.10 of upper wick, so the body sits near the top."
+    },
+    {
+      "id": "qb-ch3-08",
+      "chapter": 3,
+      "concepts": [
+        "engulfing",
+        "candlestick_patterns"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "At the top of an uptrend: Day 1 opens $70.00 and closes $72.00 (green). Day 2 opens $72.40 and closes $69.50 (red). Which pattern is this?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Bullish engulfing"
+        },
+        {
+          "id": "b",
+          "text": "Hammer"
+        },
+        {
+          "id": "c",
+          "text": "Bearish engulfing"
+        },
+        {
+          "id": "d",
+          "text": "Doji"
+        }
+      ],
+      "answer": "c",
+      "explanation": "Day 2's red body ($72.40 to $69.50) completely covers Day 1's green body ($70 to $72) after a rise."
+    },
+    {
+      "id": "qb-ch3-09",
+      "chapter": 3,
+      "concepts": [
+        "trends"
+      ],
+      "difficulty": 1,
+      "kind": "mc",
+      "prompt": "An uptrend is defined by:",
+      "options": [
+        {
+          "id": "a",
+          "text": "Higher highs and higher lows"
+        },
+        {
+          "id": "b",
+          "text": "Lower highs and lower lows"
+        },
+        {
+          "id": "c",
+          "text": "Equal highs and equal lows"
+        },
+        {
+          "id": "d",
+          "text": "Rising volume alone"
+        }
+      ],
+      "answer": "a",
+      "explanation": "Rising peaks and rising dips define an uptrend."
+    },
+    {
+      "id": "qb-ch3-10",
+      "chapter": 3,
+      "concepts": [
+        "trends",
+        "ranges"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "A stock's swing highs are $32.00, $32.40 and $31.80, and its swing lows are $28.00, $27.70 and $28.20. What best describes it?",
+      "options": [
+        {
+          "id": "a",
+          "text": "An uptrend"
+        },
+        {
+          "id": "b",
+          "text": "A downtrend"
+        },
+        {
+          "id": "c",
+          "text": "A sideways range"
+        },
+        {
+          "id": "d",
+          "text": "A confirmed breakout"
+        }
+      ],
+      "answer": "c",
+      "explanation": "The highs and lows are neither steadily rising nor falling, so the price is moving sideways between about $28 and $32."
+    },
+    {
+      "id": "qb-ch3-11",
+      "chapter": 3,
+      "concepts": [
+        "support_resistance"
+      ],
+      "difficulty": 1,
+      "kind": "mc",
+      "prompt": "Support is a price level where:",
+      "options": [
+        {
+          "id": "a",
+          "text": "Rises have repeatedly stalled as sellers appeared"
+        },
+        {
+          "id": "b",
+          "text": "The exchange stops trading the stock"
+        },
+        {
+          "id": "c",
+          "text": "The price is guaranteed not to fall below"
+        },
+        {
+          "id": "d",
+          "text": "Falls have repeatedly stopped as buyers stepped in"
+        }
+      ],
+      "answer": "d",
+      "explanation": "Support is a floor where buying has appeared before; it can still break."
+    },
+    {
+      "id": "qb-ch3-12",
+      "chapter": 3,
+      "concepts": [
+        "support_resistance",
+        "role_reversal"
+      ],
+      "difficulty": 2,
+      "kind": "true_false",
+      "prompt": "After a stock breaks above resistance, that old resistance level often acts as support when the price pulls back.",
+      "options": [
+        {
+          "id": "t",
+          "text": "True"
+        },
+        {
+          "id": "f",
+          "text": "False"
+        }
+      ],
+      "answer": "t",
+      "explanation": "This is role reversal: the old ceiling often becomes the new floor, though not always."
+    },
+    {
+      "id": "qb-ch3-13",
+      "chapter": 3,
+      "concepts": [
+        "breakouts",
+        "measured_move"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "Tidal Power (TDLP) traded between $25 and $28 for three weeks, then broke out above $28. What is the measured-move target?",
+      "options": [
+        {
+          "id": "a",
+          "text": "$29.50"
+        },
+        {
+          "id": "b",
+          "text": "$31"
+        },
+        {
+          "id": "c",
+          "text": "$34"
+        },
+        {
+          "id": "d",
+          "text": "$28.30"
+        }
+      ],
+      "answer": "b",
+      "explanation": "Range height = $28 - $25 = $3, so the target is $28 + $3 = $31. It is a rough guide, not a promise."
+    },
+    {
+      "id": "qb-ch3-14",
+      "chapter": 3,
+      "concepts": [
+        "volume_confirmation"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "A stock rises for five days while volume shrinks each day. What does this most likely suggest?",
+      "options": [
+        {
+          "id": "a",
+          "text": "The rise has weak participation and is less convincing"
+        },
+        {
+          "id": "b",
+          "text": "The rise is guaranteed to continue"
+        },
+        {
+          "id": "c",
+          "text": "Volume does not matter for price moves"
+        },
+        {
+          "id": "d",
+          "text": "A breakout has been confirmed"
+        }
+      ],
+      "answer": "a",
+      "explanation": "Rising prices on falling volume show fewer participants backing the move."
+    },
+    {
+      "id": "qb-ch3-15",
+      "chapter": 3,
+      "concepts": [
+        "breakouts",
+        "false_breakouts",
+        "volume_confirmation"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "Which approach best protects you against false breakouts?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Buy as soon as the price touches resistance during the day"
+        },
+        {
+          "id": "b",
+          "text": "Use a bigger position so a real breakout pays more"
+        },
+        {
+          "id": "c",
+          "text": "Remove your stop so a brief dip cannot shake you out"
+        },
+        {
+          "id": "d",
+          "text": "Wait for a close above resistance on above-average volume, with a stop back inside the range"
+        }
+      ],
+      "answer": "d",
+      "explanation": "Waiting for a close and volume filters weak breakouts, and the stop limits the damage if it still fails."
+    },
+    {
+      "id": "qb-ch3-16",
+      "chapter": 3,
+      "concepts": [
+        "timeframes"
+      ],
+      "difficulty": 1,
+      "kind": "mc",
+      "prompt": "On a daily chart, each candle represents:",
+      "options": [
+        {
+          "id": "a",
+          "text": "One minute of trading"
+        },
+        {
+          "id": "b",
+          "text": "One week of trading"
+        },
+        {
+          "id": "c",
+          "text": "One single trade"
+        },
+        {
+          "id": "d",
+          "text": "One trading day"
+        }
+      ],
+      "answer": "d",
+      "explanation": "The timeframe sets how much time each candle covers; on a daily chart it is one trading day."
+    },
+    {
+      "id": "qb-ch3-17",
+      "chapter": 3,
+      "concepts": [
+        "timeframes",
+        "trends"
+      ],
+      "difficulty": 3,
+      "kind": "mc",
+      "prompt": "Kestrel Air (KSTR) is in a clear uptrend on the weekly chart but has fallen for three days on the daily chart. What is the most reasonable reading?",
+      "options": [
+        {
+          "id": "a",
+          "text": "The longer-term trend is up and the recent fall is a short-term pullback, which may or may not end soon"
+        },
+        {
+          "id": "b",
+          "text": "Both timeframes now show a downtrend"
+        },
+        {
+          "id": "c",
+          "text": "The weekly chart must be wrong"
+        },
+        {
+          "id": "d",
+          "text": "Different timeframes always show the same trend"
+        }
+      ],
+      "answer": "a",
+      "explanation": "Timeframes can disagree; a pullback on a short timeframe can sit inside a longer uptrend."
+    },
+    {
+      "id": "qb-ch3-18",
+      "chapter": 3,
+      "concepts": [
+        "support_resistance",
+        "stop_placement"
+      ],
+      "difficulty": 3,
+      "kind": "mc",
+      "prompt": "You buy Orchard Foods (ORCF) at $41.20, just above a support zone of $40.50 to $41.00. Resistance is at $45. Which plan uses a sensible stop and has a reward-to-risk above 3:1?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Stop $41.10, target $45.00"
+        },
+        {
+          "id": "b",
+          "text": "Stop $40.20, target $44.80"
+        },
+        {
+          "id": "c",
+          "text": "Stop $35.00, target $45.00"
+        },
+        {
+          "id": "d",
+          "text": "No stop, target $50.00"
+        }
+      ],
+      "answer": "b",
+      "explanation": "A stop just below the zone risks $1.00 for $3.60 of reward (3.6:1). A $41.10 stop sits inside normal noise."
+    },
+    {
+      "id": "qb-ch3-19",
+      "chapter": 3,
+      "concepts": [
+        "hammer",
+        "confirmation"
+      ],
+      "difficulty": 1,
+      "kind": "true_false",
+      "prompt": "A hammer after a downtrend reliably predicts a rise, so waiting for confirmation is unnecessary.",
+      "options": [
+        {
+          "id": "t",
+          "text": "True"
+        },
+        {
+          "id": "f",
+          "text": "False"
+        }
+      ],
+      "answer": "f",
+      "explanation": "Patterns are probabilities and fail often; check the context and wait for confirmation."
+    },
+    {
+      "id": "qb-ch3-20",
+      "chapter": 3,
+      "concepts": [
+        "candlestick_anatomy",
+        "wicks"
+      ],
+      "difficulty": 3,
+      "kind": "true_false",
+      "prompt": "A candle with open $40, high $43, low $39 and close $42 has a lower wick of $1 and an upper wick of $3.",
+      "options": [
+        {
+          "id": "t",
+          "text": "True"
+        },
+        {
+          "id": "f",
+          "text": "False"
+        }
+      ],
+      "answer": "f",
+      "explanation": "Lower wick = $40 - $39 = $1, but upper wick = $43 - $42 = $1, measured from the close, not the open."
+    },
+    {
+      "id": "qb-ch4-01",
+      "chapter": 4,
+      "concepts": [
+        "one_percent_rule"
+      ],
+      "difficulty": 1,
+      "kind": "mc",
+      "prompt": "You have a $20,000 account and risk 1% per trade. What is the most you should lose on one trade?",
+      "options": [
+        {
+          "id": "a",
+          "text": "$20"
+        },
+        {
+          "id": "b",
+          "text": "$200"
+        },
+        {
+          "id": "c",
+          "text": "$2,000"
+        },
+        {
+          "id": "d",
+          "text": "$100"
+        }
+      ],
+      "answer": "b",
+      "explanation": "1% of $20,000 is $200."
+    },
+    {
+      "id": "qb-ch4-02",
+      "chapter": 4,
+      "concepts": [
+        "position_sizing",
+        "one_percent_rule"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "You have a $25,000 account and risk 1% per trade. You buy Kestrel Air (KSTR) at $80 with a stop at $76. How many shares should you buy?",
+      "options": [
+        {
+          "id": "a",
+          "text": "62"
+        },
+        {
+          "id": "b",
+          "text": "63"
+        },
+        {
+          "id": "c",
+          "text": "250"
+        },
+        {
+          "id": "d",
+          "text": "31"
+        }
+      ],
+      "answer": "a",
+      "explanation": "Risk = $250; stop distance = $4; $250 ÷ $4 = 62.5, rounded down to 62 so you stay within 1%."
+    },
+    {
+      "id": "qb-ch4-03",
+      "chapter": 4,
+      "concepts": [
+        "position_sizing",
+        "risk_vs_position"
+      ],
+      "difficulty": 1,
+      "kind": "mc",
+      "prompt": "You buy 100 shares at $30 with a stop at $28. What are your position size and your risk?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Position $3,000, risk $3,000"
+        },
+        {
+          "id": "b",
+          "text": "Position $3,000, risk $200"
+        },
+        {
+          "id": "c",
+          "text": "Position $200, risk $3,000"
+        },
+        {
+          "id": "d",
+          "text": "Position $2,800, risk $200"
+        }
+      ],
+      "answer": "b",
+      "explanation": "Position = 100 × $30 = $3,000. Risk = 100 × ($30 - $28) = $200 if the stop fills as planned."
+    },
+    {
+      "id": "qb-ch4-04",
+      "chapter": 4,
+      "concepts": [
+        "stop_placement"
+      ],
+      "difficulty": 1,
+      "kind": "true_false",
+      "prompt": "You should decide where your stop-loss goes before you enter a trade.",
+      "options": [
+        {
+          "id": "t",
+          "text": "True"
+        },
+        {
+          "id": "f",
+          "text": "False"
+        }
+      ],
+      "answer": "t",
+      "explanation": "Planning the stop first lets you size the position and stops emotions from setting it later."
+    },
+    {
+      "id": "qb-ch4-05",
+      "chapter": 4,
+      "concepts": [
+        "stop_placement",
+        "never_widen_stop"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "Your stop on Lumen Bikes (LUMB) is at $46 and the price has fallen to $46.30. What does sound risk management say?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Move the stop down to $43 to give the trade more room"
+        },
+        {
+          "id": "b",
+          "text": "Cancel the stop because the price will probably bounce"
+        },
+        {
+          "id": "c",
+          "text": "Buy more shares to lower your average price"
+        },
+        {
+          "id": "d",
+          "text": "Keep the stop where you planned it; widening it increases the loss you agreed to"
+        }
+      ],
+      "answer": "d",
+      "explanation": "Moving a stop away from the price turns a planned small loss into an unplanned bigger one."
+    },
+    {
+      "id": "qb-ch4-06",
+      "chapter": 4,
+      "concepts": [
+        "stop_placement",
+        "average_range"
+      ],
+      "difficulty": 2,
+      "kind": "true_false",
+      "prompt": "If a stock usually moves about $1.50 a day, a stop placed only $0.20 below your entry is likely to be hit by ordinary daily movement.",
+      "options": [
+        {
+          "id": "t",
+          "text": "True"
+        },
+        {
+          "id": "f",
+          "text": "False"
+        }
+      ],
+      "answer": "t",
+      "explanation": "A stop much tighter than the normal daily range gets triggered by noise rather than by the trade being wrong."
+    },
+    {
+      "id": "qb-ch4-07",
+      "chapter": 4,
+      "concepts": [
+        "trailing_stop"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "You buy at $50 and set a trailing stop $3 below the highest price reached. The price rises to $58 and then falls. Ignoring gaps, where does your stop trigger?",
+      "options": [
+        {
+          "id": "a",
+          "text": "$47"
+        },
+        {
+          "id": "b",
+          "text": "$50"
+        },
+        {
+          "id": "c",
+          "text": "$55"
+        },
+        {
+          "id": "d",
+          "text": "$58"
+        }
+      ],
+      "answer": "c",
+      "explanation": "The stop trails the $58 high by $3, so it sits at $55 and locks in part of the gain."
+    },
+    {
+      "id": "qb-ch4-08",
+      "chapter": 4,
+      "concepts": [
+        "risk_reward"
+      ],
+      "difficulty": 1,
+      "kind": "mc",
+      "prompt": "Entry $20, stop $19, target $23. What is the reward-to-risk ratio?",
+      "options": [
+        {
+          "id": "a",
+          "text": "1:3"
+        },
+        {
+          "id": "b",
+          "text": "3:1"
+        },
+        {
+          "id": "c",
+          "text": "2:1"
+        },
+        {
+          "id": "d",
+          "text": "4:1"
+        }
+      ],
+      "answer": "b",
+      "explanation": "Reward = $3 and risk = $1, so reward-to-risk is 3:1."
+    },
+    {
+      "id": "qb-ch4-09",
+      "chapter": 4,
+      "concepts": [
+        "risk_reward",
+        "breakeven_win_rate"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "Your trades either win 1.5R or lose 1R. Before fees, what win rate do you need to break even?",
+      "options": [
+        {
+          "id": "a",
+          "text": "60%"
+        },
+        {
+          "id": "b",
+          "text": "50%"
+        },
+        {
+          "id": "c",
+          "text": "33.3%"
+        },
+        {
+          "id": "d",
+          "text": "40%"
+        }
+      ],
+      "answer": "d",
+      "explanation": "Breakeven win rate = 1 ÷ (1 + R) = 1 ÷ 2.5 = 40%."
+    },
+    {
+      "id": "qb-ch4-10",
+      "chapter": 4,
+      "concepts": [
+        "expectancy"
+      ],
+      "difficulty": 3,
+      "kind": "mc",
+      "prompt": "A system wins 40% of the time with an average win of $300 and loses 60% of the time with an average loss of $150. What is its expectancy per trade?",
+      "options": [
+        {
+          "id": "a",
+          "text": "+$150"
+        },
+        {
+          "id": "b",
+          "text": "-$30"
+        },
+        {
+          "id": "c",
+          "text": "+$30"
+        },
+        {
+          "id": "d",
+          "text": "+$60"
+        }
+      ],
+      "answer": "c",
+      "explanation": "0.40 × $300 - 0.60 × $150 = $120 - $90 = +$30 per trade, on average over many trades."
+    },
+    {
+      "id": "qb-ch4-11",
+      "chapter": 4,
+      "concepts": [
+        "expectancy",
+        "win_rate_misconception"
+      ],
+      "difficulty": 3,
+      "kind": "mc",
+      "prompt": "Trader A wins 70% of trades with an average win of $50 and an average loss of $150. Trader B wins 35% with an average win of $300 and an average loss of $100. Which has positive expectancy?",
+      "options": [
+        {
+          "id": "a",
+          "text": "A only"
+        },
+        {
+          "id": "b",
+          "text": "B only"
+        },
+        {
+          "id": "c",
+          "text": "Both"
+        },
+        {
+          "id": "d",
+          "text": "Neither"
+        }
+      ],
+      "answer": "b",
+      "explanation": "A: 0.7 × $50 - 0.3 × $150 = -$10. B: 0.35 × $300 - 0.65 × $100 = +$40. A high win rate is not enough."
+    },
+    {
+      "id": "qb-ch4-12",
+      "chapter": 4,
+      "concepts": [
+        "diversification"
+      ],
+      "difficulty": 1,
+      "kind": "mc",
+      "prompt": "Diversifying across several unrelated companies mainly reduces:",
+      "options": [
+        {
+          "id": "a",
+          "text": "The damage one company's bad news can do to your portfolio"
+        },
+        {
+          "id": "b",
+          "text": "The risk of the whole market falling"
+        },
+        {
+          "id": "c",
+          "text": "All investment risk"
+        },
+        {
+          "id": "d",
+          "text": "Your trading fees"
+        }
+      ],
+      "answer": "a",
+      "explanation": "Diversification spreads company-specific risk; it does not remove the risk of a market-wide fall."
+    },
+    {
+      "id": "qb-ch4-13",
+      "chapter": 4,
+      "concepts": [
+        "correlation",
+        "diversification"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "You hold Nimbus Cloud (NMBC), a cloud-software company. Which addition gives the least diversification benefit?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Another cloud-software stock that usually moves with NMBC"
+        },
+        {
+          "id": "b",
+          "text": "Orchard Foods (ORCF), a food company"
+        },
+        {
+          "id": "c",
+          "text": "Tidal Power (TDLP), an electricity supplier"
+        },
+        {
+          "id": "d",
+          "text": "Harborline Shipping (HRBL), a shipping company"
+        }
+      ],
+      "answer": "a",
+      "explanation": "Highly correlated holdings move together, so they act like one bigger position."
+    },
+    {
+      "id": "qb-ch4-14",
+      "chapter": 4,
+      "concepts": [
+        "concentration"
+      ],
+      "difficulty": 1,
+      "kind": "mc",
+      "prompt": "Your portfolio is worth $12,000 and $4,800 of it is in Harborline Shipping (HRBL). What percentage is that position?",
+      "options": [
+        {
+          "id": "a",
+          "text": "4.8%"
+        },
+        {
+          "id": "b",
+          "text": "25%"
+        },
+        {
+          "id": "c",
+          "text": "40%"
+        },
+        {
+          "id": "d",
+          "text": "48%"
+        }
+      ],
+      "answer": "c",
+      "explanation": "$4,800 ÷ $12,000 = 0.40, or 40% of the portfolio."
+    },
+    {
+      "id": "qb-ch4-15",
+      "chapter": 4,
+      "concepts": [
+        "drawdown_recovery"
+      ],
+      "difficulty": 1,
+      "kind": "true_false",
+      "prompt": "A loss of 50% needs a gain of 50% to get back to where you started.",
+      "options": [
+        {
+          "id": "t",
+          "text": "True"
+        },
+        {
+          "id": "f",
+          "text": "False"
+        }
+      ],
+      "answer": "f",
+      "explanation": "After a 50% loss, $10,000 becomes $5,000; you need +100% to return to $10,000."
+    },
+    {
+      "id": "qb-ch4-16",
+      "chapter": 4,
+      "concepts": [
+        "drawdown_recovery"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "Your account falls from $10,000 to $8,000. What percentage gain do you need to get back to $10,000?",
+      "options": [
+        {
+          "id": "a",
+          "text": "20%"
+        },
+        {
+          "id": "b",
+          "text": "2.5%"
+        },
+        {
+          "id": "c",
+          "text": "80%"
+        },
+        {
+          "id": "d",
+          "text": "25%"
+        }
+      ],
+      "answer": "d",
+      "explanation": "You need $2,000 on a base of $8,000: $2,000 ÷ $8,000 = 25%."
+    },
+    {
+      "id": "qb-ch4-17",
+      "chapter": 4,
+      "concepts": [
+        "drawdown"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "Your account peaks at $12,500 and then falls to $10,000 before recovering. What was the maximum drawdown?",
+      "options": [
+        {
+          "id": "a",
+          "text": "25%"
+        },
+        {
+          "id": "b",
+          "text": "2.5%"
+        },
+        {
+          "id": "c",
+          "text": "20%"
+        },
+        {
+          "id": "d",
+          "text": "12.5%"
+        }
+      ],
+      "answer": "c",
+      "explanation": "Drawdown is measured from the peak: ($12,500 - $10,000) ÷ $12,500 = 20%."
+    },
+    {
+      "id": "qb-ch4-18",
+      "chapter": 4,
+      "concepts": [
+        "one_percent_rule",
+        "losing_streaks"
+      ],
+      "difficulty": 3,
+      "kind": "mc",
+      "prompt": "Two traders start with $10,000 and lose 8 trades in a row. Trader A risks 2% of current equity on each trade; Trader B risks 10%. Roughly how much does each have left?",
+      "options": [
+        {
+          "id": "a",
+          "text": "A about $8,508; B about $4,305"
+        },
+        {
+          "id": "b",
+          "text": "A about $8,400; B about $2,000"
+        },
+        {
+          "id": "c",
+          "text": "A about $9,800; B about $9,000"
+        },
+        {
+          "id": "d",
+          "text": "A about $8,508; B about $0"
+        }
+      ],
+      "answer": "a",
+      "explanation": "A: $10,000 × 0.98^8 ≈ $8,508. B: $10,000 × 0.90^8 ≈ $4,305. Small fixed-% risk survives losing streaks far better."
+    },
+    {
+      "id": "qb-ch4-19",
+      "chapter": 4,
+      "concepts": [
+        "diversification",
+        "correlation"
+      ],
+      "difficulty": 1,
+      "kind": "true_false",
+      "prompt": "Holding five stocks from the same sector protects you as well as holding five stocks from unrelated sectors.",
+      "options": [
+        {
+          "id": "t",
+          "text": "True"
+        },
+        {
+          "id": "f",
+          "text": "False"
+        }
+      ],
+      "answer": "f",
+      "explanation": "Stocks in the same sector tend to move together, so a sector-wide problem can hit all five at once."
+    },
+    {
+      "id": "qb-ch4-20",
+      "chapter": 4,
+      "concepts": [
+        "position_sizing",
+        "position_limits"
+      ],
+      "difficulty": 3,
+      "kind": "mc",
+      "prompt": "You have $10,000 in cash and risk 1% per trade. You plan to buy at $25 with a stop at $24.90. The risk formula gives 1,000 shares. What is the problem?",
+      "options": [
+        {
+          "id": "a",
+          "text": "There is no problem; buy 1,000 shares"
+        },
+        {
+          "id": "b",
+          "text": "The risk would be 10% of the account"
+        },
+        {
+          "id": "c",
+          "text": "The stop is too wide"
+        },
+        {
+          "id": "d",
+          "text": "1,000 shares would cost $25,000, more than your cash, so the size must be capped by cash and position limits"
+        }
+      ],
+      "answer": "d",
+      "explanation": "$100 ÷ $0.10 = 1,000 shares, but 1,000 × $25 = $25,000. A very tight stop can produce a size you cannot afford or should not hold."
+    },
+    {
+      "id": "qb-ch5-01",
+      "chapter": 5,
+      "concepts": [
+        "sma"
+      ],
+      "difficulty": 1,
+      "kind": "mc",
+      "prompt": "The last five closing prices were $10, $11, $12, $13 and $14. What is the 5-day simple moving average (SMA)?",
+      "options": [
+        {
+          "id": "a",
+          "text": "$14"
+        },
+        {
+          "id": "b",
+          "text": "$12"
+        },
+        {
+          "id": "c",
+          "text": "$60"
+        },
+        {
+          "id": "d",
+          "text": "$13"
+        }
+      ],
+      "answer": "b",
+      "explanation": "($10 + $11 + $12 + $13 + $14) ÷ 5 = $60 ÷ 5 = $12."
+    },
+    {
+      "id": "qb-ch5-02",
+      "chapter": 5,
+      "concepts": [
+        "ema",
+        "sma"
+      ],
+      "difficulty": 1,
+      "kind": "mc",
+      "prompt": "Compared with an SMA of the same length, an exponential moving average (EMA):",
+      "options": [
+        {
+          "id": "a",
+          "text": "Gives more weight to recent prices, so it reacts faster"
+        },
+        {
+          "id": "b",
+          "text": "Ignores the most recent prices"
+        },
+        {
+          "id": "c",
+          "text": "Predicts tomorrow's price"
+        },
+        {
+          "id": "d",
+          "text": "Is calculated from volume instead of price"
+        }
+      ],
+      "answer": "a",
+      "explanation": "An EMA weights recent closes more heavily, so it turns sooner than an SMA, though it still lags."
+    },
+    {
+      "id": "qb-ch5-03",
+      "chapter": 5,
+      "concepts": [
+        "moving_averages",
+        "lag"
+      ],
+      "difficulty": 1,
+      "kind": "true_false",
+      "prompt": "Moving averages are calculated from past prices, so they lag behind the current price.",
+      "options": [
+        {
+          "id": "t",
+          "text": "True"
+        },
+        {
+          "id": "f",
+          "text": "False"
+        }
+      ],
+      "answer": "t",
+      "explanation": "Every moving average summarises prices that have already happened."
+    },
+    {
+      "id": "qb-ch5-04",
+      "chapter": 5,
+      "concepts": [
+        "ema"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "A 9-day EMA uses a multiplier of 2 ÷ (9 + 1) = 0.2. Yesterday's EMA was $50 and today's close is $55. What is today's EMA?",
+      "options": [
+        {
+          "id": "a",
+          "text": "$55"
+        },
+        {
+          "id": "b",
+          "text": "$52.50"
+        },
+        {
+          "id": "c",
+          "text": "$51"
+        },
+        {
+          "id": "d",
+          "text": "$50.50"
+        }
+      ],
+      "answer": "c",
+      "explanation": "EMA = $50 + 0.2 × ($55 - $50) = $50 + $1 = $51."
+    },
+    {
+      "id": "qb-ch5-05",
+      "chapter": 5,
+      "concepts": [
+        "crossovers",
+        "golden_cross"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "A golden cross happens when:",
+      "options": [
+        {
+          "id": "a",
+          "text": "The 50-day moving average crosses below the 200-day moving average"
+        },
+        {
+          "id": "b",
+          "text": "The price touches the 200-day moving average"
+        },
+        {
+          "id": "c",
+          "text": "RSI crosses above 50"
+        },
+        {
+          "id": "d",
+          "text": "The 50-day moving average crosses above the 200-day moving average"
+        }
+      ],
+      "answer": "d",
+      "explanation": "A golden cross is the 50-day moving above the 200-day; the opposite is a death cross."
+    },
+    {
+      "id": "qb-ch5-06",
+      "chapter": 5,
+      "concepts": [
+        "crossovers",
+        "whipsaw"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "In a sideways range, a trader buys every time the 10-day MA crosses above the 30-day MA and sells every time it crosses below. What is the most likely result?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Many small losses from false signals (whipsaw), made worse by fees"
+        },
+        {
+          "id": "b",
+          "text": "A profit on almost every crossover"
+        },
+        {
+          "id": "c",
+          "text": "No trades at all"
+        },
+        {
+          "id": "d",
+          "text": "Buying every low and selling every high exactly"
+        }
+      ],
+      "answer": "a",
+      "explanation": "Crossovers work best in trends; in ranges the averages keep crossing and produce false signals."
+    },
+    {
+      "id": "qb-ch5-07",
+      "chapter": 5,
+      "concepts": [
+        "rsi"
+      ],
+      "difficulty": 1,
+      "kind": "mc",
+      "prompt": "The Relative Strength Index (RSI) moves between:",
+      "options": [
+        {
+          "id": "a",
+          "text": "-100 and 100"
+        },
+        {
+          "id": "b",
+          "text": "0 and 100"
+        },
+        {
+          "id": "c",
+          "text": "0 and 1"
+        },
+        {
+          "id": "d",
+          "text": "It has no fixed range"
+        }
+      ],
+      "answer": "b",
+      "explanation": "RSI is scaled from 0 to 100."
+    },
+    {
+      "id": "qb-ch5-08",
+      "chapter": 5,
+      "concepts": [
+        "rsi",
+        "overbought_misconception"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "Lumen Bikes (LUMB) is in a strong uptrend and its RSI has been above 70 for eight days. What is the most accurate statement?",
+      "options": [
+        {
+          "id": "a",
+          "text": "It must fall soon, so sell everything now"
+        },
+        {
+          "id": "b",
+          "text": "RSI above 70 means the company is overvalued"
+        },
+        {
+          "id": "c",
+          "text": "In strong trends RSI can stay above 70 for a long time; it is not a sell signal by itself"
+        },
+        {
+          "id": "d",
+          "text": "RSI above 70 guarantees the trend will continue"
+        }
+      ],
+      "answer": "c",
+      "explanation": "\"Overbought\" describes strong recent gains, not a forecast; strong trends often keep RSI high."
+    },
+    {
+      "id": "qb-ch5-09",
+      "chapter": 5,
+      "concepts": [
+        "rsi",
+        "divergence"
+      ],
+      "difficulty": 3,
+      "kind": "mc",
+      "prompt": "The price makes a higher high ($58 against an earlier $55), but RSI makes a lower high (68 against an earlier 76). This is:",
+      "options": [
+        {
+          "id": "a",
+          "text": "Bullish divergence"
+        },
+        {
+          "id": "b",
+          "text": "Bearish divergence: upward momentum is weakening"
+        },
+        {
+          "id": "c",
+          "text": "Confirmation that the trend is strengthening"
+        },
+        {
+          "id": "d",
+          "text": "A golden cross"
+        }
+      ],
+      "answer": "b",
+      "explanation": "Price and RSI disagreeing at a new high is bearish divergence, a warning rather than a certain reversal."
+    },
+    {
+      "id": "qb-ch5-10",
+      "chapter": 5,
+      "concepts": [
+        "rsi"
+      ],
+      "difficulty": 1,
+      "kind": "mc",
+      "prompt": "By convention, an RSI reading below 30 is described as:",
+      "options": [
+        {
+          "id": "a",
+          "text": "Overbought"
+        },
+        {
+          "id": "b",
+          "text": "Neutral"
+        },
+        {
+          "id": "c",
+          "text": "Oversold"
+        },
+        {
+          "id": "d",
+          "text": "A guaranteed buy signal"
+        }
+      ],
+      "answer": "c",
+      "explanation": "Below 30 is called oversold and above 70 overbought; neither is a guarantee."
+    },
+    {
+      "id": "qb-ch5-11",
+      "chapter": 5,
+      "concepts": [
+        "macd"
+      ],
+      "difficulty": 1,
+      "kind": "mc",
+      "prompt": "The MACD line is calculated as:",
+      "options": [
+        {
+          "id": "a",
+          "text": "The 26-day SMA minus the 12-day SMA"
+        },
+        {
+          "id": "b",
+          "text": "The 9-day EMA of the price"
+        },
+        {
+          "id": "c",
+          "text": "RSI minus 50"
+        },
+        {
+          "id": "d",
+          "text": "The 12-period EMA minus the 26-period EMA"
+        }
+      ],
+      "answer": "d",
+      "explanation": "MACD = 12-EMA - 26-EMA; the signal line is a 9-period EMA of the MACD line."
+    },
+    {
+      "id": "qb-ch5-12",
+      "chapter": 5,
+      "concepts": [
+        "macd",
+        "macd_histogram"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "The 12-day EMA is $52.40, the 26-day EMA is $51.10 and the MACD signal line is 0.90. What are the MACD line and the histogram?",
+      "options": [
+        {
+          "id": "a",
+          "text": "MACD 1.30; histogram 0.40"
+        },
+        {
+          "id": "b",
+          "text": "MACD -1.30; histogram -2.20"
+        },
+        {
+          "id": "c",
+          "text": "MACD 1.30; histogram 2.20"
+        },
+        {
+          "id": "d",
+          "text": "MACD 0.40; histogram 1.30"
+        }
+      ],
+      "answer": "a",
+      "explanation": "MACD = $52.40 - $51.10 = 1.30. Histogram = MACD - signal = 1.30 - 0.90 = 0.40."
+    },
+    {
+      "id": "qb-ch5-13",
+      "chapter": 5,
+      "concepts": [
+        "macd",
+        "signal_line"
+      ],
+      "difficulty": 1,
+      "kind": "mc",
+      "prompt": "The MACD signal line is:",
+      "options": [
+        {
+          "id": "a",
+          "text": "The 9-day SMA of the price"
+        },
+        {
+          "id": "b",
+          "text": "The 26-day EMA of the price"
+        },
+        {
+          "id": "c",
+          "text": "The zero line"
+        },
+        {
+          "id": "d",
+          "text": "A 9-period EMA of the MACD line"
+        }
+      ],
+      "answer": "d",
+      "explanation": "The standard MACD settings are 12, 26 and 9: the 9 smooths the MACD line into the signal line."
+    },
+    {
+      "id": "qb-ch5-14",
+      "chapter": 5,
+      "concepts": [
+        "macd",
+        "signals_not_guarantees"
+      ],
+      "difficulty": 2,
+      "kind": "true_false",
+      "prompt": "When the MACD line crosses above its signal line, the price is guaranteed to rise.",
+      "options": [
+        {
+          "id": "t",
+          "text": "True"
+        },
+        {
+          "id": "f",
+          "text": "False"
+        }
+      ],
+      "answer": "f",
+      "explanation": "A MACD cross is a lagging momentum clue and produces false signals, especially in ranges."
+    },
+    {
+      "id": "qb-ch5-15",
+      "chapter": 5,
+      "concepts": [
+        "confluence"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "Which setup shows the strongest confluence for buying?",
+      "options": [
+        {
+          "id": "a",
+          "text": "RSI below 30 in a strong downtrend, with no support nearby"
+        },
+        {
+          "id": "b",
+          "text": "Price pulls back to support in an uptrend, holds above a rising 50-day MA, and RSI turns up from about 40"
+        },
+        {
+          "id": "c",
+          "text": "A single MACD cross in the middle of a choppy range"
+        },
+        {
+          "id": "d",
+          "text": "Five indicators that are all built from the same moving average flash 'buy'"
+        }
+      ],
+      "answer": "b",
+      "explanation": "Confluence means independent clues agree: trend, a price level and momentum together."
+    },
+    {
+      "id": "qb-ch5-16",
+      "chapter": 5,
+      "concepts": [
+        "indicator_overload",
+        "indicators_from_price"
+      ],
+      "difficulty": 3,
+      "kind": "mc",
+      "prompt": "Why does adding more price-based indicators often fail to improve decisions?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Indicators only work on weekly charts"
+        },
+        {
+          "id": "b",
+          "text": "Each extra indicator uses future prices"
+        },
+        {
+          "id": "c",
+          "text": "Brokers charge a fee for each indicator"
+        },
+        {
+          "id": "d",
+          "text": "They are built from the same price data, so they mostly repeat the same information"
+        }
+      ],
+      "answer": "d",
+      "explanation": "Indicators are calculations on past prices, not new information; stacking them adds clutter, not confirmation."
+    },
+    {
+      "id": "qb-ch5-17",
+      "chapter": 5,
+      "concepts": [
+        "sma"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "A 3-day SMA was based on closes of $20, $22 and $24. The next close is $26. What is the new 3-day SMA?",
+      "options": [
+        {
+          "id": "a",
+          "text": "$23"
+        },
+        {
+          "id": "b",
+          "text": "$22"
+        },
+        {
+          "id": "c",
+          "text": "$24"
+        },
+        {
+          "id": "d",
+          "text": "$26"
+        }
+      ],
+      "answer": "c",
+      "explanation": "The oldest close drops out: ($22 + $24 + $26) ÷ 3 = $24."
+    },
+    {
+      "id": "qb-ch5-18",
+      "chapter": 5,
+      "concepts": [
+        "crossovers",
+        "lag"
+      ],
+      "difficulty": 3,
+      "kind": "mc",
+      "prompt": "Lumen Bikes (LUMB) falls from $60 to $50 over two weeks, and only then does its 20-day SMA cross below its 50-day SMA. What does this illustrate?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Crossovers often confirm a move after much of it has already happened (lag)"
+        },
+        {
+          "id": "b",
+          "text": "Crossovers give early warning before prices move"
+        },
+        {
+          "id": "c",
+          "text": "The moving averages were calculated incorrectly"
+        },
+        {
+          "id": "d",
+          "text": "A golden cross"
+        }
+      ],
+      "answer": "a",
+      "explanation": "Moving averages are built from past prices, so their signals arrive late."
+    },
+    {
+      "id": "qb-ch5-19",
+      "chapter": 5,
+      "concepts": [
+        "rsi",
+        "overbought_misconception"
+      ],
+      "difficulty": 1,
+      "kind": "true_false",
+      "prompt": "An RSI reading of 75 means a company's shares are overvalued compared with its profits.",
+      "options": [
+        {
+          "id": "t",
+          "text": "True"
+        },
+        {
+          "id": "f",
+          "text": "False"
+        }
+      ],
+      "answer": "f",
+      "explanation": "RSI measures recent price momentum only; it says nothing about profits or valuation."
+    },
+    {
+      "id": "qb-ch5-20",
+      "chapter": 5,
+      "concepts": [
+        "rsi",
+        "regime"
+      ],
+      "difficulty": 3,
+      "kind": "true_false",
+      "prompt": "RSI 30/70 levels are usually more useful as turning-point clues in a sideways range than in a strong trend.",
+      "options": [
+        {
+          "id": "t",
+          "text": "True"
+        },
+        {
+          "id": "f",
+          "text": "False"
+        }
+      ],
+      "answer": "t",
+      "explanation": "In a range, oversold and overbought readings often line up with support and resistance; in strong trends RSI can stay extreme."
+    },
+    {
+      "id": "qb-ch6-01",
+      "chapter": 6,
+      "concepts": [
+        "eps"
+      ],
+      "difficulty": 1,
+      "kind": "true_false",
+      "prompt": "Earnings per share (EPS) is found by dividing the share price by the company's annual earnings.",
+      "options": [
+        {
+          "id": "t",
+          "text": "True"
+        },
+        {
+          "id": "f",
+          "text": "False"
+        }
+      ],
+      "answer": "f",
+      "explanation": "EPS = net profit ÷ number of shares. Share price ÷ EPS is the P/E ratio."
+    },
+    {
+      "id": "qb-ch6-02",
+      "chapter": 6,
+      "concepts": [
+        "eps"
+      ],
+      "difficulty": 1,
+      "kind": "mc",
+      "prompt": "Orchard Foods (ORCF) earned $50 million in net profit and has 25 million shares. What is its EPS?",
+      "options": [
+        {
+          "id": "a",
+          "text": "$0.50"
+        },
+        {
+          "id": "b",
+          "text": "$2.00"
+        },
+        {
+          "id": "c",
+          "text": "$20.00"
+        },
+        {
+          "id": "d",
+          "text": "$1.25"
+        }
+      ],
+      "answer": "b",
+      "explanation": "EPS = $50 million ÷ 25 million shares = $2.00."
+    },
+    {
+      "id": "qb-ch6-03",
+      "chapter": 6,
+      "concepts": [
+        "revenue"
+      ],
+      "difficulty": 1,
+      "kind": "mc",
+      "prompt": "In an earnings report, revenue is:",
+      "options": [
+        {
+          "id": "a",
+          "text": "Profit left after all costs"
+        },
+        {
+          "id": "b",
+          "text": "The total money from sales before costs are subtracted"
+        },
+        {
+          "id": "c",
+          "text": "The dividends paid to shareholders"
+        },
+        {
+          "id": "d",
+          "text": "The company's market cap"
+        }
+      ],
+      "answer": "b",
+      "explanation": "Revenue is the top line (total sales); profit is what remains after costs."
+    },
+    {
+      "id": "qb-ch6-04",
+      "chapter": 6,
+      "concepts": [
+        "beat_miss",
+        "expectations"
+      ],
+      "difficulty": 1,
+      "kind": "mc",
+      "prompt": "Analysts expected Nimbus Cloud (NMBC) to report EPS of $1.10. The company reports $1.25. This is:",
+      "options": [
+        {
+          "id": "a",
+          "text": "A miss"
+        },
+        {
+          "id": "b",
+          "text": "In line"
+        },
+        {
+          "id": "c",
+          "text": "A beat"
+        },
+        {
+          "id": "d",
+          "text": "A guidance cut"
+        }
+      ],
+      "answer": "c",
+      "explanation": "Results above the consensus estimate are called a beat."
+    },
+    {
+      "id": "qb-ch6-05",
+      "chapter": 6,
+      "concepts": [
+        "guidance",
+        "expectations"
+      ],
+      "difficulty": 3,
+      "kind": "mc",
+      "prompt": "Meadow Pharma (MDWP) beats this quarter's EPS estimate but lowers its forecast for next year. The shares fall 8%. What is the most likely reason?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Investors price future expectations, and the guidance cut outweighed the beat"
+        },
+        {
+          "id": "b",
+          "text": "The market made an error that will be corrected tomorrow"
+        },
+        {
+          "id": "c",
+          "text": "Beating estimates always makes a stock fall"
+        },
+        {
+          "id": "d",
+          "text": "The EPS was too high"
+        }
+      ],
+      "answer": "a",
+      "explanation": "Prices reflect expected future profits, so weaker guidance can matter more than one good quarter."
+    },
+    {
+      "id": "qb-ch6-06",
+      "chapter": 6,
+      "concepts": [
+        "pe_ratio"
+      ],
+      "difficulty": 1,
+      "kind": "mc",
+      "prompt": "Harborline Shipping (HRBL) trades at $45 and has EPS of $3. What is its P/E ratio?",
+      "options": [
+        {
+          "id": "a",
+          "text": "135"
+        },
+        {
+          "id": "b",
+          "text": "0.067"
+        },
+        {
+          "id": "c",
+          "text": "15"
+        },
+        {
+          "id": "d",
+          "text": "48"
+        }
+      ],
+      "answer": "c",
+      "explanation": "P/E = price ÷ EPS = $45 ÷ $3 = 15."
+    },
+    {
+      "id": "qb-ch6-07",
+      "chapter": 6,
+      "concepts": [
+        "pe_ratio",
+        "growth_vs_value"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "Kestrel Air (KSTR) has a P/E of 40 and Orchard Foods (ORCF) has a P/E of 12. What does this most likely tell you?",
+      "options": [
+        {
+          "id": "a",
+          "text": "KSTR is the bigger company"
+        },
+        {
+          "id": "b",
+          "text": "Investors are paying more per dollar of current earnings for KSTR, often because they expect faster growth"
+        },
+        {
+          "id": "c",
+          "text": "ORCF is guaranteed to rise"
+        },
+        {
+          "id": "d",
+          "text": "KSTR's share price must be higher"
+        }
+      ],
+      "answer": "b",
+      "explanation": "P/E compares price with earnings, not company size or share price; a high P/E usually reflects growth expectations."
+    },
+    {
+      "id": "qb-ch6-08",
+      "chapter": 6,
+      "concepts": [
+        "growth_vs_value"
+      ],
+      "difficulty": 1,
+      "kind": "mc",
+      "prompt": "A value stock is typically one that:",
+      "options": [
+        {
+          "id": "a",
+          "text": "Trades at a low price relative to its earnings or assets"
+        },
+        {
+          "id": "b",
+          "text": "Has very fast revenue growth and a high P/E"
+        },
+        {
+          "id": "c",
+          "text": "Costs less than $10 per share"
+        },
+        {
+          "id": "d",
+          "text": "Never pays dividends"
+        }
+      ],
+      "answer": "a",
+      "explanation": "Value refers to a low valuation measure such as P/E, not a low share price."
+    },
+    {
+      "id": "qb-ch6-09",
+      "chapter": 6,
+      "concepts": [
+        "macro",
+        "interest_rates"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "The central bank raises interest rates by more than expected. What reaction is most typical?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Stocks broadly fall, and fast-growing companies are often hit hardest because their future profits are worth less today"
+        },
+        {
+          "id": "b",
+          "text": "All stocks rise because banks earn more"
+        },
+        {
+          "id": "c",
+          "text": "There is no effect on stock prices"
+        },
+        {
+          "id": "d",
+          "text": "Only the central bank's own shares move"
+        }
+      ],
+      "answer": "a",
+      "explanation": "Higher rates raise borrowing costs and make distant future profits worth less in today's money."
+    },
+    {
+      "id": "qb-ch6-10",
+      "chapter": 6,
+      "concepts": [
+        "macro",
+        "cpi"
+      ],
+      "difficulty": 1,
+      "kind": "mc",
+      "prompt": "The Consumer Price Index (CPI) measures:",
+      "options": [
+        {
+          "id": "a",
+          "text": "Company profits"
+        },
+        {
+          "id": "b",
+          "text": "The unemployment rate"
+        },
+        {
+          "id": "c",
+          "text": "A stock market index"
+        },
+        {
+          "id": "d",
+          "text": "The change in prices consumers pay (inflation)"
+        }
+      ],
+      "answer": "d",
+      "explanation": "CPI tracks the prices of a basket of consumer goods and services, a key inflation measure."
+    },
+    {
+      "id": "qb-ch6-11",
+      "chapter": 6,
+      "concepts": [
+        "macro",
+        "jobs_report"
+      ],
+      "difficulty": 2,
+      "kind": "true_false",
+      "prompt": "A strong jobs report always makes stock prices rise.",
+      "options": [
+        {
+          "id": "t",
+          "text": "True"
+        },
+        {
+          "id": "f",
+          "text": "False"
+        }
+      ],
+      "answer": "f",
+      "explanation": "It can lift prices, but it can also raise fears of higher interest rates and push them down."
+    },
+    {
+      "id": "qb-ch6-12",
+      "chapter": 6,
+      "concepts": [
+        "priced_in",
+        "sell_the_news"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "Everyone expects Tidal Power (TDLP) to report record profits, and the stock rose 20% in the month before. It reports record profits exactly as expected and falls 3%. What best explains this?",
+      "options": [
+        {
+          "id": "a",
+          "text": "The report must have been fake"
+        },
+        {
+          "id": "b",
+          "text": "Record profits are bad news for shareholders"
+        },
+        {
+          "id": "c",
+          "text": "The exchange made a pricing error"
+        },
+        {
+          "id": "d",
+          "text": "The good news was already priced in, and some traders sold the news"
+        }
+      ],
+      "answer": "d",
+      "explanation": "Prices move on surprises; when results only match high expectations, early buyers often take profits."
+    },
+    {
+      "id": "qb-ch6-13",
+      "chapter": 6,
+      "concepts": [
+        "pe_ratio",
+        "eps"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "Pebble Games (PBGM) trades at $30 with EPS of $1.50, a P/E of 20. Next year EPS grows to $1.80. If the P/E stays at 20, what would the price be?",
+      "options": [
+        {
+          "id": "a",
+          "text": "$30"
+        },
+        {
+          "id": "b",
+          "text": "$33"
+        },
+        {
+          "id": "c",
+          "text": "$36"
+        },
+        {
+          "id": "d",
+          "text": "$54"
+        }
+      ],
+      "answer": "c",
+      "explanation": "Price = P/E × EPS = 20 × $1.80 = $36. In reality the P/E can change too."
+    },
+    {
+      "id": "qb-ch6-14",
+      "chapter": 6,
+      "concepts": [
+        "beat_miss",
+        "revenue",
+        "eps"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "Expectations were EPS $2.00 and revenue $500 million. The company reports EPS $2.05 and revenue $470 million, with guidance unchanged. Which description is accurate?",
+      "options": [
+        {
+          "id": "a",
+          "text": "A beat on both"
+        },
+        {
+          "id": "b",
+          "text": "A miss on both"
+        },
+        {
+          "id": "c",
+          "text": "An EPS beat but a revenue miss"
+        },
+        {
+          "id": "d",
+          "text": "In line on both"
+        }
+      ],
+      "answer": "c",
+      "explanation": "EPS came in above the estimate while revenue came in $30 million below it."
+    },
+    {
+      "id": "qb-ch6-15",
+      "chapter": 6,
+      "concepts": [
+        "insider_trading"
+      ],
+      "difficulty": 1,
+      "kind": "true_false",
+      "prompt": "Buying shares because a friend at the company tells you about an unannounced takeover is insider trading, which is illegal.",
+      "options": [
+        {
+          "id": "t",
+          "text": "True"
+        },
+        {
+          "id": "f",
+          "text": "False"
+        }
+      ],
+      "answer": "t",
+      "explanation": "Trading on important information the public does not have is illegal and can bring fines or prison."
+    },
+    {
+      "id": "qb-ch6-16",
+      "chapter": 6,
+      "concepts": [
+        "pump_and_dump",
+        "hype"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "An anonymous account posts that a tiny, thinly traded stock \"will 10x this week\" and urges everyone to buy now. Volume spikes. What is the biggest risk?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Missing out on gains"
+        },
+        {
+          "id": "b",
+          "text": "The stock is too liquid to trade"
+        },
+        {
+          "id": "c",
+          "text": "The company will pay a large dividend"
+        },
+        {
+          "id": "d",
+          "text": "It may be a pump-and-dump, where promoters sell to late buyers and the price collapses"
+        }
+      ],
+      "answer": "d",
+      "explanation": "Hype in thin stocks is a classic manipulation pattern; late buyers are usually left with the losses."
+    },
+    {
+      "id": "qb-ch6-17",
+      "chapter": 6,
+      "concepts": [
+        "rumors",
+        "checking_sources"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "You read a social-media rumour that Pebble Games (PBGM) will be bought by a larger company. What is the best first step?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Buy immediately before others hear"
+        },
+        {
+          "id": "b",
+          "text": "Look for an official company announcement or a reliable news source, and treat the rumour as unconfirmed"
+        },
+        {
+          "id": "c",
+          "text": "Assume it is true because many people are sharing it"
+        },
+        {
+          "id": "d",
+          "text": "Put your whole account into PBGM"
+        }
+      ],
+      "answer": "b",
+      "explanation": "Rumours are often wrong or deliberate; check primary sources before acting."
+    },
+    {
+      "id": "qb-ch6-18",
+      "chapter": 6,
+      "concepts": [
+        "rumors",
+        "buy_rumor_sell_news"
+      ],
+      "difficulty": 3,
+      "kind": "mc",
+      "prompt": "Pebble Games (PBGM) rises 10% on a takeover rumour. Four days later, the company denies it. What usually happens next?",
+      "options": [
+        {
+          "id": "a",
+          "text": "It keeps rising because rumours are usually true"
+        },
+        {
+          "id": "b",
+          "text": "The price is unaffected by the denial"
+        },
+        {
+          "id": "c",
+          "text": "Trading stops permanently"
+        },
+        {
+          "id": "d",
+          "text": "The price tends to give back the rumour gain, sometimes more"
+        }
+      ],
+      "answer": "d",
+      "explanation": "Buyers who paid for the rumour sell once it is denied, so the move often reverses."
+    },
+    {
+      "id": "qb-ch6-19",
+      "chapter": 6,
+      "concepts": [
+        "expectations",
+        "earnings"
+      ],
+      "difficulty": 3,
+      "kind": "true_false",
+      "prompt": "A company can report higher profits than last year and still see its share price fall.",
+      "options": [
+        {
+          "id": "t",
+          "text": "True"
+        },
+        {
+          "id": "f",
+          "text": "False"
+        }
+      ],
+      "answer": "t",
+      "explanation": "If profits grew less than investors expected, or guidance weakened, the price can fall despite growth."
+    },
+    {
+      "id": "qb-ch6-20",
+      "chapter": 6,
+      "concepts": [
+        "pe_ratio",
+        "growth_vs_value"
+      ],
+      "difficulty": 3,
+      "kind": "mc",
+      "prompt": "Nimbus Cloud (NMBC) and Orchard Foods (ORCF) each have EPS of $2. NMBC trades at $80 and is expected to grow earnings 30% a year; ORCF trades at $24 and is expected to grow 3%. Which statement is correct?",
+      "options": [
+        {
+          "id": "a",
+          "text": "NMBC has a P/E of 40 and ORCF 12; NMBC's price assumes strong growth, so a growth disappointment could hit it hard"
+        },
+        {
+          "id": "b",
+          "text": "ORCF is more expensive because its earnings are growing more slowly"
+        },
+        {
+          "id": "c",
+          "text": "NMBC has a P/E of 4"
+        },
+        {
+          "id": "d",
+          "text": "Both have the same P/E because their EPS is the same"
+        }
+      ],
+      "answer": "a",
+      "explanation": "$80 ÷ $2 = 40 and $24 ÷ $2 = 12. A high P/E bakes in expected growth, which may not happen."
+    },
+    {
+      "id": "qb-ch7-01",
+      "chapter": 7,
+      "concepts": [
+        "trend_following"
+      ],
+      "difficulty": 1,
+      "kind": "mc",
+      "prompt": "Trend following means:",
+      "options": [
+        {
+          "id": "a",
+          "text": "Trading in the direction of an established trend and staying in while it lasts"
+        },
+        {
+          "id": "b",
+          "text": "Buying after big drops and expecting a bounce"
+        },
+        {
+          "id": "c",
+          "text": "Buying only on the day of a news release"
+        },
+        {
+          "id": "d",
+          "text": "Picking stocks at random"
+        }
+      ],
+      "answer": "a",
+      "explanation": "Trend followers ride persistent moves and exit when the trend ends."
+    },
+    {
+      "id": "qb-ch7-02",
+      "chapter": 7,
+      "concepts": [
+        "mean_reversion"
+      ],
+      "difficulty": 1,
+      "kind": "mc",
+      "prompt": "A mean-reversion trader typically:",
+      "options": [
+        {
+          "id": "a",
+          "text": "Buys when the price breaks above resistance"
+        },
+        {
+          "id": "b",
+          "text": "Buys when the price has fallen unusually far below its average, expecting a move back toward it"
+        },
+        {
+          "id": "c",
+          "text": "Holds every stock forever"
+        },
+        {
+          "id": "d",
+          "text": "Copies trades posted by influencers"
+        }
+      ],
+      "answer": "b",
+      "explanation": "Mean reversion bets that stretched prices return toward a typical level."
+    },
+    {
+      "id": "qb-ch7-03",
+      "chapter": 7,
+      "concepts": [
+        "breakout_trading"
+      ],
+      "difficulty": 1,
+      "kind": "mc",
+      "prompt": "A breakout trader usually enters:",
+      "options": [
+        {
+          "id": "a",
+          "text": "In the middle of a range"
+        },
+        {
+          "id": "b",
+          "text": "Right after an earnings miss"
+        },
+        {
+          "id": "c",
+          "text": "When the price moves beyond a well-defined range or resistance, ideally on strong volume"
+        },
+        {
+          "id": "d",
+          "text": "At a random time each week"
+        }
+      ],
+      "answer": "c",
+      "explanation": "Breakout traders wait for the price to leave a base, with volume as confirmation."
+    },
+    {
+      "id": "qb-ch7-04",
+      "chapter": 7,
+      "concepts": [
+        "regime_matching",
+        "mean_reversion"
+      ],
+      "difficulty": 1,
+      "kind": "mc",
+      "prompt": "Which market condition suits a mean-reversion strategy best?",
+      "options": [
+        {
+          "id": "a",
+          "text": "A strong, persistent trend"
+        },
+        {
+          "id": "b",
+          "text": "A sideways range with clear support and resistance"
+        },
+        {
+          "id": "c",
+          "text": "A sharp crash with lower lows each day"
+        },
+        {
+          "id": "d",
+          "text": "The day after a big breakout"
+        }
+      ],
+      "answer": "b",
+      "explanation": "Mean reversion needs prices that swing back and forth around a level; trends keep stretching further."
+    },
+    {
+      "id": "qb-ch7-05",
+      "chapter": 7,
+      "concepts": [
+        "trend_following",
+        "expectancy"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "A trend-following system wins 35% of its trades. The average win is $600 and the average loss is $200. What is its expectancy per trade?",
+      "options": [
+        {
+          "id": "a",
+          "text": "+$80"
+        },
+        {
+          "id": "b",
+          "text": "-$80"
+        },
+        {
+          "id": "c",
+          "text": "+$210"
+        },
+        {
+          "id": "d",
+          "text": "+$400"
+        }
+      ],
+      "answer": "a",
+      "explanation": "0.35 × $600 - 0.65 × $200 = $210 - $130 = +$80. Big winners can make up for a low win rate."
+    },
+    {
+      "id": "qb-ch7-06",
+      "chapter": 7,
+      "concepts": [
+        "regime_matching",
+        "sitting_out"
+      ],
+      "difficulty": 1,
+      "kind": "true_false",
+      "prompt": "Staying in cash when no strategy fits the current market is a valid decision.",
+      "options": [
+        {
+          "id": "t",
+          "text": "True"
+        },
+        {
+          "id": "f",
+          "text": "False"
+        }
+      ],
+      "answer": "t",
+      "explanation": "Sitting out avoids losses from forcing trades in conditions your strategy does not handle."
+    },
+    {
+      "id": "qb-ch7-07",
+      "chapter": 7,
+      "concepts": [
+        "mean_reversion",
+        "regime_matching"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "A trader keeps buying Tidal Power (TDLP) each time its RSI drops below 30, but the stock is in a steady downtrend making lower lows. What is happening?",
+      "options": [
+        {
+          "id": "a",
+          "text": "The strategy is working as designed"
+        },
+        {
+          "id": "b",
+          "text": "This is a classic breakout strategy"
+        },
+        {
+          "id": "c",
+          "text": "Mean reversion is being used in a trending market, where cheap keeps getting cheaper"
+        },
+        {
+          "id": "d",
+          "text": "This is trend following"
+        }
+      ],
+      "answer": "c",
+      "explanation": "Mean reversion fails in strong trends because the price does not return to its average."
+    },
+    {
+      "id": "qb-ch7-08",
+      "chapter": 7,
+      "concepts": [
+        "backtesting"
+      ],
+      "difficulty": 1,
+      "kind": "mc",
+      "prompt": "What is a backtest?",
+      "options": [
+        {
+          "id": "a",
+          "text": "A guarantee that a strategy will work"
+        },
+        {
+          "id": "b",
+          "text": "Testing a strategy's rules on past price data to see how it would have performed"
+        },
+        {
+          "id": "c",
+          "text": "Trading real money to see what happens"
+        },
+        {
+          "id": "d",
+          "text": "Asking friends whether a strategy sounds good"
+        }
+      ],
+      "answer": "b",
+      "explanation": "A backtest shows past behaviour of fixed rules; it does not guarantee future results."
+    },
+    {
+      "id": "qb-ch7-09",
+      "chapter": 7,
+      "concepts": [
+        "sample_size"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "A strategy made money on 5 of its 6 backtested trades. What is the main concern?",
+      "options": [
+        {
+          "id": "a",
+          "text": "The win rate is too high to be legal"
+        },
+        {
+          "id": "b",
+          "text": "Six trades are far too few to tell skill from luck"
+        },
+        {
+          "id": "c",
+          "text": "Nothing; 83% is proof of an edge"
+        },
+        {
+          "id": "d",
+          "text": "It should be traded at maximum size"
+        }
+      ],
+      "answer": "b",
+      "explanation": "With so few trades, a lucky run looks like an edge; you need a much larger sample."
+    },
+    {
+      "id": "qb-ch7-10",
+      "chapter": 7,
+      "concepts": [
+        "overfitting"
+      ],
+      "difficulty": 3,
+      "kind": "mc",
+      "prompt": "A trader tweaks a strategy until it uses a 13-day MA, RSI levels of 27 and 71, and trades only on Tuesdays. The backtest shows huge profits, but on new data it loses money. What is the most likely cause?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Overfitting: the rules were tuned to random noise in the past data"
+        },
+        {
+          "id": "b",
+          "text": "Bad luck only; the rules are fine"
+        },
+        {
+          "id": "c",
+          "text": "The sample was too large"
+        },
+        {
+          "id": "d",
+          "text": "The market changed its trading days"
+        }
+      ],
+      "answer": "a",
+      "explanation": "Very specific rules that fit the past perfectly often capture noise that does not repeat."
+    },
+    {
+      "id": "qb-ch7-11",
+      "chapter": 7,
+      "concepts": [
+        "expectancy",
+        "journaling"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "Your journal of 50 trades shows 20 wins averaging $250 and 30 losses averaging $100. What is the average result per trade?",
+      "options": [
+        {
+          "id": "a",
+          "text": "$150"
+        },
+        {
+          "id": "b",
+          "text": "-$40"
+        },
+        {
+          "id": "c",
+          "text": "$40"
+        },
+        {
+          "id": "d",
+          "text": "$2,000"
+        }
+      ],
+      "answer": "c",
+      "explanation": "(20 × $250 - 30 × $100) ÷ 50 = ($5,000 - $3,000) ÷ 50 = $40."
+    },
+    {
+      "id": "qb-ch7-12",
+      "chapter": 7,
+      "concepts": [
+        "journaling"
+      ],
+      "difficulty": 1,
+      "kind": "mc",
+      "prompt": "What is the main purpose of a trade journal?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Showing friends your winning trades"
+        },
+        {
+          "id": "b",
+          "text": "Recording only the trades that made money"
+        },
+        {
+          "id": "c",
+          "text": "Recording each trade's plan, reason, result and emotions so you can find patterns and improve"
+        },
+        {
+          "id": "d",
+          "text": "Predicting tomorrow's prices"
+        }
+      ],
+      "answer": "c",
+      "explanation": "A journal turns your trades into evidence about what works and which mistakes repeat."
+    },
+    {
+      "id": "qb-ch7-13",
+      "chapter": 7,
+      "concepts": [
+        "breakout_trading",
+        "measured_move",
+        "risk_reward"
+      ],
+      "difficulty": 3,
+      "kind": "mc",
+      "prompt": "Pebble Games (PBGM) has ranged between $11 and $13. You plan a buy stop at $13.10, a stop-loss at $12.40 and a measured-move target. What are the target and the approximate reward-to-risk?",
+      "options": [
+        {
+          "id": "a",
+          "text": "$15; about 1:2.7"
+        },
+        {
+          "id": "b",
+          "text": "$14; about 1.3:1"
+        },
+        {
+          "id": "c",
+          "text": "$17; about 5.6:1"
+        },
+        {
+          "id": "d",
+          "text": "$15; about 2.7:1"
+        }
+      ],
+      "answer": "d",
+      "explanation": "Target = $13 + $2 range = $15. Reward $1.90 ÷ risk $0.70 ≈ 2.7:1."
+    },
+    {
+      "id": "qb-ch7-14",
+      "chapter": 7,
+      "concepts": [
+        "trend_following",
+        "trailing_stop"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "Why do trend followers often use trailing stops instead of fixed profit targets?",
+      "options": [
+        {
+          "id": "a",
+          "text": "To guarantee selling at the exact top"
+        },
+        {
+          "id": "b",
+          "text": "To trade more often"
+        },
+        {
+          "id": "c",
+          "text": "To avoid using stop-losses"
+        },
+        {
+          "id": "d",
+          "text": "To let winners run while locking in part of the gain if the trend ends"
+        }
+      ],
+      "answer": "d",
+      "explanation": "A trailing stop follows the price up, so big trends are not cut short but gains are partly protected."
+    },
+    {
+      "id": "qb-ch7-15",
+      "chapter": 7,
+      "concepts": [
+        "regime_matching"
+      ],
+      "difficulty": 2,
+      "kind": "true_false",
+      "prompt": "A strategy that did well in a strong uptrend will usually do just as well in a choppy sideways market.",
+      "options": [
+        {
+          "id": "t",
+          "text": "True"
+        },
+        {
+          "id": "f",
+          "text": "False"
+        }
+      ],
+      "answer": "f",
+      "explanation": "Strategies suit particular regimes; trend tools tend to get whipsawed in choppy ranges."
+    },
+    {
+      "id": "qb-ch7-16",
+      "chapter": 7,
+      "concepts": [
+        "regime_matching",
+        "trends"
+      ],
+      "difficulty": 3,
+      "kind": "mc",
+      "prompt": "Over 30 days, Kestrel Air's (KSTR) swing highs were $40, $43 and $46, its swing lows were $37, $40 and $43, and the price stayed above its rising 50-day MA. Which strategy fits best?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Mean reversion, buying at range lows and selling at range highs"
+        },
+        {
+          "id": "b",
+          "text": "Sitting out, because only ranges can be traded"
+        },
+        {
+          "id": "c",
+          "text": "Selling every rally as overbought"
+        },
+        {
+          "id": "d",
+          "text": "Trend following, buying pullbacks with a stop below the last higher low"
+        }
+      ],
+      "answer": "d",
+      "explanation": "Higher highs, higher lows and a rising MA describe an uptrend, which suits trend following."
+    },
+    {
+      "id": "qb-ch7-17",
+      "chapter": 7,
+      "concepts": [
+        "expectancy",
+        "r_multiples"
+      ],
+      "difficulty": 3,
+      "kind": "mc",
+      "prompt": "A backtest shows an average win of 1.5R, an average loss of 1R and a 45% win rate. What is the expectancy in R per trade?",
+      "options": [
+        {
+          "id": "a",
+          "text": "+0.125R"
+        },
+        {
+          "id": "b",
+          "text": "-0.10R"
+        },
+        {
+          "id": "c",
+          "text": "+0.675R"
+        },
+        {
+          "id": "d",
+          "text": "+0.5R"
+        }
+      ],
+      "answer": "a",
+      "explanation": "0.45 × 1.5R - 0.55 × 1R = 0.675R - 0.55R = +0.125R."
+    },
+    {
+      "id": "qb-ch7-18",
+      "chapter": 7,
+      "concepts": [
+        "backtesting"
+      ],
+      "difficulty": 1,
+      "kind": "true_false",
+      "prompt": "A backtest with excellent results proves that a strategy will make money in the future.",
+      "options": [
+        {
+          "id": "t",
+          "text": "True"
+        },
+        {
+          "id": "f",
+          "text": "False"
+        }
+      ],
+      "answer": "f",
+      "explanation": "Past results can come from luck or overfitting; markets change."
+    },
+    {
+      "id": "qb-ch7-19",
+      "chapter": 7,
+      "concepts": [
+        "backtesting",
+        "overfitting"
+      ],
+      "difficulty": 2,
+      "kind": "true_false",
+      "prompt": "Out-of-sample testing means checking a strategy on data that was not used to design it.",
+      "options": [
+        {
+          "id": "t",
+          "text": "True"
+        },
+        {
+          "id": "f",
+          "text": "False"
+        }
+      ],
+      "answer": "t",
+      "explanation": "Testing on unseen data is a basic defence against overfitting."
+    },
+    {
+      "id": "qb-ch7-20",
+      "chapter": 7,
+      "concepts": [
+        "journaling",
+        "breakout_trading",
+        "volume_confirmation"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "Your journal shows that your 12 breakout trades on below-average volume lost money overall, while those on high volume made money. What is the most sensible change?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Stop keeping a journal"
+        },
+        {
+          "id": "b",
+          "text": "Double your size on low-volume breakouts to win it back"
+        },
+        {
+          "id": "c",
+          "text": "Give up breakout trading forever"
+        },
+        {
+          "id": "d",
+          "text": "Add a rule to skip breakouts without above-average volume, then keep collecting data to confirm it"
+        }
+      ],
+      "answer": "d",
+      "explanation": "Use the journal to refine rules, while remembering 12 trades is a small sample."
+    },
+    {
+      "id": "qb-ch8-01",
+      "chapter": 8,
+      "concepts": [
+        "fomo"
+      ],
+      "difficulty": 1,
+      "kind": "mc",
+      "prompt": "In trading, FOMO means:",
+      "options": [
+        {
+          "id": "a",
+          "text": "Fear of missing out, which pushes people to chase moves without a plan"
+        },
+        {
+          "id": "b",
+          "text": "A type of order that fills at the open"
+        },
+        {
+          "id": "c",
+          "text": "A rule for sizing positions"
+        },
+        {
+          "id": "d",
+          "text": "A chart pattern at the top of a trend"
+        }
+      ],
+      "answer": "a",
+      "explanation": "FOMO is the urge to jump in because others seem to be profiting."
+    },
+    {
+      "id": "qb-ch8-02",
+      "chapter": 8,
+      "concepts": [
+        "fomo",
+        "chasing"
+      ],
+      "difficulty": 1,
+      "kind": "mc",
+      "prompt": "Pebble Games (PBGM) has risen 60% in eight days and everyone online is talking about it. You have no plan. What is the disciplined response?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Buy now at full size before it goes higher"
+        },
+        {
+          "id": "b",
+          "text": "Do not chase; trade only if you can set an entry, a stop and a size that fit your plan"
+        },
+        {
+          "id": "c",
+          "text": "Use your emergency savings to buy more"
+        },
+        {
+          "id": "d",
+          "text": "Buy now and decide on a stop later"
+        }
+      ],
+      "answer": "b",
+      "explanation": "Extended moves can reverse sharply; the plan comes before the trade."
+    },
+    {
+      "id": "qb-ch8-03",
+      "chapter": 8,
+      "concepts": [
+        "loss_aversion"
+      ],
+      "difficulty": 1,
+      "kind": "mc",
+      "prompt": "Loss aversion is the tendency to:",
+      "options": [
+        {
+          "id": "a",
+          "text": "Enjoy small losses"
+        },
+        {
+          "id": "b",
+          "text": "Avoid all trading"
+        },
+        {
+          "id": "c",
+          "text": "Feel losses more strongly than gains of the same size"
+        },
+        {
+          "id": "d",
+          "text": "Prefer volatile stocks"
+        }
+      ],
+      "answer": "c",
+      "explanation": "Losses hurt more than equal gains feel good, which can lead to holding losers too long."
+    },
+    {
+      "id": "qb-ch8-04",
+      "chapter": 8,
+      "concepts": [
+        "disposition_effect"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "The disposition effect describes traders who:",
+      "options": [
+        {
+          "id": "a",
+          "text": "Hold winners and cut losers quickly"
+        },
+        {
+          "id": "b",
+          "text": "Sell winners too early and hold losers too long"
+        },
+        {
+          "id": "c",
+          "text": "Spread money across many sectors"
+        },
+        {
+          "id": "d",
+          "text": "Always use stop-losses"
+        }
+      ],
+      "answer": "b",
+      "explanation": "Locking in small gains feels good and taking losses feels bad, so traders do the opposite of letting winners run."
+    },
+    {
+      "id": "qb-ch8-05",
+      "chapter": 8,
+      "concepts": [
+        "revenge_trading"
+      ],
+      "difficulty": 1,
+      "kind": "mc",
+      "prompt": "After a $300 loss, Sam immediately doubles his position size on the next trade to win it back. This is:",
+      "options": [
+        {
+          "id": "a",
+          "text": "Position sizing by the 1% rule"
+        },
+        {
+          "id": "b",
+          "text": "Revenge trading"
+        },
+        {
+          "id": "c",
+          "text": "Diversification"
+        },
+        {
+          "id": "d",
+          "text": "Mean reversion"
+        }
+      ],
+      "answer": "b",
+      "explanation": "Sizing up to recover a loss is revenge trading; it increases risk exactly when judgement is worst."
+    },
+    {
+      "id": "qb-ch8-06",
+      "chapter": 8,
+      "concepts": [
+        "tilt",
+        "cool_off_rules"
+      ],
+      "difficulty": 1,
+      "kind": "true_false",
+      "prompt": "A cool-off rule, such as stopping for the day after two losing trades, can help prevent tilt.",
+      "options": [
+        {
+          "id": "t",
+          "text": "True"
+        },
+        {
+          "id": "f",
+          "text": "False"
+        }
+      ],
+      "answer": "t",
+      "explanation": "A pre-set pause interrupts emotional decision-making after losses."
+    },
+    {
+      "id": "qb-ch8-07",
+      "chapter": 8,
+      "concepts": [
+        "overconfidence"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "After five winning trades in a row, Mia triples her usual position size because she feels she \"can't lose\". What is the main danger?",
+      "options": [
+        {
+          "id": "a",
+          "text": "She will pay lower fees"
+        },
+        {
+          "id": "b",
+          "text": "There is no danger; a streak proves skill"
+        },
+        {
+          "id": "c",
+          "text": "Overconfidence: a short streak may be luck, and the larger size magnifies the next loss"
+        },
+        {
+          "id": "d",
+          "text": "She will become too diversified"
+        }
+      ],
+      "answer": "c",
+      "explanation": "Short streaks happen by chance; raising size on a feeling breaks the risk plan."
+    },
+    {
+      "id": "qb-ch8-08",
+      "chapter": 8,
+      "concepts": [
+        "overtrading",
+        "fee_drag"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "Trader A makes 10 trades a month and Trader B makes 80. Each pays $4 per trade, and both make $500 from price moves before fees. What are their net results?",
+      "options": [
+        {
+          "id": "a",
+          "text": "A $460, B $180"
+        },
+        {
+          "id": "b",
+          "text": "Both $500"
+        },
+        {
+          "id": "c",
+          "text": "A $460, B $420"
+        },
+        {
+          "id": "d",
+          "text": "A $40, B $320"
+        }
+      ],
+      "answer": "a",
+      "explanation": "A: $500 - 10 × $4 = $460. B: $500 - 80 × $4 = $180. Overtrading drains returns through fees."
+    },
+    {
+      "id": "qb-ch8-09",
+      "chapter": 8,
+      "concepts": [
+        "process_vs_outcome"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "Which trade was the best decision?",
+      "options": [
+        {
+          "id": "a",
+          "text": "A random trade with no stop that happened to make $500"
+        },
+        {
+          "id": "b",
+          "text": "A trade taken on a tip that broke even"
+        },
+        {
+          "id": "c",
+          "text": "A planned, correctly sized trade with a stop, which was stopped out for a small loss"
+        },
+        {
+          "id": "d",
+          "text": "A trade where the stop was moved lower and the price luckily recovered"
+        }
+      ],
+      "answer": "c",
+      "explanation": "Judge decisions by the process; a good process can lose and a bad one can win by luck."
+    },
+    {
+      "id": "qb-ch8-10",
+      "chapter": 8,
+      "concepts": [
+        "process_vs_outcome"
+      ],
+      "difficulty": 2,
+      "kind": "true_false",
+      "prompt": "A trade that made money must have been a good decision.",
+      "options": [
+        {
+          "id": "t",
+          "text": "True"
+        },
+        {
+          "id": "f",
+          "text": "False"
+        }
+      ],
+      "answer": "f",
+      "explanation": "Outcomes include luck; a reckless trade can win and a sound one can lose."
+    },
+    {
+      "id": "qb-ch8-11",
+      "chapter": 8,
+      "concepts": [
+        "luck_vs_skill",
+        "overconfidence"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "Which evidence best separates skill from luck?",
+      "options": [
+        {
+          "id": "a",
+          "text": "One very large winning trade"
+        },
+        {
+          "id": "b",
+          "text": "A streak of three winning trades"
+        },
+        {
+          "id": "c",
+          "text": "A friend's opinion of your trading"
+        },
+        {
+          "id": "d",
+          "text": "Consistent results over a large number of trades that followed the same rules"
+        }
+      ],
+      "answer": "d",
+      "explanation": "Only many trades under consistent rules give enough evidence to tell an edge from chance."
+    },
+    {
+      "id": "qb-ch8-12",
+      "chapter": 8,
+      "concepts": [
+        "disposition_effect",
+        "plan_adherence"
+      ],
+      "difficulty": 3,
+      "kind": "mc",
+      "prompt": "You hold Orchard Foods (ORCF), bought at $40 and now $46 (+15%), still in an uptrend above its trailing stop. You also hold Nimbus Cloud (NMBC), bought at $50 and now $40 (-20%); your planned stop was $45. You need cash. Which choice follows your plan instead of the disposition effect?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Sell NMBC, whose planned stop has already been broken, and keep ORCF while its trend holds"
+        },
+        {
+          "id": "b",
+          "text": "Sell ORCF to lock in the gain and hold NMBC until it gets back to $50"
+        },
+        {
+          "id": "c",
+          "text": "Sell half of each to feel balanced"
+        },
+        {
+          "id": "d",
+          "text": "Buy more NMBC to lower your average price"
+        }
+      ],
+      "answer": "a",
+      "explanation": "Selling the winner and holding the broken loser is the disposition effect; the plan says exit NMBC."
+    },
+    {
+      "id": "qb-ch8-13",
+      "chapter": 8,
+      "concepts": [
+        "revenge_trading",
+        "one_percent_rule"
+      ],
+      "difficulty": 3,
+      "kind": "mc",
+      "prompt": "After a loss leaves your account at $9,800, your 1% rule allows $98 of risk on the next trade. You feel the urge to risk $500 to win it back. About how many times your rule's risk is that?",
+      "options": [
+        {
+          "id": "a",
+          "text": "About 2 times"
+        },
+        {
+          "id": "b",
+          "text": "About the same"
+        },
+        {
+          "id": "c",
+          "text": "About 5 times"
+        },
+        {
+          "id": "d",
+          "text": "About 50 times"
+        }
+      ],
+      "answer": "c",
+      "explanation": "$500 ÷ $98 ≈ 5.1, so roughly five times the planned risk, which is revenge sizing."
+    },
+    {
+      "id": "qb-ch8-14",
+      "chapter": 8,
+      "concepts": [
+        "trading_plan"
+      ],
+      "difficulty": 1,
+      "kind": "mc",
+      "prompt": "What should come before entering any trade?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Checking how many people online are buying"
+        },
+        {
+          "id": "b",
+          "text": "Waiting until you feel confident"
+        },
+        {
+          "id": "c",
+          "text": "Seeing whether the stock rose yesterday"
+        },
+        {
+          "id": "d",
+          "text": "A plan with the reason, the exit if wrong, and the position size"
+        }
+      ],
+      "answer": "d",
+      "explanation": "A written plan sets the reason, the exit and the size before emotions get involved."
+    },
+    {
+      "id": "qb-ch8-15",
+      "chapter": 8,
+      "concepts": [
+        "process_vs_outcome",
+        "expectancy"
+      ],
+      "difficulty": 3,
+      "kind": "true_false",
+      "prompt": "Even a trading process with positive expectancy can produce a run of several losing trades in a row.",
+      "options": [
+        {
+          "id": "t",
+          "text": "True"
+        },
+        {
+          "id": "f",
+          "text": "False"
+        }
+      ],
+      "answer": "t",
+      "explanation": "Positive expectancy is an average over many trades; losing streaks still happen along the way."
+    },
+    {
+      "id": "qb-ch8-16",
+      "chapter": 8,
+      "concepts": [
+        "tilt"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "Which sign most suggests a trader is on tilt?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Following the plan after a loss"
+        },
+        {
+          "id": "b",
+          "text": "Taking a short break after a loss"
+        },
+        {
+          "id": "c",
+          "text": "Reviewing the journal at the end of the day"
+        },
+        {
+          "id": "d",
+          "text": "Quickly taking trades that break their rules after losses, while feeling angry or rushed"
+        }
+      ],
+      "answer": "d",
+      "explanation": "Tilt is emotional, rule-breaking trading, often right after losses."
+    },
+    {
+      "id": "qb-ch8-17",
+      "chapter": 8,
+      "concepts": [
+        "losing_streaks",
+        "luck_vs_skill"
+      ],
+      "difficulty": 3,
+      "kind": "mc",
+      "prompt": "A strategy wins 50% of its trades, and each trade is independent. What is the probability that the next 4 trades are all losses?",
+      "options": [
+        {
+          "id": "a",
+          "text": "6.25%"
+        },
+        {
+          "id": "b",
+          "text": "12.5%"
+        },
+        {
+          "id": "c",
+          "text": "25%"
+        },
+        {
+          "id": "d",
+          "text": "50%"
+        }
+      ],
+      "answer": "a",
+      "explanation": "0.5 × 0.5 × 0.5 × 0.5 = 0.0625. Over hundreds of trades, streaks like this are expected, not a sign the strategy broke."
+    },
+    {
+      "id": "qb-ch8-18",
+      "chapter": 8,
+      "concepts": [
+        "fomo",
+        "plan_adherence"
+      ],
+      "difficulty": 2,
+      "kind": "mc",
+      "prompt": "Kestrel Air (KSTR) jumps 12% at the open on news you had not seen. Your plan was to buy on a pullback to $55; it is now $62. What is the plan-consistent action?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Chase it at $62 so you do not miss more"
+        },
+        {
+          "id": "b",
+          "text": "Let it go or wait for your planned setup; missing a move is not a loss"
+        },
+        {
+          "id": "c",
+          "text": "Buy double your usual size to make up for the missed move"
+        },
+        {
+          "id": "d",
+          "text": "Buy and remove your stop"
+        }
+      ],
+      "answer": "b",
+      "explanation": "Missing a trade costs nothing; chasing an extended move breaks the plan."
+    },
+    {
+      "id": "qb-ch8-19",
+      "chapter": 8,
+      "concepts": [
+        "loss_aversion"
+      ],
+      "difficulty": 1,
+      "kind": "mc",
+      "prompt": "Which behaviour is a typical sign of loss aversion?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Taking a planned stop-loss"
+        },
+        {
+          "id": "b",
+          "text": "Sizing each trade by the 1% rule"
+        },
+        {
+          "id": "c",
+          "text": "Keeping a trade journal"
+        },
+        {
+          "id": "d",
+          "text": "Moving a stop lower to avoid taking a planned loss"
+        }
+      ],
+      "answer": "d",
+      "explanation": "Avoiding the pain of a realised loss leads traders to widen stops and hold losers."
+    },
+    {
+      "id": "qb-ch8-20",
+      "chapter": 8,
+      "concepts": [
+        "process_vs_outcome",
+        "plan_adherence"
+      ],
+      "difficulty": 1,
+      "kind": "true_false",
+      "prompt": "If you lose money while following a well-tested plan, you should always abandon the plan immediately.",
+      "options": [
+        {
+          "id": "t",
+          "text": "True"
+        },
+        {
+          "id": "f",
+          "text": "False"
+        }
+      ],
+      "answer": "f",
+      "explanation": "Single losses are expected; review the plan using many trades, not one result."
+    }
+  ]
+}

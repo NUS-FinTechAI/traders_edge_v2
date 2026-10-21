@@ -6,7 +6,7 @@ import configService from './configService.ts'
 import firebaseService from './firebaseService.ts'
 
 export type GuestSession = components['schemas']['GuestSession']
-export type UserProfile = components['schemas']['UserProfile']
+export type UserProfile = components['schemas']['Player']
 
 export interface AuthRequestOptions {
   signal?: AbortSignal
@@ -49,7 +49,7 @@ export class AuthService {
     const revision = this.revision
     let profile: UserProfile
     try {
-      profile = await this.api.call(apiEndpoints.getProfile, options)
+      profile = await this.api.call(apiEndpoints.getMe, options)
     } catch (error) {
       if (this.isUnauthorized(error) && revision === this.revision)
         this.setUser(null)

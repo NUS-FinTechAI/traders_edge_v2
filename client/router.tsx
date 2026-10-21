@@ -1,164 +1,79 @@
-import { createBrowserRouter, Navigate } from 'react-router-dom'
-import HomePage from './pages/home-page/HomePage.tsx'
-import AppLayout from './layouts/AppLayout.tsx'
+import type { ComponentType } from 'react'
+import {
+  createBrowserRouter,
+  Navigate,
+  type RouteObject,
+} from 'react-router-dom'
+import AppShell from './app/AppShell.tsx'
+import RouteError from './app/RouteError.tsx'
 import authGuard from './auth-guards/authGuard.ts'
-import AuthGuardError from './auth-guards/AuthGuardError.tsx'
-import RouteError from './components/error-panel/RouteError.tsx'
+import { Loading } from './ui/States.tsx'
+
+type Page = () => Promise<{ default: ComponentType }>
+
+function page(path: string, load: Page, protectedRoute = true): RouteObject {
+  return {
+    path,
+    loader: protectedRoute ? authGuard.loader : undefined,
+    lazy: async () => ({ Component: (await load()).default }),
+  }
+}
 
 export const router = createBrowserRouter([
   {
-    Component: AppLayout,
-    HydrateFallback: () => (
-      <main className="route-loading">
-        <p role="status">Loading Trader’s Edge…</p>
-      </main>
-    ),
+    Component: AppShell,
+    HydrateFallback: () => <Loading label="Loading Trader’s Edge…" />,
     children: [
       {
         ErrorBoundary: RouteError,
         children: [
-          {
-            path: '/quizzes',
-            loader: authGuard.loader,
-            ErrorBoundary: AuthGuardError,
-            lazy: async () => ({
-              Component: (await import('./pages/quizzes/QuizHubPage.tsx'))
-                .default,
-            }),
-          },
-          {
-            path: '/quizzes/attempts/:attemptId',
-            loader: authGuard.loader,
-            ErrorBoundary: AuthGuardError,
-            lazy: async () => ({
-              Component: (await import('./pages/quizzes/QuizAttemptPage.tsx'))
-                .default,
-            }),
-          },
-          {
-            path: '/quizzes/rooms/:roomId',
-            loader: authGuard.loader,
-            ErrorBoundary: AuthGuardError,
-            lazy: async () => ({
-              Component: (await import('./pages/quizzes/QuizRoomPage.tsx'))
-                .default,
-            }),
-          },
-          { path: '/', Component: HomePage },
-          {
-            path: '/login',
-            lazy: async () => ({
-              Component: (await import('./pages/login-page/LoginPage.tsx'))
-                .default,
-            }),
-          },
-          {
-            path: '/player',
-            loader: authGuard.loader,
-            ErrorBoundary: AuthGuardError,
-            lazy: async () => ({
-              Component: (await import('./pages/player/PlayerPage.tsx'))
-                .default,
-            }),
-          },
-          {
-            path: '/adventure',
-            lazy: async () => ({
-              Component: (
-                await import('./pages/adventure/adventure-page/AdventurePage.tsx')
-              ).default,
-            }),
-          },
-          {
-            path: '/adventure/chapters/:moduleId',
-            lazy: async () => ({
-              Component: (
-                await import('./pages/adventure/chapter-page/ChapterPage.tsx')
-              ).default,
-            }),
-          },
-          {
-            path: '/multiplayer',
-            loader: authGuard.loader,
-            ErrorBoundary: AuthGuardError,
-            lazy: async () => ({
-              Component: (
-                await import('./pages/multiplayer/MultiplayerHubPage.tsx')
-              ).default,
-            }),
-          },
-          {
-            path: '/multiplayer/:lobbyId',
-            loader: authGuard.loader,
-            ErrorBoundary: AuthGuardError,
-            lazy: async () => ({
-              Component: (
-                await import('./pages/multiplayer/MultiplayerPage.tsx')
-              ).default,
-            }),
-          },
-          {
-            path: '/challenges',
-            loader: authGuard.loader,
-            ErrorBoundary: AuthGuardError,
-            lazy: async () => ({
-              Component: (
-                await import('./pages/challenges/ChallengeHubPage.tsx')
-              ).default,
-            }),
-          },
-          {
-            path: '/challenges/start/:mode',
-            loader: authGuard.loader,
-            ErrorBoundary: AuthGuardError,
-            lazy: async () => ({
-              Component: (
-                await import('./pages/challenges/ChallengeStartPage.tsx')
-              ).default,
-            }),
-          },
-          {
-            path: '/challenges/play/:attemptId',
-            loader: authGuard.loader,
-            ErrorBoundary: AuthGuardError,
-            lazy: async () => ({
-              Component: (await import('./pages/challenges/ChallengePage.tsx'))
-                .default,
-            }),
-          },
-          {
-            path: '/challenges/resume',
-            loader: authGuard.loader,
-            ErrorBoundary: AuthGuardError,
-            lazy: async () => ({
-              Component: (await import('./pages/challenges/ChallengePage.tsx'))
-                .default,
-            }),
-          },
-          {
-            path: '/adventure/start/:purpose/:target',
-            loader: authGuard.loader,
-            ErrorBoundary: AuthGuardError,
-            lazy: async () => ({
-              Component: (
-                await import('./pages/adventure/learning-start-page/LearningStartPage.tsx')
-              ).default,
-            }),
-          },
-          {
-            path: '/adventure/runs/:runId',
-            loader: authGuard.loader,
-            ErrorBoundary: AuthGuardError,
-            lazy: async () => ({
-              Component: (
-                await import('./pages/adventure/learning-run-page/LearningRunPage.tsx')
-              ).default,
-            }),
-          },
-          {
-            path: '*',
-            element: <Navigate to="/" replace />,
-          },
+          page('/', () => import('./features/home/HomePage.tsx'), false),
+          page('/login', () => import('./features/auth/LoginPage.tsx'), false),
+          page(
+            '/adventure',
+            () => import('./features/adventure/AdventurePage.tsx'),
+            false,
+          ),
+          page(
+            '/adventure/:chapterId',
+            () => import('./features/adventure/ChapterMapPage.tsx'),
+            false,
+          ),
+          page(
+            '/level/:levelId',
+            () => import('./features/level/LevelPage.tsx'),
+          ),
+          page('/game/:gameId', () => import('./features/arena/ArenaPage.tsx')),
+          page('/play', () => import('./features/play/PlayPage.tsx')),
+          page(
+            '/multiplayer',
+            () => import('./features/multiplayer/MultiplayerPage.tsx'),
+          ),
+          page(
+            '/multiplayer/lobby/:lobbyId',
+            () => import('./features/multiplayer/LobbyPage.tsx'),
+          ),
+          page('/quiz', () => import('./features/quiz/QuizHubPage.tsx')),
+          page(
+            '/quiz/attempt/:attemptId',
+            () => import('./features/quiz/QuizPage.tsx'),
+          ),
+          page(
+            '/quiz/room/:roomId',
+            () => import('./features/quiz/QuizRoomPage.tsx'),
+          ),
+          page(
+            '/leaderboard',
+            () => import('./features/leaderboard/LeaderboardPage.tsx'),
+          ),
+          page('/profile', () => import('./features/profile/ProfilePage.tsx')),
+          page('/shop', () => import('./features/profile/ShopPage.tsx')),
+          page(
+            '/archive',
+            () => import('./features/archive/ArchivePage.tsx'),
+            false,
+          ),
+          { path: '*', element: <Navigate to="/" replace /> },
         ],
       },
     ],

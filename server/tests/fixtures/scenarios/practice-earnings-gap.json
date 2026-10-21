@@ -1,0 +1,150 @@
+{
+  "id": "practice-earnings-gap",
+  "version": 1,
+  "title": "Earnings Gap",
+  "briefing": "Orbit Snacks reports results soon. Strong results can make a price jump overnight, and jumps do not always last.",
+  "objective": "Reacting to an earnings surprise and protecting gains when the excitement fades.",
+  "debrief": "Orbit Snacks opened sharply higher after beating expectations, then drifted lower as early buyers took profits. Holding before the news paid off, but buying after the jump without a stop-loss gave much of it back.",
+  "difficulty": 2,
+  "ticks": 35,
+  "history": 20,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": true,
+    "stop": true
+  },
+  "max_position_pct": null,
+  "tools": [
+    "candles",
+    "volume"
+  ],
+  "market": {
+    "vol": 0.005
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 15,
+      "market_drift": 0.0008,
+      "vol_mult": 1.0
+    },
+    {
+      "from": 15,
+      "to": 35,
+      "market_drift": 0.0,
+      "vol_mult": 1.1
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "ORBT",
+      "name": "Orbit Snacks",
+      "sector": "Consumer staples",
+      "blurb": "Makes crunchy snacks shaped like planets.",
+      "price": 35,
+      "drift": 0.0005,
+      "beta": 0.8,
+      "vol": 0.013,
+      "base_volume": 12000
+    },
+    {
+      "symbol": "KILN",
+      "name": "Kiln Ceramics",
+      "sector": "Consumer goods",
+      "blurb": "Sells handmade plates and mugs online.",
+      "price": 22,
+      "drift": 0.0002,
+      "beta": 1.0,
+      "vol": 0.012,
+      "base_volume": 8000
+    }
+  ],
+  "news": [
+    {
+      "id": "orbit-earnings-beat",
+      "tick": 15,
+      "headline": "Orbit Snacks beats sales expectations",
+      "body": "Quarterly sales came in well above what analysts expected, helped by a popular new flavour.",
+      "tone": "positive",
+      "symbols": [
+        "ORBT"
+      ],
+      "effects": [
+        {
+          "symbol": "ORBT",
+          "move": 0.12,
+          "ticks": 2,
+          "gap": true
+        }
+      ],
+      "kind": "earnings"
+    },
+    {
+      "id": "orbit-profit-taking",
+      "tick": 22,
+      "headline": "Orbit Snacks shares cool after their jump",
+      "body": "Some investors who bought before the results are selling to lock in their gains.",
+      "tone": "neutral",
+      "symbols": [
+        "ORBT"
+      ],
+      "effects": [
+        {
+          "symbol": "ORBT",
+          "move": -0.08,
+          "ticks": 8,
+          "gap": false
+        }
+      ],
+      "kind": "company"
+    }
+  ],
+  "bots": [
+    "newsy-nina-rookie",
+    "panic-pete-rookie",
+    "hodl-hannah-rookie"
+  ],
+  "missions": {
+    "basic": [
+      {
+        "id": "first-trade",
+        "type": "trades_min",
+        "params": {
+          "n": 1
+        },
+        "text": "Make at least one trade"
+      },
+      {
+        "id": "set-stop",
+        "type": "stop_loss_set",
+        "params": {},
+        "text": "Protect a position with a stop-loss"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "take-profit",
+        "type": "sold_after_news",
+        "params": {
+          "news_id": "orbit-earnings-beat",
+          "within": 8
+        },
+        "text": "Sell Orbit Snacks within 8 days of the results"
+      },
+      {
+        "id": "in-profit",
+        "type": "profit_min",
+        "params": {
+          "amount": 1
+        },
+        "text": "Finish with a profit"
+      }
+    ]
+  }
+}

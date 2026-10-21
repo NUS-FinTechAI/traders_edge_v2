@@ -3,7 +3,7 @@ from contextlib import asynccontextmanager
 import hashlib
 from weakref import WeakValueDictionary
 
-from fastapi import FastAPI, Request
+from fastapi import Depends, FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from sqlalchemy.exc import IntegrityError
@@ -13,21 +13,19 @@ from app.config import Settings
 from app.db import Database
 from app.auth import router as auth_router
 from app.public_config import router as public_config_router
-from app.learning import router as learning_router
-from app.learning_runs import router as learning_runs_router
-from app.rewards import router as rewards_router
-from app.challenges.api import router as challenges_router
-from app.economy import router as economy_router
-from app import gameplay
-from app.quizzes.api import router as quizzes_router
+from app.campaign.api import router as campaign_router
+from app.campaign.games import before_start, resolve_game
+from app.campaign.settlement import settle_game
+from app.content.bundle import Content, load_content, require_approved_content
+from app.game.api import router as games_router
 from app.multiplayer.api import router as multiplayer_router
-from app.multiplayer import policy as multiplayer_policy
+from app.player.api import router as player_router
+from app.quiz.api import router as quiz_router
 from app.research import router as research_router
-from app.simulation.api import router as simulation_router
-from app.simulation.lesson_api import router as lesson_simulation_router
 
 
-def create_app(settings: Settings | None = None, content: dict | None = None) -> FastAPI:
+def create_app(settings: Settings | None = None, content: Content | None = None) -> FastAPI:
+    """`content` replaces the authored content loaded from disk (tests pass fixtures)."""
     settings = settings or Settings.from_env()
     settings.validate()
 
@@ -39,13 +37,7 @@ def create_app(settings: Settings | None = None, content: dict | None = None) ->
             await database.migrate()
         else:
             await database.check_schema()
-        if content is None:
-            from app.content.catalog import load_catalog
-            from app.content.validate import validate_catalog
-            application.state.catalog = load_catalog()
-            validate_catalog(application.state.catalog)
-        else:
-            application.state.catalog = content
+        application.state.content = content or load_content()
         firebase_app = None
         if settings.auth_mode == 'firebase':
             import firebase_admin
@@ -62,12 +54,19 @@ def create_app(settings: Settings | None = None, content: dict | None = None) ->
 
     application = FastAPI(title="Trader's Edge API", lifespan=lifespan)
     application.state.settings = settings
-    application.state.challenge_start_handler = gameplay.start_policy
-    application.state.challenge_created_handler = gameplay.created
-    application.state.challenge_result_handler = gameplay.complete_policy
-    application.state.challenge_abandon_handler = gameplay.abandoned
-    application.state.multiplayer_access_handler = multiplayer_policy.access
-    application.state.multiplayer_result_handler = multiplayer_policy.complete
+
+    async def resolve(db, profile, body):
+        return await resolve_game(application.state.content, db, profile, body)
+
+    async def settle(db, profile, game, participant, result):
+        return await settle_game(application.state.content, db, profile, game, participant, result)
+
+    async def check_start(db, profile, game):
+        await before_start(application.state.content, db, profile, game)
+
+    application.state.resolve_game = resolve
+    application.state.settle_game = settle
+    application.state.before_start = check_start
     locks = WeakValueDictionary()
     application.add_middleware(CORSMiddleware, allow_origins=list(settings.allowed_origins), allow_credentials=True, allow_methods=['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'], allow_headers=['Content-Type', 'Authorization'])
 
@@ -108,17 +107,13 @@ def create_app(settings: Settings | None = None, content: dict | None = None) ->
 
     application.include_router(auth_router)
     application.include_router(public_config_router)
-    application.include_router(learning_router)
-    application.include_router(learning_runs_router)
-    application.include_router(rewards_router)
-    application.include_router(challenges_router)
-    application.include_router(economy_router)
-    application.include_router(gameplay.router)
-    application.include_router(quizzes_router)
-    application.include_router(multiplayer_router)
+    approved = [Depends(require_approved_content)]
+    application.include_router(games_router, dependencies=approved)
+    application.include_router(campaign_router)
+    application.include_router(player_router)
+    application.include_router(quiz_router, dependencies=approved)
+    application.include_router(multiplayer_router, dependencies=approved)
     application.include_router(research_router)
-    application.include_router(simulation_router)
-    application.include_router(lesson_simulation_router)
     return application
 
 

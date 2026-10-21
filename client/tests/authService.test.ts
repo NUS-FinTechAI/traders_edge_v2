@@ -61,20 +61,23 @@ test('logout preserves identity when backend session deletion fails', async (t) 
 const profile: UserProfile = {
   id: 'learner-id',
   display_name: 'Learner',
-  leaderboard_opt_in: false,
-  analytics_opt_in: false,
+  avatar_id: 'avatar-starter-1',
+  avatar_image: null,
+  title: 'Rookie Trader',
+  title_id: null,
+  level: 1,
+  rank_name: 'Rookie Trader',
   xp: 0,
-  completed_lesson_ids: [],
-  mastered_module_ids: [],
-  activity_days: [],
-  activity_timezone: 'UTC',
-  due_review_count: 0,
-  learning_only: true,
-  learning_xp: 0,
-  game_xp: 0,
-  player_level: 1,
-  player_level_policy: '100-xp-per-level-1',
-  xp_basis: 'learning and game events',
+  xp_into_level: 0,
+  xp_for_next_level: 100,
+  wallet: {
+    doubloons: 0,
+    doubloons_week_ends_at: '2026-10-26T00:00:00+00:00',
+    gems: 0,
+  },
+  streak: { days: 0, claimed_today: false, cycle_day: 1 },
+  unlocks: { daily: false, ranked: false },
+  leaderboard_opt_in: false,
 }
 
 test('successful logout clears the shared user and notifies subscribers', async (t) => {
@@ -220,7 +223,7 @@ test('authentication checks consult the backend each time without creating a gue
     globalThis,
     'fetch',
     async (input: Parameters<typeof fetch>[0], options?: RequestInit) => {
-      assert.equal(new URL(String(input)).pathname, '/api/me/profile')
+      assert.equal(new URL(String(input)).pathname, '/api/me')
       assert.equal(options?.method, 'GET')
       return Response.json(
         status === 200 ? profile : { detail: 'Session expired' },

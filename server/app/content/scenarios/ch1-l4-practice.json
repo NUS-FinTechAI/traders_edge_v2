@@ -1,0 +1,113 @@
+{
+  "id": "ch1-l4-practice",
+  "version": 1,
+  "title": "Keep Score",
+  "briefing": "Orchard Foods is climbing slowly. Scalper Sam will trade it every day. Watch your cash, holdings and portfolio value, and count the fees.",
+  "objective": "Profit = final portfolio value − starting cash. Fees come out of every trade.",
+  "debrief": "Orchard Foods rose gently all match, with steady sales news on day 12. Scalper Sam bought and sold almost every day, paying a fee and the spread each time, so most of his gains went on costs. A player who bought once and held paid one small fee, and the shares still held on the last day counted at the final close.",
+  "difficulty": 1,
+  "ticks": 25,
+  "history": 20,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": false,
+    "stop": false
+  },
+  "max_position_pct": null,
+  "tools": [
+    "candles"
+  ],
+  "market": {
+    "vol": 0.004
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 25,
+      "market_drift": 0.001,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "ORCF",
+      "name": "Orchard Foods",
+      "sector": "Consumer staples",
+      "blurb": "Runs a chain of neighbourhood grocery stores.",
+      "price": 42.5,
+      "drift": 0.002,
+      "beta": 0.7,
+      "vol": 0.009,
+      "base_volume": 60000
+    }
+  ],
+  "news": [
+    {
+      "id": "orcf-sales",
+      "tick": 12,
+      "headline": "Orchard Foods reports steady quarterly sales",
+      "body": "Orchard Foods sold slightly more groceries than last quarter, in line with forecasts.",
+      "tone": "positive",
+      "kind": "earnings",
+      "symbols": [
+        "ORCF"
+      ],
+      "effects": [
+        {
+          "symbol": "ORCF",
+          "move": 0.02,
+          "ticks": 3,
+          "gap": false
+        }
+      ]
+    }
+  ],
+  "bots": [
+    "scalper-sam-rookie"
+  ],
+  "missions": {
+    "basic": [
+      {
+        "id": "m1",
+        "type": "trades_min",
+        "params": {
+          "n": 1
+        },
+        "text": "Buy Orchard Foods shares"
+      },
+      {
+        "id": "m2",
+        "type": "trades_max",
+        "params": {
+          "n": 4
+        },
+        "text": "Make no more than 4 trades in total"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "b1",
+        "type": "profit_min",
+        "params": {
+          "amount": 1
+        },
+        "text": "Finish with a profit"
+      },
+      {
+        "id": "b2",
+        "type": "beat_bot",
+        "params": {
+          "bot_id": "scalper-sam-rookie"
+        },
+        "text": "Finish ahead of Scalper Sam"
+      }
+    ]
+  },
+  "balance": "lesson"
+}

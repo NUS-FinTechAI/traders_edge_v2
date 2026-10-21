@@ -1,0 +1,506 @@
+{
+  "id": "ch1",
+  "number": 1,
+  "title": "Market Basics",
+  "region": "Harbor of Basics",
+  "tagline": "What a stock is, how prices move, and your first trades.",
+  "icon": "compass",
+  "boss": "ch1-boss",
+  "gate": null,
+  "boss_reward": { "kind": "avatar", "id": "avatar-guide-1" },
+  "levels": [
+    {
+      "id": "ch1-l1",
+      "title": "What Is a Stock?",
+      "summary": "A share is a small piece of a company. Learn why companies sell them and how owners earn or lose money.",
+      "objectives": [
+        "Explain that a share is a small piece of ownership in a company.",
+        "Explain why companies sell shares.",
+        "Name the two ways shareholders earn (or lose) money."
+      ],
+      "terms": [
+        { "term": "Share", "definition": "One unit of ownership in a company. Also called a stock." },
+        { "term": "IPO", "definition": "Initial public offering: the first time a company sells its shares to the public." },
+        { "term": "Dividend", "definition": "A part of a company's profit paid out to shareholders. Not guaranteed and can be cut." },
+        { "term": "Capital gain", "definition": "Profit from selling something for more than you paid for it." },
+        { "term": "Market capitalization", "definition": "Share price × number of shares. The market's total value for a company." }
+      ],
+      "cards": [
+        {
+          "title": "A slice of the company",
+          "body": "Lumen Bikes makes e-bikes and is split into **1,000,000 shares**. Each share is a small piece of ownership. If you own 100 shares, you own 100 ÷ 1,000,000 = **0.01%** of the company. Move the slider to see how your stake grows.",
+          "visual": "ownership-slider"
+        },
+        {
+          "title": "Why companies sell shares",
+          "body": "Companies sell shares to raise money to grow: build factories, hire people, develop products. The first sale to the public is an **IPO**. After that, shares trade between investors. When you buy from another investor, your money goes to that seller, not to the company."
+        },
+        {
+          "title": "How shareholders make money",
+          "body": "There are two ways. The share price rises and you sell for more than you paid (a **capital gain**). Or the company pays **dividends**, a share of its profits. Neither is guaranteed: prices can fall below what you paid, and dividends can be cut."
+        },
+        {
+          "title": "Why prices move",
+          "body": "A price changes when buyers and sellers change their view of what the company is worth. Profits, news and the overall market mood all shift that view. When more people want to buy than sell at today's price, buyers have to pay more and the price rises.",
+          "visual": "supply-demand"
+        },
+        {
+          "title": "Market cap: how big is it?",
+          "body": "**Market cap = share price × number of shares.** Lumen Bikes: $40 × 1,000,000 = $40 million. Nimbus Cloud: $25 × 20,000,000 = $500 million. Nimbus has the lower share price but is the far bigger company. A high price alone tells you nothing about size.",
+          "visual": "market-cap-compare"
+        }
+      ],
+      "check": [
+        {
+          "id": "q1",
+          "kind": "mc",
+          "prompt": "You own 200 shares of Orchard Foods, which has 1,000,000 shares in total. What do you own?",
+          "options": [
+            { "id": "a", "text": "200% of the company" },
+            { "id": "b", "text": "2% of the company" },
+            { "id": "c", "text": "0.02% of the company" },
+            { "id": "d", "text": "The right to run the company" }
+          ],
+          "answer": "c",
+          "explanation": "200 ÷ 1,000,000 = 0.0002, which is 0.02%."
+        },
+        {
+          "id": "q2",
+          "kind": "true_false",
+          "prompt": "When you buy a share from another investor on an exchange, the company receives your money.",
+          "options": [
+            { "id": "t", "text": "True" },
+            { "id": "f", "text": "False" }
+          ],
+          "answer": "f",
+          "explanation": "The money goes to the seller. The company raised its money when it first issued the shares."
+        },
+        {
+          "id": "q3",
+          "kind": "mc",
+          "prompt": "Which two are ways a shareholder can earn a return?",
+          "options": [
+            { "id": "a", "text": "Commissions and fees" },
+            { "id": "b", "text": "Guaranteed interest and coupons" },
+            { "id": "c", "text": "Guaranteed dividends and refunds" },
+            { "id": "d", "text": "Price rises and dividends" }
+          ],
+          "answer": "d",
+          "explanation": "Price gains and dividends are the two sources, and neither is guaranteed."
+        },
+        {
+          "id": "q4",
+          "kind": "mc",
+          "prompt": "Company A: $200 per share, 2 million shares. Company B: $20 per share, 50 million shares. Which company is bigger?",
+          "options": [
+            { "id": "a", "text": "Company A" },
+            { "id": "b", "text": "Company B" },
+            { "id": "c", "text": "They are the same size" },
+            { "id": "d", "text": "You can't tell without more information" }
+          ],
+          "answer": "b",
+          "explanation": "A is worth $400 million; B is worth $1 billion. Share price alone doesn't show size."
+        }
+      ],
+      "practice": "ch1-l1-practice"
+    },
+    {
+      "id": "ch1-l2",
+      "title": "How the Stock Market Works",
+      "summary": "Exchanges, brokers, and why the price is simply the last deal between a buyer and a seller.",
+      "objectives": [
+        "Describe what exchanges and brokers do.",
+        "Explain that the price is the last agreed trade.",
+        "Explain market hours and overnight gaps."
+      ],
+      "terms": [
+        { "term": "Exchange", "definition": "A marketplace where buy and sell orders for shares meet, such as the NYSE, Nasdaq or SGX." },
+        { "term": "Broker", "definition": "A firm or app that sends your orders to the market and holds your account." },
+        { "term": "Last price", "definition": "The price of the most recent trade between a buyer and a seller." },
+        { "term": "Gap", "definition": "When a day opens well above (gap up) or below (gap down) the previous day's close, usually after news." }
+      ],
+      "cards": [
+        {
+          "title": "A marketplace for shares",
+          "body": "An **exchange**, such as the NYSE, Nasdaq or SGX, is where buy and sell orders meet. Think of an auction that runs all day: buyers say what they will pay, sellers say what they will accept, and trades happen when the two match."
+        },
+        {
+          "title": "You go through a broker",
+          "body": "You don't trade on the exchange yourself. A **broker**, usually an app or a firm, sends your order to the market and holds your cash and shares in your account. In this game, the order ticket plays the broker's role."
+        },
+        {
+          "title": "Every trade has two sides",
+          "body": "For every share bought, someone sold it. The price on your screen is the **last price**: the most recent price a buyer and a seller agreed on. It is not an official value, and it is not a promise about the next trade."
+        },
+        {
+          "title": "Supply and demand",
+          "body": "If more people want to buy than sell at the current price, buyers must offer more to get shares, so the price rises. If sellers outnumber buyers, they must accept less and the price falls. News changes how many people want to buy or sell.",
+          "visual": "supply-demand"
+        },
+        {
+          "title": "Market hours and gaps",
+          "body": "Exchanges open at set hours. News that arrives overnight can make the next open very different from the last close. Day 5 closes at $40.00, good news arrives, and Day 6 opens at $43.50: a **gap up**. In this game, one candle is one trading day.",
+          "visual": "gap-chart"
+        }
+      ],
+      "check": [
+        {
+          "id": "q1",
+          "kind": "mc",
+          "prompt": "What does a broker do?",
+          "options": [
+            { "id": "a", "text": "Sends your orders to the market and holds your account" },
+            { "id": "b", "text": "Sets the stock price" },
+            { "id": "c", "text": "Guarantees your profits" },
+            { "id": "d", "text": "Owns the companies you buy" }
+          ],
+          "answer": "a",
+          "explanation": "The broker routes your orders and keeps your cash and shares; prices come from buyers and sellers."
+        },
+        {
+          "id": "q2",
+          "kind": "mc",
+          "prompt": "The last trade in Tidal Power was at $31.20. What is $31.20?",
+          "options": [
+            { "id": "a", "text": "An official value set by regulators" },
+            { "id": "b", "text": "The price you are guaranteed on your next trade" },
+            { "id": "c", "text": "The price where the most recent buyer and seller agreed" },
+            { "id": "d", "text": "The average price over the year" }
+          ],
+          "answer": "c",
+          "explanation": "The last price is simply the most recent deal between a buyer and a seller."
+        },
+        {
+          "id": "q3",
+          "kind": "true_false",
+          "prompt": "For every share bought, a share is sold.",
+          "options": [
+            { "id": "t", "text": "True" },
+            { "id": "f", "text": "False" }
+          ],
+          "answer": "t",
+          "explanation": "Every trade has a buyer and a seller."
+        },
+        {
+          "id": "q4",
+          "kind": "mc",
+          "prompt": "Day 5 closes at $40.00. After overnight news, Day 6 opens at $43.50. What is this called?",
+          "options": [
+            { "id": "a", "text": "A gap down" },
+            { "id": "b", "text": "A dividend" },
+            { "id": "c", "text": "A stock split" },
+            { "id": "d", "text": "A gap up" }
+          ],
+          "answer": "d",
+          "explanation": "The open is well above the previous close, so the price gapped up."
+        }
+      ],
+      "practice": "ch1-l2-practice"
+    },
+    {
+      "id": "ch1-l3",
+      "title": "Investing, Trading & Gambling",
+      "summary": "Same stock, different plans. What turns a trade into a gamble, and the one money rule for real life.",
+      "objectives": [
+        "Tell investing (years), trading (days to weeks) and gambling (no plan, no edge) apart.",
+        "State the rule about which money can be risked.",
+        "Build a basic trade plan."
+      ],
+      "terms": [
+        { "term": "Investing", "definition": "Buying to hold for years because you expect the business to grow." },
+        { "term": "Trading", "definition": "Buying and selling over days or weeks to profit from price moves." },
+        { "term": "Trade plan", "definition": "Your reason for a trade, where you will get out if wrong, and how much you can lose." },
+        { "term": "Risk", "definition": "The chance and size of a possible loss." }
+      ],
+      "cards": [
+        {
+          "title": "Same stock, different plans",
+          "body": "An **investor** buys Orchard Foods to hold for years, expecting the business to grow. A **trader** buys hoping to sell in days or weeks after a price move. Both can be done carefully, and neither is guaranteed to make money."
+        },
+        {
+          "title": "What makes it gambling?",
+          "body": "Betting with no reason, no plan and no exit is gambling. A plan answers three questions: **Why** am I buying? **Where** do I get out if I'm wrong? **How much** can I lose? If you can't answer them, you are guessing."
+        },
+        {
+          "title": "Risk and reward travel together",
+          "body": "Bigger possible gains come with bigger possible losses. A stock that can rise 30% in a month can also fall 30%. Anyone promising high returns with no risk is waving a red flag.",
+          "visual": "risk-reward"
+        },
+        {
+          "title": "The money rule",
+          "body": "In real life, only risk money you could lose without hurting essentials like rent, food or emergency savings. Large studies of day traders find that most lose money over time. That is why you practise here with simulated cash."
+        },
+        {
+          "title": "Your game plan",
+          "body": "Every match in this game starts with a quick plan: a **strategy** and a **maximum loss** you will accept. The results screen compares your plan with what actually happened, so you can see whether you stuck to it."
+        }
+      ],
+      "check": [
+        {
+          "id": "q1",
+          "kind": "mc",
+          "prompt": "Maya buys Kestrel Air shares to hold for 10 years because she expects the airline to grow. This is:",
+          "options": [
+            { "id": "a", "text": "Day trading" },
+            { "id": "b", "text": "Investing" },
+            { "id": "c", "text": "Gambling" },
+            { "id": "d", "text": "Short selling" }
+          ],
+          "answer": "b",
+          "explanation": "A reason and a time frame of years make it investing."
+        },
+        {
+          "id": "q2",
+          "kind": "mc",
+          "prompt": "Which is most like gambling?",
+          "options": [
+            { "id": "a", "text": "Buying because a stranger online says \"to the moon!\", with no exit plan" },
+            { "id": "b", "text": "Buying after research, with an exit plan" },
+            { "id": "c", "text": "Holding a diversified fund for retirement" },
+            { "id": "d", "text": "Selling when your planned stop is hit" }
+          ],
+          "answer": "a",
+          "explanation": "There is no reason of your own and no exit."
+        },
+        {
+          "id": "q3",
+          "kind": "true_false",
+          "prompt": "Higher potential return usually comes with higher risk.",
+          "options": [
+            { "id": "t", "text": "True" },
+            { "id": "f", "text": "False" }
+          ],
+          "answer": "t",
+          "explanation": "Bigger possible gains come with bigger possible losses."
+        },
+        {
+          "id": "q4",
+          "kind": "mc",
+          "prompt": "In real life, which money is suitable for risky short-term trading?",
+          "options": [
+            { "id": "a", "text": "Next month's rent" },
+            { "id": "b", "text": "Emergency savings" },
+            { "id": "c", "text": "Money you could lose without affecting essentials" },
+            { "id": "d", "text": "A credit-card cash advance" }
+          ],
+          "answer": "c",
+          "explanation": "Only risk money whose loss would not hurt your essentials."
+        }
+      ],
+      "practice": "ch1-l3-practice",
+      "reward": { "kind": "avatar", "id": "avatar-ch1-explorer" }
+    },
+    {
+      "id": "ch1-l4",
+      "title": "Profit, Loss & Portfolio Value",
+      "summary": "Work out profit and loss including fees, and learn the one number that decides every match.",
+      "objectives": [
+        "Calculate profit or loss and percent return, including fees.",
+        "Tell realized from unrealized profit or loss.",
+        "Compute portfolio value, which is the score in every challenge."
+      ],
+      "terms": [
+        { "term": "P/L", "definition": "Profit or loss: (sell price − buy price) × shares − fees." },
+        { "term": "Return %", "definition": "Profit or loss divided by the amount invested." },
+        { "term": "Unrealized P/L", "definition": "Paper profit or loss on shares you still hold. It changes every day." },
+        { "term": "Realized P/L", "definition": "Profit or loss locked in when you sell." },
+        { "term": "Portfolio value", "definition": "Cash plus shares × current price. Also called equity." }
+      ],
+      "cards": [
+        {
+          "title": "Profit and loss",
+          "body": "**P/L = (sell price − buy price) × shares − fees.** Buy 20 Orchard Foods shares at $50, sell at $56, and pay $10 in fees: (6 × 20) − 10 = **$110** profit."
+        },
+        {
+          "title": "Percent return",
+          "body": "**Return % = P/L ÷ amount invested.** That trade invested 20 × $50 = $1,000, so $110 ÷ $1,000 = **11%**. Percentages let you compare trades of different sizes: $110 on $1,000 is a better result than $150 on $5,000 (3%)."
+        },
+        {
+          "title": "Paper versus real",
+          "body": "**Unrealized** (paper) P/L is on shares you still hold and changes every day. **Realized** P/L is locked in when you sell. A paper loss is still a real loss in value; it only becomes realized when you sell."
+        },
+        {
+          "title": "Portfolio value is your score",
+          "body": "**Portfolio value = cash + shares × current price.** Every match ranks players by **profit = final portfolio value − starting cash**. Shares you still hold at the end count at the final day's closing price, so you don't need to sell to keep your gains."
+        },
+        {
+          "title": "Fees add up",
+          "body": "In this game each fill costs **0.1% of the order value, minimum $1**, plus a small spread. One $5,000 buy pays $5. Forty small trades pay at least $40, and often far more. Trading more does not mean earning more."
+        }
+      ],
+      "check": [
+        {
+          "id": "q1",
+          "kind": "mc",
+          "prompt": "You buy 50 shares at $20 and sell them at $23. Total fees are $10. What is your P/L?",
+          "options": [
+            { "id": "a", "text": "$150" },
+            { "id": "b", "text": "$160" },
+            { "id": "c", "text": "$1,150" },
+            { "id": "d", "text": "$140" }
+          ],
+          "answer": "d",
+          "explanation": "$3 × 50 = $150, minus $10 in fees = $140."
+        },
+        {
+          "id": "q2",
+          "kind": "mc",
+          "prompt": "That trade invested $1,000 (50 × $20). What is its percent return?",
+          "options": [
+            { "id": "a", "text": "14%" },
+            { "id": "b", "text": "15%" },
+            { "id": "c", "text": "1.4%" },
+            { "id": "d", "text": "23%" }
+          ],
+          "answer": "a",
+          "explanation": "$140 ÷ $1,000 = 0.14 = 14%."
+        },
+        {
+          "id": "q3",
+          "kind": "mc",
+          "prompt": "You hold 30 shares bought at $40. The price is now $35 and you haven't sold. Which is true?",
+          "options": [
+            { "id": "a", "text": "You have a realized loss of $150" },
+            { "id": "b", "text": "You have an unrealized loss of $150" },
+            { "id": "c", "text": "You have an unrealized gain of $150" },
+            { "id": "d", "text": "You have $0 P/L because nothing counts until you sell" }
+          ],
+          "answer": "b",
+          "explanation": "30 × $5 = $150 paper loss. Selling now would realize it."
+        },
+        {
+          "id": "q4",
+          "kind": "mc",
+          "prompt": "A match ends with $6,200 cash and 80 shares closing at $50. You started with $10,000. What is your profit?",
+          "options": [
+            { "id": "a", "text": "−$3,800" },
+            { "id": "b", "text": "+$4,000" },
+            { "id": "c", "text": "+$200" },
+            { "id": "d", "text": "+$10,200" }
+          ],
+          "answer": "c",
+          "explanation": "$6,200 + 80 × $50 = $10,200; minus $10,000 = +$200."
+        },
+        {
+          "id": "q5",
+          "kind": "mc",
+          "prompt": "You buy 10 Orchard Foods shares at $42.50. Three days later it closes at $44.10. What is your unrealized P/L before fees?",
+          "options": [
+            { "id": "a", "text": "+$16.00" },
+            { "id": "b", "text": "+$1.60" },
+            { "id": "c", "text": "+$160.00" },
+            { "id": "d", "text": "+$441.00" }
+          ],
+          "answer": "a",
+          "explanation": "($44.10 − $42.50) × 10 = $1.60 × 10 = $16.00."
+        }
+      ],
+      "practice": "ch1-l4-practice"
+    },
+    {
+      "id": "ch1-l5",
+      "title": "Bulls, Bears & Volatility",
+      "summary": "Rising and falling markets, how wildly prices swing, and why cash is a real choice.",
+      "objectives": [
+        "Define bull and bear markets.",
+        "Explain volatility as bigger swings in both directions.",
+        "Explain why holding cash is a valid choice when you can only buy."
+      ],
+      "terms": [
+        { "term": "Bull market", "definition": "A period when prices are broadly rising." },
+        { "term": "Bear market", "definition": "A period when prices are broadly falling, often defined as 20% or more below a recent high." },
+        { "term": "Index", "definition": "A number that tracks a basket of stocks to show how the market is doing, such as the S&P 500." },
+        { "term": "Volatility", "definition": "How far and how fast a price swings, up and down." }
+      ],
+      "cards": [
+        {
+          "title": "Bulls and bears",
+          "body": "A **bull market** means prices are broadly rising. A **bear market** means they are broadly falling. A fall of 20% or more from a recent high is commonly called a bear market. Bulls charge upward; bears swipe down."
+        },
+        {
+          "title": "Market indexes",
+          "body": "An **index** such as the S&P 500 or the STI tracks a basket of stocks to show how \"the market\" is doing. In this game, headlines about the **Harbor 50** index describe the overall market mood. Single stocks can still move against the index."
+        },
+        {
+          "title": "Volatility",
+          "body": "**Volatility** is how far and how fast prices swing. A volatile stock might move 5% in a day; a calm one 0.5%. More volatility means bigger possible gains **and** bigger possible losses. It does not tell you which way the price will go."
+        },
+        {
+          "title": "Cash is a position",
+          "body": "In this game you can only buy and then sell; you cannot bet on prices falling. When prices are sliding, waiting in cash keeps your profit at $0, and $0 beats a loss. Sitting out is a decision, not a failure."
+        },
+        {
+          "title": "Noise versus news",
+          "body": "Prices wiggle every day. A one-day 3% dip inside a steady uptrend is often just noise. A headline that changes what a company will earn is news. Learn to ask: did something actually change, or is this a normal wobble?",
+          "visual": "trend-lines"
+        }
+      ],
+      "check": [
+        {
+          "id": "q1",
+          "kind": "mc",
+          "prompt": "The Harbor 50 index falls from 4,000 to 3,100 over several months. What is the best description?",
+          "options": [
+            { "id": "a", "text": "A bull market" },
+            { "id": "b", "text": "A bear market" },
+            { "id": "c", "text": "A normal day" },
+            { "id": "d", "text": "A sideways market" }
+          ],
+          "answer": "b",
+          "explanation": "900 ÷ 4,000 = a 22.5% fall, past the usual 20% bear-market line."
+        },
+        {
+          "id": "q2",
+          "kind": "mc",
+          "prompt": "Over 20 days, Stock A moves within ±0.5% a day and Stock B moves about ±4% a day. Which is more volatile?",
+          "options": [
+            { "id": "a", "text": "Stock A" },
+            { "id": "b", "text": "They are equally volatile" },
+            { "id": "c", "text": "You can't tell" },
+            { "id": "d", "text": "Stock B" }
+          ],
+          "answer": "d",
+          "explanation": "Stock B's daily swings are eight times bigger."
+        },
+        {
+          "id": "q3",
+          "kind": "true_false",
+          "prompt": "High volatility means a stock is more likely to go up.",
+          "options": [
+            { "id": "t", "text": "True" },
+            { "id": "f", "text": "False" }
+          ],
+          "answer": "f",
+          "explanation": "Volatility means bigger swings in both directions."
+        },
+        {
+          "id": "q4",
+          "kind": "mc",
+          "prompt": "You can only buy and then sell, and the market is in a steady downtrend. Which choice avoids losses from it?",
+          "options": [
+            { "id": "a", "text": "Buy more each day" },
+            { "id": "b", "text": "Buy the most volatile stock" },
+            { "id": "c", "text": "Hold cash and wait for signs of a turn" },
+            { "id": "d", "text": "Trade every day to win it back" }
+          ],
+          "answer": "c",
+          "explanation": "Cash keeps you at $0 while prices fall."
+        },
+        {
+          "id": "q5",
+          "kind": "mc",
+          "prompt": "A stock rose steadily for 10 days, dropped 3% on one day with no news, then kept rising. That drop was most likely:",
+          "options": [
+            { "id": "a", "text": "Normal noise within an uptrend" },
+            { "id": "b", "text": "The start of a crash" },
+            { "id": "c", "text": "A bear market" },
+            { "id": "d", "text": "A stock split" }
+          ],
+          "answer": "a",
+          "explanation": "One small dip with no news inside a steady trend is usually noise."
+        }
+      ],
+      "practice": "ch1-l5-practice"
+    }
+  ]
+}

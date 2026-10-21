@@ -1,0 +1,287 @@
+[
+  {
+    "id": "hodl-hannah-rookie",
+    "name": "HODL Hannah",
+    "tier": "rookie",
+    "avatar": "tortoise",
+    "style": "Buys on day one and never sells.",
+    "strategy": "buy_hold",
+    "params": { "weight": 0.5, "at": 0 }
+  },
+  {
+    "id": "hodl-hannah",
+    "name": "HODL Hannah",
+    "tier": "pro",
+    "avatar": "tortoise",
+    "style": "Buys on day one and never sells.",
+    "strategy": "buy_hold",
+    "params": { "weight": 0.8, "at": 0 }
+  },
+  {
+    "id": "hodl-hannah-elite",
+    "name": "HODL Hannah",
+    "tier": "elite",
+    "avatar": "tortoise",
+    "style": "Buys on day one and never sells.",
+    "strategy": "buy_hold",
+    "params": { "weight": 1.0, "at": 0 }
+  },
+  {
+    "id": "momentum-max-rookie",
+    "name": "Momentum Max",
+    "tier": "rookie",
+    "avatar": "bull",
+    "style": "Buys strength, sells weakness.",
+    "strategy": "momentum",
+    "params": { "sma": 10, "exit_sma": 20, "rising": true, "high_window": 0, "weight": 0.3, "delay": 2 }
+  },
+  {
+    "id": "momentum-max-pro",
+    "name": "Momentum Max",
+    "tier": "pro",
+    "avatar": "bull",
+    "style": "Buys strength, sells weakness.",
+    "strategy": "momentum",
+    "params": { "sma": 10, "exit_sma": 10, "rising": true, "high_window": 0, "weight": 0.5, "delay": 1 }
+  },
+  {
+    "id": "momentum-max-elite",
+    "name": "Momentum Max",
+    "tier": "elite",
+    "avatar": "bull",
+    "style": "Buys strength, sells weakness.",
+    "strategy": "momentum",
+    "params": { "sma": 10, "exit_sma": 10, "rising": true, "high_window": 10, "weight": 0.7, "delay": 0 }
+  },
+  {
+    "id": "value-vera-rookie",
+    "name": "Value Vera",
+    "tier": "rookie",
+    "avatar": "owl",
+    "style": "Buys dips and sells the bounce.",
+    "strategy": "mean_reversion",
+    "params": {
+      "entry": "red_candles",
+      "red_candles": 3,
+      "exit_sma": 10,
+      "take_profit": 0.05,
+      "trend_sma": 0,
+      "trail": 0,
+      "weight": 0.3,
+      "delay": 2
+    }
+  },
+  {
+    "id": "value-vera-pro",
+    "name": "Value Vera",
+    "tier": "pro",
+    "avatar": "owl",
+    "style": "Buys dips and sells the bounce.",
+    "strategy": "mean_reversion",
+    "params": {
+      "entry": "rsi",
+      "rsi_window": 14,
+      "rsi_below": 30,
+      "exit_sma": 10,
+      "take_profit": 0.05,
+      "trend_sma": 0,
+      "trail": 0.08,
+      "weight": 0.5,
+      "delay": 1
+    }
+  },
+  {
+    "id": "value-vera-elite",
+    "name": "Value Vera",
+    "tier": "elite",
+    "avatar": "owl",
+    "style": "Buys dips and sells the bounce.",
+    "strategy": "mean_reversion",
+    "params": {
+      "entry": "rsi",
+      "rsi_window": 14,
+      "rsi_below": 30,
+      "exit_sma": 10,
+      "take_profit": 0.05,
+      "trend_sma": 20,
+      "trail": 0.08,
+      "weight": 0.7,
+      "delay": 0
+    }
+  },
+  {
+    "id": "panic-pete-rookie",
+    "name": "Panic Pete",
+    "tier": "rookie",
+    "avatar": "hare",
+    "style": "Chases rallies and panics on bad news.",
+    "strategy": "emotional",
+    "params": { "streak": 3, "drop": 0.04, "weight": 0.4, "delay": 2 }
+  },
+  {
+    "id": "panic-pete-pro",
+    "name": "Panic Pete",
+    "tier": "pro",
+    "avatar": "hare",
+    "style": "Chases rallies and panics on bad news.",
+    "strategy": "emotional",
+    "params": { "streak": 3, "drop": 0.04, "weight": 0.6, "delay": 1 }
+  },
+  {
+    "id": "panic-pete-elite",
+    "name": "Panic Pete",
+    "tier": "elite",
+    "avatar": "hare",
+    "style": "Chases rallies and panics on bad news.",
+    "strategy": "emotional",
+    "params": { "streak": 3, "drop": 0.04, "weight": 0.8, "delay": 0 }
+  },
+  {
+    "id": "scalper-sam-rookie",
+    "name": "Scalper Sam",
+    "tier": "rookie",
+    "avatar": "parrot",
+    "style": "Trades every small move.",
+    "strategy": "scalper",
+    "params": { "min_move": 0, "weight": 0.2 }
+  },
+  {
+    "id": "scalper-sam-pro",
+    "name": "Scalper Sam",
+    "tier": "pro",
+    "avatar": "parrot",
+    "style": "Trades every small move.",
+    "strategy": "scalper",
+    "params": { "min_move": 0.01, "weight": 0.2 }
+  },
+  {
+    "id": "breakout-bea-rookie",
+    "name": "Breakout Bea",
+    "tier": "rookie",
+    "avatar": "eagle",
+    "style": "Buys breakouts to new highs.",
+    "strategy": "breakout",
+    "params": { "window": 10, "volume_mult": 0, "volume_window": 20, "buffer": 0.01, "weight": 0.3, "delay": 2 }
+  },
+  {
+    "id": "breakout-bea-pro",
+    "name": "Breakout Bea",
+    "tier": "pro",
+    "avatar": "eagle",
+    "style": "Buys breakouts to new highs.",
+    "strategy": "breakout",
+    "params": { "window": 20, "volume_mult": 1.5, "volume_window": 20, "buffer": 0.01, "weight": 0.5, "delay": 1 }
+  },
+  {
+    "id": "breakout-bea-elite",
+    "name": "Breakout Bea",
+    "tier": "elite",
+    "avatar": "eagle",
+    "style": "Buys breakouts to new highs.",
+    "strategy": "breakout",
+    "params": { "window": 20, "volume_mult": 1.5, "volume_window": 20, "buffer": 0.01, "weight": 0.7, "delay": 0 }
+  },
+  {
+    "id": "newsy-nina-rookie",
+    "name": "Newsy Nina",
+    "tier": "rookie",
+    "avatar": "fox",
+    "style": "Trades the headlines.",
+    "strategy": "news_reactor",
+    "params": { "weight": 0.3, "ignore": [], "fade_gap": 0, "delay": 2 }
+  },
+  {
+    "id": "newsy-nina-pro",
+    "name": "Newsy Nina",
+    "tier": "pro",
+    "avatar": "fox",
+    "style": "Trades the headlines.",
+    "strategy": "news_reactor",
+    "params": { "weight": 0.5, "ignore": ["rumor", "hype"], "fade_gap": 0, "delay": 1 }
+  },
+  {
+    "id": "newsy-nina-elite",
+    "name": "Newsy Nina",
+    "tier": "elite",
+    "avatar": "fox",
+    "style": "Trades the headlines.",
+    "strategy": "news_reactor",
+    "params": { "weight": 0.7, "ignore": ["rumor", "hype"], "fade_gap": 0.06, "delay": 0 }
+  },
+  {
+    "id": "steady-stella-rookie",
+    "name": "Steady Stella",
+    "tier": "rookie",
+    "avatar": "whale",
+    "style": "Risks a little on every trade.",
+    "strategy": "risk_manager",
+    "params": {
+      "trend_sma": 20,
+      "risk": 0.01,
+      "stop_window": 10,
+      "take_half_r": 2,
+      "max_exposure": 0.4,
+      "momentum_filter": false,
+      "avoid_hype": false,
+      "climax_volume": 0,
+      "delay": 2
+    }
+  },
+  {
+    "id": "steady-stella-pro",
+    "name": "Steady Stella",
+    "tier": "pro",
+    "avatar": "whale",
+    "style": "Risks a little on every trade.",
+    "strategy": "risk_manager",
+    "params": {
+      "trend_sma": 20,
+      "risk": 0.01,
+      "stop_window": 10,
+      "take_half_r": 2,
+      "max_exposure": 0.7,
+      "momentum_filter": false,
+      "avoid_hype": false,
+      "climax_volume": 0,
+      "delay": 1
+    }
+  },
+  {
+    "id": "steady-stella-elite",
+    "name": "Steady Stella",
+    "tier": "elite",
+    "avatar": "whale",
+    "style": "Risks a little on every trade.",
+    "strategy": "risk_manager",
+    "params": {
+      "trend_sma": 20,
+      "risk": 0.01,
+      "stop_window": 10,
+      "take_half_r": 2,
+      "max_exposure": 1.0,
+      "momentum_filter": false,
+      "avoid_hype": false,
+      "climax_volume": 0,
+      "delay": 0
+    }
+  },
+  {
+    "id": "ironhand-iris",
+    "name": "Ironhand Iris",
+    "tier": "elite",
+    "avatar": "lion",
+    "style": "Follows the trend with tight risk control.",
+    "strategy": "risk_manager",
+    "params": {
+      "trend_sma": 20,
+      "risk": 0.01,
+      "stop_window": 10,
+      "take_half_r": 2,
+      "max_exposure": 1.0,
+      "momentum_filter": true,
+      "avoid_hype": true,
+      "climax_volume": 2.5,
+      "delay": 0
+    }
+  }
+]

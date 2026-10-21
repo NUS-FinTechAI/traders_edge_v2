@@ -22,7 +22,7 @@ with TemporaryDirectory(prefix='traders-edge-benchmark-') as directory:
             identities.append(f'{settings.cookie_name}={client.cookies.get(settings.cookie_name)}')
         client.cookies.clear()
         results = []
-        for path in ('/api/me/profile', '/api/curriculum', '/api/me/workflow'):
+        for path in ('/api/me', '/api/campaign', '/api/me/collection'):
             for _ in range(5):
                 client.get(path, headers={'Cookie': identities[0]}).raise_for_status()
 

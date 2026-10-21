@@ -1,0 +1,241 @@
+{
+  "id": "daily-tue-range-chop",
+  "version": 1,
+  "title": "Range Chop",
+  "briefing": "Tidal Power is chopping around and slowly losing ground. Scalper Sam will trade every bounce. Can you be patient enough to only take the good ones?",
+  "objective": "In a choppy range, trade only the edges, and do not let fees and spreads eat you.",
+  "debrief": "Tidal Power swung up and down on weather and repair news but drifted lower overall, so holding lost money and trading every move bled fees. The best trades bought sharp drops near support on days 3, 10, 17 and 24 and sold into the bounces. A disciplined player traded only those edges, kept size moderate and stayed out in between.",
+  "difficulty": 2,
+  "ticks": 30,
+  "history": 20,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": true,
+    "stop": true
+  },
+  "max_position_pct": null,
+  "balance": "daily",
+  "tools": [
+    "candles",
+    "volume",
+    "sma"
+  ],
+  "market": {
+    "vol": 0.005
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 30,
+      "market_drift": -0.001,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "TDLP",
+      "name": "Tidal Power",
+      "sector": "Utilities",
+      "blurb": "Generates renewable electricity from offshore wind and tidal farms.",
+      "price": 32,
+      "drift": -0.003,
+      "beta": 0.3,
+      "vol": 0.008,
+      "base_volume": 18000
+    }
+  ],
+  "news": [
+    {
+      "id": "tdlp-drop-1",
+      "tick": 3,
+      "headline": "Calm winds cut Tidal Power's output",
+      "body": "Wind farms ran at half capacity this week.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "TDLP"
+      ],
+      "effects": [
+        {
+          "symbol": "TDLP",
+          "move": -0.13,
+          "ticks": 2,
+          "gap": true
+        }
+      ]
+    },
+    {
+      "id": "tdlp-bounce-1",
+      "tick": 5,
+      "headline": "Winds return; Tidal Power output recovers",
+      "body": "Output is back near normal.",
+      "tone": "positive",
+      "kind": "company",
+      "symbols": [
+        "TDLP"
+      ],
+      "effects": [
+        {
+          "symbol": "TDLP",
+          "move": 0.12,
+          "ticks": 3,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "tdlp-drop-2",
+      "tick": 10,
+      "headline": "A turbine fault takes a Tidal Power farm offline",
+      "body": "Engineers expect repairs to take a few days.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "TDLP"
+      ],
+      "effects": [
+        {
+          "symbol": "TDLP",
+          "move": -0.13,
+          "ticks": 2,
+          "gap": true
+        }
+      ]
+    },
+    {
+      "id": "tdlp-bounce-2",
+      "tick": 12,
+      "headline": "Tidal Power repairs its turbine early",
+      "body": "The farm is back at full output.",
+      "tone": "positive",
+      "kind": "company",
+      "symbols": [
+        "TDLP"
+      ],
+      "effects": [
+        {
+          "symbol": "TDLP",
+          "move": 0.12,
+          "ticks": 3,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "tdlp-drop-3",
+      "tick": 17,
+      "headline": "Storm warning pauses Tidal Power's tidal farm",
+      "body": "Turbines are shut for safety until the storm passes.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "TDLP"
+      ],
+      "effects": [
+        {
+          "symbol": "TDLP",
+          "move": -0.13,
+          "ticks": 2,
+          "gap": true
+        }
+      ]
+    },
+    {
+      "id": "tdlp-bounce-3",
+      "tick": 19,
+      "headline": "Storm passes; Tidal Power restarts turbines",
+      "body": "All turbines are running again.",
+      "tone": "positive",
+      "kind": "company",
+      "symbols": [
+        "TDLP"
+      ],
+      "effects": [
+        {
+          "symbol": "TDLP",
+          "move": 0.12,
+          "ticks": 3,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "tdlp-drop-4",
+      "tick": 24,
+      "headline": "Grid fault limits Tidal Power's deliveries",
+      "body": "The grid operator is fixing a damaged line.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "TDLP"
+      ],
+      "effects": [
+        {
+          "symbol": "TDLP",
+          "move": -0.13,
+          "ticks": 2,
+          "gap": true
+        }
+      ]
+    },
+    {
+      "id": "tdlp-bounce-4",
+      "tick": 26,
+      "headline": "Grid line repaired; Tidal Power deliveries resume",
+      "body": "Deliveries are back to normal.",
+      "tone": "positive",
+      "kind": "company",
+      "symbols": [
+        "TDLP"
+      ],
+      "effects": [
+        {
+          "symbol": "TDLP",
+          "move": 0.12,
+          "ticks": 3,
+          "gap": false
+        }
+      ]
+    }
+  ],
+  "bots": [
+    "scalper-sam-pro"
+  ],
+  "missions": {
+    "basic": [
+      {
+        "id": "win",
+        "type": "rank_max",
+        "params": {
+          "rank": 1
+        },
+        "text": "Finish with more profit than your opponent"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "few-trades",
+        "type": "trades_max",
+        "params": {
+          "n": 8
+        },
+        "text": "Make at most 8 trades"
+      },
+      {
+        "id": "edge",
+        "type": "bought_after_news",
+        "params": {
+          "news_id": "tdlp-drop-2",
+          "within": 2
+        },
+        "text": "Buy a sharp drop near support (within 2 days of the day-10 headline)"
+      }
+    ]
+  }
+}

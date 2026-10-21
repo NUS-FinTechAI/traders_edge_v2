@@ -1,0 +1,149 @@
+{
+  "id": "ch5-l1-practice",
+  "version": 1,
+  "title": "Above the Average",
+  "briefing": "Two stocks, two trends. Lumen Bikes rides above a rising 20-day average; Kestrel Air sinks below a falling one. Pick your side.",
+  "objective": "Use price above or below a moving average as a trend filter.",
+  "debrief": "Lumen Bikes stayed above its rising 20-day average for most of the match, and the battery recall on day 17 only pulled it back to the line before buyers returned. Kestrel Air stayed under its falling average and dropped again on the route cuts of day 12. A disciplined player bought the stock that passed the filter, held through the dip to the average, and left Kestrel Air alone.",
+  "difficulty": 2,
+  "ticks": 30,
+  "history": 30,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": true,
+    "stop": true
+  },
+  "max_position_pct": null,
+  "balance": "lesson",
+  "tools": [
+    "candles",
+    "volume",
+    "sma"
+  ],
+  "market": {
+    "vol": 0.005
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 30,
+      "market_drift": 0.0005,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "LUMB",
+      "name": "Lumen Bikes",
+      "sector": "Consumer discretionary",
+      "blurb": "Designs and sells electric bikes and spare batteries.",
+      "price": 48,
+      "drift": 0.004,
+      "beta": 1.0,
+      "vol": 0.012,
+      "base_volume": 22000
+    },
+    {
+      "symbol": "KSTR",
+      "name": "Kestrel Air",
+      "sector": "Airlines",
+      "blurb": "Flies short routes between regional cities.",
+      "price": 36,
+      "drift": -0.004,
+      "beta": 1.0,
+      "vol": 0.014,
+      "base_volume": 26000
+    }
+  ],
+  "news": [
+    {
+      "id": "kstr-route-cuts",
+      "tick": 12,
+      "headline": "Kestrel Air cuts three summer routes",
+      "body": "The airline says bookings on its smaller routes are too weak to keep flying them this summer.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "KSTR"
+      ],
+      "effects": [
+        {
+          "symbol": "KSTR",
+          "move": -0.05,
+          "ticks": 3,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "lumb-recall",
+      "tick": 17,
+      "headline": "Lumen Bikes recalls a small batch of batteries",
+      "body": "The company is replacing batteries on about 2,000 bikes. It says the cost is covered by its supplier.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "LUMB"
+      ],
+      "effects": [
+        {
+          "symbol": "LUMB",
+          "move": -0.04,
+          "ticks": 2,
+          "gap": false
+        }
+      ]
+    }
+  ],
+  "bots": [
+    "momentum-max-rookie"
+  ],
+  "missions": {
+    "basic": [
+      {
+        "id": "hold-lumb",
+        "type": "held_between",
+        "params": {
+          "symbol": "LUMB",
+          "from": 5,
+          "to": 25
+        },
+        "text": "Hold Lumen Bikes from day 5 to day 25 while it trades above its rising average"
+      },
+      {
+        "id": "avoid-kstr",
+        "type": "max_position_before",
+        "params": {
+          "tick": 29,
+          "pct": 10,
+          "symbol": "KSTR"
+        },
+        "text": "Keep Kestrel Air under 10% of your portfolio while it sits below its falling average"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "beat-max",
+        "type": "beat_bot",
+        "params": {
+          "bot_id": "momentum-max-rookie"
+        },
+        "text": "Finish ahead of Momentum Max"
+      },
+      {
+        "id": "profit",
+        "type": "profit_min",
+        "params": {
+          "amount": 300
+        },
+        "text": "Finish at least $300 in profit"
+      }
+    ]
+  }
+}

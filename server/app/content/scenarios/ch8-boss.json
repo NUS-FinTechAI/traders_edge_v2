@@ -1,0 +1,296 @@
+{
+  "id": "ch8-boss",
+  "version": 1,
+  "title": "The Mania",
+  "briefing": "Pebble Games is about to become the most talked-about stock on the coast. Panic Pete, Momentum Max and Ironhand Iris are waiting. Keep your head when everyone else loses theirs.",
+  "objective": "Ride hype only with a plan: limit size late in a mania, exit on the reversal, and do not buy the bounce.",
+  "debrief": "Pebble Games sat in a quiet base until a streamer's post on day 11 started a frenzy; \"most-searched stock\" and overnight queues (days 14 and 18) pushed it almost straight up. On day 25 it hit a record and then sank into the close on heavy volume, and on day 26 filings showed insiders had been selling. It lost about 40% within a week, bounced briefly on days 32 to 34 and then fell again on the release delay. Orchard Foods rose slowly throughout. A disciplined player rode the early move with limited size, stopped adding late, got out on the reversal and ignored the bounce.",
+  "difficulty": 5,
+  "ticks": 40,
+  "history": 20,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": true,
+    "stop": true
+  },
+  "max_position_pct": null,
+  "balance": "boss",
+  "tools": [
+    "candles",
+    "volume",
+    "sma",
+    "rsi"
+  ],
+  "market": {
+    "vol": 0.005
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 40,
+      "market_drift": 0.0005,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "PBGM",
+      "name": "Pebble Games",
+      "sector": "Video games",
+      "blurb": "Makes console and mobile video games.",
+      "price": 20,
+      "drift": 0.0,
+      "beta": 0.8,
+      "vol": 0.015,
+      "base_volume": 22000
+    },
+    {
+      "symbol": "ORCF",
+      "name": "Orchard Foods",
+      "sector": "Consumer staples",
+      "blurb": "Runs a chain of neighborhood grocery stores.",
+      "price": 40,
+      "drift": 0.003,
+      "beta": 0.4,
+      "vol": 0.008,
+      "base_volume": 20000
+    }
+  ],
+  "news": [
+    {
+      "id": "pbgm-streamer",
+      "tick": 11,
+      "headline": "Star streamer calls Pebble Games \"the next big thing\"",
+      "body": "A video with millions of views praises the studio's next game. Pebble has announced nothing new.",
+      "tone": "positive",
+      "kind": "hype",
+      "symbols": [
+        "PBGM"
+      ],
+      "effects": [
+        {
+          "symbol": "PBGM",
+          "move": 0.2,
+          "ticks": 6,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "pbgm-most-searched",
+      "tick": 14,
+      "headline": "Pebble Games becomes the most-searched stock online",
+      "body": "Search interest is up tenfold in a week. Trading volume is at a record.",
+      "tone": "positive",
+      "kind": "hype",
+      "symbols": [
+        "PBGM"
+      ],
+      "effects": [
+        {
+          "symbol": "PBGM",
+          "move": 0.15,
+          "ticks": 5,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "pbgm-valuation-warning",
+      "tick": 16,
+      "headline": "Analyst warns Pebble Games' price has run far ahead of its profits",
+      "body": "The analyst says the shares now trade at more than 90 times earnings.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "PBGM"
+      ],
+      "effects": [
+        {
+          "symbol": "PBGM",
+          "move": -0.02,
+          "ticks": 1,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "pbgm-queues",
+      "tick": 18,
+      "headline": "Fans queue overnight for Pebble Games merchandise",
+      "body": "Stores report lines around the block for limited-edition figures.",
+      "tone": "positive",
+      "kind": "hype",
+      "symbols": [
+        "PBGM"
+      ],
+      "effects": [
+        {
+          "symbol": "PBGM",
+          "move": 0.12,
+          "ticks": 5,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "pbgm-100",
+      "tick": 22,
+      "headline": "Forums ask: can Pebble Games reach $100?",
+      "body": "Posts predicting much higher prices are spreading quickly. None cite company figures.",
+      "tone": "positive",
+      "kind": "hype",
+      "symbols": [
+        "PBGM"
+      ],
+      "effects": [
+        {
+          "symbol": "PBGM",
+          "move": 0.08,
+          "ticks": 3,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "pbgm-reversal",
+      "tick": 25,
+      "headline": "Pebble Games touches a record, then sinks into the close",
+      "body": "The shares opened at a new high but sellers took over during the day on record volume.",
+      "tone": "neutral",
+      "kind": "company",
+      "symbols": [
+        "PBGM"
+      ],
+      "effects": [
+        {
+          "symbol": "PBGM",
+          "move": 0.05,
+          "ticks": 1,
+          "gap": true
+        },
+        {
+          "symbol": "PBGM",
+          "move": -0.08,
+          "ticks": 1,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "pbgm-insiders",
+      "tick": 26,
+      "headline": "Filings show Pebble Games insiders sold shares last week",
+      "body": "Several directors sold part of their holdings near the highs.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "PBGM"
+      ],
+      "effects": [
+        {
+          "symbol": "PBGM",
+          "move": -0.4,
+          "ticks": 6,
+          "gap": true
+        }
+      ]
+    },
+    {
+      "id": "pbgm-bargain",
+      "tick": 32,
+      "headline": "Bargain hunters return to Pebble Games",
+      "body": "Some forum posters call the drop \"a gift\". Nothing about the business has changed.",
+      "tone": "positive",
+      "kind": "hype",
+      "symbols": [
+        "PBGM"
+      ],
+      "effects": [
+        {
+          "symbol": "PBGM",
+          "move": 0.08,
+          "ticks": 3,
+          "gap": false
+        }
+      ]
+    },
+    {
+      "id": "pbgm-delay",
+      "tick": 35,
+      "headline": "Pebble Games delays its next release to next year",
+      "body": "The studio says the game needs more work.",
+      "tone": "negative",
+      "kind": "company",
+      "symbols": [
+        "PBGM"
+      ],
+      "effects": [
+        {
+          "symbol": "PBGM",
+          "move": -0.15,
+          "ticks": 5,
+          "gap": false
+        }
+      ]
+    }
+  ],
+  "bots": [
+    "panic-pete-elite",
+    "momentum-max-elite",
+    "ironhand-iris"
+  ],
+  "missions": {
+    "basic": [
+      {
+        "id": "win",
+        "type": "rank_max",
+        "params": {
+          "rank": 1
+        },
+        "text": "Finish first, ahead of Panic Pete, Momentum Max and Ironhand Iris"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "no-late-chase",
+        "type": "no_buy_between",
+        "params": {
+          "from": 20,
+          "to": 25
+        },
+        "text": "Make no new buys in the late frenzy (days 20 to 25)"
+      },
+      {
+        "id": "exit-reversal",
+        "type": "exited_by",
+        "params": {
+          "symbol": "PBGM",
+          "tick": 28
+        },
+        "text": "Be out of Pebble Games by day 28, within 3 days of the reversal"
+      },
+      {
+        "id": "no-bounce",
+        "type": "no_buy_between",
+        "params": {
+          "from": 32,
+          "to": 35
+        },
+        "text": "Do not buy the bounce (days 32 to 35)"
+      },
+      {
+        "id": "plan",
+        "type": "kept_plan",
+        "params": {},
+        "text": "Keep your worst drop within your plan's maximum loss"
+      }
+    ]
+  }
+}

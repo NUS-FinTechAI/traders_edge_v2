@@ -1,0 +1,103 @@
+{
+  "id": "ch1-l1-practice",
+  "version": 1,
+  "title": "First Slice",
+  "briefing": "Lumen Bikes is growing steadily and selling more e-bikes every month. Buy your first shares and become a part-owner.",
+  "objective": "A share is a slice of a company. Owners gain when the business grows and the price rises.",
+  "debrief": "Lumen Bikes climbed steadily, helped by day 9's news of a second factory, paid for with money raised when it sold shares. Players who bought early and simply held owned their slice for the whole climb. Every share you still hold on the last day counts at the final close, so there was no need to sell.",
+  "difficulty": 1,
+  "ticks": 25,
+  "history": 20,
+  "tick_label": "Day",
+  "starting_cash": 10000,
+  "fee": {
+    "rate": 0.001,
+    "min": 1
+  },
+  "spread": 0.001,
+  "allow": {
+    "limit": false,
+    "stop": false
+  },
+  "max_position_pct": null,
+  "tools": [
+    "candles"
+  ],
+  "market": {
+    "vol": 0.005
+  },
+  "regimes": [
+    {
+      "from": 0,
+      "to": 25,
+      "market_drift": 0.001,
+      "vol_mult": 1.0
+    }
+  ],
+  "assets": [
+    {
+      "symbol": "LUMB",
+      "name": "Lumen Bikes",
+      "sector": "Consumer discretionary",
+      "blurb": "Designs and sells e-bikes for city commuters.",
+      "price": 24,
+      "drift": 0.003,
+      "beta": 1.0,
+      "vol": 0.012,
+      "base_volume": 40000
+    }
+  ],
+  "news": [
+    {
+      "id": "lumb-factory",
+      "tick": 9,
+      "headline": "Lumen Bikes opens a second factory",
+      "body": "Lumen Bikes has opened a second factory, using money it raised when it first sold shares. The company says it can now build twice as many e-bikes a month.",
+      "tone": "positive",
+      "kind": "company",
+      "symbols": [
+        "LUMB"
+      ],
+      "effects": [
+        {
+          "symbol": "LUMB",
+          "move": 0.04,
+          "ticks": 4,
+          "gap": false
+        }
+      ]
+    }
+  ],
+  "bots": [],
+  "missions": {
+    "basic": [
+      {
+        "id": "m1",
+        "type": "trades_min",
+        "params": {
+          "n": 1
+        },
+        "text": "Buy shares of Lumen Bikes"
+      },
+      {
+        "id": "m2",
+        "type": "hold_at_end",
+        "params": {
+          "symbol": "LUMB"
+        },
+        "text": "Still own Lumen Bikes shares on the last day"
+      }
+    ],
+    "bonus": [
+      {
+        "id": "b1",
+        "type": "profit_min",
+        "params": {
+          "amount": 1
+        },
+        "text": "Finish with a profit"
+      }
+    ]
+  },
+  "balance": "lesson"
+}

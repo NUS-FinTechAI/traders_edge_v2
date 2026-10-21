@@ -1,0 +1,305 @@
+.ticket {
+  display: grid;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.title {
+  font-size: var(--text-md);
+  font-weight: 800;
+}
+
+.symbol {
+  color: var(--text-muted);
+  font-weight: 800;
+}
+
+.sides,
+.types {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.sides {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-1);
+  padding: var(--space-1);
+  border-radius: var(--radius);
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+}
+
+.side,
+.type {
+  position: relative;
+  display: block;
+}
+
+.side input,
+.type input,
+.check input {
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.side span,
+.type span {
+  display: grid;
+  place-items: center;
+  min-height: 44px;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.side input:focus-visible + span,
+.type input:focus-visible + span,
+.check input:focus-visible + span {
+  box-shadow: var(--focus);
+}
+
+.sideBuy input:checked + span {
+  background: var(--gain);
+  color: #06210f;
+}
+
+.sideSell input:checked + span {
+  background: var(--loss);
+  color: #2a0905;
+}
+
+.typeRow {
+  display: flex;
+  gap: var(--space-1);
+}
+
+.type {
+  flex: 1;
+}
+
+.type span {
+  border: 1px solid var(--border);
+  background: var(--bg-elev);
+  font-size: var(--text-sm);
+}
+
+.type input:checked + span {
+  border-color: var(--gold);
+  background: var(--gold-soft);
+  color: var(--gold);
+}
+
+.field {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.label {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: 0;
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.types .label {
+  margin-bottom: var(--space-2);
+}
+
+.hint {
+  color: var(--text-dim);
+  font-weight: 600;
+}
+
+.input {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 var(--space-3);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+  font-size: var(--text-lg);
+  font-weight: 700;
+}
+
+.input:focus-visible {
+  border-color: var(--gold);
+}
+
+.presets {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-1);
+}
+
+.preset {
+  min-height: 44px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface-2);
+  font-family: var(--font-num);
+  font-weight: 700;
+}
+
+.preset:hover:not(:disabled) {
+  border-color: var(--border-strong);
+  background: var(--surface-3);
+}
+
+.preset[aria-pressed='true'] {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+.preset:disabled {
+  opacity: 0.5;
+}
+
+.attach {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-sm);
+}
+
+.check {
+  position: relative;
+  display: flex;
+}
+
+.check span {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.check span::before {
+  content: '';
+  flex: none;
+  width: 22px;
+  height: 22px;
+  border: 2px solid var(--border-strong);
+  border-radius: 6px;
+  background: var(--bg);
+}
+
+.check input:checked + span::before {
+  border-color: var(--gold);
+  background: var(--gold)
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%231a1405' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 12.5 4.5 4.5L19 7.5'/%3E%3C/svg%3E")
+    center / 16px no-repeat;
+}
+
+.risk,
+.riskOver {
+  display: flex;
+  gap: var(--space-2);
+  align-items: flex-start;
+  font-size: var(--text-sm);
+}
+
+.risk {
+  color: var(--text-muted);
+}
+
+.risk svg {
+  color: var(--gold);
+  flex: none;
+  margin-top: 2px;
+}
+
+.riskOver {
+  color: var(--warning);
+}
+
+.riskOver svg {
+  flex: none;
+  margin-top: 2px;
+}
+
+.preview {
+  display: grid;
+  gap: var(--space-1);
+  margin: 0;
+  padding: var(--space-3);
+  border-radius: var(--radius-sm);
+  background: var(--bg-elev);
+  font-size: var(--text-sm);
+}
+
+.preview div {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.preview dt {
+  color: var(--text-muted);
+}
+
+.preview dd {
+  margin: 0;
+}
+
+.total {
+  padding-top: var(--space-1);
+  border-top: 1px solid var(--border);
+  font-weight: 800;
+}
+
+.total dt {
+  color: var(--text);
+}
+
+.costNote {
+  color: var(--text-dim);
+  font-size: var(--text-xs);
+}
+
+.reason {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
+
+.reason svg {
+  color: var(--warning);
+  flex: none;
+}
+
+.error {
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid #6a3029;
+  border-radius: var(--radius-sm);
+  background: var(--loss-soft);
+  color: #ffd0c8;
+  font-size: var(--text-sm);
+}
+
+.ticket button[type='submit'] {
+  white-space: normal;
+  line-height: 1.2;
+  font-size: var(--text-md);
+}
