@@ -3,8 +3,6 @@ import type { components } from '../api/api-types.ts'
 
 type Schemas = components['schemas']
 
-export type NodeState = 'locked' | 'open' | 'done'
-
 export type Reward = Schemas['Reward']
 
 export type ChapterCard = Schemas['ChapterCard']
@@ -14,12 +12,6 @@ export type Campaign = Schemas['Campaign']
 export type MapNode = Schemas['MapNode']
 
 export type ChapterMap = Schemas['ChapterMap']
-
-export interface LessonCard {
-  title: string
-  body: string
-  visual: string | null
-}
 
 export type CheckQuestion = Schemas['CheckQuestion']
 

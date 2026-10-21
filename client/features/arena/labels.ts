@@ -5,7 +5,7 @@ import type {
   Tone,
 } from '../../services/gameService.ts'
 
-export const MODE_LABEL: Record<GameMode, string> = {
+const MODE_LABEL: Record<GameMode, string> = {
   level: 'Lesson practice',
   boss: 'Boss',
   daily: 'Daily',
@@ -30,7 +30,11 @@ export const STRATEGIES: { id: StrategyId; label: string; hint: string }[] = [
   },
   { id: 'news', label: 'Trade the news', hint: 'Act on headlines' },
   { id: 'hold', label: 'Hold steady', hint: 'Buy early, trade little' },
-  { id: 'cautious', label: 'Play it safe', hint: 'Small positions, tight stops' },
+  {
+    id: 'cautious',
+    label: 'Play it safe',
+    hint: 'Small positions, tight stops',
+  },
 ]
 
 const BOSS_LABEL: Record<string, string> = {

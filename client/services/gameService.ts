@@ -6,8 +6,6 @@ type Schemas = components['schemas']
 export type GameMode =
   'level' | 'boss' | 'daily' | 'practice' | 'private' | 'ranked'
 
-export type GameStatus = 'briefing' | 'running' | 'ended' | 'settled'
-
 export type Side = 'buy' | 'sell'
 export type OrderType = 'market' | 'limit' | 'stop'
 export type Tone = 'positive' | 'negative' | 'neutral'
@@ -16,7 +14,6 @@ export type Tool =
 export type BotTier = 'rookie' | 'pro' | 'elite'
 export type StrategyId =
   'trend' | 'dip' | 'breakout' | 'news' | 'hold' | 'cautious'
-export type NewsKind = 'earnings' | 'macro' | 'rumor' | 'company' | 'hype'
 
 export interface Plan {
   strategy: StrategyId

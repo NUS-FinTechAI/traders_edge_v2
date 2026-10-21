@@ -16,7 +16,7 @@ const MIN_POLL = 250
 const MAX_POLL = 1500
 
 /** Delay before the next poll: just after the next expected tick while running. */
-export function pollDelay(state: GameState): number | null {
+function pollDelay(state: GameState): number | null {
   if (isEnded(state)) return null
   if (state.status === 'briefing' || state.paused) return SLOW_POLL
   if (state.next_tick_at) {
