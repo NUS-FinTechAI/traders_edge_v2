@@ -246,33 +246,37 @@ export default function Collection({
                       {badge.earned ? 'Earned' : 'Locked'}
                     </span>
                     <span className={styles.badgeHow}>{badge.description}</span>
-                    {badge.equipped ? (
-                      <>
-                        <EquippedChip id={badge.id} name={badge.name} />
-                        <Button
-                          variant="ghost"
-                          disabled={!!busy}
-                          onClick={() =>
-                            void equip(badge.id, { badge_id: null })
-                          }
-                          aria-label={`Remove ${badge.name}`}
-                        >
-                          Remove
-                        </Button>
-                      </>
-                    ) : badge.earned ? (
-                      <Button
-                        variant="secondary"
-                        disabled={!!busy}
-                        id={`equipped-${badge.id}`}
-                        onClick={() =>
-                          void equip(badge.id, { badge_id: badge.id })
-                        }
-                        aria-label={`Equip ${badge.name}`}
-                      >
-                        Equip
-                      </Button>
-                    ) : null}
+                    {badge.earned && (
+                      <div className={styles.badgeActions}>
+                        {badge.equipped ? (
+                          <>
+                            <EquippedChip id={badge.id} name={badge.name} />
+                            <Button
+                              variant="ghost"
+                              disabled={!!busy}
+                              onClick={() =>
+                                void equip(badge.id, { badge_id: null })
+                              }
+                              aria-label={`Remove ${badge.name}`}
+                            >
+                              Remove
+                            </Button>
+                          </>
+                        ) : (
+                          <Button
+                            variant="secondary"
+                            disabled={!!busy}
+                            id={`equipped-${badge.id}`}
+                            onClick={() =>
+                              void equip(badge.id, { badge_id: badge.id })
+                            }
+                            aria-label={`Equip ${badge.name}`}
+                          >
+                            Equip
+                          </Button>
+                        )}
+                      </div>
+                    )}
                     {!badge.earned && badge.progress && (
                       <span className={`num ${styles.badgeProgress}`}>
                         {badge.progress}

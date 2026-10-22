@@ -346,6 +346,19 @@
   background: var(--bg-elev);
 }
 
+.badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.badgeActions {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-1);
+  margin-top: auto;
+}
+
 .equipped {
   border-color: var(--gain);
 }
