@@ -6,6 +6,8 @@
 
 html {
   -webkit-text-size-adjust: 100%;
+  /* Native checkboxes, radios and ranges follow the base theme. */
+  accent-color: var(--primary);
 }
 
 body {
