@@ -2,7 +2,6 @@ import { api } from '../api/apiClient.ts'
 import { apiEndpoints } from '../api/api-endpoints.ts'
 import type { operations } from '../api/api-contract.ts'
 import type { components } from '../api/api-types.ts'
-import httpService from './httpService.ts'
 
 type Schemas = components['schemas']
 
@@ -131,8 +130,5 @@ export function getQuizPerformance(
 
 /** The CSV export as text; the caller saves it as a file. */
 export function exportCsv(kind: CsvKind): Promise<string> {
-  return httpService.requestText(
-    apiEndpoints.exportResearchCsv.path.replace('{kind}', kind),
-    { accept: 'text/csv' },
-  )
+  return api.callText(apiEndpoints.exportResearchCsv, { path: { kind } })
 }

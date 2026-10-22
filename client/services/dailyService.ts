@@ -1,4 +1,5 @@
-import httpService from './httpService.ts'
+import { api } from '../api/apiClient.ts'
+import { apiEndpoints } from '../api/api-endpoints.ts'
 import type { components } from '../api/api-types.ts'
 
 type Schemas = components['schemas']
@@ -12,32 +13,24 @@ export type PracticeScenario = Schemas['PracticeScenario']
 export type BossEntry = Schemas['BossEntry']
 
 export function getDaily(signal?: AbortSignal): Promise<Daily> {
-  return httpService.request<Daily>('/api/daily', { signal })
+  return api.call(apiEndpoints.getDaily, { signal })
 }
 
 /** Spend Gems to skip the daily cooldown. */
 export function refreshDaily(): Promise<Daily> {
-  return httpService.request<Daily>('/api/daily/refresh', {
-    method: 'POST',
-    body: {},
-  })
+  return api.call(apiEndpoints.refreshDaily, {})
 }
 
 export function getPractice(
   signal?: AbortSignal,
 ): Promise<{ scenarios: PracticeScenario[] }> {
-  return httpService.request<{ scenarios: PracticeScenario[] }>(
-    '/api/practice',
-    { signal },
-  )
+  return api.call(apiEndpoints.getPracticeScenarios, { signal })
 }
 
 export function getBosses(
   signal?: AbortSignal,
 ): Promise<{ bosses: BossEntry[] }> {
-  return httpService.request<{ bosses: BossEntry[] }>('/api/bosses', {
-    signal,
-  })
+  return api.call(apiEndpoints.getBosses, { signal })
 }
 
 /** True while a loss cooldown is still running at `now`. */
