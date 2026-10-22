@@ -12,6 +12,7 @@ import {
   placeOrder,
   startGame,
   type ClockAction,
+  type ClockSpeed,
   type CreateGameRequest,
   type GameResult,
   type GameState,
@@ -212,7 +213,7 @@ function Arena({ gameId }: { gameId: string }) {
   }, [state, ended, gameId, notify, accept, forgetStop, stops])
 
   const onClock = useCallback(
-    (action: ClockAction, speed?: 1 | 2 | 4) => {
+    (action: ClockAction, speed?: ClockSpeed) => {
       setClockBusy(true)
       controlClock(gameId, action, speed)
         .then(accept)

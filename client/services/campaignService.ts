@@ -70,15 +70,7 @@ export function getArchive(
   return api.call(apiEndpoints.getArchive, { signal })
 }
 
-export type CreateGame =
-  | { mode: 'level'; level_id: string }
-  | {
-      mode: 'boss'
-      chapter_id: string
-      boss: 'preview' | 'gate' | 'final'
-    }
-  | { mode: 'daily' }
-  | { mode: 'practice'; scenario_id: string }
+export type CreateGame = Schemas['CreateGame']
 
 /** Create a match in its briefing; the arena at /game/:id takes over. */
 export function createGame(body: CreateGame): Promise<{ id: string }> {

@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import type { OrderType as Kind } from '../../../../api/api-enums.ts'
 import { formatMoney } from '../../../../ui/format.ts'
 import s from '../visuals.module.css'
 import { Candles, DayAxis, PriceGrid } from '../shared/Chart.tsx'
@@ -6,8 +7,6 @@ import { bands, linear, ticks } from '../shared/scale.ts'
 import { C } from '../shared/theme.ts'
 import { fillOnFall, type Candle, type Fill } from '../shared/trading.ts'
 import { Figure, Note, Segmented, Stat, Svg } from '../shared/ui.tsx'
-
-type Kind = 'market' | 'limit' | 'stop'
 
 const PATH: Candle[] = [
   { o: 50.2, h: 50.6, l: 49.7, c: 50.0 },

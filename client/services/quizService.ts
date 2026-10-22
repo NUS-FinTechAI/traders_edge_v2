@@ -1,6 +1,9 @@
 import { api } from '../api/apiClient.ts'
 import { apiEndpoints } from '../api/api-endpoints.ts'
 import type { components } from '../api/api-types.ts'
+import type { QuizAnswerConfidence } from '../api/api-enums.ts'
+
+export { QuizAnswerConfidence } from '../api/api-enums.ts'
 
 type Schemas = components['schemas']
 
@@ -13,8 +16,6 @@ export type QuizRoom = Schemas['QuizRoom']
 export type QuizQuestion = Schemas['QuizQuestion']
 
 export type QuizAttempt = Schemas['QuizAttempt']
-
-export type Confidence = 'sure' | 'think' | 'guess'
 
 export function getQuizzes(
   signal?: AbortSignal,
@@ -40,7 +41,11 @@ export function getAttempt(
 
 export function answerQuestion(
   attemptId: string,
-  answer: { question_id: string; option_id: string; confidence?: Confidence },
+  answer: {
+    question_id: string
+    option_id: string
+    confidence?: QuizAnswerConfidence
+  },
 ): Promise<QuizAttempt> {
   return api.call(apiEndpoints.answerQuiz, {
     path: { attempt_id: attemptId },

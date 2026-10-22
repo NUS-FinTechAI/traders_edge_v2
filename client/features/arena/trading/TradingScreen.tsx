@@ -8,6 +8,7 @@ import {
 } from 'react'
 import type {
   ClockAction,
+  ClockSpeed,
   GameState,
   Order,
   OrderRequest,
@@ -79,7 +80,7 @@ interface TradingScreenProps {
   cancelling: string | null
   /** Stop-losses waiting for their buy order to fill. */
   pendingStops: number
-  onClock: (action: ClockAction, speed?: 1 | 2 | 4) => void
+  onClock: (action: ClockAction, speed?: ClockSpeed) => void
   onPlace: (order: OrderRequest, attachStop: number | null) => Promise<void>
   onCancel: (order: Order) => void
   onForfeit: () => Promise<void>
@@ -162,7 +163,7 @@ export default function TradingScreen({
   }, [autoPaused, onClock])
 
   const clock = useCallback(
-    (action: ClockAction, speed?: 1 | 2 | 4) => {
+    (action: ClockAction, speed?: ClockSpeed) => {
       if (action === 'resume' || action === 'pause') setAutoPaused(false)
       onClock(action, speed)
     },

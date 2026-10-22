@@ -5,7 +5,7 @@ import {
   answerQuestion,
   getAttempt,
   startAttempt,
-  type Confidence,
+  type QuizAnswerConfidence,
   type QuizAttempt,
 } from '../../services/quizService.ts'
 import Button, { ButtonLink } from '../../ui/Button.tsx'
@@ -19,7 +19,7 @@ import useResource, { errorText } from '../../ui/useResource.ts'
 import { attemptPath, topicListPath } from './paths.ts'
 import styles from './QuizPage.module.css'
 
-const CONFIDENCE: { id: Confidence; label: string }[] = [
+const CONFIDENCE: { id: QuizAnswerConfidence; label: string }[] = [
   { id: 'sure', label: 'Sure' },
   { id: 'think', label: 'Think so' },
   { id: 'guess', label: 'Guessing' },
@@ -194,7 +194,9 @@ function QuizRun({ initial }: { initial: QuizAttempt }) {
   const [attempt, setAttempt] = useState(initial)
   const [reviewId, setReviewId] = useState<string | null>(null)
   const [selected, setSelected] = useState<string | null>(null)
-  const [confidence, setConfidence] = useState<Confidence | null>(null)
+  const [confidence, setConfidence] = useState<QuizAnswerConfidence | null>(
+    null,
+  )
   const [busy, setBusy] = useState(false)
 
   const index = reviewId
