@@ -45,6 +45,9 @@ loopback database ([deployment](../docs/operations/deployment.md#live-postgresql
 | `RESEARCH_ENABLED`        | `false`                                          | Enable study enrollment only after ethics and privacy approval                             |
 | `RESEARCH_POLICY_VERSION` | Unset                                            | Required nonblank, unpadded 1–80 character version when enrollment is enabled              |
 | `RESEARCH_POLICY_TEXT`    | Unset                                            | Required exact consent text; its UTF-8 SHA-256 digest binds acceptance                     |
+| `RESEARCH_PSEUDONYM_SECRET` | Unset                                          | Required when enrollment is enabled (32+ characters outside development); keys the HMAC pseudonyms in researcher views and exports |
+| `RESEARCHER_FIREBASE_UIDS` | Unset                                           | Comma-separated Firebase uids allowed to open the researcher dashboard                     |
+| `RESEARCHER_PROFILE_IDS`  | Unset                                            | Comma-separated profile ids allowed as researchers outside production (local testing); ignored in production |
 | `SENTRY_DSN`              | Unset                                            | Sentry project DSN; error reporting is off without it ([below](#error-monitoring))         |
 | `RENDER_GIT_COMMIT`       | Set by Render                                    | Sentry release name                                                                        |
 
@@ -56,7 +59,7 @@ loopback database ([deployment](../docs/operations/deployment.md#live-postgresql
 
 Startup fails on any other `APP_ENV`, when `AUTH_MODE` is not `guest` or
 `firebase`, when Firebase mode has no project id, when enabled enrollment
-lacks a valid policy, and when a staging or production setting in the table
+lacks a valid policy or pseudonym secret, and when a staging or production setting in the table
 is not met. Staging and production also mark the guest cookie `Secure`.
 
 In production, gameplay routes (level content and checks, the daily
@@ -105,5 +108,6 @@ the [API conventions](../docs/reference/api.md#conventions).
 | Containers and PostgreSQL tests        | [deployment](../docs/operations/deployment.md)  |
 
 Local checks do not establish real Firebase sign-in, a hosted deployment or
-learning outcomes. Account deletion, retention rules and researcher access are
-not implemented.
+learning outcomes. Account deletion and retention rules are not implemented;
+the researcher dashboard has been checked locally only, not with real
+researcher accounts.

@@ -153,11 +153,63 @@ export interface components {
       /** Unlocked By */
       unlocked_by: ('start' | 'boss' | 'gate') | null
     }
+    /** ChapterFunnel */
+    ChapterFunnel: {
+      /** Chapter Id */
+      chapter_id: string
+      /** Number */
+      number: number
+      /** Steps */
+      steps: components['schemas']['FunnelStep'][]
+      /** Title */
+      title: string
+    }
     /** ChapterMap */
     ChapterMap: {
       chapter: components['schemas']['ChapterCard']
       /** Nodes */
       nodes: components['schemas']['MapNode'][]
+    }
+    /** ChapterPrePost */
+    ChapterPrePost: {
+      /** Chapter Id */
+      chapter_id: string
+      /** Cohorts */
+      cohorts: components['schemas']['CohortPrePost'][]
+      /** Number */
+      number: number
+      /** Title */
+      title: string
+    }
+    /** ChapterQuiz */
+    ChapterQuiz: {
+      all_attempts: components['schemas']['QuizStats']
+      /** Answer Accuracy */
+      answer_accuracy: number | null
+      /**
+       * Answers
+       * @description First answers to this chapter's bank questions in every quiz kind
+       */
+      answers: number
+      /** Chapter Id */
+      chapter_id: string
+      first_attempts: components['schemas']['QuizStats']
+      /** Number */
+      number: number
+      /** Title */
+      title: string
+    }
+    /** CheckAccuracy */
+    CheckAccuracy: {
+      /** Levels */
+      levels: components['schemas']['LevelAccuracy'][]
+      /**
+       * @description No learning metric here is a validated measure
+       * @default unvalidated
+       */
+      metric_status?: components['schemas']['MetricStatus']
+      /** Note */
+      note: string
     }
     /** CheckAnswer */
     CheckAnswer: {
@@ -223,6 +275,15 @@ export interface components {
       /** Speed */
       speed?: (1 | 2 | 4) | null
     }
+    /** @enum {string} */
+    Cohort: 'all' | 'novice' | 'intermediate' | 'experienced' | 'unknown'
+    /** CohortPrePost */
+    CohortPrePost: {
+      boss: components['schemas']['PhaseComparison']
+      cohort: components['schemas']['Cohort']
+      paired_first_attempts: components['schemas']['PairedChange']
+      preview: components['schemas']['PhaseComparison']
+    }
     /** Collection */
     Collection: {
       /** Avatars */
@@ -280,6 +341,30 @@ export interface components {
       quizzes_passed: number
       /** Stars */
       stars: number
+    }
+    /** ConceptAnswer */
+    ConceptAnswer: {
+      /** Item Id */
+      item_id: string
+      /**
+       * Option Id
+       * @description null records "Not sure"
+       */
+      option_id?: string | null
+    }
+    /** ConceptQuestion */
+    ConceptQuestion: {
+      /** Id */
+      id: string
+      /**
+       * Kind
+       * @enum {string}
+       */
+      kind: 'mc' | 'true_false'
+      /** Options */
+      options: components['schemas']['InstrumentOption'][]
+      /** Prompt */
+      prompt: string
     }
     /** ConsentResearch */
     ConsentResearch: {
@@ -406,6 +491,31 @@ export interface components {
       /** Risk */
       risk: number
     }
+    /** DecisionParts */
+    DecisionParts: {
+      /** Missions */
+      missions: number | null
+      /** Overtrading */
+      overtrading: number | null
+      /** Plan */
+      plan: number | null
+      /** Risk */
+      risk: number | null
+    }
+    /** DecisionTrends */
+    DecisionTrends: {
+      /**
+       * @description No learning metric here is a validated measure
+       * @default unvalidated
+       */
+      metric_status?: components['schemas']['MetricStatus']
+      /** Note */
+      note: string
+      /** Series */
+      series: components['schemas']['TrendSeries'][]
+    }
+    /** @enum {string} */
+    Experience: 'none' | 'some' | 'regular'
     /** @enum {string} */
     ExportKind: 'game-events' | 'campaign-progress' | 'quiz-attempts'
     /** Fee */
@@ -454,6 +564,15 @@ export interface components {
        * @enum {string}
        */
       mode: 'firebase'
+    }
+    /** FunnelStep */
+    FunnelStep: {
+      /** Label */
+      label: string
+      /** Participants */
+      participants: number
+      /** Step */
+      step: string
     }
     /** GameList */
     GameList: {
@@ -623,6 +742,12 @@ export interface components {
       /** Won */
       won: boolean
     }
+    /** GroupCount */
+    GroupCount: {
+      group: components['schemas']['PriorKnowledgeGroup']
+      /** Participants */
+      participants: number
+    }
     /** GuestAuthConfig */
     GuestAuthConfig: {
       /** Firebase Project Id */
@@ -649,6 +774,13 @@ export interface components {
     HTTPValidationError: {
       /** Detail */
       detail?: components['schemas']['ValidationError'][]
+    }
+    /** InstrumentOption */
+    InstrumentOption: {
+      /** Id */
+      id: string
+      /** Text */
+      text: string
     }
     /** JoinLobby */
     JoinLobby: {
@@ -688,6 +820,25 @@ export interface components {
       summary: string
       /** Terms */
       terms: components['schemas']['Term'][]
+      /** Title */
+      title: string
+    }
+    /** LevelAccuracy */
+    LevelAccuracy: {
+      /** Accuracy */
+      accuracy: number | null
+      /** Answers */
+      answers: number
+      /** Chapter Id */
+      chapter_id: string
+      /** First Try Correct */
+      first_try_correct: number
+      /** Level Id */
+      level_id: string
+      /** Level Number */
+      level_number: number
+      /** Participants */
+      participants: number
       /** Title */
       title: string
     }
@@ -798,6 +949,8 @@ export interface components {
       /** Xp */
       xp: number
     }
+    /** @enum {string} */
+    MarketFrequency: 'never' | 'monthly' | 'weekly' | 'daily'
     /** Match */
     Match: {
       /** Game Id */
@@ -815,6 +968,39 @@ export interface components {
       tier: string
       /** Waiting Since */
       waiting_since: string | null
+    }
+    /** @constant */
+    MetricStatus: 'unvalidated'
+    /** MetricSummary */
+    MetricSummary: {
+      /** @description Mean share (0–1) of each component's points; null where never available */
+      decision_parts: components['schemas']['DecisionParts']
+      /** Forfeited */
+      forfeited: number
+      /**
+       * Matches
+       * @description Finished matches, forfeits included
+       */
+      matches: number
+      /**
+       * Mean Decision Score
+       * @description 0–100, unvalidated heuristic
+       */
+      mean_decision_score: number | null
+      /**
+       * Mean Profit
+       * @description Mean over matches that were not forfeited
+       */
+      mean_profit: number | null
+      /**
+       * Mission Completion
+       * @description Mean share of missions completed
+       */
+      mission_completion: number | null
+      /** Participants */
+      participants: number
+      /** Win Rate */
+      win_rate: number | null
     }
     /** Mission */
     Mission: {
@@ -847,6 +1033,13 @@ export interface components {
        */
       tier: 'basic' | 'bonus'
     }
+    /** ModeCount */
+    ModeCount: {
+      /** Matches */
+      matches: number
+      /** Mode */
+      mode: string
+    }
     /** NewsItem */
     NewsItem: {
       /** Body */
@@ -869,6 +1062,27 @@ export interface components {
        * @enum {string}
        */
       tone: 'positive' | 'negative' | 'neutral'
+    }
+    /** OnboardingCounts */
+    OnboardingCounts: {
+      /** Completed */
+      completed: number
+      /** Pending */
+      pending: number
+      /** Skipped */
+      skipped: number
+    }
+    /** @enum {string} */
+    OnboardingStatus: 'unavailable' | 'pending' | 'completed' | 'skipped'
+    /** OnboardingView */
+    OnboardingView: {
+      /**
+       * Due
+       * @description True only for a participant with active consent who has neither completed nor skipped it
+       */
+      due: boolean
+      instrument: components['schemas']['PriorKnowledgeInstrument'] | null
+      status: components['schemas']['OnboardingStatus']
     }
     /** Opponent */
     Opponent: {
@@ -926,6 +1140,23 @@ export interface components {
     OrderRejection: {
       /** Detail */
       detail: string
+    }
+    /** PairedChange */
+    PairedChange: {
+      /** Mean Decision Score Change */
+      mean_decision_score_change: number | null
+      /** Mean Profit Change */
+      mean_profit_change: number | null
+      /**
+       * Participants
+       * @description Participants with a finished, unforfeited first Preview and first Chapter Boss
+       */
+      participants: number
+    }
+    /** PhaseComparison */
+    PhaseComparison: {
+      all_attempts: components['schemas']['MetricSummary']
+      first_attempts: components['schemas']['MetricSummary']
     }
     /** PlacedOrder */
     PlacedOrder: {
@@ -1082,8 +1313,34 @@ export interface components {
       /** Title */
       title: string
     }
+    /** PrePostReport */
+    PrePostReport: {
+      /** Chapters */
+      chapters: components['schemas']['ChapterPrePost'][]
+      /**
+       * @description No learning metric here is a validated measure
+       * @default unvalidated
+       */
+      metric_status?: components['schemas']['MetricStatus']
+      /** Note */
+      note: string
+    }
     /** @enum {string} */
     PriorKnowledge: 'unknown' | 'none' | 'some' | 'experienced'
+    /** @enum {string} */
+    PriorKnowledgeGroup: 'novice' | 'intermediate' | 'experienced' | 'unknown'
+    /** PriorKnowledgeInstrument */
+    PriorKnowledgeInstrument: {
+      /**
+       * Items
+       * @description Answers and explanations are never sent to participants
+       */
+      items: components['schemas']['ConceptQuestion'][]
+      /** Self Report */
+      self_report: components['schemas']['SelfReportQuestion'][]
+      /** Version */
+      version: string
+    }
     /** PublicConfig */
     PublicConfig: {
       /** Auth */
@@ -1160,6 +1417,18 @@ export interface components {
       /** Text */
       text: string
     }
+    /** QuizPerformance */
+    QuizPerformance: {
+      /** Chapters */
+      chapters: components['schemas']['ChapterQuiz'][]
+      /**
+       * @description No learning metric here is a validated measure
+       * @default unvalidated
+       */
+      metric_status?: components['schemas']['MetricStatus']
+      /** Note */
+      note: string
+    }
     /** QuizQuestion */
     QuizQuestion: {
       answered: components['schemas']['QuizFeedback'] | null
@@ -1213,6 +1482,17 @@ export interface components {
       /** Title */
       title: string
     }
+    /** QuizStats */
+    QuizStats: {
+      /** Attempts */
+      attempts: number
+      /** Mean Score Pct */
+      mean_score_pct: number | null
+      /** Participants */
+      participants: number
+      /** Pass Rate */
+      pass_rate: number | null
+    }
     /** QuizTopic */
     QuizTopic: {
       /**
@@ -1252,6 +1532,11 @@ export interface components {
       tier?: string | null
       /** Value */
       value: number
+    }
+    /** ResearchAccess */
+    ResearchAccess: {
+      /** Allowed */
+      allowed: boolean
     }
     /** ResearchExport */
     ResearchExport: {
@@ -1307,6 +1592,33 @@ export interface components {
       withdrawal_effect: string
       /** Withdrawn At */
       withdrawn_at: string | null
+    }
+    /** ResearchSummary */
+    ResearchSummary: {
+      /** Funnel */
+      funnel: components['schemas']['ChapterFunnel'][]
+      /** Generated At */
+      generated_at: string
+      /** Groups */
+      groups: components['schemas']['GroupCount'][]
+      /** Instrument Version */
+      instrument_version: string
+      /** Matches */
+      matches: components['schemas']['ModeCount'][]
+      /**
+       * @description No learning metric here is a validated measure
+       * @default unvalidated
+       */
+      metric_status?: components['schemas']['MetricStatus']
+      onboarding: components['schemas']['OnboardingCounts']
+      /** Participants */
+      participants: number
+      /** Policy Version */
+      policy_version: string
+      /** Scope */
+      scope: string
+      /** Total Matches */
+      total_matches: number
     }
     /** Reward */
     Reward: {
@@ -1366,6 +1678,27 @@ export interface components {
       /** Tools */
       tools: string[]
     }
+    /** SelfReport */
+    SelfReport: {
+      /** Brokerage Account */
+      brokerage_account?: boolean | null
+      /** Confidence */
+      confidence?: number | null
+      experience?: components['schemas']['Experience'] | null
+      market_frequency?: components['schemas']['MarketFrequency'] | null
+    }
+    /** SelfReportQuestion */
+    SelfReportQuestion: {
+      /**
+       * Id
+       * @enum {string}
+       */
+      id: 'experience' | 'brokerage_account' | 'market_frequency' | 'confidence'
+      /** Options */
+      options: components['schemas']['InstrumentOption'][]
+      /** Prompt */
+      prompt: string
+    }
     /** Shop */
     Shop: {
       /** Items */
@@ -1395,6 +1728,13 @@ export interface components {
       price: number
       /** Weekly */
       weekly: boolean
+    }
+    /** SkipPriorKnowledge */
+    SkipPriorKnowledge: {
+      /** Idempotency Key */
+      idempotency_key: string
+      /** Instrument Version */
+      instrument_version: string
     }
     /** Standing */
     Standing: {
@@ -1465,12 +1805,56 @@ export interface components {
       /** Version */
       version: string | null
     }
+    /** SubmitPriorKnowledge */
+    SubmitPriorKnowledge: {
+      /** Answers */
+      answers: components['schemas']['ConceptAnswer'][]
+      /**
+       * Elapsed Seconds
+       * @description Client-measured time on the instrument
+       */
+      elapsed_seconds?: number | null
+      /** Idempotency Key */
+      idempotency_key: string
+      /** Instrument Version */
+      instrument_version: string
+      self_report: components['schemas']['SelfReport']
+    }
     /** Term */
     Term: {
       /** Definition */
       definition: string
       /** Term */
       term: string
+    }
+    /** TrendPoint */
+    TrendPoint: {
+      /** Attempt */
+      attempt: number
+      /** Label */
+      label: string
+      /** Matches */
+      matches: number
+      /** Mean Decision Score */
+      mean_decision_score: number | null
+    }
+    /** TrendSeries */
+    TrendSeries: {
+      /**
+       * Kind
+       * @enum {string}
+       */
+      kind:
+        | 'preview'
+        | 'level'
+        | 'boss'
+        | 'gate'
+        | 'daily'
+        | 'practice'
+        | 'private'
+        | 'ranked'
+      /** Points */
+      points: components['schemas']['TrendPoint'][]
     }
     /** Unlocked */
     Unlocked: {

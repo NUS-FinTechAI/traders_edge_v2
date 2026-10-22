@@ -47,7 +47,8 @@ class PublicConfigTests(unittest.TestCase):
         client = self.client(
             cookie_name='private-cookie-name', session_days=14,
             research_enabled=True, research_policy_version='private-policy',
-            research_policy_text='Study consent text',
+            research_policy_text='Study consent text', research_pseudonym_secret='private-pseudonym-secret',
+            researcher_firebase_uids=('private-researcher-uid',), researcher_profile_ids=('private-researcher-profile',),
         )
 
         response = client.get('/api/config')

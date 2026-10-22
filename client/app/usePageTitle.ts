@@ -25,6 +25,8 @@ const TITLES: [RegExp, string][] = [
   [/^\/profile/, 'Profile'],
   [/^\/shop/, 'Shop'],
   [/^\/archive/, 'Trading Archive'],
+  [/^\/onboarding/, 'Study questions'],
+  [/^\/research/, 'Research dashboard'],
 ]
 
 /** "Adventure · Trader’s Edge"-style document titles for each route. */

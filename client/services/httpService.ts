@@ -85,11 +85,44 @@ export class HttpService {
 
     const body =
       options.body === undefined ? undefined : JSON.stringify(options.body)
+    const { response, text } = await this.send(url, method, body, options)
+
+    const data = this.parseJson(response, text)
+    if (!response.ok) {
+      this.handleHttpError(response, data, options.auth !== 'none')
+    }
+    return data as T
+  }
+
+  /** A GET whose successful body is plain text, such as a CSV export; errors are still read as JSON. */
+  async requestText(
+    path: string,
+    options: RequestOptions & { accept?: string } = {},
+  ): Promise<string> {
+    const url = this.buildUrl(path, options.query)
+    const { response, text } = await this.send(url, 'GET', undefined, options)
+    if (!response.ok) {
+      this.handleHttpError(
+        response,
+        this.parseJson(response, text),
+        options.auth !== 'none',
+      )
+    }
+    return text
+  }
+
+  private async send(
+    url: URL,
+    method: string,
+    body: string | undefined,
+    options: RequestOptions & { accept?: string },
+  ): Promise<{ response: Response; text: string }> {
     this.throwIfAborted(options.signal)
     const headers = await this.buildHeaders(options, body !== undefined)
+    if (options.accept) headers.set('Accept', options.accept)
     this.throwIfAborted(options.signal)
 
-    const { response, text } = await this.sendRequest(url, {
+    return this.sendRequest(url, {
       method,
       headers,
       body,
@@ -98,12 +131,6 @@ export class HttpService {
       cache: 'no-store',
       redirect: 'error',
     })
-
-    const data = this.parseJson(response, text)
-    if (!response.ok) {
-      this.handleHttpError(response, data, options.auth !== 'none')
-    }
-    return data as T
   }
 
   private buildUrl(path: string, query?: RequestOptions['query']): URL {

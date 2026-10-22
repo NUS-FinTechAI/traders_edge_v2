@@ -8,6 +8,7 @@ from app.content.checks import ContentError, fail
 from app.game.scenario import ScenarioError, load_bots, load_scenarios
 from app.quiz.bank import check_chapters
 from app.quiz.service import SIZES
+from app.study.instrument import check_distinct
 
 CHAPTER_QUIZ_MINIMUM = SIZES['chapter']
 
@@ -29,6 +30,7 @@ def cross_references(content, scenarios):
     reused = sorted(item['id'] for item in content.quiz.questions.values() if item['prompt'] in prompts)
     if reused:
         fail('quiz_bank.json', f'reuses lesson check questions: {", ".join(reused)}')
+    check_distinct(content.instrument, content.campaign, content.quiz)
 
 
 def without_bonus_missions(content, scenarios):
@@ -51,7 +53,8 @@ def main():
     for scenario_id in without_bonus_missions(content, scenarios):
         print(f'Warning: {scenario_id} has no bonus mission, so its special star cannot be earned', file=sys.stderr)
     print(f'Content is valid: {len(scenarios)} scenarios, {len(content.campaign.chapters)} chapters, '
-          f'{len(content.quiz.questions)} quiz questions, {len(content.cosmetics.items)} cosmetics.')
+          f'{len(content.quiz.questions)} quiz questions, {len(content.cosmetics.items)} cosmetics, '
+          f'{len(content.instrument.items)} prior-knowledge items (instrument {content.instrument.version}).')
     return 0
 
 

@@ -23,7 +23,7 @@ from app.migrations import MIGRATIONS
 from app.player import ledger
 from app.research_models import ResearchCommand
 from progression_fixtures import fixture_content, use_fixture_scenarios
-from test_migrations import populate_before_v12, snapshot
+from test_migrations import assert_v13_preserves_rows, populate_before_v12, snapshot
 
 
 TEST_URL = os.getenv('TRADERS_EDGE_TEST_POSTGRES_URL')
@@ -73,6 +73,9 @@ class PostgreSQLIntegrationTests(unittest.IsolatedAsyncioTestCase):
         async with self.database.engine.connect() as connection:
             _, after = await connection.run_sync(lambda sync: snapshot(sync, columns))
         self.assertEqual(before, after)
+
+    async def test_upgrade_to_thirteen_preserves_populated_rows(self):
+        await assert_v13_preserves_rows(self, self.database)
 
     async def test_profile_lock_waits_then_refreshes_cached_identity(self):
         await self.profiles()

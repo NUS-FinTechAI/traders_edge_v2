@@ -1,0 +1,193 @@
+{
+  "version": "2026-10-22.1",
+  "self_report": [
+    {
+      "id": "experience",
+      "prompt": "How much have you traded or invested before, with real money?",
+      "options": [
+        { "id": "none", "text": "Never" },
+        { "id": "some", "text": "A few times" },
+        { "id": "regular", "text": "Regularly" }
+      ]
+    },
+    {
+      "id": "brokerage_account",
+      "prompt": "Have you ever held a brokerage or investing account?",
+      "options": [
+        { "id": "yes", "text": "Yes" },
+        { "id": "no", "text": "No" }
+      ]
+    },
+    {
+      "id": "market_frequency",
+      "prompt": "How often do you follow news about stock markets?",
+      "options": [
+        { "id": "never", "text": "Never" },
+        { "id": "monthly", "text": "About once a month" },
+        { "id": "weekly", "text": "About once a week" },
+        { "id": "daily", "text": "Most days" }
+      ]
+    },
+    {
+      "id": "confidence",
+      "prompt": "How confident do you feel about investing?",
+      "options": [
+        { "id": "1", "text": "1: Not at all confident" },
+        { "id": "2", "text": "2" },
+        { "id": "3", "text": "3" },
+        { "id": "4", "text": "4" },
+        { "id": "5", "text": "5: Very confident" }
+      ]
+    }
+  ],
+  "items": [
+    {
+      "id": "pk-ch1-ownership",
+      "chapter": 1,
+      "concepts": ["shares", "ownership"],
+      "kind": "mc",
+      "prompt": "What does buying one share of Copperline Rail give you?",
+      "options": [
+        { "id": "a", "text": "A loan to the company that it must repay" },
+        { "id": "b", "text": "A small part-ownership of the company" },
+        { "id": "c", "text": "A guaranteed yearly payment" },
+        { "id": "d", "text": "A say in the company's share price" }
+      ],
+      "answer": "b",
+      "explanation": "A share is a unit of ownership. Dividends are not guaranteed and the market, not the owner, sets the price."
+    },
+    {
+      "id": "pk-ch1-profit",
+      "chapter": 1,
+      "concepts": ["profit_and_loss", "fees"],
+      "kind": "mc",
+      "prompt": "You buy 25 shares of Saltmarsh Foods at $16 and sell all of them at $18. Fees total $4. What is your profit or loss?",
+      "options": [
+        { "id": "a", "text": "A $46 profit" },
+        { "id": "b", "text": "A $50 profit" },
+        { "id": "c", "text": "A $54 profit" },
+        { "id": "d", "text": "A $4 loss" }
+      ],
+      "answer": "a",
+      "explanation": "25 × ($18 − $16) = $50, minus $4 in fees, is a $46 profit."
+    },
+    {
+      "id": "pk-ch1-bear",
+      "chapter": 1,
+      "concepts": ["bull_bear", "market_index"],
+      "kind": "mc",
+      "prompt": "A market index drops from 2,000 to 1,500 over several months. Which description fits best?",
+      "options": [
+        { "id": "a", "text": "A bull market" },
+        { "id": "b", "text": "Normal day-to-day volatility" },
+        { "id": "c", "text": "A 25% fall: a bear market" },
+        { "id": "d", "text": "A 33% fall: a bear market" }
+      ],
+      "answer": "c",
+      "explanation": "The index lost 500 of 2,000 points, 25%, over months: a sustained decline is a bear market."
+    },
+    {
+      "id": "pk-ch2-spread",
+      "chapter": 2,
+      "concepts": ["spread", "bid_ask"],
+      "kind": "mc",
+      "prompt": "Brightwater Labs is quoted Bid $9.95 / Ask $10.05. You market-buy 100 shares and immediately market-sell them, with no fees. What happens?",
+      "options": [
+        { "id": "a", "text": "You break even" },
+        { "id": "b", "text": "You gain about $10" },
+        { "id": "c", "text": "You lose about $1" },
+        { "id": "d", "text": "You lose about $10" }
+      ],
+      "answer": "d",
+      "explanation": "You buy at the $10.05 ask and sell at the $9.95 bid: 100 × $0.10 = $10 lost to the spread."
+    },
+    {
+      "id": "pk-ch2-limit",
+      "chapter": 2,
+      "concepts": ["limit_order"],
+      "kind": "mc",
+      "prompt": "Which order lets you set the highest price you are willing to pay when buying?",
+      "options": [
+        { "id": "a", "text": "A market order" },
+        { "id": "b", "text": "A sell stop order" },
+        { "id": "c", "text": "A buy limit order" },
+        { "id": "d", "text": "A stop-loss" }
+      ],
+      "answer": "c",
+      "explanation": "A buy limit fills only at the limit price or lower. A market order takes whatever price is available."
+    },
+    {
+      "id": "pk-ch2-stop-gap",
+      "chapter": 2,
+      "concepts": ["stop_order", "gaps"],
+      "kind": "true_false",
+      "prompt": "A sell stop at $20 always sells your shares at exactly $20.",
+      "options": [
+        { "id": "t", "text": "True" },
+        { "id": "f", "text": "False" }
+      ],
+      "answer": "f",
+      "explanation": "Once triggered, a stop becomes a market order. If the price gaps below $20, the fill is lower."
+    },
+    {
+      "id": "pk-ch3-candle",
+      "chapter": 3,
+      "concepts": ["candlestick_anatomy"],
+      "kind": "mc",
+      "prompt": "A daily candle opens at $12.00, reaches $12.90, dips to $11.70 and closes at $12.60. Which is true?",
+      "options": [
+        { "id": "a", "text": "It is a bullish candle: it closed above its open" },
+        { "id": "b", "text": "It is a bearish candle: it closed below its open" },
+        { "id": "c", "text": "Its high was $12.60" },
+        { "id": "d", "text": "Its body runs from $11.70 to $12.90" }
+      ],
+      "answer": "a",
+      "explanation": "The close ($12.60) is above the open ($12.00), so the candle is bullish; $12.90 and $11.70 are the wick ends."
+    },
+    {
+      "id": "pk-ch3-trend",
+      "chapter": 3,
+      "concepts": ["trends"],
+      "kind": "mc",
+      "prompt": "A stock's swing lows are $20, $22 and $24 and its swing highs are $23, $25 and $27. What is the trend?",
+      "options": [
+        { "id": "a", "text": "A downtrend" },
+        { "id": "b", "text": "A sideways range" },
+        { "id": "c", "text": "There is not enough information" },
+        { "id": "d", "text": "An uptrend" }
+      ],
+      "answer": "d",
+      "explanation": "Higher highs and higher lows define an uptrend."
+    },
+    {
+      "id": "pk-ch4-sizing",
+      "chapter": 4,
+      "concepts": ["position_sizing", "one_percent_rule"],
+      "kind": "mc",
+      "prompt": "Your account is $5,000 and you risk 1% per trade. You buy at $20 with a stop at $19. How many shares should you buy?",
+      "options": [
+        { "id": "a", "text": "25" },
+        { "id": "b", "text": "50" },
+        { "id": "c", "text": "100" },
+        { "id": "d", "text": "250" }
+      ],
+      "answer": "b",
+      "explanation": "1% of $5,000 is $50 of risk; the stop is $1 away, so 50 shares."
+    },
+    {
+      "id": "pk-ch4-recovery",
+      "chapter": 4,
+      "concepts": ["drawdown_recovery"],
+      "kind": "mc",
+      "prompt": "Your portfolio falls 25%. Roughly what gain do you need to get back to where you started?",
+      "options": [
+        { "id": "a", "text": "20%" },
+        { "id": "b", "text": "25%" },
+        { "id": "c", "text": "33%" },
+        { "id": "d", "text": "50%" }
+      ],
+      "answer": "c",
+      "explanation": "After a 25% fall, $100 is $75; getting back to $100 needs $25 more, a gain of about 33%."
+    }
+  ]
+}
