@@ -182,15 +182,26 @@
   color: var(--text-muted);
 }
 
-/* Solid background so the trail passes behind the caption, never through it. */
+/*
+ * No background box, so the trail stays visible around the caption. A halo
+ * in the page colour hides the dashes only right behind each glyph, keeping
+ * the text legible where the trail runs under it.
+ */
 .caption {
   display: grid;
   justify-items: center;
   gap: 2px;
   max-width: 100%;
   padding: 2px var(--space-2) 4px;
-  border-radius: var(--radius-sm);
-  background: var(--bg);
+  text-shadow:
+    0 0 2px var(--bg),
+    0 0 2px var(--bg),
+    0 0 4px var(--bg),
+    0 0 6px var(--bg);
+}
+
+.caption svg {
+  filter: drop-shadow(0 0 1px var(--bg)) drop-shadow(0 0 2px var(--bg));
 }
 
 .nodeTitle {
