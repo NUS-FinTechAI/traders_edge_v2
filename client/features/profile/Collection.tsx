@@ -7,9 +7,10 @@ import {
 import { usePlayer } from '../../app/PlayerContext.ts'
 import {
   THEMES,
-  currentTheme,
   equipTheme,
   subscribeTheme,
+  themeSelection,
+  type ThemeKind,
 } from '../../app/themes.ts'
 import {
   getShop,
@@ -80,28 +81,35 @@ function EquippedChip({ id, name }: { id: string; name: string }) {
   )
 }
 
-/** The Standard palette, the free palettes and the candle themes the player owns. */
+/** Every theme with whether this player can use it (free, or owned from the shop). */
 function themeOptions(items: ShopItem[] | undefined) {
   const owned = new Set(
     (items ?? [])
       .filter((item) => item.kind === 'theme' && item.owned)
       .map((item) => item.id),
   )
-  return [
-    {
-      id: null,
-      name: 'Standard',
-      description: 'The default night-map colours.',
-      available: true,
-    },
-    ...THEMES.map((theme) => ({
-      id: theme.id,
-      name: theme.name,
-      description: theme.description,
-      available: theme.free || owned.has(theme.id),
-    })),
-  ]
+  return THEMES.map((theme) => ({
+    id: theme.id,
+    kind: theme.kind,
+    name: theme.name,
+    description: theme.description,
+    available: theme.free || owned.has(theme.id),
+  }))
 }
+
+const THEME_GROUPS: { kind: ThemeKind; title: string; hint: string }[] = [
+  { kind: 'base', title: 'Colour themes', hint: 'The look of the whole game.' },
+  {
+    kind: 'candles',
+    title: 'Candle colours',
+    hint: 'Chart candle colours, from the shop.',
+  },
+  {
+    kind: 'palette',
+    title: 'Accessibility palettes',
+    hint: 'Free colour-blind and high-contrast options, layered on top.',
+  },
+]
 
 function GalleryButton({
   art,
@@ -392,7 +400,7 @@ export default function Collection({
   )
 }
 
-/** Equip a candle theme the player owns, or a free accessibility palette. */
+/** Pick a colour theme, an owned candle theme and a free accessibility palette. */
 function Themes({
   playerId,
   shop,
@@ -400,58 +408,77 @@ function Themes({
   playerId: string
   shop: Resource<{ items: ShopItem[] }>
 }) {
-  const equipped = useSyncExternalStore(
+  const selection = useSyncExternalStore(
     subscribeTheme,
-    () => currentTheme(playerId),
-    () => null,
+    () => themeSelection(playerId),
+    () => themeSelection(null),
   )
   const options = themeOptions(shop.data?.items)
   return (
     <>
-      <p className={styles.muted}>
-        Themes change colours on this device only. Palettes are free; candle
-        themes come from the shop.
-      </p>
-      <ul className={styles.titles}>
-        {options.map((option) => {
-          const on = equipped === option.id
-          return (
-            <li
-              key={option.id ?? 'standard'}
-              className={[
-                styles.titleItem,
-                on && styles.equipped,
-                !option.available && styles.badgeLocked,
-              ]
-                .filter(Boolean)
-                .join(' ')}
-            >
-              <ThemeSwatch themeId={option.id} />
-              <span className={styles.titleText}>
-                <strong>{option.name}</strong>
-                <span className={styles.badgeHow}>{option.description}</span>
-              </span>
-              {on ? (
-                <Chip tone="gain" icon="check">
-                  In use
-                </Chip>
-              ) : option.available ? (
-                <Button
-                  variant="secondary"
-                  onClick={() => equipTheme(playerId, option.id)}
-                  aria-label={`Use ${option.name}`}
-                >
-                  Use
-                </Button>
-              ) : shop.status === 'loading' ? null : (
-                <ButtonLink to="/shop" variant="ghost" icon="bag">
-                  Shop
-                </ButtonLink>
-              )}
-            </li>
-          )
-        })}
-      </ul>
+      <p className={styles.muted}>Themes change colours on this device only.</p>
+      {THEME_GROUPS.map((group) => (
+        <section key={group.kind} aria-label={group.title}>
+          <h3 className={styles.themeGroupTitle}>{group.title}</h3>
+          <p className={styles.badgeHow}>{group.hint}</p>
+          <ul className={styles.titles}>
+            {options
+              .filter((option) => option.kind === group.kind)
+              .map((option) => {
+                const on = selection[option.kind] === option.id
+                return (
+                  <li
+                    key={option.id}
+                    className={[
+                      styles.titleItem,
+                      on && styles.equipped,
+                      !option.available && styles.badgeLocked,
+                    ]
+                      .filter(Boolean)
+                      .join(' ')}
+                  >
+                    <ThemeSwatch themeId={option.id} />
+                    <span className={styles.titleText}>
+                      <strong>{option.name}</strong>
+                      <span className={styles.badgeHow}>
+                        {option.description}
+                      </span>
+                    </span>
+                    {on && option.kind === 'base' ? (
+                      <Chip tone="gain" icon="check">
+                        In use
+                      </Chip>
+                    ) : on ? (
+                      <Button
+                        variant="ghost"
+                        icon="check"
+                        onClick={() => equipTheme(playerId, null, option.kind)}
+                        aria-label={`Stop using ${option.name}`}
+                      >
+                        In use · Remove
+                      </Button>
+                    ) : option.available ? (
+                      <Button
+                        variant="secondary"
+                        onClick={() => equipTheme(playerId, option.id)}
+                        aria-label={`Use ${option.name}`}
+                      >
+                        Use
+                      </Button>
+                    ) : shop.status === 'loading' ? null : (
+                      <ButtonLink to="/shop" variant="ghost" icon="bag">
+                        Shop
+                      </ButtonLink>
+                    )}
+                  </li>
+                )
+              })}
+          </ul>
+        </section>
+      ))}
+      <Button variant="ghost" onClick={() => equipTheme(playerId, null)}>
+        Reset to the default look
+      </Button>
     </>
   )
 }

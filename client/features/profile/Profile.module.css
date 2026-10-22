@@ -529,3 +529,8 @@
 .swatch line + rect {
   stroke-width: 1.5;
 }
+
+.themeGroupTitle {
+  margin-top: var(--space-4);
+  font-size: var(--text-md);
+}

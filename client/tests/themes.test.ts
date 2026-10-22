@@ -1,7 +1,32 @@
 import assert from 'node:assert/strict'
+import { readFileSync } from 'node:fs'
 import { test } from 'node:test'
-import { THEMES, storedTheme, themeVars } from '../app/themes.ts'
+import {
+  BASE_THEMES,
+  BASE_TOKENS,
+  DEFAULT_BASE_THEME,
+  THEMES,
+  composeThemeVars,
+  currentTheme,
+  equipTheme,
+  isThemeEquipped,
+  storedTheme,
+  themeFromQuery,
+  themeSelection,
+  themeVars,
+} from '../app/themes.ts'
 import { pageTitle } from '../app/usePageTitle.ts'
+
+// Node has no localStorage without a flag; a Map stands in for the browser's.
+const store = new Map<string, string>()
+Object.defineProperty(globalThis, 'localStorage', {
+  configurable: true,
+  value: {
+    getItem: (key: string) => store.get(key) ?? null,
+    setItem: (key: string, value: string) => void store.set(key, value),
+    removeItem: (key: string) => void store.delete(key),
+  },
+})
 
 test('equipping a theme sets its properties and clears every other theme’s', () => {
   const vars = themeVars('theme-candles-ocean')
@@ -28,6 +53,125 @@ test('the colour-blind palette swaps gains and losses to blue and orange', () =>
 
 test('a signed-out visitor has no stored theme', () => {
   assert.equal(storedTheme(null), null)
+})
+
+test('four free base themes set every colour token, with the classic default', () => {
+  assert.deepEqual(
+    BASE_THEMES.map((theme) => theme.id),
+    ['night-map', 'midnight-ledger', 'parchment-day', 'harbor-dusk'],
+  )
+  assert.ok(BASE_THEMES.some((theme) => theme.id === DEFAULT_BASE_THEME))
+  for (const theme of BASE_THEMES) {
+    assert.equal(theme.free, true)
+    assert.deepEqual(Object.keys(theme.vars).sort(), [...BASE_TOKENS].sort())
+  }
+})
+
+test('tokens.css first-paint values match the Night Map theme', () => {
+  const css = readFileSync(new URL('../ui/tokens.css', import.meta.url), 'utf8')
+  const nightMap = BASE_THEMES.find((theme) => theme.id === 'night-map')!
+  const declared = new Map(
+    [...css.matchAll(/^\s*(--[\w-]+|color-scheme):\s*([^;]+);/gm)].map(
+      ([, name, value]) => [name, value.trim()],
+    ),
+  )
+  for (const [name, value] of Object.entries(nightMap.vars)) {
+    assert.equal(declared.get(name), value, name)
+  }
+})
+
+test('a candle theme recolours candles only and keeps the base theme', () => {
+  const vars = composeThemeVars({
+    base: 'midnight-ledger',
+    palette: null,
+    candles: 'theme-candles-ocean',
+  })
+
+  assert.equal(vars['--bg'], '#101419')
+  assert.equal(vars['--gain'], '#3fc1a5')
+  assert.equal(vars['--candle-up'], '#4f9fd8')
+  assert.equal(vars['--candle-down'], '#e8893a')
+})
+
+test('without a candle theme, candles follow the base or palette gain and loss', () => {
+  const vars = composeThemeVars({
+    base: 'harbor-dusk',
+    palette: 'theme-palette-colorblind',
+    candles: null,
+  })
+
+  assert.equal(vars['--candle-up'], null)
+  assert.equal(vars['--gain'], '#5aa9e6')
+  assert.equal(vars['--bg'], '#17131a')
+})
+
+test('palettes and candles adapt to the light base', () => {
+  const vars = composeThemeVars({
+    base: 'parchment-day',
+    palette: 'theme-palette-high-contrast',
+    candles: 'theme-candles-ink',
+  })
+
+  assert.equal(vars['color-scheme'], 'light')
+  assert.equal(vars['--text'], '#000000')
+  assert.equal(vars['--candle-up'], '#977a4b')
+})
+
+test('an unknown base falls back to the default', () => {
+  const vars = composeThemeVars({ base: 'gone', palette: null, candles: null })
+  const fallback = BASE_THEMES.find((theme) => theme.id === DEFAULT_BASE_THEME)!
+  assert.equal(vars['--bg'], fallback.vars['--bg'])
+})
+
+test('a ?theme= link opens free themes only', () => {
+  assert.equal(themeFromQuery('?theme=parchment-day'), 'parchment-day')
+  assert.equal(
+    themeFromQuery('?x=1&theme=theme-palette-colorblind'),
+    'theme-palette-colorblind',
+  )
+  assert.equal(themeFromQuery('?theme=theme-candles-ocean'), null)
+  assert.equal(themeFromQuery('?theme=unknown'), null)
+  assert.equal(themeFromQuery(''), null)
+})
+
+test('each kind has its own slot, and the standard choice clears them all', () => {
+  const id = 'player-slots'
+  assert.equal(themeSelection(id).base, DEFAULT_BASE_THEME)
+  assert.ok(isThemeEquipped(id, null))
+
+  equipTheme(id, 'midnight-ledger')
+  equipTheme(id, 'theme-candles-sunset')
+  equipTheme(id, 'theme-palette-colorblind')
+  assert.deepEqual(themeSelection(id), {
+    base: 'midnight-ledger',
+    palette: 'theme-palette-colorblind',
+    candles: 'theme-candles-sunset',
+  })
+  assert.equal(themeSelection(id), themeSelection(id))
+  assert.ok(isThemeEquipped(id, 'midnight-ledger'))
+  assert.equal(currentTheme(id), 'theme-candles-sunset')
+
+  equipTheme(id, null, 'candles')
+  assert.equal(themeSelection(id).candles, null)
+  assert.equal(themeSelection(id).base, 'midnight-ledger')
+
+  equipTheme(id, null)
+  assert.ok(isThemeEquipped(id, null))
+  assert.equal(currentTheme(id), null)
+})
+
+test('a theme stored before base themes existed is still applied', () => {
+  store.set('traders-edge:theme:player-legacy', 'theme-candles-ink')
+  assert.equal(themeSelection('player-legacy').candles, 'theme-candles-ink')
+  assert.equal(themeSelection('player-legacy').base, DEFAULT_BASE_THEME)
+
+  equipTheme('player-legacy', 'parchment-day')
+  assert.equal(store.has('traders-edge:theme:player-legacy'), false)
+  assert.deepEqual(themeSelection('player-legacy'), {
+    base: 'parchment-day',
+    palette: null,
+    candles: 'theme-candles-ink',
+  })
 })
 
 test('each route has a page title naming the app', () => {
