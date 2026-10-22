@@ -188,7 +188,7 @@ by Elo. Both show only players who opted in with `leaderboard_opt_in` (default
 off), list the top 50 and include the caller's own rank and value.
 The ranked response also includes `me.tier`, even when the caller is hidden,
 has not finished a ranked match, or is outside the top 50. The UI shows
-"Not listed" for a missing public position while still showing the personal
+"Unlisted" for a missing public position while still showing the personal
 rating tier. XP responses have a null `me.tier`.
 
 XP, stars, badges and rank show activity and completed objectives, not
