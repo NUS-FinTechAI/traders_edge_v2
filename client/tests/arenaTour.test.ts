@@ -5,6 +5,7 @@ import {
   locate,
   moveTour,
   placeCard,
+  PINNED_TARGETS,
   planTour,
   scrollDelta,
   shouldAutoStart,
@@ -105,6 +106,18 @@ test('on mobile, panel steps open their tab and the ticket step points at Buy an
   assert.equal(byId('rivals').tab, 'rivals')
   assert.equal(byId('news').tab, 'news')
 })
+
+for (const desktop of [true, false]) {
+  test(`the ${desktop ? 'desktop' : 'mobile'} missions tour points to the pinned dialog trigger`, () => {
+    const steps = planTour({ ...firstMatch, desktop })
+
+    const missions = steps.find((step) => step.id === 'missions')!
+
+    assert.deepEqual(missions.targets, ['missions'])
+    assert.equal(missions.tab, undefined)
+    assert.equal(PINNED_TARGETS.has('missions'), true)
+  })
+}
 
 test('the practice buy waits for a fill and leaves the page usable', () => {
   const step = planTour(firstMatch).find((s) => s.id === 'try')!

@@ -50,7 +50,6 @@ function useDesktop(): boolean {
 const MOBILE_TABS: { id: ArenaTab; label: string }[] = [
   { id: 'account', label: 'Account' },
   { id: 'rivals', label: 'Rivals' },
-  { id: 'missions', label: 'Missions' },
   { id: 'news', label: 'News' },
   { id: 'trades', label: 'Trades' },
 ]
@@ -128,6 +127,7 @@ export default function TradingScreen({
   const [sheetOpen, setSheetOpen] = useState(false)
   const [mobileTab, setMobileTab] = useState<ArenaTab>('account')
   const [confirmLeave, setConfirmLeave] = useState(false)
+  const [missionsOpen, setMissionsOpen] = useState(false)
   const [leaving, setLeaving] = useState(false)
   const [shortcuts, setShortcuts] = useState(readShortcuts)
   const [autoPaused, setAutoPaused] = useState(false)
@@ -271,7 +271,6 @@ export default function TradingScreen({
     />
   )
 
-  const missions = <MissionsPanel missions={state.missions} />
   const feed = <NewsFeed news={state.news} />
 
   return (
@@ -329,14 +328,28 @@ export default function TradingScreen({
           )}
           <Button
             variant="ghost"
+            icon="star"
+            className={styles.help}
+            aria-label="Missions"
+            aria-haspopup="dialog"
+            title="Missions"
+            onClick={() => setMissionsOpen(true)}
+            {...tourTarget('missions')}
+          >
+            <span className={styles.helpText} aria-hidden="true">
+              Missions
+            </span>
+          </Button>
+          <Button
+            variant="ghost"
             icon="quiz"
             className={styles.help}
-            aria-label="How to play"
+            aria-label="Tutorial"
             onClick={onHowToPlay}
             {...tourTarget('help')}
           >
             <span className={styles.helpText} aria-hidden="true">
-              How to play
+              Tutorial
             </span>
           </Button>
         </div>
@@ -378,7 +391,6 @@ export default function TradingScreen({
             </section>
           )}
           {desktop && <div className={styles.card}>{activity}</div>}
-          {desktop && <div {...tourTarget('missions')}>{missions}</div>}
           {desktop && <div {...tourTarget('news')}>{feed}</div>}
           {!desktop && (
             <div className={styles.mobileTabs} {...tourTarget('details')}>
@@ -398,9 +410,6 @@ export default function TradingScreen({
                 {shownTab === 'account' && <AccountPanel me={state.me} bare />}
                 {shownTab === 'rivals' && (
                   <RivalsPanel entries={state.leaderboard} bare />
-                )}
-                {shownTab === 'missions' && (
-                  <MissionsPanel missions={state.missions} bare />
                 )}
                 {shownTab === 'news' && <NewsFeed news={state.news} bare />}
                 {shownTab === 'trades' && activity}
@@ -491,6 +500,17 @@ export default function TradingScreen({
           </BottomSheet>
         </>
       )}
+
+      <Modal
+        open={missionsOpen}
+        title="Missions"
+        hideTitle
+        onClose={() => setMissionsOpen(false)}
+      >
+        <div className={styles.missionsDialog}>
+          <MissionsPanel missions={state.missions} />
+        </div>
+      </Modal>
 
       <Modal
         open={confirmLeave}

@@ -32,12 +32,13 @@ export const PINNED_TARGETS: ReadonlySet<TourTarget> = new Set([
   'day',
   'clock',
   'help',
+  'missions',
   'trade-actions',
 ])
 
 export type TourPhase = 'briefing' | 'trading'
 /** Mobile match-detail tabs a step can open before it points at them. */
-export type ArenaTab = 'account' | 'rivals' | 'missions' | 'news' | 'trades'
+export type ArenaTab = 'account' | 'rivals' | 'news' | 'trades'
 
 export type TourStepId =
   | 'mission'
@@ -201,8 +202,8 @@ export function planTour(ctx: TourContext): TourStep[] {
       id: 'missions',
       phase: 'trading',
       title: 'Missions',
-      body: 'Each mission earns a Star or a Bonus star. Its label shows whether you’re On track, Behind or Missed.',
-      ...panel('missions', 'missions'),
+      body: 'Open the Missions star icon next to How to play to see your Star and Bonus star missions. Each label shows whether you’re On track, Behind or Missed.',
+      targets: ['missions'],
     },
     {
       id: 'news',
