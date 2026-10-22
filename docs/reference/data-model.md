@@ -51,6 +51,10 @@ Migration 13 (`migration_v13.py`, `research_models.PriorKnowledgeResponse`):
 | `prior_knowledge_responses` | user_id (one row per player), instrument_version, consent_version, status (`completed`\|`skipped`), experience, brokerage_account, market_frequency, confidence (1–5), answers (JSON: item, option or null, correct), score, prior_knowledge_group, elapsed_seconds, recorded_at |
 | `campaign_checks` (added)   | first_answered_at: time of the first answer; null for answers recorded before migration 13                                                                                                                                                                                       |
 
+Migration 14 (`migration_v14.py`) adds nullable `profiles.equipped_badge_id`.
+Existing profiles start without an equipped badge; earlier rows and equipment
+are preserved. The profile update checks that the selected badge is earned.
+
 Rewards are keyed, not counted: an `xp_ledger` or `economy_events` row with
 the same (player, key) is never written twice. Key formats are in
 [matches](matches.md#settlement).

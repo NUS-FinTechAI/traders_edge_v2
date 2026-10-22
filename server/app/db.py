@@ -42,6 +42,7 @@ class Profile(Base):
     analytics_opt_in: Mapped[bool] = mapped_column(Boolean, default=False)
     equipped_avatar_id: Mapped[str | None] = mapped_column(String(120))
     equipped_title_id: Mapped[str | None] = mapped_column(String(120))
+    equipped_badge_id: Mapped[str | None] = mapped_column(String(120))
     created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=now)
 
 

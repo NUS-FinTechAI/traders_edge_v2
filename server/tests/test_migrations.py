@@ -13,6 +13,7 @@ from app.game.models import Game, GameEvent, GameParticipant
 from app.migration_v1 import attempts
 from app.migration_v12 import TABLES, boss_results, campaign_checks, campaign_progress
 from app.migration_v13 import upgrade as upgrade_v13
+from app.migration_v14 import upgrade as upgrade_v14
 from app.migrations import LATEST_VERSION, MIGRATIONS
 from app.research_models import ResearchParticipant
 
@@ -28,7 +29,8 @@ def snapshot(connection, columns=None):
 
 async def populate_before_v12(database):
     async with database.sessions.begin() as db:
-        db.add(Profile(id='legacy', display_name='Legacy', leaderboard_opt_in=True, analytics_opt_in=False, equipped_avatar_id='avatar-x'))
+        await db.execute(text("INSERT INTO profiles (id, display_name, leaderboard_opt_in, analytics_opt_in, equipped_avatar_id, created_at) "
+                              "VALUES ('legacy', 'Legacy', true, false, 'avatar-x', :created_at)"), {'created_at': now()})
         await db.flush()
         await db.execute(attempts.insert().values(id='attempt', user_id='legacy', kind='lesson', target_id='lesson', idempotency_key='attempt-key',
                                                   request_hash='a' * 64, answers=[], reflection='Kept', score=100, passed=True, result={},
@@ -99,8 +101,8 @@ class MigrationChainTests(unittest.IsolatedAsyncioTestCase):
         await self.database.check_schema()
         async with self.database.engine.connect() as connection:
             names = await connection.run_sync(lambda sync: set(inspect(sync).get_table_names()))
-        self.assertEqual(LATEST_VERSION, 13)
-        self.assertEqual([version for version, _ in MIGRATIONS], list(range(1, 14)))
+        self.assertEqual(LATEST_VERSION, 14)
+        self.assertEqual([version for version, _ in MIGRATIONS], list(range(1, 15)))
         self.assertTrue({table.name for table in TABLES} | {'prior_knowledge_responses'} <= names)
 
     async def test_upgrade_to_twelve_preserves_every_populated_row_and_is_repeatable(self):
@@ -123,3 +125,21 @@ class MigrationChainTests(unittest.IsolatedAsyncioTestCase):
 
     async def test_upgrade_to_thirteen_preserves_populated_rows_and_is_repeatable(self):
         await assert_v13_preserves_rows(self, self.database)
+
+    async def test_badge_migration_preserves_profiles_and_their_existing_equipment(self):
+        with patch('app.migrations.MIGRATIONS', MIGRATIONS[:13]):
+            await self.database.migrate()
+        await populate_before_v13(self.database)
+        async with self.database.engine.connect() as connection:
+            columns, before = await connection.run_sync(snapshot)
+
+        await self.database.migrate()
+        async with self.database.engine.begin() as connection:
+            await upgrade_v14(connection)
+        async with self.database.engine.connect() as connection:
+            _, after = await connection.run_sync(lambda sync: snapshot(sync, columns))
+        async with self.database.sessions() as db:
+            profile = await db.get(Profile, 'legacy')
+            self.assertIsNone(profile.equipped_badge_id)
+            self.assertEqual(profile.equipped_avatar_id, 'avatar-x')
+        self.assertEqual(before, after)

@@ -3,6 +3,7 @@ from typing import Literal
 from pydantic import BaseModel, Field
 
 from app.api_schemas.shared_schema import Payload
+from app.api_schemas.player_schema import EquippedBadge
 
 
 class CreateLobby(Payload):
@@ -23,6 +24,7 @@ class LobbyScenario(BaseModel):
 class LobbyMember(BaseModel):
     user_id: str
     name: str
+    badge: EquippedBadge | None
     avatar_id: str
     is_host: bool
 

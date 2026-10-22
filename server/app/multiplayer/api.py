@@ -20,23 +20,23 @@ async def lobby_scenarios(user: User):
 
 
 @router.post('/lobbies', response_model=Lobby, status_code=201, operation_id='createLobby')
-async def create_lobby(body: CreateLobby, db: DB, user: User):
-    return await service.create_lobby(db, user, body)
+async def create_lobby(body: CreateLobby, request: Request, db: DB, user: User):
+    return await service.create_lobby(db, user, body, request.app.state.content)
 
 
 @router.post('/lobbies/join', response_model=Lobby, operation_id='joinLobby')
-async def join_lobby(body: JoinLobby, db: DB, user: User):
-    return await service.join_lobby(db, user, body.code)
+async def join_lobby(body: JoinLobby, request: Request, db: DB, user: User):
+    return await service.join_lobby(db, user, body.code, request.app.state.content)
 
 
 @router.get('/lobbies/{lobby_id}', response_model=Lobby, operation_id='getLobby')
-async def get_lobby(lobby_id: Id, db: DB, user: User):
-    return await service.get_lobby(db, user, lobby_id)
+async def get_lobby(lobby_id: Id, request: Request, db: DB, user: User):
+    return await service.get_lobby(db, user, lobby_id, request.app.state.content)
 
 
 @router.post('/lobbies/{lobby_id}/start', response_model=Lobby, operation_id='startLobby')
-async def start_lobby(lobby_id: Id, db: DB, user: User):
-    return await service.start_lobby(db, user, lobby_id)
+async def start_lobby(lobby_id: Id, request: Request, db: DB, user: User):
+    return await service.start_lobby(db, user, lobby_id, request.app.state.content)
 
 
 @router.post('/lobbies/{lobby_id}/leave', status_code=204, response_class=Response, operation_id='leaveLobby')

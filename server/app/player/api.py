@@ -56,10 +56,10 @@ async def purchase(body: Purchase, request: Request, db: DB, user: User):
 
 
 @router.get('/leaderboards/xp', response_model=Leaderboard, operation_id='getXpLeaderboard')
-async def xp_leaderboard(db: DB, user: User):
-    return await service.xp_leaderboard(db, user)
+async def xp_leaderboard(request: Request, db: DB, user: User):
+    return await service.xp_leaderboard(db, content(request), user)
 
 
 @router.get('/leaderboards/ranked', response_model=Leaderboard, operation_id='getRankedLeaderboard')
-async def ranked_leaderboard(db: DB, user: User):
-    return await service.ranked_leaderboard(db, user)
+async def ranked_leaderboard(request: Request, db: DB, user: User):
+    return await service.ranked_leaderboard(db, content(request), user)

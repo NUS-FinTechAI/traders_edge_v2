@@ -16,6 +16,7 @@ import Button from '../../ui/Button.tsx'
 import Chip from '../../ui/Chip.tsx'
 import Icon from '../../ui/Icon.tsx'
 import ProgressBar from '../../ui/ProgressBar.tsx'
+import PlayerBadge from '../../ui/PlayerBadge.tsx'
 import ResourceView from '../../ui/ResourceView.tsx'
 import { formatCount } from '../../ui/format.ts'
 import { useToast } from '../../ui/toastContext.ts'
@@ -85,7 +86,10 @@ function NameEditor({ player }: { player: Player }) {
   if (!editing)
     return (
       <div className={styles.nameRow}>
-        <h1 className={styles.name}>{player.display_name}</h1>
+        <h1 className={styles.name}>
+          {player.display_name}
+          <PlayerBadge badge={player.badge} />
+        </h1>
         <Button
           variant="ghost"
           icon="edit"

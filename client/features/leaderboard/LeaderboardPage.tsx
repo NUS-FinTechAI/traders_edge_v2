@@ -11,6 +11,7 @@ import Chip from '../../ui/Chip.tsx'
 import Emblem from '../../ui/Emblem.tsx'
 import Icon from '../../ui/Icon.tsx'
 import PageHeader from '../../ui/PageHeader.tsx'
+import PlayerBadge from '../../ui/PlayerBadge.tsx'
 import ResourceView from '../../ui/ResourceView.tsx'
 import { EmptyState } from '../../ui/States.tsx'
 import Tabs from '../../ui/Tabs.tsx'
@@ -112,6 +113,7 @@ function Standings({ board, data }: { board: Board; data: Leaderboard }) {
                 <span className={styles.who}>
                   <span className={styles.name}>
                     {entry.name}
+                    <PlayerBadge badge={entry.badge} />
                     {entry.is_me && (
                       <Chip tone="gold" className={styles.youChip}>
                         You

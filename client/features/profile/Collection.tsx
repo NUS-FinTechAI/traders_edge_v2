@@ -24,7 +24,7 @@ import Button, { ButtonLink } from '../../ui/Button.tsx'
 import { itemImage } from '../../ui/avatarImage.ts'
 import Chip from '../../ui/Chip.tsx'
 import Emblem from '../../ui/Emblem.tsx'
-import type { EmblemName } from '../../ui/emblemArt.tsx'
+import { badgeArt } from '../../ui/badgeArt.ts'
 import Icon from '../../ui/Icon.tsx'
 import Modal from '../../ui/Modal.tsx'
 import ProgressBar from '../../ui/ProgressBar.tsx'
@@ -41,43 +41,13 @@ const GALLERY_TITLE: Record<Gallery, string> = {
   themes: 'Themes',
 }
 
-const BADGE_ART: [RegExp, EmblemName][] = [
-  [/step/, 'flag'],
-  [/plan/, 'scroll'],
-  [/learn/, 'bolt'],
-  [/chart/, 'candles'],
-  [/risk/, 'shield'],
-  [/snip/, 'target'],
-  [/fee/, 'coin'],
-  [/cool|calm/, 'anchor'],
-  [/patien/, 'lantern'],
-  [/explor/, 'compass'],
-  [/gate/, 'shield'],
-  [/boss|slay/, 'crown'],
-  [/streak/, 'flame'],
-  [/quiz/, 'book'],
-  [/rank/, 'trophy'],
-  [/calibr/, 'telescope'],
-]
-
-function badgeArt(id: string): EmblemName {
-  return BADGE_ART.find(([pattern]) => pattern.test(id))?.[1] ?? 'medal'
-}
-
 const MILESTONES = [5, 10, 20, 30, 40]
 
-function EquippedChip({ id, name }: { id: string; name: string }) {
+function EquippedTick() {
   return (
-    <Chip
-      tone="gain"
-      icon="check"
-      id={`equipped-${id}`}
-      role="img"
-      tabIndex={-1}
-      aria-label={`${name} equipped`}
-    >
-      Equipped
-    </Chip>
+    <span className={styles.equippedTick} role="img" aria-label="Equipped">
+      <Icon name="check" size={20} />
+    </span>
   )
 }
 
@@ -155,8 +125,7 @@ export default function Collection({
   const [busy, setBusy] = useState<string | null>(null)
   const [justEquipped, setJustEquipped] = useState<string | null>(null)
 
-  // Move focus to the new "Equipped" chip, which names the item, so the
-  // change is announced once and keyboard users keep their place.
+  // Keep keyboard focus on the updated equipment control or status.
   useEffect(() => {
     if (justEquipped)
       document.getElementById(`equipped-${justEquipped}`)?.focus()
@@ -180,7 +149,9 @@ export default function Collection({
   const avatars = data.avatars.filter((avatar) => avatar.owned).length
   const titles = data.titles.filter((title) => title.owned).length
   const themes = themeOptions(shop.data?.items)
-  const equippedAvatar = data.avatars.find((avatar) => avatar.equipped)
+  const equippedAvatar = data.avatars.find(
+    (avatar) => avatar.id === player?.avatar_id,
+  )
 
   return (
     <section className={styles.panel} aria-labelledby="collection-title">
@@ -238,14 +209,22 @@ export default function Collection({
             <>
               <p className={styles.muted}>
                 {earned} of {data.badges.length} badges earned. Badges reward
-                how you trade and learn, never profit size.
+                how you trade and learn, never profit size. Equip one to show
+                beside your name.
               </p>
               <ul className={styles.badges}>
                 {data.badges.map((badge) => (
                   <li
                     key={badge.id}
-                    className={`${styles.badge} ${badge.earned ? '' : styles.badgeLocked}`}
+                    className={[
+                      styles.badge,
+                      badge.equipped && styles.equipped,
+                      !badge.earned && styles.badgeLocked,
+                    ]
+                      .filter(Boolean)
+                      .join(' ')}
                   >
+                    {badge.equipped && <EquippedTick />}
                     <span className={styles.badgeArt}>
                       <Emblem
                         name={badgeArt(badge.id)}
@@ -268,6 +247,23 @@ export default function Collection({
                       {badge.earned ? 'Earned' : 'Locked'}
                     </span>
                     <span className={styles.badgeHow}>{badge.description}</span>
+                    {badge.earned && (
+                      <div className={styles.badgeActions}>
+                        <Button
+                          variant="secondary"
+                          disabled={!!busy}
+                          id={`equipped-${badge.id}`}
+                          onClick={() =>
+                            void equip(badge.id, {
+                              badge_id: badge.equipped ? null : badge.id,
+                            })
+                          }
+                          aria-label={`${badge.equipped ? 'Unequip' : 'Equip'} ${badge.name}`}
+                        >
+                          {badge.equipped ? 'Unequip' : 'Equip'}
+                        </Button>
+                      </div>
+                    )}
                     {!badge.earned && badge.progress && (
                       <span className={`num ${styles.badgeProgress}`}>
                         {badge.progress}
@@ -312,6 +308,9 @@ export default function Collection({
               {data.avatars.map((avatar) => (
                 <li
                   key={avatar.id}
+                  id={`equipped-${avatar.id}`}
+                  tabIndex={-1}
+                  aria-label={`${avatar.name}${avatar.equipped ? ', equipped' : ''}`}
                   className={[
                     styles.avatarItem,
                     avatar.equipped && styles.equipped,
@@ -320,21 +319,24 @@ export default function Collection({
                     .filter(Boolean)
                     .join(' ')}
                 >
+                  {avatar.equipped && <EquippedTick />}
                   <Avatar id={avatar.id} image={itemImage(avatar)} size={72} />
                   <strong className={styles.badgeName}>{avatar.name}</strong>
-                  {avatar.equipped ? (
-                    <EquippedChip id={avatar.id} name={avatar.name} />
-                  ) : avatar.owned ? (
-                    <Button
-                      variant="secondary"
-                      disabled={!!busy}
-                      onClick={() =>
-                        void equip(avatar.id, { avatar_id: avatar.id })
-                      }
-                      aria-label={`Equip ${avatar.name}`}
-                    >
-                      Equip
-                    </Button>
+                  {avatar.owned ? (
+                    <div className={styles.badgeActions}>
+                      {!avatar.equipped && (
+                        <Button
+                          variant="secondary"
+                          disabled={!!busy}
+                          onClick={() =>
+                            void equip(avatar.id, { avatar_id: avatar.id })
+                          }
+                          aria-label={`Equip ${avatar.name}`}
+                        >
+                          Equip
+                        </Button>
+                      )}
+                    </div>
                   ) : (
                     <>
                       <span className={styles.lockedText}>
@@ -352,14 +354,19 @@ export default function Collection({
               {data.titles.map((title) => (
                 <li
                   key={title.id}
+                  id={`equipped-${title.id}`}
+                  tabIndex={-1}
+                  aria-label={`${title.name}${title.equipped ? ', equipped' : ''}`}
                   className={[
                     styles.titleItem,
+                    styles.equipmentTitle,
                     title.equipped && styles.equipped,
                     !title.owned && styles.badgeLocked,
                   ]
                     .filter(Boolean)
                     .join(' ')}
                 >
+                  {title.equipped && <EquippedTick />}
                   <Emblem
                     name="scroll"
                     size={44}
@@ -371,9 +378,7 @@ export default function Collection({
                       {title.owned ? 'Unlocked' : title.how}
                     </span>
                   </span>
-                  {title.equipped ? (
-                    <EquippedChip id={title.id} name={title.name} />
-                  ) : title.owned ? (
+                  {title.equipped ? null : title.owned ? (
                     <Button
                       variant="secondary"
                       disabled={!!busy}
@@ -414,6 +419,12 @@ function Themes({
     () => themeSelection(null),
   )
   const options = themeOptions(shop.data?.items)
+
+  function selectTheme(id: string, equipped: boolean, kind: ThemeKind) {
+    equipTheme(playerId, equipped ? null : id, kind)
+    document.getElementById(`theme-${id}`)?.focus()
+  }
+
   return (
     <>
       <p className={styles.muted}>Themes change colours on this device only.</p>
@@ -429,14 +440,19 @@ function Themes({
                 return (
                   <li
                     key={option.id}
+                    id={`theme-${option.id}`}
+                    tabIndex={-1}
+                    aria-label={`${option.name}${on ? ', equipped' : ''}`}
                     className={[
                       styles.titleItem,
+                      styles.equipmentTitle,
                       on && styles.equipped,
                       !option.available && styles.badgeLocked,
                     ]
                       .filter(Boolean)
                       .join(' ')}
                   >
+                    {on && <EquippedTick />}
                     <ThemeSwatch themeId={option.id} />
                     <span className={styles.titleText}>
                       <strong>{option.name}</strong>
@@ -444,26 +460,25 @@ function Themes({
                         {option.description}
                       </span>
                     </span>
-                    {on && option.kind === 'base' ? (
-                      <Chip tone="gain" icon="check">
-                        In use
-                      </Chip>
-                    ) : on ? (
+                    {on && option.kind === 'base' ? null : on ? (
                       <Button
-                        variant="ghost"
-                        icon="check"
-                        onClick={() => equipTheme(playerId, null, option.kind)}
-                        aria-label={`Stop using ${option.name}`}
+                        variant="secondary"
+                        onClick={() =>
+                          selectTheme(option.id, true, option.kind)
+                        }
+                        aria-label={`Unequip ${option.name}`}
                       >
-                        In use · Remove
+                        Unequip
                       </Button>
                     ) : option.available ? (
                       <Button
                         variant="secondary"
-                        onClick={() => equipTheme(playerId, option.id)}
-                        aria-label={`Use ${option.name}`}
+                        onClick={() =>
+                          selectTheme(option.id, false, option.kind)
+                        }
+                        aria-label={`Equip ${option.name}`}
                       >
-                        Use
+                        Equip
                       </Button>
                     ) : shop.status === 'loading' ? null : (
                       <ButtonLink to="/shop" variant="ghost" icon="bag">

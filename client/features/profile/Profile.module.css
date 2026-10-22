@@ -346,8 +346,33 @@
   background: var(--bg-elev);
 }
 
-.equipped {
+.badge,
+.avatarItem {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.badgeActions {
+  display: grid;
+  justify-items: center;
+  gap: var(--space-1);
+  margin-top: auto;
+  min-height: 44px;
+}
+
+.equipped,
+.titleItem.equipped {
   border-color: var(--gain);
+}
+
+.equippedTick {
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-2);
+  display: inline-flex;
+  color: var(--gain);
 }
 
 .badgeArt {
@@ -452,6 +477,10 @@
   display: grid;
   flex: 1;
   min-width: 0;
+}
+
+.equipmentTitle {
+  position: relative;
 }
 
 /* Settings */

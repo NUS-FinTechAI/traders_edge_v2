@@ -2,7 +2,7 @@
 
 from sqlalchemy import select
 
-LATEST_VERSION = 13
+LATEST_VERSION = 14
 
 
 async def initial_schema(connection):
@@ -27,8 +27,9 @@ from app.migration_v10 import upgrade as research
 from app.migration_v11 import upgrade as games
 from app.migration_v12 import upgrade as progression
 from app.migration_v13 import upgrade as research_instruments
+from app.migration_v14 import upgrade as equipped_badges
 
-MIGRATIONS = ((1, initial_schema), (2, simulation_commands), (3, learning_runs), (4, rewards), (5, challenges), (6, economy), (7, adventure), (8, quizzes), (9, multiplayer), (10, research), (11, games), (12, progression), (13, research_instruments))
+MIGRATIONS = ((1, initial_schema), (2, simulation_commands), (3, learning_runs), (4, rewards), (5, challenges), (6, economy), (7, adventure), (8, quizzes), (9, multiplayer), (10, research), (11, games), (12, progression), (13, research_instruments), (14, equipped_badges))
 
 
 async def migrate(engine):

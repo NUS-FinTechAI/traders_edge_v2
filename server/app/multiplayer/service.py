@@ -15,7 +15,7 @@ from app.game.service import create_multiplayer_game
 from app.multiplayer import elo
 from app.multiplayer.models import Lobby, LobbyMember, QueueEntry, Rating
 from app.player import ledger
-from app.player.service import DEFAULT_AVATAR
+from app.player.service import DEFAULT_AVATAR, equipped_badge
 
 MIN_PLAYERS = 2
 MAX_MEMBERS = 30
@@ -49,18 +49,19 @@ def scenario_list():
     return {'scenarios': [{key: scenarios[item][key] for key in ('id', 'title', 'briefing', 'ticks')} for item in lobby_pool()]}
 
 
-async def _lobby_view(db, lobby, profile):
+async def _lobby_view(db, lobby, profile, content):
     scenario = load_scenarios()[lobby.scenario_id]
     rows = (await db.execute(select(Profile).join(LobbyMember, LobbyMember.user_id == Profile.id).where(LobbyMember.lobby_id == lobby.id)
                              .order_by(LobbyMember.user_id != lobby.host_user_id, LobbyMember.joined_at, Profile.id))).scalars()
     return {'id': lobby.id, 'code': lobby.code, 'host_id': lobby.host_user_id, 'is_host': lobby.host_user_id == profile.id,
             'status': lobby.status, 'scenario': {key: scenario[key] for key in ('id', 'title', 'ticks')},
             'members': [{'user_id': person.id, 'name': person.display_name, 'avatar_id': person.equipped_avatar_id or DEFAULT_AVATAR,
+                         'badge': equipped_badge(content, person),
                          'is_host': person.id == lobby.host_user_id} for person in rows],
             'bots': lobby.bots, 'game_id': lobby.game_id, 'max_members': MAX_MEMBERS}
 
 
-async def create_lobby(db, profile, body):
+async def create_lobby(db, profile, body, content):
     pool = lobby_pool()
     if not pool:
         raise HTTPException(503, 'No multiplayer markets are available yet')
@@ -74,14 +75,14 @@ async def create_lobby(db, profile, body):
     await db.flush()
     db.add(LobbyMember(lobby_id=lobby.id, user_id=profile.id, joined_at=ledger.current()))
     await db.flush()
-    return await _lobby_view(db, lobby, profile)
+    return await _lobby_view(db, lobby, profile, content)
 
 
 async def _members(db, lobby_id):
     return await db.scalar(select(func.count()).select_from(LobbyMember).where(LobbyMember.lobby_id == lobby_id))
 
 
-async def join_lobby(db, profile, code):
+async def join_lobby(db, profile, code, content):
     lobby = await db.scalar(select(Lobby).where(Lobby.code == normalise(code)).with_for_update())
     if lobby is None:
         raise HTTPException(404, 'No lobby has that code')
@@ -92,7 +93,7 @@ async def join_lobby(db, profile, code):
             raise HTTPException(409, f'This lobby is full ({MAX_MEMBERS} players)')
         db.add(LobbyMember(lobby_id=lobby.id, user_id=profile.id, joined_at=ledger.current()))
         await db.flush()
-    return await _lobby_view(db, lobby, profile)
+    return await _lobby_view(db, lobby, profile, content)
 
 
 async def member_lobby(db, profile, lobby_id, lock=False):
@@ -105,11 +106,11 @@ async def member_lobby(db, profile, lobby_id, lock=False):
     return lobby
 
 
-async def get_lobby(db, profile, lobby_id):
-    return await _lobby_view(db, await member_lobby(db, profile, lobby_id), profile)
+async def get_lobby(db, profile, lobby_id, content):
+    return await _lobby_view(db, await member_lobby(db, profile, lobby_id), profile, content)
 
 
-async def start_lobby(db, profile, lobby_id):
+async def start_lobby(db, profile, lobby_id, content):
     lobby = await member_lobby(db, profile, lobby_id, lock=True)
     if lobby.host_user_id != profile.id:
         raise HTTPException(403, 'Only the host can start the match')
@@ -124,7 +125,7 @@ async def start_lobby(db, profile, lobby_id):
     game = await create_multiplayer_game(db, lobby.scenario_id, 'private', players, bots, lobby.id)
     lobby.status, lobby.game_id = 'started', game.id
     await db.flush()
-    return await _lobby_view(db, lobby, profile)
+    return await _lobby_view(db, lobby, profile, content)
 
 
 async def leave_lobby(db, profile, lobby_id):

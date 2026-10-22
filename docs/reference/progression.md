@@ -134,8 +134,16 @@ restarts it at day 1 with no other penalty. Rewards repeat in a 7-day cycle:
 | Themes  | `shop` (3 candle themes, 100 Gems each), `free` (colour-blind-safe and high-contrast palettes)                                                           |
 | Badges  | 16, earned only                                                                                                                                          |
 
-`PATCH /api/me` equips an owned avatar or title (or clears the title to show
-the rank). Themes are equipped in the profile's Themes gallery and stored per
+`PATCH /api/me` equips an owned avatar, title or earned badge. A null
+`title_id` shows the rank; a null `badge_id` removes the displayed badge.
+Equipped collection cards use a green border and corner tick. Avatars and
+titles can be replaced by equipping another owned item. Badges, candle themes
+and accessibility palettes show an Unequip button; base themes are replaced
+by equipping another base. The Themes gallery keeps the reset-to-default action.
+Players choose one badge in Profile → Collection → Badges. Its emblem appears
+beside their name in their profile, opted-in public leaderboards and multiplayer
+lobbies, with an accessible badge name. Equipping never grants a badge or reward.
+Themes are equipped in the profile's Themes gallery and stored per
 device in the browser; the server records ownership only.
 `GET /api/me/collection` lists badges, avatars and titles with owned and
 equipped state, how to unlock each, and summary stats.
