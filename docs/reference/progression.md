@@ -136,9 +136,10 @@ restarts it at day 1 with no other penalty. Rewards repeat in a 7-day cycle:
 
 `PATCH /api/me` equips an owned avatar, title or earned badge. A null
 `title_id` shows the rank; a null `badge_id` removes the displayed badge.
-Equipped avatar, title and badge cards use a green border and corner tick.
-Avatars and titles can be replaced by equipping another owned item; only badges
-show an Unequip button.
+Equipped collection cards use a green border and corner tick. Avatars and
+titles can be replaced by equipping another owned item. Badges, candle themes
+and accessibility palettes show an Unequip button; base themes are replaced
+by equipping another base. The Themes gallery keeps the reset-to-default action.
 Players choose one badge in Profile → Collection → Badges. Its emblem appears
 beside their name in their profile, opted-in public leaderboards and multiplayer
 lobbies, with an accessible badge name. Equipping never grants a badge or reward.

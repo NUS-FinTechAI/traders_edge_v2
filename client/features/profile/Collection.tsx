@@ -419,6 +419,12 @@ function Themes({
     () => themeSelection(null),
   )
   const options = themeOptions(shop.data?.items)
+
+  function selectTheme(id: string, equipped: boolean, kind: ThemeKind) {
+    equipTheme(playerId, equipped ? null : id, kind)
+    document.getElementById(`theme-${id}`)?.focus()
+  }
+
   return (
     <>
       <p className={styles.muted}>Themes change colours on this device only.</p>
@@ -434,14 +440,19 @@ function Themes({
                 return (
                   <li
                     key={option.id}
+                    id={`theme-${option.id}`}
+                    tabIndex={-1}
+                    aria-label={`${option.name}${on ? ', equipped' : ''}`}
                     className={[
                       styles.titleItem,
+                      styles.equipmentTitle,
                       on && styles.equipped,
                       !option.available && styles.badgeLocked,
                     ]
                       .filter(Boolean)
                       .join(' ')}
                   >
+                    {on && <EquippedTick />}
                     <ThemeSwatch themeId={option.id} />
                     <span className={styles.titleText}>
                       <strong>{option.name}</strong>
@@ -449,26 +460,25 @@ function Themes({
                         {option.description}
                       </span>
                     </span>
-                    {on && option.kind === 'base' ? (
-                      <Chip tone="gain" icon="check">
-                        In use
-                      </Chip>
-                    ) : on ? (
+                    {on && option.kind === 'base' ? null : on ? (
                       <Button
-                        variant="ghost"
-                        icon="check"
-                        onClick={() => equipTheme(playerId, null, option.kind)}
-                        aria-label={`Stop using ${option.name}`}
+                        variant="secondary"
+                        onClick={() =>
+                          selectTheme(option.id, true, option.kind)
+                        }
+                        aria-label={`Unequip ${option.name}`}
                       >
-                        In use · Remove
+                        Unequip
                       </Button>
                     ) : option.available ? (
                       <Button
                         variant="secondary"
-                        onClick={() => equipTheme(playerId, option.id)}
-                        aria-label={`Use ${option.name}`}
+                        onClick={() =>
+                          selectTheme(option.id, false, option.kind)
+                        }
+                        aria-label={`Equip ${option.name}`}
                       >
-                        Use
+                        Equip
                       </Button>
                     ) : shop.status === 'loading' ? null : (
                       <ButtonLink to="/shop" variant="ghost" icon="bag">
