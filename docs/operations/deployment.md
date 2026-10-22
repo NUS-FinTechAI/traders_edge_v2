@@ -39,6 +39,7 @@ environment file:
 | `FIREBASE_SERVICE_ACCOUNT`                                            | Optional service-account key JSON (otherwise mount Application Default Credentials)                                             |
 | `ALLOWED_ORIGINS`                                                     | Comma-separated HTTPS browser origins                                                                                           |
 | `API_PORT`                                                            | Optional host port (default 8000)                                                                                               |
+| `SENTRY_DSN`                                                          | Optional; turns on error reporting ([hosting](hosting.md#error-monitoring-sentry-free))                                         |
 | `RESEARCH_ENABLED`, `RESEARCH_POLICY_VERSION`, `RESEARCH_POLICY_TEXT` | Optional; enable only after the study and its consent text are approved ([research](../reference/research.md#study-enrollment)) |
 
 Firebase needs credentials: set `FIREBASE_SERVICE_ACCOUNT` to the

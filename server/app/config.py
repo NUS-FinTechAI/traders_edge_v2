@@ -27,6 +27,8 @@ class Settings:
     research_enabled: bool = False
     research_policy_version: str | None = None
     research_policy_text: str | None = None
+    sentry_dsn: str | None = field(default=None, repr=False)
+    release: str | None = None
 
     @classmethod
     def from_env(cls):
@@ -44,6 +46,8 @@ class Settings:
             research_enabled=os.getenv('RESEARCH_ENABLED', 'false').lower() == 'true',
             research_policy_version=os.getenv('RESEARCH_POLICY_VERSION'),
             research_policy_text=os.getenv('RESEARCH_POLICY_TEXT'),
+            sentry_dsn=os.getenv('SENTRY_DSN') or None,
+            release=os.getenv('RENDER_GIT_COMMIT') or None,
         )
 
     @property

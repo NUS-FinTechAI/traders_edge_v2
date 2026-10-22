@@ -95,7 +95,9 @@ The arena polls `GET /api/games/{id}?since=<tick>` 60 ms after `next_tick_at`
 (clamped to 250–1,500 ms) while running and every 4 s in the briefing or
 while paused, merging new bars and news. Lobbies and the ranked queue poll
 every 2 s; a quiz room host's results every 5 s. Prices are drawn with a
-dependency-free SVG candlestick chart.
+dependency-free SVG candlestick chart. A first-match coach-mark tour
+(`features/arena/tour/`) points at elements marked with `data-tour`; its step
+plan, progression and per-profile storage are pure functions in `tour.ts`.
 
 ## Content pipeline
 
