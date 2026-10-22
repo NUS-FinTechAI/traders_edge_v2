@@ -108,6 +108,30 @@ Before a demo, open the site a couple of minutes early so Render has woken
 up. Every merge to `master`
 redeploys Render and Vercel.
 
+## Error monitoring (Sentry, free)
+
+Optional. Without the variables below nothing is reported and the client
+build leaves the Sentry SDK out.
+
+1. Create a free [Sentry](https://sentry.io) organisation (Developer plan)
+   with two projects: **FastAPI** (`traders-edge-api`) and **React**
+   (`traders-edge-client`). Copy each project's DSN.
+2. In the API project's **Settings → Security & Privacy**, turn on
+   **Prevent Storing of IP Addresses**; do the same for the client project.
+3. Render: set `SENTRY_DSN` to the FastAPI DSN. Events use `APP_ENV` as the
+   environment and the deployed commit as the release.
+4. Vercel: set `VITE_SENTRY_DSN` to the React DSN (and optionally
+   `VITE_SENTRY_ENVIRONMENT`, default `production`). The release is the
+   deployed commit.
+5. Redeploy both. Vite reads `VITE_*` at build time, so Vercel needs a new
+   build.
+
+Reports carry the page or route, stack trace and browser, but no cookies,
+`Authorization` header, request bodies, query strings or IP address. The
+client sends errors only (no performance tracing or session replay) and the
+API samples 10% of requests for performance, to stay within the free
+quota.
+
 ## After the content review
 
 Once the independent financial and teaching review is done, set
