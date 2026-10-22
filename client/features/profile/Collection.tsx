@@ -43,18 +43,11 @@ const GALLERY_TITLE: Record<Gallery, string> = {
 
 const MILESTONES = [5, 10, 20, 30, 40]
 
-function EquippedChip({ id, name }: { id: string; name: string }) {
+function EquippedTick() {
   return (
-    <Chip
-      tone="gain"
-      icon="check"
-      id={`equipped-${id}`}
-      role="img"
-      tabIndex={-1}
-      aria-label={`${name} equipped`}
-    >
-      Equipped
-    </Chip>
+    <span className={styles.equippedTick} role="img" aria-label="Equipped">
+      <Icon name="check" size={20} />
+    </span>
   )
 }
 
@@ -156,7 +149,9 @@ export default function Collection({
   const avatars = data.avatars.filter((avatar) => avatar.owned).length
   const titles = data.titles.filter((title) => title.owned).length
   const themes = themeOptions(shop.data?.items)
-  const equippedAvatar = data.avatars.find((avatar) => avatar.equipped)
+  const equippedAvatar = data.avatars.find(
+    (avatar) => avatar.id === player?.avatar_id,
+  )
 
   return (
     <section className={styles.panel} aria-labelledby="collection-title">
@@ -229,15 +224,7 @@ export default function Collection({
                       .filter(Boolean)
                       .join(' ')}
                   >
-                    {badge.equipped && (
-                      <span
-                        className={styles.equippedTick}
-                        role="img"
-                        aria-label="Equipped"
-                      >
-                        <Icon name="check" size={20} />
-                      </span>
-                    )}
+                    {badge.equipped && <EquippedTick />}
                     <span className={styles.badgeArt}>
                       <Emblem
                         name={badgeArt(badge.id)}
@@ -321,6 +308,9 @@ export default function Collection({
               {data.avatars.map((avatar) => (
                 <li
                   key={avatar.id}
+                  id={`equipped-${avatar.id}`}
+                  tabIndex={-1}
+                  aria-label={`${avatar.name}${avatar.equipped ? ', equipped' : ''}`}
                   className={[
                     styles.avatarItem,
                     avatar.equipped && styles.equipped,
@@ -329,21 +319,24 @@ export default function Collection({
                     .filter(Boolean)
                     .join(' ')}
                 >
+                  {avatar.equipped && <EquippedTick />}
                   <Avatar id={avatar.id} image={itemImage(avatar)} size={72} />
                   <strong className={styles.badgeName}>{avatar.name}</strong>
-                  {avatar.equipped ? (
-                    <EquippedChip id={avatar.id} name={avatar.name} />
-                  ) : avatar.owned ? (
-                    <Button
-                      variant="secondary"
-                      disabled={!!busy}
-                      onClick={() =>
-                        void equip(avatar.id, { avatar_id: avatar.id })
-                      }
-                      aria-label={`Equip ${avatar.name}`}
-                    >
-                      Equip
-                    </Button>
+                  {avatar.owned ? (
+                    <div className={styles.badgeActions}>
+                      {!avatar.equipped && (
+                        <Button
+                          variant="secondary"
+                          disabled={!!busy}
+                          onClick={() =>
+                            void equip(avatar.id, { avatar_id: avatar.id })
+                          }
+                          aria-label={`Equip ${avatar.name}`}
+                        >
+                          Equip
+                        </Button>
+                      )}
+                    </div>
                   ) : (
                     <>
                       <span className={styles.lockedText}>
@@ -361,14 +354,19 @@ export default function Collection({
               {data.titles.map((title) => (
                 <li
                   key={title.id}
+                  id={`equipped-${title.id}`}
+                  tabIndex={-1}
+                  aria-label={`${title.name}${title.equipped ? ', equipped' : ''}`}
                   className={[
                     styles.titleItem,
+                    styles.equipmentTitle,
                     title.equipped && styles.equipped,
                     !title.owned && styles.badgeLocked,
                   ]
                     .filter(Boolean)
                     .join(' ')}
                 >
+                  {title.equipped && <EquippedTick />}
                   <Emblem
                     name="scroll"
                     size={44}
@@ -380,9 +378,7 @@ export default function Collection({
                       {title.owned ? 'Unlocked' : title.how}
                     </span>
                   </span>
-                  {title.equipped ? (
-                    <EquippedChip id={title.id} name={title.name} />
-                  ) : title.owned ? (
+                  {title.equipped ? null : title.owned ? (
                     <Button
                       variant="secondary"
                       disabled={!!busy}

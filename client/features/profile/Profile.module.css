@@ -346,7 +346,8 @@
   background: var(--bg-elev);
 }
 
-.badge {
+.badge,
+.avatarItem {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -358,9 +359,11 @@
   justify-items: center;
   gap: var(--space-1);
   margin-top: auto;
+  min-height: 44px;
 }
 
-.equipped {
+.equipped,
+.titleItem.equipped {
   border-color: var(--gain);
 }
 
@@ -474,6 +477,10 @@
   display: grid;
   flex: 1;
   min-width: 0;
+}
+
+.equipmentTitle {
+  position: relative;
 }
 
 /* Settings */
