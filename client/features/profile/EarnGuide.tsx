@@ -1,5 +1,6 @@
 import { useState, type ReactNode } from 'react'
 import { Link } from 'react-router-dom'
+import { ButtonLink } from '../../ui/Button.tsx'
 import Icon, { type IconName } from '../../ui/Icon.tsx'
 import Modal from '../../ui/Modal.tsx'
 import Tabs from '../../ui/Tabs.tsx'
@@ -106,6 +107,11 @@ function EarnTabs({
       >
         <EarnGuide topic={tab} onNavigate={onNavigate} />
       </div>
+      {(tab === 'doubloons' || tab === 'gems') && (
+        <ButtonLink to="/shop" variant="secondary" onClick={onNavigate}>
+          Redeem Rewards
+        </ButtonLink>
+      )}
     </div>
   )
 }
