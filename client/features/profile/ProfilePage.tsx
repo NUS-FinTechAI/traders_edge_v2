@@ -22,6 +22,7 @@ import { useToast } from '../../ui/toastContext.ts'
 import useResource, { errorText } from '../../ui/useResource.ts'
 import ActivityHeatmap from './ActivityHeatmap.tsx'
 import Collection from './Collection.tsx'
+import { EarnButton } from './EarnGuide.tsx'
 import styles from './Profile.module.css'
 
 function LevelRing({ player }: { player: Player }) {
@@ -251,22 +252,44 @@ function Profile({ player }: { player: Player }) {
               label={`Progress to level ${player.level + 1}`}
               valueText={`${player.xp_into_level} of ${player.xp_for_next_level} XP`}
             />
-            <span className={`num ${styles.muted}`}>
-              {formatCount(player.xp_into_level)} /{' '}
-              {formatCount(player.xp_for_next_level)} XP · {pct}%
+            <span className={styles.xpRow}>
+              <span className={`num ${styles.muted}`}>
+                {formatCount(player.xp_into_level)} /{' '}
+                {formatCount(player.xp_for_next_level)} XP · {pct}%
+              </span>
+              <EarnButton
+                topic="xp"
+                label={`${formatCount(player.xp)} XP in total`}
+              >
+                <Chip tone="info" icon="info">
+                  How to earn XP
+                </Chip>
+              </EarnButton>
             </span>
           </div>
         </div>
         <div className={styles.wallet}>
-          <Chip tone="flame" icon="flame">
-            {player.streak.days}-day streak
-          </Chip>
-          <Chip tone="gold" icon="coin">
-            {formatCount(player.wallet.doubloons)} Doubloons
-          </Chip>
-          <Chip tone="gem" icon="gem">
-            {formatCount(player.wallet.gems)} Gems
-          </Chip>
+          <EarnButton topic="streak" label={`${player.streak.days}-day streak`}>
+            <Chip tone="flame" icon="flame">
+              {player.streak.days}-day streak
+            </Chip>
+          </EarnButton>
+          <EarnButton
+            topic="doubloons"
+            label={`${formatCount(player.wallet.doubloons)} Doubloons`}
+          >
+            <Chip tone="gold" icon="coin">
+              {formatCount(player.wallet.doubloons)} Doubloons
+            </Chip>
+          </EarnButton>
+          <EarnButton
+            topic="gems"
+            label={`${formatCount(player.wallet.gems)} Gems`}
+          >
+            <Chip tone="gem" icon="gem">
+              {formatCount(player.wallet.gems)} Gems
+            </Chip>
+          </EarnButton>
         </div>
       </section>
 

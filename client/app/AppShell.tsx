@@ -8,13 +8,14 @@ import {
 } from 'react-router-dom'
 import AuthProvider from '../components/AuthProvider.tsx'
 import useAuth from '../hooks/useAuth.ts'
-import { CurrencyChip } from '../ui/Chip.tsx'
 import Chip from '../ui/Chip.tsx'
 import Icon, { type IconName } from '../ui/Icon.tsx'
 import Button, { ButtonLink } from '../ui/Button.tsx'
 import { ToastProvider } from '../ui/Toast.tsx'
 import Avatar from '../ui/Avatar.tsx'
 import { playerAvatarImage } from '../ui/avatarImage.ts'
+import { formatCount } from '../ui/format.ts'
+import { EarnButton } from '../features/profile/EarnGuide.tsx'
 import usePageTitle from './usePageTitle.ts'
 import ThemeApplier from './ThemeApplier.tsx'
 import { usePlayer } from './PlayerContext.ts'
@@ -103,19 +104,35 @@ function Hud() {
         <div className={styles.hudStats}>
           {player ? (
             <>
-              <Chip
-                tone="flame"
-                icon="flame"
-                role="img"
-                aria-label={`${player.streak.days}-day streak`}
+              <EarnButton
+                topic="streak"
+                label={`${player.streak.days}-day streak`}
               >
-                <span className="num" aria-hidden="true">
-                  {player.streak.days}
-                </span>
-              </Chip>
-              <CurrencyChip kind="doubloons" amount={player.wallet.doubloons} />
+                <Chip tone="flame" icon="flame">
+                  <span className="num">{player.streak.days}</span>
+                </Chip>
+              </EarnButton>
+              <EarnButton
+                topic="doubloons"
+                label={`${formatCount(player.wallet.doubloons)} Doubloons`}
+              >
+                <Chip tone="gold" icon="coin">
+                  <span className="num">
+                    {formatCount(player.wallet.doubloons)}
+                  </span>
+                </Chip>
+              </EarnButton>
               <span className={styles.hideSmall}>
-                <CurrencyChip kind="gems" amount={player.wallet.gems} />
+                <EarnButton
+                  topic="gems"
+                  label={`${formatCount(player.wallet.gems)} Gems`}
+                >
+                  <Chip tone="gem" icon="gem">
+                    <span className="num">
+                      {formatCount(player.wallet.gems)}
+                    </span>
+                  </Chip>
+                </EarnButton>
               </span>
               <NavLink
                 to="/profile"

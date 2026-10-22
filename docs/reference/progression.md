@@ -5,7 +5,9 @@ The campaign is `server/app/campaign/`, built from
 `server/app/player/` (profile, XP, wallet, streak, cosmetics, badges, shop,
 leaderboards). Boss rules and settlement are in [matches](matches.md). Every
 award uses a natural unique key, so a repeated request pays nothing. All
-amounts are product defaults, not research findings.
+amounts are product defaults, not research findings. The in-game earning
+guide (HUD balance chips, the profile and the shop) repeats these amounts from
+`client/features/profile/earnRules.ts`; change both together.
 
 ## Campaign
 

@@ -146,6 +146,14 @@
   width: min(100%, 360px);
 }
 
+.xpRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-1) var(--space-2);
+}
+
 .wallet {
   display: flex;
   flex-wrap: wrap;
