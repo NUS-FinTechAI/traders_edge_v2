@@ -2,6 +2,12 @@
 
 ## Unreleased
 
+### Research instruments
+
+- Add a versioned prior-knowledge instrument (four self-report items and a ten-item unscored concept pre-quiz) offered once, skippably, only to participants with active study consent; migration 13 stores responses with a score-band group and times new first check answers.
+- Add a researcher dashboard (`/research`, `/api/research/*`) for a server allow-list: participants, groups, funnel, Preview-vs-Boss comparison by first and all attempts, decision-score trends, check and quiz accuracy, and streamed CSV exports under HMAC pseudonyms, limited to records made under active consent. All learning metrics are labelled unvalidated.
+- Add the study consent panel to the profile.
+
 ### Documentation restructure
 
 - Split the build contract (`docs/game-architecture.md`) and the overlapping topic docs into one reference doc per topic under `docs/reference/` (engine, matches, progression, multiplayer, quizzes, API, data model, research, design decisions), with an index at `docs/README.md`.
