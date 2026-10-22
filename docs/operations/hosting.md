@@ -1,11 +1,11 @@
-# Hosting on Render, Supabase, Vercel and Firebase
+# Hosting on Render, Neon, Vercel and Firebase
 
 One free environment deploys from `master`:
 
 | Piece    | Service                 | Name / setting                             |
 | -------- | ----------------------- | ------------------------------------------ |
 | API      | Render free web service | `traders-edge-api`, Singapore              |
-| Database | Supabase free project   | `traders-edge`, Singapore                  |
+| Database | Neon free project       | `traders-edge`, AWS Singapore              |
 | Client   | Vercel Hobby project    | `traders-edge` (`traders-edge.vercel.app`) |
 | Sign-in  | Firebase Authentication | Google and Email/Password                  |
 
@@ -21,7 +21,7 @@ Free-tier limits that matter:
 | Service      | Limit                                                                                     |
 | ------------ | ----------------------------------------------------------------------------------------- |
 | Render       | Sleeps after about 15 minutes idle; the next request takes about a minute while it wakes. |
-| Supabase     | 500 MB. Pauses after 7 days without activity; restore it from the dashboard.              |
+| Neon         | 0.5 GB. Suspends when idle and wakes in about a second on the next query; no expiry.      |
 | Vercel Hobby | Non-commercial projects only.                                                             |
 | Firebase     | Google and email sign-in are free on the Spark plan.                                      |
 
@@ -46,22 +46,23 @@ app on the **NUS-FinTechAI** organisation, choosing `traders_edge_v2`:
 <https://github.com/apps/vercel/installations/new>. An organisation owner must
 approve the installation.
 
-## 3. Database on Supabase
+## 3. Database on Neon
 
-1. In [Supabase](https://supabase.com), create a project named
-   `traders-edge` in **Southeast Asia (Singapore)** and save its database
-   password.
-2. Open **Connect → Session pooler** and copy the URI
-   (`postgresql://postgres.<ref>:[YOUR-PASSWORD]@aws-0-ap-southeast-1.pooler.supabase.com:5432/postgres`),
-   replacing `[YOUR-PASSWORD]` with the password. URL-encode `@ : / ? #` if
-   the password contains them.
-   - Not the **Direct connection**: on the free plan it is IPv6 only, and
-     Render cannot reach it.
-   - Not the **Transaction pooler** (port 6543): it breaks the driver's
-     prepared statements.
+1. In [Neon](https://neon.tech), create a project named `traders-edge` in
+   **AWS Asia Pacific (Singapore)**, region `ap-southeast-1`.
+2. Open **Connect**, turn **Connection pooling off**, and copy the
+   connection string. The password is already in it:
+   `postgresql://<user>:<password>@ep-<id>.ap-southeast-1.aws.neon.tech/neondb?sslmode=require`
+   (it may also end in `&channel_binding=require`, which is fine).
+   - Use the direct string, without `-pooler` in the host. The pooled string
+     goes through PgBouncer in transaction mode, which breaks the driver's
+     prepared statements; the API keeps its own connection pool.
+   - In a generated `.env` snippet this is `DATABASE_URL`, not
+     `DATABASE_URL_POOLED`.
 
 The API creates its tables on every start, so there is nothing to run by
-hand. Supabase's own auth, storage and REST APIs are not used.
+hand. It pings pooled connections before use, so Neon suspending an idle
+database only costs a short wake-up.
 
 ## 4. API on Render
 
@@ -70,12 +71,12 @@ hand. Supabase's own auth, storage and REST APIs are not used.
    creates one free web service, `traders-edge-api`, in Singapore.
 2. Fill in the variables it asks for:
 
-   | Variable                   | Value                                       |
-   | -------------------------- | ------------------------------------------- |
-   | `DATABASE_URL`             | The Supabase session pooler URI from step 3 |
-   | `ALLOWED_ORIGINS`          | `https://traders-edge.vercel.app`           |
-   | `FIREBASE_PROJECT_ID`      | The Firebase Project ID from step 1         |
-   | `FIREBASE_SERVICE_ACCOUNT` | The whole service-account JSON, pasted in   |
+   | Variable                   | Value                                         |
+   | -------------------------- | --------------------------------------------- |
+   | `DATABASE_URL`             | The Neon direct connection string from step 3 |
+   | `ALLOWED_ORIGINS`          | `https://traders-edge.vercel.app`             |
+   | `FIREBASE_PROJECT_ID`      | The Firebase Project ID from step 1           |
+   | `FIREBASE_SERVICE_ACCOUNT` | The whole service-account JSON, pasted in     |
 
 3. Wait for the service to show **Live** (the logs show the migrations, then
    `Uvicorn running`), and check
@@ -104,7 +105,7 @@ streak, play the Chapter 1 Preview Battle and Level 1, reload, and confirm
 progress is kept.
 
 Before a demo, open the site a couple of minutes early so Render has woken
-up, and check the Supabase project is not paused. Every merge to `master`
+up. Every merge to `master`
 redeploys Render and Vercel.
 
 ## Error monitoring (Sentry, free)
