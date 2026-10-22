@@ -1,5 +1,6 @@
 import type { ClockAction } from '../../../services/gameService.ts'
 import Button from '../../../ui/Button.tsx'
+import { tourTarget } from '../tour/tour.ts'
 import styles from './Trading.module.css'
 
 const SPEEDS = [1, 2, 4] as const
@@ -20,7 +21,12 @@ export default function ClockControls({
   const nextSpeed =
     SPEEDS[(SPEEDS.indexOf(speed as 1 | 2 | 4) + 1) % SPEEDS.length]
   return (
-    <div className={styles.clock} role="group" aria-label="Market clock">
+    <div
+      className={styles.clock}
+      role="group"
+      aria-label="Market clock"
+      {...tourTarget('clock')}
+    >
       <Button
         variant={paused ? 'primary' : 'secondary'}
         size="sm"

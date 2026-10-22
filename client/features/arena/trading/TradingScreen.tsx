@@ -28,6 +28,7 @@ import MissionsPanel from '../panels/MissionsPanel.tsx'
 import NewsFeed from '../panels/NewsFeed.tsx'
 import RivalsPanel from '../panels/RivalsPanel.tsx'
 import TradeTicket from '../ticket/TradeTicket.tsx'
+import { tourTarget, type ArenaTab } from '../tour/tour.ts'
 import BottomSheet from './BottomSheet.tsx'
 import ClockControls from './ClockControls.tsx'
 import SymbolTabs from './SymbolTabs.tsx'
@@ -46,8 +47,7 @@ function useDesktop(): boolean {
   )
 }
 
-type MobileTab = 'account' | 'rivals' | 'missions' | 'news' | 'trades'
-const MOBILE_TABS: { id: MobileTab; label: string }[] = [
+const MOBILE_TABS: { id: ArenaTab; label: string }[] = [
   { id: 'account', label: 'Account' },
   { id: 'rivals', label: 'Rivals' },
   { id: 'missions', label: 'Missions' },
@@ -84,6 +84,9 @@ interface TradingScreenProps {
   onPlace: (order: OrderRequest, attachStop: number | null) => Promise<void>
   onCancel: (order: Order) => void
   onForfeit: () => Promise<void>
+  /** Mobile tab the tour has opened, shown in place of the player's choice. */
+  tourTab: ArenaTab | null
+  onHowToPlay: () => void
 }
 
 function isTyping(target: EventTarget | null): boolean {
@@ -115,13 +118,15 @@ export default function TradingScreen({
   onPlace,
   onCancel,
   onForfeit,
+  tourTab,
+  onHowToPlay,
 }: TradingScreenProps) {
   const desktop = useDesktop()
   const [symbol, setSymbol] = useState(state.assets[0]?.symbol ?? '')
   const [side, setSide] = useState<Side>('buy')
   const [focusSignal, setFocusSignal] = useState(0)
   const [sheetOpen, setSheetOpen] = useState(false)
-  const [mobileTab, setMobileTab] = useState<MobileTab>('account')
+  const [mobileTab, setMobileTab] = useState<ArenaTab>('account')
   const [confirmLeave, setConfirmLeave] = useState(false)
   const [leaving, setLeaving] = useState(false)
   const [shortcuts, setShortcuts] = useState(readShortcuts)
@@ -137,8 +142,9 @@ export default function TradingScreen({
   const mobileTabs = alone
     ? MOBILE_TABS.filter((tab) => tab.id !== 'rivals')
     : MOBILE_TABS
-  const shownTab = mobileTabs.some((tab) => tab.id === mobileTab)
-    ? mobileTab
+  const chosenTab = tourTab ?? mobileTab
+  const shownTab = mobileTabs.some((tab) => tab.id === chosenTab)
+    ? chosenTab
     : 'account'
 
   // Solo clocks pause while the order ticket is in use so there is no time
@@ -270,7 +276,7 @@ export default function TradingScreen({
 
   return (
     <div className={styles.screen} ref={root}>
-      <header className={styles.topBar}>
+      <header className={styles.topBar} {...tourTarget('top-bar')}>
         <div className={styles.topLeft}>
           <Button
             variant="ghost"
@@ -288,7 +294,7 @@ export default function TradingScreen({
             </Chip>
           </div>
         </div>
-        <div className={styles.dayBlock}>
+        <div className={styles.dayBlock} {...tourTarget('day')}>
           <span className={styles.dayText}>
             {state.tick_label || 'Day'} <span className="num">{day}</span> of{' '}
             <span className="num">{state.ticks}</span>
@@ -321,6 +327,18 @@ export default function TradingScreen({
               onClock={clock}
             />
           )}
+          <Button
+            variant="ghost"
+            icon="quiz"
+            className={styles.help}
+            aria-label="How to play"
+            onClick={onHowToPlay}
+            {...tourTarget('help')}
+          >
+            <span className={styles.helpText} aria-hidden="true">
+              How to play
+            </span>
+          </Button>
         </div>
       </header>
 
@@ -335,6 +353,7 @@ export default function TradingScreen({
             <section
               className={styles.chartCard}
               aria-label={`${asset.symbol} chart`}
+              {...tourTarget('chart')}
             >
               <div className={styles.chartHead}>
                 <div>
@@ -359,10 +378,10 @@ export default function TradingScreen({
             </section>
           )}
           {desktop && <div className={styles.card}>{activity}</div>}
-          {desktop && missions}
-          {desktop && feed}
+          {desktop && <div {...tourTarget('missions')}>{missions}</div>}
+          {desktop && <div {...tourTarget('news')}>{feed}</div>}
           {!desktop && (
-            <div className={styles.mobileTabs}>
+            <div className={styles.mobileTabs} {...tourTarget('details')}>
               <Tabs
                 label="Match details"
                 tabs={mobileTabs}
@@ -396,12 +415,19 @@ export default function TradingScreen({
               className={`${styles.card} ${styles.ticketCard}`}
               onFocus={engageTicket}
               onBlur={onTicketBlur}
+              {...tourTarget('ticket')}
             >
               {ticket}
             </div>
             {pendingStops > 0 && <StopNote count={pendingStops} />}
-            <AccountPanel me={state.me} />
-            {!alone && <RivalsPanel entries={state.leaderboard} />}
+            <div {...tourTarget('account')}>
+              <AccountPanel me={state.me} />
+            </div>
+            {!alone && (
+              <div {...tourTarget('rivals')}>
+                <RivalsPanel entries={state.leaderboard} />
+              </div>
+            )}
           </aside>
         )}
       </div>
@@ -435,7 +461,7 @@ export default function TradingScreen({
 
       {!desktop && (
         <>
-          <div className={styles.actionBar}>
+          <div className={styles.actionBar} {...tourTarget('trade-actions')}>
             <Button
               variant="buy"
               size="lg"
