@@ -29,7 +29,6 @@ export function EarnGuide({
   topic: EarnTopic
   heading?: boolean
   onNavigate?: () => void
-  showNotes?: boolean
 }) {
   const info = EARN[topic]
   return (
