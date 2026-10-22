@@ -4,6 +4,7 @@ import { usePlayer } from '../../app/PlayerContext.ts'
 import {
   getLeaderboard,
   type Leaderboard,
+  type LeaderboardType,
 } from '../../services/playerService.ts'
 import Avatar from '../../ui/Avatar.tsx'
 import { itemImage } from '../../ui/avatarImage.ts'
@@ -19,8 +20,6 @@ import TierBadge, { TierCrest } from '../../ui/TierBadge.tsx'
 import { formatCount } from '../../ui/format.ts'
 import useResource from '../../ui/useResource.ts'
 import styles from './Leaderboard.module.css'
-
-export type LeaderboardType = 'ranked' | 'xp'
 
 const TABS = [
   { id: 'xp', label: 'XP' },
