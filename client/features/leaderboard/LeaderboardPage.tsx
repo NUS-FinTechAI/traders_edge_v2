@@ -56,7 +56,7 @@ function Standings({ board, data }: { board: LeaderboardType; data: Leaderboard 
         <p
           className={data.me.rank ? `num ${styles.meRank}` : styles.meRankEmpty}
         >
-          {data.me.rank ? `#${formatCount(data.me.rank)}` : 'Not listed'}
+          {data.me.rank ? `#${formatCount(data.me.rank)}` : 'Unlisted'}
         </p>
         <p className={styles.meValue}>
           <Value board={board} value={data.me.value} />
