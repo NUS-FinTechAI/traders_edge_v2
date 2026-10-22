@@ -1,4 +1,5 @@
 import { useState, type ReactNode } from 'react'
+import { Link } from 'react-router-dom'
 import Icon, { type IconName } from '../../ui/Icon.tsx'
 import Modal from '../../ui/Modal.tsx'
 import Tabs from '../../ui/Tabs.tsx'
@@ -23,9 +24,11 @@ const TONE: Record<EarnTopic, string | undefined> = {
 export function EarnGuide({
   topic,
   heading,
+  onNavigate,
 }: {
   topic: EarnTopic
   heading?: boolean
+  onNavigate?: () => void
 }) {
   const info = EARN[topic]
   return (
@@ -39,22 +42,27 @@ export function EarnGuide({
         </h3>
       )}
       <p className={styles.summary}>{info.summary}</p>
-      <dl className={styles.rows}>
+      <div className={styles.rows}>
         {info.rows.map((row) => (
-          <div key={row.source} className={styles.row}>
-            <dt>
+          <Link
+            key={row.source}
+            to={row.to}
+            onClick={onNavigate}
+            className={styles.row}
+          >
+            <span className={styles.source}>
               {row.source}
               {row.note && <span className={styles.note}>{row.note}</span>}
-            </dt>
-            <dd className={`num ${TONE[topic]}`}>{row.amount}</dd>
-          </div>
+            </span>
+            {row.amount && (
+              <span className={`${styles.amount} num ${TONE[topic]}`}>
+                {row.amount}
+              </span>
+            )}
+            <Icon name="chevron-right" size={18} />
+          </Link>
         ))}
-      </dl>
-      {info.notes.map((note) => (
-        <p key={note} className={styles.note}>
-          {note}
-        </p>
-      ))}
+      </div>
     </div>
   )
 }
@@ -69,12 +77,18 @@ export function EarnDialog({
 }) {
   return (
     <Modal open={topic !== null} title="How to earn" onClose={onClose}>
-      {topic && <EarnTabs initial={topic} />}
+      {topic && <EarnTabs initial={topic} onNavigate={onClose} />}
     </Modal>
   )
 }
 
-function EarnTabs({ initial }: { initial: EarnTopic }) {
+function EarnTabs({
+  initial,
+  onNavigate,
+}: {
+  initial: EarnTopic
+  onNavigate: () => void
+}) {
   const [tab, setTab] = useState(initial)
   return (
     <div className={styles.dialog}>
@@ -90,7 +104,7 @@ function EarnTabs({ initial }: { initial: EarnTopic }) {
         id={`earn-panel-${tab}`}
         aria-labelledby={`earn-tab-${tab}`}
       >
-        <EarnGuide topic={tab} />
+        <EarnGuide topic={tab} onNavigate={onNavigate} />
       </div>
     </div>
   )

@@ -107,6 +107,10 @@ Doubloons expire at Monday 00:00 UTC: the first wallet write of a new week
 zeroes them and records `expiry:<week>`. Gems do not expire and are never sold
 for real money; there is no purchase endpoint.
 
+The balance chips open an earning guide. Each earning row links to its
+activity page and closes the dialog; the Streak tab has one daily check-in
+link to Home. The dialog omits footer notes.
+
 ## Login streak
 
 `POST /api/me/daily-login` claims once per UTC day; a second claim returns
