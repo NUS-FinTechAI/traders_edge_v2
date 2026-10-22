@@ -2,12 +2,12 @@
 
 One free environment deploys from `master`:
 
-| Piece    | Service                 | Name / setting                             |
-| -------- | ----------------------- | ------------------------------------------ |
-| API      | Render free web service | `traders-edge-api`, Singapore              |
-| Database | Neon free project       | `traders-edge`, AWS Singapore              |
-| Client   | Vercel Hobby project    | `traders-edge` (`traders-edge.vercel.app`) |
-| Sign-in  | Firebase Authentication | Google and Email/Password                  |
+| Piece    | Service                 | Name / setting                                   |
+| -------- | ----------------------- | ------------------------------------------------ |
+| API      | Render free web service | `traders-edge-api`, Singapore                    |
+| Database | Neon free project       | `traders-edge`, AWS Singapore                    |
+| Client   | Vercel Hobby project    | `traders-edge-v2` (`traders-edge-v2.vercel.app`) |
+| Sign-in  | Firebase Authentication | Google and Email/Password                        |
 
 The API runs with `APP_ENV=staging` and `AUTH_MODE=firebase`: hosted on
 PostgreSQL over HTTPS, signed in with Firebase, and playable before the
@@ -32,7 +32,7 @@ Free-tier limits that matter:
 2. **Authentication → Sign-in method**: enable **Google** and
    **Email/Password**.
 3. **Authentication → Settings → Authorized domains**: add
-   `traders-edge.vercel.app`.
+   `traders-edge-v2.vercel.app`.
 4. **Project settings → General → Your apps**: add a **Web** app and copy
    `apiKey`, `authDomain` and `appId`.
 5. **Project settings → Service accounts → Generate new private key**:
@@ -74,7 +74,7 @@ database only costs a short wake-up.
    | Variable                   | Value                                         |
    | -------------------------- | --------------------------------------------- |
    | `DATABASE_URL`             | The Neon direct connection string from step 3 |
-   | `ALLOWED_ORIGINS`          | `https://traders-edge.vercel.app`             |
+   | `ALLOWED_ORIGINS`          | `https://traders-edge-v2.vercel.app`          |
    | `FIREBASE_PROJECT_ID`      | The Firebase Project ID from step 1           |
    | `FIREBASE_SERVICE_ACCOUNT` | The whole service-account JSON, pasted in     |
 
@@ -89,18 +89,18 @@ update the `destination` in `client/vercel.json`.
 
 1. In Vercel, **Add New → Project**, choose the **NUS-FinTechAI** account and
    import `traders_edge_v2`.
-2. Project name `traders-edge`; **Root Directory** `client`. Build settings
+2. Project name `traders-edge-v2`; **Root Directory** `client`. Build settings
    come from `client/vercel.json`.
 3. Environment variables: `VITE_FIREBASE_API_KEY`,
    `VITE_FIREBASE_AUTH_DOMAIN` and `VITE_FIREBASE_APP_ID` from step 1.4.
 4. **Deploy**, then set **Settings → General → Node.js Version** to 24.x and
    redeploy.
-5. Confirm the domain is `traders-edge.vercel.app`. If it differs, update
+5. Confirm the domain is `traders-edge-v2.vercel.app`. If it differs, update
    `ALLOWED_ORIGINS` on Render and Firebase's authorized domains to match.
 
 ## 6. Check the deployment
 
-Open `https://traders-edge.vercel.app`, sign in with Google, claim the daily
+Open `https://traders-edge-v2.vercel.app`, sign in with Google, claim the daily
 streak, play the Chapter 1 Preview Battle and Level 1, reload, and confirm
 progress is kept.
 
