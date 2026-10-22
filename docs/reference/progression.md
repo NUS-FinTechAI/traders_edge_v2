@@ -129,7 +129,7 @@ restarts it at day 1 with no other penalty. Rewards repeat in a 7-day cycle:
 | Badges  | 16, earned only                                                                                                                                          |
 
 `PATCH /api/me` equips an owned avatar or title (or clears the title to show
-the rank). Themes are equipped in the profile's Themes tab and stored per
+the rank). Themes are equipped in the profile's Themes gallery and stored per
 device in the browser; the server records ownership only.
 `GET /api/me/collection` lists badges, avatars and titles with owned and
 equipped state, how to unlock each, and summary stats.
