@@ -43,7 +43,10 @@ export async function buildArtifacts(schema, root) {
       for (const [status, response] of Object.entries(operation.responses)) {
         if (!status.startsWith('2')) continue
         const json = response.content?.['application/json']?.schema
-        if (response.content && (!json || Object.keys(json).length === 0)) {
+        const csv = response.content?.['text/csv']?.schema
+        const specified =
+          (json && Object.keys(json).length > 0) || csv?.type === 'string'
+        if (response.content && !specified) {
           missingResponses.push({
             operationId: id,
             method: method.toUpperCase(),

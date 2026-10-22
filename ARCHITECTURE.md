@@ -18,6 +18,7 @@ replaced the earlier learning-run system. Detailed rules are in the
 | `quiz/`                                             | Quiz bank, attempts, classroom rooms                                                              |
 | `multiplayer/`                                      | Private lobbies, ranked matchmaking, Elo                                                          |
 | `research.py`                                       | Owned evidence exports and default-off study consent                                              |
+| `study/`                                            | Prior-knowledge instrument and onboarding; researcher access, scope, aggregates and CSV exports   |
 | `content/`                                          | Authored JSON, the bundle loader, `review.json` and the validator                                 |
 | `auth.py`, `config.py`, `db.py`, `migrations.py`    | Guest or Firebase identity, settings, database sessions, ordered migrations                       |
 | `codes.py`, `public_config.py`, `economy_models.py` | Join codes, `GET /api/config`, wallet and event tables (migration 6, reused)                      |
@@ -86,9 +87,10 @@ level and daily routes (503) until `content/review.json` is `approved`.
 - `ui/` is the design system: [tokens](client/ui/tokens.css) and shared
   primitives ([design system](docs/product/design-system.md)).
 - `features/` has one folder per area: `home`, `adventure`, `level`, `arena`,
-  `play`, `quiz`, `multiplayer`, `profile`, `leaderboard`, `archive`, `auth`.
+  `play`, `quiz`, `multiplayer`, `profile`, `leaderboard`, `archive`, `auth`,
+  `research` (study onboarding, consent panel, researcher dashboard).
 - `services/` has one module per API area (game, campaign, daily, player,
-  quiz, lobby, auth, config), each calling `httpService.request` with types
+  quiz, lobby, auth, config, research), each calling `httpService.request` with types
   generated into `api/` (`npm run api:generate`; CI runs `npm run api:check`).
 
 The arena polls `GET /api/games/{id}?since=<tick>` 60 ms after `next_tick_at`

@@ -18,6 +18,7 @@ import usePageTitle from './usePageTitle.ts'
 import ThemeApplier from './ThemeApplier.tsx'
 import { usePlayer } from './PlayerContext.ts'
 import PlayerProvider from './PlayerProvider.tsx'
+import { useResearchAccess } from '../features/research/useResearch.ts'
 import styles from './AppShell.module.css'
 
 const NAV: { to: string; label: string; icon: IconName }[] = [
@@ -31,6 +32,7 @@ const NAV: { to: string; label: string; icon: IconName }[] = [
 function Hud() {
   const { status } = useAuth()
   const { player } = usePlayer()
+  const researcher = useResearchAccess()
   return (
     <header className={styles.hud}>
       <div className={styles.hudInner}>
@@ -53,6 +55,11 @@ function Hud() {
           <NavLink to="/leaderboard" className={styles.topLink}>
             Leaderboard
           </NavLink>
+          {researcher && (
+            <NavLink to="/research" className={styles.topLink}>
+              Research
+            </NavLink>
+          )}
         </nav>
         <div className={styles.hudStats}>
           {player ? (
@@ -119,8 +126,9 @@ export default function AppShell() {
   const navigation = useNavigation()
   const { pathname } = useLocation()
   const immersive = pathname.startsWith('/game/')
-  // Lessons and quizzes hide the HUD and navigation so one task fills the screen.
-  const focus = /^\/(level|quiz\/attempt)\//.test(pathname)
+  // Lessons, quizzes and the study questions hide the HUD and navigation so one task fills the screen.
+  const focus =
+    /^\/(level|quiz\/attempt)\//.test(pathname) || pathname === '/onboarding'
   const chrome = !immersive && !focus
   usePageTitle(pathname)
   return (

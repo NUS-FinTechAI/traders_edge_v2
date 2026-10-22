@@ -27,6 +27,18 @@ services:
         sync: false
       - key: FIREBASE_SERVICE_ACCOUNT
         sync: false
+      # Optional study settings: leave unset until the study and its consent text have ethics approval
+      # (docs/operations/hosting.md#enabling-the-research-study).
+      - key: RESEARCH_ENABLED
+        sync: false
+      - key: RESEARCH_POLICY_VERSION
+        sync: false
+      - key: RESEARCH_POLICY_TEXT
+        sync: false
+      - key: RESEARCH_PSEUDONYM_SECRET
+        sync: false
+      - key: RESEARCHER_FIREBASE_UIDS
+        sync: false
       # Optional: Sentry error reporting stays off while this is empty.
       - key: SENTRY_DSN
         sync: false

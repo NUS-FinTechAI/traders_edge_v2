@@ -69,6 +69,14 @@ export const router = createBrowserRouter([
           page('/profile', () => import('./features/profile/ProfilePage.tsx')),
           page('/shop', () => import('./features/profile/ShopPage.tsx')),
           page(
+            '/onboarding',
+            () => import('./features/research/OnboardingPage.tsx'),
+          ),
+          page(
+            '/research',
+            () => import('./features/research/ResearchPage.tsx'),
+          ),
+          page(
             '/archive',
             () => import('./features/archive/ArchivePage.tsx'),
             false,

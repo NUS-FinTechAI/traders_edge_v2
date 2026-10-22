@@ -137,3 +137,24 @@ quota.
 Once the independent financial and teaching review is done, set
 `server/app/content/review.json` to `"status": "approved"` and change
 `APP_ENV` to `production` in `render.yaml`, in a reviewed PR.
+
+## Enabling the research study
+
+Optional, and only after the study protocol and its consent text have ethics
+and privacy approval; configuration does not grant that approval. On the
+Render service set:
+
+| Variable                    | Value                                                                                                 |
+| --------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `RESEARCH_ENABLED`          | `true`                                                                                                |
+| `RESEARCH_POLICY_VERSION`   | The approved policy version, e.g. `study-2026-1`                                                      |
+| `RESEARCH_POLICY_TEXT`      | The exact approved consent text                                                                       |
+| `RESEARCH_PSEUDONYM_SECRET` | A random secret of at least 32 characters (`openssl rand -hex 32`)                                    |
+| `RESEARCHER_FIREBASE_UIDS`  | Comma-separated Firebase uids of the approved researchers (Firebase console → Authentication → Users) |
+
+Leave them unset otherwise. Changing the policy text requires a new version,
+and participants must consent again. Keep the pseudonym secret in Render only
+and do not change it during a study, or pseudonyms stop matching earlier
+exports. `RESEARCHER_PROFILE_IDS` is for local testing and is ignored in
+production. See [research](../reference/research.md#researcher-dashboard) for
+what researchers can see.

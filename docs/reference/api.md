@@ -110,11 +110,28 @@ Start, clock, order and cancel responses carry the full public state.
 
 ### Research (`app/research.py`)
 
-| Route                                                                     | Purpose                                      |
-| ------------------------------------------------------------------------- | -------------------------------------------- |
-| `GET /me/research`                                                        | Policy, digest and the player's metadata     |
-| `POST /me/research/metadata`, `/consents`, `/withdrawals`                 | Study commands (see [research](research.md)) |
-| `GET /me/research/export/{game-events\|campaign-progress\|quiz-attempts}` | Owner-scoped exports                         |
+| Route                                                                     | Purpose                                                                             |
+| ------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| `GET /me/research`                                                        | Policy, digest and the player's metadata                                            |
+| `POST /me/research/metadata`, `/consents`, `/withdrawals`                 | Study commands (see [research](research.md))                                        |
+| `GET /me/research/export/{game-events\|campaign-progress\|quiz-attempts}` | Owner-scoped exports                                                                |
+| `GET /me/research/onboarding`                                             | Whether the prior-knowledge questions are due, with the instrument (no answer keys) |
+| `POST /me/research/onboarding/responses`, `/skips`                        | Record the answers or a skip once (consenting participants only)                    |
+
+### Researcher dashboard (`app/study/dashboard.py`)
+
+`GET /research/access` returns `{allowed}` for any signed-in player. Every other
+route returns 403 unless the account is on the researcher allow-list, and 409
+while study enrollment is off ([research](research.md#researcher-dashboard)).
+
+| Route                                            | Purpose                                                                                                    |
+| ------------------------------------------------ | ---------------------------------------------------------------------------------------------------------- |
+| `GET /research/summary`                          | Participants, onboarding, prior-knowledge groups, matches by mode, completion funnel                       |
+| `GET /research/pre-post`                         | Preview Battle against Chapter Boss per chapter and group, first and all attempts                          |
+| `GET /research/decision-trends?chapter_id&group` | Mean decision score by attempt number per match kind                                                       |
+| `GET /research/checks?chapter_id&group`          | First-try check accuracy per level                                                                         |
+| `GET /research/quizzes?group`                    | Chapter quiz scores by first and all attempts, bank answer accuracy                                        |
+| `GET /research/exports/{kind}`                   | Streamed CSV: `participants`, `matches`, `game-events`, `check-answers`, `quiz-answers`, `prior-knowledge` |
 
 ### Session and config
 

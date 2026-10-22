@@ -10,6 +10,7 @@ from app.content.checks import fail, keys, read, text
 from app.game.scenario import load_scenarios
 from app.player.cosmetics import Cosmetics, load_cosmetics
 from app.quiz.bank import QuizBank, load_bank
+from app.study.instrument import Instrument, load_instrument
 
 REVIEW_PATH = Path(__file__).resolve().parent / 'review.json'
 REVIEW_STATUSES = ('authored_requires_independent_review', 'approved')
@@ -22,6 +23,7 @@ class Content:
     quiz: QuizBank
     cosmetics: Cosmetics
     review_status: str = REVIEW_STATUSES[0]
+    instrument: Instrument | None = None
 
 
 def load_review(path=REVIEW_PATH):
@@ -38,7 +40,8 @@ def load_review(path=REVIEW_PATH):
 
 def load_content(campaign_dir=DIRECTORY, review_path=REVIEW_PATH):
     cosmetics = load_cosmetics()
-    return Content(load_campaign(set(load_scenarios()), cosmetics, campaign_dir), load_bank(), cosmetics, load_review(review_path))
+    return Content(load_campaign(set(load_scenarios()), cosmetics, campaign_dir), load_bank(), cosmetics, load_review(review_path),
+                   load_instrument())
 
 
 def require_approved_content(request: Request):

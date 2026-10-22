@@ -83,7 +83,7 @@ async def answer_check(level_id: Id, body: CheckAnswerBody, request: Request, db
     row = await db.get(CampaignCheck, (user.id, level_id, question['id']))
     if row is None:
         row = CampaignCheck(user_id=user.id, level_id=level_id, question_id=question['id'], first_option_id=body.option_id,
-                            first_correct=correct, solved=False, run_first_correct=None, run_solved=False)
+                            first_correct=correct, solved=False, run_first_correct=None, run_solved=False, first_answered_at=ledger.current())
         db.add(row)
     first_try = row.run_first_correct is None
     if first_try:

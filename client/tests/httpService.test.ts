@@ -121,3 +121,26 @@ test('unauthorized listeners hear 401 responses from authenticated requests', as
 
   assert.deepEqual(heard, [401])
 })
+
+test('text requests return the body as text and still read JSON errors', async (t) => {
+  stubFetch(t, async (_input, init) => {
+    assert.equal(new Headers(init?.headers).get('Accept'), 'text/csv')
+    return new Response('a,b\n1,2\n', {
+      headers: { 'Content-Type': 'text/csv' },
+    })
+  })
+  assert.equal(
+    await httpService.requestText('/api/research/exports/matches', {
+      accept: 'text/csv',
+    }),
+    'a,b\n1,2\n',
+  )
+  t.mock.restoreAll()
+  stubFetch(t, async () =>
+    Response.json({ detail: 'Researcher access only' }, { status: 403 }),
+  )
+  await assert.rejects(
+    httpService.requestText('/api/research/exports/matches'),
+    { kind: 'http', status: 403, message: 'Researcher access only' },
+  )
+})
