@@ -83,7 +83,8 @@ class Database:
             path = settings.database_url.removeprefix('sqlite+aiosqlite:///')
             if path != ':memory:':
                 Path(path).parent.mkdir(parents=True, exist_ok=True)
-        self.engine = create_async_engine(settings.database_url)
+        # Managed PostgreSQL can close idle connections (e.g. while a free database sleeps).
+        self.engine = create_async_engine(settings.database_url, pool_pre_ping=True)
         if settings.database_url.startswith('sqlite'):
             @event.listens_for(self.engine.sync_engine, 'connect')
             def sqlite_settings(connection, _):

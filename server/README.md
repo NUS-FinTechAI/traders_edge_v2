@@ -40,6 +40,7 @@ loopback database ([deployment](../docs/operations/deployment.md#live-postgresql
 | `AUTH_MODE`               | `firebase` in production, otherwise `guest`      | Guest sessions or server-verified Firebase identity                                        |
 | `ALLOWED_ORIGINS`         | `http://localhost:5173`, `http://127.0.0.1:5173` | Comma-separated exact browser origins                                                      |
 | `FIREBASE_PROJECT_ID`     | Unset                                            | Required in Firebase mode                                                                  |
+| `FIREBASE_SERVICE_ACCOUNT` | Unset                                           | Service-account key JSON; without it the server uses Application Default Credentials       |
 | `AUTO_MIGRATE`            | `true` in development, otherwise `false`         | Apply pending migrations at startup; otherwise only check the schema version               |
 | `RESEARCH_ENABLED`        | `false`                                          | Enable study enrollment only after ethics and privacy approval                             |
 | `RESEARCH_POLICY_VERSION` | Unset                                            | Required nonblank, unpadded 1–80 character version when enrollment is enabled              |

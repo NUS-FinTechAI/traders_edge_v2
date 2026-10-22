@@ -22,6 +22,7 @@ class Settings:
     session_days: int = 7
     cookie_name: str = 'traders_edge_session'
     firebase_project_id: str | None = None
+    firebase_credentials: str | None = field(default=None, repr=False)
     auto_migrate: bool = True
     research_enabled: bool = False
     research_policy_version: str | None = None
@@ -38,6 +39,7 @@ class Settings:
             auth_mode=os.getenv('AUTH_MODE', 'firebase' if production else 'guest'),
             allowed_origins=tuple(x.strip() for x in os.getenv('ALLOWED_ORIGINS', ','.join(default.allowed_origins)).split(',') if x.strip()),
             firebase_project_id=os.getenv('FIREBASE_PROJECT_ID'),
+            firebase_credentials=os.getenv('FIREBASE_SERVICE_ACCOUNT') or None,
             auto_migrate=os.getenv('AUTO_MIGRATE', 'true' if environment == 'development' else 'false').lower() == 'true',
             research_enabled=os.getenv('RESEARCH_ENABLED', 'false').lower() == 'true',
             research_policy_version=os.getenv('RESEARCH_POLICY_VERSION'),

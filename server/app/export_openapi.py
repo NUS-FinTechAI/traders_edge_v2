@@ -14,6 +14,7 @@ def export_schema():
         'AUTO_MIGRATE': 'false',
         'ALLOWED_ORIGINS': 'http://localhost:5173',
         'FIREBASE_PROJECT_ID': '',
+        'FIREBASE_SERVICE_ACCOUNT': '',
         'RESEARCH_ENABLED': 'false',
         'RESEARCH_POLICY_VERSION': '',
         'RESEARCH_POLICY_TEXT': '',
