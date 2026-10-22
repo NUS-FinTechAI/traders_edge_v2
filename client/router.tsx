@@ -55,6 +55,18 @@ export const router = createBrowserRouter([
           ),
           page('/quiz', () => import('./features/quiz/QuizHubPage.tsx')),
           page(
+            '/quiz/daily',
+            () => import('./features/quiz/QuizDailyPage.tsx'),
+          ),
+          page(
+            '/quiz/chapters',
+            () => import('./features/quiz/QuizChaptersPage.tsx'),
+          ),
+          page(
+            '/quiz/classroom',
+            () => import('./features/quiz/QuizClassroomPage.tsx'),
+          ),
+          page(
             '/quiz/attempt/:attemptId',
             () => import('./features/quiz/QuizPage.tsx'),
           ),
