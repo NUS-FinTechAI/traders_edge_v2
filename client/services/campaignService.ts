@@ -1,4 +1,5 @@
-import httpService from './httpService.ts'
+import { api } from '../api/apiClient.ts'
+import { apiEndpoints } from '../api/api-endpoints.ts'
 import type { components } from '../api/api-types.ts'
 
 type Schemas = components['schemas']
@@ -24,27 +25,27 @@ export type CheckComplete = Schemas['CheckComplete']
 export type ArchiveTerm = Schemas['ArchiveTerm']
 
 export function getCampaign(signal?: AbortSignal): Promise<Campaign> {
-  return httpService.request<Campaign>('/api/campaign', { signal })
+  return api.call(apiEndpoints.getCampaign, { signal })
 }
 
 export function getChapterMap(
   chapterId: string,
   signal?: AbortSignal,
 ): Promise<ChapterMap> {
-  return httpService.request<ChapterMap>(
-    `/api/campaign/chapters/${encodeURIComponent(chapterId)}`,
-    { signal },
-  )
+  return api.call(apiEndpoints.getChapterMap, {
+    path: { chapter_id: chapterId },
+    signal,
+  })
 }
 
 export function getLevel(
   levelId: string,
   signal?: AbortSignal,
 ): Promise<Level> {
-  return httpService.request<Level>(
-    `/api/campaign/levels/${encodeURIComponent(levelId)}`,
-    { signal },
-  )
+  return api.call(apiEndpoints.getLevel, {
+    path: { level_id: levelId },
+    signal,
+  })
 }
 
 export function checkAnswer(
@@ -52,26 +53,21 @@ export function checkAnswer(
   questionId: string,
   optionId: string,
 ): Promise<CheckAnswer> {
-  return httpService.request<CheckAnswer>(
-    `/api/campaign/levels/${encodeURIComponent(levelId)}/check`,
-    { method: 'POST', body: { question_id: questionId, option_id: optionId } },
-  )
+  return api.call(apiEndpoints.answerCheck, {
+    path: { level_id: levelId },
+    body: { question_id: questionId, option_id: optionId },
+  })
 }
 
 export function completeCheck(levelId: string): Promise<CheckComplete> {
-  return httpService.request<CheckComplete>(
-    `/api/campaign/levels/${encodeURIComponent(levelId)}/check/complete`,
-    { method: 'POST', body: {} },
-  )
+  return api.call(apiEndpoints.completeCheck, { path: { level_id: levelId } })
 }
 
 /** Every term the player can look up in the Trading Archive. */
 export function getArchive(
   signal?: AbortSignal,
 ): Promise<{ terms: ArchiveTerm[] }> {
-  return httpService.request<{ terms: ArchiveTerm[] }>('/api/archive', {
-    signal,
-  })
+  return api.call(apiEndpoints.getArchive, { signal })
 }
 
 export type CreateGame =
@@ -86,8 +82,5 @@ export type CreateGame =
 
 /** Create a match in its briefing; the arena at /game/:id takes over. */
 export function createGame(body: CreateGame): Promise<{ id: string }> {
-  return httpService.request<{ id: string }>('/api/games', {
-    method: 'POST',
-    body,
-  })
+  return api.call(apiEndpoints.createGame, { body })
 }

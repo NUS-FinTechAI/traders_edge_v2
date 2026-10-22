@@ -1,4 +1,5 @@
-import httpService from './httpService.ts'
+import { api } from '../api/apiClient.ts'
+import { apiEndpoints } from '../api/api-endpoints.ts'
 import type { components } from '../api/api-types.ts'
 
 type Schemas = components['schemas']
@@ -46,49 +47,43 @@ export type LeaderboardEntry = Schemas['RankingEntry']
 export type Leaderboard = Schemas['Leaderboard']
 
 export function getMe(signal?: AbortSignal): Promise<Player> {
-  return httpService.request<Player>('/api/me', { signal })
+  return api.call(apiEndpoints.getMe, { signal })
 }
 
 export function updateMe(changes: PlayerUpdate): Promise<Player> {
-  return httpService.request<Player>('/api/me', {
-    method: 'PATCH',
-    body: changes,
-  })
+  return api.call(apiEndpoints.updateMe, { body: changes })
 }
 
 export function claimDailyLogin(): Promise<DailyLoginClaim> {
-  return httpService.request<DailyLoginClaim>('/api/me/daily-login', {
-    method: 'POST',
-    body: {},
-  })
+  return api.call(apiEndpoints.claimDailyLogin, {})
 }
 
 export function getActivity(signal?: AbortSignal): Promise<Activity> {
-  return httpService.request<Activity>('/api/me/activity', { signal })
+  return api.call(apiEndpoints.getActivity, { signal })
 }
 
 export function getCollection(signal?: AbortSignal): Promise<Collection> {
-  return httpService.request<Collection>('/api/me/collection', { signal })
+  return api.call(apiEndpoints.getCollection, { signal })
 }
 
 export function getShop(signal?: AbortSignal): Promise<{ items: ShopItem[] }> {
-  return httpService.request<{ items: ShopItem[] }>('/api/shop', { signal })
+  return api.call(apiEndpoints.getShop, { signal })
 }
 
 export function purchase(
   itemId: string,
 ): Promise<{ item_id: string; player: Player }> {
-  return httpService.request<{ item_id: string; player: Player }>(
-    '/api/shop/purchase',
-    { method: 'POST', body: { item_id: itemId } },
-  )
+  return api.call(apiEndpoints.purchaseShopItem, { body: { item_id: itemId } })
 }
 
 export function getLeaderboard(
   board: 'xp' | 'ranked',
   signal?: AbortSignal,
 ): Promise<Leaderboard> {
-  return httpService.request<Leaderboard>(`/api/leaderboards/${board}`, {
-    signal,
-  })
+  return api.call(
+    board === 'xp'
+      ? apiEndpoints.getXpLeaderboard
+      : apiEndpoints.getRankedLeaderboard,
+    { signal },
+  )
 }

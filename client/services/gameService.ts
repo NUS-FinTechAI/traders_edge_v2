@@ -1,4 +1,5 @@
-import httpService from './httpService.ts'
+import { api } from '../api/apiClient.ts'
+import { apiEndpoints } from '../api/api-endpoints.ts'
 import type { components } from '../api/api-types.ts'
 
 type Schemas = components['schemas']
@@ -75,14 +76,7 @@ export type GameResult = Schemas['GameResult']
 
 export type GameState = Schemas['GameState']
 
-export interface CreateGameRequest {
-  mode: GameMode
-  scenario_id?: string
-  level_id?: string
-  chapter_id?: string
-  boss?: 'preview' | 'gate' | 'final'
-  bots?: number
-}
+export type CreateGameRequest = Schemas['CreateGame']
 
 export interface OrderRequest {
   /** Idempotency key; a retry with the same key returns the original order. */
@@ -101,10 +95,8 @@ export type GameSummary = Schemas['GameSummary']
 
 export type ClockAction = 'pause' | 'resume' | 'step' | 'speed'
 
-const base = (id: string) => `/api/games/${encodeURIComponent(id)}`
-
 export function createGame(body: CreateGameRequest): Promise<GameState> {
-  return httpService.request<GameState>('/api/games', { method: 'POST', body })
+  return api.call(apiEndpoints.createGame, { body })
 }
 
 export function getGame(
@@ -112,15 +104,16 @@ export function getGame(
   since?: number,
   signal?: AbortSignal,
 ): Promise<GameState> {
-  return httpService.request<GameState>(base(id), {
+  return api.call(apiEndpoints.getGame, {
+    path: { game_id: id },
     query: { since },
     signal,
   })
 }
 
 export function startGame(id: string, plan: Plan): Promise<GameState> {
-  return httpService.request<GameState>(`${base(id)}/start`, {
-    method: 'POST',
+  return api.call(apiEndpoints.startGame, {
+    path: { game_id: id },
     body: { plan },
   })
 }
@@ -130,8 +123,8 @@ export function controlClock(
   action: ClockAction,
   speed?: 1 | 2 | 4,
 ): Promise<GameState> {
-  return httpService.request<GameState>(`${base(id)}/clock`, {
-    method: 'POST',
+  return api.call(apiEndpoints.controlGameClock, {
+    path: { game_id: id },
     body: speed === undefined ? { action } : { action, speed },
   })
 }
@@ -140,8 +133,8 @@ export function placeOrder(
   id: string,
   order: OrderRequest,
 ): Promise<PlacedOrder> {
-  return httpService.request<PlacedOrder>(`${base(id)}/orders`, {
-    method: 'POST',
+  return api.call(apiEndpoints.placeGameOrder, {
+    path: { game_id: id },
     body: { ...order, client_order_id: order.client_order_id ?? newOrderKey() },
   })
 }
@@ -152,30 +145,26 @@ export function newOrderKey(): string {
 }
 
 export function cancelOrder(id: string, orderId: string): Promise<GameState> {
-  return httpService.request<GameState>(
-    `${base(id)}/orders/${encodeURIComponent(orderId)}`,
-    { method: 'DELETE' },
-  )
+  return api.call(apiEndpoints.cancelGameOrder, {
+    path: { game_id: id, order_id: orderId },
+  })
 }
 
 export function finishGame(
   id: string,
   body: { forfeit?: boolean; reflection?: string } = {},
 ): Promise<GameResult> {
-  return httpService.request<GameResult>(`${base(id)}/finish`, {
-    method: 'POST',
-    body,
-  })
+  return api.call(apiEndpoints.finishGame, { path: { game_id: id }, body })
 }
 
 export function getResult(id: string): Promise<GameResult> {
-  return httpService.request<GameResult>(`${base(id)}/result`)
+  return api.call(apiEndpoints.getGameResult, { path: { game_id: id } })
 }
 
 export function listGames(
   signal?: AbortSignal,
 ): Promise<{ games: GameSummary[] }> {
-  return httpService.request<{ games: GameSummary[] }>('/api/games', {
+  return api.call(apiEndpoints.listGames, {
     query: { status: 'active' },
     signal,
   })

@@ -90,8 +90,10 @@ level and daily routes (503) until `content/review.json` is `approved`.
   `play`, `quiz`, `multiplayer`, `profile`, `leaderboard`, `archive`, `auth`,
   `research` (study onboarding, consent panel, researcher dashboard).
 - `services/` has one module per API area (game, campaign, daily, player,
-  quiz, lobby, auth, config, research), each calling `httpService.request` with types
-  generated into `api/` (`npm run api:generate`; CI runs `npm run api:check`).
+  quiz, lobby, auth, config, research), each using the typed `apiClient` and
+  generated endpoint definitions in `api/`. The client delegates transport to
+  `httpService`, including CSV exports through `callText`
+  (`npm run api:generate`; CI runs `npm run api:check`).
 
 The arena polls `GET /api/games/{id}?since=<tick>` 60 ms after `next_tick_at`
 (clamped to 250–1,500 ms) while running and every 4 s in the briefing or

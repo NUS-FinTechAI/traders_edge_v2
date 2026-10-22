@@ -59,6 +59,9 @@ function placedMessage(
 }
 
 function replayRequest(state: GameState): CreateGameRequest {
+  if (state.mode === 'private' || state.mode === 'ranked') {
+    throw new Error('Multiplayer matches must be started from Multiplayer.')
+  }
   const request: CreateGameRequest = { mode: state.mode }
   const level = levelOf(state)
   const chapter = chapterOf(state)
