@@ -12,7 +12,16 @@ export interface FirebaseSession {
   signInWithGoogle(): Promise<void>
   signInWithEmail(email: string, password: string): Promise<void>
   createAccount(email: string, password: string): Promise<void>
+  sendPasswordReset(email: string): Promise<void>
   signOut(): Promise<void>
+}
+
+/** Sign-in is not available on this site; the message is safe to show. */
+export class SignInSetupError extends Error {
+  constructor(message: string) {
+    super(message)
+    this.name = 'SignInSetupError'
+  }
 }
 
 type SessionFactory = (
@@ -26,7 +35,9 @@ async function createSession(
   const sdk = await import('firebase/auth')
   const existing = getApps().find((app) => app.name === 'traders-edge')
   if (existing && existing.options.projectId !== config.projectId) {
-    throw new Error('Firebase is initialized for a different project')
+    throw new SignInSetupError(
+      'Sign-in is set up for a different project. Reload the page.',
+    )
   }
   const auth: Auth = sdk.getAuth(
     existing ?? initializeApp(config, 'traders-edge'),
@@ -44,6 +55,9 @@ async function createSession(
     },
     async createAccount(email, password) {
       await sdk.createUserWithEmailAndPassword(auth, email, password)
+    },
+    async sendPasswordReset(email) {
+      await sdk.sendPasswordResetEmail(auth, email)
     },
     async signOut() {
       await sdk.signOut(auth)
@@ -94,6 +108,10 @@ export class FirebaseService {
     await (await this.requireSession()).createAccount(email.trim(), password)
   }
 
+  async sendPasswordReset(email: string): Promise<void> {
+    await (await this.requireSession()).sendPasswordReset(email.trim())
+  }
+
   async signOut(): Promise<void> {
     await (await this.requireSession()).signOut()
   }
@@ -101,19 +119,21 @@ export class FirebaseService {
   private async requireSession(): Promise<FirebaseSession> {
     const config = await this.getConfig()
     if (config.auth.mode !== 'firebase') {
-      throw new Error('Account sign-in is unavailable in guest mode')
+      throw new SignInSetupError('Account sign-in is unavailable in guest mode')
     }
     return this.getSession(config)
   }
 
   private getSession(config: PublicConfig): Promise<FirebaseSession> {
     if (config.auth.mode !== 'firebase') {
-      throw new Error('Firebase is unavailable')
+      throw new SignInSetupError('Account sign-in is unavailable')
     }
     if (!this.session) {
       const { apiKey, authDomain, appId } = this.webConfig
       if (!apiKey?.trim() || !authDomain?.trim() || !appId?.trim()) {
-        throw new Error('Account sign-in has not been configured for this site')
+        throw new SignInSetupError(
+          'Account sign-in has not been configured for this site',
+        )
       }
       this.session = this.createSession({
         apiKey,

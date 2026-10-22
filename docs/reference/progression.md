@@ -5,7 +5,9 @@ The campaign is `server/app/campaign/`, built from
 `server/app/player/` (profile, XP, wallet, streak, cosmetics, badges, shop,
 leaderboards). Boss rules and settlement are in [matches](matches.md). Every
 award uses a natural unique key, so a repeated request pays nothing. All
-amounts are product defaults, not research findings.
+amounts are product defaults, not research findings. The in-game earning
+guide (HUD balance chips, the profile and the shop) repeats these amounts from
+`client/features/profile/earnRules.ts`; change both together.
 
 ## Campaign
 
@@ -129,7 +131,7 @@ restarts it at day 1 with no other penalty. Rewards repeat in a 7-day cycle:
 | Badges  | 16, earned only                                                                                                                                          |
 
 `PATCH /api/me` equips an owned avatar or title (or clears the title to show
-the rank). Themes are equipped in the profile's Themes tab and stored per
+the rank). Themes are equipped in the profile's Themes gallery and stored per
 device in the browser; the server records ownership only.
 `GET /api/me/collection` lists badges, avatars and titles with owned and
 equipped state, how to unlock each, and summary stats.

@@ -1,0 +1,257 @@
+.page {
+  display: grid;
+  gap: var(--space-4);
+  min-width: 0;
+}
+
+.panel {
+  display: grid;
+  gap: var(--space-3);
+  min-width: 0;
+  padding: var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+}
+
+.panelTitle {
+  font-size: var(--text-lg);
+}
+
+.muted {
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
+
+.scope {
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--info);
+  border-radius: var(--radius);
+  background: var(--info-soft);
+  font-size: var(--text-sm);
+}
+
+/* Overview */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: var(--space-3);
+  margin: 0;
+}
+
+.card {
+  display: grid;
+  gap: var(--space-1);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.card dt {
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
+
+.card dd {
+  margin: 0;
+  font-size: var(--text-xl);
+  font-weight: 800;
+}
+
+/* Filters */
+.filters,
+.chartHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: var(--space-3);
+}
+
+.field {
+  display: grid;
+  flex: 1 1 200px;
+  gap: var(--space-1);
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.field select {
+  min-height: 44px;
+  padding: 0 var(--space-3);
+  border: 1px solid var(--border-input);
+  border-radius: var(--radius-sm);
+  background: var(--bg-elev);
+  color: var(--text);
+  font: inherit;
+  font-weight: 600;
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 44px;
+  padding: 0 var(--space-3);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.check input {
+  width: 22px;
+  height: 22px;
+  accent-color: var(--gold);
+}
+
+/* Bars */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  font-size: var(--text-sm);
+}
+
+.key {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+}
+
+.previewSwatch {
+  background: var(--info);
+}
+
+.bossSwatch {
+  background: var(--gold);
+}
+
+.chart {
+  display: grid;
+  gap: var(--space-4);
+}
+
+.chartGroup {
+  display: grid;
+  gap: var(--space-1);
+}
+
+.groupLabel {
+  font-weight: 700;
+}
+
+.barRow {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr) minmax(72px, auto);
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.series {
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
+
+.barTrack {
+  width: 100%;
+  height: 20px;
+  border-radius: 4px;
+  background: var(--bg-elev);
+}
+
+.preview {
+  fill: var(--info);
+}
+
+.boss {
+  fill: var(--gold);
+}
+
+.funnelBar {
+  fill: var(--primary);
+}
+
+.value {
+  font-size: var(--text-sm);
+  text-align: right;
+}
+
+.funnel {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.funnel .barRow {
+  grid-template-columns: minmax(110px, 30%) minmax(0, 1fr) 40px;
+}
+
+.stepLabel {
+  font-size: var(--text-sm);
+}
+
+/* Tables */
+.tableWrap {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+}
+
+.table th,
+.table td {
+  padding: var(--space-2) var(--space-3);
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  white-space: nowrap;
+}
+
+.table thead th {
+  background: var(--bg-elev);
+  color: var(--text-muted);
+}
+
+.table tbody th {
+  font-weight: 600;
+}
+
+.paired td {
+  color: var(--text-muted);
+}
+
+.exports {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* Study panel on the profile */
+.studyHead {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.policy {
+  max-height: 180px;
+  overflow-y: auto;
+  padding: var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-elev);
+  white-space: pre-wrap;
+}

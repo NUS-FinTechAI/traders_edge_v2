@@ -149,7 +149,7 @@ export default function QuizRoomPage() {
   return (
     <div>
       <PageHeader
-        back={{ to: '/quiz', label: 'Quiz' }}
+        back={{ to: '/quiz/classroom', label: 'Classroom' }}
         eyebrow="Classroom"
         title={resource.data?.title ?? 'Class room'}
       />

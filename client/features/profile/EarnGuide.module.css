@@ -1,0 +1,97 @@
+.guide {
+  display: grid;
+  align-content: start;
+  gap: var(--space-3);
+}
+
+.heading {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-md);
+}
+
+.summary {
+  color: var(--text);
+}
+
+.rows {
+  display: grid;
+  margin: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-elev);
+}
+
+.row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+}
+
+.row + .row {
+  border-top: 1px solid var(--border);
+}
+
+.row dt {
+  display: grid;
+  gap: 2px;
+  font-weight: 700;
+}
+
+.row dd {
+  flex: none;
+  margin: 0;
+  font-weight: 800;
+  text-align: right;
+}
+
+.note {
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+  font-weight: 400;
+}
+
+.gold {
+  color: var(--gold);
+}
+
+.gem {
+  color: var(--gem-text);
+}
+
+.info {
+  color: var(--info);
+}
+
+.flame {
+  color: #f2a05a;
+}
+
+.dialog {
+  display: grid;
+  gap: var(--space-4);
+}
+
+/* Four tabs fit a phone-width dialog without scrolling. */
+.dialog [role='tab'] {
+  padding: 0 var(--space-2);
+}
+
+/* A 44px target around a compact balance chip. */
+.trigger {
+  display: inline-grid;
+  place-items: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: transparent;
+}
+
+.trigger:hover > * {
+  border-color: var(--border-strong);
+}

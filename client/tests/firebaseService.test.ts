@@ -21,6 +21,7 @@ function session(): FirebaseSession {
     signInWithGoogle: async () => {},
     signInWithEmail: async () => {},
     createAccount: async () => {},
+    sendPasswordReset: async () => {},
     signOut: async () => {},
   }
 }
@@ -101,6 +102,32 @@ test('email sign-in trims the email and preserves the password', async (t) => {
     'a@example.com',
     ' password ',
   ])
+})
+
+test('a password reset is sent to the trimmed email', async (t) => {
+  const identity = session()
+  const reset = t.mock.method(identity, 'sendPasswordReset')
+  const service = new FirebaseService(
+    async () => firebaseConfig,
+    webConfig,
+    async () => identity,
+  )
+  await service.sendPasswordReset(' a@example.com ')
+  assert.deepEqual(reset.mock.calls[0]?.arguments, ['a@example.com'])
+})
+
+test('a password reset in guest mode is refused without Firebase', async (t) => {
+  const factory = t.mock.fn(async () => session())
+  const service = new FirebaseService(
+    async () => ({ auth: { mode: 'guest', firebase_project_id: null } }),
+    {},
+    factory,
+  )
+  await assert.rejects(
+    service.sendPasswordReset('a@example.com'),
+    /unavailable in guest mode/,
+  )
+  assert.equal(factory.mock.callCount(), 0)
 })
 
 test('account creation delegates to Firebase', async (t) => {

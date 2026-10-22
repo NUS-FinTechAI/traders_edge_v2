@@ -100,6 +100,24 @@
   accent-color: var(--gold);
 }
 
+.hint {
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.forgot {
+  justify-self: end;
+}
+
+.notice {
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--info-soft);
+  font-size: var(--text-sm);
+  text-align: left;
+}
+
 .status {
   color: var(--text-muted);
   font-size: var(--text-sm);

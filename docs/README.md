@@ -21,7 +21,7 @@ the code wins and the doc needs fixing. Start with
 - [Quizzes](reference/quizzes.md): topics, attempts, classroom rooms.
 - [API](reference/api.md): conventions, errors, every endpoint, game state.
 - [Data model](reference/data-model.md): tables by migration, legacy tables, migrations.
-- [Research](reference/research.md): recorded data, exports, study consent, evaluation plan.
+- [Research](reference/research.md): recorded data, exports, study consent, prior-knowledge instrument, researcher dashboard, evaluation plan.
 - [Design decisions](reference/decisions.md): answers to the design document's open questions (§12).
 
 ## Content

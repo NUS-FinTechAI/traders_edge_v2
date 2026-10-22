@@ -49,7 +49,7 @@ const MODES: {
     cta: 'Play',
   },
   {
-    to: '/play#practice',
+    to: '/play/practice',
     emblem: 'infinity',
     tone: 'green',
     title: 'Practice Arena',
@@ -108,7 +108,7 @@ function ContinueCard({ campaign }: { campaign: Campaign }) {
           </h2>
           <p className={styles.muted}>Keep sharp in the Practice Arena.</p>
         </div>
-        <ButtonLink to="/play#practice" size="lg" iconRight="chevron-right">
+        <ButtonLink to="/play/practice" size="lg" iconRight="chevron-right">
           Practice
         </ButtonLink>
       </section>

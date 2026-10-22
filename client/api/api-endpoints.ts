@@ -240,6 +240,24 @@ export const apiEndpoints = {
     path: '/api/me/research/metadata',
     auth: 'required',
   },
+  getResearchOnboarding: {
+    operationId: 'getResearchOnboarding',
+    method: 'GET',
+    path: '/api/me/research/onboarding',
+    auth: 'required',
+  },
+  submitResearchOnboarding: {
+    operationId: 'submitResearchOnboarding',
+    method: 'POST',
+    path: '/api/me/research/onboarding/responses',
+    auth: 'required',
+  },
+  skipResearchOnboarding: {
+    operationId: 'skipResearchOnboarding',
+    method: 'POST',
+    path: '/api/me/research/onboarding/skips',
+    auth: 'required',
+  },
   withdrawResearchConsent: {
     operationId: 'withdrawResearchConsent',
     method: 'POST',
@@ -286,6 +304,48 @@ export const apiEndpoints = {
     operationId: 'getQuizRoom',
     method: 'GET',
     path: '/api/quizzes/rooms/{room_id}',
+    auth: 'required',
+  },
+  getResearchAccess: {
+    operationId: 'getResearchAccess',
+    method: 'GET',
+    path: '/api/research/access',
+    auth: 'required',
+  },
+  getResearchCheckAccuracy: {
+    operationId: 'getResearchCheckAccuracy',
+    method: 'GET',
+    path: '/api/research/checks',
+    auth: 'required',
+  },
+  getResearchDecisionTrends: {
+    operationId: 'getResearchDecisionTrends',
+    method: 'GET',
+    path: '/api/research/decision-trends',
+    auth: 'required',
+  },
+  exportResearchCsv: {
+    operationId: 'exportResearchCsv',
+    method: 'GET',
+    path: '/api/research/exports/{kind}',
+    auth: 'required',
+  },
+  getResearchPrePost: {
+    operationId: 'getResearchPrePost',
+    method: 'GET',
+    path: '/api/research/pre-post',
+    auth: 'required',
+  },
+  getResearchQuizPerformance: {
+    operationId: 'getResearchQuizPerformance',
+    method: 'GET',
+    path: '/api/research/quizzes',
+    auth: 'required',
+  },
+  getResearchSummary: {
+    operationId: 'getResearchSummary',
+    method: 'GET',
+    path: '/api/research/summary',
     auth: 'required',
   },
   logout: {

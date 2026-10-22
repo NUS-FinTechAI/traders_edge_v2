@@ -1,4 +1,9 @@
-import { useEffect, useState, useSyncExternalStore } from 'react'
+import {
+  useEffect,
+  useState,
+  useSyncExternalStore,
+  type ReactNode,
+} from 'react'
 import { usePlayer } from '../../app/PlayerContext.ts'
 import {
   THEMES,
@@ -11,6 +16,7 @@ import {
   updateMe,
   type Collection as CollectionData,
   type PlayerUpdate,
+  type ShopItem,
 } from '../../services/playerService.ts'
 import Avatar from '../../ui/Avatar.tsx'
 import Button, { ButtonLink } from '../../ui/Button.tsx'
@@ -19,20 +25,20 @@ import Chip from '../../ui/Chip.tsx'
 import Emblem from '../../ui/Emblem.tsx'
 import type { EmblemName } from '../../ui/emblemArt.tsx'
 import Icon from '../../ui/Icon.tsx'
+import Modal from '../../ui/Modal.tsx'
 import ProgressBar from '../../ui/ProgressBar.tsx'
-import Tabs from '../../ui/Tabs.tsx'
 import { useToast } from '../../ui/toastContext.ts'
-import useResource, { errorText } from '../../ui/useResource.ts'
+import useResource, { errorText, type Resource } from '../../ui/useResource.ts'
 import styles from './Profile.module.css'
 
-type Tab = 'badges' | 'avatars' | 'titles' | 'themes'
+type Gallery = 'badges' | 'avatars' | 'titles' | 'themes'
 
-const TABS = [
-  { id: 'badges', label: 'Badges' },
-  { id: 'avatars', label: 'Avatars' },
-  { id: 'titles', label: 'Titles' },
-  { id: 'themes', label: 'Themes' },
-] as const
+const GALLERY_TITLE: Record<Gallery, string> = {
+  badges: 'Badges',
+  avatars: 'Avatars',
+  titles: 'Titles',
+  themes: 'Themes',
+}
 
 const BADGE_ART: [RegExp, EmblemName][] = [
   [/step/, 'flag'],
@@ -74,6 +80,59 @@ function EquippedChip({ id, name }: { id: string; name: string }) {
   )
 }
 
+/** The Standard palette, the free palettes and the candle themes the player owns. */
+function themeOptions(items: ShopItem[] | undefined) {
+  const owned = new Set(
+    (items ?? [])
+      .filter((item) => item.kind === 'theme' && item.owned)
+      .map((item) => item.id),
+  )
+  return [
+    {
+      id: null,
+      name: 'Standard',
+      description: 'The default night-map colours.',
+      available: true,
+    },
+    ...THEMES.map((theme) => ({
+      id: theme.id,
+      name: theme.name,
+      description: theme.description,
+      available: theme.free || owned.has(theme.id),
+    })),
+  ]
+}
+
+function GalleryButton({
+  art,
+  label,
+  count,
+  onOpen,
+}: {
+  art: ReactNode
+  label: string
+  count: string
+  onOpen: () => void
+}) {
+  return (
+    <li>
+      <button
+        type="button"
+        className={styles.galleryButton}
+        aria-haspopup="dialog"
+        onClick={onOpen}
+      >
+        {art}
+        <span className={styles.galleryText}>
+          <strong>{label}</strong>
+          <span className={styles.muted}>{count}</span>
+        </span>
+        <Icon name="chevron-right" size={20} className={styles.galleryArrow} />
+      </button>
+    </li>
+  )
+}
+
 export default function Collection({
   data,
   onChange,
@@ -81,8 +140,9 @@ export default function Collection({
   data: CollectionData
   onChange: () => void
 }) {
-  const [tab, setTab] = useState<Tab>('badges')
+  const [open, setOpen] = useState<Gallery | null>(null)
   const { player, refreshPlayer } = usePlayer()
+  const shop = useResource(getShop)
   const notify = useToast()
   const [busy, setBusy] = useState<string | null>(null)
   const [justEquipped, setJustEquipped] = useState<string | null>(null)
@@ -109,208 +169,243 @@ export default function Collection({
   }
 
   const earned = data.badges.filter((badge) => badge.earned).length
+  const avatars = data.avatars.filter((avatar) => avatar.owned).length
+  const titles = data.titles.filter((title) => title.owned).length
+  const themes = themeOptions(shop.data?.items)
+  const equippedAvatar = data.avatars.find((avatar) => avatar.equipped)
 
   return (
-    <section className={styles.panel} aria-label="Collection">
-      <Tabs
-        label="Collection"
-        tabs={TABS}
-        value={tab}
-        onChange={setTab}
-        idPrefix="collection"
-      />
-      <div
-        role="tabpanel"
-        id={`collection-panel-${tab}`}
-        aria-labelledby={`collection-tab-${tab}`}
-        className={styles.tabPanel}
+    <section className={styles.panel} aria-labelledby="collection-title">
+      <h2 id="collection-title" className={styles.panelTitle}>
+        Collection
+      </h2>
+      <ul className={styles.galleries}>
+        <GalleryButton
+          label="Badges"
+          count={`${earned} of ${data.badges.length} earned`}
+          art={<Emblem name="medal" size={48} shape="circle" />}
+          onOpen={() => setOpen('badges')}
+        />
+        <GalleryButton
+          label="Avatars"
+          count={`${avatars} of ${data.avatars.length} owned`}
+          art={
+            equippedAvatar ? (
+              <Avatar
+                id={equippedAvatar.id}
+                image={itemImage(equippedAvatar)}
+                size={48}
+              />
+            ) : (
+              <Emblem name="users" size={48} shape="circle" />
+            )
+          }
+          onOpen={() => setOpen('avatars')}
+        />
+        <GalleryButton
+          label="Titles"
+          count={`${titles} of ${data.titles.length} owned`}
+          art={<Emblem name="scroll" tone="gem" size={48} shape="circle" />}
+          onOpen={() => setOpen('titles')}
+        />
+        <GalleryButton
+          label="Themes"
+          count={
+            shop.data
+              ? `${themes.filter((theme) => theme.available).length} of ${themes.length} available`
+              : `${themes.length} themes`
+          }
+          art={<Emblem name="candles" tone="green" size={48} shape="circle" />}
+          onOpen={() => setOpen('themes')}
+        />
+      </ul>
+      <Modal
+        open={open !== null}
+        title={open ? GALLERY_TITLE[open] : ''}
+        onClose={() => setOpen(null)}
+        wide
       >
-        {tab === 'badges' && (
-          <>
-            <p className={styles.muted}>
-              {earned} of {data.badges.length} badges earned. Badges reward how
-              you trade and learn, never profit size.
-            </p>
-            <ul className={styles.badges}>
-              {data.badges.map((badge) => (
-                <li
-                  key={badge.id}
-                  className={`${styles.badge} ${badge.earned ? '' : styles.badgeLocked}`}
-                >
-                  <span className={styles.badgeArt}>
-                    <Emblem
-                      name={badgeArt(badge.id)}
-                      tone={badge.earned ? 'gold' : 'neutral'}
-                      size={64}
-                      shape="circle"
-                    />
-                    {!badge.earned && (
-                      <span className={styles.badgeLock} aria-hidden="true">
-                        <Icon name="lock" size={14} />
+        <div className={styles.gallery}>
+          {open === 'badges' && (
+            <>
+              <p className={styles.muted}>
+                {earned} of {data.badges.length} badges earned. Badges reward
+                how you trade and learn, never profit size.
+              </p>
+              <ul className={styles.badges}>
+                {data.badges.map((badge) => (
+                  <li
+                    key={badge.id}
+                    className={`${styles.badge} ${badge.earned ? '' : styles.badgeLocked}`}
+                  >
+                    <span className={styles.badgeArt}>
+                      <Emblem
+                        name={badgeArt(badge.id)}
+                        tone={badge.earned ? 'gold' : 'neutral'}
+                        size={64}
+                        shape="circle"
+                      />
+                      {!badge.earned && (
+                        <span className={styles.badgeLock} aria-hidden="true">
+                          <Icon name="lock" size={14} />
+                        </span>
+                      )}
+                    </span>
+                    <strong className={styles.badgeName}>{badge.name}</strong>
+                    <span
+                      className={
+                        badge.earned ? styles.earned : styles.lockedText
+                      }
+                    >
+                      {badge.earned ? 'Earned' : 'Locked'}
+                    </span>
+                    <span className={styles.badgeHow}>{badge.description}</span>
+                    {!badge.earned && badge.progress && (
+                      <span className={`num ${styles.badgeProgress}`}>
+                        {badge.progress}
                       </span>
                     )}
-                  </span>
-                  <strong className={styles.badgeName}>{badge.name}</strong>
-                  <span
-                    className={badge.earned ? styles.earned : styles.lockedText}
-                  >
-                    {badge.earned ? 'Earned' : 'Locked'}
-                  </span>
-                  <span className={styles.badgeHow}>{badge.description}</span>
-                  {!badge.earned && badge.progress && (
-                    <span className={`num ${styles.badgeProgress}`}>
-                      {badge.progress}
-                    </span>
+                  </li>
+                ))}
+              </ul>
+              <h3 className={styles.subTitle}>Level milestones</h3>
+              <ul className={styles.milestones}>
+                {MILESTONES.map((goal) => {
+                  const value = Math.min(goal, data.stats.levels_done)
+                  return (
+                    <li key={goal} className={styles.milestone}>
+                      <Emblem
+                        name="star"
+                        size={40}
+                        shape="circle"
+                        tone={value >= goal ? 'gold' : 'neutral'}
+                      />
+                      <span className={styles.milestoneText}>
+                        <strong>{goal} levels</strong>
+                        <span className="num">
+                          {value} / {goal}
+                        </span>
+                      </span>
+                      <ProgressBar
+                        value={value}
+                        max={goal}
+                        tone="gold"
+                        label={`${goal} levels milestone`}
+                        className={styles.milestoneBar}
+                      />
+                    </li>
+                  )
+                })}
+              </ul>
+            </>
+          )}
+          {open === 'avatars' && (
+            <ul className={styles.avatars}>
+              {data.avatars.map((avatar) => (
+                <li
+                  key={avatar.id}
+                  className={[
+                    styles.avatarItem,
+                    avatar.equipped && styles.equipped,
+                    !avatar.owned && styles.badgeLocked,
+                  ]
+                    .filter(Boolean)
+                    .join(' ')}
+                >
+                  <Avatar id={avatar.id} image={itemImage(avatar)} size={72} />
+                  <strong className={styles.badgeName}>{avatar.name}</strong>
+                  {avatar.equipped ? (
+                    <EquippedChip id={avatar.id} name={avatar.name} />
+                  ) : avatar.owned ? (
+                    <Button
+                      variant="secondary"
+                      disabled={!!busy}
+                      onClick={() =>
+                        void equip(avatar.id, { avatar_id: avatar.id })
+                      }
+                      aria-label={`Equip ${avatar.name}`}
+                    >
+                      Equip
+                    </Button>
+                  ) : (
+                    <>
+                      <span className={styles.lockedText}>
+                        <Icon name="lock" size={14} /> Locked
+                      </span>
+                      <span className={styles.badgeHow}>{avatar.how}</span>
+                    </>
                   )}
                 </li>
               ))}
             </ul>
-            <h3 className={styles.subTitle}>Level milestones</h3>
-            <ul className={styles.milestones}>
-              {MILESTONES.map((goal) => {
-                const value = Math.min(goal, data.stats.levels_done)
-                return (
-                  <li key={goal} className={styles.milestone}>
-                    <Emblem
-                      name="star"
-                      size={40}
-                      shape="circle"
-                      tone={value >= goal ? 'gold' : 'neutral'}
-                    />
-                    <span className={styles.milestoneText}>
-                      <strong>{goal} levels</strong>
-                      <span className="num">
-                        {value} / {goal}
-                      </span>
+          )}
+          {open === 'titles' && (
+            <ul className={styles.titles}>
+              {data.titles.map((title) => (
+                <li
+                  key={title.id}
+                  className={[
+                    styles.titleItem,
+                    title.equipped && styles.equipped,
+                    !title.owned && styles.badgeLocked,
+                  ]
+                    .filter(Boolean)
+                    .join(' ')}
+                >
+                  <Emblem
+                    name="scroll"
+                    size={44}
+                    tone={title.owned ? 'gem' : 'neutral'}
+                  />
+                  <span className={styles.titleText}>
+                    <strong>{title.name}</strong>
+                    <span className={styles.badgeHow}>
+                      {title.owned ? 'Unlocked' : title.how}
                     </span>
-                    <ProgressBar
-                      value={value}
-                      max={goal}
-                      tone="gold"
-                      label={`${goal} levels milestone`}
-                      className={styles.milestoneBar}
-                    />
-                  </li>
-                )
-              })}
-            </ul>
-          </>
-        )}
-        {tab === 'avatars' && (
-          <ul className={styles.avatars}>
-            {data.avatars.map((avatar) => (
-              <li
-                key={avatar.id}
-                className={[
-                  styles.avatarItem,
-                  avatar.equipped && styles.equipped,
-                  !avatar.owned && styles.badgeLocked,
-                ]
-                  .filter(Boolean)
-                  .join(' ')}
-              >
-                <Avatar id={avatar.id} image={itemImage(avatar)} size={72} />
-                <strong className={styles.badgeName}>{avatar.name}</strong>
-                {avatar.equipped ? (
-                  <EquippedChip id={avatar.id} name={avatar.name} />
-                ) : avatar.owned ? (
-                  <Button
-                    variant="secondary"
-                    disabled={!!busy}
-                    onClick={() =>
-                      void equip(avatar.id, { avatar_id: avatar.id })
-                    }
-                    aria-label={`Equip ${avatar.name}`}
-                  >
-                    Equip
-                  </Button>
-                ) : (
-                  <>
-                    <span className={styles.lockedText}>
-                      <Icon name="lock" size={14} /> Locked
-                    </span>
-                    <span className={styles.badgeHow}>{avatar.how}</span>
-                  </>
-                )}
-              </li>
-            ))}
-          </ul>
-        )}
-        {tab === 'titles' && (
-          <ul className={styles.titles}>
-            {data.titles.map((title) => (
-              <li
-                key={title.id}
-                className={[
-                  styles.titleItem,
-                  title.equipped && styles.equipped,
-                  !title.owned && styles.badgeLocked,
-                ]
-                  .filter(Boolean)
-                  .join(' ')}
-              >
-                <Emblem
-                  name="scroll"
-                  size={44}
-                  tone={title.owned ? 'gem' : 'neutral'}
-                />
-                <span className={styles.titleText}>
-                  <strong>{title.name}</strong>
-                  <span className={styles.badgeHow}>
-                    {title.owned ? 'Unlocked' : title.how}
                   </span>
-                </span>
-                {title.equipped ? (
-                  <EquippedChip id={title.id} name={title.name} />
-                ) : title.owned ? (
-                  <Button
-                    variant="secondary"
-                    disabled={!!busy}
-                    onClick={() => void equip(title.id, { title_id: title.id })}
-                    aria-label={`Equip ${title.name}`}
-                  >
-                    Equip
-                  </Button>
-                ) : (
-                  <Chip icon="lock">Locked</Chip>
-                )}
-              </li>
-            ))}
-          </ul>
-        )}
-        {tab === 'themes' && player && <Themes playerId={player.id} />}
-      </div>
+                  {title.equipped ? (
+                    <EquippedChip id={title.id} name={title.name} />
+                  ) : title.owned ? (
+                    <Button
+                      variant="secondary"
+                      disabled={!!busy}
+                      onClick={() =>
+                        void equip(title.id, { title_id: title.id })
+                      }
+                      aria-label={`Equip ${title.name}`}
+                    >
+                      Equip
+                    </Button>
+                  ) : (
+                    <Chip icon="lock">Locked</Chip>
+                  )}
+                </li>
+              ))}
+            </ul>
+          )}
+          {open === 'themes' && player && (
+            <Themes playerId={player.id} shop={shop} />
+          )}
+        </div>
+      </Modal>
     </section>
   )
 }
 
 /** Equip a candle theme the player owns, or a free accessibility palette. */
-function Themes({ playerId }: { playerId: string }) {
-  const shop = useResource(getShop)
+function Themes({
+  playerId,
+  shop,
+}: {
+  playerId: string
+  shop: Resource<{ items: ShopItem[] }>
+}) {
   const equipped = useSyncExternalStore(
     subscribeTheme,
     () => currentTheme(playerId),
     () => null,
   )
-  const owned = new Set(
-    (shop.data?.items ?? [])
-      .filter((item) => item.kind === 'theme' && item.owned)
-      .map((item) => item.id),
-  )
-  const options = [
-    {
-      id: null,
-      name: 'Standard',
-      description: 'The default night-map colours.',
-      available: true,
-    },
-    ...THEMES.map((theme) => ({
-      id: theme.id,
-      name: theme.name,
-      description: theme.description,
-      available: theme.free || owned.has(theme.id),
-    })),
-  ]
+  const options = themeOptions(shop.data?.items)
   return (
     <>
       <p className={styles.muted}>

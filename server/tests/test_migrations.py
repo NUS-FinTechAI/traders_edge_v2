@@ -4,14 +4,15 @@ from tempfile import TemporaryDirectory
 import unittest
 from unittest.mock import patch
 
-from sqlalchemy import MetaData, Table, inspect, select
+from sqlalchemy import MetaData, Table, inspect, select, text
 
 from app.config import Settings
 from app.db import Database, LearningActivity, Profile, RewardGrant, SessionToken, XPLedger, now
 from app.economy_models import EconomyAccount, EconomyEvent
 from app.game.models import Game, GameEvent, GameParticipant
 from app.migration_v1 import attempts
-from app.migration_v12 import TABLES
+from app.migration_v12 import TABLES, boss_results, campaign_checks, campaign_progress
+from app.migration_v13 import upgrade as upgrade_v13
 from app.migrations import LATEST_VERSION, MIGRATIONS
 from app.research_models import ResearchParticipant
 
@@ -50,6 +51,41 @@ async def populate_before_v12(database):
         db.add(GameEvent(id='event', game_id='game', participant_id='participant', tick=0, kind='start', payload={'plan': None}))
 
 
+async def populate_before_v13(database):
+    """Rows in every table migration 12 created that migration 13 touches, written with the version-12 schema."""
+    await populate_before_v12(database)
+    async with database.engine.begin() as connection:
+        await connection.execute(campaign_progress.insert().values(user_id='legacy', level_id='ch1-l1', check_done=True, check_first_try=1,
+                                                                   check_total=2, normal_star=True, special_star=False, best_profit=12.5,
+                                                                   plays=1, updated_at=now()))
+        await connection.execute(campaign_checks.insert().values(user_id='legacy', level_id='ch1-l1', question_id='q1', first_option_id='a',
+                                                                 first_correct=True, solved=True, run_first_correct=None, run_solved=False))
+        await connection.execute(boss_results.insert().values(user_id='legacy', chapter_id='ch1', kind='preview', won=True, best_profit=3,
+                                                              attempts=1, first_won_at=now()))
+
+
+async def assert_v13_preserves_rows(case, database):
+    """Migrate a populated version-12 database to 13 twice; every earlier row survives and old check answers have no time."""
+    with patch('app.migrations.MIGRATIONS', MIGRATIONS[:12]):
+        await database.migrate()
+    await populate_before_v13(database)
+    async with database.engine.connect() as connection:
+        columns, before = await connection.run_sync(snapshot)
+
+    await database.migrate()
+    async with database.engine.begin() as connection:
+        await upgrade_v13(connection)
+
+    await database.check_schema()
+    async with database.engine.connect() as connection:
+        _, after = await connection.run_sync(lambda sync: snapshot(sync, columns))
+        answered = (await connection.execute(text('SELECT first_answered_at FROM campaign_checks'))).scalars().all()
+        responses = (await connection.execute(text('SELECT COUNT(*) FROM prior_knowledge_responses'))).scalar_one()
+    case.assertEqual(before, after)
+    case.assertEqual(answered, [None])
+    case.assertEqual(responses, 0)
+
+
 class MigrationChainTests(unittest.IsolatedAsyncioTestCase):
     async def asyncSetUp(self):
         self.directory = TemporaryDirectory()
@@ -63,9 +99,9 @@ class MigrationChainTests(unittest.IsolatedAsyncioTestCase):
         await self.database.check_schema()
         async with self.database.engine.connect() as connection:
             names = await connection.run_sync(lambda sync: set(inspect(sync).get_table_names()))
-        self.assertEqual(LATEST_VERSION, 12)
-        self.assertEqual([version for version, _ in MIGRATIONS], list(range(1, 13)))
-        self.assertTrue({table.name for table in TABLES} <= names)
+        self.assertEqual(LATEST_VERSION, 13)
+        self.assertEqual([version for version, _ in MIGRATIONS], list(range(1, 14)))
+        self.assertTrue({table.name for table in TABLES} | {'prior_knowledge_responses'} <= names)
 
     async def test_upgrade_to_twelve_preserves_every_populated_row_and_is_repeatable(self):
         with patch('app.migrations.MIGRATIONS', MIGRATIONS[:11]):
@@ -84,3 +120,6 @@ class MigrationChainTests(unittest.IsolatedAsyncioTestCase):
         self.assertEqual(before, after)
         self.assertTrue(all(rows == [] for rows in added.values()))
         self.assertEqual(sum(bool(rows) for rows in before.values()), 12)
+
+    async def test_upgrade_to_thirteen_preserves_populated_rows_and_is_repeatable(self):
+        await assert_v13_preserves_rows(self, self.database)

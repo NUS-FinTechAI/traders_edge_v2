@@ -17,11 +17,14 @@ from app.campaign.api import router as campaign_router
 from app.campaign.games import before_start, resolve_game
 from app.campaign.settlement import settle_game
 from app.content.bundle import Content, load_content, require_approved_content
+from app.monitoring import start_monitoring
 from app.game.api import router as games_router
 from app.multiplayer.api import router as multiplayer_router
 from app.player.api import router as player_router
 from app.quiz.api import router as quiz_router
 from app.research import router as research_router
+from app.study.dashboard import router as research_dashboard_router
+from app.study.onboarding import router as onboarding_router
 
 
 def firebase_credential(settings):
@@ -37,6 +40,7 @@ def create_app(settings: Settings | None = None, content: Content | None = None)
     """`content` replaces the authored content loaded from disk (tests pass fixtures)."""
     settings = settings or Settings.from_env()
     settings.validate()
+    start_monitoring(settings)
 
     @asynccontextmanager
     async def lifespan(application):
@@ -124,6 +128,8 @@ def create_app(settings: Settings | None = None, content: Content | None = None)
     application.include_router(quiz_router, dependencies=approved)
     application.include_router(multiplayer_router, dependencies=approved)
     application.include_router(research_router)
+    application.include_router(onboarding_router)
+    application.include_router(research_dashboard_router)
     return application
 
 

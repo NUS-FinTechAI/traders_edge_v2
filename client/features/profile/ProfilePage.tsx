@@ -12,7 +12,7 @@ import {
 } from '../../services/playerService.ts'
 import Avatar from '../../ui/Avatar.tsx'
 import { playerAvatarImage } from '../../ui/avatarImage.ts'
-import Button, { ButtonLink } from '../../ui/Button.tsx'
+import Button from '../../ui/Button.tsx'
 import Chip from '../../ui/Chip.tsx'
 import Icon from '../../ui/Icon.tsx'
 import ProgressBar from '../../ui/ProgressBar.tsx'
@@ -20,8 +20,10 @@ import ResourceView from '../../ui/ResourceView.tsx'
 import { formatCount } from '../../ui/format.ts'
 import { useToast } from '../../ui/toastContext.ts'
 import useResource, { errorText } from '../../ui/useResource.ts'
+import StudyPanel from '../research/StudyPanel.tsx'
 import ActivityHeatmap from './ActivityHeatmap.tsx'
 import Collection from './Collection.tsx'
+import { EarnButton } from './EarnGuide.tsx'
 import styles from './Profile.module.css'
 
 function LevelRing({ player }: { player: Player }) {
@@ -202,15 +204,6 @@ function Settings({ player }: { player: Player }) {
         </button>
       </div>
       <div className={styles.links}>
-        <ButtonLink to="/shop" variant="secondary" icon="bag">
-          Shop
-        </ButtonLink>
-        <ButtonLink to="/leaderboard" variant="secondary" icon="podium">
-          Leaderboard
-        </ButtonLink>
-        <ButtonLink to="/archive" variant="secondary" icon="book">
-          Trading Archive
-        </ButtonLink>
         <Button
           variant="danger"
           icon="logout"
@@ -260,22 +253,44 @@ function Profile({ player }: { player: Player }) {
               label={`Progress to level ${player.level + 1}`}
               valueText={`${player.xp_into_level} of ${player.xp_for_next_level} XP`}
             />
-            <span className={`num ${styles.muted}`}>
-              {formatCount(player.xp_into_level)} /{' '}
-              {formatCount(player.xp_for_next_level)} XP · {pct}%
+            <span className={styles.xpRow}>
+              <span className={`num ${styles.muted}`}>
+                {formatCount(player.xp_into_level)} /{' '}
+                {formatCount(player.xp_for_next_level)} XP · {pct}%
+              </span>
+              <EarnButton
+                topic="xp"
+                label={`${formatCount(player.xp)} XP in total`}
+              >
+                <Chip tone="info" icon="info">
+                  How to earn XP
+                </Chip>
+              </EarnButton>
             </span>
           </div>
         </div>
         <div className={styles.wallet}>
-          <Chip tone="flame" icon="flame">
-            {player.streak.days}-day streak
-          </Chip>
-          <Chip tone="gold" icon="coin">
-            {formatCount(player.wallet.doubloons)} Doubloons
-          </Chip>
-          <Chip tone="gem" icon="gem">
-            {formatCount(player.wallet.gems)} Gems
-          </Chip>
+          <EarnButton topic="streak" label={`${player.streak.days}-day streak`}>
+            <Chip tone="flame" icon="flame">
+              {player.streak.days}-day streak
+            </Chip>
+          </EarnButton>
+          <EarnButton
+            topic="doubloons"
+            label={`${formatCount(player.wallet.doubloons)} Doubloons`}
+          >
+            <Chip tone="gold" icon="coin">
+              {formatCount(player.wallet.doubloons)} Doubloons
+            </Chip>
+          </EarnButton>
+          <EarnButton
+            topic="gems"
+            label={`${formatCount(player.wallet.gems)} Gems`}
+          >
+            <Chip tone="gem" icon="gem">
+              {formatCount(player.wallet.gems)} Gems
+            </Chip>
+          </EarnButton>
         </div>
       </section>
 
@@ -291,6 +306,7 @@ function Profile({ player }: { player: Player }) {
         )}
       </ResourceView>
       <Settings player={player} />
+      <StudyPanel />
       <p className={styles.footnote}>
         <Icon name="info" size={14} /> Simulated money · fictional companies
       </p>

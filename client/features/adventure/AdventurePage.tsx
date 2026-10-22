@@ -17,6 +17,7 @@ import ResourceView from '../../ui/ResourceView.tsx'
 import useResource from '../../ui/useResource.ts'
 import usePlayNow from '../home/usePlayNow.ts'
 import useStartGame from '../play/useStartGame.ts'
+import { useOnboardingRedirect } from '../research/useResearch.ts'
 import StarLegend from './StarLegend.tsx'
 import styles from './Adventure.module.css'
 
@@ -163,6 +164,7 @@ export default function AdventurePage() {
   const [gate, setGate] = useState<ChapterCard | null>(null)
   const { start, busy } = useStartGame()
   const { playNow, busy: joining } = usePlayNow()
+  useOnboardingRedirect()
 
   return (
     <div>

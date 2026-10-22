@@ -9,36 +9,14 @@ import Emblem from '../../ui/Emblem.tsx'
 import { ErrorState, Loading } from '../../ui/States.tsx'
 import { useToast } from '../../ui/toastContext.ts'
 import { safeReturnTo } from './returnTo.ts'
+import {
+  RESET_SENT,
+  canSubmitEmail,
+  emailLooksValid,
+  hidesAccount,
+  signInErrorMessage,
+} from './signIn.ts'
 import styles from './LoginPage.module.css'
-
-function errorMessage(error: unknown): string {
-  const code =
-    error && typeof error === 'object' && 'code' in error ? error.code : ''
-  switch (code) {
-    case 'auth/invalid-credential':
-    case 'auth/wrong-password':
-    case 'auth/user-not-found':
-      return 'That email and password don’t match. Try again.'
-    case 'auth/email-already-in-use':
-      return 'That email already has an account. Try signing in.'
-    case 'auth/weak-password':
-    case 'auth/password-does-not-meet-requirements':
-      return 'Pick a stronger password (at least 8 characters).'
-    case 'auth/popup-closed-by-user':
-    case 'auth/cancelled-popup-request':
-      return 'Google sign-in was closed. You can try again.'
-    case 'auth/popup-blocked':
-      return 'Your browser blocked the sign-in window. Allow pop-ups and retry.'
-    case 'auth/too-many-requests':
-      return 'Too many tries. Wait a moment and try again.'
-    case 'auth/operation-not-allowed':
-      return 'This sign-in method is off. Try another one.'
-    default:
-      if (error instanceof HttpError && error.kind === 'http')
-        return error.message
-      return 'We couldn’t sign you in. Check your connection and try again.'
-  }
-}
 
 function GoogleMark() {
   return (
@@ -78,12 +56,17 @@ export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const verified = useRef(false)
+  /** True while signIn() runs; it navigates itself on success. */
+  const signingIn = useRef(false)
   const [verifying, setVerifying] = useState(false)
+  const [resetting, setResetting] = useState(false)
+  const [resetNotice, setResetNotice] = useState('')
+  const emailInput = useRef<HTMLInputElement>(null)
 
   // A stale "signed-in" state (for example an expired cookie) must not bounce
   // back to a protected page, so confirm the session before leaving.
   useEffect(() => {
-    if (status !== 'signed-in') return
+    if (status !== 'signed-in' || signingIn.current) return
     if (verified.current) {
       void navigate(destination, { replace: true })
       return
@@ -111,6 +94,7 @@ export default function LoginPage() {
   async function signIn(method: string, action: () => Promise<unknown>) {
     if (busy) return
     setBusy(true)
+    signingIn.current = true
     try {
       // Retrying after only the session check failed skips the identity step.
       if (identityReady !== method) {
@@ -124,19 +108,43 @@ export default function LoginPage() {
         throw new HttpError('Sign-in could not be verified', 'http', 401)
       }
       verified.current = true
+      void navigate(destination, { replace: true })
     } catch (error) {
-      notify(errorMessage(error), 'error')
+      notify(signInErrorMessage(error), 'error')
+    } finally {
+      signingIn.current = false
       setBusy(false)
     }
   }
 
   function submitEmail(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    if (!canSubmitEmail(email, password, register)) return
+    const address = email.trim()
     void signIn(register ? 'register' : 'email', () =>
       register
-        ? firebaseService.createAccount(email, password)
-        : firebaseService.signInWithEmail(email, password),
+        ? firebaseService.createAccount(address, password)
+        : firebaseService.signInWithEmail(address, password),
     )
+  }
+
+  async function resetPassword() {
+    if (!emailLooksValid(email)) {
+      setResetNotice('')
+      notify('Enter your email above first.', 'error')
+      emailInput.current?.focus()
+      return
+    }
+    setResetting(true)
+    try {
+      await firebaseService.sendPasswordReset(email)
+      setResetNotice(RESET_SENT)
+    } catch (error) {
+      if (hidesAccount(error)) setResetNotice(RESET_SENT)
+      else notify(signInErrorMessage(error), 'error')
+    } finally {
+      setResetting(false)
+    }
   }
 
   if (status === 'loading' || verifying)
@@ -217,14 +225,17 @@ export default function LoginPage() {
                 <label className={styles.field}>
                   <span>Email</span>
                   <input
+                    ref={emailInput}
                     type="email"
                     autoComplete="email"
+                    inputMode="email"
                     required
                     disabled={busy}
                     value={email}
                     onChange={(event) => {
                       setEmail(event.target.value)
                       setIdentityReady(null)
+                      setResetNotice('')
                     }}
                   />
                 </label>
@@ -237,6 +248,7 @@ export default function LoginPage() {
                     }
                     required
                     minLength={register ? 8 : undefined}
+                    aria-describedby={register ? 'password-hint' : undefined}
                     disabled={busy}
                     value={password}
                     onChange={(event) => {
@@ -244,6 +256,11 @@ export default function LoginPage() {
                       setIdentityReady(null)
                     }}
                   />
+                  {register && (
+                    <small id="password-hint" className={styles.hint}>
+                      At least 8 characters.
+                    </small>
+                  )}
                 </label>
                 <label className={styles.check}>
                   <input
@@ -253,7 +270,28 @@ export default function LoginPage() {
                   />
                   Show password
                 </label>
-                <Button type="submit" size="lg" block disabled={busy}>
+                {!register && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className={styles.forgot}
+                    disabled={busy || resetting}
+                    onClick={() => void resetPassword()}
+                  >
+                    {resetting ? 'Sending…' : 'Forgot password?'}
+                  </Button>
+                )}
+                {resetNotice && (
+                  <p role="status" className={styles.notice}>
+                    {resetNotice}
+                  </p>
+                )}
+                <Button
+                  type="submit"
+                  size="lg"
+                  block
+                  disabled={busy || !canSubmitEmail(email, password, register)}
+                >
                   {busy ? 'Checking…' : register ? 'Create account' : 'Sign in'}
                 </Button>
                 <Button
@@ -264,6 +302,7 @@ export default function LoginPage() {
                     setRegister(!register)
                     setPassword('')
                     setIdentityReady(null)
+                    setResetNotice('')
                   }}
                 >
                   {register

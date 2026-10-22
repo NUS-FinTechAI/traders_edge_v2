@@ -83,5 +83,6 @@ tested locally. Not yet done:
 - independent financial and pedagogical review of the content (production
   refuses gameplay until it is recorded);
 - verified Firebase sign-in on a hosted deployment;
-- account deletion, retention rules and researcher access;
+- account deletion, retention rules and researcher access with real accounts
+  (the researcher dashboard is checked locally only);
 - any measured learning outcome; the decision score is unvalidated.
