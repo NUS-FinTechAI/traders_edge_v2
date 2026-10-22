@@ -105,6 +105,7 @@
 .topLink {
   display: flex;
   align-items: center;
+  gap: var(--space-2);
   min-height: 44px;
   padding: 0 var(--space-3);
   border-radius: var(--radius-sm);
@@ -183,12 +184,128 @@
   align-content: center;
   gap: 2px;
   min-height: 44px;
+  border: 0;
+  background: transparent;
   color: var(--text-dim);
   font-size: var(--text-xs);
   font-weight: 700;
   text-decoration: none;
 }
 
-.bottomLink[aria-current='page'] {
+.bottomLink[aria-current='page'],
+.bottomCurrent {
   color: var(--gold);
+}
+
+.topDivider {
+  align-self: center;
+  width: 1px;
+  height: 24px;
+  margin: 0 var(--space-1);
+  background: var(--border);
+}
+
+/* Icon-only below 1200px; the label stays as the accessible name. */
+@media (max-width: 1199px) {
+  .topLabel {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .topLink:has(.topLabel) {
+    justify-content: center;
+    min-width: 44px;
+    padding: 0;
+  }
+}
+
+@media (min-width: 900px) and (max-width: 1099px) {
+  .brandName {
+    display: none;
+  }
+}
+
+/* More sheet */
+.sheet {
+  width: 100%;
+  max-width: 520px;
+  max-height: calc(100% - var(--space-6));
+  margin: auto auto 0;
+  padding: 0 0 env(safe-area-inset-bottom);
+  overflow: auto;
+  border: 1px solid var(--border-strong);
+  border-bottom: 0;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow);
+}
+
+.sheet[open] {
+  animation: sheet-rise 200ms var(--ease);
+}
+
+.sheet::backdrop {
+  background: #050a08cc;
+}
+
+@keyframes sheet-rise {
+  from {
+    transform: translateY(24px);
+    opacity: 0;
+  }
+}
+
+.sheetInner {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4) var(--space-4);
+}
+
+.sheetHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.sheetTitle {
+  font-size: var(--text-lg);
+}
+
+.sheetList {
+  display: grid;
+  gap: var(--space-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.sheetLink {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 52px;
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.sheetLink:hover {
+  background: var(--surface-2);
+}
+
+.sheetLink[aria-current='page'] {
+  background: var(--surface-2);
+  color: var(--gold);
+}
+
+.sheetChevron {
+  margin-left: auto;
+  color: var(--text-dim);
 }

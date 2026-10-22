@@ -12,7 +12,7 @@ import {
 } from '../../services/playerService.ts'
 import Avatar from '../../ui/Avatar.tsx'
 import { playerAvatarImage } from '../../ui/avatarImage.ts'
-import Button, { ButtonLink } from '../../ui/Button.tsx'
+import Button from '../../ui/Button.tsx'
 import Chip from '../../ui/Chip.tsx'
 import Icon from '../../ui/Icon.tsx'
 import ProgressBar from '../../ui/ProgressBar.tsx'
@@ -202,15 +202,6 @@ function Settings({ player }: { player: Player }) {
         </button>
       </div>
       <div className={styles.links}>
-        <ButtonLink to="/shop" variant="secondary" icon="bag">
-          Shop
-        </ButtonLink>
-        <ButtonLink to="/leaderboard" variant="secondary" icon="podium">
-          Leaderboard
-        </ButtonLink>
-        <ButtonLink to="/archive" variant="secondary" icon="book">
-          Trading Archive
-        </ButtonLink>
         <Button
           variant="danger"
           icon="logout"

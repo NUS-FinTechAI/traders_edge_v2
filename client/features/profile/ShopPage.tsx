@@ -119,7 +119,6 @@ function Shop({ player }: { player: Player }) {
   return (
     <div className={styles.page}>
       <PageHeader
-        back={{ to: '/profile', label: 'Profile' }}
         title="Shop"
         subtitle="Cosmetics only. Nothing here changes a match. Win ranked matches to earn Gems."
         actions={
