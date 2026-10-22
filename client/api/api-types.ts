@@ -806,6 +806,8 @@ export interface components {
     LeaderboardMe: {
       /** Rank */
       rank: number | null
+      /** @description Personal ranked tier, independent of public leaderboard visibility; null for XP */
+      tier?: components['schemas']['RatingTier'] | null
       /** Value */
       value: number
     }
@@ -974,8 +976,7 @@ export interface components {
        * @enum {string}
        */
       status: 'idle' | 'searching' | 'matched'
-      /** Tier */
-      tier: string
+      tier: components['schemas']['RatingTier']
       /** Waiting Since */
       waiting_since: string | null
     }
@@ -1545,11 +1546,12 @@ export interface components {
       name: string
       /** Rank */
       rank: number
-      /** Tier */
-      tier?: string | null
+      tier?: components['schemas']['RatingTier'] | null
       /** Value */
       value: number
     }
+    /** @enum {string} */
+    RatingTier: 'bronze' | 'silver' | 'gold' | 'platinum' | 'diamond'
     /** ResearchAccess */
     ResearchAccess: {
       /** Allowed */

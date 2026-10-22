@@ -1,25 +1,29 @@
 import Chip from './Chip.tsx'
 import Emblem, { type EmblemTone } from './Emblem.tsx'
+import type { RatingTier } from '../api/api-enums.ts'
 
 type ChipTone = 'flame' | 'neutral' | 'gold' | 'info' | 'gem'
 
-const TIERS: Record<string, { chip: ChipTone; emblem: EmblemTone }> = {
-  bronze: { chip: 'flame', emblem: 'flame' },
-  silver: { chip: 'neutral', emblem: 'neutral' },
-  gold: { chip: 'gold', emblem: 'gold' },
-  platinum: { chip: 'info', emblem: 'info' },
-  diamond: { chip: 'gem', emblem: 'gem' },
+const TIERS: Record<
+  RatingTier,
+  { label: string; chip: ChipTone; emblem: EmblemTone }
+> = {
+  bronze: { label: 'Bronze', chip: 'flame', emblem: 'flame' },
+  silver: { label: 'Silver', chip: 'neutral', emblem: 'neutral' },
+  gold: { label: 'Gold', chip: 'gold', emblem: 'gold' },
+  platinum: { label: 'Platinum', chip: 'info', emblem: 'info' },
+  diamond: { label: 'Diamond', chip: 'gem', emblem: 'gem' },
 }
 
-function look(tier: string) {
-  return TIERS[tier.toLowerCase()] ?? TIERS.bronze
+function look(tier: RatingTier) {
+  return TIERS[tier]
 }
 
 /** Ranked tier as a labelled chip. */
-export default function TierBadge({ tier }: { tier: string }) {
+export default function TierBadge({ tier }: { tier: RatingTier }) {
   return (
     <Chip tone={look(tier).chip} icon="shield">
-      {tier}
+      {look(tier).label}
     </Chip>
   )
 }
@@ -29,7 +33,7 @@ export function TierCrest({
   tier,
   size = 88,
 }: {
-  tier: string
+  tier: RatingTier
   size?: number
 }) {
   return (
@@ -38,7 +42,7 @@ export function TierCrest({
       tone={look(tier).emblem}
       size={size}
       shape="circle"
-      label={`${tier} tier`}
+      label={`${look(tier).label} tier`}
     />
   )
 }

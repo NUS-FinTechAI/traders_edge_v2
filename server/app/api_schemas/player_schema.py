@@ -139,6 +139,9 @@ class PurchaseResult(BaseModel):
     player: Player
 
 
+type RatingTier = Literal['bronze', 'silver', 'gold', 'platinum', 'diamond']
+
+
 class RankingEntry(BaseModel):
     rank: int
     name: str
@@ -146,13 +149,14 @@ class RankingEntry(BaseModel):
     avatar_id: str
     level: int
     value: int
-    tier: str | None = None
+    tier: RatingTier | None = None
     is_me: bool
 
 
 class LeaderboardMe(BaseModel):
     rank: int | None
     value: int
+    tier: RatingTier | None = Field(default=None, description='Personal ranked tier, independent of public leaderboard visibility; null for XP')
 
 
 class Leaderboard(BaseModel):

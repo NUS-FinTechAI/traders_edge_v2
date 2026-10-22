@@ -347,6 +347,15 @@ export const QuizTopicKind = {
 } as const
 export type QuizTopicKind = (typeof QuizTopicKind)[keyof typeof QuizTopicKind]
 
+export const RatingTier = {
+  bronze: 'bronze',
+  silver: 'silver',
+  gold: 'gold',
+  platinum: 'platinum',
+  diamond: 'diamond',
+} as const
+export type RatingTier = (typeof RatingTier)[keyof typeof RatingTier]
+
 export const ResearchExportScope = {
   your_operational_records: 'your_operational_records',
 } as const
@@ -471,6 +480,7 @@ export const apiEnums = {
   QuizAnswerConfidence,
   QuizAttemptStatus,
   QuizTopicKind,
+  RatingTier,
   ResearchExportScope,
   ResearchMetadataViewPriorKnowledgeBasis,
   RewardKind,

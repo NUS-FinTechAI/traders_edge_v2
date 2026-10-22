@@ -41,7 +41,7 @@ function Value({ board, value }: { board: Board; value: number }) {
 
 function Standings({ board, data }: { board: Board; data: Leaderboard }) {
   const { player } = usePlayer()
-  const myTier = data.entries.find((entry) => entry.is_me)?.tier
+  const myTier = data.me.tier
   return (
     <div className={styles.layout}>
       <section className={styles.me} aria-labelledby="me-title">
@@ -56,7 +56,7 @@ function Standings({ board, data }: { board: Board; data: Leaderboard }) {
         <p
           className={data.me.rank ? `num ${styles.meRank}` : styles.meRankEmpty}
         >
-          {data.me.rank ? `#${formatCount(data.me.rank)}` : 'Unranked'}
+          {data.me.rank ? `#${formatCount(data.me.rank)}` : 'Not listed'}
         </p>
         <p className={styles.meValue}>
           <Value board={board} value={data.me.value} />

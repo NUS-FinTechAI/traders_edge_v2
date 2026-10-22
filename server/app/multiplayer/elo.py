@@ -11,11 +11,11 @@ from app.player import ledger
 
 START = 1000
 K = 32
-TIERS = ((1100, 'Bronze'), (1300, 'Silver'), (1500, 'Gold'), (1700, 'Platinum'))
+TIERS = ((1100, 'bronze'), (1300, 'silver'), (1500, 'gold'), (1700, 'platinum'))
 
 
 def tier(rating):
-    return next((name for limit, name in TIERS if rating < limit), 'Diamond')
+    return next((name for limit, name in TIERS if rating < limit), 'diamond')
 
 
 def expected(rating, other):
