@@ -38,6 +38,13 @@ wheels/
 .env
 .env.*
 !.env.example
+.coordination/
+
+# Firebase / Google service-account keys (paste into the host's secret settings instead)
+*firebase-adminsdk*.json
+*service-account*.json
+*serviceAccount*.json
+credentials.json
 
 # Local browser verification
 .playwright-cli/
