@@ -1,39 +1,32 @@
 import { api } from '../api/apiClient.ts'
 import { apiEndpoints } from '../api/api-endpoints.ts'
 import type { components } from '../api/api-types.ts'
+import type {
+  ClockCommandSpeed,
+  GameStateMode,
+  PlaceOrderSide,
+  PlaceOrderType,
+  ClockCommandAction,
+} from '../api/api-enums.ts'
+
+export {
+  GameStateMode as GameMode,
+  PlaceOrderSide as Side,
+  PlaceOrderType as OrderType,
+  NewsItemTone as Tone,
+  ScenarioInfoToolsItem as Tool,
+  StandingTier as BotTier,
+  GamePlanStrategy as StrategyId,
+  MissionState,
+  ClockCommandAction as ClockAction,
+  ClockCommandSpeed as ClockSpeed,
+} from '../api/api-enums.ts'
 
 type Schemas = components['schemas']
 
-export type GameMode =
-  'level' | 'boss' | 'daily' | 'practice' | 'private' | 'ranked'
+export type Plan = Schemas['GamePlan']
 
-export type Side = 'buy' | 'sell'
-export type OrderType = 'market' | 'limit' | 'stop'
-export type Tone = 'positive' | 'negative' | 'neutral'
-export type Tool =
-  'candles' | 'line' | 'volume' | 'sma' | 'ema' | 'rsi' | 'macd' | 'bollinger'
-export type BotTier = 'rookie' | 'pro' | 'elite'
-export type StrategyId =
-  'trend' | 'dip' | 'breakout' | 'news' | 'hold' | 'cautious'
-
-export interface Plan {
-  strategy: StrategyId
-  max_loss_pct: number
-}
-
-export interface Scenario {
-  id: string
-  title: string
-  briefing: string
-  objective: string
-  difficulty: number
-  starting_cash: number
-  tools: (Tool | string)[]
-  allow: { limit: boolean; stop: boolean }
-  max_position_pct: number | null
-  fee: { rate: number; min: number }
-  spread: number
-}
+export type Scenario = Schemas['ScenarioInfo']
 
 export type Asset = Schemas['Asset']
 
@@ -47,24 +40,9 @@ export type Order = Schemas['Order']
 
 export type Fill = Schemas['Fill']
 
-export interface Me {
-  participant_id: string
-  cash: number
-  /** Cash minus cash reserved by open buy orders. */
-  available_cash: number
-  equity: number
-  profit: number
-  profit_pct: number
-  positions: Position[]
-  orders: Order[]
-  fills: Fill[]
-  max_drawdown_pct: number
-  plan: Plan | null
-}
+export type Me = Schemas['PlayerState']
 
 export type LeaderboardEntry = Schemas['Standing']
-
-export type MissionState = 'done' | 'pending' | 'on_track' | 'behind' | 'failed'
 
 export type Mission = Schemas['Mission']
 
@@ -82,8 +60,8 @@ export interface OrderRequest {
   /** Idempotency key; a retry with the same key returns the original order. */
   client_order_id?: string
   symbol: string
-  side: Side
-  type: OrderType
+  side: PlaceOrderSide
+  type: PlaceOrderType
   qty: number
   limit_price?: number
   stop_price?: number
@@ -92,8 +70,6 @@ export interface OrderRequest {
 export type PlacedOrder = Schemas['PlacedOrder']
 
 export type GameSummary = Schemas['GameSummary']
-
-export type ClockAction = 'pause' | 'resume' | 'step' | 'speed'
 
 export function createGame(body: CreateGameRequest): Promise<GameState> {
   return api.call(apiEndpoints.createGame, { body })
@@ -120,8 +96,8 @@ export function startGame(id: string, plan: Plan): Promise<GameState> {
 
 export function controlClock(
   id: string,
-  action: ClockAction,
-  speed?: 1 | 2 | 4,
+  action: ClockCommandAction,
+  speed?: ClockCommandSpeed,
 ): Promise<GameState> {
   return api.call(apiEndpoints.controlGameClock, {
     path: { game_id: id },
@@ -177,7 +153,7 @@ export function listGames(
  */
 export function findBriefing(
   games: GameSummary[],
-  mode: GameMode,
+  mode: GameStateMode,
   scenarioId?: string | null,
   exceptId?: string,
 ): GameSummary | null {

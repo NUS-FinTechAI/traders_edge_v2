@@ -7,6 +7,19 @@ backend with `npm run api:generate`; CI fails on stale output
 (`npm run api:check`). Server configuration and authentication modes are in the
 [server guide](../../server/README.md).
 
+Finite backend choices also generate named enum values and matching types in
+[`client/api/api-enums.ts`](../../client/api/api-enums.ts). Import, for example,
+`ClockCommandSpeed` as a value (`ClockCommandSpeed['2']`) or a type, and
+`GamePlanStrategy` for strategy choices. These use `as const` objects with
+derived types, compatible with the client's erasable TypeScript configuration.
+Names combine the schema and field (`QuizAnswerConfidence`); array items add
+`Item`, and route parameters use the operation, location and parameter name
+(`ExportResearchCsvPathKind`). Nullable fields keep null outside their enum.
+The generator covers inline choices as well as named schemas; the `apiEnums`
+object also groups every export. Services re-export generated choices under
+their existing names rather than repeating backend union members. Regenerate
+and commit the artifacts whenever the backend contract changes.
+
 ## Conventions
 
 - **Session.** Guest mode: `POST /api/session` sets an HTTP-only

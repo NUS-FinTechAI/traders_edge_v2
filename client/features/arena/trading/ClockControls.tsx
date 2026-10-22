@@ -1,15 +1,15 @@
-import type { ClockAction } from '../../../services/gameService.ts'
+import { ClockSpeed, type ClockAction } from '../../../services/gameService.ts'
 import Button from '../../../ui/Button.tsx'
 import { tourTarget } from '../tour/tour.ts'
 import styles from './Trading.module.css'
 
-const SPEEDS = [1, 2, 4] as const
+const SPEEDS = Object.values(ClockSpeed)
 
 interface ClockControlsProps {
   paused: boolean
   speed: number
   busy: boolean
-  onClock: (action: ClockAction, speed?: 1 | 2 | 4) => void
+  onClock: (action: ClockAction, speed?: ClockSpeed) => void
 }
 
 export default function ClockControls({
@@ -19,7 +19,7 @@ export default function ClockControls({
   onClock,
 }: ClockControlsProps) {
   const nextSpeed =
-    SPEEDS[(SPEEDS.indexOf(speed as 1 | 2 | 4) + 1) % SPEEDS.length]
+    SPEEDS[(SPEEDS.indexOf(speed as ClockSpeed) + 1) % SPEEDS.length]
   return (
     <div
       className={styles.clock}

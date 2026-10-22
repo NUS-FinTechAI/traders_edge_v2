@@ -1693,7 +1693,16 @@ export interface components {
       /** Title */
       title: string
       /** Tools */
-      tools: string[]
+      tools: (
+        | 'candles'
+        | 'line'
+        | 'volume'
+        | 'sma'
+        | 'ema'
+        | 'rsi'
+        | 'macd'
+        | 'bollinger'
+      )[]
     }
     /** SelfReport */
     SelfReport: {

@@ -19,6 +19,82 @@ function enumKey(value) {
   return value === '__proto__' ? `[${key}]` : key
 }
 
+function enumName(parts) {
+  const name = parts
+    .flatMap((part) => String(part).split(/[^a-zA-Z0-9$]+/))
+    .filter(Boolean)
+    .map((part) => part[0].toUpperCase() + part.slice(1))
+    .join('')
+  return /^[a-zA-Z_$]/.test(name) ? name : `Enum${name}`
+}
+
+function collectEnums(schema) {
+  const enums = new Map()
+
+  function visit(definition, parts) {
+    if (!definition || typeof definition !== 'object') return
+    const values =
+      definition.enum ??
+      (Object.hasOwn(definition, 'const') ? [definition.const] : undefined)
+    if (Array.isArray(values)) {
+      const name = enumName(parts)
+      for (const value of values) {
+        if (
+          value !== null &&
+          !['string', 'number', 'boolean'].includes(typeof value)
+        )
+          throw new Error(`Unsupported enum value in ${name}`)
+      }
+      if (new Set(values.map(String)).size !== values.length)
+        throw new Error(`Enum member names collide in ${name}`)
+      if (
+        enums.has(name) &&
+        JSON.stringify(enums.get(name)) !== JSON.stringify(values)
+      )
+        throw new Error(`Enum names collide: ${name}`)
+      enums.set(name, values)
+    }
+    for (const [name, property] of Object.entries(definition.properties ?? {}))
+      visit(property, [...parts, name])
+    if (definition.items) visit(definition.items, [...parts, 'Item'])
+    if (typeof definition.additionalProperties === 'object')
+      visit(definition.additionalProperties, [...parts, 'Value'])
+    for (const keyword of ['anyOf', 'oneOf', 'allOf']) {
+      const variants = definition[keyword] ?? []
+      const nonNull = variants.filter((variant) => variant.type !== 'null')
+      for (const [index, variant] of nonNull.entries())
+        visit(
+          variant,
+          nonNull.length === 1 ? parts : [...parts, keyword, String(index + 1)],
+        )
+    }
+  }
+
+  for (const [name, definition] of Object.entries(
+    schema.components?.schemas ?? {},
+  ))
+    visit(definition, [name])
+  for (const item of Object.values(schema.paths ?? {})) {
+    for (const [method, operation] of Object.entries(item)) {
+      if (!methods.has(method)) continue
+      const id = operation.operationId
+      for (const parameter of [
+        ...(item.parameters ?? []),
+        ...(operation.parameters ?? []),
+      ])
+        visit(parameter.schema, [id, parameter.in, parameter.name])
+      for (const media of Object.values(operation.requestBody?.content ?? {}))
+        visit(media.schema, [id, 'Request'])
+      for (const [status, response] of Object.entries(
+        operation.responses ?? {},
+      ))
+        for (const media of Object.values(response.content ?? {}))
+          visit(media.schema, [id, 'Response', status])
+    }
+  }
+  return [...enums].sort(([left], [right]) => left.localeCompare(right, 'en'))
+}
+
 export async function buildArtifacts(schema, root) {
   const endpoints = Object.create(null)
   const missingResponses = []
@@ -73,27 +149,22 @@ export async function buildArtifacts(schema, root) {
   const contractDeclarations = declarations.filter(
     (declaration) => declaration.name?.text !== 'components',
   )
-  const enumDeclarations = Object.entries(schema.components?.schemas ?? {})
-    .sort(([left], [right]) => left.localeCompare(right, 'en'))
-    .filter(([, definition]) => Array.isArray(definition.enum))
-    .map(([name, definition]) => {
-      const members = definition.enum.map((value) => {
-        if (
-          value !== null &&
-          !['string', 'number', 'boolean'].includes(typeof value)
-        )
-          throw new Error(`Unsupported enum value in ${name}`)
-        return `${enumKey(value)}: ${JSON.stringify(value)}`
-      })
-      if (new Set(definition.enum.map(String)).size !== members.length)
-        throw new Error(`Enum member names collide in ${name}`)
-      return `${enumKey(name)}: { ${members.join(',')} }`
-    })
+  const enums = collectEnums(schema)
+  const enumDeclarations = enums.map(([name, values]) => {
+    const members = values.map(
+      (value) => `${enumKey(value)}: ${JSON.stringify(value)}`,
+    )
+    return (
+      `export const ${name} = { ${members.join(',')} } as const\n` +
+      `export type ${name} = (typeof ${name})[keyof typeof ${name}]\n`
+    )
+  })
   const outputs = {
     'client/api/api-types.ts': banner + astToString(componentDeclarations),
     'client/api/api-enums.ts':
       banner +
-      `export const apiEnums = { ${enumDeclarations.join(',')} } as const\n`,
+      enumDeclarations.join('\n') +
+      `export const apiEnums = { ${enums.map(([name]) => name).join(',')} } as const\n`,
     'client/api/api-contract.ts':
       banner +
       "import type { components } from './api-types.ts'\n" +

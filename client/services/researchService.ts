@@ -1,7 +1,12 @@
 import { api } from '../api/apiClient.ts'
 import { apiEndpoints } from '../api/api-endpoints.ts'
-import type { operations } from '../api/api-contract.ts'
 import type { components } from '../api/api-types.ts'
+import type { Cohort, ExportResearchCsvPathKind } from '../api/api-enums.ts'
+
+export {
+  Cohort,
+  ExportResearchCsvPathKind as CsvKind,
+} from '../api/api-enums.ts'
 
 type Schemas = components['schemas']
 
@@ -17,9 +22,6 @@ export type MetricSummary = Schemas['MetricSummary']
 export type DecisionTrends = Schemas['DecisionTrends']
 export type CheckAccuracy = Schemas['CheckAccuracy']
 export type QuizPerformance = Schemas['QuizPerformance']
-export type Cohort = Schemas['Cohort']
-export type CsvKind =
-  operations['exportResearchCsv']['parameters']['path']['kind']
 
 /** An idempotency key for one research command (8–100 URL-safe characters). */
 export function commandKey(): string {
@@ -129,6 +131,6 @@ export function getQuizPerformance(
 }
 
 /** The CSV export as text; the caller saves it as a file. */
-export function exportCsv(kind: CsvKind): Promise<string> {
+export function exportCsv(kind: ExportResearchCsvPathKind): Promise<string> {
   return api.callText(apiEndpoints.exportResearchCsv, { path: { kind } })
 }

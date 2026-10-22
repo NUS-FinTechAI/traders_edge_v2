@@ -5,6 +5,7 @@ from typing import Literal
 from pydantic import BaseModel, Field, field_validator, model_validator
 
 from app.api_schemas.shared_schema import Payload
+from app.game.scenario import TOOLS
 
 Strategy = Literal['trend', 'dip', 'breakout', 'news', 'hold', 'cautious']
 Side = Literal['buy', 'sell']
@@ -96,7 +97,7 @@ class ScenarioInfo(BaseModel):
     objective: str
     difficulty: int
     starting_cash: float
-    tools: list[str]
+    tools: list[Literal[*TOOLS]]
     allow: AllowedOrders
     max_position_pct: float | None
     fee: Fee
