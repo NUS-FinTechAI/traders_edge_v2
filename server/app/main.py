@@ -22,6 +22,8 @@ from app.multiplayer.api import router as multiplayer_router
 from app.player.api import router as player_router
 from app.quiz.api import router as quiz_router
 from app.research import router as research_router
+from app.study.dashboard import router as research_dashboard_router
+from app.study.onboarding import router as onboarding_router
 
 
 def firebase_credential(settings):
@@ -124,6 +126,8 @@ def create_app(settings: Settings | None = None, content: Content | None = None)
     application.include_router(quiz_router, dependencies=approved)
     application.include_router(multiplayer_router, dependencies=approved)
     application.include_router(research_router)
+    application.include_router(onboarding_router)
+    application.include_router(research_dashboard_router)
     return application
 
 

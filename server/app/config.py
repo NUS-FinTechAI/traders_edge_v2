@@ -3,6 +3,12 @@ import os
 from pathlib import Path
 
 ENVIRONMENTS = ('development', 'staging', 'production')
+HOSTED_PSEUDONYM_SECRET_LENGTH = 32
+
+
+def id_list(value):
+    """A comma-separated allow-list, trimmed, without blanks or repeats."""
+    return tuple(dict.fromkeys(item.strip() for item in (value or '').split(',') if item.strip()))
 
 
 def database_url(value):
@@ -27,6 +33,9 @@ class Settings:
     research_enabled: bool = False
     research_policy_version: str | None = None
     research_policy_text: str | None = None
+    research_pseudonym_secret: str | None = field(default=None, repr=False)
+    researcher_firebase_uids: tuple[str, ...] = ()
+    researcher_profile_ids: tuple[str, ...] = ()
 
     @classmethod
     def from_env(cls):
@@ -44,6 +53,9 @@ class Settings:
             research_enabled=os.getenv('RESEARCH_ENABLED', 'false').lower() == 'true',
             research_policy_version=os.getenv('RESEARCH_POLICY_VERSION'),
             research_policy_text=os.getenv('RESEARCH_POLICY_TEXT'),
+            research_pseudonym_secret=os.getenv('RESEARCH_PSEUDONYM_SECRET') or None,
+            researcher_firebase_uids=id_list(os.getenv('RESEARCHER_FIREBASE_UIDS')),
+            researcher_profile_ids=id_list(os.getenv('RESEARCHER_PROFILE_IDS')),
         )
 
     @property
@@ -58,6 +70,12 @@ class Settings:
                 or self.research_policy_version != self.research_policy_version.strip()
                 or len(self.research_policy_version) > 80 or not isinstance(self.research_policy_text, str) or not self.research_policy_text.strip()):
             raise ValueError('Enabled study enrollment requires an unpadded policy version (1–80 characters) and nonblank consent text')
+        if self.research_enabled:
+            secret = self.research_pseudonym_secret
+            if not isinstance(secret, str) or not secret.strip():
+                raise ValueError('Enabled study enrollment requires RESEARCH_PSEUDONYM_SECRET')
+            if self.hosted and len(secret) < HOSTED_PSEUDONYM_SECRET_LENGTH:
+                raise ValueError(f'RESEARCH_PSEUDONYM_SECRET must have at least {HOSTED_PSEUDONYM_SECRET_LENGTH} characters outside development')
         if self.auth_mode not in {'guest', 'firebase'}:
             raise ValueError('AUTH_MODE must be guest or firebase')
         if self.auth_mode == 'firebase' and not self.firebase_project_id:
