@@ -8,18 +8,19 @@ PostgreSQL tests. Step-by-step hosting on Render and Vercel is in the
 ## Container image
 
 `server/Dockerfile` (Python 3.12, uv 0.12.23) installs from `server/uv.lock`,
-copies only the application, the manifests and the README, and runs the API
-as user 10001. Both the Compose stack and the Render blueprint build it.
+copies only the application, the manifests and the README, and runs as user 10001. Its default command applies migrations (`python -m app.db`) and then
+starts the API on `$PORT` (8000 when unset). Both the Compose stack and the
+Render blueprint build it.
 
 ## Compose stack
 
 `compose.yaml` runs three services:
 
-| Service    | Does                                                                                                      |
-| ---------- | --------------------------------------------------------------------------------------------------------- |
-| `postgres` | PostgreSQL 16, reachable only inside the Compose network; the named volume keeps data across restarts     |
-| `migrate`  | Applies migrations with `python -m app.db`, then exits; the API waits for it                              |
-| `api`      | The API as user 10001 without reload, bound to `127.0.0.1:${API_PORT:-8000}`; health-checked on `/health` |
+| Service    | Does                                                                                                                                                                            |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `postgres` | PostgreSQL 16, reachable only inside the Compose network; the named volume keeps data across restarts                                                                           |
+| `migrate`  | Applies migrations with `python -m app.db`, then exits; the API waits for it                                                                                                    |
+| `api`      | The image's default command: apply migrations (already done, so a no-op), then serve as user 10001 without reload on `127.0.0.1:${API_PORT:-8000}`; health-checked on `/health` |
 
 The Compose environment is production: `APP_ENV=production`,
 PostgreSQL, Firebase authentication, explicit HTTPS origins and
