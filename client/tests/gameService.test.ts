@@ -1,5 +1,7 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
+import * as games from '../services/gameService.ts'
+import { stubHttp } from './helpers/serviceHttp.ts'
 import {
   findBriefing,
   isNewer,
@@ -183,4 +185,200 @@ test('order keys use only the characters the server accepts', () => {
 
   assert.match(key, /^[a-zA-Z0-9_-]{8,64}$/)
   assert.notEqual(key, newOrderKey())
+})
+
+test('creating a game preserves the selected mode and scenario', async (t) => {
+  const response = game({ status: 'briefing' })
+  const requests = stubHttp(t, response)
+  const body = {
+    mode: 'practice',
+    scenario_id: 'practice-trend-rider',
+    bots: 0,
+  } as const
+
+  const result = await games.createGame(body)
+
+  assert.deepEqual(result, response)
+  assert.equal(requests[0].url.pathname, '/api/games')
+  assert.equal(requests[0].method, 'POST')
+  assert.deepEqual(requests[0].body, body)
+})
+
+for (const since of [undefined, 0, 12]) {
+  test(`polling a game with since=${since} encodes the game ID and forwards cancellation`, async (t) => {
+    const response = game()
+    const requests = stubHttp(t, response)
+    const controller = new AbortController()
+
+    const result = await games.getGame('game/a ?#', since, controller.signal)
+
+    assert.deepEqual(result, response)
+    assert.equal(requests[0].url.pathname, '/api/games/game%2Fa%20%3F%23')
+    assert.equal(requests[0].method, 'GET')
+    assert.equal(
+      requests[0].url.searchParams.get('since'),
+      since === undefined ? null : String(since),
+    )
+    assert.equal(requests[0].signal, controller.signal)
+  })
+}
+
+test('starting a game submits the selected strategy and loss limit', async (t) => {
+  const requests = stubHttp(t, game())
+  const plan = { strategy: 'cautious', max_loss_pct: 5 } as const
+
+  await games.startGame('game/a', plan)
+
+  assert.equal(requests[0].url.pathname, '/api/games/game%2Fa/start')
+  assert.equal(requests[0].method, 'POST')
+  assert.deepEqual(requests[0].body, { plan })
+})
+
+for (const action of ['pause', 'resume', 'step'] as const) {
+  test(`the ${action} clock action does not invent a speed value`, async (t) => {
+    const requests = stubHttp(t, game())
+
+    await games.controlClock('game/a', action)
+
+    assert.equal(requests[0].url.pathname, '/api/games/game%2Fa/clock')
+    assert.equal(requests[0].method, 'POST')
+    assert.deepEqual(requests[0].body, { action })
+  })
+}
+
+for (const speed of [1, 2, 4] as const) {
+  test(`changing clock speed to ${speed} sends the selected multiplier`, async (t) => {
+    const requests = stubHttp(t, game())
+
+    await games.controlClock('game', 'speed', speed)
+
+    assert.deepEqual(requests[0].body, { action: 'speed', speed })
+  })
+}
+
+test('placing an order preserves a caller-supplied idempotency key and prices', async (t) => {
+  const response = { order_id: 'order' }
+  const requests = stubHttp(t, response)
+  const order = {
+    client_order_id: 'stable-key',
+    symbol: 'LEAF',
+    side: 'buy',
+    type: 'limit',
+    qty: 2,
+    limit_price: 50,
+    stop_price: 45,
+  } as const
+
+  const result = await games.placeOrder('game/a', order)
+
+  assert.deepEqual(result, response)
+  assert.equal(requests[0].url.pathname, '/api/games/game%2Fa/orders')
+  assert.equal(requests[0].method, 'POST')
+  assert.deepEqual(requests[0].body, order)
+})
+
+test('orders without a caller key receive different valid idempotency keys', async (t) => {
+  const requests = stubHttp(t, {})
+  const order = {
+    symbol: 'LEAF',
+    side: 'sell',
+    type: 'market',
+    qty: 1,
+  } as const
+
+  await games.placeOrder('game', order)
+  await games.placeOrder('game', order)
+
+  const keys = requests.map(({ body }) => {
+    assert.ok(body && typeof body === 'object' && 'client_order_id' in body)
+    assert.equal(typeof body.client_order_id, 'string')
+    const key = String(body.client_order_id)
+    assert.match(key, /^[a-zA-Z0-9_-]{8,64}$/)
+    return key
+  })
+  assert.notEqual(keys[0], keys[1])
+  assert.equal('client_order_id' in order, false)
+})
+
+test('cancelling an order encodes the game and order IDs', async (t) => {
+  const response = game()
+  const requests = stubHttp(t, response)
+
+  const result = await games.cancelOrder('game/a', 'order/b ?#')
+
+  assert.deepEqual(result, response)
+  assert.equal(
+    requests[0].url.pathname,
+    '/api/games/game%2Fa/orders/order%2Fb%20%3F%23',
+  )
+  assert.equal(requests[0].method, 'DELETE')
+})
+
+for (const body of [
+  undefined,
+  { forfeit: false, reflection: '' },
+  { forfeit: true, reflection: 'Review my plan' },
+]) {
+  test(`finishing a game with ${body === undefined ? 'default options' : JSON.stringify(body)} preserves the settlement request`, async (t) => {
+    const response = { game_id: 'game', profit: 10 }
+    const requests = stubHttp(t, response)
+
+    const result = await games.finishGame('game/a', body)
+
+    assert.deepEqual(result, response)
+    assert.equal(requests[0].url.pathname, '/api/games/game%2Fa/finish')
+    assert.equal(requests[0].method, 'POST')
+    assert.deepEqual(requests[0].body, body ?? {})
+  })
+}
+
+test('loading a result encodes the game ID and returns the settlement', async (t) => {
+  const response = { game_id: 'game', profit: 10 }
+  const requests = stubHttp(t, response)
+
+  const result = await games.getResult('game/a')
+
+  assert.deepEqual(result, response)
+  assert.equal(requests[0].url.pathname, '/api/games/game%2Fa/result')
+  assert.equal(requests[0].method, 'GET')
+})
+
+test('listing games requests only active games and forwards cancellation', async (t) => {
+  const requests = stubHttp(t, { games: [] })
+  const controller = new AbortController()
+
+  const result = await games.listGames(controller.signal)
+
+  assert.deepEqual(result, { games: [] })
+  assert.equal(requests[0].url.pathname, '/api/games')
+  assert.equal(requests[0].url.searchParams.get('status'), 'active')
+  assert.equal(requests[0].signal, controller.signal)
+})
+
+test('a refused order propagates its reason without retrying the mutation', async (t) => {
+  const requests = stubHttp(t, { detail: 'Insufficient available cash' }, 422)
+
+  await assert.rejects(
+    games.placeOrder('game', {
+      symbol: 'LEAF',
+      side: 'buy',
+      type: 'market',
+      qty: 999,
+    }),
+    { status: 422, message: 'Insufficient available cash' },
+  )
+
+  assert.equal(requests.length, 1)
+})
+
+test('an aborted game poll does not reach the network', async (t) => {
+  const requests = stubHttp(t)
+  const controller = new AbortController()
+  controller.abort()
+
+  await assert.rejects(games.getGame('game', 0, controller.signal), {
+    kind: 'aborted',
+  })
+
+  assert.equal(requests.length, 0)
 })
