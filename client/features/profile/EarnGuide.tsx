@@ -25,7 +25,6 @@ export function EarnGuide({
   topic,
   heading,
   onNavigate,
-  showNotes = true,
 }: {
   topic: EarnTopic
   heading?: boolean
@@ -65,12 +64,6 @@ export function EarnGuide({
           </Link>
         ))}
       </div>
-      {showNotes &&
-        info.notes.map((note) => (
-          <p key={note} className={styles.note}>
-            {note}
-          </p>
-        ))}
     </div>
   )
 }
@@ -112,7 +105,7 @@ function EarnTabs({
         id={`earn-panel-${tab}`}
         aria-labelledby={`earn-tab-${tab}`}
       >
-        <EarnGuide topic={tab} onNavigate={onNavigate} showNotes={false} />
+        <EarnGuide topic={tab} onNavigate={onNavigate} />
       </div>
     </div>
   )

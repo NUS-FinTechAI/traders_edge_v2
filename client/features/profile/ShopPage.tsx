@@ -16,7 +16,6 @@ import Modal from '../../ui/Modal.tsx'
 import PageHeader from '../../ui/PageHeader.tsx'
 import ProgressBar from '../../ui/ProgressBar.tsx'
 import ResourceView from '../../ui/ResourceView.tsx'
-import { EarnGuide } from './EarnGuide.tsx'
 import { EmptyState, SectionHeader } from '../../ui/States.tsx'
 import { formatCount, formatShortDate } from '../../ui/format.ts'
 import { useToast } from '../../ui/toastContext.ts'
@@ -121,12 +120,6 @@ function Shop({ player }: { player: Player }) {
       <PageHeader
         title="Shop"
         subtitle="Cosmetics only. Nothing here changes a match. Win ranked matches to earn Gems."
-        actions={
-          <div className={styles.wallet}>
-            <CurrencyChip kind="doubloons" amount={player.wallet.doubloons} />
-            <CurrencyChip kind="gems" amount={player.wallet.gems} />
-          </div>
-        }
       />
       <ResourceView resource={shop} label="Stocking the shelves…">
         {({ items }) => {
@@ -206,16 +199,6 @@ function Shop({ player }: { player: Player }) {
                     title="The shelves are empty this week"
                   />
                 )}
-              </section>
-              <section aria-label="How to earn">
-                <SectionHeader
-                  title="How to earn"
-                  eyebrow="Doubloons and Gems"
-                />
-                <div className={styles.earnGrid}>
-                  <EarnGuide topic="doubloons" heading />
-                  <EarnGuide topic="gems" heading />
-                </div>
               </section>
             </>
           )

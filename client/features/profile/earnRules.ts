@@ -19,7 +19,6 @@ export interface EarnInfo {
   label: string
   summary: string
   rows: EarnRow[]
-  notes: string[]
 }
 
 /** Login reward for streak days 1–7; the cycle then repeats. */
@@ -58,7 +57,6 @@ export const EARN: Record<EarnTopic, EarnInfo> = {
         note: 'First win each day. Opens after the Chapter 1 boss.',
       },
     ],
-    notes: ['Spend them on the weekly title (1,000 Doubloons).'],
   },
   gems: {
     label: 'Gems',
@@ -81,11 +79,6 @@ export const EARN: Record<EarnTopic, EarnInfo> = {
         to: '/multiplayer',
         amount: '+5',
       },
-    ],
-    notes: [
-      'Gems are paid for up to 5 ranked matches a day (UTC). Forfeits pay nothing.',
-      'Ranked opens after you win the Chapter 3 boss.',
-      'Spend them on shop cosmetics, or 20 Gems to skip a daily-challenge wait.',
     ],
   },
   xp: {
@@ -148,10 +141,6 @@ export const EARN: Record<EarnTopic, EarnInfo> = {
       },
       { source: 'Daily login reward', to: '/', amount: range(LOGIN_XP) },
     ],
-    notes: [
-      'Level 1 to 2 costs 100 XP; each level after that costs 25 more.',
-      'Forfeits and private lobby matches give no XP.',
-    ],
   },
   streak: {
     label: 'Streak',
@@ -164,6 +153,5 @@ export const EARN: Record<EarnTopic, EarnInfo> = {
         note: 'Go to Home to claim your daily login reward.',
       },
     ],
-    notes: ['After day 7 the rewards start again from day 1.'],
   },
 }
