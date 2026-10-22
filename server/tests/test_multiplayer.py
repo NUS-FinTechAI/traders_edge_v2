@@ -29,7 +29,7 @@ class EloTests(unittest.TestCase):
 
     def test_tiers(self):
         self.assertEqual([elo.tier(value) for value in (1099, 1100, 1299, 1300, 1500, 1699, 1700)],
-                         ['Bronze', 'Silver', 'Silver', 'Gold', 'Platinum', 'Platinum', 'Diamond'])
+                         ['bronze', 'silver', 'silver', 'gold', 'platinum', 'platinum', 'diamond'])
 
 
 class MultiplayerTests(AppCase):
@@ -114,7 +114,7 @@ class MultiplayerTests(AppCase):
         status = self.client.get('/api/matchmaking').json()
         rejected = self.client.post('/api/matchmaking', json={})
 
-        self.assertEqual(status, {'status': 'idle', 'game_id': None, 'rating': 1000, 'tier': 'Bronze', 'waiting_since': None,
+        self.assertEqual(status, {'status': 'idle', 'game_id': None, 'rating': 1000, 'tier': 'bronze', 'waiting_since': None,
                                   'locked_reason': 'Win the Chapter 3 boss to unlock ranked matches'})
         self.assertEqual(rejected.status_code, 403)
 

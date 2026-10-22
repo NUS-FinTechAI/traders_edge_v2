@@ -47,6 +47,8 @@ export type LeaderboardEntry = Schemas['RankingEntry']
 
 export type Leaderboard = Schemas['Leaderboard']
 
+export type LeaderboardType = 'ranked' | 'xp'
+
 export function getMe(signal?: AbortSignal): Promise<Player> {
   return api.call(apiEndpoints.getMe, { signal })
 }
@@ -78,7 +80,7 @@ export function purchase(
 }
 
 export function getLeaderboard(
-  board: 'xp' | 'ranked',
+  board: LeaderboardType,
   signal?: AbortSignal,
 ): Promise<Leaderboard> {
   return api.call(

@@ -70,6 +70,10 @@ pairwise against every other human, from that result's ranks; equal profit is
 a draw. Changes are rounded to whole numbers, and an `elo:<game>` event
 prevents a second rating. Private lobbies never change rating.
 
+Tier identifiers in API responses are lowercase (`bronze` through `diamond`);
+the client displays their capitalized labels. A player without a completed
+ranked match still sees the starting 1000 rating and Bronze tier.
+
 | Tier     | Rating      |
 | -------- | ----------- |
 | Bronze   | below 1100  |

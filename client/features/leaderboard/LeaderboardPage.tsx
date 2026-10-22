@@ -4,6 +4,7 @@ import { usePlayer } from '../../app/PlayerContext.ts'
 import {
   getLeaderboard,
   type Leaderboard,
+  type LeaderboardType,
 } from '../../services/playerService.ts'
 import Avatar from '../../ui/Avatar.tsx'
 import { itemImage } from '../../ui/avatarImage.ts'
@@ -20,8 +21,6 @@ import { formatCount } from '../../ui/format.ts'
 import useResource from '../../ui/useResource.ts'
 import styles from './Leaderboard.module.css'
 
-type Board = 'ranked' | 'xp'
-
 const TABS = [
   { id: 'xp', label: 'XP' },
   { id: 'ranked', label: 'Ranked' },
@@ -30,7 +29,7 @@ const TABS = [
 const MEDALS = ['gold', 'neutral', 'loss'] as const
 const PLACES = ['1st', '2nd', '3rd']
 
-function Value({ board, value }: { board: Board; value: number }) {
+function Value({ board, value }: { board: LeaderboardType; value: number }) {
   return (
     <span className={`num ${styles.value}`}>
       {formatCount(value)}
@@ -39,9 +38,15 @@ function Value({ board, value }: { board: Board; value: number }) {
   )
 }
 
-function Standings({ board, data }: { board: Board; data: Leaderboard }) {
+function Standings({
+  board,
+  data,
+}: {
+  board: LeaderboardType
+  data: Leaderboard
+}) {
   const { player } = usePlayer()
-  const myTier = data.entries.find((entry) => entry.is_me)?.tier
+  const myTier = data.me.tier
   return (
     <div className={styles.layout}>
       <section className={styles.me} aria-labelledby="me-title">
@@ -56,7 +61,7 @@ function Standings({ board, data }: { board: Board; data: Leaderboard }) {
         <p
           className={data.me.rank ? `num ${styles.meRank}` : styles.meRankEmpty}
         >
-          {data.me.rank ? `#${formatCount(data.me.rank)}` : 'Unranked'}
+          {data.me.rank ? `#${formatCount(data.me.rank)}` : 'Unlisted'}
         </p>
         <p className={styles.meValue}>
           <Value board={board} value={data.me.value} />
@@ -144,7 +149,7 @@ function Standings({ board, data }: { board: Board; data: Leaderboard }) {
 }
 
 export default function LeaderboardPage() {
-  const [board, setBoard] = useState<Board>('xp')
+  const [board, setBoard] = useState<LeaderboardType>('xp')
   const resource = useResource(
     (signal) => getLeaderboard(board, signal),
     [board],

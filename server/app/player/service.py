@@ -262,4 +262,4 @@ async def ranked_leaderboard(db, content, profile):
                          'level': level_for(xp.get(person.id, 0))[0], 'value': rating.rating, 'tier': elo.tier(rating.rating),
                          'is_me': person.id == profile.id} for rank, (person, rating) in ranked[:LEADERBOARD_SIZE]],
             'me': {'rank': next((rank for rank, (person, _) in ranked if person.id == profile.id), None),
-                   'value': mine.rating if mine else elo.START}}
+                   'value': mine.rating if mine else elo.START, 'tier': elo.tier(mine.rating if mine else elo.START)}}

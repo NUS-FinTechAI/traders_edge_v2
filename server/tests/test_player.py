@@ -1,6 +1,7 @@
 from datetime import timedelta
 from types import SimpleNamespace
 import unittest
+from unittest.mock import patch
 
 from app.economy_models import EconomyAccount
 from app.player import badges, ledger
@@ -278,10 +279,58 @@ class PlayerTests(AppCase):
         visible = self.client.get('/api/leaderboards/xp').json()
         ranked = self.client.get('/api/leaderboards/ranked').json()
 
-        self.assertEqual(hidden, {'entries': [], 'me': {'rank': None, 'value': 10}})
+        self.assertEqual(hidden, {'entries': [], 'me': {'rank': None, 'value': 10, 'tier': None}})
         self.assertEqual(visible['entries'], [{'rank': 1, 'name': 'Visible', 'badge': None, 'avatar_id': 'avatar-starter-1', 'level': 1, 'value': 10,
                                                'tier': None, 'is_me': True}])
-        self.assertEqual(ranked, {'entries': [], 'me': {'rank': None, 'value': 1000}})
+        self.assertEqual(ranked, {'entries': [], 'me': {'rank': None, 'value': 1000, 'tier': 'bronze'}})
+
+    def test_matchmaking_and_leaderboard_agree_on_every_rating_tier(self):
+        from app.multiplayer.models import Rating
+        self.client.patch('/api/me', json={'leaderboard_opt_in': True})
+
+        for value, tier in [(1000, 'bronze'), (1100, 'silver'), (1300, 'gold'), (1500, 'platinum'), (1700, 'diamond')]:
+            with self.subTest(tier=tier):
+                async def rate(db):
+                    await db.merge(Rating(user_id=self.user_id, rating=value, matches=1, wins=0, updated_at=self.now))
+                self.run_db(rate)
+                matchmaking = self.client.get('/api/matchmaking')
+                leaderboard = self.client.get('/api/leaderboards/ranked')
+
+                self.assertEqual(matchmaking.status_code, 200, matchmaking.text)
+                self.assertEqual(leaderboard.status_code, 200, leaderboard.text)
+                self.assertEqual((matchmaking.json()['rating'], matchmaking.json()['tier']), (value, tier))
+                self.assertEqual(leaderboard.json()['me'], {'rank': 1, 'value': value, 'tier': tier})
+                self.assertEqual(leaderboard.json()['entries'][0]['tier'], tier)
+
+    def test_hidden_player_keeps_their_personal_tier_without_appearing_on_the_public_board(self):
+        from app.multiplayer.models import Rating
+        async def rate(db):
+            db.add(Rating(user_id=self.user_id, rating=1350, matches=1, wins=1, updated_at=self.now))
+        self.run_db(rate)
+
+        leaderboard = self.client.get('/api/leaderboards/ranked').json()
+        matchmaking = self.client.get('/api/matchmaking').json()
+
+        self.assertEqual(leaderboard['entries'], [])
+        self.assertEqual(leaderboard['me'], {'rank': None, 'value': 1350, 'tier': 'gold'})
+        self.assertEqual(matchmaking['tier'], leaderboard['me']['tier'])
+
+    def test_personal_tier_does_not_depend_on_being_in_the_visible_leaderboard_entries(self):
+        from app.db import Profile
+        from app.multiplayer.models import Rating
+        self.client.patch('/api/me', json={'leaderboard_opt_in': True})
+        async def rate(db):
+            db.add(Profile(id='leader', display_name='Leader', leaderboard_opt_in=True))
+            await db.flush()
+            db.add_all([Rating(user_id=self.user_id, rating=1200, matches=1, wins=0, updated_at=self.now),
+                        Rating(user_id='leader', rating=1400, matches=1, wins=1, updated_at=self.now)])
+        self.run_db(rate)
+
+        with patch('app.player.service.LEADERBOARD_SIZE', 1):
+            leaderboard = self.client.get('/api/leaderboards/ranked').json()
+
+        self.assertFalse(any(entry['is_me'] for entry in leaderboard['entries']))
+        self.assertEqual(leaderboard['me'], {'rank': 2, 'value': 1200, 'tier': 'silver'})
 
 
 def badge_result(kept=True, forfeited=False):

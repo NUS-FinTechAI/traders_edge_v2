@@ -1,4 +1,5 @@
 from typing import Literal
+from app.api_schemas.player_schema import RatingTier
 
 from pydantic import BaseModel, Field
 
@@ -54,6 +55,6 @@ class Match(BaseModel):
     status: Literal['idle', 'searching', 'matched']
     game_id: str | None
     rating: int
-    tier: str
+    tier: RatingTier
     waiting_since: str | None
     locked_reason: str | None
