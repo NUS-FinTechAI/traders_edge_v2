@@ -143,6 +143,23 @@
   white-space: nowrap;
 }
 
+/* How to play */
+.help {
+  flex: none;
+  min-width: 44px;
+  padding: 0 var(--space-2);
+}
+
+.helpText {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .helpText {
+    display: inline;
+  }
+}
+
 /* Clock */
 .clock {
   display: flex;
