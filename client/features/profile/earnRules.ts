@@ -10,7 +10,8 @@ export type EarnTopic = 'doubloons' | 'gems' | 'xp' | 'streak'
 
 export interface EarnRow {
   source: string
-  amount: string
+  amount?: string
+  to: string
   note?: string
 }
 
@@ -38,29 +39,6 @@ function range(values: readonly number[]): string {
   return low === high ? `${low}` : `${low}–${high}`
 }
 
-/** Group consecutive cycle days with the same reward ("Days 1–3"). */
-export function streakRows(
-  doubloons: readonly number[] = LOGIN_DOUBLOONS,
-  xp: readonly number[] = LOGIN_XP,
-): EarnRow[] {
-  const rows: EarnRow[] = []
-  let first = 0
-  for (let day = 1; day <= doubloons.length; day++) {
-    const next =
-      day < doubloons.length &&
-      doubloons[day] === doubloons[first] &&
-      xp[day] === xp[first]
-    if (next) continue
-    rows.push({
-      // Word joiners keep "Days 5–6" on one line.
-      source: first + 1 === day ? `Day ${day}` : `Days ${first + 1}⁠–⁠${day}`,
-      amount: `${doubloons[first]} Doubloons · ${xp[first]} XP`,
-    })
-    first = day
-  }
-  return rows
-}
-
 export const EARN: Record<EarnTopic, EarnInfo> = {
   doubloons: {
     label: 'Doubloons',
@@ -69,11 +47,13 @@ export const EARN: Record<EarnTopic, EarnInfo> = {
     rows: [
       {
         source: 'Daily login reward',
+        to: '/',
         amount: `${range(LOGIN_DOUBLOONS)} a day`,
         note: 'Claim it on Home. More on later streak days.',
       },
       {
         source: 'Win the daily challenge',
+        to: '/play/daily',
         amount: '200',
         note: 'First win each day. Opens after the Chapter 1 boss.',
       },
@@ -87,11 +67,20 @@ export const EARN: Record<EarnTopic, EarnInfo> = {
     rows: [
       {
         source: 'Ranked win',
+        to: '/multiplayer',
         amount: '+15',
         note: 'A win counts when an opponent also traded.',
       },
-      { source: 'First ranked win of the day', amount: '+10 extra' },
-      { source: 'Ranked loss with at least one order', amount: '+5' },
+      {
+        source: 'First ranked win of the day',
+        to: '/multiplayer',
+        amount: '+10 extra',
+      },
+      {
+        source: 'Ranked loss with at least one order',
+        to: '/multiplayer',
+        amount: '+5',
+      },
     ],
     notes: [
       'Gems are paid for up to 5 ranked matches a day (UTC). Forfeits pay nothing.',
@@ -104,40 +93,60 @@ export const EARN: Record<EarnTopic, EarnInfo> = {
     summary:
       'XP raises your level. It comes from learning and finishing matches, never from orders, trade count or volume.',
     rows: [
-      { source: 'Finish a level’s check', amount: '10', note: 'First time.' },
+      {
+        source: 'Finish a level’s check',
+        to: '/adventure',
+        amount: '10',
+        note: 'First time.',
+      },
       {
         source: 'Level stars: normal / special',
+        to: '/adventure',
         amount: '20 / 10',
         note: 'First time each.',
       },
-      { source: 'Play a Preview Battle to the end', amount: '10' },
+      {
+        source: 'Play a Preview Battle to the end',
+        to: '/adventure',
+        amount: '10',
+      },
       {
         source: 'Win a Gate or Chapter Boss',
+        to: '/play/bosses',
         amount: '50',
         note: 'First win.',
       },
       {
         source: 'Pass a chapter quiz / mixed mastery',
+        to: '/quiz',
         amount: '20 / 50',
         note: 'Score 80% or more, first pass.',
       },
-      { source: 'Daily review quiz', amount: '10', note: 'Once a day.' },
+      {
+        source: 'Daily review quiz',
+        to: '/quiz/daily',
+        amount: '10',
+        note: 'Once a day.',
+      },
       {
         source: 'Daily challenge: finish / win',
+        to: '/play/daily',
         amount: '15 + 15',
         note: 'Once a day each.',
       },
       {
         source: 'Finish a practice match',
+        to: '/play/practice',
         amount: '10',
         note: 'Up to 3 a day.',
       },
       {
         source: 'Ranked match: loss / win',
+        to: '/multiplayer',
         amount: '10 / 20',
         note: 'Up to 5 a day.',
       },
-      { source: 'Daily login reward', amount: range(LOGIN_XP) },
+      { source: 'Daily login reward', to: '/', amount: range(LOGIN_XP) },
     ],
     notes: [
       'Level 1 to 2 costs 100 XP; each level after that costs 25 more.',
@@ -148,7 +157,13 @@ export const EARN: Record<EarnTopic, EarnInfo> = {
     label: 'Streak',
     summary:
       'Claim the login reward on Home once per UTC day. Each day in a row adds one; a missed day restarts at day 1, with no other penalty.',
-    rows: streakRows(),
+    rows: [
+      {
+        source: 'Daily check-in',
+        to: '/',
+        note: 'Go to Home to claim your daily login reward.',
+      },
+    ],
     notes: ['After day 7 the rewards start again from day 1.'],
   },
 }
