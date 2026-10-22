@@ -12,11 +12,11 @@ import { itemImage } from '../../ui/avatarImage.ts'
 import Button from '../../ui/Button.tsx'
 import Chip, { CurrencyChip } from '../../ui/Chip.tsx'
 import Emblem from '../../ui/Emblem.tsx'
-import Icon from '../../ui/Icon.tsx'
 import Modal from '../../ui/Modal.tsx'
 import PageHeader from '../../ui/PageHeader.tsx'
 import ProgressBar from '../../ui/ProgressBar.tsx'
 import ResourceView from '../../ui/ResourceView.tsx'
+import { EarnGuide } from './EarnGuide.tsx'
 import { EmptyState, SectionHeader } from '../../ui/States.tsx'
 import { formatCount, formatShortDate } from '../../ui/format.ts'
 import { useToast } from '../../ui/toastContext.ts'
@@ -119,7 +119,6 @@ function Shop({ player }: { player: Player }) {
   return (
     <div className={styles.page}>
       <PageHeader
-        back={{ to: '/profile', label: 'Profile' }}
         title="Shop"
         subtitle="Cosmetics only. Nothing here changes a match. Win ranked matches to earn Gems."
         actions={
@@ -208,10 +207,16 @@ function Shop({ player }: { player: Player }) {
                   />
                 )}
               </section>
-              <p className={styles.note}>
-                <Icon name="gem" size={16} />
-                Gems come from ranked matches. No real money.
-              </p>
+              <section aria-label="How to earn">
+                <SectionHeader
+                  title="How to earn"
+                  eyebrow="Doubloons and Gems"
+                />
+                <div className={styles.earnGrid}>
+                  <EarnGuide topic="doubloons" heading />
+                  <EarnGuide topic="gems" heading />
+                </div>
+              </section>
             </>
           )
         }}
