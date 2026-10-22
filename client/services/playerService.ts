@@ -1,6 +1,7 @@
 import { api } from '../api/apiClient.ts'
 import { apiEndpoints } from '../api/api-endpoints.ts'
 import type { components } from '../api/api-types.ts'
+import type { LeaderboardType } from '../features/leaderboard/LeaderboardPage.tsx'
 
 type Schemas = components['schemas']
 
@@ -78,7 +79,7 @@ export function purchase(
 }
 
 export function getLeaderboard(
-  board: 'xp' | 'ranked',
+  board: LeaderboardType,
   signal?: AbortSignal,
 ): Promise<Leaderboard> {
   return api.call(

@@ -20,7 +20,7 @@ import { formatCount } from '../../ui/format.ts'
 import useResource from '../../ui/useResource.ts'
 import styles from './Leaderboard.module.css'
 
-type Board = 'ranked' | 'xp'
+export type LeaderboardType = 'ranked' | 'xp'
 
 const TABS = [
   { id: 'xp', label: 'XP' },
@@ -30,7 +30,7 @@ const TABS = [
 const MEDALS = ['gold', 'neutral', 'loss'] as const
 const PLACES = ['1st', '2nd', '3rd']
 
-function Value({ board, value }: { board: Board; value: number }) {
+function Value({ board, value }: { board: LeaderboardType; value: number }) {
   return (
     <span className={`num ${styles.value}`}>
       {formatCount(value)}
@@ -39,7 +39,7 @@ function Value({ board, value }: { board: Board; value: number }) {
   )
 }
 
-function Standings({ board, data }: { board: Board; data: Leaderboard }) {
+function Standings({ board, data }: { board: LeaderboardType; data: Leaderboard }) {
   const { player } = usePlayer()
   const myTier = data.me.tier
   return (
@@ -144,7 +144,7 @@ function Standings({ board, data }: { board: Board; data: Leaderboard }) {
 }
 
 export default function LeaderboardPage() {
-  const [board, setBoard] = useState<Board>('xp')
+  const [board, setBoard] = useState<LeaderboardType>('xp')
   const resource = useResource(
     (signal) => getLeaderboard(board, signal),
     [board],
