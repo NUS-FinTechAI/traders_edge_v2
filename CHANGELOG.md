@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+### First-match arena tour
+
+- Add a skippable coach-mark tour of the briefing and trading screens (`client/features/arena/tour/`). It starts by itself on a profile's first solo match, never in multiplayer, and replays from "How to play" in the arena top bar. It pauses a running solo clock and resumes it when it ends, includes an optional "buy a few shares" step, and stores completion per profile in `localStorage` (once per page session when storage is blocked).
+
 ### Documentation restructure
 
 - Split the build contract (`docs/game-architecture.md`) and the overlapping topic docs into one reference doc per topic under `docs/reference/` (engine, matches, progression, multiplayer, quizzes, API, data model, research, design decisions), with an index at `docs/README.md`.
