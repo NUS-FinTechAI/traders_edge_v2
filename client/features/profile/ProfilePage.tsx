@@ -130,17 +130,20 @@ function NameEditor({ player }: { player: Player }) {
 
 function Stats({ stats }: { stats: CollectionData['stats'] }) {
   const items = [
-    ['Levels', stats.levels_done],
-    ['Stars', stats.stars],
-    ['Bosses', stats.bosses_won],
-    ['Quizzes', stats.quizzes_passed],
-    ['Matches', stats.matches_played],
+    ['Levels', stats.levels_done, 'flag'],
+    ['Stars', stats.stars, 'star'],
+    ['Bosses', stats.bosses_won, 'skull'],
+    ['Quizzes', stats.quizzes_passed, 'quiz'],
+    ['Matches', stats.matches_played, 'swords'],
   ] as const
   return (
     <dl className={styles.stats}>
-      {items.map(([label, value]) => (
+      {items.map(([label, value, icon]) => (
         <div key={label} className={styles.stat}>
-          <dt>{label}</dt>
+          <dt>
+            <Icon name={icon} size={32} className={styles.statIcon} />
+            {label}
+          </dt>
           <dd className="num">{formatCount(value)}</dd>
         </div>
       ))}
@@ -272,29 +275,6 @@ function Profile({ player }: { player: Player }) {
               </EarnButton>
             </span>
           </div>
-        </div>
-        <div className={styles.wallet}>
-          <EarnButton topic="streak" label={`${player.streak.days}-day streak`}>
-            <Chip tone="flame" icon="flame">
-              {player.streak.days}-day streak
-            </Chip>
-          </EarnButton>
-          <EarnButton
-            topic="doubloons"
-            label={`${formatCount(player.wallet.doubloons)} Doubloons`}
-          >
-            <Chip tone="gold" icon="coin">
-              {formatCount(player.wallet.doubloons)} Doubloons
-            </Chip>
-          </EarnButton>
-          <EarnButton
-            topic="gems"
-            label={`${formatCount(player.wallet.gems)} Gems`}
-          >
-            <Chip tone="gem" icon="gem">
-              {formatCount(player.wallet.gems)} Gems
-            </Chip>
-          </EarnButton>
         </div>
       </section>
 
