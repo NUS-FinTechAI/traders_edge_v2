@@ -134,3 +134,74 @@ test('dot-segment path values are rejected before fetching', (t) => {
 
   assert.equal(fetchMock.mock.callCount(), 0)
 })
+
+test('typed CSV exports return text with the CSV accept header and authentication', async (t) => {
+  const client = new ApiClient(
+    new HttpService({
+      baseUrl: 'http://localhost:8000',
+      getAccessToken: async () => 'test-token',
+    }),
+  )
+  const csv = 'id,name\r\n1,"A,B"\r\n'
+  const fetchMock = t.mock.method(
+    globalThis,
+    'fetch',
+    async () => new Response(csv),
+  )
+
+  const result = await client.callText(apiEndpoints.exportResearchCsv, {
+    path: { kind: 'participants' },
+  })
+
+  assert.equal(result, csv)
+  const [url, init] = fetchMock.mock.calls[0].arguments
+  assert.equal(
+    String(url),
+    'http://localhost:8000/api/research/exports/participants',
+  )
+  assert.equal(init?.method, 'GET')
+  assert.equal(new Headers(init?.headers).get('Accept'), 'text/csv')
+  assert.equal(
+    new Headers(init?.headers).get('Authorization'),
+    'Bearer test-token',
+  )
+})
+
+test('typed CSV exports preserve JSON error details', async (t) => {
+  const client = new ApiClient(
+    new HttpService({ baseUrl: 'http://localhost:8000' }),
+  )
+  t.mock.method(globalThis, 'fetch', async () =>
+    Response.json({ detail: 'Research access required' }, { status: 403 }),
+  )
+
+  await assert.rejects(
+    client.callText(apiEndpoints.exportResearchCsv, {
+      path: { kind: 'participants' },
+    }),
+    { kind: 'http', status: 403, message: 'Research access required' },
+  )
+})
+
+test('typed CSV exports honor cancellation before fetching', async (t) => {
+  const client = new ApiClient(
+    new HttpService({ baseUrl: 'http://localhost:8000' }),
+  )
+  const fetchMock = t.mock.method(
+    globalThis,
+    'fetch',
+    async () => new Response(''),
+  )
+  const controller = new AbortController()
+  controller.abort()
+
+  await assert.rejects(
+    client.callText(apiEndpoints.exportResearchCsv, {
+      path: { kind: 'participants' },
+      signal: controller.signal,
+    }),
+    { kind: 'aborted' },
+  )
+
+  assert.equal(fetchMock.mock.callCount(), 0)
+})

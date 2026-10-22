@@ -37,6 +37,31 @@ type SuccessResponse<R> = {
     : never
 }[keyof R]
 
+type CsvEndpoint = {
+  [
+    K in keyof typeof apiEndpoints
+  ]: operations[(typeof apiEndpoints)[K]['operationId']]['responses'] extends {
+    200: { content: { 'text/csv': string } }
+  }
+    ? (typeof apiEndpoints)[K]
+    : never
+}[keyof typeof apiEndpoints]
+
+function endpointPath(
+  endpoint: Endpoint,
+  path?: Record<string, string | number>,
+): string {
+  return endpoint.path.replace(/\{([^}]+)\}/g, (_placeholder, key: string) => {
+    const value = path?.[key]
+    if (value === undefined || value === null)
+      throw new TypeError(`Missing path parameter: ${key}`)
+    const encoded = encodeURIComponent(String(value))
+    if (encoded === '.' || encoded === '..')
+      throw new TypeError('Path parameters cannot be dot segments')
+    return encoded
+  })
+}
+
 export class ApiClient {
   private readonly http: HttpService
 
@@ -54,24 +79,30 @@ export class ApiClient {
       body?: unknown
       signal?: AbortSignal
     }
-    const url = endpoint.path.replace(
-      /\{([^}]+)\}/g,
-      (_placeholder, key: string) => {
-        const value = options.path?.[key]
-        if (value === undefined || value === null)
-          throw new TypeError(`Missing path parameter: ${key}`)
-        const encoded = encodeURIComponent(String(value))
-        if (encoded === '.' || encoded === '..')
-          throw new TypeError('Path parameters cannot be dot segments')
-        return encoded
-      },
-    )
+    const url = endpointPath(endpoint, options.path)
     return this.http.request(url, {
       method: endpoint.method,
       auth: endpoint.auth,
       query: options.query,
       body: options.body,
       signal: options.signal,
+    })
+  }
+
+  callText<E extends CsvEndpoint>(
+    endpoint: E,
+    ...args: CallArguments<operations[NoInfer<E['operationId']>]>
+  ): Promise<string> {
+    const options = (args[0] ?? {}) as {
+      path?: Record<string, string | number>
+      query?: RequestOptions['query']
+      signal?: AbortSignal
+    }
+    return this.http.requestText(endpointPath(endpoint, options.path), {
+      auth: endpoint.auth,
+      query: options.query,
+      signal: options.signal,
+      accept: 'text/csv',
     })
   }
 }
