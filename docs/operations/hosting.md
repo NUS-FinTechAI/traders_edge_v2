@@ -102,7 +102,20 @@ update the `destination` in `client/vercel.json`.
 
 Open `https://traders-edge.vercel.app`, sign in with Google, claim the daily
 streak, play the Chapter 1 Preview Battle and Level 1, reload, and confirm
-progress is kept.
+progress is kept. Repeat the sign-in with email, including **Forgot
+password?**.
+
+If sign-in fails, the message points at the setting to check:
+
+| Message                                              | Check                                                                              |
+| ---------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| "This sign-in method isn’t turned on…"               | Step 1.2: the provider is enabled                                                  |
+| "…(Firebase authorized domains)"                     | Step 1.3: the exact site domain is listed                                          |
+| "…(Firebase API key)" or "…(API key restrictions)"   | Step 5.3 values, and any website restriction on the key in Google Cloud            |
+| "Sign-in could not be verified"                      | `FIREBASE_PROJECT_ID` and `FIREBASE_SERVICE_ACCOUNT` on Render                     |
+| "The game server didn’t answer…"                     | Render is awake and `ALLOWED_ORIGINS` lists the exact site origin (a CORS failure) |
+| "A permitted request origin is required" (on a save) | `ALLOWED_ORIGINS` lists the exact site origin                                      |
+| Any other message with a code in brackets            | Look the code up in the Firebase Authentication error list                         |
 
 Before a demo, open the site a couple of minutes early so Render has woken
 up. Every merge to `master`
