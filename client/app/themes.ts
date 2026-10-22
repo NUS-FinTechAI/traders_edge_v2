@@ -207,7 +207,7 @@ const PARCHMENT_DAY: BaseVars = {
   '--shadow': '0 1px 0 #3a2a140f, 0 8px 24px #3a2a141f',
 }
 
-/** Harbour at dusk: charcoal-plum surfaces, coral actions, amber accents. */
+/** Harbour at dusk: charcoal-plum surfaces, amber actions, coral-rose losses. */
 const HARBOR_DUSK: BaseVars = {
   'color-scheme': 'dark',
   '--bg': '#17131a',
@@ -221,12 +221,13 @@ const HARBOR_DUSK: BaseVars = {
   '--text': '#f4eae3',
   '--text-muted': '#bcafb8',
   '--text-dim': '#ab9ea9',
-  '--primary': '#b44f3d',
-  '--primary-hover': '#9f4535',
-  '--on-primary': '#ffffff',
-  '--gold': '#eeb25c',
-  '--gold-soft': '#3a2b1c',
-  '--gold-line': '#634a2a',
+  // Amber actions take dark text, so hover lightens instead of darkening.
+  '--primary': '#e0903e',
+  '--primary-hover': '#eba25a',
+  '--on-primary': '#1f1405',
+  '--gold': '#f2c66d',
+  '--gold-soft': '#3a2f1c',
+  '--gold-line': '#66532c',
   '--on-gold': '#1f1405',
   '--gem': '#9a7ad6',
   '--gem-soft': '#2c2340',
@@ -333,7 +334,7 @@ export const THEMES: Theme[] = [
   {
     id: 'harbor-dusk',
     name: 'Harbor Dusk',
-    description: 'Charcoal-plum surfaces with coral actions and amber accents.',
+    description: 'Charcoal-plum surfaces, amber actions and coral-rose losses.',
     kind: 'base',
     free: true,
     vars: HARBOR_DUSK,
