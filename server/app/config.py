@@ -36,6 +36,8 @@ class Settings:
     research_pseudonym_secret: str | None = field(default=None, repr=False)
     researcher_firebase_uids: tuple[str, ...] = ()
     researcher_profile_ids: tuple[str, ...] = ()
+    sentry_dsn: str | None = field(default=None, repr=False)
+    release: str | None = None
 
     @classmethod
     def from_env(cls):
@@ -56,6 +58,8 @@ class Settings:
             research_pseudonym_secret=os.getenv('RESEARCH_PSEUDONYM_SECRET') or None,
             researcher_firebase_uids=id_list(os.getenv('RESEARCHER_FIREBASE_UIDS')),
             researcher_profile_ids=id_list(os.getenv('RESEARCHER_PROFILE_IDS')),
+            sentry_dsn=os.getenv('SENTRY_DSN') or None,
+            release=os.getenv('RENDER_GIT_COMMIT') or None,
         )
 
     @property

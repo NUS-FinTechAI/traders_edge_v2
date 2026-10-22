@@ -1,0 +1,111 @@
+/* Above the arena bars and toasts, so a toast never covers the step card. */
+.layer {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  pointer-events: none;
+}
+
+.blocker {
+  position: fixed;
+  inset: 0;
+  pointer-events: auto;
+}
+
+.spotlight,
+.dim {
+  position: fixed;
+  pointer-events: none;
+}
+
+.spotlight {
+  border-radius: var(--radius);
+  outline: 2px solid var(--gold);
+  box-shadow: 0 0 0 100vmax color-mix(in srgb, var(--bg) 78%, transparent);
+  transition:
+    top 180ms var(--ease),
+    left 180ms var(--ease),
+    width 180ms var(--ease),
+    height 180ms var(--ease);
+}
+
+.dim {
+  inset: 0;
+  background: color-mix(in srgb, var(--bg) 78%, transparent);
+}
+
+.card {
+  position: fixed;
+  max-height: calc(100vh - 16px);
+  overflow: auto;
+  padding: var(--space-4);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  color: var(--text);
+  pointer-events: auto;
+}
+
+.anchored {
+  width: min(360px, calc(100vw - 32px));
+}
+
+.sheetBottom,
+.sheetTop {
+  left: var(--space-2);
+  right: var(--space-2);
+}
+
+.sheetBottom {
+  bottom: calc(var(--space-2) + env(safe-area-inset-bottom));
+}
+
+.sheetTop {
+  top: var(--space-2);
+}
+
+.counter {
+  margin: 0 0 var(--space-1);
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+  font-weight: 700;
+}
+
+.title {
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-lg);
+  font-weight: 800;
+}
+
+.body {
+  margin: 0;
+  font-size: var(--text-sm);
+  line-height: 1.5;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+}
+
+.skip {
+  padding: 0 var(--space-2);
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}
+
+.nav {
+  display: flex;
+  gap: var(--space-2);
+  margin-left: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spotlight {
+    transition: none;
+  }
+}

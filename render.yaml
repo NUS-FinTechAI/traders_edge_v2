@@ -39,3 +39,6 @@ services:
         sync: false
       - key: RESEARCHER_FIREBASE_UIDS
         sync: false
+      # Optional: Sentry error reporting stays off while this is empty.
+      - key: SENTRY_DSN
+        sync: false

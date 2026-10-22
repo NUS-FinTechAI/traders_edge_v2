@@ -17,6 +17,7 @@ from app.campaign.api import router as campaign_router
 from app.campaign.games import before_start, resolve_game
 from app.campaign.settlement import settle_game
 from app.content.bundle import Content, load_content, require_approved_content
+from app.monitoring import start_monitoring
 from app.game.api import router as games_router
 from app.multiplayer.api import router as multiplayer_router
 from app.player.api import router as player_router
@@ -39,6 +40,7 @@ def create_app(settings: Settings | None = None, content: Content | None = None)
     """`content` replaces the authored content loaded from disk (tests pass fixtures)."""
     settings = settings or Settings.from_env()
     settings.validate()
+    start_monitoring(settings)
 
     @asynccontextmanager
     async def lifespan(application):

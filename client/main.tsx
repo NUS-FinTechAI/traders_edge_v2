@@ -3,8 +3,11 @@ import { createRoot } from 'react-dom/client'
 import './ui/tokens.css'
 import './ui/global.css'
 import App from './App.tsx'
+import { reactErrorHandlers, startMonitoring } from './services/monitoring.ts'
 
-createRoot(document.getElementById('root')!).render(
+startMonitoring()
+
+createRoot(document.getElementById('root')!, reactErrorHandlers()).render(
   <StrictMode>
     <App />
   </StrictMode>,

@@ -12,6 +12,7 @@ import { formatMoney } from '../../../ui/format.ts'
 import { errorText } from '../../../ui/useResource.ts'
 import { MAX_LOSS, STRATEGIES, TIER_LABEL, modeLabel } from '../labels.ts'
 import { MissionList } from '../panels/MissionsPanel.tsx'
+import { tourTarget } from '../tour/tour.ts'
 import styles from './Briefing.module.css'
 
 interface BriefingScreenProps {
@@ -68,7 +69,7 @@ export default function BriefingScreen({
         </p>
       )}
       <article className={styles.card} aria-labelledby="briefing-title">
-        <header className={styles.header}>
+        <header className={styles.header} {...tourTarget('briefing-mission')}>
           <Chip tone="gold" icon={state.mode === 'boss' ? 'crown' : 'swords'}>
             {modeLabel(state.mode, state.boss)}
           </Chip>
@@ -76,7 +77,11 @@ export default function BriefingScreen({
           <p className={styles.briefing}>{scenario.briefing}</p>
         </header>
 
-        <section className={styles.objective} aria-labelledby="objective-title">
+        <section
+          className={styles.objective}
+          aria-labelledby="objective-title"
+          {...tourTarget('briefing-mission')}
+        >
           <Icon name="compass" size={22} />
           <div>
             <h2 id="objective-title">What this market teaches</h2>
@@ -86,7 +91,10 @@ export default function BriefingScreen({
 
         <div className={styles.grid}>
           {rivals.length > 0 && (
-            <section aria-labelledby="rivals-title">
+            <section
+              aria-labelledby="rivals-title"
+              {...tourTarget('briefing-rivals')}
+            >
               <h2 id="rivals-title" className={styles.sectionTitle}>
                 Your rivals
               </h2>
@@ -172,7 +180,11 @@ export default function BriefingScreen({
           </section>
         </div>
 
-        <section className={styles.plan} aria-labelledby="plan-title">
+        <section
+          className={styles.plan}
+          aria-labelledby="plan-title"
+          {...tourTarget('briefing-plan')}
+        >
           <h2 id="plan-title">Your game plan</h2>
           <p className={styles.planHint}>
             Pick one of each. Your results will compare the plan with what you

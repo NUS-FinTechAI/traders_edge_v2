@@ -48,6 +48,8 @@ loopback database ([deployment](../docs/operations/deployment.md#live-postgresql
 | `RESEARCH_PSEUDONYM_SECRET` | Unset                                          | Required when enrollment is enabled (32+ characters outside development); keys the HMAC pseudonyms in researcher views and exports |
 | `RESEARCHER_FIREBASE_UIDS` | Unset                                           | Comma-separated Firebase uids allowed to open the researcher dashboard                     |
 | `RESEARCHER_PROFILE_IDS`  | Unset                                            | Comma-separated profile ids allowed as researchers outside production (local testing); ignored in production |
+| `SENTRY_DSN`              | Unset                                            | Sentry project DSN; error reporting is off without it ([below](#error-monitoring))         |
+| `RENDER_GIT_COMMIT`       | Set by Render                                    | Sentry release name                                                                        |
 
 | `APP_ENV`     | Auth default | Database   | Origins | Content review gate | Use                                |
 | ------------- | ------------ | ---------- | ------- | ------------------- | ---------------------------------- |
@@ -67,6 +69,15 @@ is `authored_requires_independent_review`.
 
 There is no instructor setting: any signed-in player can host a classroom quiz
 room.
+
+## Error monitoring
+
+With `SENTRY_DSN` set, `app/monitoring.py` reports unhandled server errors to
+Sentry, tagged with `APP_ENV` and the release, and samples 10% of requests for
+performance. Events carry no cookies, `Authorization` header, request bodies,
+query strings, local variables or IP address, and expected 4xx
+`HTTPException`s are not reported. Setup is in
+[hosting](../docs/operations/hosting.md#error-monitoring-sentry-free).
 
 ## Authentication
 
