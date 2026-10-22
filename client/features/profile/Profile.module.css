@@ -347,6 +347,7 @@
 }
 
 .badge {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -361,6 +362,14 @@
 
 .equipped {
   border-color: var(--gain);
+}
+
+.equippedTick {
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-2);
+  display: inline-flex;
+  color: var(--gain);
 }
 
 .badgeArt {

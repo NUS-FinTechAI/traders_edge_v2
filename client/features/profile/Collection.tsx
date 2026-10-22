@@ -132,8 +132,7 @@ export default function Collection({
   const [busy, setBusy] = useState<string | null>(null)
   const [justEquipped, setJustEquipped] = useState<string | null>(null)
 
-  // Move focus to the new "Equipped" chip, which names the item, so the
-  // change is announced once and keyboard users keep their place.
+  // Keep keyboard focus on the updated equipment control or status.
   useEffect(() => {
     if (justEquipped)
       document.getElementById(`equipped-${justEquipped}`)?.focus()
@@ -222,8 +221,23 @@ export default function Collection({
                 {data.badges.map((badge) => (
                   <li
                     key={badge.id}
-                    className={`${styles.badge} ${badge.earned ? '' : styles.badgeLocked}`}
+                    className={[
+                      styles.badge,
+                      badge.equipped && styles.equipped,
+                      !badge.earned && styles.badgeLocked,
+                    ]
+                      .filter(Boolean)
+                      .join(' ')}
                   >
+                    {badge.equipped && (
+                      <span
+                        className={styles.equippedTick}
+                        role="img"
+                        aria-label="Equipped"
+                      >
+                        <Icon name="check" size={20} />
+                      </span>
+                    )}
                     <span className={styles.badgeArt}>
                       <Emblem
                         name={badgeArt(badge.id)}
@@ -248,33 +262,19 @@ export default function Collection({
                     <span className={styles.badgeHow}>{badge.description}</span>
                     {badge.earned && (
                       <div className={styles.badgeActions}>
-                        {badge.equipped ? (
-                          <>
-                            <EquippedChip id={badge.id} name={badge.name} />
-                            <Button
-                              variant="ghost"
-                              disabled={!!busy}
-                              onClick={() =>
-                                void equip(badge.id, { badge_id: null })
-                              }
-                              aria-label={`Remove ${badge.name}`}
-                            >
-                              Remove
-                            </Button>
-                          </>
-                        ) : (
-                          <Button
-                            variant="secondary"
-                            disabled={!!busy}
-                            id={`equipped-${badge.id}`}
-                            onClick={() =>
-                              void equip(badge.id, { badge_id: badge.id })
-                            }
-                            aria-label={`Equip ${badge.name}`}
-                          >
-                            Equip
-                          </Button>
-                        )}
+                        <Button
+                          variant="secondary"
+                          disabled={!!busy}
+                          id={`equipped-${badge.id}`}
+                          onClick={() =>
+                            void equip(badge.id, {
+                              badge_id: badge.equipped ? null : badge.id,
+                            })
+                          }
+                          aria-label={`${badge.equipped ? 'Unequip' : 'Equip'} ${badge.name}`}
+                        >
+                          {badge.equipped ? 'Unequip' : 'Equip'}
+                        </Button>
                       </div>
                     )}
                     {!badge.earned && badge.progress && (
