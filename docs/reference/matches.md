@@ -31,7 +31,9 @@ Solo clock: 2 s per day at 1×, with 2×, 4×, pause and "next day" while paused
    once during ticks 0–2, after which `start` returns 409. An order without a
    plan returns 422 "Choose your game plan before trading."
 3. **Trading** (`running`): orders, cancels and solo clock commands. Missions
-   update live. The ticket shows "risk if stopped: $X (Y %)".
+   update live in a dialog opened by the Missions star icon beside How to play.
+   The dialog keeps the mission list, completion count and status labels.
+   The ticket shows "risk if stopped: $X (Y %)".
 4. **Ended** (derived) once the last day has passed.
 5. **Finish** (`POST /finish`): allowed after the end, or at any time with
    `forfeit: true`. Returns the [result](engine.md#results). Calling it again
