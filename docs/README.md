@@ -32,7 +32,7 @@ the code wins and the doc needs fixing. Start with
 
 ## Operations
 
-- [Hosting guide](operations/hosting.md): one free deployment on Render, Supabase, Vercel and Firebase.
+- [Hosting guide](operations/hosting.md): one free deployment on Render, Neon, Vercel and Firebase.
 - [Deployment](operations/deployment.md): container image, Compose stack, client build, live PostgreSQL tests.
 - [Performance](operations/performance.md): budgets, local benchmark, first-time usability tasks.
 

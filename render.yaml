@@ -1,5 +1,5 @@
 # Render Blueprint: one free API service in Singapore.
-# PostgreSQL is on Supabase's free tier (DATABASE_URL = session pooler URL); the client is on
+# PostgreSQL is on Neon's free tier (DATABASE_URL = Neon direct connection string); the client is on
 # Vercel (client/vercel.json), which forwards /api/* here.
 # APP_ENV=staging keeps the game playable before the independent content review; switch to
 # production once server/app/content/review.json is approved.
