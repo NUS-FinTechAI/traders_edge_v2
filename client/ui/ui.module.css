@@ -235,6 +235,30 @@
   border: 1px solid var(--border-strong);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow);
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-input) var(--surface);
+}
+
+@supports not (scrollbar-color: auto) {
+  .modal::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  .modal::-webkit-scrollbar-track,
+  .modal::-webkit-scrollbar-corner {
+    background: var(--surface);
+  }
+
+  .modal::-webkit-scrollbar-thumb {
+    background: var(--border-input);
+    border: 2px solid var(--surface);
+    border-radius: var(--radius-pill);
+  }
+
+  .modal::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+  }
 }
 
 .modal[open] {
