@@ -4,6 +4,7 @@ services:
   - type: web
     name: traders-edge-api-staging
     runtime: docker
+    region: singapore
     plan: free
     rootDir: server
     dockerfilePath: ./Dockerfile
@@ -25,6 +26,7 @@ services:
   - type: web
     name: traders-edge-api
     runtime: docker
+    region: singapore
     plan: starter
     rootDir: server
     dockerfilePath: ./Dockerfile
@@ -50,9 +52,11 @@ services:
 databases:
   - name: traders-edge-db-staging
     plan: free
+    region: singapore
     databaseName: traders_edge
     user: traders_edge
   - name: traders-edge-db
     plan: basic-256mb
+    region: singapore
     databaseName: traders_edge
     user: traders_edge
