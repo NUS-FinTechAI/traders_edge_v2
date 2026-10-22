@@ -33,6 +33,11 @@ are described in the [server guide](../../server/README.md#configuration).
 If Render gives a service a different hostname (because the name is taken),
 update the matching `destination` in `client/vercel.json`.
 
+Region: every service and database is in Render's `singapore` region, close
+to the players and on the same private network as its database. Render cannot
+move a service to another region after it is created, so change `region` in
+`render.yaml` before applying the blueprint if needed.
+
 Plans and cost: the staging service and database use Render's free plan. Free
 web services sleep when idle (the first request after a pause takes about a
 minute) and free databases expire after 30 days. Production uses the
