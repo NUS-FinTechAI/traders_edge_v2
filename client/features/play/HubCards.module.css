@@ -1,0 +1,76 @@
+.cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* An odd last card spans the row instead of leaving a gap. */
+.cards > li:last-child:nth-child(odd) {
+  grid-column: 1 / -1;
+}
+
+@media (min-width: 720px) {
+  .three {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .three > li:last-child:nth-child(odd) {
+    grid-column: auto;
+  }
+}
+
+@media (min-width: 900px) {
+  .four {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.card {
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  gap: var(--space-1);
+  min-width: 0;
+  padding: var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  text-align: center;
+}
+
+.art {
+  display: grid;
+  place-items: center;
+  height: 96px;
+  margin-bottom: var(--space-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.gold {
+  background: var(--gold-soft);
+}
+
+.gem {
+  background: var(--gem-soft);
+}
+
+.info {
+  background: var(--info-soft);
+}
+
+.green {
+  background: var(--gain-soft);
+}
+
+.title {
+  font-size: var(--text-md);
+}
+
+.text {
+  margin-bottom: var(--space-2);
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+}

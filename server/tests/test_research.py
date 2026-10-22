@@ -73,7 +73,7 @@ class ResearchTests(unittest.TestCase):
             self.assertIsNone(settings.research_policy_version)
             settings.validate()
         with patch.dict(os.environ, {'RESEARCH_ENABLED': 'true', 'RESEARCH_POLICY_VERSION': 'study-1',
-                                     'RESEARCH_POLICY_TEXT': 'Participant policy text.'}, clear=True):
+                                     'RESEARCH_POLICY_TEXT': 'Participant policy text.', 'RESEARCH_PSEUDONYM_SECRET': 'local-secret'}, clear=True):
             settings = Settings.from_env()
             settings.validate()
             self.assertTrue(settings.research_enabled)

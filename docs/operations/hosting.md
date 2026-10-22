@@ -2,12 +2,12 @@
 
 One free environment deploys from `master`:
 
-| Piece    | Service                 | Name / setting                             |
-| -------- | ----------------------- | ------------------------------------------ |
-| API      | Render free web service | `traders-edge-api`, Singapore              |
-| Database | Neon free project       | `traders-edge`, AWS Singapore              |
-| Client   | Vercel Hobby project    | `traders-edge` (`traders-edge.vercel.app`) |
-| Sign-in  | Firebase Authentication | Google and Email/Password                  |
+| Piece    | Service                 | Name / setting                                   |
+| -------- | ----------------------- | ------------------------------------------------ |
+| API      | Render free web service | `traders-edge-api`, Singapore                    |
+| Database | Neon free project       | `traders-edge`, AWS Singapore                    |
+| Client   | Vercel Hobby project    | `traders-edge-v2` (`traders-edge-v2.vercel.app`) |
+| Sign-in  | Firebase Authentication | Google and Email/Password                        |
 
 The API runs with `APP_ENV=staging` and `AUTH_MODE=firebase`: hosted on
 PostgreSQL over HTTPS, signed in with Firebase, and playable before the
@@ -32,7 +32,7 @@ Free-tier limits that matter:
 2. **Authentication → Sign-in method**: enable **Google** and
    **Email/Password**.
 3. **Authentication → Settings → Authorized domains**: add
-   `traders-edge.vercel.app`.
+   `traders-edge-v2.vercel.app`.
 4. **Project settings → General → Your apps**: add a **Web** app and copy
    `apiKey`, `authDomain` and `appId`.
 5. **Project settings → Service accounts → Generate new private key**:
@@ -74,7 +74,7 @@ database only costs a short wake-up.
    | Variable                   | Value                                         |
    | -------------------------- | --------------------------------------------- |
    | `DATABASE_URL`             | The Neon direct connection string from step 3 |
-   | `ALLOWED_ORIGINS`          | `https://traders-edge.vercel.app`             |
+   | `ALLOWED_ORIGINS`          | `https://traders-edge-v2.vercel.app`          |
    | `FIREBASE_PROJECT_ID`      | The Firebase Project ID from step 1           |
    | `FIREBASE_SERVICE_ACCOUNT` | The whole service-account JSON, pasted in     |
 
@@ -89,18 +89,18 @@ update the `destination` in `client/vercel.json`.
 
 1. In Vercel, **Add New → Project**, choose the **NUS-FinTechAI** account and
    import `traders_edge_v2`.
-2. Project name `traders-edge`; **Root Directory** `client`. Build settings
+2. Project name `traders-edge-v2`; **Root Directory** `client`. Build settings
    come from `client/vercel.json`.
 3. Environment variables: `VITE_FIREBASE_API_KEY`,
    `VITE_FIREBASE_AUTH_DOMAIN` and `VITE_FIREBASE_APP_ID` from step 1.4.
 4. **Deploy**, then set **Settings → General → Node.js Version** to 24.x and
    redeploy.
-5. Confirm the domain is `traders-edge.vercel.app`. If it differs, update
+5. Confirm the domain is `traders-edge-v2.vercel.app`. If it differs, update
    `ALLOWED_ORIGINS` on Render and Firebase's authorized domains to match.
 
 ## 6. Check the deployment
 
-Open `https://traders-edge.vercel.app`, sign in with Google, claim the daily
+Open `https://traders-edge-v2.vercel.app`, sign in with Google, claim the daily
 streak, play the Chapter 1 Preview Battle and Level 1, reload, and confirm
 progress is kept. Repeat the sign-in with email, including **Forgot
 password?**.
@@ -121,8 +121,53 @@ Before a demo, open the site a couple of minutes early so Render has woken
 up. Every merge to `master`
 redeploys Render and Vercel.
 
+## Error monitoring (Sentry, free)
+
+Optional. Without the variables below nothing is reported and the client
+build leaves the Sentry SDK out.
+
+1. Create a free [Sentry](https://sentry.io) organisation (Developer plan)
+   with two projects: **FastAPI** (`traders-edge-api`) and **React**
+   (`traders-edge-client`). Copy each project's DSN.
+2. In the API project's **Settings → Security & Privacy**, turn on
+   **Prevent Storing of IP Addresses**; do the same for the client project.
+3. Render: set `SENTRY_DSN` to the FastAPI DSN. Events use `APP_ENV` as the
+   environment and the deployed commit as the release.
+4. Vercel: set `VITE_SENTRY_DSN` to the React DSN (and optionally
+   `VITE_SENTRY_ENVIRONMENT`, default `production`). The release is the
+   deployed commit.
+5. Redeploy both. Vite reads `VITE_*` at build time, so Vercel needs a new
+   build.
+
+Reports carry the page or route, stack trace and browser, but no cookies,
+`Authorization` header, request bodies, query strings or IP address. The
+client sends errors only (no performance tracing or session replay) and the
+API samples 10% of requests for performance, to stay within the free
+quota.
+
 ## After the content review
 
 Once the independent financial and teaching review is done, set
 `server/app/content/review.json` to `"status": "approved"` and change
 `APP_ENV` to `production` in `render.yaml`, in a reviewed PR.
+
+## Enabling the research study
+
+Optional, and only after the study protocol and its consent text have ethics
+and privacy approval; configuration does not grant that approval. On the
+Render service set:
+
+| Variable                    | Value                                                                                                 |
+| --------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `RESEARCH_ENABLED`          | `true`                                                                                                |
+| `RESEARCH_POLICY_VERSION`   | The approved policy version, e.g. `study-2026-1`                                                      |
+| `RESEARCH_POLICY_TEXT`      | The exact approved consent text                                                                       |
+| `RESEARCH_PSEUDONYM_SECRET` | A random secret of at least 32 characters (`openssl rand -hex 32`)                                    |
+| `RESEARCHER_FIREBASE_UIDS`  | Comma-separated Firebase uids of the approved researchers (Firebase console → Authentication → Users) |
+
+Leave them unset otherwise. Changing the policy text requires a new version,
+and participants must consent again. Keep the pseudonym secret in Render only
+and do not change it during a study, or pseudonyms stop matching earlier
+exports. `RESEARCHER_PROFILE_IDS` is for local testing and is ignored in
+production. See [research](../reference/research.md#researcher-dashboard) for
+what researchers can see.

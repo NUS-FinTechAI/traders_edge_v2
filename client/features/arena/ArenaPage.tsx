@@ -33,6 +33,8 @@ import {
 } from './pendingStops.ts'
 import ResultsScreen from './results/ResultsScreen.tsx'
 import { isRetryable } from './retry.ts'
+import TourLayer from './tour/TourLayer.tsx'
+import useArenaTour from './tour/useArenaTour.ts'
 import TradingScreen from './trading/TradingScreen.tsx'
 import useGame from './useGame.ts'
 
@@ -81,7 +83,7 @@ function exitPath(state: GameState): string {
 function Arena({ gameId }: { gameId: string }) {
   const navigate = useNavigate()
   const notify = useToast()
-  const { refreshPlayer } = usePlayer()
+  const { player, refreshPlayer } = usePlayer()
   const { state, loadError, failure, reconnecting, refresh, accept, stop } =
     useGame(gameId)
   const [result, setResult] = useState<GameResult | null>(null)
@@ -217,6 +219,13 @@ function Arena({ gameId }: { gameId: string }) {
     [gameId, notify, accept],
   )
 
+  const tour = useArenaTour({
+    state,
+    phase: ended ? 'loading' : phase,
+    playerId: player?.id ?? null,
+    onClock,
+  })
+
   async function onPlace(order: OrderRequest, attachStop: number | null) {
     const placed = await placeOrder(gameId, order)
     if (attachStop !== null) {
@@ -334,32 +343,40 @@ function Arena({ gameId }: { gameId: string }) {
 
   if (phase === 'briefing') {
     return (
-      <BriefingScreen
-        state={state}
-        onStart={onStart}
-        onBack={needsPlan ? undefined : () => void navigate(exitPath(state))}
-      />
+      <>
+        <BriefingScreen
+          state={state}
+          onStart={onStart}
+          onBack={needsPlan ? undefined : () => void navigate(exitPath(state))}
+        />
+        <TourLayer tour={tour} />
+      </>
     )
   }
 
   return (
-    <TradingScreen
-      state={state}
-      reconnecting={reconnecting}
-      clockBusy={clockBusy}
-      cancelling={cancelling}
-      pendingStops={pendingStopCount}
-      onClock={onClock}
-      onPlace={onPlace}
-      onCancel={onCancel}
-      onForfeit={async () => {
-        try {
-          await settle(true)
-        } catch (error) {
-          notify(errorText(error), 'error')
-        }
-      }}
-    />
+    <>
+      <TradingScreen
+        state={state}
+        reconnecting={reconnecting}
+        clockBusy={clockBusy}
+        cancelling={cancelling}
+        pendingStops={pendingStopCount}
+        onClock={onClock}
+        onPlace={onPlace}
+        onCancel={onCancel}
+        onForfeit={async () => {
+          try {
+            await settle(true)
+          } catch (error) {
+            notify(errorText(error), 'error')
+          }
+        }}
+        tourTab={tour.tab}
+        onHowToPlay={tour.replay}
+      />
+      <TourLayer tour={tour} />
+    </>
   )
 }
 

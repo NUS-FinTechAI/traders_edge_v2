@@ -44,6 +44,13 @@ Migration 12 (`migration_v12.py`):
 | `matchmaking_queue`                     | user_id, status (`searching`\|`matched`), game_id, created_at                                                                                                 |
 | `ratings`                               | user_id, rating, matches, wins, updated_at                                                                                                                    |
 
+Migration 13 (`migration_v13.py`, `research_models.PriorKnowledgeResponse`):
+
+| Table                       | Columns                                                                                                                                                                                                                                                                          |
+| --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `prior_knowledge_responses` | user_id (one row per player), instrument_version, consent_version, status (`completed`\|`skipped`), experience, brokerage_account, market_frequency, confidence (1–5), answers (JSON: item, option or null, correct), score, prior_knowledge_group, elapsed_seconds, recorded_at |
+| `campaign_checks` (added)   | first_answered_at: time of the first answer; null for answers recorded before migration 13                                                                                                                                                                                       |
+
 Rewards are keyed, not counted: an `xp_ledger` or `economy_events` row with
 the same (player, key) is never written twice. Key formats are in
 [matches](matches.md#settlement).
@@ -58,15 +65,18 @@ code reads or writes them. Earlier learner records were not converted.
 
 ## Migrations
 
-`server/app/migrations.py` applies 1–12 in order, records each in
+`server/app/migrations.py` applies 1–13 in order, records each in
 `schema_versions`, and rejects gaps or unknown versions. Changing a model does
 not change a database: append a numbered migration. With `AUTO_MIGRATE=false`,
 run `uv run --project server --locked python -m app.db` first; the API refuses
 to start on a version mismatch. `server/tests/test_migrations.py` checks a
-fresh migration and that upgrading a populated database to 12 keeps every row.
+fresh migration and that upgrading a populated database to 12 and to 13 keeps
+every row.
 
 ## Privacy
 
 Every player-owned read is filtered by the authenticated profile.
 Leaderboards show only opted-in display names. Research exports omit the
-daily shared seed. There is no account deletion or retention policy.
+daily shared seed. Researcher views and exports cover only participants with
+active consent, under keyed pseudonyms ([research](research.md#researcher-dashboard)).
+There is no account deletion or retention policy.

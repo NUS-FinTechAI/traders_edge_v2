@@ -12,6 +12,7 @@
     "typecheck": "tsc -b --pretty false"
   },
   "dependencies": {
+    "@sentry/react": "11.5.0",
     "firebase": "^13.0.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",

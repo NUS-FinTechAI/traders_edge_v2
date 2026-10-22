@@ -16,7 +16,7 @@ import ProgressBar from '../../ui/ProgressBar.tsx'
 import ResourceView from '../../ui/ResourceView.tsx'
 import { useToast } from '../../ui/toastContext.ts'
 import useResource, { errorText } from '../../ui/useResource.ts'
-import { attemptPath } from './paths.ts'
+import { attemptPath, topicListPath } from './paths.ts'
 import styles from './QuizPage.module.css'
 
 const CONFIDENCE: { id: Confidence; label: string }[] = [
@@ -123,7 +123,7 @@ function Results({
           </ButtonLink>
         ) : (
           <ButtonLink
-            to="/quiz"
+            to={topicListPath(topicId)}
             variant={attempt.passed || !topicId ? 'primary' : 'secondary'}
           >
             Back to quizzes
@@ -259,7 +259,7 @@ function QuizRun({ initial }: { initial: QuizAttempt }) {
             void navigate(
               attempt.room_id
                 ? `/quiz/room/${encodeURIComponent(attempt.room_id)}`
-                : '/quiz',
+                : topicListPath(search.get('topic')),
             )
           }
         />

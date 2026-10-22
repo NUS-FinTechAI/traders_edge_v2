@@ -76,9 +76,9 @@ export function layoutMap<T extends { kind: string }>(
 }
 
 /**
- * Connectors run centre to centre. They are drawn underneath the nodes, whose
- * medallions and captions have solid backgrounds, so a line never shows
- * through text.
+ * Connectors run centre to centre, drawn underneath the nodes. Medallions are
+ * solid; captions are transparent with a text halo, so the trail stays
+ * visible without running through the glyphs.
  */
 function branch(from: Point, to: Point): string {
   return `M${from.x} ${from.y}L${to.x} ${to.y}`

@@ -20,6 +20,7 @@ import ResourceView from '../../ui/ResourceView.tsx'
 import { formatCount } from '../../ui/format.ts'
 import { useToast } from '../../ui/toastContext.ts'
 import useResource, { errorText } from '../../ui/useResource.ts'
+import StudyPanel from '../research/StudyPanel.tsx'
 import ActivityHeatmap from './ActivityHeatmap.tsx'
 import Collection from './Collection.tsx'
 import { EarnButton } from './EarnGuide.tsx'
@@ -305,6 +306,7 @@ function Profile({ player }: { player: Player }) {
         )}
       </ResourceView>
       <Settings player={player} />
+      <StudyPanel />
       <p className={styles.footnote}>
         <Icon name="info" size={14} /> Simulated money · fictional companies
       </p>

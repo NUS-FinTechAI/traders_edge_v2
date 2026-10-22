@@ -20,6 +20,7 @@ import usePageTitle from './usePageTitle.ts'
 import ThemeApplier from './ThemeApplier.tsx'
 import { usePlayer } from './PlayerContext.ts'
 import PlayerProvider from './PlayerProvider.tsx'
+import { useResearchAccess } from '../features/research/useResearch.ts'
 import styles from './AppShell.module.css'
 
 interface NavItem {
@@ -47,6 +48,8 @@ const MORE: NavItem[] = [
   ...EXTRA,
 ]
 
+const RESEARCH: NavItem = { to: '/research', label: 'Research', icon: 'chart' }
+
 /** Three dots, drawn like the shared icon set. */
 function MoreIcon() {
   return (
@@ -69,6 +72,7 @@ function MoreIcon() {
 function Hud() {
   const { status } = useAuth()
   const { player } = usePlayer()
+  const researcher = useResearchAccess()
   return (
     <header className={styles.hud}>
       <div className={styles.hudInner}>
@@ -100,6 +104,12 @@ function Hud() {
               <span className={styles.topLabel}>{item.label}</span>
             </NavLink>
           ))}
+          {researcher && (
+            <NavLink to="/research" className={styles.topLink} title="Research">
+              <Icon name="chart" size={20} />
+              <span className={styles.topLabel}>Research</span>
+            </NavLink>
+          )}
         </nav>
         <div className={styles.hudStats}>
           {player ? (
@@ -165,7 +175,8 @@ function BottomNav() {
   const { pathname } = useLocation()
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDialogElement>(null)
-  const moreCurrent = MORE.some(
+  const more = useResearchAccess() ? [...MORE, RESEARCH] : MORE
+  const moreCurrent = more.some(
     (item) => pathname === item.to || pathname.startsWith(`${item.to}/`),
   )
 
@@ -229,7 +240,7 @@ function BottomNav() {
               />
             </div>
             <ul className={styles.sheetList}>
-              {MORE.map((item) => (
+              {more.map((item) => (
                 <li key={item.to}>
                   <NavLink
                     to={item.to}
@@ -258,8 +269,9 @@ export default function AppShell() {
   const navigation = useNavigation()
   const { pathname } = useLocation()
   const immersive = pathname.startsWith('/game/')
-  // Lessons and quizzes hide the HUD and navigation so one task fills the screen.
-  const focus = /^\/(level|quiz\/attempt)\//.test(pathname)
+  // Lessons, quizzes and the study questions hide the HUD and navigation so one task fills the screen.
+  const focus =
+    /^\/(level|quiz\/attempt)\//.test(pathname) || pathname === '/onboarding'
   const chrome = !immersive && !focus
   usePageTitle(pathname)
   return (

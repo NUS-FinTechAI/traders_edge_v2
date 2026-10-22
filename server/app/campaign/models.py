@@ -31,6 +31,7 @@ class CampaignCheck(Base):
     solved: Mapped[bool] = mapped_column(Boolean)
     run_first_correct: Mapped[bool | None] = mapped_column(Boolean)
     run_solved: Mapped[bool] = mapped_column(Boolean, default=False)
+    first_answered_at: Mapped[datetime | None] = mapped_column(DateTime(timezone=True))
 
 
 class DailySeed(Base):

@@ -30,6 +30,12 @@ def study_policy(settings):
             'policy_digest': hashlib.sha256(content.encode('utf-8')).hexdigest() if available else None}
 
 
+def participation_active(participant, policy):
+    """Consent given, not withdrawn, and pinned to the exact policy version and text configured now."""
+    return bool(participant and participant.consented and policy['available'] and participant.consent_version == policy['version']
+                and participant.consent_text == policy['text'])
+
+
 def metadata_data(participant, settings):
     policy = study_policy(settings)
     return {
@@ -37,7 +43,7 @@ def metadata_data(participant, settings):
         'first_prior_knowledge': participant.first_prior_knowledge if participant else None,
         'prior_knowledge_basis': 'self_reported_unvalidated',
         'consented': participant.consented if participant else False,
-        'participation_active': bool(participant and participant.consented and policy['available'] and participant.consent_version == policy['version'] and participant.consent_text == policy['text']),
+        'participation_active': participation_active(participant, policy),
         'consent_version': participant.consent_version if participant else None,
         'consent_text': participant.consent_text if participant else None,
         'consented_at': aware(participant.consented_at).isoformat() if participant and participant.consented_at else None,
@@ -48,13 +54,26 @@ def metadata_data(participant, settings):
     }
 
 
-async def mutation(db, user, body, operation, settings):
+async def replay(db, user, body, operation):
+    """(request digest, stored response or None) for an idempotent research command; a reused key with another body is 409."""
     digest = hashlib.sha256(json.dumps({'operation': operation, 'payload': body.model_dump(exclude={'idempotency_key'})}, sort_keys=True, separators=(',', ':')).encode()).hexdigest()
     command = await db.get(ResearchCommand, (user.id, body.idempotency_key))
     if command:
         if command.request_hash != digest:
             raise HTTPException(409, 'This key was already used for a different research metadata command')
-        return deepcopy(command.response)
+        return digest, deepcopy(command.response)
+    return digest, None
+
+
+async def store_receipt(db, user, body, digest, result):
+    db.add(ResearchCommand(user_id=user.id, key=body.idempotency_key, request_hash=digest, response=deepcopy(result)))
+    await db.flush()
+
+
+async def mutation(db, user, body, operation, settings):
+    digest, stored = await replay(db, user, body, operation)
+    if stored is not None:
+        return stored
     policy = study_policy(settings)
     if operation == 'consent':
         if not policy['available']:
@@ -88,8 +107,7 @@ async def mutation(db, user, body, operation, settings):
     participant.updated_at = instant
     await db.flush()
     result = metadata_data(participant, settings)
-    db.add(ResearchCommand(user_id=user.id, key=body.idempotency_key, request_hash=digest, response=deepcopy(result)))
-    await db.flush()
+    await store_receipt(db, user, body, digest, result)
     return result
 
 
