@@ -1,27 +1,9 @@
-# Render Blueprint: the API for the guest demo (staging) and production, both on the free plan.
-# PostgreSQL is hosted on Supabase's free tier (set DATABASE_URL to the session pooler URL); the client is on Vercel
-# (client/vercel.json), which forwards /api/* here.
+# Render Blueprint: one free API service in Singapore.
+# PostgreSQL is on Supabase's free tier (DATABASE_URL = session pooler URL); the client is on
+# Vercel (client/vercel.json), which forwards /api/* here.
+# APP_ENV=staging keeps the game playable before the independent content review; switch to
+# production once server/app/content/review.json is approved.
 services:
-  - type: web
-    name: traders-edge-api-staging
-    runtime: docker
-    region: singapore
-    plan: free
-    rootDir: server
-    dockerfilePath: ./Dockerfile
-    dockerContext: .
-    dockerCommand: sh -c "python -m app.db && exec python -m uvicorn app.main:app --host 0.0.0.0 --port $PORT --proxy-headers --forwarded-allow-ips='*'"
-    healthCheckPath: /health
-    autoDeploy: true
-    envVars:
-      - key: APP_ENV
-        value: staging
-      - key: AUTH_MODE
-        value: guest
-      - key: DATABASE_URL
-        sync: false
-      - key: ALLOWED_ORIGINS
-        sync: false
   - type: web
     name: traders-edge-api
     runtime: docker
@@ -35,14 +17,14 @@ services:
     autoDeploy: true
     envVars:
       - key: APP_ENV
-        value: production
+        value: staging
       - key: AUTH_MODE
         value: firebase
       - key: DATABASE_URL
         sync: false
-      - key: FIREBASE_PROJECT_ID
-        sync: false
       - key: ALLOWED_ORIGINS
+        sync: false
+      - key: FIREBASE_PROJECT_ID
         sync: false
       - key: FIREBASE_SERVICE_ACCOUNT
         sync: false

@@ -61,9 +61,9 @@ only when `TRADERS_EDGE_TEST_POSTGRES_URL` is set
 
 ## Deploy
 
-The [hosting guide](docs/operations/hosting.md) sets up a guest-demo staging
-environment and production on Render (API and PostgreSQL, `render.yaml`) and
-Vercel (client, `client/vercel.json`). The container image and a
+The [hosting guide](docs/operations/hosting.md) deploys one free environment:
+the API on Render (`render.yaml`), PostgreSQL on Supabase, the client on Vercel
+(`client/vercel.json`) and sign-in with Firebase. The container image and a
 self-hosted Compose stack are in [deployment](docs/operations/deployment.md).
 
 ## Documentation
