@@ -1,0 +1,6 @@
+.badge {
+  display: inline-flex;
+  flex: 0 0 auto;
+  vertical-align: middle;
+  margin-inline-start: var(--space-1);
+}

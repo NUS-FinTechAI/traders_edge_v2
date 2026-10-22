@@ -59,6 +59,7 @@ class PlayerTests(AppCase):
         self.assertEqual((me['avatar_id'], me['avatar_image']), ('avatar-starter-1', 'starter-1'))
         self.assertEqual((me['level'], me['xp'], me['xp_into_level'], me['xp_for_next_level']), (1, 0, 0, 100))
         self.assertEqual((me['title'], me['title_id'], me['rank_name']), ('Deckhand', None, 'Deckhand'))
+        self.assertIsNone(me['badge'])
         self.assertEqual(me['wallet'], {'doubloons': 0, 'doubloons_week_ends_at': '2026-10-26T00:00:00+00:00', 'gems': 0})
         self.assertEqual(me['streak'], {'days': 0, 'claimed_today': False, 'cycle_day': 1})
         self.assertEqual(me['unlocks'], {'daily': False, 'ranked': False})
@@ -102,6 +103,74 @@ class PlayerTests(AppCase):
         self.assertEqual([claim['doubloons'] for claim in claims], [20, 20, 20, 30, 30, 30, 50, 20])
         self.assertEqual([claim['xp'] for claim in claims], [10, 10, 10, 10, 20, 20, 20, 10])
         self.assertEqual(claims[-1]['player']['streak'], {'days': 8, 'claimed_today': True, 'cycle_day': 1})
+
+    def earn_badges(self):
+        async def grant(db):
+            for badge_id in ('badge-first-steps', 'badge-first-plan'):
+                await ledger.grant(db, self.user_id, badge_id, self.content.cosmetics, [], self.now)
+        self.run_db(grant)
+
+    def test_equipping_an_earned_badge_persists_in_profile_and_collection(self):
+        self.earn_badges()
+
+        response = self.client.patch('/api/me', json={'badge_id': 'badge-first-steps'})
+        profile = self.client.get('/api/me').json()
+        collection = self.client.get('/api/me/collection').json()
+
+        self.assertEqual(response.status_code, 200, response.text)
+        self.assertEqual(profile['badge'], {'id': 'badge-first-steps', 'name': self.content.cosmetics.items['badge-first-steps']['name']})
+        self.assertEqual([badge['id'] for badge in collection['badges'] if badge['equipped']], ['badge-first-steps'])
+
+    def test_equipping_another_badge_replaces_the_previous_selection(self):
+        self.earn_badges()
+        self.client.patch('/api/me', json={'badge_id': 'badge-first-steps'})
+
+        response = self.client.patch('/api/me', json={'badge_id': 'badge-first-plan'})
+        collection = self.client.get('/api/me/collection').json()
+
+        self.assertEqual(response.json()['badge']['id'], 'badge-first-plan')
+        self.assertEqual([badge['id'] for badge in collection['badges'] if badge['equipped']], ['badge-first-plan'])
+
+    def test_removing_a_badge_keeps_it_earned(self):
+        self.earn_badges()
+        self.client.patch('/api/me', json={'badge_id': 'badge-first-steps'})
+
+        response = self.client.patch('/api/me', json={'badge_id': None})
+        collection = self.client.get('/api/me/collection').json()
+
+        self.assertIsNone(response.json()['badge'])
+        self.assertFalse(any(badge['equipped'] for badge in collection['badges']))
+        self.assertTrue(next(badge for badge in collection['badges'] if badge['id'] == 'badge-first-steps')['earned'])
+
+    def test_invalid_or_unearned_badges_do_not_replace_the_equipped_badge(self):
+        self.earn_badges()
+        self.client.patch('/api/me', json={'badge_id': 'badge-first-steps'})
+
+        for badge_id, status in [('missing', 422), ('avatar-starter-1', 422), ('', 422), ('badge-streak-master', 403)]:
+            with self.subTest(badge_id=badge_id):
+                response = self.client.patch('/api/me', json={'badge_id': badge_id})
+                self.assertEqual(response.status_code, status, response.text)
+                self.assertEqual(self.client.get('/api/me').json()['badge']['id'], 'badge-first-steps')
+
+    def test_other_players_see_equipped_badges_in_leaderboards_and_lobbies(self):
+        from app.multiplayer.models import Rating
+        self.earn_badges()
+        async def rate(db):
+            db.add(Rating(user_id=self.user_id, rating=1200, matches=1, wins=1, updated_at=self.now))
+        self.run_db(rate)
+        equipped = self.client.patch('/api/me', json={'badge_id': 'badge-first-steps', 'leaderboard_opt_in': True,
+                                                     'display_name': 'Badge owner'}).json()['badge']
+        lobby = self.client.post('/api/lobbies', json={'bots': 0}).json()
+        self.switch_user()
+
+        xp = self.client.get('/api/leaderboards/xp').json()
+        ranked = self.client.get('/api/leaderboards/ranked').json()
+        joined = self.client.post('/api/lobbies/join', json={'code': lobby['code']}).json()
+
+        self.assertEqual(xp['entries'][0]['badge'], equipped)
+        self.assertEqual(ranked['entries'][0]['badge'], equipped)
+        self.assertEqual(next(member for member in joined['members'] if member['is_host'])['badge'], equipped)
+        self.assertIsNone(self.client.get('/api/me').json()['badge'])
 
     def test_login_reward_is_claimed_once_per_utc_day(self):
         first = self.claim()
@@ -210,7 +279,7 @@ class PlayerTests(AppCase):
         ranked = self.client.get('/api/leaderboards/ranked').json()
 
         self.assertEqual(hidden, {'entries': [], 'me': {'rank': None, 'value': 10}})
-        self.assertEqual(visible['entries'], [{'rank': 1, 'name': 'Visible', 'avatar_id': 'avatar-starter-1', 'level': 1, 'value': 10,
+        self.assertEqual(visible['entries'], [{'rank': 1, 'name': 'Visible', 'badge': None, 'avatar_id': 'avatar-starter-1', 'level': 1, 'value': 10,
                                                'tier': None, 'is_me': True}])
         self.assertEqual(ranked, {'entries': [], 'me': {'rank': None, 'value': 1000}})
 

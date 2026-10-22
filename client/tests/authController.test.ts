@@ -15,6 +15,7 @@ const profile: UserProfile = {
   avatar_image: null,
   title: 'Deckhand',
   title_id: null,
+  badge: null,
   level: 1,
   rank_name: 'Deckhand',
   xp: 0,

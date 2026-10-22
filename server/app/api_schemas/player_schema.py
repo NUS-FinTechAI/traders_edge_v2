@@ -22,6 +22,11 @@ class Unlocks(BaseModel):
     ranked: bool
 
 
+class EquippedBadge(BaseModel):
+    id: str
+    name: str
+
+
 class Player(BaseModel):
     id: str
     display_name: str
@@ -29,6 +34,7 @@ class Player(BaseModel):
     avatar_image: str | None = Field(description='Art key of the equipped avatar')
     title_id: str | None
     title: str
+    badge: EquippedBadge | None
     level: int
     rank_name: str
     xp: int
@@ -44,6 +50,7 @@ class PlayerUpdate(Payload):
     display_name: str | None = Field(default=None, min_length=1, max_length=40)
     avatar_id: str | None = Field(default=None, min_length=1, max_length=120)
     title_id: str | None = Field(default=None, max_length=120, description='An owned title id, or null to show your rank')
+    badge_id: str | None = Field(default=None, min_length=1, max_length=120, description='An earned badge id, or null to remove your badge')
     leaderboard_opt_in: bool | None = None
 
 
@@ -78,6 +85,7 @@ class CollectionBadge(BaseModel):
     name: str
     description: str
     earned: bool
+    equipped: bool
     earned_at: str | None
     progress: str | None
 
@@ -134,6 +142,7 @@ class PurchaseResult(BaseModel):
 class RankingEntry(BaseModel):
     rank: int
     name: str
+    badge: EquippedBadge | None
     avatar_id: str
     level: int
     value: int

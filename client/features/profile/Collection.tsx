@@ -24,7 +24,7 @@ import Button, { ButtonLink } from '../../ui/Button.tsx'
 import { itemImage } from '../../ui/avatarImage.ts'
 import Chip from '../../ui/Chip.tsx'
 import Emblem from '../../ui/Emblem.tsx'
-import type { EmblemName } from '../../ui/emblemArt.tsx'
+import { badgeArt } from '../../ui/badgeArt.ts'
 import Icon from '../../ui/Icon.tsx'
 import Modal from '../../ui/Modal.tsx'
 import ProgressBar from '../../ui/ProgressBar.tsx'
@@ -39,29 +39,6 @@ const GALLERY_TITLE: Record<Gallery, string> = {
   avatars: 'Avatars',
   titles: 'Titles',
   themes: 'Themes',
-}
-
-const BADGE_ART: [RegExp, EmblemName][] = [
-  [/step/, 'flag'],
-  [/plan/, 'scroll'],
-  [/learn/, 'bolt'],
-  [/chart/, 'candles'],
-  [/risk/, 'shield'],
-  [/snip/, 'target'],
-  [/fee/, 'coin'],
-  [/cool|calm/, 'anchor'],
-  [/patien/, 'lantern'],
-  [/explor/, 'compass'],
-  [/gate/, 'shield'],
-  [/boss|slay/, 'crown'],
-  [/streak/, 'flame'],
-  [/quiz/, 'book'],
-  [/rank/, 'trophy'],
-  [/calibr/, 'telescope'],
-]
-
-function badgeArt(id: string): EmblemName {
-  return BADGE_ART.find(([pattern]) => pattern.test(id))?.[1] ?? 'medal'
 }
 
 const MILESTONES = [5, 10, 20, 30, 40]
@@ -238,7 +215,8 @@ export default function Collection({
             <>
               <p className={styles.muted}>
                 {earned} of {data.badges.length} badges earned. Badges reward
-                how you trade and learn, never profit size.
+                how you trade and learn, never profit size. Equip one to show
+                beside your name.
               </p>
               <ul className={styles.badges}>
                 {data.badges.map((badge) => (
@@ -268,6 +246,33 @@ export default function Collection({
                       {badge.earned ? 'Earned' : 'Locked'}
                     </span>
                     <span className={styles.badgeHow}>{badge.description}</span>
+                    {badge.equipped ? (
+                      <>
+                        <EquippedChip id={badge.id} name={badge.name} />
+                        <Button
+                          variant="ghost"
+                          disabled={!!busy}
+                          onClick={() =>
+                            void equip(badge.id, { badge_id: null })
+                          }
+                          aria-label={`Remove ${badge.name}`}
+                        >
+                          Remove
+                        </Button>
+                      </>
+                    ) : badge.earned ? (
+                      <Button
+                        variant="secondary"
+                        disabled={!!busy}
+                        id={`equipped-${badge.id}`}
+                        onClick={() =>
+                          void equip(badge.id, { badge_id: badge.id })
+                        }
+                        aria-label={`Equip ${badge.name}`}
+                      >
+                        Equip
+                      </Button>
+                    ) : null}
                     {!badge.earned && badge.progress && (
                       <span className={`num ${styles.badgeProgress}`}>
                         {badge.progress}

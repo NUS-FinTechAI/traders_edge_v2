@@ -52,6 +52,11 @@ def unlocks(progress):
             'ranked': len(chapters) >= 3 and progress.won(chapters[2]['id'], 'boss')}
 
 
+def equipped_badge(content, profile):
+    badge = content.cosmetics.items.get(profile.equipped_badge_id)
+    return {'id': badge['id'], 'name': badge['name']} if badge and badge['kind'] == 'badge' else None
+
+
 async def player_data(db, content, profile):
     instant = ledger.current()
     xp = await ledger.total_xp(db, profile.id)
@@ -63,6 +68,7 @@ async def player_data(db, content, profile):
     return {
         'id': profile.id, 'display_name': profile.display_name, 'avatar_id': profile.equipped_avatar_id or DEFAULT_AVATAR,
         'avatar_image': content.cosmetics.image(profile.equipped_avatar_id or DEFAULT_AVATAR),
+        'badge': equipped_badge(content, profile),
         'title_id': profile.equipped_title_id, 'title': title['name'] if title else rank_name(level), 'level': level,
         'rank_name': rank_name(level), 'xp': xp, 'xp_into_level': into, 'xp_for_next_level': needed,
         'wallet': {'doubloons': ledger.doubloons(wallet, instant), 'doubloons_week_ends_at': ledger.week_ends_at(instant).isoformat(),
@@ -93,6 +99,14 @@ async def update(db, content, profile, changes):
         if title and title['id'] not in owned:
             raise HTTPException(403, 'You have not unlocked this title yet')
         profile.equipped_title_id = title['id'] if title else None
+    if 'badge_id' in changes:
+        badge_id = changes['badge_id']
+        badge = content.cosmetics.items.get(badge_id) if badge_id is not None else None
+        if badge_id is not None and (not badge or badge['kind'] != 'badge'):
+            raise HTTPException(422, 'Choose one of the badges in the collection')
+        if badge and badge_id not in owned:
+            raise HTTPException(403, 'You have not earned this badge yet')
+        profile.equipped_badge_id = badge_id
     if 'leaderboard_opt_in' in changes:
         if changes['leaderboard_opt_in'] is None:
             raise HTTPException(422, 'Choose whether to appear on leaderboards')
@@ -159,6 +173,7 @@ async def collection(db, content, profile):
         key = item['id'].removeprefix('badge-')
         earned_at = owned.get(item['id'])
         badge_list.append({'id': item['id'], 'name': item['name'], 'description': item['description'], 'earned': item['id'] in owned,
+                           'equipped': item['id'] == profile.equipped_badge_id,
                            'earned_at': aware(earned_at).isoformat() if earned_at else None,
                            'progress': None if item['id'] in owned else standing.get(key, (False, None))[1]})
     equipped = {profile.equipped_avatar_id or DEFAULT_AVATAR, profile.equipped_title_id}
@@ -221,19 +236,20 @@ def _ranked(rows, value_of):
     return entries
 
 
-async def xp_leaderboard(db, profile):
+async def xp_leaderboard(db, content, profile):
     totals = func.coalesce(func.sum(XPLedger.amount), 0).label('xp')
     rows = (await db.execute(select(Profile, totals).outerjoin(XPLedger, XPLedger.user_id == Profile.id)
                              .where(Profile.leaderboard_opt_in.is_(True)).group_by(Profile.id).order_by(totals.desc(), Profile.id))).all()
     ranked = _ranked(rows, lambda row: row[1])
     mine = await ledger.total_xp(db, profile.id)
     return {'entries': [{'rank': rank, 'name': person.display_name, 'avatar_id': person.equipped_avatar_id or DEFAULT_AVATAR,
+                         'badge': equipped_badge(content, person),
                          'level': level_for(xp)[0], 'value': xp, 'is_me': person.id == profile.id}
                         for rank, (person, xp) in ranked[:LEADERBOARD_SIZE]],
             'me': {'rank': next((rank for rank, (person, _) in ranked if person.id == profile.id), None), 'value': mine}}
 
 
-async def ranked_leaderboard(db, profile):
+async def ranked_leaderboard(db, content, profile):
     rows = (await db.execute(select(Profile, Rating).join(Rating, Rating.user_id == Profile.id)
                              .where(Profile.leaderboard_opt_in.is_(True)).order_by(Rating.rating.desc(), Profile.id))).all()
     ranked = _ranked(rows, lambda row: row[1].rating)
@@ -242,6 +258,7 @@ async def ranked_leaderboard(db, profile):
                                 .group_by(XPLedger.user_id))).all()) if people else {}
     mine = await db.get(Rating, profile.id)
     return {'entries': [{'rank': rank, 'name': person.display_name, 'avatar_id': person.equipped_avatar_id or DEFAULT_AVATAR,
+                         'badge': equipped_badge(content, person),
                          'level': level_for(xp.get(person.id, 0))[0], 'value': rating.rating, 'tier': elo.tier(rating.rating),
                          'is_me': person.id == profile.id} for rank, (person, rating) in ranked[:LEADERBOARD_SIZE]],
             'me': {'rank': next((rank for rank, (person, _) in ranked if person.id == profile.id), None),

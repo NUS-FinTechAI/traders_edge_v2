@@ -302,6 +302,8 @@ export interface components {
       earned: boolean
       /** Earned At */
       earned_at: string | null
+      /** Equipped */
+      equipped: boolean
       /** Id */
       id: string
       /** Name */
@@ -513,6 +515,13 @@ export interface components {
       note: string
       /** Series */
       series: components['schemas']['TrendSeries'][]
+    }
+    /** EquippedBadge */
+    EquippedBadge: {
+      /** Id */
+      id: string
+      /** Name */
+      name: string
     }
     /** @enum {string} */
     Experience: 'none' | 'some' | 'regular'
@@ -884,6 +893,7 @@ export interface components {
     LobbyMember: {
       /** Avatar Id */
       avatar_id: string
+      badge: components['schemas']['EquippedBadge'] | null
       /** Is Host */
       is_host: boolean
       /** Name */
@@ -1209,6 +1219,7 @@ export interface components {
        * @description Art key of the equipped avatar
        */
       avatar_image: string | null
+      badge: components['schemas']['EquippedBadge'] | null
       /** Display Name */
       display_name: string
       /** Id */
@@ -1261,6 +1272,11 @@ export interface components {
     PlayerUpdate: {
       /** Avatar Id */
       avatar_id?: string | null
+      /**
+       * Badge Id
+       * @description An earned badge id, or null to remove your badge
+       */
+      badge_id?: string | null
       /** Display Name */
       display_name?: string | null
       /** Leaderboard Opt In */
@@ -1520,6 +1536,7 @@ export interface components {
     RankingEntry: {
       /** Avatar Id */
       avatar_id: string
+      badge: components['schemas']['EquippedBadge'] | null
       /** Is Me */
       is_me: boolean
       /** Level */

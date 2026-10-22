@@ -15,6 +15,7 @@ import CopyButton from '../../ui/CopyButton.tsx'
 import Emblem from '../../ui/Emblem.tsx'
 import Icon from '../../ui/Icon.tsx'
 import PageHeader from '../../ui/PageHeader.tsx'
+import PlayerBadge from '../../ui/PlayerBadge.tsx'
 import ResourceView from '../../ui/ResourceView.tsx'
 import { EmptyState, InlineError } from '../../ui/States.tsx'
 import { usePolling } from '../../ui/hooks.ts'
@@ -102,6 +103,7 @@ function LobbyRoom({
               />
               <span className={styles.memberName}>
                 {member.name}
+                <PlayerBadge badge={member.badge} />
                 {member.user_id === user?.id && (
                   <span className={styles.you}> (you)</span>
                 )}

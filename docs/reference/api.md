@@ -79,15 +79,15 @@ Start, clock, order and cancel responses carry the full public state.
 
 ### Player (`app/player/api.py`)
 
-| Route                                                                   | Purpose                                                             |
-| ----------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `GET /me`                                                               | Profile, level, rank, XP, wallet, streak, unlock flags              |
-| `PATCH /me {display_name?, avatar_id?, title_id?, leaderboard_opt_in?}` | Update profile and equipment                                        |
-| `POST /me/daily-login`                                                  | Claim today's login reward                                          |
-| `GET /me/activity`                                                      | 365-day heatmap counts, streak, current 7-day cycle                 |
-| `GET /me/collection`                                                    | Badges, avatars, titles with owned/equipped state and how to unlock |
-| `GET /shop`, `POST /shop/purchase {item_id}`                            | Shop                                                                |
-| `GET /leaderboards/xp`, `GET /leaderboards/ranked`                      | Opted-in players, top 50, plus the caller's rank                    |
+| Route                                                                              | Purpose                                                             |
+| ---------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `GET /me`                                                                          | Profile, level, rank, XP, wallet, streak, unlock flags              |
+| `PATCH /me {display_name?, avatar_id?, title_id?, badge_id?, leaderboard_opt_in?}` | Update profile and equipment; null `badge_id` removes the badge     |
+| `POST /me/daily-login`                                                             | Claim today's login reward                                          |
+| `GET /me/activity`                                                                 | 365-day heatmap counts, streak, current 7-day cycle                 |
+| `GET /me/collection`                                                               | Badges, avatars, titles with owned/equipped state and how to unlock |
+| `GET /shop`, `POST /shop/purchase {item_id}`                                       | Shop                                                                |
+| `GET /leaderboards/xp`, `GET /leaderboards/ranked`                                 | Opted-in players, top 50, plus the caller's rank                    |
 
 ### Quizzes (`app/quiz/api.py`, gated)
 

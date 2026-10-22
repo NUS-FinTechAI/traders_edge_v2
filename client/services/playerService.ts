@@ -14,6 +14,7 @@ export interface PlayerUpdate {
   display_name?: string
   avatar_id?: string
   title_id?: string
+  badge_id?: string | null
   leaderboard_opt_in?: boolean
 }
 
