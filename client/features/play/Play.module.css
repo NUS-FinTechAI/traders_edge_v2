@@ -3,10 +3,6 @@
   gap: var(--space-6);
 }
 
-.page > section {
-  scroll-margin-top: calc(var(--hud-height) + var(--space-4));
-}
-
 .muted {
   color: var(--text-muted);
   font-size: var(--text-sm);
@@ -14,17 +10,6 @@
 
 .cardTitle {
   font-size: var(--text-md);
-}
-
-.entries {
-  display: grid;
-  gap: var(--space-3);
-}
-
-@media (min-width: 640px) {
-  .entries {
-    grid-template-columns: 1fr 1fr;
-  }
 }
 
 .entry {

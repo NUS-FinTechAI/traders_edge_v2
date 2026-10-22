@@ -45,6 +45,12 @@ export const router = createBrowserRouter([
           ),
           page('/game/:gameId', () => import('./features/arena/ArenaPage.tsx')),
           page('/play', () => import('./features/play/PlayPage.tsx')),
+          page('/play/daily', () => import('./features/play/DailyPage.tsx')),
+          page(
+            '/play/practice',
+            () => import('./features/play/PracticePage.tsx'),
+          ),
+          page('/play/bosses', () => import('./features/play/BossesPage.tsx')),
           page(
             '/multiplayer',
             () => import('./features/multiplayer/MultiplayerPage.tsx'),

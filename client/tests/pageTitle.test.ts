@@ -9,6 +9,13 @@ test('each quiz section page has its own document title', () => {
   assert.equal(pageTitle('/quiz/classroom'), 'Classroom · Trader’s Edge')
 })
 
+test('each play mode page has its own document title', () => {
+  assert.equal(pageTitle('/play'), 'Play · Trader’s Edge')
+  assert.equal(pageTitle('/play/daily'), 'Daily Challenge · Trader’s Edge')
+  assert.equal(pageTitle('/play/practice'), 'Practice Arena · Trader’s Edge')
+  assert.equal(pageTitle('/play/bosses'), 'Boss Battles · Trader’s Edge')
+})
+
 test('quiz attempts and class rooms keep their titles', () => {
   assert.equal(pageTitle('/quiz/attempt/a1'), 'Quiz · Trader’s Edge')
   assert.equal(pageTitle('/quiz/room/r1'), 'Class room · Trader’s Edge')
