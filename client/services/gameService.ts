@@ -14,7 +14,6 @@ export {
   PlaceOrderSide as Side,
   PlaceOrderType as OrderType,
   NewsItemTone as Tone,
-  ScenarioInfoToolsItem as Tool,
   StandingTier as BotTier,
   GamePlanStrategy as StrategyId,
   MissionState,
