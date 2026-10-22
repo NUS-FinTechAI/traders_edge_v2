@@ -35,12 +35,14 @@ environment file:
 | `POSTGRES_PASSWORD`                                                   | A unique database password                                                                                                      |
 | `DATABASE_URL`                                                        | `postgresql+psycopg://traders_edge:<URL-encoded-password>@postgres:5432/traders_edge`, or a managed PostgreSQL URL              |
 | `FIREBASE_PROJECT_ID`                                                 | The Firebase project                                                                                                            |
+| `FIREBASE_SERVICE_ACCOUNT`                                            | Optional service-account key JSON (otherwise mount Application Default Credentials)                                             |
 | `ALLOWED_ORIGINS`                                                     | Comma-separated HTTPS browser origins                                                                                           |
 | `API_PORT`                                                            | Optional host port (default 8000)                                                                                               |
 | `RESEARCH_ENABLED`, `RESEARCH_POLICY_VERSION`, `RESEARCH_POLICY_TEXT` | Optional; enable only after the study and its consent text are approved ([research](../reference/research.md#study-enrollment)) |
 
-Firebase needs application default credentials from the platform's workload
-identity or a runtime secret mount. Never put a service-account file in the
+Firebase needs credentials: set `FIREBASE_SERVICE_ACCOUNT` to the
+service-account key JSON, or provide application default credentials through
+the platform's workload identity or a runtime secret mount. Never put a service-account file in the
 build context or image. The Compose file mounts no credentials, so configure
 that secret before testing authenticated requests.
 

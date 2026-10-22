@@ -1,7 +1,10 @@
 import unittest
 from unittest.mock import patch
 
+import json
+
 from app.config import Settings, database_url
+from app.main import firebase_credential
 
 POSTGRES = 'postgresql+psycopg://user:pass@db:5432/traders_edge'
 HTTPS = ('https://traders-edge.vercel.app',)
@@ -47,6 +50,22 @@ class EnvironmentTests(unittest.TestCase):
         for environment, expected in (('development', True), ('staging', False), ('production', False)):
             with patch.dict('os.environ', {'APP_ENV': environment}, clear=True):
                 self.assertEqual(Settings.from_env().auto_migrate, expected, environment)
+
+
+class FirebaseCredentialTests(unittest.TestCase):
+    def test_without_a_key_firebase_uses_application_default_credentials(self):
+        self.assertIsNone(firebase_credential(Settings()))
+
+    def test_a_service_account_key_from_the_environment_becomes_a_certificate(self):
+        key = {'type': 'service_account', 'project_id': 'demo'}
+        with patch('firebase_admin.credentials.Certificate', return_value='certificate') as certificate:
+            result = firebase_credential(Settings(firebase_credentials=json.dumps(key)))
+
+        self.assertEqual(result, 'certificate')
+        certificate.assert_called_once_with(key)
+
+    def test_the_key_is_hidden_from_the_settings_repr(self):
+        self.assertNotIn('private', repr(Settings(firebase_credentials='{"private_key": "private"}')))
 
 
 if __name__ == '__main__':

@@ -24,6 +24,15 @@ from app.quiz.api import router as quiz_router
 from app.research import router as research_router
 
 
+def firebase_credential(settings):
+    """A service-account key from FIREBASE_SERVICE_ACCOUNT, else Application Default Credentials."""
+    if not settings.firebase_credentials:
+        return None
+    import json
+    from firebase_admin import credentials
+    return credentials.Certificate(json.loads(settings.firebase_credentials))
+
+
 def create_app(settings: Settings | None = None, content: Content | None = None) -> FastAPI:
     """`content` replaces the authored content loaded from disk (tests pass fixtures)."""
     settings = settings or Settings.from_env()
@@ -42,7 +51,8 @@ def create_app(settings: Settings | None = None, content: Content | None = None)
         if settings.auth_mode == 'firebase':
             import firebase_admin
             from app.db import uid
-            firebase_app = firebase_admin.initialize_app(options={'projectId': settings.firebase_project_id}, name='learning-' + uid())
+            firebase_app = firebase_admin.initialize_app(firebase_credential(settings), options={'projectId': settings.firebase_project_id},
+                                                         name='learning-' + uid())
             application.state.firebase_app = firebase_app
         try:
             yield
