@@ -39,7 +39,13 @@ function Value({ board, value }: { board: LeaderboardType; value: number }) {
   )
 }
 
-function Standings({ board, data }: { board: LeaderboardType; data: Leaderboard }) {
+function Standings({
+  board,
+  data,
+}: {
+  board: LeaderboardType
+  data: Leaderboard
+}) {
   const { player } = usePlayer()
   const myTier = data.me.tier
   return (
