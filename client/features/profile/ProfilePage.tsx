@@ -130,11 +130,11 @@ function NameEditor({ player }: { player: Player }) {
 
 function Stats({ stats }: { stats: CollectionData['stats'] }) {
   const items = [
-    ['Levels', stats.levels_done, 'flag'],
-    ['Stars', stats.stars, 'star'],
-    ['Bosses', stats.bosses_won, 'skull'],
-    ['Quizzes', stats.quizzes_passed, 'quiz'],
-    ['Matches', stats.matches_played, 'swords'],
+    ['Stars Collected', stats.stars, 'star'],
+    ['Levels Completed', stats.levels_done, 'flag'],
+    ['Bosses Defeated', stats.bosses_won, 'skull'],
+    ['Quizzes Passed', stats.quizzes_passed, 'quiz'],
+    ['Matches Played', stats.matches_played, 'swords'],
   ] as const
   return (
     <dl className={styles.stats}>
