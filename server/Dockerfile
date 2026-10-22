@@ -11,4 +11,5 @@ COPY app ./app
 RUN uv sync --locked --no-dev && useradd --uid 10001 --create-home app
 USER 10001
 EXPOSE 8000
-CMD ["python", "-m", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Apply migrations, then serve on $PORT (set by hosts such as Render; 8000 otherwise).
+CMD ["sh", "-c", "python -m app.db && exec python -m uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8000} --proxy-headers --forwarded-allow-ips='*'"]
