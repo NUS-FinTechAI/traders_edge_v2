@@ -156,7 +156,7 @@
   padding: 0 6px;
   border-radius: var(--radius-pill);
   background: var(--gold);
-  color: #1a1405;
+  color: var(--on-gold);
   font-size: 11px;
   font-weight: 800;
 }
@@ -302,12 +302,12 @@
 
 .tonePositive {
   color: var(--gain);
-  border-color: #275a3f;
+  border-color: var(--gain-line);
 }
 
 .toneNegative {
   color: var(--loss);
-  border-color: #6a3029;
+  border-color: var(--loss-line);
 }
 
 .toneNeutral {

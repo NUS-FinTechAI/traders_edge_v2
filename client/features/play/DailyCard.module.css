@@ -4,7 +4,7 @@
   gap: var(--space-4);
   align-items: start;
   padding: var(--space-4);
-  border: 1px solid #5a4b28;
+  border: 1px solid var(--gold-line);
   border-radius: var(--radius-lg);
   background: var(--surface);
 }

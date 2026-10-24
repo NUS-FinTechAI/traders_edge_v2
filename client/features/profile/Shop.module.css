@@ -26,7 +26,7 @@
   justify-items: center;
   gap: var(--space-4);
   padding: var(--space-5);
-  border: 1px solid #5a4b28;
+  border: 1px solid var(--gold-line);
   border-radius: var(--radius-lg);
   background: var(--gold-soft);
   text-align: center;
@@ -119,7 +119,7 @@
 }
 
 .owned {
-  border-color: #275a3f;
+  border-color: var(--gain-line);
 }
 
 .kind {

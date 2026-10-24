@@ -30,7 +30,7 @@
   padding: var(--space-2) var(--space-3);
   border-radius: var(--radius-sm);
   background: var(--gold);
-  color: #1a1405;
+  color: var(--on-gold);
   font-weight: 700;
 }
 
@@ -78,7 +78,7 @@
   border-radius: 10px;
   background: var(--gold-soft);
   color: var(--gold);
-  border: 1px solid #5a4b28;
+  border: 1px solid var(--gold-line);
 }
 
 .brandName {
@@ -250,7 +250,7 @@
 }
 
 .sheet::backdrop {
-  background: #050a08cc;
+  background: #05080dcc;
 }
 
 @keyframes sheet-rise {

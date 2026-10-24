@@ -77,7 +77,7 @@
 .selected .letter {
   border-color: var(--gold);
   background: var(--gold);
-  color: #1a1405;
+  color: var(--on-gold);
 }
 
 .correct {
@@ -130,12 +130,12 @@
 }
 
 .good {
-  border-color: #2f6b4b;
+  border-color: var(--gain-line);
   background: var(--gain-soft);
 }
 
 .bad {
-  border-color: #7a352d;
+  border-color: var(--loss-line);
   background: var(--loss-soft);
 }
 

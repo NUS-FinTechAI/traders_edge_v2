@@ -74,12 +74,12 @@
 
 .sideBuy input:checked + span {
   background: var(--gain);
-  color: #06210f;
+  color: var(--on-gain);
 }
 
 .sideSell input:checked + span {
   background: var(--loss);
-  color: #2a0905;
+  color: var(--on-loss);
 }
 
 .typeRow {
@@ -291,10 +291,10 @@
 
 .error {
   padding: var(--space-2) var(--space-3);
-  border: 1px solid #6a3029;
+  border: 1px solid var(--loss-line);
   border-radius: var(--radius-sm);
   background: var(--loss-soft);
-  color: #ffd0c8;
+  color: var(--text);
   font-size: var(--text-sm);
 }
 
