@@ -25,7 +25,7 @@
   padding: 0 4px;
   border-radius: var(--radius-pill);
   background: var(--gold);
-  color: #1a1405;
+  color: var(--on-gold);
   font-size: 11px;
   font-weight: 800;
   line-height: 18px;

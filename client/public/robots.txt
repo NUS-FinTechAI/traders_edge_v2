@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+
+Sitemap: https://traders-edge-v2.vercel.app/sitemap.xml

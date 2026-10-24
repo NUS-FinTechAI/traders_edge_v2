@@ -2,6 +2,8 @@ from dataclasses import dataclass, field
 import os
 from pathlib import Path
 
+from app.logs import valid_log_level
+
 ENVIRONMENTS = ('development', 'staging', 'production')
 HOSTED_PSEUDONYM_SECRET_LENGTH = 32
 
@@ -38,6 +40,7 @@ class Settings:
     researcher_profile_ids: tuple[str, ...] = ()
     sentry_dsn: str | None = field(default=None, repr=False)
     release: str | None = None
+    log_level: str = 'INFO'
 
     @classmethod
     def from_env(cls):
@@ -60,6 +63,7 @@ class Settings:
             researcher_profile_ids=id_list(os.getenv('RESEARCHER_PROFILE_IDS')),
             sentry_dsn=os.getenv('SENTRY_DSN') or None,
             release=os.getenv('RENDER_GIT_COMMIT') or None,
+            log_level=(os.getenv('LOG_LEVEL') or default.log_level).strip().upper(),
         )
 
     @property
@@ -80,6 +84,8 @@ class Settings:
                 raise ValueError('Enabled study enrollment requires RESEARCH_PSEUDONYM_SECRET')
             if self.hosted and len(secret) < HOSTED_PSEUDONYM_SECRET_LENGTH:
                 raise ValueError(f'RESEARCH_PSEUDONYM_SECRET must have at least {HOSTED_PSEUDONYM_SECRET_LENGTH} characters outside development')
+        if not valid_log_level(self.log_level):
+            raise ValueError('LOG_LEVEL must be a standard logging level such as DEBUG, INFO, WARNING or ERROR')
         if self.auth_mode not in {'guest', 'firebase'}:
             raise ValueError('AUTH_MODE must be guest or firebase')
         if self.auth_mode == 'firebase' and not self.firebase_project_id:

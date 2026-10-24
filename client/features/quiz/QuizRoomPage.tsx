@@ -111,7 +111,7 @@ function Room({ room }: { room: QuizRoom }) {
                     <tr key={`${row.name}-${index}`}>
                       <th scope="row">{row.name}</th>
                       <td className="num">
-                        {row.score === null ? '—' : `${row.score}/${row.total}`}
+                        {row.score === null ? '-' : `${row.score}/${row.total}`}
                       </td>
                       <td>
                         {row.finished ? (

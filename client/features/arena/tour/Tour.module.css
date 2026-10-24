@@ -20,8 +20,9 @@
 
 .spotlight {
   border-radius: var(--radius);
-  outline: 2px solid var(--gold);
-  box-shadow: 0 0 0 100vmax color-mix(in srgb, var(--bg) 78%, transparent);
+  outline: 3px solid var(--gold);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 100vmax color-mix(in srgb, var(--bg) 88%, transparent);
   transition:
     top 180ms var(--ease),
     left 180ms var(--ease),
@@ -31,7 +32,7 @@
 
 .dim {
   inset: 0;
-  background: color-mix(in srgb, var(--bg) 78%, transparent);
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
 }
 
 .card {
@@ -39,10 +40,13 @@
   max-height: calc(100vh - 16px);
   overflow: auto;
   padding: var(--space-4);
-  border: 1px solid var(--border-strong);
+  border: 2px solid var(--gold);
   border-radius: var(--radius-lg);
-  background: var(--surface);
-  box-shadow: var(--shadow);
+  /* A solid, lighter surface so the card stands out from the dimmed page. */
+  background: var(--surface-2);
+  box-shadow:
+    0 0 0 1px var(--bg),
+    0 12px 40px color-mix(in srgb, var(--bg) 85%, transparent);
   color: var(--text);
   pointer-events: auto;
 }
@@ -94,7 +98,7 @@
 
 .skip {
   padding: 0 var(--space-2);
-  color: var(--text-muted);
+  color: var(--text);
   font-size: var(--text-sm);
 }
 

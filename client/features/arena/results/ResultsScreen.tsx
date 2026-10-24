@@ -19,6 +19,7 @@ import {
   ordinal,
   rankHeadline,
 } from '../arenaLogic.ts'
+import useRewardToasts from '../../rewards/useRewardToasts.tsx'
 import { modeLabel, strategyLabel } from '../labels.ts'
 import { MissionList } from '../panels/MissionsPanel.tsx'
 import { Standings } from '../panels/RivalsPanel.tsx'
@@ -75,6 +76,7 @@ export default function ResultsScreen({
   const preview = state.mode === 'boss' && state.boss === 'preview'
   const won = result.won && !result.forfeited && !preview
   const rewards = result.rewards
+  useRewardToasts(state.id, rewards)
   const hasRewards =
     rewards.xp > 0 ||
     rewards.stocks > 0 ||
@@ -181,7 +183,7 @@ export default function ResultsScreen({
           {preview && (
             <p className={styles.profitLine}>
               You finished {ordinal(result.rank)} of {result.of}. This battle
-              can’t be lost — it shows where you’re starting from.
+              can’t be lost: it shows where you’re starting from.
             </p>
           )}
           <p className={styles.profitLine}>
@@ -272,8 +274,8 @@ export default function ResultsScreen({
                 drop was{' '}
                 <span className="num">
                   {formatPct(review.worst_drawdown_pct)}
-                </span>{' '}
-                — {review.kept_loss_limit ? 'plan kept' : 'over your limit'}
+                </span>
+                : {review.kept_loss_limit ? 'plan kept' : 'over your limit'}
               </span>
             </p>
             <dl className={styles.statList}>
@@ -424,7 +426,7 @@ export default function ResultsScreen({
       </div>
 
       <p className={styles.footer}>
-        Sim results — real markets are harder, and nobody can guarantee profits.
+        Sim results. Real markets are harder, and nobody can guarantee profits.
       </p>
     </div>
   )

@@ -25,7 +25,7 @@
 }
 
 .ranked {
-  border-color: #4a3f73;
+  border-color: var(--gem-line);
 }
 
 .optionHead {
@@ -226,7 +226,7 @@
   align-items: center;
   gap: var(--space-4);
   padding: var(--space-4);
-  border: 1px solid #4a3f73;
+  border: 1px solid var(--gem-line);
   border-radius: var(--radius);
   background: var(--gem-soft);
 }
@@ -275,7 +275,7 @@
   gap: var(--space-3);
   margin-bottom: var(--space-4);
   padding: var(--space-3) var(--space-4);
-  border: 1px solid #2a5466;
+  border: 1px solid var(--info-line);
   border-radius: var(--radius-lg);
   background: var(--info-soft);
   font-weight: 700;

@@ -455,7 +455,7 @@ function Quizzes({ group, firstOnly }: { group: Cohort; firstOnly: boolean }) {
                       <td className="num">{stats.participants}</td>
                       <td className="num">
                         {stats.mean_score_pct === null
-                          ? '—'
+                          ? '-'
                           : `${Math.round(stats.mean_score_pct)}%`}
                       </td>
                       <td className="num">{formatShare(stats.pass_rate)}</td>

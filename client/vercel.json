@@ -8,6 +8,9 @@
       "source": "/api/:path*",
       "destination": "https://traders-edge-api.onrender.com/api/:path*"
     },
-    { "source": "/((?!api/).*)", "destination": "/index.html" }
+    {
+      "source": "/((?!api/|robots\\.txt|sitemap\\.xml|site\\.webmanifest|og-image\\.png|favicon\\.|icon-|apple-touch-icon).*)",
+      "destination": "/index.html"
+    }
   ]
 }

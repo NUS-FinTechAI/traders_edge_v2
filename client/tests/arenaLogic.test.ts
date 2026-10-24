@@ -113,7 +113,7 @@ test('the headline names the leader and the gap when the player is not first', (
 
   assert.equal(
     rankHeadline(result(2, board)),
-    '2nd of 2 — Momentum Max finished $210.00 ahead',
+    '2nd of 2. Momentum Max finished $210.00 ahead',
   )
 })
 
@@ -122,7 +122,7 @@ test('a shared first place against AI is called out as not a win', () => {
 
   assert.equal(
     rankHeadline(result(1, board)),
-    'Tied for 1st — a tie isn’t a win against AI',
+    'Tied for 1st, but a tie isn’t a win against AI',
   )
 })
 
@@ -131,7 +131,7 @@ test('an outright first place says every rival was beaten', () => {
 
   assert.equal(
     rankHeadline(result(1, board)),
-    'You finished 1st of 2 — you beat every rival!',
+    'You finished 1st of 2: you beat every rival!',
   )
 })
 

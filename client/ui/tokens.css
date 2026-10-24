@@ -1,53 +1,53 @@
 :root {
-  /* Night Map defaults for first paint; base themes in client/app/themes.ts
+  /* Midnight Ledger defaults for first paint; base themes in client/app/themes.ts
      set every colour below, so keep the two in step (a test checks). */
   color-scheme: dark;
 
-  --bg: #0d1714;
-  --bg-elev: #12201b;
-  --surface: #172821;
-  --surface-2: #1e3329;
-  --surface-3: #26402f;
-  --border: #2c4638;
-  --border-strong: #3e5e4c;
+  --bg: #101419;
+  --bg-elev: #151a21;
+  --surface: #1a2029;
+  --surface-2: #212833;
+  --surface-3: #2a323f;
+  --border: #2e3744;
+  --border-strong: #46515f;
   /* Form controls need a 3:1 boundary against the surfaces they sit on. */
-  --border-input: #6a957c;
+  --border-input: #7a879a;
 
-  --text: #f2ead3;
-  --text-muted: #a9b8a9;
-  --text-dim: #98ab9c;
+  --text: #ede7d8;
+  --text-muted: #aab2bf;
+  --text-dim: #9aa3b1;
 
-  --primary: #1f7a52;
+  --primary: #2a6a96;
   /* Darker on hover so white text keeps at least 4.5:1. */
-  --primary-hover: #1a6b47;
+  --primary-hover: #245c83;
   --on-primary: #ffffff;
 
-  --gold: #e0b654;
-  --gold-soft: #3a3220;
+  --gold: #e2b860;
+  --gold-soft: #352d1c;
   /* -line: a tinted 1px border; on-: text placed on the solid colour. */
-  --gold-line: #5a4b28;
+  --gold-line: #5c4c2a;
   --on-gold: #1a1405;
-  --gem: #8e72d6;
-  --gem-soft: #2a2440;
+  --gem: #8f7ad8;
+  --gem-soft: #272440;
   /* --gem is for fills and icons; text uses the lighter shade. */
-  --gem-text: #a891ea;
-  --gem-line: #4a3f73;
-  --cash: #5fbf8a;
-  --cash-soft: #1d3a2b;
+  --gem-text: #b0a0ef;
+  --gem-line: #4a4278;
+  --cash: #7cc5a6;
+  --cash-soft: #1a332c;
 
-  --gain: #46c384;
-  --gain-soft: #173a29;
-  --gain-line: #275a3f;
-  --on-gain: #06210f;
-  --loss: #f0705f;
-  --loss-soft: #3d1f1b;
-  --loss-line: #6a3029;
+  --gain: #3fc1a5;
+  --gain-soft: #15332e;
+  --gain-line: #235a50;
+  --on-gain: #05201a;
+  --loss: #f07a68;
+  --loss-soft: #3b2020;
+  --loss-line: #6a3330;
   --on-loss: #2a0905;
-  --info: #5ba8c8;
-  --info-soft: #18323d;
-  --info-line: #2a5466;
-  --warning: #e8a23a;
-  --warning-soft: #3b2c15;
+  --info: #69acd8;
+  --info-soft: #192c3b;
+  --info-line: #2c4f69;
+  --warning: #e6a648;
+  --warning-soft: #382b17;
 
   /* Chart candles; candle themes and colour palettes override these. */
   --candle-up: var(--gain);

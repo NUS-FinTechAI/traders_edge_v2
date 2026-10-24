@@ -188,14 +188,14 @@
   justify-items: center;
   gap: var(--space-3);
   padding: var(--space-5);
-  border: 1px solid #4a3f73;
+  border: 1px solid var(--gem-line);
   border-radius: var(--radius-lg);
   background: var(--gem-soft);
   text-align: center;
 }
 
 .codeLabel {
-  color: #c1b0f2;
+  color: var(--gem-text);
   font-size: var(--text-sm);
   font-weight: 800;
 }

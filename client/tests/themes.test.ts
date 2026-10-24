@@ -55,27 +55,29 @@ test('a signed-out visitor has no stored theme', () => {
   assert.equal(storedTheme(null), null)
 })
 
-test('four free base themes set every colour token, with the classic default', () => {
+test('three free base themes set every colour token, with Midnight Ledger first and default', () => {
   assert.deepEqual(
     BASE_THEMES.map((theme) => theme.id),
-    ['night-map', 'midnight-ledger', 'parchment-day', 'harbor-dusk'],
+    ['midnight-ledger', 'parchment-day', 'harbor-dusk'],
   )
-  assert.ok(BASE_THEMES.some((theme) => theme.id === DEFAULT_BASE_THEME))
+  assert.equal(BASE_THEMES[0].id, DEFAULT_BASE_THEME)
   for (const theme of BASE_THEMES) {
     assert.equal(theme.free, true)
     assert.deepEqual(Object.keys(theme.vars).sort(), [...BASE_TOKENS].sort())
   }
 })
 
-test('tokens.css first-paint values match the Night Map theme', () => {
+test('tokens.css first-paint values match the default theme', () => {
   const css = readFileSync(new URL('../ui/tokens.css', import.meta.url), 'utf8')
-  const nightMap = BASE_THEMES.find((theme) => theme.id === 'night-map')!
+  const defaultTheme = BASE_THEMES.find(
+    (theme) => theme.id === DEFAULT_BASE_THEME,
+  )!
   const declared = new Map(
     [...css.matchAll(/^\s*(--[\w-]+|color-scheme):\s*([^;]+);/gm)].map(
       ([, name, value]) => [name, value.trim()],
     ),
   )
-  for (const [name, value] of Object.entries(nightMap.vars)) {
+  for (const [name, value] of Object.entries(defaultTheme.vars)) {
     assert.equal(declared.get(name), value, name)
   }
 })
@@ -123,6 +125,19 @@ test('an unknown base falls back to the default', () => {
   assert.equal(vars['--bg'], fallback.vars['--bg'])
 })
 
+test('a retired night-map choice in storage falls back to the default', () => {
+  store.set(
+    'traders-edge:themes:player-retired',
+    JSON.stringify({ base: 'night-map', candles: 'theme-candles-ink' }),
+  )
+
+  assert.deepEqual(themeSelection('player-retired'), {
+    base: DEFAULT_BASE_THEME,
+    palette: null,
+    candles: 'theme-candles-ink',
+  })
+})
+
 test('a ?theme= link opens free themes only', () => {
   assert.equal(themeFromQuery('?theme=parchment-day'), 'parchment-day')
   assert.equal(
@@ -131,6 +146,7 @@ test('a ?theme= link opens free themes only', () => {
   )
   assert.equal(themeFromQuery('?theme=theme-candles-ocean'), null)
   assert.equal(themeFromQuery('?theme=unknown'), null)
+  assert.equal(themeFromQuery('?theme=night-map'), null)
   assert.equal(themeFromQuery(''), null)
 })
 
@@ -139,21 +155,21 @@ test('each kind has its own slot, and the standard choice clears them all', () =
   assert.equal(themeSelection(id).base, DEFAULT_BASE_THEME)
   assert.ok(isThemeEquipped(id, null))
 
-  equipTheme(id, 'midnight-ledger')
+  equipTheme(id, 'harbor-dusk')
   equipTheme(id, 'theme-candles-sunset')
   equipTheme(id, 'theme-palette-colorblind')
   assert.deepEqual(themeSelection(id), {
-    base: 'midnight-ledger',
+    base: 'harbor-dusk',
     palette: 'theme-palette-colorblind',
     candles: 'theme-candles-sunset',
   })
   assert.equal(themeSelection(id), themeSelection(id))
-  assert.ok(isThemeEquipped(id, 'midnight-ledger'))
+  assert.ok(isThemeEquipped(id, 'harbor-dusk'))
   assert.equal(currentTheme(id), 'theme-candles-sunset')
 
   equipTheme(id, null, 'candles')
   assert.equal(themeSelection(id).candles, null)
-  assert.equal(themeSelection(id).base, 'midnight-ledger')
+  assert.equal(themeSelection(id).base, 'harbor-dusk')
 
   equipTheme(id, null)
   assert.ok(isThemeEquipped(id, null))

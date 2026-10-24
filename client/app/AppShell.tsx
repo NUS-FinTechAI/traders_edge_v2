@@ -10,6 +10,7 @@ import AuthProvider from '../components/AuthProvider.tsx'
 import useAuth from '../hooks/useAuth.ts'
 import Chip from '../ui/Chip.tsx'
 import Icon, { type IconName } from '../ui/Icon.tsx'
+import Logo from '../ui/Logo.tsx'
 import Button, { ButtonLink } from '../ui/Button.tsx'
 import { ToastProvider } from '../ui/Toast.tsx'
 import Avatar from '../ui/Avatar.tsx'
@@ -82,7 +83,7 @@ function Hud() {
           aria-label="Trader’s Edge home"
         >
           <span className={styles.brandMark} aria-hidden="true">
-            <Icon name="compass" size={22} />
+            <Logo size={36} />
           </span>
           <span className={styles.brandName}>Trader’s Edge</span>
         </NavLink>

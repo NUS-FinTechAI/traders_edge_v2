@@ -79,7 +79,7 @@
 }
 
 .flame {
-  color: #f2a05a;
+  color: var(--warning);
 }
 
 .dialog {

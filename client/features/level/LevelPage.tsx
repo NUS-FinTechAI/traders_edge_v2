@@ -20,6 +20,7 @@ import { useToast } from '../../ui/toastContext.ts'
 import useResource, { errorText } from '../../ui/useResource.ts'
 import useStartGame from '../play/useStartGame.ts'
 import { answerQueue, firstTryCount, startQueue } from './checkQueue.ts'
+import { singleFlight } from './singleFlight.ts'
 import LessonVisual from './visuals/LessonVisual.tsx'
 import styles from './Level.module.css'
 
@@ -106,7 +107,14 @@ function LevelFlow({ level }: { level: Level }) {
     }
   }
 
-  async function finishCheck() {
+  // The last answer and the auto-finish effect below both ask to finish; the
+  // server closes the run on the first request and answers a second one with
+  // a 409, so concurrent requests must share a single call.
+  const finishing = useRef<Promise<void> | null>(null)
+  function finishCheck() {
+    return singleFlight(finishing, runFinish)
+  }
+  async function runFinish() {
     setBusy(true)
     try {
       setSummary(await completeCheck(level.id))
@@ -293,7 +301,7 @@ function LevelFlow({ level }: { level: Level }) {
           shape="circle"
         />
         <h1 className={styles.title}>
-          {strong ? 'Check complete!' : 'Check complete — keep practising'}
+          {strong ? 'Check complete!' : 'Check complete. Keep practising'}
         </h1>
         <p className={styles.score}>
           <span className="num">
@@ -384,16 +392,18 @@ function LevelFlow({ level }: { level: Level }) {
         {level.terms.length > 0 && (
           <Button
             variant="ghost"
+            size="sm"
             icon="book"
-            aria-label="Key terms"
             onClick={() => setGlossary(true)}
-          />
+          >
+            Dictionary
+          </Button>
         )}
       </header>
       <div className={styles.stage}>{body}</div>
       {footer && <div className={styles.footer}>{footer}</div>}
       <p className={styles.safety}>
-        Simulated money, fictional companies. Practice only — not financial
+        Simulated money, fictional companies. Practice only, not financial
         advice.
       </p>
       <Modal
@@ -415,7 +425,7 @@ function LevelFlow({ level }: { level: Level }) {
       </Modal>
       <Modal
         open={glossary}
-        title="Key terms"
+        title="Dictionary"
         onClose={() => setGlossary(false)}
       >
         <dl className={styles.terms}>

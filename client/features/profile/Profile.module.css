@@ -79,7 +79,7 @@
   padding: 2px var(--space-2);
   border-radius: var(--radius-pill);
   background: var(--gold);
-  color: #1a1405;
+  color: var(--on-gold);
   font-size: var(--text-xs);
   font-weight: 800;
   white-space: nowrap;
@@ -261,23 +261,40 @@
 }
 
 .heat1 {
-  fill: #1f4a35;
+  fill: color-mix(in srgb, var(--gain) 30%, var(--surface));
 }
 
 .heat2 {
-  fill: #2a6b4a;
+  fill: color-mix(in srgb, var(--gain) 55%, var(--surface));
 }
 
 .heat3 {
-  fill: #3a9a66;
+  fill: color-mix(in srgb, var(--gain) 80%, var(--surface));
 }
 
 .heat4 {
   fill: var(--gain);
 }
 
+.heatFooter {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2) var(--space-4);
+}
+
+.heatCaption {
+  flex: 1 1 240px;
+  margin: 0;
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+  line-height: 1.5;
+}
+
 .legend {
   display: flex;
+  flex: none;
   align-items: center;
   justify-content: flex-end;
   gap: 4px;

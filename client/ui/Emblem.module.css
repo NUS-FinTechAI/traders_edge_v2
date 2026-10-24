@@ -34,42 +34,42 @@
   --e-main: var(--gold);
   --e-accent: #b98a2f;
   background: var(--gold-soft);
-  border-color: #5a4b28;
+  border-color: var(--gold-line);
 }
 
 .green {
   --e-main: var(--gain);
   --e-accent: var(--gold);
   background: var(--gain-soft);
-  border-color: #275a3f;
+  border-color: var(--gain-line);
 }
 
 .gem {
   --e-main: var(--gem);
   --e-accent: var(--gold);
   background: var(--gem-soft);
-  border-color: #4a3f73;
+  border-color: var(--gem-line);
 }
 
 .info {
   --e-main: var(--info);
   --e-accent: var(--gold);
   background: var(--info-soft);
-  border-color: #2a5466;
+  border-color: var(--info-line);
 }
 
 .flame {
   --e-main: var(--warning);
   --e-accent: var(--gold);
   background: var(--warning-soft);
-  border-color: #5c3b1f;
+  border-color: var(--border-strong);
 }
 
 .loss {
   --e-main: var(--loss);
   --e-accent: var(--gold);
   background: var(--loss-soft);
-  border-color: #6a3029;
+  border-color: var(--loss-line);
 }
 
 .neutral {

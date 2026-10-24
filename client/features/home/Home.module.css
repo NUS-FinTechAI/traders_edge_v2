@@ -23,8 +23,12 @@
   position: absolute;
   right: -28px;
   bottom: -16px;
-  border-width: 3px;
-  border-color: var(--bg);
+  padding: 4px;
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--gold);
+  box-sizing: content-box;
+  border: 3px solid var(--bg);
 }
 
 .heroTitle {
@@ -316,7 +320,7 @@
   gap: var(--space-4);
   align-items: center;
   padding: var(--space-4);
-  border: 1px solid #2f6b4b;
+  border: 1px solid var(--gain-line);
   border-radius: var(--radius-lg);
   background: var(--surface-2);
 }

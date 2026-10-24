@@ -57,29 +57,29 @@
 
 .gold {
   background: var(--gold);
-  color: #1a1405;
+  color: var(--on-gold);
 }
 
 .gold:hover:not(:disabled) {
-  background: #ecc46a;
+  filter: brightness(1.1);
 }
 
 .buy {
   background: var(--gain);
-  color: #06210f;
+  color: var(--on-gain);
 }
 
 .buy:hover:not(:disabled) {
-  background: #5ad295;
+  filter: brightness(1.1);
 }
 
 .sell {
   background: var(--loss);
-  color: #2a0905;
+  color: var(--on-loss);
 }
 
 .sell:hover:not(:disabled) {
-  background: #f5877a;
+  filter: brightness(1.1);
 }
 
 .danger {
@@ -158,43 +158,43 @@
 
 .chipGold {
   color: var(--gold);
-  border-color: #5a4b28;
+  border-color: var(--gold-line);
   background: var(--gold-soft);
 }
 
 .chipGem {
-  color: #c1b0f2;
-  border-color: #4a3f73;
+  color: var(--gem-text);
+  border-color: var(--gem-line);
   background: var(--gem-soft);
 }
 
 .chipCash {
   color: var(--cash);
-  border-color: #2f5f45;
+  border-color: var(--gain-line);
   background: var(--cash-soft);
 }
 
 .chipFlame {
-  color: #f2a05a;
-  border-color: #5c3b1f;
-  background: #34241a;
+  color: var(--warning);
+  border-color: var(--border-strong);
+  background: var(--warning-soft);
 }
 
 .chipGain {
   color: var(--gain);
-  border-color: #275a3f;
+  border-color: var(--gain-line);
   background: var(--gain-soft);
 }
 
 .chipLoss {
   color: var(--loss);
-  border-color: #6a3029;
+  border-color: var(--loss-line);
   background: var(--loss-soft);
 }
 
 .chipInfo {
   color: var(--info);
-  border-color: #2a5466;
+  border-color: var(--info-line);
   background: var(--info-soft);
 }
 
@@ -266,7 +266,7 @@
 }
 
 .modal::backdrop {
-  background: #050a08cc;
+  background: #05080dcc;
 }
 
 .modalInner {
@@ -399,7 +399,7 @@
   gap: var(--space-2);
   margin-bottom: var(--space-3);
   padding: var(--space-2) var(--space-3);
-  border: 1px solid #7a352d;
+  border: 1px solid var(--loss-line);
   border-radius: var(--radius-sm);
   background: var(--loss-soft);
   color: var(--text);
@@ -453,7 +453,7 @@
 }
 
 .toastSuccess {
-  border-color: #2f6b4b;
+  border-color: var(--gain-line);
 }
 
 .toastSuccess > svg {
@@ -461,7 +461,7 @@
 }
 
 .toastError {
-  border-color: #7a352d;
+  border-color: var(--loss-line);
 }
 
 .toastError > svg {
@@ -470,6 +470,56 @@
 
 .toastInfo > svg {
   color: var(--info);
+}
+
+.toastCelebrate {
+  align-items: flex-start;
+  border-color: var(--gold);
+}
+
+.toastArt {
+  display: grid;
+  flex: none;
+  animation: pop 500ms var(--ease);
+}
+
+.toastBody {
+  display: grid;
+  flex: 1;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.toastBody p {
+  flex: none;
+}
+
+.toastBody a {
+  justify-self: start;
+}
+
+.toastHeading {
+  color: var(--gold);
+  font-size: var(--text-xs);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(0.4);
+  }
+
+  60% {
+    transform: scale(1.15);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toastArt {
+    animation: none;
+  }
 }
 
 /* Section heading */

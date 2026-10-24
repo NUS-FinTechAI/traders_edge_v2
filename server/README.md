@@ -49,6 +49,7 @@ loopback database ([deployment](../docs/operations/deployment.md#live-postgresql
 | `RESEARCHER_FIREBASE_UIDS` | Unset                                           | Comma-separated Firebase uids allowed to open the researcher dashboard                     |
 | `RESEARCHER_PROFILE_IDS`  | Unset                                            | Comma-separated profile ids allowed as researchers outside production (local testing); ignored in production |
 | `SENTRY_DSN`              | Unset                                            | Sentry project DSN; error reporting is off without it ([below](#error-monitoring))         |
+| `LOG_LEVEL`               | `INFO`                                           | Standard logging level (`DEBUG`, `INFO`, `WARNING`, `ERROR`); see [Logging](#logging)      |
 | `RENDER_GIT_COMMIT`       | Set by Render                                    | Sentry release name                                                                        |
 
 | `APP_ENV`     | Auth default | Database   | Origins | Content review gate | Use                                |
@@ -69,6 +70,26 @@ is `authored_requires_independent_review`.
 
 There is no instructor setting: any signed-in player can host a classroom quiz
 room.
+
+## Logging
+
+`app/logs.py` writes plain single-line logs to stderr, which Render shows
+under **Logs**. At startup the API logs `APP_ENV`, the auth mode, the release
+and any migrations it applied. Each request then logs one line with the
+method, the matched route template (`/api/campaign/levels/{level_id}`, or
+`<unmatched>` for unknown paths), the status, the duration and a request id:
+
+```text
+2026-10-24 17:31:27,372 INFO app.request GET /api/campaign/levels/{level_id} 200 12.4ms rid=3f2c…
+```
+
+A valid incoming `X-Request-ID` (1–64 letters, digits, `.`, `_` or `-`) is
+kept; otherwise one is generated. The response returns it in `X-Request-ID`.
+5xx responses log at `ERROR`, 4xx at `WARNING`, the rest at `INFO`, and
+`/health` only at `DEBUG`. Logs never contain cookies, `Authorization`
+headers, tokens, bodies, query strings, client addresses, emails or Firebase
+uids, and uvicorn's own access log (which prints query strings and client
+addresses) is switched off. Stack traces and alerting stay with Sentry.
 
 ## Error monitoring
 

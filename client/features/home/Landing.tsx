@@ -2,6 +2,7 @@ import Button, { ButtonLink } from '../../ui/Button.tsx'
 import Emblem from '../../ui/Emblem.tsx'
 import type { EmblemName } from '../../ui/emblemArt.tsx'
 import type { EmblemTone } from '../../ui/Emblem.tsx'
+import Logo from '../../ui/Logo.tsx'
 import usePlayNow from './usePlayNow.ts'
 import styles from './Home.module.css'
 
@@ -38,20 +39,14 @@ export default function Landing() {
       <section className={styles.hero} aria-labelledby="landing-title">
         <div className={styles.heroArt} aria-hidden="true">
           <Emblem name="map" size={112} tone="gold" />
-          <Emblem
-            name="compass"
-            size={64}
-            tone="green"
-            shape="circle"
-            className={styles.heroBadge}
-          />
+          <Logo size={64} className={styles.heroBadge} />
         </div>
         <h1 id="landing-title" className={styles.heroTitle}>
           Trader’s Edge
         </h1>
         <p className={styles.pitch}>
           Learn to trade by playing. Lessons, trading missions, AI rivals and
-          real-time matches — with simulated money.
+          real-time matches, all with simulated money.
         </p>
         <div className={styles.heroActions}>
           <Button

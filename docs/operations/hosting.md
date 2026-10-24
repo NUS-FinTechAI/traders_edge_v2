@@ -121,6 +121,18 @@ Before a demo, open the site a couple of minutes early so Render has woken
 up. Every merge to `master`
 redeploys Render and Vercel.
 
+## Service logs (Render)
+
+The API logs to stdout/stderr, so Render shows it under the service's
+**Logs** tab with no setup. Each line is a startup event or one request:
+method, route template, status, duration and a request id. When a player
+reports a problem, ask for the `X-Request-ID` response header (browser
+dev tools, Network) and search the logs for `rid=<id>`. Set `LOG_LEVEL`
+(default `INFO`) to `DEBUG` to include `/health` checks or `WARNING` to
+quiet routine requests. Logs hold no cookies, tokens, query strings, bodies,
+IP addresses or identities; see
+[server logging](../../server/README.md#logging).
+
 ## Error monitoring (Sentry, free)
 
 Optional. Without the variables below nothing is reported and the client
@@ -144,6 +156,33 @@ Reports carry the page or route, stack trace and browser, but no cookies,
 client sends errors only (no performance tracing or session replay) and the
 API samples 10% of requests for performance, to stay within the free
 quota.
+
+## Web analytics (Vercel, free)
+
+The production client renders Vercel Web Analytics and Speed Insights once at
+the app root (`client/app/WebAnalytics.tsx`); development builds and tests
+render nothing. Neither reports anything until you enable it in the Vercel
+project:
+
+1. Open the `traders-edge-v2` project, go to **Analytics** and choose
+   **Enable**; do the same under **Speed Insights**.
+2. Redeploy. Page views then appear in the Analytics tab.
+
+Both are cookieless and carry no personal data: they count page views,
+referrers, country, device and browser, and Core Web Vitals, using a
+short-lived hash that cannot identify a player and is not kept across days.
+The client strips the query string and fragment from every reported URL
+(`client/services/analytics.ts`), so join codes and tokens never leave the
+browser. Neither SDK sees the signed-in player, their profile or any game
+data. The free Hobby plan caps events per month; past the cap Vercel stops
+recording until the next month.
+
+Search and link previews: `client/public/` holds `robots.txt`,
+`sitemap.xml`, `site.webmanifest`, the icons and `og-image.png` (1200×630,
+used by Open Graph and Twitter cards). The sitemap lists only the public
+routes (`/`, `/adventure`, `/archive`); add a route there when you make a new
+page public. The Vercel rewrite in `client/vercel.json` leaves these files
+out of the single-page fallback.
 
 ## After the content review
 

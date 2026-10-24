@@ -152,7 +152,7 @@ export default function PositionSize() {
               C.infoSoft,
               ok
                 ? `${formatMoney(result.value, true)} · ${Math.round(valuePct * 100)}%`
-                : '—',
+                : '-',
             )}
             {bar(
               84,
@@ -162,7 +162,7 @@ export default function PositionSize() {
               C.lossSoft,
               ok
                 ? `${formatMoney(result.risk)} · ${(riskPct * 100).toFixed(1)}%`
-                : '—',
+                : '-',
             )}
           </Svg>
         )

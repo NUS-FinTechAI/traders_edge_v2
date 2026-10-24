@@ -215,7 +215,7 @@ export default function AdventurePage() {
           <div className={styles.gate}>
             <Emblem name="shield" size={72} tone="flame" />
             <p className={styles.gateLead}>
-              New to trading? We recommend playing chapters in order — the Gate
+              New to trading? We recommend playing chapters in order. The Gate
               is tough!
             </p>
             <p className={styles.muted}>
