@@ -392,10 +392,12 @@ function LevelFlow({ level }: { level: Level }) {
         {level.terms.length > 0 && (
           <Button
             variant="ghost"
+            size="sm"
             icon="book"
-            aria-label="Key terms"
             onClick={() => setGlossary(true)}
-          />
+          >
+            Dictionary
+          </Button>
         )}
       </header>
       <div className={styles.stage}>{body}</div>
@@ -423,7 +425,7 @@ function LevelFlow({ level }: { level: Level }) {
       </Modal>
       <Modal
         open={glossary}
-        title="Key terms"
+        title="Dictionary"
         onClose={() => setGlossary(false)}
       >
         <dl className={styles.terms}>
