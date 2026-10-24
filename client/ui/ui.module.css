@@ -472,6 +472,56 @@
   color: var(--info);
 }
 
+.toastCelebrate {
+  align-items: flex-start;
+  border-color: var(--gold);
+}
+
+.toastArt {
+  display: grid;
+  flex: none;
+  animation: pop 500ms var(--ease);
+}
+
+.toastBody {
+  display: grid;
+  flex: 1;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.toastBody p {
+  flex: none;
+}
+
+.toastBody a {
+  justify-self: start;
+}
+
+.toastHeading {
+  color: var(--gold);
+  font-size: var(--text-xs);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(0.4);
+  }
+
+  60% {
+    transform: scale(1.15);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toastArt {
+    animation: none;
+  }
+}
+
 /* Section heading */
 .sectionHeader {
   display: flex;

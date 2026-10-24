@@ -19,6 +19,7 @@ import {
   ordinal,
   rankHeadline,
 } from '../arenaLogic.ts'
+import useRewardToasts from '../../rewards/useRewardToasts.tsx'
 import { modeLabel, strategyLabel } from '../labels.ts'
 import { MissionList } from '../panels/MissionsPanel.tsx'
 import { Standings } from '../panels/RivalsPanel.tsx'
@@ -75,6 +76,7 @@ export default function ResultsScreen({
   const preview = state.mode === 'boss' && state.boss === 'preview'
   const won = result.won && !result.forfeited && !preview
   const rewards = result.rewards
+  useRewardToasts(state.id, rewards)
   const hasRewards =
     rewards.xp > 0 ||
     rewards.stocks > 0 ||
