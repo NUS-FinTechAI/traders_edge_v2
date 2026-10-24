@@ -39,7 +39,10 @@ async def migrate(engine):
         recorded = list((await connection.execute(select(SchemaVersion.version).order_by(SchemaVersion.version))).scalars())
         if recorded != list(range(1, max(recorded, default=0) + 1)) or max(recorded, default=0) > LATEST_VERSION:
             raise RuntimeError('Unsupported or incomplete migration history')
+        applied = []
         for version, upgrade in MIGRATIONS:
             if version not in recorded:
                 await upgrade(connection)
                 await connection.execute(SchemaVersion.__table__.insert().values(version=version))
+                applied.append(version)
+    return applied

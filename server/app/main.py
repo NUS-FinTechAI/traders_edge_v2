@@ -1,6 +1,7 @@
 import asyncio
 from contextlib import asynccontextmanager
 import hashlib
+import logging
 from weakref import WeakValueDictionary
 
 from fastapi import Depends, FastAPI, Request
@@ -17,6 +18,7 @@ from app.campaign.api import router as campaign_router
 from app.campaign.games import before_start, resolve_game
 from app.campaign.settlement import settle_game
 from app.content.bundle import Content, load_content, require_approved_content
+from app.logs import RequestLogMiddleware, configure_logging
 from app.monitoring import start_monitoring
 from app.game.api import router as games_router
 from app.multiplayer.api import router as multiplayer_router
@@ -25,6 +27,9 @@ from app.quiz.api import router as quiz_router
 from app.research import router as research_router
 from app.study.dashboard import router as research_dashboard_router
 from app.study.onboarding import router as onboarding_router
+
+
+logger = logging.getLogger('app')
 
 
 def firebase_credential(settings):
@@ -38,19 +43,25 @@ def firebase_credential(settings):
 
 def create_app(settings: Settings | None = None, content: Content | None = None) -> FastAPI:
     """`content` replaces the authored content loaded from disk (tests pass fixtures)."""
+    from_environment = settings is None
     settings = settings or Settings.from_env()
     settings.validate()
+    if from_environment:
+        configure_logging(settings.log_level)
     start_monitoring(settings)
 
     @asynccontextmanager
     async def lifespan(application):
         database = Database(settings)
         application.state.db = database
+        logger.info('Starting: env=%s auth=%s release=%s', settings.environment, settings.auth_mode, settings.release or 'dev')
         if settings.auto_migrate:
-            await database.migrate()
+            applied = await database.migrate()
+            logger.info('Migrations applied: %s', ', '.join(map(str, applied)) if applied else 'none pending')
         else:
             await database.check_schema()
         application.state.content = content or load_content()
+        logger.info('Ready')
         firebase_app = None
         if settings.auth_mode == 'firebase':
             import firebase_admin
@@ -110,6 +121,8 @@ def create_app(settings: Settings | None = None, content: Content | None = None)
             response.headers['Cache-Control'] = 'no-store'
             response.headers['X-Content-Type-Options'] = 'nosniff'
         return response
+
+    application.add_middleware(RequestLogMiddleware)
 
     @application.get('/', operation_id='getRoot', openapi_extra={'x-client-auth': 'none'})
     def read_root():

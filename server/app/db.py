@@ -97,7 +97,7 @@ class Database:
 
     async def migrate(self):
         from app.migrations import migrate
-        await migrate(self.engine)
+        return await migrate(self.engine)
 
     async def check_schema(self):
         from sqlalchemy import inspect
