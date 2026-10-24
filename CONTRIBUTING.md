@@ -51,6 +51,7 @@ explain the system.
   targets, visible focus, reduced motion, non-colour state labels. The owner
   approves the visual direction before replacement UI is built.
 - No dead code, unused dependencies, filler comments or marketing language.
+- No em dashes in code, copy or docs; `npm run lint` checks for them.
 
 ## Tests
 
