@@ -83,7 +83,7 @@ function Hud() {
           aria-label="Trader’s Edge home"
         >
           <span className={styles.brandMark} aria-hidden="true">
-            <Logo size={30} />
+            <Logo size={36} />
           </span>
           <span className={styles.brandName}>Trader’s Edge</span>
         </NavLink>
