@@ -24,7 +24,7 @@ export interface Theme {
 }
 
 /** The base theme a player gets until they choose one. Change this line to switch the default. */
-export const DEFAULT_BASE_THEME = 'night-map'
+export const DEFAULT_BASE_THEME = 'midnight-ledger'
 
 /** Colour tokens every base theme must set (candles inherit gain and loss). */
 export const BASE_TOKENS = [
@@ -75,51 +75,7 @@ type BaseVars = Record<(typeof BASE_TOKENS)[number], string>
 const DARK_SHADOW = '0 1px 0 #0006, 0 8px 24px #0005'
 const GOLD_RING = '0 0 0 3px var(--gold)'
 
-/** The original forest-green night map; `client/ui/tokens.css` mirrors it for first paint. */
-const NIGHT_MAP: BaseVars = {
-  'color-scheme': 'dark',
-  '--bg': '#0d1714',
-  '--bg-elev': '#12201b',
-  '--surface': '#172821',
-  '--surface-2': '#1e3329',
-  '--surface-3': '#26402f',
-  '--border': '#2c4638',
-  '--border-strong': '#3e5e4c',
-  '--border-input': '#6a957c',
-  '--text': '#f2ead3',
-  '--text-muted': '#a9b8a9',
-  '--text-dim': '#98ab9c',
-  '--primary': '#1f7a52',
-  '--primary-hover': '#1a6b47',
-  '--on-primary': '#ffffff',
-  '--gold': '#e0b654',
-  '--gold-soft': '#3a3220',
-  '--gold-line': '#5a4b28',
-  '--on-gold': '#1a1405',
-  '--gem': '#8e72d6',
-  '--gem-soft': '#2a2440',
-  '--gem-text': '#a891ea',
-  '--gem-line': '#4a3f73',
-  '--cash': '#5fbf8a',
-  '--cash-soft': '#1d3a2b',
-  '--gain': '#46c384',
-  '--gain-soft': '#173a29',
-  '--gain-line': '#275a3f',
-  '--on-gain': '#06210f',
-  '--loss': '#f0705f',
-  '--loss-soft': '#3d1f1b',
-  '--loss-line': '#6a3029',
-  '--on-loss': '#2a0905',
-  '--info': '#5ba8c8',
-  '--info-soft': '#18323d',
-  '--info-line': '#2a5466',
-  '--warning': '#e8a23a',
-  '--warning-soft': '#3b2c15',
-  '--focus': GOLD_RING,
-  '--shadow': DARK_SHADOW,
-}
-
-/** Slate ledger: blue-grey ink surfaces, ivory text, gold accents, teal gains. */
+/** The default: slate ledger, blue-grey ink surfaces, ivory text, gold accents, teal gains. `client/ui/tokens.css` mirrors it for first paint. */
 const MIDNIGHT_LEDGER: BaseVars = {
   'color-scheme': 'dark',
   '--bg': '#101419',
@@ -252,7 +208,7 @@ const HARBOR_DUSK: BaseVars = {
   '--shadow': DARK_SHADOW,
 }
 
-/** High-contrast borders without the night map's green tint, for the other dark bases. */
+/** High-contrast borders with a neutral tint, for the dark bases. */
 const neutralHighContrast = (
   border: string,
   strong: string,
@@ -267,15 +223,6 @@ const neutralHighContrast = (
 })
 
 export const THEMES: Theme[] = [
-  {
-    id: 'night-map',
-    name: 'Night Map (classic)',
-    description:
-      'Forest-green night map with parchment text and brass accents.',
-    kind: 'base',
-    free: true,
-    vars: NIGHT_MAP,
-  },
   {
     id: 'midnight-ledger',
     name: 'Midnight Ledger',

@@ -7,22 +7,22 @@ review.
 
 ## Visual direction
 
-The default is the night-map style: a dark forest-green base, parchment text
-and brass accents, on flat surfaces with 1px borders. No glow, neon, navy,
-glass gradients, glowing hexagons or fantasy-map textures. Three alternative
-base themes are under review ([issue #99](https://github.com/NUS-FinTechAI/traders_edge_v2/issues/99));
-see [base themes](#base-themes).
+The default is Midnight Ledger: desaturated slate surfaces, ivory text, gold
+accents and teal gains, on flat surfaces with 1px borders. No glow, neon, navy,
+glass gradients, glowing hexagons or fantasy-map textures. Parchment Day and
+Harbor Dusk are alternative base themes; see [base themes](#base-themes). The
+earlier forest-green Night Map theme was retired.
 
 Base themes in [`client/app/themes.ts`](../../client/app/themes.ts) are the
 source of truth for colour; [`client/ui/tokens.css`](../../client/ui/tokens.css)
-holds the Night Map values for first paint (a test keeps them in step) and the
+holds the Midnight Ledger values for first paint (a test keeps them in step) and the
 scale, type and layout tokens. `client/ui/global.css` holds base styles. Token
 roles:
 
 | Group      | Tokens                                                                                                          |
 | ---------- | --------------------------------------------------------------------------------------------------------------- |
 | Surfaces   | `--bg`, `--bg-elev`, `--surface`, `--surface-2`, `--surface-3`, `--border`, `--border-strong`, `--border-input` |
-| Text       | `--text` (parchment), `--text-muted`, `--text-dim`                                                              |
+| Text       | `--text` (ivory), `--text-muted`, `--text-dim`                                                                  |
 | Action     | `--primary`, `--primary-hover`, `--on-primary`, `--focus` (gold ring)                                           |
 | Currencies | `--gold` (Doubloons), `--gem`, `--gem-text` (Gems), `--cash` (sim cash), each with `-soft`                      |
 | State      | `--gain`, `--loss`, `--info`, `--warning`, each with `-soft`; `--candle-up`, `--candle-down`                    |
@@ -49,14 +49,18 @@ Themes stack in three layers, one of each, stored per player on the device:
 Without a candle theme, candles follow `--gain` and `--loss`, so palettes
 recolour them too. A base theme can `adapt` a palette or candle theme where
 the stock values would fail on it; Parchment Day does this for all five, and
-the dark alternatives swap the high-contrast palette's green-tinted borders
-for neutral ones.
+the dark bases swap the high-contrast palette's green-tinted borders for
+neutral ones.
 
 **Default.** `DEFAULT_BASE_THEME` in `client/app/themes.ts` names the default.
 Changing that one line switches every player who has not chosen a base, and
 the tests still pass. Until the script loads, the page shows the
-`client/ui/tokens.css` values (Night Map). To avoid that brief flash, copy the
+`client/ui/tokens.css` values (Midnight Ledger). To avoid that brief flash, copy the
 new default's colours there too and point the tokens.css test at that theme.
+
+A player who saved the retired `night-map` id, or an unknown id, falls back to
+the default. Shop and server data hold no base theme ids, so nothing is
+migrated.
 
 **Preview by link.** `?theme=<id>` on any URL applies a free theme (a base or
 a palette) and saves it as the player's choice once they are signed in. The
@@ -65,7 +69,6 @@ themes cannot be opened this way.
 
 | Theme                                                                        | Direction                                                                            | Key colours (bg · surface · text · primary · gold · gain · loss)                  | Preview (390px and 1280px captures)                                                                                                                                                                          |
 | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [Night Map (classic)](https://traders-edge-v2.vercel.app/?theme=night-map)   | Forest-green night map, parchment text, brass accents                                | `#0d1714` · `#172821` · `#f2ead3` · `#1f7a52` · `#e0b654` · `#46c384` · `#f0705f` | [home](themes/night-map-home-desktop.jpg), [arena](themes/night-map-arena-desktop.jpg), [home 390](themes/night-map-home-mobile.jpg), [arena 390](themes/night-map-arena-mobile.jpg)                         |
 | [Midnight Ledger](https://traders-edge-v2.vercel.app/?theme=midnight-ledger) | Desaturated slate surfaces, ivory text, steel-blue actions, gold accents, teal gains | `#101419` · `#1a2029` · `#ede7d8` · `#2a6a96` · `#e2b860` · `#3fc1a5` · `#f07a68` | [home](themes/midnight-ledger-home-desktop.jpg), [arena](themes/midnight-ledger-arena-desktop.jpg), [home 390](themes/midnight-ledger-home-mobile.jpg), [arena 390](themes/midnight-ledger-arena-mobile.jpg) |
 | [Parchment Day](https://traders-edge-v2.vercel.app/?theme=parchment-day)     | Light warm paper, ink text, deep teal actions, brass accents                         | `#f3ead9` · `#fffaf1` · `#2a2017` · `#1b6566` · `#87600f` · `#0e5a3d` · `#b83c2b` | [home](themes/parchment-day-home-desktop.jpg), [arena](themes/parchment-day-arena-desktop.jpg), [home 390](themes/parchment-day-home-mobile.jpg), [arena 390](themes/parchment-day-arena-mobile.jpg)         |
 | [Harbor Dusk](https://traders-edge-v2.vercel.app/?theme=harbor-dusk)         | Charcoal-plum neutrals, amber actions, yellow-gold currency, coral-rose losses       | `#17131a` · `#231d27` · `#f4eae3` · `#e0903e` · `#f2c66d` · `#4cc3a2` · `#f2738a` | [home](themes/harbor-dusk-home-desktop.jpg), [arena](themes/harbor-dusk-arena-desktop.jpg), [home 390](themes/harbor-dusk-home-mobile.jpg), [arena 390](themes/harbor-dusk-arena-mobile.jpg)                 |
@@ -78,69 +81,47 @@ links work only once this branch is deployed.
 focus). `client/tests/theme-contrast.test.ts` checks these pairs and more,
 including every base with each palette and candle theme.
 
-| Pair                                       | Night Map | Midnight Ledger | Parchment Day | Harbor Dusk |
-| ------------------------------------------ | --------- | --------------- | ------------- | ----------- |
-| Text on surface                            | 12.8      | 13.3            | 15.3          | 13.9        |
-| Muted text on surface                      | 7.4       | 7.7             | 8.2           | 7.8         |
-| Dim text on surface-3                      | 4.7       | 5.1             | 5.2           | 5.2         |
-| Primary button label                       | 5.3       | 5.8             | 6.8           | 7.1         |
-| Gold text on surface                       | 8.1       | 8.8             | 5.4           | 10.2        |
-| Gain text on surface                       | 6.9       | 7.3             | 7.9           | 7.5         |
-| Loss text on surface                       | 5.3       | 6.0             | 5.4           | 5.9         |
-| Gain chip (gain on gain-soft)              | 5.6       | 6.1             | 6.9           | 6.2         |
-| Loss chip (loss on loss-soft)              | 5.1       | 5.4             | 4.7           | 5.3         |
-| Input border on surface                    | 4.6       | 4.5             | 4.6           | 4.4         |
-| Focus ring (gold) on bg                    | 9.6       | 9.9             | 4.7           | 11.4        |
-| Buy label, hard-coded `#06210f` on gain    | 7.6       | 7.6             | **2.1**       | 7.8         |
-| Sell label, hard-coded `#2a0905` on loss   | 6.3       | 6.7             | **3.3**       | 6.7         |
-| Gold button, hard-coded `#1a1405` on gold  | 9.6       | 9.8             | **3.2**       | 11.4        |
-| Gem chip, hard-coded `#c1b0f2` on gem-soft | 7.6       | 7.6             | **1.6**       | 7.6         |
+| Pair                          | Midnight Ledger | Parchment Day | Harbor Dusk |
+| ----------------------------- | --------------- | ------------- | ----------- |
+| Text on surface               | 13.3            | 15.3          | 13.9        |
+| Muted text on surface         | 7.7             | 8.2           | 7.8         |
+| Dim text on surface-3         | 5.1             | 5.2           | 5.2         |
+| Primary button label          | 5.8             | 6.8           | 7.1         |
+| Gold text on surface          | 8.8             | 5.4           | 10.2        |
+| Gain text on surface          | 7.3             | 7.9           | 7.5         |
+| Loss text on surface          | 6.0             | 5.4           | 5.9         |
+| Gain chip (gain on gain-soft) | 6.1             | 6.9           | 6.2         |
+| Loss chip (loss on loss-soft) | 5.4             | 4.7           | 5.3         |
+| Input border on surface       | 4.5             | 4.6           | 4.4         |
+| Focus ring (gold) on bg       | 9.9             | 4.7           | 11.4        |
 
 Gains and losses differ in lightness as well as hue on every base (at least
 1.15:1 between them), and every gain or loss value keeps its sign and ▲/▼
 glyph. The colour-blind palette remains the safe choice for red–green colour
 blindness.
 
-**Hard-coded colours that block Parchment Day.** CSS modules still use fixed
-colours tuned for dark bases. They look acceptable on the three dark themes
-but fail or look wrong on a light one. Each needs the token shown:
+**Fixed colours.** Borders, on-fill text, chips, the error callout and the
+activity heatmap use the `-line`, `on-`, `--gem-text`, `--warning` and
+`color-mix()` tokens, so every base themes them. These stay fixed because
+they are artwork or neutral:
 
-| Fixed value                     | Role                            | Replace with                                           | Where                                                                                                                                                                                              |
-| ------------------------------- | ------------------------------- | ------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `#06210f`, `#2a0905`            | text on buy and sell fills      | `--on-gain`, `--on-loss`                               | `ui/ui.module.css` (`.buy`, `.sell`), `arena/ticket/TradeTicket.module.css`                                                                                                                        |
-| `#5ad295`, `#f5877a`, `#ecc46a` | buy, sell and gold hover fills  | a `-hover` token or `filter: brightness()`             | `ui/ui.module.css`                                                                                                                                                                                 |
-| `#1a1405`                       | text on gold fills              | `--on-gold`                                            | `ui/ui.module.css`, `ui/Avatar.module.css`, `ui/Choices.module.css`, `app/AppShell.module.css`, `adventure/ChapterMap.module.css`, `profile/Profile.module.css`, `arena/panels/panels.module.css`  |
-| `#0b1410`                       | price-tag text on candle colour | `--on-gain` / `--on-loss`                              | `arena/chart/PriceChart.module.css`                                                                                                                                                                |
-| `#5a4b28`                       | gold borders                    | `--gold-line`                                          | `ui/ui.module.css`, `ui/Emblem.module.css`, `app/AppShell.module.css`, `leaderboard`, `profile/Shop`, `arena/briefing`, `play/DailyCard`, `multiplayer/Lobby`                                      |
-| `#275a3f`, `#2f6b4b`, `#2f5f45` | gain, success and cash borders  | `--gain-line`                                          | `ui/ui.module.css`, `ui/Choices.module.css`, `ui/Emblem.module.css`, `home/Home.module.css`, `adventure/Adventure.module.css`, `level/Level.module.css`, `profile/Shop.module.css`, `arena/panels` |
-| `#6a3029`, `#7a352d`            | loss and error borders          | `--loss-line`                                          | `ui/ui.module.css`, `ui/Choices.module.css`, `ui/Emblem.module.css`, `arena/panels`, `arena/briefing`, `arena/ticket`                                                                              |
-| `#2a5466`                       | info borders                    | `--info-line`                                          | `ui/ui.module.css`, `ui/Emblem.module.css`, `arena/briefing`, `arena/trading`, `multiplayer`                                                                                                       |
-| `#4a3f73`, `#c1b0f2`            | gem border and gem chip text    | `--gem-line`, `--gem-text`                             | `ui/ui.module.css`, `ui/Emblem.module.css`, `quiz/Quiz.module.css`, `multiplayer`                                                                                                                  |
-| `#f2a05a`, `#5c3b1f`, `#34241a` | streak (flame) chip             | new `--flame` tokens, or `--warning`, `--warning-soft` | `ui/ui.module.css`, `ui/Emblem.module.css`                                                                                                                                                         |
-| `#ffd0c8` on `#6a3029`          | error callouts                  | `--loss` on `--loss-soft` with `--loss-line`           | `arena/briefing`, `arena/ticket`                                                                                                                                                                   |
-| `#1f4a35`, `#2a6b4a`, `#3a9a66` | activity heatmap steps          | `color-mix()` of `--gain` and `--surface`              | `profile/Profile.module.css`                                                                                                                                                                       |
-| `#050a08cc`                     | modal and overlay scrim         | acceptable on every base; optionally a `--scrim` token | `ui/ui.module.css`, `arena/trading`                                                                                                                                                                |
-| `#d9c39a`, `#b5523f`            | map trail and X mark            | artwork; reads on all four bases                       | `adventure/ChapterMap.module.css`                                                                                                                                                                  |
-| chapter accents, avatar art     | artwork colours in TSX          | artwork, not theme tokens                              | `adventure/AdventurePage.tsx`, `ui/Avatar.tsx`, `ui/avatarArt.tsx`                                                                                                                                 |
+| Fixed value                 | Role                              | Where                                                              |
+| --------------------------- | --------------------------------- | ------------------------------------------------------------------ |
+| `#05080dcc`                 | modal and overlay scrim, any base | `ui/ui.module.css`, `app/AppShell`, `arena/trading`                |
+| `#d9c39a`, `#b5523f`        | map trail and X mark              | `adventure/ChapterMap.module.css`                                  |
+| chapter accents, avatar art | artwork colours in TSX            | `adventure/AdventurePage.tsx`, `ui/Avatar.tsx`, `ui/avatarArt.tsx` |
+| `#b98a2f`                   | emblem accent on gold             | `ui/Emblem.module.css`                                             |
 
-The new `-line` and `on-` tokens already hold the old fixed values on Night
-Map, so this replacement changes nothing on the default theme.
-
-**Recommendation: Midnight Ledger.** It solves the issue's complaint (the
-saturated green that colours every surface) while keeping what works:
-parchment-ivory text, brass-gold currency and the treasure-map artwork. On
-desktop and mobile it reads as a calm trading terminal. Every text pair in the
-table measures higher than on Night Map. Primary buttons are steel
+**Why Midnight Ledger is the default.** It solves the issue's complaint (the
+saturated green that coloured every surface) while keeping what works:
+ivory text, brass-gold currency and the treasure-map artwork. On
+desktop and mobile it reads as a calm trading terminal. Primary buttons are steel
 blue, which no gain or loss colour uses, so a primary button reads as "next
-step" and not as "buy" (Night Map uses the same green for both). It needs no
-CSS module changes. The slate is kept desaturated so it does not read as navy,
+step" and not as "buy". The slate is kept desaturated so it does not read as navy,
 which the visual direction above rules out; the owner should confirm it
 passes that rule. Harbor Dusk is the warmer second choice. Its amber buttons
 sit close to the yellow-gold Doubloon colour, so rewards and actions are
-harder to tell apart. Parchment Day is the only light option. It should not
-become the default until the hard-coded colours above are replaced, because
-its buy and sell labels, gold buttons and gem chip fail AA today. Night Map
-stays available for players who prefer it.
+harder to tell apart. Parchment Day is the only light option and stays opt-in.
 
 ## Accessibility
 
