@@ -12,7 +12,7 @@
 
 ### Branding and discovery
 
-- Replace the compass icon with a candlestick-compass logo (`client/ui/Logo.tsx`, `client/public/favicon.svg`) in the header, landing page and sign-in, with favicon, apple-touch and manifest icons.
+- Replace the compass icon with a compass-star logo (a candlestick at its centre) (`client/ui/Logo.tsx`, `client/public/favicon.svg`) in the header, landing page and sign-in, with favicon, apple-touch and manifest icons.
 - Add Open Graph and Twitter share cards with a 1200×630 image, canonical URL, JSON-LD, `robots.txt`, a sitemap of public routes and a web manifest, served from `client/public/`.
 - Add cookieless Vercel Web Analytics and Speed Insights in production builds, with query strings and fragments stripped from reported URLs. Enable both in the Vercel project ([hosting](docs/operations/hosting.md#web-analytics-vercel-free)).
 
