@@ -23,8 +23,12 @@
   position: absolute;
   right: -28px;
   bottom: -16px;
-  border-width: 3px;
-  border-color: var(--bg);
+  padding: 4px;
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--gold);
+  box-sizing: content-box;
+  border: 3px solid var(--bg);
 }
 
 .heroTitle {

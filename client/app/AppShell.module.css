@@ -75,10 +75,7 @@
   place-items: center;
   width: 34px;
   height: 34px;
-  border-radius: 10px;
-  background: var(--gold-soft);
   color: var(--gold);
-  border: 1px solid var(--gold-line);
 }
 
 .brandName {

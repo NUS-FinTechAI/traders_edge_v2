@@ -5,7 +5,7 @@ import authService from '../../services/authService.ts'
 import firebaseService from '../../services/firebaseService.ts'
 import { HttpError } from '../../services/httpService.ts'
 import Button from '../../ui/Button.tsx'
-import Emblem from '../../ui/Emblem.tsx'
+import Logo from '../../ui/Logo.tsx'
 import { ErrorState, Loading } from '../../ui/States.tsx'
 import { useToast } from '../../ui/toastContext.ts'
 import { safeReturnTo } from './returnTo.ts'
@@ -166,7 +166,7 @@ export default function LoginPage() {
         aria-labelledby="login-title"
         aria-busy={busy}
       >
-        <Emblem name="compass" size={80} tone="gold" shape="circle" />
+        <Logo size={80} />
         <p className={styles.brand}>Trader’s Edge</p>
         <h1 id="login-title" className={styles.title}>
           {register ? 'Create your account' : 'Start your adventure'}
