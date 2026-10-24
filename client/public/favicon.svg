@@ -1,14 +1,23 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
   <title>Trader’s Edge</title>
   <rect width="64" height="64" rx="14" fill="#1a2029"/>
-  <circle cx="32" cy="34" r="23" fill="none" stroke="#e2b860" stroke-width="4"/>
-  <path d="M32 3 38 13H26Z" fill="#e2b860"/>
-  <g stroke="#3fc1a5" stroke-width="3" stroke-linecap="round">
-    <path d="M23 36v13M32 29v17M41 22v18"/>
-  </g>
-  <g fill="#3fc1a5">
-    <rect x="19.5" y="38" width="7" height="8" rx="1.5"/>
-    <rect x="28.5" y="32" width="7" height="9" rx="1.5"/>
-    <rect x="37.5" y="25" width="7" height="10" rx="1.5"/>
+  <g transform="translate(32 32) scale(.86) translate(-32 -32)">
+    <g fill="#e2b860">
+      <g opacity=".5">
+        <path d="M32 10 34.91 18.31H29.09Z" transform="rotate(45 32 32)"/>
+        <path d="M32 10 34.91 18.31H29.09Z" transform="rotate(135 32 32)"/>
+        <path d="M32 10 34.91 18.31H29.09Z" transform="rotate(225 32 32)"/>
+        <path d="M32 10 34.91 18.31H29.09Z" transform="rotate(315 32 32)"/>
+      </g>
+      <g opacity=".7">
+        <path d="M32 2 38.38 19.53A14 14 0 0 0 25.62 19.53Z" transform="rotate(90 32 32)"/>
+        <path d="M32 2 38.38 19.53A14 14 0 0 0 25.62 19.53Z" transform="rotate(180 32 32)"/>
+        <path d="M32 2 38.38 19.53A14 14 0 0 0 25.62 19.53Z" transform="rotate(270 32 32)"/>
+      </g>
+      <path d="M32 2 38.38 19.53A14 14 0 0 0 25.62 19.53Z"/>
+    </g>
+    <circle cx="32" cy="32" r="14" fill="none" stroke="#e2b860" stroke-width="3"/>
+    <path d="M32 21.5v21" stroke="#3fc1a5" stroke-width="2.5" stroke-linecap="round"/>
+    <rect x="27.5" y="26" width="9" height="12" rx="1.5" fill="#3fc1a5"/>
   </g>
 </svg>
