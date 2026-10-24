@@ -20,6 +20,7 @@ import { useToast } from '../../ui/toastContext.ts'
 import useResource, { errorText } from '../../ui/useResource.ts'
 import useStartGame from '../play/useStartGame.ts'
 import { answerQueue, firstTryCount, startQueue } from './checkQueue.ts'
+import { singleFlight } from './singleFlight.ts'
 import LessonVisual from './visuals/LessonVisual.tsx'
 import styles from './Level.module.css'
 
@@ -106,7 +107,14 @@ function LevelFlow({ level }: { level: Level }) {
     }
   }
 
-  async function finishCheck() {
+  // The last answer and the auto-finish effect below both ask to finish; the
+  // server closes the run on the first request and answers a second one with
+  // a 409, so concurrent requests must share a single call.
+  const finishing = useRef<Promise<void> | null>(null)
+  function finishCheck() {
+    return singleFlight(finishing, runFinish)
+  }
+  async function runFinish() {
     setBusy(true)
     try {
       setSummary(await completeCheck(level.id))
