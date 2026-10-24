@@ -10,6 +10,12 @@
 
 - Fix a spurious "Answer every question correctly before finishing the check" error after a fully correct check: the client sent the completion request twice and the server rejected the second.
 
+### Branding and discovery
+
+- Replace the compass icon with a candlestick-compass logo (`client/ui/Logo.tsx`, `client/public/favicon.svg`) in the header, landing page and sign-in, with favicon, apple-touch and manifest icons.
+- Add Open Graph and Twitter share cards with a 1200×630 image, canonical URL, JSON-LD, `robots.txt`, a sitemap of public routes and a web manifest, served from `client/public/`.
+- Add cookieless Vercel Web Analytics and Speed Insights in production builds, with query strings and fragments stripped from reported URLs. Enable both in the Vercel project ([hosting](docs/operations/hosting.md#web-analytics-vercel-free)).
+
 ### Research instruments
 
 - Add a versioned prior-knowledge instrument (four self-report items and a ten-item unscored concept pre-quiz) offered once, skippably, only to participants with active study consent; migration 13 stores responses with a score-band group and times new first check answers.
