@@ -121,6 +121,18 @@ Before a demo, open the site a couple of minutes early so Render has woken
 up. Every merge to `master`
 redeploys Render and Vercel.
 
+## Service logs (Render)
+
+The API logs to stdout/stderr, so Render shows it under the service's
+**Logs** tab with no setup. Each line is a startup event or one request:
+method, route template, status, duration and a request id. When a player
+reports a problem, ask for the `X-Request-ID` response header (browser
+dev tools, Network) and search the logs for `rid=<id>`. Set `LOG_LEVEL`
+(default `INFO`) to `DEBUG` to include `/health` checks or `WARNING` to
+quiet routine requests. Logs hold no cookies, tokens, query strings, bodies,
+IP addresses or identities; see
+[server logging](../../server/README.md#logging).
+
 ## Error monitoring (Sentry, free)
 
 Optional. Without the variables below nothing is reported and the client
