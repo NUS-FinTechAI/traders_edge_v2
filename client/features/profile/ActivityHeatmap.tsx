@@ -2,7 +2,7 @@ import type { Activity } from '../../services/playerService.ts'
 import Chip from '../../ui/Chip.tsx'
 import { utcDate } from '../../ui/format.ts'
 import { useMediaQuery } from '../../ui/hooks.ts'
-import { buildHeatmap } from './heatmap.ts'
+import { buildHeatmap, heatCellLabel } from './heatmap.ts'
 import styles from './Profile.module.css'
 
 const CELL = 12
@@ -14,7 +14,8 @@ const ROW_LABELS = ['Mon', '', 'Wed', '', 'Fri', '', '']
 export default function ActivityHeatmap({ activity }: { activity: Activity }) {
   const wide = useMediaQuery('(min-width: 720px)')
   const weeks = wide ? 52 : 22
-  const map = buildHeatmap(activity.days, weeks, utcDate())
+  const today = utcDate()
+  const map = buildHeatmap(activity.days, weeks, today)
   const width = LEFT + weeks * (CELL + GAP)
   const height = TOP + 7 * (CELL + GAP)
   const days = (count: number) =>
@@ -44,8 +45,8 @@ export default function ActivityHeatmap({ activity }: { activity: Activity }) {
       <svg
         className={styles.heatmap}
         viewBox={`0 0 ${width} ${height}`}
-        role="img"
-        aria-label={`Activity heatmap: ${days(map.activeDays)} in the past ${weeks} weeks`}
+        role="group"
+        aria-label={`Activity heatmap, one square per day: ${days(map.activeDays)} in the past ${weeks} weeks`}
       >
         {months.map((month) => (
           <text
@@ -80,29 +81,35 @@ export default function ActivityHeatmap({ activity }: { activity: Activity }) {
                 height={CELL}
                 rx={3}
                 className={styles[`heat${cell.level}`]}
+                role="img"
+                aria-label={heatCellLabel(cell, today)}
               >
-                <title>
-                  {cell.date}: {cell.count}{' '}
-                  {cell.count === 1 ? 'activity' : 'activities'}
-                </title>
+                <title>{heatCellLabel(cell, today)}</title>
               </rect>
             ) : null,
           ),
         )}
       </svg>
-      <div className={styles.legend} aria-hidden="true">
-        <span>Less</span>
-        {[0, 1, 2, 3, 4].map((level) => (
-          <svg key={level} width={CELL} height={CELL}>
-            <rect
-              width={CELL}
-              height={CELL}
-              rx={3}
-              className={styles[`heat${level}`]}
-            />
-          </svg>
-        ))}
-        <span>More</span>
+      <div className={styles.heatFooter}>
+        <p className={styles.heatCaption}>
+          A filled square is a day (UTC) you finished a match, completed a quiz
+          or claimed your daily login. Darker squares mean more activity that
+          day.
+        </p>
+        <div className={styles.legend} aria-hidden="true">
+          <span>Less</span>
+          {[0, 1, 2, 3, 4].map((level) => (
+            <svg key={level} width={CELL} height={CELL}>
+              <rect
+                width={CELL}
+                height={CELL}
+                rx={3}
+                className={styles[`heat${level}`]}
+              />
+            </svg>
+          ))}
+          <span>More</span>
+        </div>
       </div>
     </section>
   )

@@ -64,3 +64,15 @@ export function buildHeatmap(
   }
   return { columns, months, activeDays }
 }
+
+/** Text for one square, such as "3 activities on 12 Oct" (the year is added outside the current one). */
+export function heatCellLabel(
+  cell: Pick<HeatCell, 'date' | 'count'>,
+  today: string,
+): string {
+  const [year, month, day] = cell.date.split('-').map(Number)
+  const sameYear = cell.date.slice(0, 4) === today.slice(0, 4)
+  const when = `${day} ${MONTHS[month - 1]}${sameYear ? '' : ` ${year}`}`
+  if (cell.count === 0) return `No activity on ${when}`
+  return `${cell.count} ${cell.count === 1 ? 'activity' : 'activities'} on ${when}`
+}

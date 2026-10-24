@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
-import { buildHeatmap } from '../features/profile/heatmap.ts'
+import { buildHeatmap, heatCellLabel } from '../features/profile/heatmap.ts'
 
 // 2026-10-21 is a Wednesday.
 const TODAY = '2026-10-21'
@@ -37,5 +37,20 @@ test('a month label marks the first week of each new month', () => {
   assert.deepEqual(
     map.months.map(({ label }) => label),
     ['Sep', 'Oct'],
+  )
+})
+
+test('a square is labelled with its count and date', () => {
+  assert.equal(
+    heatCellLabel({ date: '2026-10-12', count: 3 }, TODAY),
+    '3 activities on 12 Oct',
+  )
+  assert.equal(
+    heatCellLabel({ date: '2026-10-05', count: 1 }, TODAY),
+    '1 activity on 5 Oct',
+  )
+  assert.equal(
+    heatCellLabel({ date: '2025-12-31', count: 0 }, TODAY),
+    'No activity on 31 Dec 2025',
   )
 })
