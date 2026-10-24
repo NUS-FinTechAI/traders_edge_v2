@@ -180,15 +180,15 @@ export function rankHeadline(result: GameResult): string {
   const rivalsAreBots = leaderboard.some((e) => !e.is_me && e.kind === 'bot')
   if (rank === 1 && sharedTop) {
     return rivalsAreBots
-      ? 'Tied for 1st — a tie isn’t a win against AI'
+      ? 'Tied for 1st, but a tie isn’t a win against AI'
       : `Tied for 1st of ${of}`
   }
   if (of === 1) return 'Mission complete'
-  if (rank === 1) return `You finished 1st of ${of} — you beat every rival!`
+  if (rank === 1) return `You finished 1st of ${of}: you beat every rival!`
   const leader = leaderboard.find((entry) => entry.rank === 1 && !entry.is_me)
   const gap = leader && me ? leader.profit - me.profit : null
   return leader && gap !== null
-    ? `${ordinal(rank)} of ${of} — ${leader.name} finished ${formatMoney(gap)} ahead`
+    ? `${ordinal(rank)} of ${of}. ${leader.name} finished ${formatMoney(gap)} ahead`
     : `${ordinal(rank)} of ${of}`
 }
 

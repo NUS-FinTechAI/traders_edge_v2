@@ -301,7 +301,7 @@ function LevelFlow({ level }: { level: Level }) {
           shape="circle"
         />
         <h1 className={styles.title}>
-          {strong ? 'Check complete!' : 'Check complete — keep practising'}
+          {strong ? 'Check complete!' : 'Check complete. Keep practising'}
         </h1>
         <p className={styles.score}>
           <span className="num">
@@ -403,7 +403,7 @@ function LevelFlow({ level }: { level: Level }) {
       <div className={styles.stage}>{body}</div>
       {footer && <div className={styles.footer}>{footer}</div>}
       <p className={styles.safety}>
-        Simulated money, fictional companies. Practice only — not financial
+        Simulated money, fictional companies. Practice only, not financial
         advice.
       </p>
       <Modal

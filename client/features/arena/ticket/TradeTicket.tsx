@@ -339,7 +339,7 @@ export default function TradeTicket({
                   {formatMoney(risk.amount)} ({formatPct(risk.pct)} of your
                   account)
                 </span>
-                {overPlan && ` — more than your ${plan.max_loss_pct}% plan`}
+                {overPlan && `, more than your ${plan.max_loss_pct}% plan`}
               </span>
             </p>
           )}

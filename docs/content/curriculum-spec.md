@@ -840,7 +840,7 @@ Bonus mission: _Chart:_ an uptrend pulls back to $50 (old resistance, now suppor
 
 ## B10. Safety framing (light touch)
 
-- **One persistent line** in challenge and lesson footers: _"Simulated money, fictional companies. Practice only — not financial advice."_
+- **One persistent line** in challenge and lesson footers: _"Simulated money, fictional companies. Practice only, not financial advice."_
 - **Results line:** _"Sim results. Real markets are harder, and nobody can guarantee profits."_ The debrief shows the buy-and-hold comparison and "What a disciplined plan did here" (the Skill-Path bot).
 - **Mechanics:** no leverage, no shorting, no copy-trading. No order confetti, flashing tickers or "hot stock" banners. Celebrations happen only on lesson completion and boss wins. "You followed your plan" is praised even after a loss.
 - **Copy rules:** never "get rich", "easy money" or "beat the market". The single money-safety message lives in L1.3. Headlines inside scenarios use a calm style (no red flashing, no countdowns).

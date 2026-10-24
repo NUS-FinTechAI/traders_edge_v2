@@ -1,4 +1,4 @@
-# 0003 — Supplied gameplay brief authority
+# 0003: Supplied gameplay brief authority
 
 Status: accepted by owner on 6 October 2026. Superseded in part by [ADR 0004](0004-playable-game-overhaul.md): the [game design document](../game-design.md) now governs gameplay, matches use one game plan per match instead of a written plan per order, and classroom quiz rooms no longer use a server instructor allowlist. The brief file linked below is no longer in `docs/source/`.
 

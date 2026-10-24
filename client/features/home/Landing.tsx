@@ -46,7 +46,7 @@ export default function Landing() {
         </h1>
         <p className={styles.pitch}>
           Learn to trade by playing. Lessons, trading missions, AI rivals and
-          real-time matches — with simulated money.
+          real-time matches, all with simulated money.
         </p>
         <div className={styles.heroActions}>
           <Button

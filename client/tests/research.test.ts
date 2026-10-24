@@ -150,10 +150,10 @@ test('bars are clamped percentages and empty without a value', () => {
 
 test('values are formatted with a dash for missing data', () => {
   assert.equal(formatShare(0.456), '46%')
-  assert.equal(formatShare(null), '—')
+  assert.equal(formatShare(null), '-')
   assert.equal(formatMoney(-12.5), '−$12.50')
   assert.equal(formatMoney(3), '+$3.00')
-  assert.equal(formatMoney(null), '—')
+  assert.equal(formatMoney(null), '-')
 })
 
 test('CSV file names carry the export kind and UTC date', () => {

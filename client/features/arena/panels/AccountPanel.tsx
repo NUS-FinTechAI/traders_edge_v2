@@ -43,7 +43,7 @@ export default function AccountPanel({ me, bare }: { me: Me; bare?: boolean }) {
             {overLimit ? (
               <>
                 <Icon name="info" size={14} /> Worst drop{' '}
-                <span className="num">{formatPct(me.max_drawdown_pct)}</span> —
+                <span className="num">{formatPct(me.max_drawdown_pct)}</span>,
                 past your limit
               </>
             ) : (

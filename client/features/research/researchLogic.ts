@@ -62,7 +62,7 @@ export function barPercent(value: number | null, max: number): number {
   return Math.min(100, Math.max(0, (value / max) * 100))
 }
 
-const DASH = '—'
+const DASH = '-'
 
 export function formatShare(value: number | null): string {
   return value === null ? DASH : `${Math.round(value * 100)}%`

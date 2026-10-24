@@ -113,7 +113,7 @@ function BattleBody({ map, node }: { map: ChapterMap; node: MapNode }) {
       </div>
       <p className={styles.note}>
         {preview
-          ? 'You can’t lose this one — it shows where you’re starting from.'
+          ? 'You can’t lose this one: it shows where you’re starting from.'
           : 'Finish first in profit to win. Win to open the next chapter.'}
       </p>
       {node.attempts > 0 && (
@@ -122,7 +122,7 @@ function BattleBody({ map, node }: { map: ChapterMap; node: MapNode }) {
             <dt>Best result</dt>
             <dd>
               {node.best_profit === null ? (
-                '—'
+                '-'
               ) : Math.abs(node.best_profit) < 0.005 ? (
                 'Broke even'
               ) : (
@@ -199,7 +199,7 @@ function RewardBody({ node }: { node: MapNode }) {
         <>
           <p className={styles.claimed}>
             <Icon name="check" size={18} />
-            Claimed — it’s in your collection
+            Claimed: it’s in your collection
           </p>
           <ButtonLink to="/profile" variant="secondary" icon="user">
             View collection

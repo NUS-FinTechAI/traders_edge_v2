@@ -317,7 +317,7 @@ function Ranked() {
                 <div className={styles.rankedActions}>
                   {timedOut && current.status === 'idle' && (
                     <p className={styles.muted} role="status">
-                      Search timed out — search again.
+                      Search timed out. Search again.
                     </p>
                   )}
                   {current.status === 'matched' && current.game_id && (
