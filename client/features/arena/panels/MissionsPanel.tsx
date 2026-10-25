@@ -4,19 +4,24 @@ import Panel from './Panel.tsx'
 import styles from './panels.module.css'
 
 const STATES: Record<
-  MissionState,
+  Exclude<MissionState, 'done' | 'pending'>,
   { label: string; icon?: IconName; className?: string }
 > = {
-  done: { label: 'Done', icon: 'check', className: styles.stateDone },
   on_track: { label: 'On track', icon: 'eye', className: styles.stateOnTrack },
   behind: { label: 'Behind', className: styles.stateBehind },
   failed: { label: 'Missed', icon: 'close', className: styles.stateFailed },
-  pending: { label: 'To do' },
 }
 
 function MissionStatus({ mission }: { mission: Mission }) {
-  const state =
-    STATES[mission.state] ?? STATES[mission.done ? 'done' : 'pending']
+  const count = /^(\d+)\/(\d+)$/.test(mission.progress)
+  if (count && (mission.state === 'pending' || mission.state === 'done')) {
+    return (
+      <span className={`num ${styles.missionState}`}>{mission.progress}</span>
+    )
+  }
+  if (mission.state === 'pending' || mission.done || mission.state === 'done')
+    return null
+  const state = STATES[mission.state]
   return (
     <span
       className={[styles.missionState, state.className]
@@ -25,11 +30,6 @@ function MissionStatus({ mission }: { mission: Mission }) {
     >
       {state.icon && <Icon name={state.icon} size={14} />}
       <span>{state.label}</span>
-      {mission.state !== 'done' && mission.progress && (
-        <span className={`num ${styles.missionProgress}`}>
-          {mission.progress}
-        </span>
-      )}
     </span>
   )
 }
@@ -52,9 +52,7 @@ export function MissionList({
             className={
               mission.tier === 'bonus' ? styles.tierBonus : styles.tierBasic
             }
-            aria-label={
-              mission.tier === 'bonus' ? 'Bonus star mission' : 'Star mission'
-            }
+            aria-label={`${mission.tier === 'bonus' ? 'Bonus star mission' : 'Star mission'}${showState ? `: ${mission.done ? 'completed' : 'incomplete'}` : ''}`}
             role="img"
           >
             <Icon
@@ -78,17 +76,8 @@ export default function MissionsPanel({
   missions: Mission[]
   bare?: boolean
 }) {
-  const done = missions.filter((m) => m.done).length
   return (
-    <Panel
-      title="Missions"
-      bare={bare}
-      aside={
-        <span className={`num ${styles.panelNote}`}>
-          {done}/{missions.length} done
-        </span>
-      }
-    >
+    <Panel title="Missions" bare={bare}>
       <MissionList missions={missions} />
     </Panel>
   )

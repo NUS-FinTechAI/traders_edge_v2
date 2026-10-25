@@ -219,17 +219,6 @@
   justify-content: flex-end;
 }
 
-.missionProgress {
-  flex-basis: 100%;
-  text-align: right;
-  color: var(--text-dim);
-  font-weight: 500;
-}
-
-.stateDone {
-  color: var(--gain);
-}
-
 .stateOnTrack {
   color: var(--info);
 }
