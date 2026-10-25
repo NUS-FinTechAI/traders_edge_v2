@@ -6,28 +6,28 @@ LATEST_VERSION = 14
 
 
 async def initial_schema(connection):
-    from app.migration_v1 import metadata
+    from app.migrations.migration_v1 import metadata
     await connection.run_sync(metadata.create_all)
 
 
-from app.migration_v2 import upgrade as simulation_commands
+from app.migrations.migration_v2 import upgrade as simulation_commands
 
-from app.migration_v3 import upgrade as learning_runs
+from app.migrations.migration_v3 import upgrade as learning_runs
 
-from app.migration_v4 import upgrade as rewards
+from app.migrations.migration_v4 import upgrade as rewards
 
-from app.migration_v5 import upgrade as challenges
+from app.migrations.migration_v5 import upgrade as challenges
 
-from app.migration_v6 import upgrade as economy
+from app.migrations.migration_v6 import upgrade as economy
 
-from app.migration_v7 import upgrade as adventure
-from app.migration_v8 import upgrade as quizzes
-from app.migration_v9 import upgrade as multiplayer
-from app.migration_v10 import upgrade as research
-from app.migration_v11 import upgrade as games
-from app.migration_v12 import upgrade as progression
-from app.migration_v13 import upgrade as research_instruments
-from app.migration_v14 import upgrade as equipped_badges
+from app.migrations.migration_v7 import upgrade as adventure
+from app.migrations.migration_v8 import upgrade as quizzes
+from app.migrations.migration_v9 import upgrade as multiplayer
+from app.migrations.migration_v10 import upgrade as research
+from app.migrations.migration_v11 import upgrade as games
+from app.migrations.migration_v12 import upgrade as progression
+from app.migrations.migration_v13 import upgrade as research_instruments
+from app.migrations.migration_v14 import upgrade as equipped_badges
 
 MIGRATIONS = ((1, initial_schema), (2, simulation_commands), (3, learning_runs), (4, rewards), (5, challenges), (6, economy), (7, adventure), (8, quizzes), (9, multiplayer), (10, research), (11, games), (12, progression), (13, research_instruments), (14, equipped_badges))
 

@@ -10,11 +10,11 @@ from app.config import Settings
 from app.db import Database, LearningActivity, Profile, RewardGrant, SessionToken, XPLedger, now
 from app.economy_models import EconomyAccount, EconomyEvent
 from app.game.models import Game, GameEvent, GameParticipant
-from app.migration_v1 import attempts
-from app.migration_v12 import TABLES, boss_results, campaign_checks, campaign_progress
-from app.migration_v13 import upgrade as upgrade_v13
-from app.migration_v14 import upgrade as upgrade_v14
-from app.migrations import LATEST_VERSION, MIGRATIONS
+from app.migrations.migration_v1 import attempts
+from app.migrations.migration_v12 import TABLES, boss_results, campaign_checks, campaign_progress
+from app.migrations.migration_v13 import upgrade as upgrade_v13
+from app.migrations.migration_v14 import upgrade as upgrade_v14
+from app.migrations.migrations import LATEST_VERSION, MIGRATIONS
 from app.research_models import ResearchParticipant
 
 
@@ -68,7 +68,7 @@ async def populate_before_v13(database):
 
 async def assert_v13_preserves_rows(case, database):
     """Migrate a populated version-12 database to 13 twice; every earlier row survives and old check answers have no time."""
-    with patch('app.migrations.MIGRATIONS', MIGRATIONS[:12]):
+    with patch('app.migrations.migrations.MIGRATIONS', MIGRATIONS[:12]):
         await database.migrate()
     await populate_before_v13(database)
     async with database.engine.connect() as connection:
@@ -106,7 +106,7 @@ class MigrationChainTests(unittest.IsolatedAsyncioTestCase):
         self.assertTrue({table.name for table in TABLES} | {'prior_knowledge_responses'} <= names)
 
     async def test_upgrade_to_twelve_preserves_every_populated_row_and_is_repeatable(self):
-        with patch('app.migrations.MIGRATIONS', MIGRATIONS[:11]):
+        with patch('app.migrations.migrations.MIGRATIONS', MIGRATIONS[:11]):
             await self.database.migrate()
         await populate_before_v12(self.database)
         async with self.database.engine.connect() as connection:
@@ -127,7 +127,7 @@ class MigrationChainTests(unittest.IsolatedAsyncioTestCase):
         await assert_v13_preserves_rows(self, self.database)
 
     async def test_badge_migration_preserves_profiles_and_their_existing_equipment(self):
-        with patch('app.migrations.MIGRATIONS', MIGRATIONS[:13]):
+        with patch('app.migrations.migrations.MIGRATIONS', MIGRATIONS[:13]):
             await self.database.migrate()
         await populate_before_v13(self.database)
         async with self.database.engine.connect() as connection:

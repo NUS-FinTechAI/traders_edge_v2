@@ -1,6 +1,6 @@
 """Owned research metadata and receipts; existing operational records are retained."""
 from sqlalchemy import Boolean, Column, DateTime, ForeignKey, JSON, MetaData, String, Table, Text
-from app.migration_v1 import profiles
+from app.migrations.migration_v1 import profiles
 
 metadata = MetaData()
 profiles.to_metadata(metadata)

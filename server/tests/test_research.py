@@ -14,7 +14,7 @@ from app.config import Settings
 from app.db import now
 from app.game.models import Game, GameEvent, GameParticipant
 from app.main import create_app
-from app.migration_v10 import upgrade
+from app.migrations.migration_v10 import upgrade
 from app.research_models import ResearchCommand, ResearchParticipant
 from progression_fixtures import fixture_content
 from test_postgres_integration import checked_url

@@ -96,12 +96,12 @@ class Database:
         self.sessions = async_sessionmaker(self.engine, expire_on_commit=False)
 
     async def migrate(self):
-        from app.migrations import migrate
+        from app.migrations.migrations import migrate
         return await migrate(self.engine)
 
     async def check_schema(self):
         from sqlalchemy import inspect
-        from app.migrations import LATEST_VERSION
+        from app.migrations.migrations import LATEST_VERSION
         async with self.engine.connect() as connection:
             exists = await connection.run_sync(lambda sync: inspect(sync).has_table('schema_versions'))
             if not exists:

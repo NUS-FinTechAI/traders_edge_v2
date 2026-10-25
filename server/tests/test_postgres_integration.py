@@ -19,7 +19,7 @@ from app.config import Settings
 from app.db import Database, LearningActivity, Profile, SessionToken, XPLedger, now
 from app.game.models import Game
 from app.main import create_app
-from app.migrations import MIGRATIONS
+from app.migrations.migrations import MIGRATIONS
 from app.player import ledger
 from app.research_models import ResearchCommand
 from progression_fixtures import fixture_content, use_fixture_scenarios
@@ -62,7 +62,7 @@ class PostgreSQLIntegrationTests(unittest.IsolatedAsyncioTestCase):
             db.add_all([Profile(id='one', analytics_opt_in=True), Profile(id='two', analytics_opt_in=True)])
 
     async def test_populated_migrations_preserve_all_prior_rows(self):
-        with patch('app.migrations.MIGRATIONS', MIGRATIONS[:11]):
+        with patch('app.migrations.migrations.MIGRATIONS', MIGRATIONS[:11]):
             await self.database.migrate()
         await populate_before_v12(self.database)
         async with self.database.engine.connect() as connection:
