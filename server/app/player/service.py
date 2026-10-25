@@ -66,13 +66,10 @@ async def available_unlocks(db, content, profile, level, progress=None):
         item = content.cosmetics.items.get(item_id)
         if not item or item['kind'] not in groups:
             continue
-        source = item.get('source')  # Badges are earned and have no source field.
-        if source in {'starter', 'free'} or (source == 'rank' and item['level'] == 1):
-            continue
         entries.append({'category': 'cosmetics', 'group': groups[item['kind']], 'item_id': item_id})
     progress = progress or await load_progress(db, content.campaign, profile.id)
     entries.extend({'category': 'campaign', 'group': 'chapters', 'item_id': chapter['id']}
-                   for chapter in content.campaign.chapters if chapter['number'] > 1 and progress.unlocked(chapter))
+                   for chapter in content.campaign.chapters if progress.unlocked(chapter))
     return entries
 
 

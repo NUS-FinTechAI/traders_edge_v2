@@ -51,7 +51,7 @@ Stars are raised, never lowered:
 
 Chapters unlocked by a prior chapter boss or their Gate Boss produce a
 `campaign` / `chapters` unread entry, reusing the generic unlock read receipts.
-Chapter 1 is excluded. Static red dots appear on the chapter card and the
+Chapter 1 starts unread too. Static red dots appear on the chapter card and the
 Adventure links in desktop and mobile navigation. A successful load of the
 unlocked chapter map acknowledges that chapter once; opening the overview or
 a locked/error map does not. Chapter acknowledgements leave cosmetic dots
@@ -145,8 +145,8 @@ equipping a cosmetic clears its dot locally without an acknowledgement request.
 Closing the gallery sends one deduplicated acknowledgement batch for equipped
 and other visible items. Off-screen
 items and other galleries keep their dots. Failed acknowledgements keep the
-items unread and show an error. Starter cosmetics, free themes and the initial
-rank title are excluded. Previously earned cosmetics without a read receipt
+items unread and show an error. Starter avatars, free cosmetic palettes and the
+initial rank title start unread too. Previously earned cosmetics without a read receipt
 also appear as new once when this feature is introduced.
 
 Unread state is account-scoped and persisted on the server. The generic

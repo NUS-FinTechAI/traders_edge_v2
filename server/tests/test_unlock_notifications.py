@@ -1,6 +1,14 @@
 from app.player import ledger
 from progression_fixtures import AppCase
 
+INITIAL_UNREAD = [
+    *[{'category': 'cosmetics', 'group': 'avatars', 'item_id': f'avatar-starter-{number}'} for number in range(1, 5)],
+    {'category': 'cosmetics', 'group': 'themes', 'item_id': 'theme-palette-colorblind'},
+    {'category': 'cosmetics', 'group': 'themes', 'item_id': 'theme-palette-high-contrast'},
+    {'category': 'cosmetics', 'group': 'titles', 'item_id': 'title-rank-deckhand'},
+    {'category': 'campaign', 'group': 'chapters', 'item_id': 'ch1'},
+]
+
 
 class UnlockNotificationTests(AppCase):
     def unread(self):
@@ -16,8 +24,18 @@ class UnlockNotificationTests(AppCase):
     def seen(self, item_id, category='cosmetics'):
         return self.client.post('/api/me/unlocks/seen', json={'unlocks': [{'category': category, 'item_id': item_id}]})
 
-    def test_starter_cosmetics_and_free_themes_have_no_notifications(self):
+    def test_initially_available_chapter_and_cosmetics_start_unread(self):
+        self.assertCountEqual(self.unread(), INITIAL_UNREAD)
+
+    def test_initial_content_can_be_acknowledged_once_in_a_batch(self):
+        keys = [{'category': item['category'], 'item_id': item['item_id']} for item in INITIAL_UNREAD]
+
+        response = self.client.post('/api/me/unlocks/seen', json={'unlocks': keys})
+
+        self.assertEqual(response.status_code, 200, response.text)
+        self.assertEqual(response.json()['unread_unlocks'], [])
         self.assertEqual(self.unread(), [])
+        self.assertEqual(self.client.post('/api/me/unlocks/seen', json={'unlocks': keys}).status_code, 200)
 
     def test_purchased_cosmetic_appears_as_unread_in_its_gallery(self):
         item = next(item for item in self.content.cosmetics.shop() if item['kind'] == 'avatar')
@@ -59,8 +77,8 @@ class UnlockNotificationTests(AppCase):
         response = self.seen('avatar-guide-1')
 
         self.assertEqual(response.status_code, 200, response.text)
-        self.assertEqual(response.json()['unread_unlocks'], [])
-        self.assertEqual(self.unread(), [])
+        self.assertCountEqual(response.json()['unread_unlocks'], INITIAL_UNREAD)
+        self.assertCountEqual(self.unread(), INITIAL_UNREAD)
         self.assertEqual(self.seen('avatar-guide-1').status_code, 200)
 
     def test_acknowledging_one_item_keeps_other_items_unread(self):
@@ -69,7 +87,7 @@ class UnlockNotificationTests(AppCase):
 
         self.seen('avatar-guide-1')
 
-        self.assertEqual(self.unread(), [{'category': 'cosmetics', 'group': 'titles', 'item_id': 'title-steady-hand'}])
+        self.assertCountEqual(self.unread(), INITIAL_UNREAD + [{'category': 'cosmetics', 'group': 'titles', 'item_id': 'title-steady-hand'}])
 
     def test_read_receipts_are_isolated_between_players(self):
         self.grant('avatar-guide-1')
@@ -77,7 +95,7 @@ class UnlockNotificationTests(AppCase):
         self.switch_user()
         self.grant('avatar-guide-1')
 
-        self.assertEqual(self.unread(), [{'category': 'cosmetics', 'group': 'avatars', 'item_id': 'avatar-guide-1'}])
+        self.assertCountEqual(self.unread(), INITIAL_UNREAD + [{'category': 'cosmetics', 'group': 'avatars', 'item_id': 'avatar-guide-1'}])
 
     def test_unowned_content_cannot_be_marked_seen_before_it_is_earned(self):
         response = self.seen('avatar-guide-1')
@@ -85,13 +103,13 @@ class UnlockNotificationTests(AppCase):
 
         self.grant('avatar-guide-1')
 
-        self.assertEqual(len(self.unread()), 1)
+        self.assertCountEqual(self.unread(), INITIAL_UNREAD + [{'category': 'cosmetics', 'group': 'avatars', 'item_id': 'avatar-guide-1'}])
 
     def test_unknown_categories_cannot_hide_owned_cosmetics(self):
         self.grant('avatar-guide-1')
 
         self.assertEqual(self.seen('avatar-guide-1', 'unknown').status_code, 403)
-        self.assertEqual(len(self.unread()), 1)
+        self.assertCountEqual(self.unread(), INITIAL_UNREAD + [{'category': 'cosmetics', 'group': 'avatars', 'item_id': 'avatar-guide-1'}])
 
     def test_acknowledgement_requires_authentication(self):
         self.client.cookies.clear()
@@ -108,14 +126,20 @@ class UnlockNotificationTests(AppCase):
 
         chapters = [item for item in self.unread() if item['category'] == 'campaign']
 
-        self.assertEqual(chapters, [{'category': 'campaign', 'group': 'chapters', 'item_id': 'ch2'}])
+        self.assertCountEqual(chapters, [
+            {'category': 'campaign', 'group': 'chapters', 'item_id': 'ch1'},
+            {'category': 'campaign', 'group': 'chapters', 'item_id': 'ch2'},
+        ])
 
     def test_gate_boss_unlock_notifies_only_the_chapter_it_opens(self):
         self.win_boss('ch3', kind='gate')
 
         chapters = [item for item in self.unread() if item['category'] == 'campaign']
 
-        self.assertEqual(chapters, [{'category': 'campaign', 'group': 'chapters', 'item_id': 'ch3'}])
+        self.assertCountEqual(chapters, [
+            {'category': 'campaign', 'group': 'chapters', 'item_id': 'ch1'},
+            {'category': 'campaign', 'group': 'chapters', 'item_id': 'ch3'},
+        ])
 
     def test_reading_a_chapter_does_not_clear_cosmetic_notifications(self):
         self.win_boss('ch1')
@@ -123,7 +147,8 @@ class UnlockNotificationTests(AppCase):
         response = self.seen('ch2', 'campaign')
 
         self.assertEqual(response.status_code, 200, response.text)
-        self.assertEqual([item for item in self.unread() if item['category'] == 'campaign'], [])
+        self.assertEqual([item for item in self.unread() if item['category'] == 'campaign'],
+                         [{'category': 'campaign', 'group': 'chapters', 'item_id': 'ch1'}])
         self.assertTrue(any(item['category'] == 'cosmetics' for item in self.unread()))
         self.assertEqual(self.seen('ch2', 'campaign').status_code, 200)
 

@@ -59,8 +59,8 @@ Migration 15 (`migrations/migration_v15.py`, `player.notifications.UnlockReceipt
 adds `unlock_receipts`: `(user_id, category, item_id)` is the primary key and
 `seen_at` records acknowledgement. Notifications are computed from server-owned
 cosmetics and unlocked chapters minus these receipts; receipt rows never award
-or revoke ownership or progression. Starter/free cosmetics, the initial rank
-and Chapter 1 are excluded.
+or revoke ownership or progression. Initially available cosmetics, the initial
+rank title and Chapter 1 also start unread until acknowledged.
 
 Rewards are keyed, not counted: an `xp_ledger` or `economy_events` row with
 the same (player, key) is never written twice. Key formats are in
