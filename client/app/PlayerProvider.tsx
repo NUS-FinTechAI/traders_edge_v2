@@ -3,6 +3,7 @@ import useAuth from '../hooks/useAuth.ts'
 import { getMe, type Player } from '../services/playerService.ts'
 import { errorText } from '../ui/useResource.ts'
 import { PlayerContext } from './PlayerContext.ts'
+import LevelUpModal from './LevelUpModal.tsx'
 
 /** A profile fetched here, tied to the auth profile it replaced. */
 interface Fetched {
@@ -44,6 +45,7 @@ export default function PlayerProvider({ children }: { children: ReactNode }) {
       value={{ player, error: signedIn ? error : null, refreshPlayer }}
     >
       {children}
+      <LevelUpModal player={player} />
     </PlayerContext.Provider>
   )
 }

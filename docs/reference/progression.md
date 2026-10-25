@@ -95,6 +95,12 @@ skill: Deckhand (1–4), Able Seaman (5–9), Navigator (10–14), Quartermaster
 Each rank is also a `rank` title in `cosmetics.json` (`title-rank-<name>`),
 owned on reaching its level; the two lists must stay in step.
 
+When the shared player profile reports a higher level for the current account,
+a "Level Up!" modal shows the equipped avatar and the new level.
+Continue, Close, Escape or the
+backdrop dismisses it. Signing in establishes the baseline without replaying
+older levels; a reward crossing several levels shows the latest level.
+
 ## Currencies
 
 | Currency  | Icon      | Held in                                 | Earned from                                                 | Spent on                                       |
