@@ -1,6 +1,6 @@
 from sqlalchemy import Column, DateTime, ForeignKey, JSON, MetaData, String, Table, inspect, text
 
-from app.migration_v1 import profiles
+from app.migrations.migration_v1 import profiles
 
 metadata = MetaData()
 profiles.to_metadata(metadata)

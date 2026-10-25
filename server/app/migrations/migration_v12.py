@@ -1,6 +1,6 @@
 """Campaign, quiz, lobby and rating tables; earlier tables are untouched."""
 from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Index, Integer, JSON, MetaData, Numeric, String, Table
-from app.migration_v1 import profiles
+from app.migrations.migration_v1 import profiles
 
 metadata = MetaData()
 profiles.to_metadata(metadata)

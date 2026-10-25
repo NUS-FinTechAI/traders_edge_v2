@@ -10,7 +10,7 @@ from app.db import Profile
 from app.game import service
 from app.game.models import Game, GameEvent, GameOrder
 from app.main import create_app
-from app.migration_v11 import upgrade
+from app.migrations.migration_v11 import upgrade
 from progression_fixtures import fixture_content, use_fixture_scenarios
 
 T0 = 1_800_000_000_000

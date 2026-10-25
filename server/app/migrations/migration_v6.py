@@ -2,7 +2,7 @@
 
 from sqlalchemy import CheckConstraint, Column, DateTime, ForeignKey, Integer, JSON, MetaData, String, Table
 
-from app.migration_v1 import profiles
+from app.migrations.migration_v1 import profiles
 
 metadata = MetaData()
 profiles.to_metadata(metadata)

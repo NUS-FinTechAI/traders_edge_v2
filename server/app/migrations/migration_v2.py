@@ -1,6 +1,6 @@
 """Persist simulator commands so retries replay the original committed response."""
 from sqlalchemy import Column, DateTime, ForeignKey, JSON, MetaData, String, Table
-from app.migration_v1 import profiles, simulation_sessions
+from app.migrations.migration_v1 import profiles, simulation_sessions
 
 metadata = MetaData()
 profiles.to_metadata(metadata)

@@ -1,6 +1,6 @@
 """Prior-knowledge onboarding responses and the time of each first check answer; earlier tables keep every row."""
 from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, JSON, MetaData, String, Table, inspect, text
-from app.migration_v1 import profiles
+from app.migrations.migration_v1 import profiles
 
 metadata = MetaData()
 profiles.to_metadata(metadata)

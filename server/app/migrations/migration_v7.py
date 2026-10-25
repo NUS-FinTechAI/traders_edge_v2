@@ -1,7 +1,7 @@
 from sqlalchemy import Column, DateTime, ForeignKey, JSON, MetaData, String, Table
 
-from app.migration_v1 import profiles
-from app.migration_v5 import attempts
+from app.migrations.migration_v1 import profiles
+from app.migrations.migration_v5 import attempts
 
 metadata = MetaData()
 profiles.to_metadata(metadata)

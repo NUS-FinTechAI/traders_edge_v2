@@ -19,7 +19,7 @@ from app.config import Settings
 from app.db import Database, LearningActivity, Profile, SessionToken, XPLedger, now
 from app.game.models import Game
 from app.main import create_app
-from app.migrations import MIGRATIONS
+from app.migrations.migrations import MIGRATIONS
 from app.player import ledger
 from app.research_models import ResearchCommand
 from progression_fixtures import fixture_content, use_fixture_scenarios

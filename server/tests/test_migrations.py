@@ -10,11 +10,11 @@ from app.config import Settings
 from app.db import Database, LearningActivity, Profile, RewardGrant, SessionToken, XPLedger, now
 from app.economy_models import EconomyAccount, EconomyEvent
 from app.game.models import Game, GameEvent, GameParticipant
-from app.migration_v1 import attempts
-from app.migration_v12 import TABLES, boss_results, campaign_checks, campaign_progress
-from app.migration_v13 import upgrade as upgrade_v13
-from app.migration_v14 import upgrade as upgrade_v14
-from app.migrations import LATEST_VERSION, MIGRATIONS
+from app.migrations.migration_v1 import attempts
+from app.migrations.migration_v12 import TABLES, boss_results, campaign_checks, campaign_progress
+from app.migrations.migration_v13 import upgrade as upgrade_v13
+from app.migrations.migration_v14 import upgrade as upgrade_v14
+from app.migrations.migrations import LATEST_VERSION, MIGRATIONS
 from app.research_models import ResearchParticipant
 
 
