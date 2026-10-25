@@ -20,6 +20,7 @@ interface ToastItem {
   id: number
   message: string
   kind: ToastKind
+  icon?: ReactNode
   celebration?: CelebrationToast
 }
 
@@ -80,7 +81,7 @@ function Toast({
         styles[`toast${item.kind[0].toUpperCase()}${item.kind.slice(1)}`],
       ].join(' ')}
     >
-      <Icon name={item.kind === 'success' ? 'check' : 'info'} />
+      {item.icon ?? <Icon name={item.kind === 'success' ? 'check' : 'info'} />}
       <p>{item.message}</p>
       <Button
         variant="ghost"
@@ -96,10 +97,10 @@ function Toast({
 export function ToastProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<ToastItem[]>([])
 
-  const notify = useCallback<Notify>((message, kind = 'info') => {
+  const notify = useCallback<Notify>((message, kind = 'info', icon) => {
     setItems((current) => [
       ...current.slice(1 - MAX_VISIBLE),
-      { id: Date.now() + Math.random(), message, kind },
+      { id: Date.now() + Math.random(), message, kind, icon },
     ])
   }, [])
 

@@ -22,11 +22,13 @@ import {
 } from '../../services/gameService.ts'
 import { ButtonLink } from '../../ui/Button.tsx'
 import { ErrorState, Loading } from '../../ui/States.tsx'
+import Icon from '../../ui/Icon.tsx'
 import { formatMoney } from '../../ui/format.ts'
 import { useToast } from '../../ui/toastContext.ts'
 import { errorText } from '../../ui/useResource.ts'
 import { chapterOf, isEnded, isMultiplayer, levelOf } from './arenaLogic.ts'
 import BriefingScreen from './briefing/BriefingScreen.tsx'
+import { MissionNotifications } from './missionNotifications.ts'
 import {
   loadPendingStops,
   savePendingStops,
@@ -95,6 +97,7 @@ function Arena({ gameId }: { gameId: string }) {
   const [clockBusy, setClockBusy] = useState(false)
   const [cancelling, setCancelling] = useState<string | null>(null)
   const finishing = useRef(false)
+  const [missionNotifications] = useState(() => new MissionNotifications())
   // A mutable map held for the component's lifetime; the count drives renders.
   const [stops] = useState(() => loadPendingStops(gameId))
   const placingStops = useRef(new Set<string>())
@@ -120,6 +123,27 @@ function Arena({ gameId }: { gameId: string }) {
   useEffect(() => {
     window.scrollTo(0, 0)
   }, [phase])
+
+  useEffect(() => {
+    if (!state) return
+    const notice = missionNotifications.update(
+      state.missions,
+      phase === 'trading' && !ended,
+    )
+    if (notice)
+      notify(
+        notice.message,
+        notice.bonus ? 'bonusMission' : 'normalMission',
+        <span aria-hidden="true" style={{ display: 'flex', gap: 4 }}>
+          {notice.normal && (
+            <Icon name="star" filled style={{ color: 'var(--gold)' }} />
+          )}
+          {notice.bonus && (
+            <Icon name="sparkle" filled style={{ color: 'var(--gem-text)' }} />
+          )}
+        </span>,
+      )
+  }, [state, phase, ended, missionNotifications, notify])
 
   const forgetStop = useCallback(
     (orderId: string) => {

@@ -1,6 +1,7 @@
 import { createContext, useContext, type ReactNode } from 'react'
 
-export type ToastKind = 'success' | 'error' | 'info'
+export type ToastKind =
+  'success' | 'error' | 'info' | 'normalMission' | 'bonusMission'
 
 /** A celebratory toast: art, a heading, a name and a link to view it. */
 export interface CelebrationToast {
@@ -12,7 +13,11 @@ export interface CelebrationToast {
   action?: { label: string; to: string }
 }
 
-export type Notify = (message: string, kind?: ToastKind) => void
+export type Notify = (
+  message: string,
+  kind?: ToastKind,
+  icon?: ReactNode,
+) => void
 
 export interface Toasts {
   notify: Notify
