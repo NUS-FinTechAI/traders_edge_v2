@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react'
+import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { usePlayer } from '../../app/PlayerContext.ts'
 import RequirePlayer from '../../app/RequirePlayer.tsx'
@@ -233,7 +233,15 @@ export default function ProfilePage() {
 }
 
 function Profile({ player }: { player: Player }) {
-  const collection = useResource(getCollection)
+  const collection = useResource(getCollection, [player.id])
+  const reloadCollection = collection.reload
+  const previousPlayer = useRef(player)
+  useEffect(() => {
+    if (previousPlayer.current !== player) {
+      previousPlayer.current = player
+      reloadCollection()
+    }
+  }, [player, reloadCollection])
   const activity = useResource(getActivity)
   const pct = Math.round(
     (player.xp_into_level / Math.max(1, player.xp_for_next_level)) * 100,

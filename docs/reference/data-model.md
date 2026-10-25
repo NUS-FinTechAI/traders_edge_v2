@@ -55,6 +55,12 @@ Migration 14 (`migration_v14.py`) adds nullable `profiles.equipped_badge_id`.
 Existing profiles start without an equipped badge; earlier rows and equipment
 are preserved. The profile update checks that the selected badge is earned.
 
+Migration 15 (`migrations/migration_v15.py`, `player.notifications.UnlockReceipt`)
+adds `unlock_receipts`: `(user_id, category, item_id)` is the primary key and
+`seen_at` records acknowledgement. New cosmetic notifications are computed
+from server-owned cosmetics minus these receipts; receipt rows never award
+or revoke ownership. Starter/free cosmetics and the initial rank are excluded.
+
 Rewards are keyed, not counted: an `xp_ledger` or `economy_events` row with
 the same (player, key) is never written twice. Key formats are in
 [matches](matches.md#settlement).
@@ -69,7 +75,7 @@ code reads or writes them. Earlier learner records were not converted.
 
 ## Migrations
 
-`server/app/migrations.py` applies 1–13 in order, records each in
+`server/app/migrations/migrations.py` applies 1–15 in order, records each in
 `schema_versions`, and rejects gaps or unknown versions. Changing a model does
 not change a database: append a numbered migration. With `AUTO_MIGRATE=false`,
 run `uv run --project server --locked python -m app.db` first; the API refuses

@@ -27,6 +27,19 @@ class EquippedBadge(BaseModel):
     name: str
 
 
+class UnlockKey(Payload):
+    category: str = Field(min_length=1, max_length=40)
+    item_id: str = Field(min_length=1, max_length=120)
+
+
+class UnlockNotice(UnlockKey):
+    group: str = Field(min_length=1, max_length=40)
+
+
+class SeenUnlocks(Payload):
+    unlocks: list[UnlockKey] = Field(min_length=1, max_length=100)
+
+
 class Player(BaseModel):
     id: str
     display_name: str
@@ -44,6 +57,7 @@ class Player(BaseModel):
     streak: Streak
     unlocks: Unlocks
     leaderboard_opt_in: bool
+    unread_unlocks: list[UnlockNotice] = Field(default_factory=list)
 
 
 class PlayerUpdate(Payload):

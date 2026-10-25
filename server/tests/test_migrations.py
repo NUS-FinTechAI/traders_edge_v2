@@ -14,6 +14,7 @@ from app.migrations.migration_v1 import attempts
 from app.migrations.migration_v12 import TABLES, boss_results, campaign_checks, campaign_progress
 from app.migrations.migration_v13 import upgrade as upgrade_v13
 from app.migrations.migration_v14 import upgrade as upgrade_v14
+from app.migrations.migration_v15 import upgrade as upgrade_v15
 from app.migrations.migrations import LATEST_VERSION, MIGRATIONS
 from app.research_models import ResearchParticipant
 
@@ -101,9 +102,32 @@ class MigrationChainTests(unittest.IsolatedAsyncioTestCase):
         await self.database.check_schema()
         async with self.database.engine.connect() as connection:
             names = await connection.run_sync(lambda sync: set(inspect(sync).get_table_names()))
-        self.assertEqual(LATEST_VERSION, 14)
-        self.assertEqual([version for version, _ in MIGRATIONS], list(range(1, 15)))
-        self.assertTrue({table.name for table in TABLES} | {'prior_knowledge_responses'} <= names)
+        self.assertEqual(LATEST_VERSION, 15)
+        self.assertEqual([version for version, _ in MIGRATIONS], list(range(1, 16)))
+        self.assertTrue({table.name for table in TABLES} | {'prior_knowledge_responses', 'unlock_receipts'} <= names)
+
+    async def test_unlock_receipt_migration_preserves_existing_rows_and_is_repeatable(self):
+        from app.player.notifications import UnlockReceipt
+        with patch('app.migrations.migrations.MIGRATIONS', MIGRATIONS[:14]):
+            await self.database.migrate()
+        await populate_before_v13(self.database)
+        async with self.database.engine.connect() as connection:
+            columns, before = await connection.run_sync(snapshot)
+
+        await self.database.migrate()
+        async with self.database.sessions.begin() as db:
+            db.add(UnlockReceipt(user_id='legacy', category='cosmetics', item_id='avatar-x'))
+        async with self.database.engine.begin() as connection:
+            await upgrade_v15(connection)
+        await self.database.migrate()
+
+        await self.database.check_schema()
+        async with self.database.engine.connect() as connection:
+            _, after = await connection.run_sync(lambda sync: snapshot(sync, columns))
+        async with self.database.sessions() as db:
+            receipt = await db.get(UnlockReceipt, ('legacy', 'cosmetics', 'avatar-x'))
+            self.assertIsNotNone(receipt.seen_at)
+        self.assertEqual(before, after)
 
     async def test_upgrade_to_twelve_preserves_every_populated_row_and_is_repeatable(self):
         with patch('app.migrations.migrations.MIGRATIONS', MIGRATIONS[:11]):

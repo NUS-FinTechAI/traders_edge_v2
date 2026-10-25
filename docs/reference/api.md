@@ -92,6 +92,11 @@ Start, clock, order and cancel responses carry the full public state.
 
 ### Player (`app/player/api.py`)
 
+`GET /me` includes `unread_unlocks`: `{category, group, item_id}` entries.
+`POST /me/unlocks/seen` accepts `{unlocks: [{category, item_id}]}` (1-100 keys)
+and returns the updated player. Read receipts belong to the signed-in player;
+repeated acknowledgements are safe, and unowned or unknown keys return 403.
+
 | Route                                                                              | Purpose                                                             |
 | ---------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
 | `GET /me`                                                                          | Profile, level, rank, XP, wallet, streak, unlock flags              |

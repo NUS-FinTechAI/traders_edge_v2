@@ -139,6 +139,7 @@
 }
 
 .hudAvatar {
+  position: relative;
   display: grid;
   place-items: center;
   min-width: 44px;

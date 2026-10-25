@@ -11,7 +11,7 @@ from app.db import LearningActivity, Profile, XPLedger, aware
 from app.game.models import GameParticipant
 from app.multiplayer import elo
 from app.multiplayer.models import Rating
-from app.player import badges, ledger
+from app.player import badges, ledger, notifications
 from app.player.levels import level_for, rank_name
 from app.quiz.models import QuizAttempt
 
@@ -57,10 +57,27 @@ def equipped_badge(content, profile):
     return {'id': badge['id'], 'name': badge['name']} if badge and badge['kind'] == 'badge' else None
 
 
+async def available_unlocks(db, content, profile, level):
+    """Feature adapters publish keys; read receipts do not depend on cosmetic rules."""
+    owned = await ownership(db, content, profile.id, level)
+    groups = {'avatar': 'avatars', 'title': 'titles', 'theme': 'themes', 'badge': 'badges'}
+    entries = []
+    for item_id in sorted(owned):
+        item = content.cosmetics.items.get(item_id)
+        if not item or item['kind'] not in groups:
+            continue
+        source = item.get('source')  # Badges are earned and have no source field.
+        if source in {'starter', 'free'} or (source == 'rank' and item['level'] == 1):
+            continue
+        entries.append({'category': 'cosmetics', 'group': groups[item['kind']], 'item_id': item_id})
+    return entries
+
+
 async def player_data(db, content, profile):
     instant = ledger.current()
     xp = await ledger.total_xp(db, profile.id)
     level, into, needed = level_for(xp)
+    unread = await notifications.unread(db, profile.id, await available_unlocks(db, content, profile, level))
     wallet = await ledger.read_account(db, profile.id)
     days, claimed, cycle = streak_state(wallet, instant)
     progress = await load_progress(db, content.campaign, profile.id)
@@ -70,7 +87,7 @@ async def player_data(db, content, profile):
         'avatar_image': content.cosmetics.image(profile.equipped_avatar_id or DEFAULT_AVATAR),
         'badge': equipped_badge(content, profile),
         'title_id': profile.equipped_title_id, 'title': title['name'] if title else rank_name(level), 'level': level,
-        'rank_name': rank_name(level), 'xp': xp, 'xp_into_level': into, 'xp_for_next_level': needed,
+        'rank_name': rank_name(level), 'xp': xp, 'xp_into_level': into, 'xp_for_next_level': needed, 'unread_unlocks': unread,
         'wallet': {'doubloons': ledger.doubloons(wallet, instant), 'doubloons_week_ends_at': ledger.week_ends_at(instant).isoformat(),
                    'gems': wallet.premium_balance if wallet else 0},
         'streak': {'days': days, 'claimed_today': claimed, 'cycle_day': cycle},
