@@ -1,6 +1,9 @@
 import { useState, type CSSProperties } from 'react'
 import { Link } from 'react-router-dom'
 import useAuth from '../../hooks/useAuth.ts'
+import { usePlayer } from '../../app/PlayerContext.ts'
+import { unreadUnlocks } from '../../app/unlockNotifications.ts'
+import NotificationDot from '../../ui/NotificationDot.tsx'
 import {
   getCampaign,
   type ChapterCard,
@@ -57,11 +60,13 @@ function ChapterTile({
   readOnly,
   canGate,
   onGate,
+  unread,
 }: {
   chapter: ChapterCard
   readOnly: boolean
   canGate: boolean
   onGate: (chapter: ChapterCard) => void
+  unread: boolean
 }) {
   const locked = chapter.state === 'locked'
   const emblem = chapterEmblem(chapter.icon, chapter.number)
@@ -80,6 +85,7 @@ function ChapterTile({
         </span>
       </div>
       <div className={styles.tileBody}>
+        {unread && <NotificationDot label="Newly unlocked chapter" />}
         <p className={styles.eyebrow}>Chapter {chapter.number}</p>
         <h2 id={titleId} className={styles.tileTitle}>
           {chapter.title}
@@ -119,7 +125,7 @@ function ChapterTile({
         <Link
           to={`/adventure/${encodeURIComponent(chapter.id)}`}
           className={styles.tileLink}
-          aria-labelledby={titleId}
+          aria-label={`${chapter.title}${unread ? ', newly unlocked chapter' : ''}`}
         >
           {body}
           {progress}
@@ -158,6 +164,8 @@ function ChapterTile({
 
 export default function AdventurePage() {
   const { status } = useAuth()
+  const { player } = usePlayer()
+  const newChapters = unreadUnlocks(player, 'campaign', 'chapters')
   // The campaign is public: signed-out visitors see chapter 1 open.
   const resource = useResource(getCampaign, [status])
   const preview = status !== 'signed-in'
@@ -200,6 +208,11 @@ export default function AdventurePage() {
                   readOnly={preview}
                   canGate={!preview}
                   onGate={setGate}
+                  unread={
+                    !preview &&
+                    chapter.state !== 'locked' &&
+                    newChapters.some((item) => item.item_id === chapter.id)
+                  }
                 />
               ))}
             </ul>

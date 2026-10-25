@@ -102,3 +102,42 @@ class UnlockNotificationTests(AppCase):
         response = self.client.post('/api/me/unlocks/seen', json={'unlocks': []})
 
         self.assertEqual(response.status_code, 422)
+
+    def test_winning_a_chapter_boss_notifies_the_next_unlocked_chapter(self):
+        self.win_boss('ch1')
+
+        chapters = [item for item in self.unread() if item['category'] == 'campaign']
+
+        self.assertEqual(chapters, [{'category': 'campaign', 'group': 'chapters', 'item_id': 'ch2'}])
+
+    def test_gate_boss_unlock_notifies_only_the_chapter_it_opens(self):
+        self.win_boss('ch3', kind='gate')
+
+        chapters = [item for item in self.unread() if item['category'] == 'campaign']
+
+        self.assertEqual(chapters, [{'category': 'campaign', 'group': 'chapters', 'item_id': 'ch3'}])
+
+    def test_reading_a_chapter_does_not_clear_cosmetic_notifications(self):
+        self.win_boss('ch1')
+
+        response = self.seen('ch2', 'campaign')
+
+        self.assertEqual(response.status_code, 200, response.text)
+        self.assertEqual([item for item in self.unread() if item['category'] == 'campaign'], [])
+        self.assertTrue(any(item['category'] == 'cosmetics' for item in self.unread()))
+        self.assertEqual(self.seen('ch2', 'campaign').status_code, 200)
+
+    def test_locked_chapters_cannot_be_acknowledged_before_they_unlock(self):
+        self.assertEqual(self.seen('ch2', 'campaign').status_code, 403)
+
+        self.win_boss('ch1')
+
+        self.assertIn({'category': 'campaign', 'group': 'chapters', 'item_id': 'ch2'}, self.unread())
+
+    def test_chapter_read_receipts_are_isolated_between_players(self):
+        self.win_boss('ch1')
+        self.seen('ch2', 'campaign')
+        self.switch_user()
+        self.win_boss('ch1')
+
+        self.assertIn({'category': 'campaign', 'group': 'chapters', 'item_id': 'ch2'}, self.unread())

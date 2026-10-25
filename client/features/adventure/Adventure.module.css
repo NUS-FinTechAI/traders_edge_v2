@@ -133,6 +133,7 @@
 }
 
 .tileBody {
+  position: relative;
   display: grid;
   gap: var(--space-1);
   padding: var(--space-4) var(--space-4) var(--space-2);

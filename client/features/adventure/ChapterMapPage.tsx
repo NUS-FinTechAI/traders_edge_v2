@@ -1,6 +1,9 @@
-import { useRef, useState, type KeyboardEvent } from 'react'
+import { useEffect, useRef, useState, type KeyboardEvent } from 'react'
 import { useParams, useSearchParams } from 'react-router-dom'
 import useAuth from '../../hooks/useAuth.ts'
+import { usePlayer } from '../../app/PlayerContext.ts'
+import { unreadUnlocks } from '../../app/unlockNotifications.ts'
+import { useToast } from '../../ui/toastContext.ts'
 import {
   getChapterMap,
   type ChapterMap,
@@ -17,7 +20,7 @@ import ResourceView from '../../ui/ResourceView.tsx'
 import Stars from '../../ui/Stars.tsx'
 import { EmptyState } from '../../ui/States.tsx'
 import { useMediaQuery } from '../../ui/hooks.ts'
-import useResource from '../../ui/useResource.ts'
+import useResource, { errorText } from '../../ui/useResource.ts'
 import usePlayNow from '../home/usePlayNow.ts'
 import { layoutMap } from './mapLayout.ts'
 import NodePopup from './NodePopup.tsx'
@@ -266,6 +269,9 @@ function ChapterPath({
 export default function ChapterMapPage() {
   const { chapterId = '' } = useParams()
   const { status } = useAuth()
+  const { player, markUnlocksSeen } = usePlayer()
+  const notify = useToast()
+  const attempted = useRef(new Set<string>())
   const [search, setSearch] = useSearchParams()
   const [selectedId, setSelectedId] = useState<string | null>(
     search.get('node'),
@@ -275,6 +281,26 @@ export default function ChapterMapPage() {
     [chapterId, status],
   )
   const { playNow, busy } = usePlayNow(`/adventure/${chapterId}`)
+  const unread = unreadUnlocks(player, 'campaign', 'chapters').some(
+    (item) => item.item_id === chapterId,
+  )
+  const loadedChapter =
+    resource.status === 'ready' ? resource.data?.chapter : undefined
+  useEffect(() => {
+    if (
+      !player ||
+      !unread ||
+      !loadedChapter ||
+      loadedChapter.state === 'locked'
+    )
+      return
+    const requestKey = JSON.stringify([player.id, loadedChapter.id])
+    if (attempted.current.has(requestKey)) return
+    attempted.current.add(requestKey)
+    void markUnlocksSeen([
+      { category: 'campaign', item_id: loadedChapter.id },
+    ]).catch((error: unknown) => notify(errorText(error), 'error'))
+  }, [player, unread, loadedChapter, markUnlocksSeen, notify])
 
   function close() {
     setSelectedId(null)

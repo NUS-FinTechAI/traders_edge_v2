@@ -75,6 +75,7 @@ function MoreIcon() {
 function Hud() {
   const { status } = useAuth()
   const { player } = usePlayer()
+  const newChapters = unreadUnlocks(player, 'campaign', 'chapters').length > 0
   const researcher = useResearchAccess()
   return (
     <header className={styles.hud}>
@@ -93,6 +94,9 @@ function Hud() {
           {NAV.slice(1).map((item) => (
             <NavLink key={item.to} to={item.to} className={styles.topLink}>
               {item.label}
+              {item.to === '/adventure' && newChapters && (
+                <NotificationDot label="Newly unlocked chapters" />
+              )}
             </NavLink>
           ))}
           <span className={styles.topDivider} aria-hidden="true" />
@@ -178,6 +182,8 @@ function Hud() {
 
 /** Five-slot bottom bar; "More" opens a sheet with the remaining pages. */
 function BottomNav() {
+  const { player } = usePlayer()
+  const newChapters = unreadUnlocks(player, 'campaign', 'chapters').length > 0
   const { pathname } = useLocation()
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDialogElement>(null)
@@ -205,6 +211,9 @@ function BottomNav() {
           >
             <Icon name={item.icon} size={22} />
             <span>{item.label}</span>
+            {item.to === '/adventure' && newChapters && (
+              <NotificationDot label="Newly unlocked chapters" />
+            )}
           </NavLink>
         ))}
         <button

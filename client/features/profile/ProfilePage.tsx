@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { usePlayer } from '../../app/PlayerContext.ts'
+import { hasNewUnlocks } from '../../app/unlockNotifications.ts'
 import RequirePlayer from '../../app/RequirePlayer.tsx'
 import useAuth from '../../hooks/useAuth.ts'
 import {
@@ -237,10 +238,14 @@ function Profile({ player }: { player: Player }) {
   const reloadCollection = collection.reload
   const previousPlayer = useRef(player)
   useEffect(() => {
-    if (previousPlayer.current !== player) {
-      previousPlayer.current = player
+    if (
+      previousPlayer.current.id !== player.id ||
+      previousPlayer.current.xp !== player.xp ||
+      hasNewUnlocks(previousPlayer.current, player, 'cosmetics')
+    ) {
       reloadCollection()
     }
+    previousPlayer.current = player
   }, [player, reloadCollection])
   const activity = useResource(getActivity)
   const pct = Math.round(

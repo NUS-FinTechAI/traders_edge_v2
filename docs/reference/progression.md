@@ -49,6 +49,15 @@ Stars are raised, never lowered:
 
 ## Unlocks
 
+Chapters unlocked by a prior chapter boss or their Gate Boss produce a
+`campaign` / `chapters` unread entry, reusing the generic unlock read receipts.
+Chapter 1 is excluded. Static red dots appear on the chapter card and the
+Adventure links in desktop and mobile navigation. A successful load of the
+unlocked chapter map acknowledges that chapter once; opening the overview or
+a locked/error map does not. Chapter acknowledgements leave cosmetic dots
+untouched. Previously unlocked chapters without receipts appear once until
+opened. No new schema migration is needed for this category.
+
 | Unlocks                   | When                                                                                              |
 | ------------------------- | ------------------------------------------------------------------------------------------------- |
 | Chapter 1                 | Always open                                                                                       |

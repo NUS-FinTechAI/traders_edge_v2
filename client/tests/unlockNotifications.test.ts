@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict'
 import { test } from 'node:test'
 import {
+  hasNewUnlocks,
   mergeUnlockKeys,
   unreadUnlocks,
   withoutSeenUnlocks,
@@ -91,4 +92,19 @@ test('equal item ids in different unlock categories remain separate', () => {
   ]
 
   assert.deepEqual(mergeUnlockKeys([], keys), keys)
+})
+
+test('clearing dots locally does not signal new content that needs another API refresh', () => {
+  const updated = withoutSeenUnlocks(player, unreadUnlocks(player, 'cosmetics'))
+  assert.equal(hasNewUnlocks(player, updated, 'cosmetics'), false)
+})
+
+test('genuinely new cosmetics still signal a collection refresh', () => {
+  const updated = {
+    unread_unlocks: [
+      ...player.unread_unlocks,
+      { category: 'cosmetics', group: 'titles', item_id: 'captain' },
+    ],
+  }
+  assert.equal(hasNewUnlocks(player, updated, 'cosmetics'), true)
 })

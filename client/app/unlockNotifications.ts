@@ -47,3 +47,16 @@ export function unreadUnlocks(
       (!group || item.group === group),
   )
 }
+
+export function hasNewUnlocks(
+  previous: Pick<Player, 'unread_unlocks'> | null,
+  current: Pick<Player, 'unread_unlocks'> | null,
+  category: string,
+): boolean {
+  return unreadUnlocks(current, category).some(
+    (item) =>
+      !unreadUnlocks(previous, category).some(
+        (known) => known.item_id === item.item_id,
+      ),
+  )
+}
