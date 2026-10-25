@@ -456,6 +456,14 @@
   border-color: var(--gain-line);
 }
 
+.toastNormalMission {
+  border-color: var(--gold);
+}
+
+.toastBonusMission {
+  border-color: var(--gem-text);
+}
+
 .toastSuccess > svg {
   color: var(--gain);
 }

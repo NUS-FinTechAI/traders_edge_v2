@@ -174,7 +174,7 @@ precise end state such as "Still holding".
 
 During trading, a newly completed milestone shows a quiet, dismissible toast
 for 4.5 seconds, identifying a normal or bonus mission with its filled mission
-star (gold for normal, gem for bonus). Simultaneous completions
+star and matching border (gold for normal, purple for bonus). Simultaneous completions
 share one notice. Repeated polls and reopening a match do not replay completed
 missions. Provisional `on_track` states and final settlement do not trigger
 completion notices; end-judged criteria remain provisional until results.

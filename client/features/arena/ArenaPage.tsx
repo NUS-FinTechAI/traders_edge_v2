@@ -133,7 +133,7 @@ function Arena({ gameId }: { gameId: string }) {
     if (notice)
       notify(
         notice.message,
-        'info',
+        notice.bonus ? 'bonusMission' : 'normalMission',
         <span aria-hidden="true" style={{ display: 'flex', gap: 4 }}>
           {notice.normal && (
             <Icon name="star" filled style={{ color: 'var(--gold)' }} />
