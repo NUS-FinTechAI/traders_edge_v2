@@ -19,7 +19,7 @@ export default function NotificationDot({
             (entry) => entry.isIntersecting && entry.intersectionRatio === 1,
           )
         ) {
-        onVisible()
+          onVisible()
           observer.disconnect()
         }
       },
