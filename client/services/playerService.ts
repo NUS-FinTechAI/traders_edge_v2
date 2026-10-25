@@ -9,6 +9,8 @@ export type Wallet = Schemas['Wallet']
 export type Streak = Schemas['Streak']
 
 export type Player = Schemas['Player']
+export type UnlockNotice = Schemas['UnlockNotice']
+export type UnlockKey = Schemas['UnlockKey']
 
 export interface PlayerUpdate {
   display_name?: string
@@ -51,6 +53,10 @@ export type LeaderboardType = 'ranked' | 'xp'
 
 export function getMe(signal?: AbortSignal): Promise<Player> {
   return api.call(apiEndpoints.getMe, { signal })
+}
+
+export function markUnlocksSeen(unlocks: UnlockKey[]): Promise<Player> {
+  return api.call(apiEndpoints.markUnlocksSeen, { body: { unlocks } })
 }
 
 export function updateMe(changes: PlayerUpdate): Promise<Player> {

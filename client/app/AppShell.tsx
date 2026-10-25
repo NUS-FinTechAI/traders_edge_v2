@@ -14,6 +14,8 @@ import Logo from '../ui/Logo.tsx'
 import Button, { ButtonLink } from '../ui/Button.tsx'
 import { ToastProvider } from '../ui/Toast.tsx'
 import Avatar from '../ui/Avatar.tsx'
+import NotificationDot from '../ui/NotificationDot.tsx'
+import { unreadUnlocks } from './unlockNotifications.ts'
 import { playerAvatarImage } from '../ui/avatarImage.ts'
 import { formatCount } from '../ui/format.ts'
 import { EarnButton } from '../features/profile/EarnGuide.tsx'
@@ -148,7 +150,7 @@ function Hud() {
               <NavLink
                 to="/profile"
                 className={styles.hudAvatar}
-                aria-label={`Profile, level ${player.level}`}
+                aria-label={`Profile, level ${player.level}${unreadUnlocks(player, 'cosmetics').length ? ', new cosmetics' : ''}`}
               >
                 <Avatar
                   id={player.avatar_id}
@@ -156,6 +158,9 @@ function Hud() {
                   size={36}
                   level={player.level}
                 />
+                {unreadUnlocks(player, 'cosmetics').length > 0 && (
+                  <NotificationDot label="New cosmetics" />
+                )}
               </NavLink>
             </>
           ) : (

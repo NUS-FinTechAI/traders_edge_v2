@@ -1,10 +1,13 @@
 import {
   useEffect,
+  useRef,
   useState,
   useSyncExternalStore,
   type ReactNode,
 } from 'react'
 import { usePlayer } from '../../app/PlayerContext.ts'
+import { unreadUnlocks } from '../../app/unlockNotifications.ts'
+import NotificationDot from '../../ui/NotificationDot.tsx'
 import {
   THEMES,
   equipTheme,
@@ -18,6 +21,7 @@ import {
   type Collection as CollectionData,
   type PlayerUpdate,
   type ShopItem,
+  type UnlockKey,
 } from '../../services/playerService.ts'
 import Avatar from '../../ui/Avatar.tsx'
 import Button, { ButtonLink } from '../../ui/Button.tsx'
@@ -86,11 +90,13 @@ function GalleryButton({
   label,
   count,
   onOpen,
+  unread,
 }: {
   art: ReactNode
   label: string
   count: string
   onOpen: () => void
+  unread: boolean
 }) {
   return (
     <li>
@@ -100,6 +106,7 @@ function GalleryButton({
         aria-haspopup="dialog"
         onClick={onOpen}
       >
+        {unread && <NotificationDot label={`New ${label.toLowerCase()}`} />}
         {art}
         <span className={styles.galleryText}>
           <strong>{label}</strong>
@@ -119,11 +126,52 @@ export default function Collection({
   onChange: () => void
 }) {
   const [open, setOpen] = useState<Gallery | null>(null)
-  const { player, refreshPlayer } = usePlayer()
-  const shop = useResource(getShop)
+  const { player, refreshPlayer, markUnlocksSeen } = usePlayer()
+  const viewed = useRef<UnlockKey[]>([])
+  const shop = useResource(getShop, [player?.id])
+  const reloadShop = shop.reload
+  const previousPlayer = useRef(player)
+  useEffect(() => {
+    if (previousPlayer.current !== player) {
+      previousPlayer.current = player
+      reloadShop()
+    }
+  }, [player, reloadShop])
   const notify = useToast()
   const [busy, setBusy] = useState<string | null>(null)
   const [justEquipped, setJustEquipped] = useState<string | null>(null)
+
+  function openGallery(gallery: Gallery) {
+    viewed.current = []
+    setOpen(gallery)
+  }
+
+  function recordViewed(id: string) {
+    const item = unreadUnlocks(player, 'cosmetics', open ?? undefined).find(
+      (notice) => notice.item_id === id,
+    )
+    if (
+      item &&
+      !viewed.current.some(
+        (key) => key.category === item.category && key.item_id === id,
+      )
+    ) {
+      viewed.current.push({ category: item.category, item_id: id })
+    }
+  }
+
+  function closeGallery() {
+    const keys = viewed.current
+    viewed.current = []
+    setOpen(null)
+    if (keys.length)
+      void markUnlocksSeen(keys).catch((error: unknown) =>
+        notify(errorText(error), 'error'),
+      )
+  }
+
+  const isNew = (id: string) =>
+    unreadUnlocks(player, 'cosmetics').some((item) => item.item_id === id)
 
   // Keep keyboard focus on the updated equipment control or status.
   useEffect(() => {
@@ -161,12 +209,14 @@ export default function Collection({
       <ul className={styles.galleries}>
         <GalleryButton
           label="Badges"
+          unread={unreadUnlocks(player, 'cosmetics', 'badges').length > 0}
           count={`${earned} of ${data.badges.length} earned`}
           art={<Emblem name="medal" size={48} shape="circle" />}
-          onOpen={() => setOpen('badges')}
+          onOpen={() => openGallery('badges')}
         />
         <GalleryButton
           label="Avatars"
+          unread={unreadUnlocks(player, 'cosmetics', 'avatars').length > 0}
           count={`${avatars} of ${data.avatars.length} owned`}
           art={
             equippedAvatar ? (
@@ -179,29 +229,31 @@ export default function Collection({
               <Emblem name="users" size={48} shape="circle" />
             )
           }
-          onOpen={() => setOpen('avatars')}
+          onOpen={() => openGallery('avatars')}
         />
         <GalleryButton
           label="Titles"
+          unread={unreadUnlocks(player, 'cosmetics', 'titles').length > 0}
           count={`${titles} of ${data.titles.length} owned`}
           art={<Emblem name="scroll" tone="gem" size={48} shape="circle" />}
-          onOpen={() => setOpen('titles')}
+          onOpen={() => openGallery('titles')}
         />
         <GalleryButton
           label="Themes"
+          unread={unreadUnlocks(player, 'cosmetics', 'themes').length > 0}
           count={
             shop.data
               ? `${themes.filter((theme) => theme.available).length} of ${themes.length} available`
               : `${themes.length} themes`
           }
           art={<Emblem name="candles" tone="green" size={48} shape="circle" />}
-          onOpen={() => setOpen('themes')}
+          onOpen={() => openGallery('themes')}
         />
       </ul>
       <Modal
         open={open !== null}
         title={open ? GALLERY_TITLE[open] : ''}
-        onClose={() => setOpen(null)}
+        onClose={closeGallery}
         wide
       >
         <div className={styles.gallery}>
@@ -225,6 +277,12 @@ export default function Collection({
                       .join(' ')}
                   >
                     {badge.equipped && <EquippedTick />}
+                    {isNew(badge.id) && (
+                      <NotificationDot
+                        label="New badge"
+                        onVisible={() => recordViewed(badge.id)}
+                      />
+                    )}
                     <span className={styles.badgeArt}>
                       <Emblem
                         name={badgeArt(badge.id)}
@@ -320,6 +378,12 @@ export default function Collection({
                     .join(' ')}
                 >
                   {avatar.equipped && <EquippedTick />}
+                  {isNew(avatar.id) && (
+                    <NotificationDot
+                      label="New avatar"
+                      onVisible={() => recordViewed(avatar.id)}
+                    />
+                  )}
                   <Avatar id={avatar.id} image={itemImage(avatar)} size={72} />
                   <strong className={styles.badgeName}>{avatar.name}</strong>
                   {avatar.owned ? (
@@ -367,6 +431,12 @@ export default function Collection({
                     .join(' ')}
                 >
                   {title.equipped && <EquippedTick />}
+                  {isNew(title.id) && (
+                    <NotificationDot
+                      label="New title"
+                      onVisible={() => recordViewed(title.id)}
+                    />
+                  )}
                   <Emblem
                     name="scroll"
                     size={44}
@@ -397,7 +467,12 @@ export default function Collection({
             </ul>
           )}
           {open === 'themes' && player && (
-            <Themes playerId={player.id} shop={shop} />
+            <Themes
+              playerId={player.id}
+              shop={shop}
+              isNew={isNew}
+              recordViewed={recordViewed}
+            />
           )}
         </div>
       </Modal>
@@ -409,9 +484,13 @@ export default function Collection({
 function Themes({
   playerId,
   shop,
+  isNew,
+  recordViewed,
 }: {
   playerId: string
   shop: Resource<{ items: ShopItem[] }>
+  isNew: (id: string) => boolean
+  recordViewed: (id: string) => void
 }) {
   const selection = useSyncExternalStore(
     subscribeTheme,
@@ -453,6 +532,12 @@ function Themes({
                       .join(' ')}
                   >
                     {on && <EquippedTick />}
+                    {isNew(option.id) && (
+                      <NotificationDot
+                        label="New theme"
+                        onVisible={() => recordViewed(option.id)}
+                      />
+                    )}
                     <ThemeSwatch themeId={option.id} />
                     <span className={styles.titleText}>
                       <strong>{option.name}</strong>

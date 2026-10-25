@@ -313,6 +313,7 @@
 }
 
 .galleryButton {
+  position: relative;
   display: flex;
   align-items: center;
   gap: var(--space-3);
@@ -401,7 +402,7 @@
 .equippedTick {
   position: absolute;
   top: var(--space-2);
-  right: var(--space-2);
+  left: var(--space-2);
   display: inline-flex;
   color: var(--gain);
 }

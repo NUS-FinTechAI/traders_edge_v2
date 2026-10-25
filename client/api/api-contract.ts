@@ -685,6 +685,23 @@ export interface paths {
     patch?: never
     trace?: never
   }
+  '/api/me/unlocks/seen': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /** Mark Unlocks Seen */
+    post: operations['markUnlocksSeen']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/api/practice': {
     parameters: {
       query?: never
@@ -2187,6 +2204,39 @@ export interface operations {
         }
         content: {
           'application/json': components['schemas']['ResearchMetadataView']
+        }
+      }
+      /** @description Validation Error */
+      422: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['HTTPValidationError']
+        }
+      }
+    }
+  }
+  markUnlocksSeen: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['SeenUnlocks']
+      }
+    }
+    responses: {
+      /** @description Successful Response */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['Player']
         }
       }
       /** @description Validation Error */

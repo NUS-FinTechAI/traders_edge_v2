@@ -130,6 +130,21 @@ restarts it at day 1 with no other penalty. Rewards repeat in a 7-day cycle:
 
 ## Shop and cosmetics
 
+New owned cosmetics carry static red dots on their profile tiles, gallery
+buttons and the top-right profile icon. The dots remain while browsing;
+closing the gallery acknowledges only items that were visible. Off-screen
+items and other galleries keep their dots. Failed acknowledgements keep the
+items unread and show an error. Starter cosmetics, free themes and the initial
+rank title are excluded. Previously earned cosmetics without a read receipt
+also appear as new once when this feature is introduced.
+
+Unread state is account-scoped and persisted on the server. The generic
+`unlock_receipts` table keys entries by category and item id; future features
+can add an adapter in `player.service.available_unlocks` and reuse
+`unreadUnlocks`, `NotificationDot` and `markUnlocksSeen` in the client without
+adding another read-receipt table or endpoint. Category groups route the dots
+to the appropriate destination, currently avatars, titles, badges and themes.
+
 `GET /api/shop` lists priced items from `cosmetics.json`;
 `POST /api/shop/purchase {item_id}` buys one once.
 

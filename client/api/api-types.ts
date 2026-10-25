@@ -1237,6 +1237,8 @@ export interface components {
       /** Title Id */
       title_id: string | null
       unlocks: components['schemas']['Unlocks']
+      /** Unread Unlocks */
+      unread_unlocks?: components['schemas']['UnlockNotice'][]
       wallet: components['schemas']['Wallet']
       /** Xp */
       xp: number
@@ -1706,6 +1708,11 @@ export interface components {
         | 'bollinger'
       )[]
     }
+    /** SeenUnlocks */
+    SeenUnlocks: {
+      /** Unlocks */
+      unlocks: components['schemas']['UnlockKey'][]
+    }
     /** SelfReport */
     SelfReport: {
       /** Brokerage Account */
@@ -1888,6 +1895,22 @@ export interface components {
     Unlocked: {
       /** Chapter Id */
       chapter_id?: string | null
+    }
+    /** UnlockKey */
+    UnlockKey: {
+      /** Category */
+      category: string
+      /** Item Id */
+      item_id: string
+    }
+    /** UnlockNotice */
+    UnlockNotice: {
+      /** Category */
+      category: string
+      /** Group */
+      group: string
+      /** Item Id */
+      item_id: string
     }
     /** Unlocks */
     Unlocks: {

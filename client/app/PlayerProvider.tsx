@@ -1,6 +1,11 @@
 import { useCallback, useState, type ReactNode } from 'react'
 import useAuth from '../hooks/useAuth.ts'
-import { getMe, type Player } from '../services/playerService.ts'
+import {
+  getMe,
+  markUnlocksSeen as acknowledgeUnlocks,
+  type Player,
+  type UnlockKey,
+} from '../services/playerService.ts'
 import { errorText } from '../ui/useResource.ts'
 import { PlayerContext } from './PlayerContext.ts'
 import LevelUpModal from './LevelUpModal.tsx'
@@ -33,6 +38,15 @@ export default function PlayerProvider({ children }: { children: ReactNode }) {
     }
   }, [user])
 
+  const markUnlocksSeen = useCallback(
+    async (unlocks: UnlockKey[]) => {
+      if (!unlocks.length) return
+      await acknowledgeUnlocks(unlocks)
+      await refreshPlayer()
+    },
+    [refreshPlayer],
+  )
+
   // A newer sign-in profile (another refresh) supersedes an older fetch.
   const player = !signedIn
     ? null
@@ -42,7 +56,12 @@ export default function PlayerProvider({ children }: { children: ReactNode }) {
 
   return (
     <PlayerContext.Provider
-      value={{ player, error: signedIn ? error : null, refreshPlayer }}
+      value={{
+        player,
+        error: signedIn ? error : null,
+        refreshPlayer,
+        markUnlocksSeen,
+      }}
     >
       {children}
       <LevelUpModal player={player} />

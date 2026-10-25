@@ -264,6 +264,12 @@ export const apiEndpoints = {
     path: '/api/me/research/withdrawals',
     auth: 'required',
   },
+  markUnlocksSeen: {
+    operationId: 'markUnlocksSeen',
+    method: 'POST',
+    path: '/api/me/unlocks/seen',
+    auth: 'required',
+  },
   getPracticeScenarios: {
     operationId: 'getPracticeScenarios',
     method: 'GET',
