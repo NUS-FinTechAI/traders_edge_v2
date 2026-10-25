@@ -52,7 +52,7 @@ def map_nodes(progress, chapter, cosmetics):
         row = progress.level(level['id'])
         reason = progress.level_locked_reason(level['id'])
         done = progress.star(level['id'], 'normal')
-        nodes.append(_node(level['id'], 'level', f'Level {number}: {level["title"]}', level['summary'],
+        nodes.append(_node(level['id'], 'level', level["title"], level['summary'],
                            'done' if done else 'locked' if reason else 'open', stars=stars(progress, level['id']),
                            objectives=level['objectives'], xp=sum(LEVEL_XP.values()), locked_reason=None if done else reason,
                            best_profit=money(row.best_profit) if row else None, attempts=row.plays if row else 0))

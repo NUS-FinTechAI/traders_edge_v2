@@ -147,6 +147,25 @@ function ChapterPath({
     refs.current[next]?.focus()
   }
 
+  function getDisplayedStatus(node: MapNode) {
+    const kind = node.kind
+    const status = node.state
+    if (kind === 'preview' && status !== 'done') {
+      return 'Your Starting Point'
+    }
+
+    if (kind === 'reward') {
+      return status === 'done' ? 'Claimed' : 'Reward'
+    }
+
+    if (status === 'open') {
+      return kind === 'boss' ? node.title : 'Play'
+    }
+
+    // Do not display anything for locked or completed nodes
+    return ''
+  }
+
   const reached = (index: number) =>
     layout.placed[index].node.state !== 'locked'
   const boss = layout.placed.find((place) => place.node.kind === 'boss')
@@ -243,19 +262,7 @@ function ChapterPath({
                   )}
                   <span className={styles.nodeTitle}>{nodeTitle(node)}</span>
                   <span className={styles.nodeSub}>
-                    {node.kind === 'preview'
-                      ? 'Your starting point'
-                      : node.kind === 'reward'
-                        ? node.state === 'done'
-                          ? 'Claimed'
-                          : 'Reward'
-                        : node.state === 'locked'
-                          ? 'Locked'
-                          : node.state === 'done'
-                            ? 'Done'
-                            : node.kind === 'boss'
-                              ? node.title
-                              : 'Play'}
+                    {getDisplayedStatus(node)}
                   </span>
                 </span>
               </button>
