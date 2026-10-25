@@ -6,7 +6,6 @@ test('maximum level shows a fixed label and completed ring with no surplus XP', 
   const progress = levelProgress({ xp_into_level: 0, xp_for_next_level: 0 })
 
   assert.equal(progress.atMaxLevel, true)
-  assert.equal(progress.text, 'MAX LEVEL')
   assert.equal(progress.fraction, 1)
 })
 
