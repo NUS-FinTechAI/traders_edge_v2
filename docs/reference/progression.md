@@ -47,6 +47,10 @@ Stars are raised, never lowered:
   bonus missions cannot give one.
 - Each chapter holds 12 stars: 5 levels × 2 plus the boss × 2.
 
+Chapter-map briefings hide the XP chip for completed levels, Preview Battles
+and bosses. Replays do not repeat XP already awarded for a check, star, preview
+or boss win; earning a previously unearned star still grants its first-time XP.
+
 ## Unlocks
 
 Chapters unlocked by a prior chapter boss or their Gate Boss produce a
