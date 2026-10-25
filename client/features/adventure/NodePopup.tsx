@@ -70,7 +70,9 @@ function LevelBody({ map, node }: { map: ChapterMap; node: MapNode }) {
       )}
       <StarStatus node={node} />
       <div className={styles.popupFoot}>
-        {node.xp > 0 && <CurrencyChip kind="xp" amount={node.xp} signed />}
+        {node.state !== 'done' && node.xp > 0 && (
+          <CurrencyChip kind="xp" amount={node.xp} signed />
+        )}
         {node.state === 'locked' ? (
           <Locked reason={node.locked_reason} />
         ) : (
@@ -153,7 +155,9 @@ function BattleBody({ map, node }: { map: ChapterMap; node: MapNode }) {
       )}
       <StarStatus node={node} />
       <div className={styles.popupFoot}>
-        {node.xp > 0 && <CurrencyChip kind="xp" amount={node.xp} signed />}
+        {node.state !== 'done' && node.xp > 0 && (
+          <CurrencyChip kind="xp" amount={node.xp} signed />
+        )}
         {node.state === 'locked' ? (
           <Locked reason={node.locked_reason} />
         ) : (
