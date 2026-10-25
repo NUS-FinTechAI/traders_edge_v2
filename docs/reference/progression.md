@@ -78,6 +78,21 @@ Campaign reads (`/api/campaign`, chapter maps, levels, `/api/archive`,
 earned. `GET /api/campaign` includes a `next` target for the Continue button:
 the Preview Battle, the first level without a normal star, or the boss.
 
+### Archive keywords
+
+Archive keywords become available with their chapter, including Chapter 1's
+initial terms. Each has an `archive` / `keywords` unread entry. Red dots appear
+beside unread terms and on Archive links, including the mobile More button.
+Visible terms are queued without sending requests while browsing. Leaving the
+Archive sends the deduplicated batch, split only at the endpoint's 100-item
+limit; search-hidden and off-screen terms stay unread. Failed requests keep
+unacknowledged terms unread and show an error toast on the destination page.
+
+Keyword IDs combine the lesson ID and normalized term, so definition edits or
+term reordering preserve receipts. The same term in different lessons has
+separate receipts. Keywords use the existing account-scoped unlock receipts
+and acknowledgement endpoint; no migration is needed.
+
 ## XP and levels
 
 | Source                                    | XP                         |

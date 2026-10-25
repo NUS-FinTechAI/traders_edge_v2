@@ -84,7 +84,7 @@ Start, clock, order and cancel responses carry the full public state.
 | `GET /campaign/levels/{id}`                                 | Public, gated. Cards, check questions without answers, practice summary, progress; 403 while locked |
 | `POST /campaign/levels/{id}/check {question_id, option_id}` | Gated. Grade one answer: `{correct, correct_option_id, explanation, first_try}`                     |
 | `POST /campaign/levels/{id}/check/complete`                 | Gated. Close the check: first-try score, XP, whether practice is open                               |
-| `GET /archive`                                              | Public. Glossary terms from unlocked chapters                                                       |
+| `GET /archive`                                              | Public. Glossary terms from unlocked chapters, each with a stable keyword `id`                      |
 | `GET /bosses`                                               | Public. Gate and chapter bosses for the play hub                                                    |
 | `GET /practice`                                             | Public. Practice markets and their bots                                                             |
 | `GET /daily`                                                | Gated. Today's scenario, opponent, attempts, cooldown, `active_game_id`, weekly track               |

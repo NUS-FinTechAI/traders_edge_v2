@@ -4,6 +4,7 @@ import useAuth from '../../hooks/useAuth.ts'
 import { usePlayer } from '../../app/PlayerContext.ts'
 import { unreadUnlocks } from '../../app/unlockNotifications.ts'
 import { useToast } from '../../ui/toastContext.ts'
+import NotificationDot from '../../ui/NotificationDot.tsx'
 import {
   getChapterMap,
   type ChapterMap,
@@ -270,6 +271,7 @@ export default function ChapterMapPage() {
   const { chapterId = '' } = useParams()
   const { status } = useAuth()
   const { player, markUnlocksSeen } = usePlayer()
+  const newKeywords = unreadUnlocks(player, 'archive', 'keywords').length > 0
   const notify = useToast()
   const attempted = useRef(new Set<string>())
   const [search, setSearch] = useSearchParams()
@@ -338,8 +340,16 @@ export default function ChapterMapPage() {
               eyebrow={`Chapter ${chapter.number} · ${chapter.region}`}
               title={chapter.title}
               actions={
-                <ButtonLink to="/archive" variant="secondary" icon="book">
+                <ButtonLink
+                  to="/archive"
+                  variant="secondary"
+                  icon="book"
+                  className={styles.archiveLink}
+                >
                   Archive
+                  {newKeywords && (
+                    <NotificationDot label="New archive keywords" />
+                  )}
                 </ButtonLink>
               }
             />

@@ -151,6 +151,7 @@ class CheckComplete(BaseModel):
 
 
 class ArchiveTerm(BaseModel):
+    id: str
     term: str
     definition: str
     chapter_id: str

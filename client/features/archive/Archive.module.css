@@ -95,6 +95,8 @@
 }
 
 .term dt {
+  position: relative;
+  padding-right: var(--space-4);
   font-weight: 800;
 }
 

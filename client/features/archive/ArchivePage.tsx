@@ -1,12 +1,16 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { usePlayer } from '../../app/PlayerContext.ts'
+import { hasNewUnlocks, unreadUnlocks } from '../../app/unlockNotifications.ts'
 import { getArchive, type ArchiveTerm } from '../../services/campaignService.ts'
 import Chip from '../../ui/Chip.tsx'
 import Icon from '../../ui/Icon.tsx'
 import PageHeader from '../../ui/PageHeader.tsx'
 import ResourceView from '../../ui/ResourceView.tsx'
 import { EmptyState } from '../../ui/States.tsx'
+import NotificationDot from '../../ui/NotificationDot.tsx'
 import useResource from '../../ui/useResource.ts'
 import styles from './Archive.module.css'
+import useKeywordReadBatch from './useKeywordReadBatch.ts'
 
 function chapterLabel(chapterId: string): string {
   const number = chapterId.replace(/\D/g, '')
@@ -27,7 +31,24 @@ function groupTerms(terms: ArchiveTerm[]): [string, ArchiveTerm[]][] {
 }
 
 export default function ArchivePage() {
+  const { player } = usePlayer()
+  return <Archive key={player?.id ?? 'visitor'} />
+}
+
+function Archive() {
+  const { player } = usePlayer()
   const resource = useResource(getArchive)
+  const reloadArchive = resource.reload
+  const previousPlayer = useRef(player)
+  useEffect(() => {
+    if (hasNewUnlocks(previousPlayer.current, player, 'archive'))
+      reloadArchive()
+    previousPlayer.current = player
+  }, [player, reloadArchive])
+  const unread = new Set(
+    unreadUnlocks(player, 'archive', 'keywords').map((item) => item.item_id),
+  )
+  const recordVisible = useKeywordReadBatch()
   const [query, setQuery] = useState('')
   const needle = query.trim().toLowerCase()
 
@@ -91,11 +112,16 @@ export default function ArchivePage() {
                     </h2>
                     <dl className={styles.terms}>
                       {items.map((item) => (
-                        <div
-                          key={`${item.level_id}-${item.term}`}
-                          className={styles.term}
-                        >
-                          <dt>{item.term}</dt>
+                        <div key={item.id} className={styles.term}>
+                          <dt>
+                            {item.term}
+                            {unread.has(item.id) && (
+                              <NotificationDot
+                                label="New archive keyword"
+                                onVisible={() => recordVisible(item.id)}
+                              />
+                            )}
+                          </dt>
                           <dd>{item.definition}</dd>
                           <dd className={styles.source}>
                             <Chip>{chapterLabel(item.chapter_id)}</Chip>

@@ -7,6 +7,7 @@ from sqlalchemy import func, select
 
 from app.campaign.models import BossResult, CampaignProgress
 from app.campaign.progress import load_progress
+from app.campaign.views import archive
 from app.db import LearningActivity, Profile, XPLedger, aware
 from app.game.models import GameParticipant
 from app.multiplayer import elo
@@ -70,6 +71,8 @@ async def available_unlocks(db, content, profile, level, progress=None):
     progress = progress or await load_progress(db, content.campaign, profile.id)
     entries.extend({'category': 'campaign', 'group': 'chapters', 'item_id': chapter['id']}
                    for chapter in content.campaign.chapters if progress.unlocked(chapter))
+    entries.extend({'category': 'archive', 'group': 'keywords', 'item_id': term['id']}
+                   for term in archive(progress, content.campaign)['terms'])
     return entries
 
 

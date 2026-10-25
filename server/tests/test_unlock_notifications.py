@@ -1,4 +1,8 @@
+import unittest
+from types import SimpleNamespace
+
 from app.player import ledger
+from app.campaign.views import archive, archive_keyword_id
 from progression_fixtures import AppCase
 
 INITIAL_UNREAD = [
@@ -7,6 +11,8 @@ INITIAL_UNREAD = [
     {'category': 'cosmetics', 'group': 'themes', 'item_id': 'theme-palette-high-contrast'},
     {'category': 'cosmetics', 'group': 'titles', 'item_id': 'title-rank-deckhand'},
     {'category': 'campaign', 'group': 'chapters', 'item_id': 'ch1'},
+    *[{'category': 'archive', 'group': 'keywords', 'item_id': archive_keyword_id(f'ch1-l{number}', f'Term 1.{number}')}
+      for number in range(1, 6)],
 ]
 
 
@@ -166,3 +172,74 @@ class UnlockNotificationTests(AppCase):
         self.win_boss('ch1')
 
         self.assertIn({'category': 'campaign', 'group': 'chapters', 'item_id': 'ch2'}, self.unread())
+
+    def test_archive_notices_match_the_terms_available_in_the_archive(self):
+        terms = self.client.get('/api/archive').json()['terms']
+
+        notices = [item for item in self.unread() if item['category'] == 'archive']
+
+        self.assertCountEqual(notices, [{'category': 'archive', 'group': 'keywords', 'item_id': term['id']} for term in terms])
+        self.assertEqual({term['chapter_id'] for term in terms}, {'ch1'})
+
+    def test_unlocking_a_chapter_adds_its_keywords_without_clearing_other_notices(self):
+        before = self.unread()
+        self.win_boss('ch1')
+
+        terms = self.client.get('/api/archive').json()['terms']
+        notices = self.unread()
+
+        self.assertEqual({term['chapter_id'] for term in terms}, {'ch1', 'ch2'})
+        self.assertTrue(all(item in notices for item in before))
+        self.assertCountEqual([item['item_id'] for item in notices if item['category'] == 'archive'], [term['id'] for term in terms])
+
+    def test_locked_archive_keywords_cannot_be_marked_as_seen(self):
+        response = self.seen(archive_keyword_id('ch2-l1', 'Term 2.1'), 'archive')
+
+        self.assertEqual(response.status_code, 403)
+
+    def test_archive_acknowledgements_are_batched_and_leave_other_categories_unread(self):
+        terms = self.client.get('/api/archive').json()['terms']
+        keys = [{'category': 'archive', 'item_id': term['id']} for term in terms[:2]]
+
+        response = self.client.post('/api/me/unlocks/seen', json={'unlocks': keys})
+
+        self.assertEqual(response.status_code, 200, response.text)
+        remaining = self.unread()
+        self.assertCountEqual([item['item_id'] for item in remaining if item['category'] == 'archive'], [term['id'] for term in terms[2:]])
+        self.assertTrue(all(item in remaining for item in INITIAL_UNREAD if item['category'] != 'archive'))
+
+    def test_archive_read_receipts_are_isolated_between_players(self):
+        term_id = self.client.get('/api/archive').json()['terms'][0]['id']
+        self.assertEqual(self.seen(term_id, 'archive').status_code, 200)
+        self.assertNotIn(term_id, [item['item_id'] for item in self.unread() if item['category'] == 'archive'])
+        self.switch_user()
+
+        self.assertIn(term_id, [item['item_id'] for item in self.unread() if item['category'] == 'archive'])
+
+    def test_failed_archive_batch_leaves_all_terms_unread_and_can_be_retried(self):
+        term_id = self.client.get('/api/archive').json()['terms'][0]['id']
+        keys = [{'category': 'archive', 'item_id': term_id},
+                {'category': 'archive', 'item_id': archive_keyword_id('ch2-l1', 'Term 2.1')}]
+
+        response = self.client.post('/api/me/unlocks/seen', json={'unlocks': keys})
+
+        self.assertEqual(response.status_code, 403)
+        self.assertIn(term_id, [item['item_id'] for item in self.unread() if item['category'] == 'archive'])
+        self.assertEqual(self.seen(term_id, 'archive').status_code, 200)
+        self.assertNotIn(term_id, [item['item_id'] for item in self.unread() if item['category'] == 'archive'])
+
+
+class ArchiveKeywordIdentityTests(unittest.TestCase):
+    def test_definition_edits_and_reordering_preserve_keyword_ids(self):
+        terms = [{'term': 'Spread', 'definition': 'Original'}, {'term': 'Bid', 'definition': 'A bid'}]
+        campaign = SimpleNamespace(chapters=[{'id': 'ch1', 'levels': [{'id': 'ch1-l1', 'terms': terms}]}])
+        progress = SimpleNamespace(unlocked=lambda chapter: True)
+        before = {term['term']: term['id'] for term in archive(progress, campaign)['terms']}
+
+        terms[0]['definition'] = 'Revised'
+        terms.reverse()
+
+        self.assertEqual({term['term']: term['id'] for term in archive(progress, campaign)['terms']}, before)
+
+    def test_same_term_in_different_lessons_has_distinct_ids(self):
+        self.assertNotEqual(archive_keyword_id('ch1-l1', 'Spread'), archive_keyword_id('ch1-l2', 'Spread'))

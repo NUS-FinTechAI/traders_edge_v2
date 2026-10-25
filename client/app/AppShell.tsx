@@ -76,6 +76,7 @@ function Hud() {
   const { status } = useAuth()
   const { player } = usePlayer()
   const newChapters = unreadUnlocks(player, 'campaign', 'chapters').length > 0
+  const newKeywords = unreadUnlocks(player, 'archive', 'keywords').length > 0
   const researcher = useResearchAccess()
   return (
     <header className={styles.hud}>
@@ -109,6 +110,9 @@ function Hud() {
             >
               <Icon name={item.icon} size={20} />
               <span className={styles.topLabel}>{item.label}</span>
+              {item.to === '/archive' && newKeywords && (
+                <NotificationDot label="New archive keywords" />
+              )}
             </NavLink>
           ))}
           {researcher && (
@@ -184,6 +188,7 @@ function Hud() {
 function BottomNav() {
   const { player } = usePlayer()
   const newChapters = unreadUnlocks(player, 'campaign', 'chapters').length > 0
+  const newKeywords = unreadUnlocks(player, 'archive', 'keywords').length > 0
   const { pathname } = useLocation()
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDialogElement>(null)
@@ -227,6 +232,7 @@ function BottomNav() {
         >
           <MoreIcon />
           <span>More</span>
+          {newKeywords && <NotificationDot label="New archive keywords" />}
         </button>
       </nav>
       {/* Outside the bar, which is hidden on wide screens, so an open sheet
@@ -264,6 +270,9 @@ function BottomNav() {
                   >
                     <Icon name={item.icon} size={22} />
                     <span>{item.label}</span>
+                    {item.to === '/archive' && newKeywords && (
+                      <NotificationDot label="New archive keywords" />
+                    )}
                     <Icon
                       name="chevron-right"
                       size={18}
