@@ -21,10 +21,11 @@ test('a normal milestone produces one completion notice across repeated polls', 
 
   const completed = mission({ done: true, state: 'done', progress: '2/2' })
 
-  assert.equal(
-    notices.update([completed], true),
-    'Mission complete: Hold two different companies',
-  )
+  assert.deepEqual(notices.update([completed], true), {
+    message: 'Mission complete: Hold two different companies',
+    normal: true,
+    bonus: false,
+  })
   assert.equal(notices.update([completed], true), null)
 })
 
@@ -32,12 +33,16 @@ test('a bonus milestone is identified in its completion notice', () => {
   const notices = new MissionNotifications()
   notices.update([mission({ tier: 'bonus' })], true)
 
-  assert.equal(
+  assert.deepEqual(
     notices.update(
       [mission({ tier: 'bonus', done: true, state: 'done' })],
       true,
     ),
-    'Bonus mission complete: Hold two different companies',
+    {
+      message: 'Bonus mission complete: Hold two different companies',
+      normal: false,
+      bonus: true,
+    },
   )
 })
 
@@ -62,7 +67,7 @@ test('simultaneous normal and bonus completions use a single notice', () => {
   const notices = new MissionNotifications()
   notices.update([mission(), mission({ id: 'bonus', tier: 'bonus' })], true)
 
-  assert.equal(
+  assert.deepEqual(
     notices.update(
       [
         mission({ done: true, state: 'done' }),
@@ -70,7 +75,11 @@ test('simultaneous normal and bonus completions use a single notice', () => {
       ],
       true,
     ),
-    '2 missions complete: 1 normal, 1 bonus.',
+    {
+      message: '2 missions complete: 1 normal, 1 bonus.',
+      normal: true,
+      bonus: true,
+    },
   )
 })
 

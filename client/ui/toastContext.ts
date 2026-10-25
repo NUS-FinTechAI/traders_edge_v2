@@ -12,7 +12,11 @@ export interface CelebrationToast {
   action?: { label: string; to: string }
 }
 
-export type Notify = (message: string, kind?: ToastKind) => void
+export type Notify = (
+  message: string,
+  kind?: ToastKind,
+  icon?: ReactNode,
+) => void
 
 export interface Toasts {
   notify: Notify

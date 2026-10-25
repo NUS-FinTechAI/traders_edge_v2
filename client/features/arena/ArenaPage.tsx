@@ -22,6 +22,7 @@ import {
 } from '../../services/gameService.ts'
 import { ButtonLink } from '../../ui/Button.tsx'
 import { ErrorState, Loading } from '../../ui/States.tsx'
+import Icon from '../../ui/Icon.tsx'
 import { formatMoney } from '../../ui/format.ts'
 import { useToast } from '../../ui/toastContext.ts'
 import { errorText } from '../../ui/useResource.ts'
@@ -125,11 +126,23 @@ function Arena({ gameId }: { gameId: string }) {
 
   useEffect(() => {
     if (!state) return
-    const message = missionNotifications.update(
+    const notice = missionNotifications.update(
       state.missions,
       phase === 'trading' && !ended,
     )
-    if (message) notify(message, 'info')
+    if (notice)
+      notify(
+        notice.message,
+        'info',
+        <span aria-hidden="true" style={{ display: 'flex', gap: 4 }}>
+          {notice.normal && (
+            <Icon name="star" filled style={{ color: 'var(--gold)' }} />
+          )}
+          {notice.bonus && (
+            <Icon name="sparkle" filled style={{ color: 'var(--gem-text)' }} />
+          )}
+        </span>,
+      )
   }, [state, phase, ended, missionNotifications, notify])
 
   const forgetStop = useCallback(
