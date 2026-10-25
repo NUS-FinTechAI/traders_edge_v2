@@ -1,5 +1,8 @@
+import unittest
+from types import SimpleNamespace
+
 from app.player import ledger
-from app.campaign.views import archive_keyword_id
+from app.campaign.views import archive, archive_keyword_id
 from progression_fixtures import AppCase
 
 INITIAL_UNREAD = [
@@ -212,3 +215,31 @@ class UnlockNotificationTests(AppCase):
         self.switch_user()
 
         self.assertIn(term_id, [item['item_id'] for item in self.unread() if item['category'] == 'archive'])
+
+    def test_failed_archive_batch_leaves_all_terms_unread_and_can_be_retried(self):
+        term_id = self.client.get('/api/archive').json()['terms'][0]['id']
+        keys = [{'category': 'archive', 'item_id': term_id},
+                {'category': 'archive', 'item_id': archive_keyword_id('ch2-l1', 'Term 2.1')}]
+
+        response = self.client.post('/api/me/unlocks/seen', json={'unlocks': keys})
+
+        self.assertEqual(response.status_code, 403)
+        self.assertIn(term_id, [item['item_id'] for item in self.unread() if item['category'] == 'archive'])
+        self.assertEqual(self.seen(term_id, 'archive').status_code, 200)
+        self.assertNotIn(term_id, [item['item_id'] for item in self.unread() if item['category'] == 'archive'])
+
+
+class ArchiveKeywordIdentityTests(unittest.TestCase):
+    def test_definition_edits_and_reordering_preserve_keyword_ids(self):
+        terms = [{'term': 'Spread', 'definition': 'Original'}, {'term': 'Bid', 'definition': 'A bid'}]
+        campaign = SimpleNamespace(chapters=[{'id': 'ch1', 'levels': [{'id': 'ch1-l1', 'terms': terms}]}])
+        progress = SimpleNamespace(unlocked=lambda chapter: True)
+        before = {term['term']: term['id'] for term in archive(progress, campaign)['terms']}
+
+        terms[0]['definition'] = 'Revised'
+        terms.reverse()
+
+        self.assertEqual({term['term']: term['id'] for term in archive(progress, campaign)['terms']}, before)
+
+    def test_same_term_in_different_lessons_has_distinct_ids(self):
+        self.assertNotEqual(archive_keyword_id('ch1-l1', 'Spread'), archive_keyword_id('ch1-l2', 'Spread'))

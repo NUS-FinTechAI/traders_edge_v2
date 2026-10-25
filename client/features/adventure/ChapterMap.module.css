@@ -387,3 +387,6 @@
   color: var(--gain);
   font-weight: 700;
 }
+.archiveLink {
+  position: relative;
+}
