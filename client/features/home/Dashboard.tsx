@@ -1,4 +1,5 @@
 import RequirePlayer from '../../app/RequirePlayer.tsx'
+import { levelProgress } from '../../app/levelProgress.ts'
 import { getCampaign, type Campaign } from '../../services/campaignService.ts'
 import { getDaily } from '../../services/dailyService.ts'
 import { getActivity, type Player } from '../../services/playerService.ts'
@@ -9,7 +10,6 @@ import Emblem, { type EmblemTone } from '../../ui/Emblem.tsx'
 import type { EmblemName } from '../../ui/emblemArt.tsx'
 import ProgressBar from '../../ui/ProgressBar.tsx'
 import ResourceView from '../../ui/ResourceView.tsx'
-import { formatCount } from '../../ui/format.ts'
 import useResource from '../../ui/useResource.ts'
 import DailyCard from '../play/DailyCard.tsx'
 import ResumeMatches from '../play/ResumeMatches.tsx'
@@ -59,9 +59,7 @@ const MODES: {
 ]
 
 function Welcome({ player }: { player: Player }) {
-  const pct = Math.round(
-    (player.xp_into_level / Math.max(1, player.xp_for_next_level)) * 100,
-  )
+  const progress = levelProgress(player)
   return (
     <section className={styles.welcome} aria-labelledby="welcome-title">
       <Avatar
@@ -79,16 +77,21 @@ function Welcome({ player }: { player: Player }) {
         </p>
         <div className={styles.xpRow}>
           <ProgressBar
-            value={player.xp_into_level}
-            max={player.xp_for_next_level}
-            label={`Progress to level ${player.level + 1}`}
-            valueText={`${player.xp_into_level} of ${player.xp_for_next_level} XP`}
+            value={progress.atMaxLevel ? 1 : player.xp_into_level}
+            max={progress.atMaxLevel ? 1 : player.xp_for_next_level}
+            label={
+              progress.atMaxLevel
+                ? 'MAX LEVEL'
+                : `Progress to level ${player.level + 1}`
+            }
+            valueText={
+              progress.atMaxLevel
+                ? 'MAX LEVEL'
+                : `${player.xp_into_level} of ${player.xp_for_next_level} XP`
+            }
             className={styles.xpBar}
           />
-          <span className={`num ${styles.xpText}`}>
-            {formatCount(player.xp_into_level)} /{' '}
-            {formatCount(player.xp_for_next_level)} XP · {pct}%
-          </span>
+          <span className={`num ${styles.xpText}`}>{progress.text}</span>
         </div>
       </div>
     </section>

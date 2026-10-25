@@ -2,6 +2,7 @@ import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { usePlayer } from '../../app/PlayerContext.ts'
 import { hasNewUnlocks } from '../../app/unlockNotifications.ts'
+import { levelProgress } from '../../app/levelProgress.ts'
 import RequirePlayer from '../../app/RequirePlayer.tsx'
 import useAuth from '../../hooks/useAuth.ts'
 import {
@@ -29,7 +30,7 @@ import { EarnButton } from './EarnGuide.tsx'
 import styles from './Profile.module.css'
 
 function LevelRing({ player }: { player: Player }) {
-  const pct = player.xp_into_level / Math.max(1, player.xp_for_next_level)
+  const { fraction } = levelProgress(player)
   const radius = 58
   const length = 2 * Math.PI * radius
   return (
@@ -41,7 +42,7 @@ function LevelRing({ player }: { player: Player }) {
           cy="64"
           r={radius}
           className={styles.ringFill}
-          strokeDasharray={`${length * pct} ${length}`}
+          strokeDasharray={`${length * fraction} ${length}`}
           transform="rotate(-90 64 64)"
         />
       </svg>
@@ -248,9 +249,7 @@ function Profile({ player }: { player: Player }) {
     previousPlayer.current = player
   }, [player, reloadCollection])
   const activity = useResource(getActivity)
-  const pct = Math.round(
-    (player.xp_into_level / Math.max(1, player.xp_for_next_level)) * 100,
-  )
+  const progress = levelProgress(player)
 
   return (
     <div className={styles.page}>
@@ -268,24 +267,31 @@ function Profile({ player }: { player: Player }) {
           )}
           <div className={styles.xp}>
             <ProgressBar
-              value={player.xp_into_level}
-              max={player.xp_for_next_level}
-              label={`Progress to level ${player.level + 1}`}
-              valueText={`${player.xp_into_level} of ${player.xp_for_next_level} XP`}
+              value={progress.atMaxLevel ? 1 : player.xp_into_level}
+              max={progress.atMaxLevel ? 1 : player.xp_for_next_level}
+              label={
+                progress.atMaxLevel
+                  ? 'MAX LEVEL'
+                  : `Progress to level ${player.level + 1}`
+              }
+              valueText={
+                progress.atMaxLevel
+                  ? 'MAX LEVEL'
+                  : `${player.xp_into_level} of ${player.xp_for_next_level} XP`
+              }
             />
             <span className={styles.xpRow}>
-              <span className={`num ${styles.muted}`}>
-                {formatCount(player.xp_into_level)} /{' '}
-                {formatCount(player.xp_for_next_level)} XP · {pct}%
-              </span>
-              <EarnButton
-                topic="xp"
-                label={`${formatCount(player.xp)} XP in total`}
-              >
-                <Chip tone="info" icon="info">
-                  How to earn XP
-                </Chip>
-              </EarnButton>
+              <span className={`num ${styles.muted}`}>{progress.text}</span>
+              {!progress.atMaxLevel && (
+                <EarnButton
+                  topic="xp"
+                  label={`${formatCount(player.xp)} XP in total`}
+                >
+                  <Chip tone="info" icon="info">
+                    How to earn XP
+                  </Chip>
+                </EarnButton>
+              )}
             </span>
           </div>
         </div>
