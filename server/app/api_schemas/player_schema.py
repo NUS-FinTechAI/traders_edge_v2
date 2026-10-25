@@ -37,7 +37,7 @@ class UnlockNotice(UnlockKey):
 
 
 class SeenUnlocks(Payload):
-    unlocks: list[UnlockKey] = Field(min_length=1, max_length=100)
+    unlocks: list[UnlockKey] = Field(min_length=1)
 
 
 class Player(BaseModel):

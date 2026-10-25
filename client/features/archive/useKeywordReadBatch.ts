@@ -4,8 +4,6 @@ import type { UnlockKey } from '../../services/playerService.ts'
 import { useToast } from '../../ui/toastContext.ts'
 import { errorText } from '../../ui/useResource.ts'
 
-const MAX_BATCH = 100
-
 /** Queue visible keywords and acknowledge them only when leaving the archive. */
 export default function useKeywordReadBatch() {
   const { markUnlocksSeen } = usePlayer()
@@ -24,10 +22,11 @@ export default function useKeywordReadBatch() {
       queue.clear()
       const { markUnlocksSeen: acknowledge, notify: showError } =
         callbacks.current
+
       async function flush() {
-        for (let index = 0; index < keys.length; index += MAX_BATCH)
-          await acknowledge(keys.slice(index, index + MAX_BATCH))
+        await acknowledge(keys)
       }
+
       void flush().catch((caught: unknown) =>
         showError(errorText(caught), 'error'),
       )
