@@ -57,7 +57,7 @@ def equipped_badge(content, profile):
     return {'id': badge['id'], 'name': badge['name']} if badge and badge['kind'] == 'badge' else None
 
 
-async def available_unlocks(db, content, profile, level):
+async def available_unlocks(db, content, profile, level, progress=None):
     """Feature adapters publish keys; read receipts do not depend on cosmetic rules."""
     owned = await ownership(db, content, profile.id, level)
     groups = {'avatar': 'avatars', 'title': 'titles', 'theme': 'themes', 'badge': 'badges'}
@@ -66,10 +66,10 @@ async def available_unlocks(db, content, profile, level):
         item = content.cosmetics.items.get(item_id)
         if not item or item['kind'] not in groups:
             continue
-        source = item.get('source')  # Badges are earned and have no source field.
-        if source in {'starter', 'free'} or (source == 'rank' and item['level'] == 1):
-            continue
         entries.append({'category': 'cosmetics', 'group': groups[item['kind']], 'item_id': item_id})
+    progress = progress or await load_progress(db, content.campaign, profile.id)
+    entries.extend({'category': 'campaign', 'group': 'chapters', 'item_id': chapter['id']}
+                   for chapter in content.campaign.chapters if progress.unlocked(chapter))
     return entries
 
 
@@ -77,10 +77,10 @@ async def player_data(db, content, profile):
     instant = ledger.current()
     xp = await ledger.total_xp(db, profile.id)
     level, into, needed = level_for(xp)
-    unread = await notifications.unread(db, profile.id, await available_unlocks(db, content, profile, level))
+    progress = await load_progress(db, content.campaign, profile.id)
+    unread = await notifications.unread(db, profile.id, await available_unlocks(db, content, profile, level, progress))
     wallet = await ledger.read_account(db, profile.id)
     days, claimed, cycle = streak_state(wallet, instant)
-    progress = await load_progress(db, content.campaign, profile.id)
     title = content.cosmetics.items.get(profile.equipped_title_id)
     return {
         'id': profile.id, 'display_name': profile.display_name, 'avatar_id': profile.equipped_avatar_id or DEFAULT_AVATAR,

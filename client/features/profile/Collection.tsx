@@ -7,6 +7,7 @@ import {
 } from 'react'
 import { usePlayer } from '../../app/PlayerContext.ts'
 import {
+  hasNewUnlocks,
   mergeUnlockKeys,
   unreadUnlocks,
 } from '../../app/unlockNotifications.ts'
@@ -132,6 +133,7 @@ export default function Collection({
   const { player, refreshPlayer, markUnlocksSeen, previewUnlocksSeen } =
     usePlayer()
   const viewed = useRef<UnlockKey[]>([])
+  const gallerySession = useRef(0)
   useEffect(
     () => () => {
       previewUnlocksSeen(viewed.current, false)
@@ -142,16 +144,15 @@ export default function Collection({
   const reloadShop = shop.reload
   const previousPlayer = useRef(player)
   useEffect(() => {
-    if (previousPlayer.current !== player) {
-      previousPlayer.current = player
-      reloadShop()
-    }
+    if (hasNewUnlocks(previousPlayer.current, player, 'cosmetics')) reloadShop()
+    previousPlayer.current = player
   }, [player, reloadShop])
   const notify = useToast()
   const [busy, setBusy] = useState<string | null>(null)
   const [justEquipped, setJustEquipped] = useState<string | null>(null)
 
   function openGallery(gallery: Gallery) {
+    gallerySession.current += 1
     viewed.current = []
     setOpen(gallery)
   }
@@ -167,6 +168,7 @@ export default function Collection({
   }
 
   function closeGallery() {
+    gallerySession.current += 1
     const keys = viewed.current
     viewed.current = []
     setOpen(null)
@@ -192,6 +194,8 @@ export default function Collection({
   }, [justEquipped, data])
 
   async function equip(id: string, changes: PlayerUpdate) {
+    const session = gallerySession.current
+    recordViewed(id)
     setBusy(id)
     try {
       await updateMe(changes)
@@ -199,9 +203,10 @@ export default function Collection({
       onChange()
       setJustEquipped(id)
       if (
-        changes.avatar_id === id ||
-        changes.title_id === id ||
-        changes.badge_id === id
+        session === gallerySession.current &&
+        (changes.avatar_id === id ||
+          changes.title_id === id ||
+          changes.badge_id === id)
       )
         clearEquippedDot(id)
     } catch (error) {
