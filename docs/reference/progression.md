@@ -119,6 +119,11 @@ skill: Deckhand (1–4), Able Seaman (5–9), Navigator (10–14), Quartermaster
 Each rank is also a `rank` title in `cosmetics.json` (`title-rank-<name>`),
 owned on reaching its level; the two lists must stay in step.
 
+At the cap, Home and Profile show `MAX LEVEL` with a normal-looking, full XP bar
+instead of a next-level XP target or percentage. The profile avatar ring stays
+full, and Profile hides "How to earn XP". Additional XP remains recorded in the
+player's total without changing the bar.
+
 When the shared player profile reports a higher level for the current account,
 a "Level Up!" modal shows the equipped avatar and the new level.
 Continue, Close, Escape or the
