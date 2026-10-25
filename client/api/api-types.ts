@@ -35,6 +35,8 @@ export interface components {
       chapter_id: string
       /** Definition */
       definition: string
+      /** Id */
+      id: string
       /** Level Id */
       level_id: string
       /** Term */

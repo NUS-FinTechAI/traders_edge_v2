@@ -116,8 +116,14 @@ def level_view(progress, campaign, level_id, user_id=None):
     }
 
 
+def archive_keyword_id(level_id, term):
+    """Stable across definition edits and ordering, distinct across lessons."""
+    value = f'{level_id}\0{term.strip().casefold()}'
+    return 'keyword-' + hashlib.sha256(value.encode('utf-8')).hexdigest()
+
+
 def archive(progress, campaign):
-    return {'terms': [{**term, 'chapter_id': chapter['id'], 'level_id': level['id']}
+    return {'terms': [{**term, 'id': archive_keyword_id(level['id'], term['term']), 'chapter_id': chapter['id'], 'level_id': level['id']}
                       for chapter in campaign.chapters if progress.unlocked(chapter)
                       for level in chapter['levels'] for term in level['terms']]}
 
