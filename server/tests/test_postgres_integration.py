@@ -62,7 +62,7 @@ class PostgreSQLIntegrationTests(unittest.IsolatedAsyncioTestCase):
             db.add_all([Profile(id='one', analytics_opt_in=True), Profile(id='two', analytics_opt_in=True)])
 
     async def test_populated_migrations_preserve_all_prior_rows(self):
-        with patch('app.migrations.MIGRATIONS', MIGRATIONS[:11]):
+        with patch('app.migrations.migrations.MIGRATIONS', MIGRATIONS[:11]):
             await self.database.migrate()
         await populate_before_v12(self.database)
         async with self.database.engine.connect() as connection:
