@@ -172,6 +172,12 @@ broken. At the end every mission is `done` or `failed`; a forfeit fails all of
 them. Final results never say "Not yet": an unmet mission reads "Missed" or a
 precise end state such as "Still holding".
 
+During trading, a newly completed milestone shows a quiet, dismissible toast
+for 4.5 seconds, identifying a normal or bonus mission. Simultaneous completions
+share one notice. Repeated polls and reopening a match do not replay completed
+missions. Provisional `on_track` states and final settlement do not trigger
+completion notices; end-judged criteria remain provisional until results.
+
 ## Results
 
 `finish` and `GET /result` return the result; field types are in
