@@ -132,7 +132,9 @@ restarts it at day 1 with no other penalty. Rewards repeat in a 7-day cycle:
 
 New owned cosmetics carry static red dots on their profile tiles, gallery
 buttons and the top-right profile icon. The dots remain while browsing;
-closing the gallery acknowledges only items that were visible. Off-screen
+equipping a cosmetic clears its dot locally without an acknowledgement request.
+Closing the gallery sends one deduplicated acknowledgement batch for equipped
+and other visible items. Off-screen
 items and other galleries keep their dots. Failed acknowledgements keep the
 items unread and show an error. Starter cosmetics, free themes and the initial
 rank title are excluded. Previously earned cosmetics without a read receipt

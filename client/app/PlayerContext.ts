@@ -7,6 +7,7 @@ export interface PlayerContextValue {
   error: string | null
   refreshPlayer: () => Promise<void>
   markUnlocksSeen: (unlocks: UnlockKey[]) => Promise<void>
+  previewUnlocksSeen: (unlocks: UnlockKey[], seen?: boolean) => void
 }
 
 export const PlayerContext = createContext<PlayerContextValue>({
@@ -14,6 +15,7 @@ export const PlayerContext = createContext<PlayerContextValue>({
   error: null,
   refreshPlayer: async () => {},
   markUnlocksSeen: async () => {},
+  previewUnlocksSeen: () => {},
 })
 
 export function usePlayer(): PlayerContextValue {

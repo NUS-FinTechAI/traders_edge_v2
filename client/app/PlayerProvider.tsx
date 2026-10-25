@@ -1,4 +1,4 @@
-import { useCallback, useState, type ReactNode } from 'react'
+import { useCallback, useMemo, useState, type ReactNode } from 'react'
 import useAuth from '../hooks/useAuth.ts'
 import {
   getMe,
@@ -9,6 +9,7 @@ import {
 import { errorText } from '../ui/useResource.ts'
 import { PlayerContext } from './PlayerContext.ts'
 import LevelUpModal from './LevelUpModal.tsx'
+import { mergeUnlockKeys, withoutSeenUnlocks } from './unlockNotifications.ts'
 
 /** A profile fetched here, tied to the auth profile it replaced. */
 interface Fetched {
@@ -26,7 +27,34 @@ export default function PlayerProvider({ children }: { children: ReactNode }) {
   const { status, user } = useAuth()
   const [fetched, setFetched] = useState<Fetched | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [locallySeen, setLocallySeen] = useState<{
+    profileId: string
+    keys: UnlockKey[]
+  } | null>(null)
   const signedIn = status === 'signed-in'
+  const profileId = signedIn ? user?.id : undefined
+
+  const previewUnlocksSeen = useCallback(
+    (unlocks: UnlockKey[], seen = true) => {
+      if (!profileId || !unlocks.length) return
+      setLocallySeen((current) => {
+        if (!seen && current?.profileId !== profileId) return current
+        const previous = current?.profileId === profileId ? current.keys : []
+        const keys = seen
+          ? mergeUnlockKeys(previous, unlocks)
+          : previous.filter(
+              (key) =>
+                !unlocks.some(
+                  (item) =>
+                    item.category === key.category &&
+                    item.item_id === key.item_id,
+                ),
+            )
+        return { profileId, keys }
+      })
+    },
+    [profileId],
+  )
 
   const refreshPlayer = useCallback(async () => {
     try {
@@ -41,18 +69,32 @@ export default function PlayerProvider({ children }: { children: ReactNode }) {
   const markUnlocksSeen = useCallback(
     async (unlocks: UnlockKey[]) => {
       if (!unlocks.length) return
-      await acknowledgeUnlocks(unlocks)
-      await refreshPlayer()
+      try {
+        const player = await acknowledgeUnlocks(unlocks)
+        setFetched({ base: user, player })
+        setError(null)
+      } finally {
+        previewUnlocksSeen(unlocks, false)
+      }
     },
-    [refreshPlayer],
+    [user, previewUnlocksSeen],
   )
 
   // A newer sign-in profile (another refresh) supersedes an older fetch.
-  const player = !signedIn
+  const fetchedPlayer = !signedIn
     ? null
     : fetched && fetched.base === user
       ? fetched.player
       : user
+  const player = useMemo(
+    () =>
+      fetchedPlayer &&
+      locallySeen?.profileId === fetchedPlayer.id &&
+      locallySeen.keys.length
+        ? withoutSeenUnlocks(fetchedPlayer, locallySeen.keys)
+        : fetchedPlayer,
+    [fetchedPlayer, locallySeen],
+  )
 
   return (
     <PlayerContext.Provider
@@ -61,6 +103,7 @@ export default function PlayerProvider({ children }: { children: ReactNode }) {
         error: signedIn ? error : null,
         refreshPlayer,
         markUnlocksSeen,
+        previewUnlocksSeen,
       }}
     >
       {children}

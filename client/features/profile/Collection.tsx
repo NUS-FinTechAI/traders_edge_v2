@@ -6,7 +6,10 @@ import {
   type ReactNode,
 } from 'react'
 import { usePlayer } from '../../app/PlayerContext.ts'
-import { unreadUnlocks } from '../../app/unlockNotifications.ts'
+import {
+  mergeUnlockKeys,
+  unreadUnlocks,
+} from '../../app/unlockNotifications.ts'
 import NotificationDot from '../../ui/NotificationDot.tsx'
 import {
   THEMES,
@@ -126,8 +129,15 @@ export default function Collection({
   onChange: () => void
 }) {
   const [open, setOpen] = useState<Gallery | null>(null)
-  const { player, refreshPlayer, markUnlocksSeen } = usePlayer()
+  const { player, refreshPlayer, markUnlocksSeen, previewUnlocksSeen } =
+    usePlayer()
   const viewed = useRef<UnlockKey[]>([])
+  useEffect(
+    () => () => {
+      previewUnlocksSeen(viewed.current, false)
+    },
+    [previewUnlocksSeen],
+  )
   const shop = useResource(getShop, [player?.id])
   const reloadShop = shop.reload
   const previousPlayer = useRef(player)
@@ -150,14 +160,10 @@ export default function Collection({
     const item = unreadUnlocks(player, 'cosmetics', open ?? undefined).find(
       (notice) => notice.item_id === id,
     )
-    if (
-      item &&
-      !viewed.current.some(
-        (key) => key.category === item.category && key.item_id === id,
-      )
-    ) {
-      viewed.current.push({ category: item.category, item_id: id })
-    }
+    if (item)
+      viewed.current = mergeUnlockKeys(viewed.current, [
+        { category: item.category, item_id: id },
+      ])
   }
 
   function closeGallery() {
@@ -173,6 +179,12 @@ export default function Collection({
   const isNew = (id: string) =>
     unreadUnlocks(player, 'cosmetics').some((item) => item.item_id === id)
 
+  function clearEquippedDot(id: string) {
+    if (!isNew(id)) return
+    recordViewed(id)
+    previewUnlocksSeen([{ category: 'cosmetics', item_id: id }])
+  }
+
   // Keep keyboard focus on the updated equipment control or status.
   useEffect(() => {
     if (justEquipped)
@@ -186,6 +198,12 @@ export default function Collection({
       await refreshPlayer()
       onChange()
       setJustEquipped(id)
+      if (
+        changes.avatar_id === id ||
+        changes.title_id === id ||
+        changes.badge_id === id
+      )
+        clearEquippedDot(id)
     } catch (error) {
       notify(errorText(error), 'error')
     } finally {
@@ -472,6 +490,7 @@ export default function Collection({
               shop={shop}
               isNew={isNew}
               recordViewed={recordViewed}
+              onEquip={clearEquippedDot}
             />
           )}
         </div>
@@ -486,11 +505,13 @@ function Themes({
   shop,
   isNew,
   recordViewed,
+  onEquip,
 }: {
   playerId: string
   shop: Resource<{ items: ShopItem[] }>
   isNew: (id: string) => boolean
   recordViewed: (id: string) => void
+  onEquip: (id: string) => void
 }) {
   const selection = useSyncExternalStore(
     subscribeTheme,
@@ -501,6 +522,7 @@ function Themes({
 
   function selectTheme(id: string, equipped: boolean, kind: ThemeKind) {
     equipTheme(playerId, equipped ? null : id, kind)
+    if (!equipped) onEquip(id)
     document.getElementById(`theme-${id}`)?.focus()
   }
 
