@@ -67,7 +67,7 @@ export const EARN: Record<EarnTopic, EarnInfo> = {
         source: 'Player level-up rewards',
         to: '/profile',
         amount: '5–30 per level',
-        note: 'Claim from the level-up dialog or Profile. Increases every five levels, capped at 30.',
+        note: 'Claim when you level up.',
       },
       {
         source: 'Ranked win',
