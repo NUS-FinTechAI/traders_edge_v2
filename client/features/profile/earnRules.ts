@@ -60,8 +60,7 @@ export const EARN: Record<EarnTopic, EarnInfo> = {
   },
   gems: {
     label: 'Gems',
-    summary:
-      'Shop currency. Gems never expire.',
+    summary: 'Shop currency. Gems never expire.',
     rows: [
       {
         source: 'Player level-up rewards',
@@ -89,8 +88,7 @@ export const EARN: Record<EarnTopic, EarnInfo> = {
   },
   xp: {
     label: 'XP',
-    summary:
-      'XP raises your level.',
+    summary: 'XP raises your level.',
     rows: [
       {
         source: 'Finish a level’s check',
