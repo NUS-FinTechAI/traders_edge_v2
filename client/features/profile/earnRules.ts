@@ -61,7 +61,7 @@ export const EARN: Record<EarnTopic, EarnInfo> = {
   gems: {
     label: 'Gems',
     summary:
-      'Shop currency from ranked matches and player level-up rewards. Gems never expire and are never sold for real money.',
+      'Shop currency. Gems never expire.',
     rows: [
       {
         source: 'Player level-up rewards',
@@ -90,7 +90,7 @@ export const EARN: Record<EarnTopic, EarnInfo> = {
   xp: {
     label: 'XP',
     summary:
-      'XP raises your level. It comes from learning and finishing matches, never from orders, trade count or volume.',
+      'XP raises your level.',
     rows: [
       {
         source: 'Finish a level’s check',
@@ -151,7 +151,7 @@ export const EARN: Record<EarnTopic, EarnInfo> = {
   streak: {
     label: 'Streak',
     summary:
-      'Claim the login reward on Home once per UTC day. Each day in a row adds one; a missed day restarts at day 1, with no other penalty.',
+      'Claim the login reward on Home once per UTC day to maintain your streak.',
     rows: [
       {
         source: 'Daily check-in',
