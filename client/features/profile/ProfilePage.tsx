@@ -293,9 +293,9 @@ function Profile({ player }: { player: Player }) {
                   </Chip>
                 </EarnButton>
               )}
+              <LevelRewards />
             </span>
           </div>
-          <LevelRewards />
         </div>
       </section>
 

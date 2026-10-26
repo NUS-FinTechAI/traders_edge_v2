@@ -41,6 +41,7 @@ export function LevelRewardBar({
           onClick={onClaim}
         >
           {busy ? 'Claiming…' : 'Claim'}
+          {!busy && <Icon name="chest" />}
           <NotificationDot label="Unclaimed level rewards" />
         </Button>
       )}
