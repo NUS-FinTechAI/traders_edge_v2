@@ -6,6 +6,7 @@ import Button from '../ui/Button.tsx'
 import Modal from '../ui/Modal.tsx'
 import { observeLevel, type LevelUpState } from './levelUp.ts'
 import styles from './LevelUpModal.module.css'
+import { LevelRewardClaims } from '../features/profile/LevelRewards.tsx'
 
 export default function LevelUpModal({ player }: { player: Player | null }) {
   const [progress, setProgress] = useState<LevelUpState>(() =>
@@ -37,6 +38,7 @@ export default function LevelUpModal({ player }: { player: Player | null }) {
             />
             <p className={styles.level}>Level {current.celebration}</p>
           </div>
+          <LevelRewardClaims key={player.id} />
           <Button onClick={dismiss}>Continue</Button>
         </div>
       )}

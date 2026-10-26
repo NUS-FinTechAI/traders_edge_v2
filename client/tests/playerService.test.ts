@@ -5,6 +5,7 @@ import { stubHttp } from './helpers/serviceHttp.ts'
 
 for (const [name, load, path, response] of [
   ['profile', player.getMe, '/api/me', { display_name: 'Player' }],
+  ['level rewards', player.getLevelRewards, '/api/me/level-rewards', []],
   ['activity', player.getActivity, '/api/me/activity', { days: [] }],
   ['collection', player.getCollection, '/api/me/collection', { items: [] }],
   ['shop', player.getShop, '/api/shop', { items: [] }],
@@ -31,6 +32,18 @@ for (const [name, load, path, response] of [
     assert.equal(requests[0].url.pathname, path)
     assert.equal(requests[0].method, 'GET')
     assert.equal(requests[0].signal, controller.signal)
+  })
+}
+
+for (const level of [undefined, 2]) {
+  test(`claiming level rewards sends the selected level ${level ?? 'all'}`, async (t) => {
+    const response = { gems: 5, rewards: [], player: { id: 'player' } }
+    const requests = stubHttp(t, response)
+
+    assert.deepEqual(await player.claimLevelRewards(level), response)
+    assert.equal(requests[0].url.pathname, '/api/me/level-rewards/claim')
+    assert.equal(requests[0].method, 'POST')
+    assert.deepEqual(requests[0].body, level === undefined ? {} : { level })
   })
 }
 

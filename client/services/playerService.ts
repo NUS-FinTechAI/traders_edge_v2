@@ -9,6 +9,15 @@ export type Wallet = Schemas['Wallet']
 export type Streak = Schemas['Streak']
 
 export type Player = Schemas['Player']
+export type LevelReward = Schemas['LevelReward']
+
+export function getLevelRewards(signal?: AbortSignal): Promise<LevelReward[]> {
+  return api.call(apiEndpoints.getLevelRewards, { signal })
+}
+
+export function claimLevelRewards(level?: number) {
+  return api.call(apiEndpoints.claimLevelRewards, { body: { level } })
+}
 export type UnlockNotice = Schemas['UnlockNotice']
 export type UnlockKey = Schemas['UnlockKey']
 

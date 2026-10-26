@@ -19,7 +19,7 @@ Reward amounts are in [progression](../reference/progression.md).
 | No leverage, shorting or copy-trading | The engine is long-only, cash only                                                                                                                             |
 | Random clicking loses                 | Fees and the spread on every fill; the balance gauntlet keeps idle and random players losing bosses and dailies                                                |
 | Gentle streaks                        | A missed login day restarts the streak with no penalty or warning; the daily cooldown is 2 hours and skippable only with earned Gems                           |
-| No real-money purchases               | Gems are earned in ranked play and never sold                                                                                                                  |
+| No real-money purchases               | Gems are earned in ranked play and player level-up claims and never sold                                                                                       |
 | Opt-in leaderboards                   | Players appear only after opting in                                                                                                                            |
 | Accessible signals                    | See the [design system](design-system.md#accessibility)                                                                                                        |
 | Content gate                          | Production refuses gameplay until `content/review.json` records an approved independent review                                                                 |

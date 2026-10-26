@@ -134,13 +134,33 @@ Continue, Close, Escape or the
 backdrop dismisses it. Signing in establishes the baseline without replaying
 older levels; a reward crossing several levels shows the latest level.
 
+### Level-up rewards
+
+Each player level from 2 through 50 grants a claimable Gem reward. Levels 2–5
+grant 5 Gems each, 6–10 grant 10, 11–15 grant 15, 16–20 grant 20, 21–25 grant
+25, and 26–50 grant 30. The amount is `min(30, 5 * (1 + (level - 1) // 5))`.
+Level 1 has no reward. XP sources and limits are unchanged.
+
+The level-up modal shows the total claimable Gems and a Claim rewards button.
+Profile's Claim level-up rewards button opens the full list, including Locked,
+Claimable and Claimed states, individual claims and a claim-all action.
+Dismissing the modal leaves rewards available in Profile. Existing accounts
+can claim all previously reached levels. Entitlements never expire; claimed
+Gems do not expire either. Claims award no XP and use one account-scoped
+`level-reward:<level>` economy event per reached level, reusing the existing
+wallet transaction and profile lock without a migration. Repeating a claim
+awards zero. The server rejects claims for unreached levels.
+
+This feature extends the game design document's ranked-only Gem earning rule
+with the owner's approved player level-up rewards; the owner input is unchanged.
+
 ## Currencies
 
-| Currency  | Icon      | Held in                                 | Earned from                                                 | Spent on                                       |
-| --------- | --------- | --------------------------------------- | ----------------------------------------------------------- | ---------------------------------------------- |
-| Sim cash  | green `$` | One match only                          | Scenario starting cash                                      | Simulated orders                               |
-| Doubloons | gold coin | Wallet, `stocks_balance` (GDD "Stocks") | Daily login; first daily win of the day (200)               | The weekly title (1,000)                       |
-| Gems      | purple    | Wallet, `premium_balance`               | Ranked play only ([amounts](multiplayer.md#ranked-rewards)) | Shop cosmetics; skipping a daily cooldown (20) |
+| Currency  | Icon      | Held in                                 | Earned from                                                                    | Spent on                                       |
+| --------- | --------- | --------------------------------------- | ------------------------------------------------------------------------------ | ---------------------------------------------- |
+| Sim cash  | green `$` | One match only                          | Scenario starting cash                                                         | Simulated orders                               |
+| Doubloons | gold coin | Wallet, `stocks_balance` (GDD "Stocks") | Daily login; first daily win of the day (200)                                  | The weekly title (1,000)                       |
+| Gems      | purple    | Wallet, `premium_balance`               | Ranked play ([amounts](multiplayer.md#ranked-rewards)); player level-up claims | Shop cosmetics; skipping a daily cooldown (20) |
 
 Doubloons expire at Monday 00:00 UTC: the first wallet write of a new week
 zeroes them and records `expiry:<week>`. Gems do not expire and are never sold

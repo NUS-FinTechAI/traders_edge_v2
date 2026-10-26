@@ -651,7 +651,7 @@ Bonus mission: _Chart:_ an uptrend pulls back to $50 (old resistance, now suppor
 
 - **Sim Cash ($):** green banknote. Lives only inside a challenge.
 - **Doubloons:** gold coin, fits the treasure map. Weekly currency that expires Monday 00:00 UTC. The GDD calls it "Stocks" and itself flags confusion with shares; keep "stocks" as the internal key if renaming code is costly.
-- **Gems:** purple. Premium currency from ranked play only; it never expires and cannot be bought with real money.
+- **Gems:** purple. Premium currency from ranked play and player level-up claims; it never expires and cannot be bought with real money.
 
 **Login streak** (one claim per UTC day, separate from the daily challenge):
 

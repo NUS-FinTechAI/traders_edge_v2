@@ -181,6 +181,14 @@ export const GuestSessionAuthMode = { guest: 'guest' } as const
 export type GuestSessionAuthMode =
   (typeof GuestSessionAuthMode)[keyof typeof GuestSessionAuthMode]
 
+export const LevelRewardStatus = {
+  locked: 'locked',
+  claimable: 'claimable',
+  claimed: 'claimed',
+} as const
+export type LevelRewardStatus =
+  (typeof LevelRewardStatus)[keyof typeof LevelRewardStatus]
+
 export const ListGamesQueryStatus = { active: 'active' } as const
 export type ListGamesQueryStatus =
   (typeof ListGamesQueryStatus)[keyof typeof ListGamesQueryStatus]
@@ -456,6 +464,7 @@ export const apiEnums = {
   GameSummaryStatus,
   GuestAuthConfigMode,
   GuestSessionAuthMode,
+  LevelRewardStatus,
   ListGamesQueryStatus,
   LobbyStatus,
   MapNodeKind,

@@ -119,7 +119,7 @@ function Shop({ player }: { player: Player }) {
     <div className={styles.page}>
       <PageHeader
         title="Shop"
-        subtitle="Cosmetics only. Nothing here changes a match. Win ranked matches to earn Gems."
+        subtitle="Cosmetics only. Nothing here changes a match. Earn Gems through ranked play and player level-up rewards."
       />
       <ResourceView resource={shop} label="Stocking the shelves…">
         {({ items }) => {

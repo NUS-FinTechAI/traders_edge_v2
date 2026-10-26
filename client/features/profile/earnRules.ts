@@ -61,23 +61,29 @@ export const EARN: Record<EarnTopic, EarnInfo> = {
   gems: {
     label: 'Gems',
     summary:
-      'Shop currency from ranked matches only. Gems never expire and are never sold for real money.',
+      'Shop currency from ranked matches and player level-up rewards. Gems never expire and are never sold for real money.',
     rows: [
+      {
+        source: 'Player level-up rewards',
+        to: '/profile',
+        amount: '5–30 per level',
+        note: 'Claim from the level-up dialog or Profile. Increases every five levels, capped at 30.',
+      },
       {
         source: 'Ranked win',
         to: '/multiplayer',
-        amount: '+15',
+        amount: '15',
         note: 'A win counts when an opponent also traded.',
       },
       {
         source: 'First ranked win of the day',
         to: '/multiplayer',
-        amount: '+10 extra',
+        amount: '10 extra',
       },
       {
         source: 'Ranked loss with at least one order',
         to: '/multiplayer',
-        amount: '+5',
+        amount: '5',
       },
     ],
   },

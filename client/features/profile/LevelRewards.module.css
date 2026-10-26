@@ -1,0 +1,32 @@
+.content {
+  display: grid;
+  gap: var(--space-3);
+  width: 100%;
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border: 1px solid var(--gem-line);
+  border-radius: var(--radius-sm);
+  background: var(--gem-soft);
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr auto minmax(76px, auto);
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--border);
+}

@@ -5,8 +5,9 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.api_schemas.player_schema import Activity, Collection, DailyLogin, Leaderboard, Player, PlayerUpdate, Purchase, PurchaseResult, SeenUnlocks, Shop
 from app.auth import current_profile
+from app.api_schemas.player_schema import ClaimLevelRewards, LevelReward, LevelRewardClaim
 from app.db import Profile, get_db
-from app.player import ledger, notifications, service
+from app.player import ledger, level_rewards, notifications, service
 from app.player.levels import level_for
 
 router = APIRouter(prefix='/api', tags=['player'])
@@ -46,6 +47,18 @@ async def claim_daily_login(request: Request, db: DB, user: User):
 @router.get('/me/activity', response_model=Activity, operation_id='getActivity')
 async def get_activity(db: DB, user: User):
     return await service.activity(db, user)
+
+
+@router.get('/me/level-rewards', response_model=list[LevelReward], operation_id='getLevelRewards')
+async def get_level_rewards(db: DB, user: User):
+    return await level_rewards.rewards(db, user.id)
+
+
+@router.post('/me/level-rewards/claim', response_model=LevelRewardClaim, operation_id='claimLevelRewards')
+async def claim_level_rewards(body: ClaimLevelRewards, request: Request, db: DB, user: User):
+    gems = await level_rewards.claim(db, user.id, body.level)
+    return {'gems': gems, 'rewards': await level_rewards.rewards(db, user.id),
+            'player': await service.player_data(db, content(request), user)}
 
 
 @router.get('/me/collection', response_model=Collection, operation_id='getCollection')
