@@ -143,7 +143,8 @@ Level 1 has no reward. XP sources and limits are unchanged.
 
 The level-up modal shows the total claimable Gems and a Claim rewards button.
 Profile's Claim level-up rewards button opens the full list, including Locked,
-Claimable and Claimed states, individual claims and a claim-all action.
+Claimable and Claimed states and individual claim buttons. The reward bar and
+claim-all button appear only in the level-up modal.
 Dismissing the modal leaves rewards available in Profile. Existing accounts
 can claim all previously reached levels. Entitlements never expire; claimed
 Gems do not expire either. Claims award no XP and use one account-scoped

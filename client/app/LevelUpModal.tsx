@@ -2,7 +2,6 @@ import { useState } from 'react'
 import type { Player } from '../services/playerService.ts'
 import Avatar from '../ui/Avatar.tsx'
 import { playerAvatarImage } from '../ui/avatarImage.ts'
-import Button from '../ui/Button.tsx'
 import Modal from '../ui/Modal.tsx'
 import { observeLevel, type LevelUpState } from './levelUp.ts'
 import styles from './LevelUpModal.module.css'
@@ -38,8 +37,7 @@ export default function LevelUpModal({ player }: { player: Player | null }) {
             />
             <p className={styles.level}>Level {current.celebration}</p>
           </div>
-          <LevelRewardClaims key={player.id} />
-          <Button onClick={dismiss}>Continue</Button>
+          <LevelRewardClaims key={player.id} view="bar" />
         </div>
       )}
     </Modal>

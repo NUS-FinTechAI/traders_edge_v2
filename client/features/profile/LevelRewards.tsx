@@ -3,6 +3,7 @@ import { usePlayer } from '../../app/PlayerContext.ts'
 import {
   claimLevelRewards,
   getLevelRewards,
+  type LevelReward,
 } from '../../services/playerService.ts'
 import Button from '../../ui/Button.tsx'
 import { CurrencyChip } from '../../ui/Chip.tsx'
@@ -12,7 +13,74 @@ import useResource, { errorText } from '../../ui/useResource.ts'
 import styles from './LevelRewards.module.css'
 import Icon from '../../ui/Icon.tsx'
 
-export function LevelRewardClaims({ all = false }: { all?: boolean }) {
+export function LevelRewardBar({
+  rewards,
+  busy,
+  onClaim,
+}: {
+  rewards: LevelReward[]
+  busy: boolean
+  onClaim: () => void
+}) {
+  const total = rewards
+    .filter((reward) => reward.status === 'claimable')
+    .reduce((sum, reward) => sum + reward.amount, 0)
+
+  return (
+    <>
+      <div className={styles.bar}>
+        <span>Level Rewards</span>
+        <CurrencyChip kind="gems" amount={total} />
+      </div>
+      {total > 0 && (
+        <Button disabled={busy} onClick={onClaim}>
+          {busy ? 'Claiming…' : 'Claim'}
+        </Button>
+      )}
+    </>
+  )
+}
+
+function LevelRewardList({
+  rewards,
+  busy,
+  onClaim,
+}: {
+  rewards: LevelReward[]
+  busy: boolean
+  onClaim: (level: number) => void
+}) {
+  return (
+    <ol className={styles.list} aria-label="All level rewards">
+      {rewards.map((reward) => (
+        <li key={reward.level} className={styles.row}>
+          <span>Level {reward.level}</span>
+          <CurrencyChip kind="gems" amount={reward.amount} />
+          {reward.status === 'claimable' ? (
+            <Button
+              variant="primary"
+              icon="chest"
+              disabled={busy}
+              aria-label={`Claim level ${reward.level} reward`}
+              title={`Claim level ${reward.level} reward`}
+              onClick={() => onClaim(reward.level)}
+            />
+          ) : (
+            <span>
+              {reward.status === 'claimed' ? (
+                <Icon name="check" />
+              ) : (
+                <Icon name="lock" />
+              )}
+            </span>
+          )}
+        </li>
+      ))}
+    </ol>
+  )
+}
+
+export function LevelRewardClaims({ view }: { view: 'bar' | 'list' }) {
   const { player, refreshPlayer } = usePlayer()
   const resource = useResource(getLevelRewards, [player?.id, player?.level])
   const [busy, setBusy] = useState(false)
@@ -37,60 +105,25 @@ export function LevelRewardClaims({ all = false }: { all?: boolean }) {
   return (
     <div className={styles.content}>
       <ResourceView resource={resource} label="Loading level rewards…">
-        {(rewards) => {
-          const pending = rewards.filter(
-            (reward) => reward.status === 'claimable',
+        {(rewards) =>
+          view === 'bar' ? (
+            <LevelRewardBar
+              rewards={rewards}
+              busy={busy}
+              onClaim={() => void claim()}
+            />
+          ) : (
+            <LevelRewardList
+              rewards={rewards}
+              busy={busy}
+              onClaim={(level) => void claim(level)}
+            />
           )
-          const total = pending.reduce((sum, reward) => sum + reward.amount, 0)
-          return (
-            <>
-              <div className={styles.bar}>
-                <span>Claimable rewards</span>
-                <CurrencyChip kind="gems" amount={total} />
-              </div>
-              <Button
-                disabled={busy || total === 0}
-                onClick={() => void claim()}
-              >
-                {busy
-                  ? 'Claiming…'
-                  : total
-                    ? 'Claim rewards'
-                    : 'No rewards to claim'}
-              </Button>
-              {all && (
-                <>
-                  <ol className={styles.list} aria-label="All level rewards">
-                    {rewards.map((reward) => (
-                      <li key={reward.level} className={styles.row}>
-                        <span>Level {reward.level}</span>
-                        <CurrencyChip kind="gems" amount={reward.amount} />
-                        {reward.status === 'claimable' ? (
-                          <Button
-                            variant="secondary"
-                            disabled={busy}
-                            aria-label={`Claim level ${reward.level} reward`}
-                            onClick={() => void claim(reward.level)}
-                          >
-                            Claim
-                          </Button>
-                        ) : (
-                          <span>
-                            {reward.status === 'claimed' ? <Icon name="check" /> : <Icon name="lock" />}
-                          </span>
-                        )}
-                      </li>
-                    ))}
-                  </ol>
-                </>
-              )}
-            </>
-          )
-        }}
+        }
       </ResourceView>
-      {claimed !== null && (
+      {view === 'bar' && claimed !== null && (
         <p role="status">
-          {claimed ? `${claimed} Gems claimed.` : 'Rewards already claimed.'}
+          {claimed ? `Rewards claimed.` : 'Rewards already claimed.'}
         </p>
       )}
       {error && <p role="alert">{error} Try claiming again.</p>}
@@ -110,7 +143,7 @@ export default function LevelRewards() {
         title="Level-up rewards"
         onClose={() => setOpen(false)}
       >
-        {open && <LevelRewardClaims all />}
+        {open && <LevelRewardClaims view="list" />}
       </Modal>
     </>
   )

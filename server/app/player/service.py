@@ -17,7 +17,7 @@ from app.player.levels import level_for, rank_name
 from app.quiz.models import QuizAttempt
 
 LOGIN_DOUBLOONS = (20, 20, 20, 30, 30, 30, 50)
-LOGIN_XP = (10, 10, 10, 10, 20, 20, 20)
+LOGIN_XP = (1000, 10, 10, 10, 20, 20, 20)
 DEFAULT_AVATAR = 'avatar-starter-1'
 LEADERBOARD_SIZE = 50
 
