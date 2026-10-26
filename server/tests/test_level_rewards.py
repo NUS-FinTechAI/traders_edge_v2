@@ -30,6 +30,30 @@ class LevelRewardTests(AppCase):
         self.assertEqual(response.status_code, 403)
         self.assertEqual(self.client.get('/api/me').json()['wallet']['gems'], 0)
 
+    def test_reward_notifications_remain_until_claimed_and_preserve_other_notifications(self):
+        self.earn(225)
+        before = self.client.get('/api/me').json()['unread_unlocks']
+        first = self.client.post('/api/me/level-rewards/claim', json={'level': 2}).json()['player']['unread_unlocks']
+        last = self.client.post('/api/me/level-rewards/claim', json={}).json()['player']['unread_unlocks']
+
+        def pending(notices):
+            return [notice['item_id'] for notice in notices if notice['category'] == 'level_rewards']
+
+        self.assertEqual(pending(before), ['2', '3'])
+        self.assertEqual(pending(first), ['3'])
+        self.assertEqual(pending(last), [])
+        self.assertEqual(last, [notice for notice in before if notice['category'] != 'level_rewards'])
+
+    def test_viewing_or_acknowledging_rewards_does_not_clear_claim_notifications(self):
+        self.earn(100)
+        self.client.get('/api/me/level-rewards')
+        response = self.client.post('/api/me/unlocks/seen', json={
+            'unlocks': [{'category': 'level_rewards', 'item_id': '2'}]})
+
+        self.assertEqual(response.status_code, 403)
+        notices = self.client.get('/api/me').json()['unread_unlocks']
+        self.assertIn({'category': 'level_rewards', 'group': 'levels', 'item_id': '2'}, notices)
+
     def test_individual_claim_persists_and_cannot_pay_twice(self):
         self.earn(100)
         first = self.client.post('/api/me/level-rewards/claim', json={'level': 2}).json()

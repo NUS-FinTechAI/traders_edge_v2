@@ -152,6 +152,15 @@ Gems do not expire either. Claims award no XP and use one account-scoped
 wallet transaction and profile lock without a migration. Repeating a claim
 awards zero. The server rejects claims for unreached levels.
 
+Static red dots mark the level-up modal's claim button, each claimable chest
+in the reward list, Profile's rewards button and the HUD profile icon while
+rewards remain unclaimed. The profile response includes one `level_rewards` /
+`levels` notice per claimable level, with its level number as the item id.
+These notices come from outstanding reward claims, independently of unlock
+read receipts: viewing or closing the list does not clear them. Claiming one
+level clears only that level's notice; claiming all clears the reward dots.
+Other unread cosmetics can still keep the profile icon marked.
+
 This feature extends the game design document's ranked-only Gem earning rule
 with the owner's approved player level-up rewards; the owner input is unchanged.
 

@@ -12,6 +12,8 @@ import ResourceView from '../../ui/ResourceView.tsx'
 import useResource, { errorText } from '../../ui/useResource.ts'
 import styles from './LevelRewards.module.css'
 import Icon from '../../ui/Icon.tsx'
+import NotificationDot from '../../ui/NotificationDot.tsx'
+import { unreadUnlocks } from '../../app/unlockNotifications.ts'
 
 export function LevelRewardBar({
   rewards,
@@ -33,8 +35,13 @@ export function LevelRewardBar({
         <CurrencyChip kind="gems" amount={total} />
       </div>
       {total > 0 && (
-        <Button disabled={busy} onClick={onClaim}>
+        <Button
+          className={styles.notificationTarget}
+          disabled={busy}
+          onClick={onClaim}
+        >
           {busy ? 'Claiming…' : 'Claim'}
+          <NotificationDot label="Unclaimed level rewards" />
         </Button>
       )}
     </>
@@ -57,14 +64,17 @@ function LevelRewardList({
           <span>Level {reward.level}</span>
           <CurrencyChip kind="gems" amount={reward.amount} />
           {reward.status === 'claimable' ? (
-            <Button
-              variant="primary"
-              icon="chest"
-              disabled={busy}
-              aria-label={`Claim level ${reward.level} reward`}
-              title={`Claim level ${reward.level} reward`}
-              onClick={() => onClaim(reward.level)}
-            />
+            <span className={styles.notificationTarget}>
+              <Button
+                variant="primary"
+                icon="chest"
+                disabled={busy}
+                aria-label={`Claim level ${reward.level} reward`}
+                title={`Claim level ${reward.level} reward`}
+                onClick={() => onClaim(reward.level)}
+              />
+              <NotificationDot label="Unclaimed level reward" />
+            </span>
           ) : (
             <span>
               {reward.status === 'claimed' ? (
@@ -133,11 +143,20 @@ export function LevelRewardClaims({ view }: { view: 'bar' | 'list' }) {
 
 export default function LevelRewards() {
   const [open, setOpen] = useState(false)
+  const { player } = usePlayer()
+  const hasRewards = unreadUnlocks(player, 'level_rewards').length > 0
   return (
     <>
-      <Button variant="secondary" onClick={() => setOpen(true)}>
-        Claim level-up rewards
-      </Button>
+      <span className={styles.notificationTarget}>
+        <Button
+          variant="secondary"
+          icon="chest"
+          aria-label="Claim level-up rewards"
+          title="Claim level-up rewards"
+          onClick={() => setOpen(true)}
+        />
+        {hasRewards && <NotificationDot label="Unclaimed level rewards" />}
+      </span>
       <Modal
         open={open}
         title="Level-up rewards"

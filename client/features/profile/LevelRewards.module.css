@@ -4,6 +4,11 @@
   width: 100%;
 }
 
+.notificationTarget {
+  position: relative;
+  display: inline-flex;
+}
+
 .bar {
   display: flex;
   align-items: center;
