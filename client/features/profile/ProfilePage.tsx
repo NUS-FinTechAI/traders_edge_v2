@@ -26,6 +26,7 @@ import useResource, { errorText } from '../../ui/useResource.ts'
 import StudyPanel from '../research/StudyPanel.tsx'
 import ActivityHeatmap from './ActivityHeatmap.tsx'
 import Collection from './Collection.tsx'
+import LevelRewards from './LevelRewards.tsx'
 import { EarnButton } from './EarnGuide.tsx'
 import styles from './Profile.module.css'
 
@@ -292,6 +293,7 @@ function Profile({ player }: { player: Player }) {
                   </Chip>
                 </EarnButton>
               )}
+              <LevelRewards />
             </span>
           </div>
         </div>

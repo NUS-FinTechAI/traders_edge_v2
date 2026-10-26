@@ -1,5 +1,5 @@
 {
-  "operation_count": 64,
+  "operation_count": 66,
   "unspecified_success_responses": [
     {
       "operationId": "getRoot",

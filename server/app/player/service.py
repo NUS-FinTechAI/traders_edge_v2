@@ -12,7 +12,7 @@ from app.db import LearningActivity, Profile, XPLedger, aware
 from app.game.models import GameParticipant
 from app.multiplayer import elo
 from app.multiplayer.models import Rating
-from app.player import badges, ledger, notifications
+from app.player import badges, ledger, level_rewards, notifications
 from app.player.levels import level_for, rank_name
 from app.quiz.models import QuizAttempt
 
@@ -82,6 +82,8 @@ async def player_data(db, content, profile):
     level, into, needed = level_for(xp)
     progress = await load_progress(db, content.campaign, profile.id)
     unread = await notifications.unread(db, profile.id, await available_unlocks(db, content, profile, level, progress))
+    unread.extend({'category': 'level_rewards', 'group': 'levels', 'item_id': str(reward['level'])}
+                  for reward in await level_rewards.rewards(db, profile.id) if reward['status'] == 'claimable')
     wallet = await ledger.read_account(db, profile.id)
     days, claimed, cycle = streak_state(wallet, instant)
     title = content.cosmetics.items.get(profile.equipped_title_id)

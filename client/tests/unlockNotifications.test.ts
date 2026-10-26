@@ -39,6 +39,24 @@ test('signed-out and older cached profiles have no indicators', () => {
   assert.deepEqual(unreadUnlocks({}), [])
 })
 
+test('pending level rewards remain visible when cosmetic notices are cleared', () => {
+  const withRewards = {
+    unread_unlocks: [
+      ...player.unread_unlocks,
+      { category: 'level_rewards', group: 'levels', item_id: '2' },
+    ],
+  }
+  const updated = withoutSeenUnlocks(
+    withRewards,
+    unreadUnlocks(withRewards, 'cosmetics'),
+  )
+
+  assert.deepEqual(unreadUnlocks(updated, 'level_rewards'), [
+    { category: 'level_rewards', group: 'levels', item_id: '2' },
+  ])
+  assert.deepEqual(unreadUnlocks(updated, 'cosmetics'), [])
+})
+
 test('repeated equip and view events queue each unlock only once', () => {
   const avatar = { category: 'cosmetics', item_id: 'parrot' }
   const theme = { category: 'cosmetics', item_id: 'candles' }

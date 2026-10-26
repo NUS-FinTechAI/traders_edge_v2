@@ -77,6 +77,7 @@ function Hud() {
   const { player } = usePlayer()
   const newChapters = unreadUnlocks(player, 'campaign', 'chapters').length > 0
   const newKeywords = unreadUnlocks(player, 'archive', 'keywords').length > 0
+  const newRewards = unreadUnlocks(player, 'level_rewards').length > 0
   const researcher = useResearchAccess()
   return (
     <header className={styles.hud}>
@@ -158,7 +159,7 @@ function Hud() {
               <NavLink
                 to="/profile"
                 className={styles.hudAvatar}
-                aria-label={`Profile, level ${player.level}${unreadUnlocks(player, 'cosmetics').length ? ', new cosmetics' : ''}`}
+                aria-label={`Profile, level ${player.level}${unreadUnlocks(player, 'cosmetics').length ? ', new cosmetics' : ''}${newRewards ? ', unclaimed level rewards' : ''}`}
               >
                 <Avatar
                   id={player.avatar_id}
@@ -166,8 +167,13 @@ function Hud() {
                   size={36}
                   level={player.level}
                 />
-                {unreadUnlocks(player, 'cosmetics').length > 0 && (
-                  <NotificationDot label="New cosmetics" />
+                {(unreadUnlocks(player, 'cosmetics').length > 0 ||
+                  newRewards) && (
+                  <NotificationDot
+                    label={
+                      newRewards ? 'Unclaimed level rewards' : 'New cosmetics'
+                    }
+                  />
                 )}
               </NavLink>
             </>

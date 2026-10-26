@@ -59,6 +59,13 @@ request.
 
 Public routes work signed out. Request bodies are shown in braces.
 
+Player level rewards use authenticated `GET /me/level-rewards` to list every
+reward from level 2 to 50 with its Gem amount and `locked`, `claimable` or
+`claimed` status. `POST /me/level-rewards/claim {level?}` claims one reached
+level, or all pending reached levels when omitted or null. It returns the Gems
+awarded now, the refreshed reward list and player. Repeated claims award zero;
+unreached levels return 403 and levels outside 2–50 return 422.
+
 ### Games (`app/game/api.py`, gated)
 
 | Route                                                                                                                | Purpose                                                                  |

@@ -267,6 +267,11 @@ export interface components {
       /** Prompt */
       prompt: string
     }
+    /** ClaimLevelRewards */
+    ClaimLevelRewards: {
+      /** Level */
+      level?: number | null
+    }
     /** ClockCommand */
     ClockCommand: {
       /**
@@ -867,6 +872,26 @@ export interface components {
       plays: number
       /** Special Star */
       special_star: boolean
+    }
+    /** LevelReward */
+    LevelReward: {
+      /** Amount */
+      amount: number
+      /** Level */
+      level: number
+      /**
+       * Status
+       * @enum {string}
+       */
+      status: 'locked' | 'claimable' | 'claimed'
+    }
+    /** LevelRewardClaim */
+    LevelRewardClaim: {
+      /** Gems */
+      gems: number
+      player: components['schemas']['Player']
+      /** Rewards */
+      rewards: components['schemas']['LevelReward'][]
     }
     /** Lobby */
     Lobby: {

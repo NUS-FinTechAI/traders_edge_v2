@@ -216,6 +216,18 @@ export const apiEndpoints = {
     path: '/api/me/daily-login',
     auth: 'required',
   },
+  getLevelRewards: {
+    operationId: 'getLevelRewards',
+    method: 'GET',
+    path: '/api/me/level-rewards',
+    auth: 'required',
+  },
+  claimLevelRewards: {
+    operationId: 'claimLevelRewards',
+    method: 'POST',
+    path: '/api/me/level-rewards/claim',
+    auth: 'required',
+  },
   getResearchMetadata: {
     operationId: 'getResearchMetadata',
     method: 'GET',

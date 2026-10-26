@@ -76,6 +76,22 @@ class DailyLogin(BaseModel):
     player: Player
 
 
+class LevelReward(BaseModel):
+    level: int
+    amount: int
+    status: Literal['locked', 'claimable', 'claimed']
+
+
+class ClaimLevelRewards(Payload):
+    level: int | None = Field(default=None, ge=2, le=50)
+
+
+class LevelRewardClaim(BaseModel):
+    gems: int
+    rewards: list[LevelReward]
+    player: Player
+
+
 class ActivityDay(BaseModel):
     date: str
     count: int
