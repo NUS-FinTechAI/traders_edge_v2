@@ -17,11 +17,14 @@ profit result. Markets are seeded simulations and opponents use deterministic
 rules; running locally needs no brokerage, market-data service or model API.
 Learning effectiveness has not been established.
 
-![Midnight Ledger theme reference showing the trading arena](docs/product/themes/midnight-ledger-arena-desktop.jpg)
+![Trading arena: candlestick chart with moving averages, order ticket with fee and spread, and account panel during a practice match](docs/product/screenshots/arena.png)
 
-Existing theme reference capture, described in the
-[design system](docs/product/design-system.md#base-themes). This is not evidence
-of a current hosted demo or a participant study.
+| Chapter map                                                                             | Lesson card                                                                     | Match results                                                                                          |
+| --------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| ![Chapter 1 map with level nodes and stars](docs/product/screenshots/adventure-map.png) | ![Lesson card from Chapter 1 Level 1](docs/product/screenshots/lesson-card.png) | ![Results with standings, missions, plan review and key moments](docs/product/screenshots/results.png) |
+
+Screens from a local guest session on `master` (27 October 2026); they show
+simulated play, not a participant study.
 
 ## Features
 
