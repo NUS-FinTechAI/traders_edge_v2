@@ -1,9 +1,9 @@
 # Data model
 
 SQLite locally (`server/data/learning.db`); PostgreSQL in staging and
-production. Authored
-content (chapters, scenarios, bots, quiz bank, cosmetics) is JSON in source
-control, not database data. Match state is not stored: it is rebuilt on each
+production. Authored content (chapters, scenarios, bots, quiz bank, cosmetics
+and prior-knowledge instrument) is JSON in source control, not database data.
+Match state is not stored: it is rebuilt on each
 read from the scenario, the seed and the stored orders
 ([engine](engine.md#replay)).
 
@@ -21,7 +21,7 @@ read from the scenario, the seed and the stored orders
 | `economy_events`                             | 6         | `economy_models.EconomyEvent`   | One row per (player, event key): currency deltas, context; settlement and Elo markers         |
 | `research_participants`, `research_commands` | 10        | `research_models`               | Study metadata, consent, withdrawal; command receipts                                         |
 
-Migration 11 (`migration_v11.py`, `game/models.py`):
+Migration 11 (`migrations/migration_v11.py`, `game/models.py`):
 
 | Table               | Columns                                                                                                                                                                                            |
 | ------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -30,7 +30,7 @@ Migration 11 (`migration_v11.py`, `game/models.py`):
 | `game_orders`       | id, game_id, participant_id, client_order_id (unique per participant), seq, tick, symbol, side, type, qty, limit_price, stop_price, cancelled_tick, created_at                                     |
 | `game_events`       | id, game_id, participant_id, tick, kind, payload (JSON), created_at ([research log](research.md#recorded-data))                                                                                    |
 
-Migration 12 (`migration_v12.py`):
+Migration 12 (`migrations/migration_v12.py`):
 
 | Table                                   | Columns                                                                                                                                                       |
 | --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -44,14 +44,14 @@ Migration 12 (`migration_v12.py`):
 | `matchmaking_queue`                     | user_id, status (`searching`\|`matched`), game_id, created_at                                                                                                 |
 | `ratings`                               | user_id, rating, matches, wins, updated_at                                                                                                                    |
 
-Migration 13 (`migration_v13.py`, `research_models.PriorKnowledgeResponse`):
+Migration 13 (`migrations/migration_v13.py`, `research_models.PriorKnowledgeResponse`):
 
 | Table                       | Columns                                                                                                                                                                                                                                                                          |
 | --------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `prior_knowledge_responses` | user_id (one row per player), instrument_version, consent_version, status (`completed`\|`skipped`), experience, brokerage_account, market_frequency, confidence (1–5), answers (JSON: item, option or null, correct), score, prior_knowledge_group, elapsed_seconds, recorded_at |
 | `campaign_checks` (added)   | first_answered_at: time of the first answer; null for answers recorded before migration 13                                                                                                                                                                                       |
 
-Migration 14 (`migration_v14.py`) adds nullable `profiles.equipped_badge_id`.
+Migration 14 (`migrations/migration_v14.py`) adds nullable `profiles.equipped_badge_id`.
 Existing profiles start without an equipped badge; earlier rows and equipment
 are preserved. The profile update checks that the selected badge is earned.
 
@@ -82,8 +82,11 @@ code reads or writes them. Earlier learner records were not converted.
 not change a database: append a numbered migration. With `AUTO_MIGRATE=false`,
 run `uv run --project server --locked python -m app.db` first; the API refuses
 to start on a version mismatch. `server/tests/test_migrations.py` checks a
-fresh migration and that upgrading a populated database to 12 and to 13 keeps
-every row.
+fresh migration through 15 and upgrades from populated versions 11, 12, 13
+and 14 to the current schema. It compares earlier columns and rows before
+and after the upgrade, and checks that migrations 13–15 can be repeated.
+The [PostgreSQL integration suite](../operations/deployment.md#live-postgresql-tests)
+also checks populated upgrades from versions 11 and 12.
 
 ## Privacy
 

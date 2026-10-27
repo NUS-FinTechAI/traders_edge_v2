@@ -6,6 +6,13 @@ the code wins and the doc needs fixing. Start with
 [ARCHITECTURE.md](../ARCHITECTURE.md) for the system overview and the
 [server guide](../server/README.md) for running and configuring the API.
 
+## Contributing and release
+
+- [Contributing](../CONTRIBUTING.md): product constraints, code rules, checks and review.
+- [Local demo](contributing/demo.md): guest setup, practice, lessons and classroom walkthroughs.
+- [Release readiness review](open-source/release-readiness.md): award criteria, evidence and release decisions.
+- [Roadmap](open-source/roadmap.md): priorities and acceptance criteria for future work.
+
 ## Product
 
 - [Game design document](game-design.md): the owner's gameplay requirements.

@@ -20,7 +20,7 @@ replaced the earlier learning-run system. Detailed rules are in the
 | `research.py`                                       | Owned evidence exports and default-off study consent                                              |
 | `study/`                                            | Prior-knowledge instrument and onboarding; researcher access, scope, aggregates and CSV exports   |
 | `content/`                                          | Authored JSON, the bundle loader, `review.json` and the validator                                 |
-| `auth.py`, `config.py`, `db.py`, `migrations.py`    | Guest or Firebase identity, settings, database sessions, ordered migrations                       |
+| `auth.py`, `config.py`, `db.py`, `migrations/`      | Guest or Firebase identity, settings, database sessions, ordered migrations                       |
 | `codes.py`, `public_config.py`, `economy_models.py` | Join codes, `GET /api/config`, wallet and event tables (migration 6, reused)                      |
 
 ### Match data flow
@@ -64,14 +64,38 @@ async def before_start(db, profile, game) -> None
 
 Lobbies and matchmaking call `game.service.create_multiplayer_game(...)`.
 
+### Extending the backend
+
+Add lessons and markets through the existing JSON formats and validators
+([authoring guide](docs/content/authoring.md)). Keep scenario ids stable and
+bump the version when markets or missions change. The opponents in
+`game/bots.py` are deterministic rule-based strategies; they receive only
+the bars and news visible at their observed tick.
+
+Keep progression and reward changes in the campaign hooks above. The game
+service can run practice matches with its default hooks; a different progression
+system can supply its own resolver and idempotent settlement hook in
+`create_app`. These are internal Python interfaces, so changes to them need
+tests for the callers as well as the engine.
+
+For another client, use the HTTP API and its authentication rules
+([API reference](docs/reference/api.md)). A running server exposes generated
+OpenAPI at `/openapi.json` and interactive documentation at `/docs`.
+`client/api/` contains generated types and endpoint definitions for this
+React client, checked by `npm run api:check`; there is no separately released
+SDK or versioned integration guarantee.
+
 ### Persistence
 
-SQLite locally, PostgreSQL in staging and production. `migrations.py` applies 1–12 in
-order and refuses gaps; migration 11 adds the game tables and 12 the
-campaign, quiz, lobby and rating tables. Tables from migrations 1–10 that
-belonged to the removed system remain but are unused. Mutating requests lock
-the player's profile row (SQLite: `BEGIN IMMEDIATE`), so one player's
-commands run one at a time. See the [data model](docs/reference/data-model.md).
+SQLite locally, PostgreSQL in staging and production.
+`server/app/migrations/migrations.py` applies versions 1–15 in order and
+refuses gaps. Migration 11 adds the game tables; 12 adds campaign, quiz,
+lobby and rating tables; 13 adds the prior-knowledge instrument and check
+timestamps; 14 adds badge equipment; 15 adds unlock acknowledgements. Tables
+from migrations 1–10 that belonged to the removed system remain but are
+unused. Mutating requests lock the player's profile row (SQLite:
+`BEGIN IMMEDIATE`), so one player's commands run one at a time. See the
+[data model](docs/reference/data-model.md).
 
 In production, `require_approved_content` refuses the game, quiz, multiplayer,
 level and daily routes (503) until `content/review.json` is `approved`.
@@ -108,8 +132,9 @@ plan, progression and per-profile storage are pure functions in `tour.ts`.
 Content is JSON in `server/app/content/`, loaded at startup and validated
 strictly: `campaign/ch1–ch8.json`, 64 `scenarios/*.json` (40 level practices,
 8 bosses, 7 dailies, 5 practice, 4 multiplayer), `bots.json` (24),
-`quiz_bank.json` (160 questions), `cosmetics.json` (73 items) and
-`review.json`. `python -m app.content.validate` checks every file and the
-links between them; the balance gauntlet (`game/balance.py`, run by
+`quiz_bank.json` (160 questions), `cosmetics.json` (73 items),
+`research/prior_knowledge.json` (10 items) and `review.json`.
+`python -m app.content.validate` checks every file and the links between
+them; the balance gauntlet (`game/balance.py`, run by
 `server/tests/test_game_balance.py`) fails if idle or random players win a
 boss or daily too often. See the [authoring guide](docs/content/authoring.md).

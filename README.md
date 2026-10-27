@@ -4,10 +4,24 @@ Trader’s Edge is a trading education game for beginners: short lesson cards,
 a quick check, then a trading mission in a simulated market against AI rivals.
 All money is simulated and every company is fictional.
 
+The project is for learners practising concepts, instructors running classroom
+activities and developers extending trading scenarios. It connects lessons to
+missions with recorded decision context, so a match can be examined beyond its
+profit result. Markets are seeded simulations and opponents use deterministic
+rules; running locally needs no brokerage, market-data service or model API.
+Learning effectiveness has not been established.
+
+![Midnight Ledger theme reference showing the trading arena](docs/product/themes/midnight-ledger-arena-desktop.jpg)
+
+Existing theme reference capture, described in the
+[design system](docs/product/design-system.md#base-themes). This is not evidence
+of a current hosted demo or a participant study.
+
 ## Features
 
 - **Adventure**: 8 chapters × 5 levels on a treasure map, each chapter with a
-  Preview Battle, a Gate Boss to skip ahead and a Chapter Boss.
+  Preview Battle and a Chapter Boss; Chapters 2–8 also have a Gate Boss to
+  skip ahead.
 - **Trading arena**: live candlestick market on a server clock (pause, next
   day, 1×/2×/4×), market, limit and stop-loss orders as they are taught, fees
   and a spread, AI rivals on a profit leaderboard, missions and a results
@@ -39,9 +53,11 @@ In a second terminal:
 uv run --project server --locked python -m uvicorn app.main:app --reload
 ```
 
-Client: `http://localhost:5173`. API: `http://127.0.0.1:8000` (schemas at
-`/docs`). Local development uses guest sessions and SQLite
-(`server/data/learning.db`).
+Client: `http://localhost:5173`. API: `http://localhost:8000` (schemas at
+`/docs`). Use the same hostname for both so guest cookies work. Local
+development uses guest sessions and SQLite (`server/data/learning.db`), with
+no Firebase setup required. Follow the [local demo](docs/contributing/demo.md)
+for a practice match, the lesson loop and classroom activities.
 
 ## Checks
 
@@ -74,6 +90,18 @@ self-hosted Compose stack are in [deployment](docs/operations/deployment.md).
 [server guide](server/README.md). Contributors should read
 [CONTRIBUTING.md](CONTRIBUTING.md); history is in
 the [changelog](CHANGELOG.md).
+
+## Contribute and reuse
+
+Read [CONTRIBUTING.md](CONTRIBUTING.md) before proposing a change. The
+[roadmap](docs/open-source/roadmap.md) describes the next work, and the
+[release readiness review](docs/open-source/release-readiness.md) records
+evidence and outstanding release decisions.
+
+The repository does not yet include a project license. A license decision and
+confirmation of rights to the included code, content and artwork are required
+before describing it as an open-source release. Public visibility alone does
+not resolve those decisions.
 
 ## Status
 
