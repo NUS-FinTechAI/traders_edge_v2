@@ -5,7 +5,7 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PATH=/srv/.venv/bin:$PATH
 WORKDIR /srv
 RUN pip install --no-cache-dir uv==0.12.23
-COPY pyproject.toml uv.lock README.md ./
+COPY pyproject.toml uv.lock README.md LICENSE LICENSE_SCOPE.md ./
 RUN uv sync --locked --no-dev --no-install-project
 COPY app ./app
 RUN uv sync --locked --no-dev && useradd --uid 10001 --create-home app

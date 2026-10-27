@@ -1,6 +1,7 @@
 {
   "name": "traders-edge",
   "private": true,
+  "license": "MIT",
   "scripts": {
     "api:generate": "node scripts/generate-api.mjs",
     "api:check": "node scripts/generate-api.mjs --check",
