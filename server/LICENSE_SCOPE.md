@@ -33,3 +33,8 @@ The server package includes the license and scope in its distribution metadata;
 the container retains them under `/srv/`. The client build copies both notices
 to `dist/`. These notices cover the original project work described above.
 They do not relicense third-party dependencies or the separately scoped materials.
+
+Vite also writes `dist/THIRD_PARTY_LICENSES.md` from the dependencies included
+in each client build. Keep that file with the deployed client. It records
+bundled dependency licenses; it does not replace the provenance review or
+cover separately supplied artwork.
