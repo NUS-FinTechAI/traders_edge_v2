@@ -59,11 +59,8 @@ function printFailureMessage() {
       '',
       '✖ Prettier found formatting issues.',
       '',
-      'To fix this automatically, run:',
-      '',
-      '    npm run format',
-      '',
-      'Then rerun your previous command.',
+      'Format only the changed files listed above with Prettier.',
+      'See CONTRIBUTING.md for the command, then rerun this check.',
       '',
     ].join('\n'),
   )
