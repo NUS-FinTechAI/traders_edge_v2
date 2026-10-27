@@ -1,5 +1,11 @@
 # Trader’s Edge
 
+[![Client](https://github.com/NUS-FinTechAI/traders_edge_v2/actions/workflows/client.yml/badge.svg)](https://github.com/NUS-FinTechAI/traders_edge_v2/actions/workflows/client.yml)
+[![Server](https://github.com/NUS-FinTechAI/traders_edge_v2/actions/workflows/server.yml/badge.svg)](https://github.com/NUS-FinTechAI/traders_edge_v2/actions/workflows/server.yml)
+[![API contract](https://github.com/NUS-FinTechAI/traders_edge_v2/actions/workflows/api-check.yml/badge.svg)](https://github.com/NUS-FinTechAI/traders_edge_v2/actions/workflows/api-check.yml)
+[![PostgreSQL](https://github.com/NUS-FinTechAI/traders_edge_v2/actions/workflows/postgres.yml/badge.svg)](https://github.com/NUS-FinTechAI/traders_edge_v2/actions/workflows/postgres.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
 Trader’s Edge is a trading education game for beginners: short lesson cards,
 a quick check, then a trading mission in a simulated market against AI rivals.
 All money is simulated and every company is fictional.
@@ -35,6 +41,31 @@ of a current hosted demo or a participant study.
   heatmap, login streak, shop and opt-in leaderboards.
 
 Profit decides every match; XP is never paid for placing orders.
+
+## How it works
+
+- **Lessons gate the tools.** Each level is four or five lesson cards, a
+  check that repeats wrong answers until they are right, then a trading
+  mission. Limit orders open with Chapter 2 Level 3 and stop-losses with
+  Level 4, in the scenario data the engine enforces.
+- **The server owns every match.** A match is a scenario, a seed and the
+  player's orders. Each read regenerates prices and replays orders and
+  rivals to the current day, so future candles, unpublished news and the
+  seed never reach the browser, and any match can be replayed exactly.
+- **Careless trading loses.** Every fill pays a fee and the spread. A balance
+  test in CI plays each boss and daily with idle and random players over 50
+  seeds and fails if they win too often.
+- **Rivals explain themselves.** 24 rule-based opponents (buy and hold,
+  momentum, mean reversion, panic seller, scalper, breakout, news reactor,
+  risk manager) trade under the same rules and each has a one-line style.
+- **Rewards follow learning, not activity.** XP comes from checks, stars,
+  bosses, daily challenges, quizzes and login days; nothing pays for
+  orders, trade count or volume. The results screen separates the profit
+  ranking from missions, the plan review and key moments.
+- **Content is data.** Chapters, scenarios, rivals and the quiz bank are
+  JSON validated at startup and in CI, so lessons and markets change through
+  reviewed pull requests without engine changes
+  ([authoring guide](docs/content/authoring.md)).
 
 ## Quick start
 
