@@ -43,3 +43,6 @@ jobs:
 
       - name: Validate curriculum and its contract
         run: uv run --project server --extra test --locked python -m app.content.validate
+
+      - name: Build server container
+        run: docker build --tag traders-edge-server:ci ./server

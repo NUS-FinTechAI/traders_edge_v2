@@ -1,16 +1,18 @@
 # Release readiness
 
-The repository is public. A reusable open-source release still needs a
-license and confirmed redistribution rights. This page separates that work
-from running a local demo and operating a service for real players.
+Original project work is available under the [MIT license](../../LICENSE).
+A packaged release still needs the remaining provenance and attribution
+review. This page separates that work from running a local demo and operating
+a service for real players.
 
 ## License and provenance
 
-No project license has been selected or added. Before doing so, the project
-owner must confirm the team's authority to license the work, including any
-applicable university or collaborator requirements. Public access is not a
-license grant. GitHub explains the distinction in its
-[licensing guide](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/licensing-a-repository).
+The [MIT license](../../LICENSE) covers original software, documentation and
+authored teaching and research content. The [license scope](../../LICENSE_SCOPE.md)
+keeps supplied owner inputs, artwork and third-party material under their
+separate terms. Record the team's authority and any applicable university or
+collaborator requirements as part of the provenance review; the license does
+not establish ownership of incorporated material.
 
 Record the rights holder, original source, applicable license or written
 permission, required attribution and release scope for each group below.
@@ -18,7 +20,7 @@ The entries are an inventory for review, not assertions of ownership.
 
 | Material                                | Location                                                                  | Evidence still needed                                                                        |
 | --------------------------------------- | ------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
-| Application and tooling                 | `client/`, `server/`, `scripts/`, repository configuration                | Team ownership, third-party code notices and the agreed project license                      |
+| Application and tooling                 | `client/`, `server/`, `scripts/`, repository configuration                | Rights-holder record and required third-party notices; original work uses MIT                |
 | Authored teaching and research material | `server/app/content/`, `docs/content/`                                    | Authors, source traceability, permission to redistribute and license scope                   |
 | Supplied design and supervisor inputs   | `docs/source/`, `docs/game-design.md`                                     | Permission from their rights holders; these owner inputs must remain unedited                |
 | Branding and icons                      | `client/public/`, `client/ui/Logo.tsx`                                    | Original sources/authors, permission and any trademark restrictions                          |
@@ -35,7 +37,7 @@ presence grants permission ([source material policy](../source/README.md)).
 
 | Gate                             | Current evidence                                                                 | Before calling it complete                                                                                                                                   |
 | -------------------------------- | -------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Open-source licensing            | No project license or completed rights inventory                                 | Confirm authority, select a license, document exclusions/attributions and add the actual license text                                                        |
+| Open-source licensing            | MIT license and scope recorded; provenance review remains incomplete             | Complete rights and attribution evidence for incorporated material, exclusions and distributed dependencies                                                  |
 | Reproducible local demo          | Guest/SQLite path, automated suites and a [walkthrough](../contributing/demo.md) | Repeat on a fresh clone using locked installs; record revision, environment and results                                                                      |
 | Content publication              | Validator passes; `review.json` remains `authored_requires_independent_review`   | Independent financial and pedagogical review of the exact content edition; production must keep refusing gameplay until approved                             |
 | Hosted identity and data         | Firebase and research authorization are implemented and tested locally           | Verify hosted sign-in, consent and withdrawal, researcher scope, account deletion, retention and backups with approved test accounts                         |
@@ -44,8 +46,8 @@ presence grants permission ([source material policy](../source/README.md)).
 | Usability and educational claims | Theme references, test coverage and an unvalidated decision score                | Record observed accessibility/usability results; approve the study before collecting participant data; measure learning before claiming an effect            |
 
 The [roadmap](roadmap.md) defines acceptance evidence for the remaining work.
-These gates do not authorize a content reviewer, an ethics decision or a
-license choice on behalf of the relevant owners.
+These gates do not substitute for a content review, an ethics decision or
+permission from the rights holders of separately scoped material.
 
 ## Evidence to keep with a release
 

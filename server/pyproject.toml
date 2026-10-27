@@ -3,6 +3,8 @@ name = "server"
 version = "0.1.0"
 description = "FastAPI server for Trader's Edge"
 readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE", "LICENSE_SCOPE.md"]
 authors = [
     { name = "YongJunXi", email = "ernestyongjunxi@gmail.com" }
 ]

@@ -17,7 +17,10 @@ For a first contribution, a reproducible bug report, a verified documentation
 correction or a focused test for existing behaviour is useful. Discuss larger
 features, curriculum changes and replacement UI in an issue before building
 them. The [release readiness plan](docs/open-source/release-readiness.md)
-records priorities, acceptance evidence and pending licensing decisions.
+records priorities, acceptance evidence and remaining provenance work.
+Contribute original work that you have authority to submit under the
+[MIT license](LICENSE), and identify any third-party sources and their terms.
+Check the [license scope](LICENSE_SCOPE.md) before reusing supplied material.
 
 Fork the repository on GitHub. Replace `YOUR_GITHUB_USERNAME` below, then run:
 

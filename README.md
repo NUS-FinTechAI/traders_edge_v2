@@ -98,10 +98,11 @@ Read [CONTRIBUTING.md](CONTRIBUTING.md) before proposing a change. The
 [release readiness review](docs/open-source/release-readiness.md) records
 evidence and outstanding release decisions.
 
-The repository does not yet include a project license. A license decision and
-confirmation of rights to the included code, content and artwork are required
-before describing it as an open-source release. Public visibility alone does
-not resolve those decisions.
+Original project code, documentation and authored content use the
+[MIT license](LICENSE). Read the [license scope](LICENSE_SCOPE.md) for supplied
+inputs, artwork and third-party material with separate terms. The
+[provenance inventory](docs/open-source/release-readiness.md#license-and-provenance)
+records the remaining rights and attribution review before a packaged release.
 
 ## Status
 
