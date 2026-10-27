@@ -13,7 +13,7 @@ dependencies = [
     "aiosqlite>=0.20,<1",
     "psycopg[binary]>=3.2,<4",
     "firebase-admin>=6.6,<8",
-    "sentry-sdk[fastapi]>=2.70,<3",
+    "sentry-sdk[fastapi]>=2.73.0,<3",
 ]
 
 [project.scripts]
