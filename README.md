@@ -1,4 +1,4 @@
-﻿# Trader’s Edge
+# Trader’s Edge
 
 Trader’s Edge is a trading education game for beginners: short lesson cards,
 a quick check, then a trading mission in a simulated market against AI rivals.
