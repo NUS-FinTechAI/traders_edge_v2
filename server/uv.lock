@@ -1690,7 +1690,7 @@ requires-dist = [
     { name = "fastapi", extras = ["standard"], specifier = ">=0.141.1" },
     { name = "firebase-admin", specifier = ">=6.6,<8" },
     { name = "httpx", marker = "extra == 'test'", specifier = ">=0.28,<1" },
-    { name = "psycopg", extras = ["binary"], specifier = ">=3.2,<4" },
+    { name = "psycopg", extras = ["binary"], specifier = ">=3.3.6,<4" },
     { name = "sentry-sdk", extras = ["fastapi"], specifier = ">=2.73.0,<3" },
     { name = "sqlalchemy", extras = ["asyncio"], specifier = ">=2.1.6,<3" },
 ]
