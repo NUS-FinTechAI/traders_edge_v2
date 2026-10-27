@@ -1,0 +1,34 @@
+name: Feature proposal
+description: Describe a problem and a focused improvement.
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Search existing issues and read [CONTRIBUTING.md](https://github.com/NUS-FinTechAI/traders_edge_v2/blob/master/CONTRIBUTING.md) before proposing a change.
+        Use fictional examples and keep participant data private.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem and audience
+      description: Who encounters this problem, and what is difficult in the current app or contributor workflow?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+      description: Describe a focused solution and any alternatives you considered.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Acceptance evidence
+      description: What observable result would show that the change solves the problem?
+    validations:
+      required: true
+  - type: textarea
+    id: constraints
+    attributes:
+      label: Design and safety considerations
+      description: Note effects on gameplay, rewards, privacy, accessibility, authored content or compatibility. Link the relevant design rule or explain any conflict.
