@@ -56,12 +56,34 @@ curl --fail http://127.0.0.1:8000/health
 
 - A missing or old schema stops API startup; do not run two migration
   services against one database at once.
-- Back up an existing database and test the upgrade to migration 12 on a
-  restored copy first.
+- Back up an existing database and test the upgrade to the current schema on
+  a restored copy first. The runner's `LATEST_VERSION` in
+  `server/app/migrations/migrations.py` is 15.
 - Never use `down --volumes` on a persistent instance; it deletes player data.
 
 The stack binds the API to loopback: put an HTTPS reverse proxy in front of
 it for external access.
+
+## Ingress and load limits
+
+Configure request-size and rate limits at the hosting ingress or reverse
+proxy before exposing a shared instance. The API rejects mutation bodies
+over 64 KiB, but only after reading the whole body into memory. There is no
+application rate limiter. Origin checks, authentication and per-player
+command serialization do not bound request volume or the number of guest
+profiles created when guest mode is enabled. The current request boundary
+is in [`server/app/main.py`](../../server/app/main.py).
+
+Match reads regenerate the market and replay the stored orders. The
+scenario validator allows up to 150 ticks, 5 assets and 7 bots, but the
+application has no total order-count limit per match. Leaderboard reads also
+load all opted-in players before ranking. These bounds are not a measured
+concurrency or capacity guarantee; see
+[`game/service.py`](../../server/app/game/service.py) and
+[`player/service.py`](../../server/app/player/service.py). Measure match
+polling and database load with representative histories before increasing exposure; the existing
+[read benchmark](performance.md#local-read-benchmark) covers in-process
+SQLite profile, campaign and collection reads only.
 
 ## Client build
 
@@ -83,18 +105,20 @@ schema.
 uv run --project server --extra test --locked python -m unittest discover -s server/tests -p test_postgres_integration.py -v
 ```
 
-`test_postgres_integration.py` checks that upgrading a populated database to
-migration 12 keeps every row, that the profile lock waits and refreshes, that
-two players can be awarded XP and activity concurrently, and that a command
-replays the same response across two workers and a restart.
-`test_research.py` repeats its cases on PostgreSQL. Without the URL these
-tests are skipped; the PostgreSQL CI job sets it.
+`test_postgres_integration.py` checks that upgrading populated version-11
+and version-12 databases to the current schema preserves existing rows. It
+also checks that the profile lock waits and refreshes, two players can be
+awarded XP and activity concurrently, concurrent ranked joins on separate
+workers produce one match, and a command replays the same response across
+two workers and a restart. `test_research.py` and `test_study.py` repeat
+their API cases on PostgreSQL. Without the URL these tests are skipped; the
+PostgreSQL CI job sets it.
 
 ## Not established
 
 A passing health check shows the process started and the schema matched. It
 does not show that Firebase tokens are accepted or that the content is
-approved; the [hosting guide](hosting.md#check-a-deployment) lists the checks
+approved; the [hosting guide](hosting.md#6-check-the-deployment) lists the checks
 for a hosted deployment. Earlier container and
 PostgreSQL runs (6 October 2026) used the removed learning-run system and do
-not cover migrations 11–12.
+not establish that the current game or schema works on a hosted deployment.

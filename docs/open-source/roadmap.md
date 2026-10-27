@@ -21,7 +21,7 @@ normal product and safety review.
 
 ## Contribute now
 
-Start with the [quick start](../../README.md#quick-start), a documentation correction,
+Start with the [demo](../contributing/demo.md), a documentation correction,
 an accessibility observation or a small proposal through the
 [issue tracker](https://github.com/NUS-FinTechAI/traders_edge_v2/issues).
 Check existing issues and assignees before taking work. For example,

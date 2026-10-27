@@ -55,7 +55,7 @@ loopback database ([deployment](../docs/operations/deployment.md#live-postgresql
 | `APP_ENV`     | Auth default | Database   | Origins | Content review gate | Use                                |
 | ------------- | ------------ | ---------- | ------- | ------------------- | ---------------------------------- |
 | `development` | guest        | any        | any     | off                 | Local work                         |
-| `staging`     | guest        | PostgreSQL | HTTPS   | off                 | Hosted and playable before the content review (the current deployment, with `AUTH_MODE=firebase`) |
+| `staging`     | guest        | PostgreSQL | HTTPS   | off                 | Hosted and playable before the content review (set `AUTH_MODE=firebase` to test hosted sign-in) |
 | `production`  | firebase     | PostgreSQL | HTTPS   | on                  | Real accounts; Firebase required   |
 
 Startup fails on any other `APP_ENV`, when `AUTH_MODE` is not `guest` or
