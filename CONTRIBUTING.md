@@ -14,7 +14,10 @@ Remove credentials, cookies and participant data from logs and screenshots.
 Report vulnerabilities through [SECURITY.md](SECURITY.md).
 
 For a first contribution, a reproducible bug report, a verified documentation
-correction or a focused test for existing behaviour is useful. Discuss larger
+correction or a focused test for existing behaviour is useful. Issues labelled
+[`good first issue`](https://github.com/NUS-FinTechAI/traders_edge_v2/labels/good%20first%20issue)
+are scoped for newcomers; [`help wanted`](https://github.com/NUS-FinTechAI/traders_edge_v2/labels/help%20wanted)
+marks larger work open to anyone. Discuss larger
 features, curriculum changes and replacement UI in an issue before building
 them. The [release readiness plan](docs/open-source/release-readiness.md)
 records priorities, acceptance evidence and remaining provenance work.
@@ -45,11 +48,8 @@ architecture decisions in `docs/decisions/` and keep the relevant reference
 documentation current. Explain disagreements with a reproduction, source or
 tradeoff so others can assess the decision.
 
-Treat contributors respectfully. Critique the work, give actionable feedback
-and allow time for replies. Harassment, discrimination and publishing another
-person's private information are unacceptable. Maintainers may remove harmful
-content and restrict participation. For a sensitive conduct concern, request
-a private contact without posting the details publicly.
+Everyone taking part follows the [code of conduct](CODE_OF_CONDUCT.md),
+which also explains how to raise a concern privately.
 
 Issue and pull request replies depend on maintainer availability; there is no
 guaranteed response time. Do not post secrets or real participant records to

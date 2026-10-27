@@ -9,6 +9,7 @@ the code wins and the doc needs fixing. Start with
 ## Contributing and release
 
 - [Contributing](../CONTRIBUTING.md): product constraints, code rules, checks and review.
+- [Code of conduct](../CODE_OF_CONDUCT.md): expected behaviour and private reporting.
 - [Local demo](contributing/demo.md): guest setup, practice, lessons and classroom walkthroughs.
 - [Release readiness review](open-source/release-readiness.md): award criteria, evidence and release decisions.
 - [Roadmap](open-source/roadmap.md): priorities and acceptance criteria for future work.
