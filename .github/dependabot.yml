@@ -11,6 +11,10 @@ updates:
     groups:
       npm-minor-and-patch:
         update-types: [minor, patch]
+    ignore:
+      # Major upgrades need a compatibility review (docs/open-source/roadmap.md).
+      - dependency-name: '*'
+        update-types: ['version-update:semver-major']
 
   - package-ecosystem: uv
     directory: /server
@@ -20,6 +24,10 @@ updates:
     groups:
       python-minor-and-patch:
         update-types: [minor, patch]
+    ignore:
+      # Major upgrades need a compatibility review (docs/open-source/roadmap.md).
+      - dependency-name: '*'
+        update-types: ['version-update:semver-major']
 
   - package-ecosystem: github-actions
     directory: /
