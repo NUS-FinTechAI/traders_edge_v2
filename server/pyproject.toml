@@ -14,7 +14,7 @@ dependencies = [
     "fastapi[standard]>=0.141.1",
     "sqlalchemy[asyncio]>=2.1.6,<3",
     "aiosqlite>=0.20,<1",
-    "psycopg[binary]>=3.2,<4",
+    "psycopg[binary]>=3.3.6,<4",
     "firebase-admin>=6.6,<8",
     "sentry-sdk[fastapi]>=2.73.0,<3",
 ]
