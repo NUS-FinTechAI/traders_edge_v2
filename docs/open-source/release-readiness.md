@@ -62,8 +62,8 @@ disposable accounts. For a hosted release, retain the authenticated smoke
 results described in the [hosting guide](../operations/hosting.md#6-check-the-deployment).
 An HTTP health response proves liveness only.
 
-For an award submission, distinguish the implemented design from evidence of
-impact: reproducible scenarios, rule-based opponents, classroom activities
+When presenting the project, distinguish the implemented design from evidence
+of impact: reproducible scenarios, rule-based opponents, classroom activities
 and decision-context exports are demonstrable. Adoption, novelty relative to
 other projects and learning gains need separate evidence. Do not present
 test counts, profit or the decision score as learning outcomes.

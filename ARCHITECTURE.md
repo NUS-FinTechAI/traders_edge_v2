@@ -112,7 +112,13 @@ level and daily routes (503) until `content/review.json` is `approved`.
   primitives ([design system](docs/product/design-system.md)).
 - `features/` has one folder per area: `home`, `adventure`, `level`, `arena`,
   `play`, `quiz`, `multiplayer`, `profile`, `leaderboard`, `archive`, `auth`,
-  `research` (study onboarding, consent panel, researcher dashboard).
+  `research` (study onboarding, consent panel, researcher dashboard) and
+  `rewards` (reward pictures and toasts).
+- Authentication state is split across `components/AuthProvider.tsx`,
+  `contexts/AuthContext.ts`, `controllers/authController.ts`,
+  `hooks/useAuth.ts` and the route guard in `auth-guards/authGuard.ts`.
+- `tests/` holds `node:test` unit tests for services and pure UI logic
+  (`npm test`); there are no component render tests yet.
 - `services/` has one module per API area (game, campaign, daily, player,
   quiz, lobby, auth, config, research), each using the typed `apiClient` and
   generated endpoint definitions in `api/`. The client delegates transport to

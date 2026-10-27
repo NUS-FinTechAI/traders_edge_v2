@@ -1,6 +1,6 @@
 # Roadmap
 
-Trader's Edge gives beginners a place to connect trading lessons to decisions
+Trader’s Edge gives beginners a place to connect trading lessons to decisions
 in a fictional market. Instructors can use private matches and quizzes;
 developers can extend authored content and the simulation. The immediate
 goal is a release another team can reproduce, inspect and maintain.

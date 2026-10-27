@@ -10,7 +10,7 @@ the code wins and the doc needs fixing. Start with
 
 - [Contributing](../CONTRIBUTING.md): product constraints, code rules, checks and review.
 - [Local demo](contributing/demo.md): guest setup, practice, lessons and classroom walkthroughs.
-- [Release readiness review](open-source/release-readiness.md): award criteria, evidence and release decisions.
+- [Release readiness review](open-source/release-readiness.md): license scope, release gates and evidence to keep.
 - [Roadmap](open-source/roadmap.md): priorities and acceptance criteria for future work.
 
 ## Product
