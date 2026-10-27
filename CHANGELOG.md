@@ -2,6 +2,13 @@
 
 ## Unreleased
 
+### Open-source release and community
+
+- License original work under MIT with `LICENSE_SCOPE.md` separating supplied inputs, artwork and third-party material; add `SECURITY.md`, issue forms, a pull request template, a roadmap with acceptance evidence, release readiness gates and a local demo walkthrough.
+- Add `CODE_OF_CONDUCT.md`, `CITATION.cff` and a client guide (`client/README.md`); list both contributors in `server/pyproject.toml`.
+- README: CI and license badges, a "How it works" overview and current screens in `docs/product/screenshots/`.
+- Dependabot opens grouped minor and patch updates only; major upgrades are reviewed through an issue.
+
 ### Service logging
 
 - Add API logging for Render: a `LOG_LEVEL` setting (default `INFO`), single-line startup and migration events, and a request line with method, route template, status, duration and an `X-Request-ID` that is also returned as a response header. Logs carry no cookies, tokens, query strings, bodies, IP addresses or identities.
