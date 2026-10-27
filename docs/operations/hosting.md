@@ -60,8 +60,8 @@ approve the installation.
    - In a generated `.env` snippet this is `DATABASE_URL`, not
      `DATABASE_URL_POOLED`.
 
-The API creates its tables on every start, so there is nothing to run by
-hand. It pings pooled connections before use, so Neon suspending an idle
+The container applies pending migrations (`python -m app.db`) before it
+starts the API, so there is nothing to run by hand. It pings pooled connections before use, so Neon suspending an idle
 database only costs a short wake-up.
 
 ## 4. API on Render
