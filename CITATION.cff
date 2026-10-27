@@ -1,0 +1,24 @@
+cff-version: 1.2.0
+message: If you use this software, please cite it using these metadata.
+type: software
+title: Trader's Edge
+abstract: >-
+  An open-source serious game that teaches beginners financial and trading
+  decision-making. Short lessons and quick checks lead into missions in a
+  seeded simulated market of fictional companies against rule-based rivals,
+  with order types unlocked as the curriculum teaches them.
+authors:
+  - family-names: Garg
+    given-names: Maahir
+  - family-names: Yong
+    given-names: Jun Xi
+repository-code: https://github.com/NUS-FinTechAI/traders_edge_v2
+url: https://traders-edge-v2.vercel.app
+license: MIT
+version: 0.1.0
+keywords:
+  - serious game
+  - financial literacy
+  - trading simulation
+  - game-based learning
+  - educational technology
