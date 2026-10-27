@@ -1,0 +1,35 @@
+name: Bug report
+description: Report unexpected behaviour or a setup failure.
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Search existing issues first. For vulnerabilities, follow [SECURITY.md](https://github.com/NUS-FinTechAI/traders_edge_v2/blob/master/SECURITY.md).
+        Remove credentials, cookies, account identifiers and participant data from everything you share.
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Commit or version, operating system, browser, Node/Python/uv versions, and local or hosted setup.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: Include the route or failing command, starting state and smallest example using fictional data.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behaviour
+    validations:
+      required: true
+  - type: textarea
+    id: observed
+    attributes:
+      label: Observed behaviour
+      description: Include sanitized error output or screenshots if helpful.
+    validations:
+      required: true

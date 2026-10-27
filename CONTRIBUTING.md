@@ -4,6 +4,54 @@
 [ARCHITECTURE.md](ARCHITECTURE.md) and the [docs index](docs/README.md)
 explain the system.
 
+## Start contributing
+
+Search [existing issues](https://github.com/NUS-FinTechAI/traders_edge_v2/issues)
+before reporting a bug or proposing a change. Include the problem, a small
+reproduction or example, and the result you expect. For setup problems,
+include your operating system, tool versions and the failing command.
+Remove credentials, cookies and participant data from logs and screenshots.
+Report vulnerabilities through [SECURITY.md](SECURITY.md).
+
+For a first contribution, a reproducible bug report, a verified documentation
+correction or a focused test for existing behaviour is useful. Discuss larger
+features, curriculum changes and replacement UI in an issue before building
+them. The [release readiness plan](docs/open-source/release-readiness.md)
+records priorities, acceptance evidence and pending licensing decisions.
+
+Fork the repository on GitHub. Replace `YOUR_GITHUB_USERNAME` below, then run:
+
+```sh
+git clone https://github.com/YOUR_GITHUB_USERNAME/traders_edge_v2.git
+cd traders_edge_v2
+git remote add upstream https://github.com/NUS-FinTechAI/traders_edge_v2.git
+git fetch upstream
+git switch -c docs/short-scope upstream/master
+```
+
+Follow the README to install dependencies and run the app. Push your branch
+to your fork and open a pull request against this repository's `master`.
+Use the branch prefix that fits the change, as described below.
+
+## Decisions and discussion
+
+Repository maintainers decide scope and merge changes after the required
+checks and reviews. Gameplay changes must follow the owner's game design
+document; unresolved conflicts go to the project owner. Record significant
+architecture decisions in `docs/decisions/` and keep the relevant reference
+documentation current. Explain disagreements with a reproduction, source or
+tradeoff so others can assess the decision.
+
+Treat contributors respectfully. Critique the work, give actionable feedback
+and allow time for replies. Harassment, discrimination and publishing another
+person's private information are unacceptable. Maintainers may remove harmful
+content and restrict participation. For a sensitive conduct concern, request
+a private contact without posting the details publicly.
+
+Issue and pull request replies depend on maintainer availability; there is no
+guaranteed response time. Do not post secrets or real participant records to
+obtain support.
+
 ## Sources of truth
 
 - The [game design document](docs/game-design.md) governs gameplay. Before
