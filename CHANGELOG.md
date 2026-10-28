@@ -13,6 +13,10 @@
 
 - Add API logging for Render: a `LOG_LEVEL` setting (default `INFO`), single-line startup and migration events, and a request line with method, route template, status, duration and an `X-Request-ID` that is also returned as a response header. Logs carry no cookies, tokens, query strings, bodies, IP addresses or identities.
 
+### Lesson content
+
+- Fix the Chapter 1 Level 1 market-cap card: its text named Lumen Bikes and Nimbus Cloud while its interactive comparison shows Orchard Foods and Kestrel Air. The text now uses the widget's companies and figures.
+
 ### Level check
 
 - Fix a spurious "Answer every question correctly before finishing the check" error after a fully correct check: the client sent the completion request twice and the server rejected the second.
